@@ -1,0 +1,31 @@
+[project]
+name = "llm-agents-from-scratch"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Andrei Fajardo", email = "andrei@nerdai.io" }
+]
+requires-python = ">=3.10"
+dependencies = []
+
+[dependency-groups]
+dev = [
+  "black>=24.10.0",
+  "codespell>=2.3.0",
+  "fire>=0.7.0",
+  "ipykernel>=6.29.5",
+  "isort>=5.13.2",
+  "mypy>=1.14.1",
+  "pre-commit>=4.1.0",
+  "pylint>=3.3.3",
+  "pytest>=8.3.4",
+  "pytest-asyncio>=0.25.2",
+  "pytest-cov>=6.0.0",
+  "pytest-mock>=3.14.0",
+  "ruff>=0.9.2"
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

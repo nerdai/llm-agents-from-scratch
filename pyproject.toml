@@ -22,7 +22,7 @@ dev = [
 [project]
 name = "llm-agents-from-scratch"
 version = "0.1.0"
-description = "Add your description here"
+description = "Build an LLM agent, equipped with MCP, from scratch."
 readme = "README.md"
 authors = [
   {name = "Andrei Fajardo", email = "andrei@nerdai.io"}

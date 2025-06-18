@@ -53,7 +53,7 @@ repos:
     hooks:
       - id: mypy
         name: mypy
-        entry: mypy --config-file=mypy.ini --explicit-package-bases src examples example_scripts
+        entry: mypy --config-file=mypy.ini --explicit-package-bases src
         additional_dependencies:
           - pydantic>=2.10.5
         # https://github.com/python/mypy/issues/13916 -- duplicate module error with .pyi and .py files

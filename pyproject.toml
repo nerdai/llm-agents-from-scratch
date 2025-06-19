@@ -29,5 +29,7 @@ authors = [
 ]
 requires-python = ">=3.10"
 dependencies = [
-  "mcp[cli]>=1.9.4"
+  "asyncio>=3.4.3",
+  "mcp[cli]>=1.9.4",
+  "pydantic>=2.11.7"
 ]

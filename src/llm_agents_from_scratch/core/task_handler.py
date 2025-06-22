@@ -36,7 +36,8 @@ class TaskHandler(asyncio.Future):
         Returns:
             TaskStep | None: The next step to run, if `None` then Task is done.
         """
-        pass
+        # TODO: implement
+        pass  # pragma: no cover
 
     async def run_step(self, step: TaskStep) -> TaskStepResult:
         """Run next step of a given task.
@@ -50,4 +51,5 @@ class TaskHandler(asyncio.Future):
             Any: The result of the next sub step and sets result if Task the completion
             of the sub-step represents the completion of the Task.
         """
-        pass
+        # TODO: implement
+        pass  # pragma: no cover

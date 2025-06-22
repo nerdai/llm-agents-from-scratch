@@ -32,7 +32,7 @@ class LLMAgent:
     def run(self, task: Task) -> TaskHandler:
         """Asynchronously run `task`."""
 
-        task_handler = TaskHandler(task)
+        task_handler = TaskHandler(task, self.llm, self.tools)
 
         async def _run() -> None:
             """Internal async run helper task."""

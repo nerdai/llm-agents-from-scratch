@@ -59,7 +59,7 @@ async def test_run(
     # arrange
     agent = LLMAgent(llm=mock_llm)
     task = Task(instruction="mock instruction")
-    mock_handler = MockTaskHandler(task)
+    mock_handler = MockTaskHandler(task, agent.llm, agent.tools)
     mock_task_handler_class.return_value = mock_handler
 
     # act
@@ -71,7 +71,9 @@ async def test_run(
         t.cancel()
 
     assert handler == mock_handler
-    mock_task_handler_class.assert_called_once_with(task)
+    mock_task_handler_class.assert_called_once_with(
+        task, agent.llm, agent.tools
+    )
     assert handler.result().content == "mock result"
 
 
@@ -92,7 +94,7 @@ async def test_run_exception(
     # arrange
     agent = LLMAgent(llm=mock_llm)
     task = Task(instruction="mock instruction")
-    mock_handler = MockTaskHandler(task)
+    mock_handler = MockTaskHandler(task, agent.llm, agent.tools)
     mock_task_handler_class.return_value = mock_handler
 
     # act
@@ -100,5 +102,7 @@ async def test_run_exception(
     await asyncio.sleep(0.1)  # Let it run
 
     assert handler == mock_handler
-    mock_task_handler_class.assert_called_once_with(task)
+    mock_task_handler_class.assert_called_once_with(
+        task, agent.llm, agent.tools
+    )
     assert handler.exception() == err

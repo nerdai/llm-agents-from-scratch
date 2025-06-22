@@ -3,6 +3,8 @@
 import asyncio
 from typing import Any
 
+from llm_agents_from_scratch.base.llm import BaseLLM
+from llm_agents_from_scratch.base.tool import BaseTool
 from llm_agents_from_scratch.data_structures import (
     Task,
     TaskStep,
@@ -11,9 +13,18 @@ from llm_agents_from_scratch.data_structures import (
 
 
 class TaskHandler(asyncio.Future):
-    def __init__(self, task: Task, *args: Any, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        task: Task,
+        llm: BaseLLM,
+        tools: list[BaseTool],
+        *args: Any,
+        **kwargs: Any,
+    ) -> None:
         super().__init__(*args, **kwargs)
         self.task = task
+        self.llm = llm
+        self.tools = tools
         self._asyncio_tasks: list[asyncio.Task] = []
 
     def add_asyncio_task(self, asyncio_task: asyncio.Task) -> None:

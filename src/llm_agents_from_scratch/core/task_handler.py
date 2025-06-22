@@ -3,12 +3,27 @@
 import asyncio
 from typing import Any
 
+from llm_agents_from_scratch.data_structures import Task, TaskStep
+
 
 class TaskHandler(asyncio.Future):
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
+    def __init__(self, task: Task, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
+        self.task = task
+        self._asyncio_tasks: list[asyncio.Task] = []
 
-    async def run_step(last_step: Any) -> Any:
+    def add_asyncio_task(self, asyncio_task: asyncio.Task) -> None:
+        self._asyncio_tasks.append(asyncio_task)
+
+    async def get_next_step(self) -> TaskStep | None:
+        """Based on task progress, determine next step.
+
+        Returns:
+            TaskStep | None: The next step to run, if `None` then Task is done.
+        """
+        pass
+
+    async def run_step(self, instruction: TaskStep) -> TaskStep:
         """Run next step of a given task.
 
         Example: perform tool call, generated LLM response, etc.

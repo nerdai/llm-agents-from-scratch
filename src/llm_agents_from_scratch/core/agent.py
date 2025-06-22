@@ -29,7 +29,7 @@ class LLMAgent:
         self.tools = self.tools + [tool]
         return self
 
-    async def run(task: Task) -> TaskHandler:
+    def run(self, task: Task) -> TaskHandler:
         """Asynchronously run `task`."""
 
         task_handler = TaskHandler(task)

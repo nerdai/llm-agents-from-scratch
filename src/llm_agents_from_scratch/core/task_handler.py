@@ -3,7 +3,11 @@
 import asyncio
 from typing import Any
 
-from llm_agents_from_scratch.data_structures import Task, TaskStep
+from llm_agents_from_scratch.data_structures import (
+    Task,
+    TaskStep,
+    TaskStepResult,
+)
 
 
 class TaskHandler(asyncio.Future):
@@ -23,7 +27,7 @@ class TaskHandler(asyncio.Future):
         """
         pass
 
-    async def run_step(self, instruction: TaskStep) -> TaskStep:
+    async def run_step(self, step: TaskStep) -> TaskStepResult:
         """Run next step of a given task.
 
         Example: perform tool call, generated LLM response, etc.

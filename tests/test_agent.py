@@ -1,8 +1,8 @@
 import asyncio
-from typing import override
 from unittest.mock import MagicMock, patch
 
 import pytest
+from typing_extensions import override
 
 from llm_agents_from_scratch.base.llm import BaseLLM
 from llm_agents_from_scratch.core import LLMAgent, TaskHandler

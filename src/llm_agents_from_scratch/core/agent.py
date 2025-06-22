@@ -1,9 +1,14 @@
 """Agent Module."""
 
+import asyncio
+
 from typing_extensions import Self
 
 from llm_agents_from_scratch.base.llm import BaseLLM
 from llm_agents_from_scratch.base.tool import BaseTool
+from llm_agents_from_scratch.data_structures import Task, TaskResult
+
+from .task_handler import TaskHandler
 
 
 class LLMAgent:
@@ -23,3 +28,28 @@ class LLMAgent:
         """
         self.tools = self.tools + [tool]
         return self
+
+    def run(self, task: Task) -> TaskHandler:
+        """Asynchronously run `task`."""
+
+        task_handler = TaskHandler(task, self.llm, self.tools)
+
+        async def _run() -> None:
+            """Internal async run helper task."""
+            while not task_handler.done():
+                try:
+                    step = await task_handler.get_next_step()
+                    step_result = await task_handler.run_step(step)
+                    if step_result.last_step:
+                        task_result = TaskResult(
+                            task=task,
+                            content=step_result.content,
+                            rollout="",
+                        )
+                        task_handler.set_result(task_result)
+                except Exception as e:
+                    task_handler.set_exception(e)
+
+        task_handler.add_asyncio_task(asyncio.create_task(_run()))
+
+        return task_handler

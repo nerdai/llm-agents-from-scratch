@@ -1,6 +1,7 @@
 import pytest
 
 from llm_agents_from_scratch.base.llm import BaseLLM
+from llm_agents_from_scratch.base.tool import BaseTool
 from llm_agents_from_scratch.data_structures import ChatMessage, CompleteResult
 
 
@@ -11,7 +12,9 @@ class MockBaseLLM(BaseLLM):
             response=result, full_response=f"{prompt} {result}"
         )
 
-    async def chat(self, chat_messages: list[ChatMessage]) -> ChatMessage:
+    async def chat(
+        self, chat_messages: list[ChatMessage], tools: list[BaseTool] = []
+    ) -> ChatMessage:
         return ChatMessage(role="assistant", content="mock chat response")
 
 

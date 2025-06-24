@@ -12,5 +12,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Add `tools` to `LLM.chat` and update relevant data structures (#8)
 - Add scaffolding for `TaskHandler` (#6)
 - Add `LLMAgent` and associated data structures (#6)

@@ -20,7 +20,7 @@ class OllamaLLM(BaseLLM):
         Returns:
             CompleteResult: The text completion result.
         """
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover
 
     async def chat(
         self,
@@ -36,4 +36,4 @@ class OllamaLLM(BaseLLM):
         Returns:
             ChatMessage: The chat message from the LLM.
         """
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover

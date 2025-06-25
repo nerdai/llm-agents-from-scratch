@@ -64,3 +64,10 @@ select = [
   "PL", # pylint
   "D213" # Multiline Docstrings start on newline
 ]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["D104"]
+"tests/**/*.py" = ["D"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google" # Ensures Google style

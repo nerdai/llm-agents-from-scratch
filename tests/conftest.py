@@ -9,11 +9,14 @@ class MockBaseLLM(BaseLLM):
     async def complete(self, prompt: str) -> CompleteResult:
         result = "mock complete"
         return CompleteResult(
-            response=result, full_response=f"{prompt} {result}"
+            response=result,
+            full_response=f"{prompt} {result}",
         )
 
     async def chat(
-        self, chat_messages: list[ChatMessage], tools: list[BaseTool] = []
+        self,
+        chat_messages: list[ChatMessage],
+        tools: list[BaseTool] | None = None,
     ) -> ChatMessage:
         return ChatMessage(role="assistant", content="mock chat response")
 

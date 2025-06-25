@@ -15,7 +15,6 @@ from llm_agents_from_scratch.data_structures.agent import (
 
 def test_init(mock_llm: BaseLLM) -> None:
     """Tests init of LLMAgent."""
-
     agent = LLMAgent(llm=mock_llm)
 
     assert len(agent.tools) == 0
@@ -24,7 +23,6 @@ def test_init(mock_llm: BaseLLM) -> None:
 
 def test_add_tool(mock_llm: BaseLLM) -> None:
     """Tests add tool."""
-
     # arrange
     tool = MagicMock()
     agent = LLMAgent(llm=mock_llm)
@@ -39,7 +37,8 @@ def test_add_tool(mock_llm: BaseLLM) -> None:
 @pytest.mark.asyncio
 @patch("llm_agents_from_scratch.core.agent.TaskHandler")
 async def test_run(
-    mock_task_handler_class: MagicMock, mock_llm: BaseLLM
+    mock_task_handler_class: MagicMock,
+    mock_llm: BaseLLM,
 ) -> None:
     """Tests run method."""
 
@@ -53,7 +52,9 @@ async def test_run(
         async def run_step(self, step: TaskStep) -> TaskStepResult:
             await asyncio.sleep(0.1)
             return TaskStepResult(
-                task_step=step, content="mock result", last_step=True
+                task_step=step,
+                content="mock result",
+                last_step=True,
             )
 
     # arrange
@@ -72,7 +73,9 @@ async def test_run(
 
     assert handler == mock_handler
     mock_task_handler_class.assert_called_once_with(
-        task, agent.llm, agent.tools
+        task,
+        agent.llm,
+        agent.tools,
     )
     assert handler.result().content == "mock result"
 
@@ -80,10 +83,10 @@ async def test_run(
 @pytest.mark.asyncio
 @patch("llm_agents_from_scratch.core.agent.TaskHandler")
 async def test_run_exception(
-    mock_task_handler_class: MagicMock, mock_llm: BaseLLM
+    mock_task_handler_class: MagicMock,
+    mock_llm: BaseLLM,
 ) -> None:
     """Tests run method with exception."""
-
     err = RuntimeError("mock error")
 
     class MockTaskHandler(TaskHandler):
@@ -103,6 +106,8 @@ async def test_run_exception(
 
     assert handler == mock_handler
     mock_task_handler_class.assert_called_once_with(
-        task, agent.llm, agent.tools
+        task,
+        agent.llm,
+        agent.tools,
     )
     assert handler.exception() == err

@@ -9,7 +9,7 @@ from llm_agents_from_scratch.data_structures import (
 
 @pytest.mark.parametrize("name", _data_structures_all)
 def test_data_structures_all_importable(name: str) -> None:
-    """Tests that all names listed in generators __all__ are importable."""
+    """Tests all names listed in data_structures __all__ are importable."""
     mod = importlib.import_module("llm_agents_from_scratch.data_structures")
     attr = getattr(mod, name)
 

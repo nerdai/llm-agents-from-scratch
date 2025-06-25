@@ -1,4 +1,4 @@
-"""Base LLM"""
+"""Base LLM."""
 
 from abc import ABC, abstractmethod
 
@@ -19,11 +19,14 @@ class BaseLLM(ABC):
 
         Returns:
             str: The completion of the prompt.
+
         """
 
     @abstractmethod
     async def chat(
-        self, chat_messages: list[ChatMessage], tools: list[BaseTool] = []
+        self,
+        chat_messages: list[ChatMessage],
+        tools: list[BaseTool] | None = None,
     ) -> ChatMessage:
         """Chat interface.
 
@@ -33,4 +36,5 @@ class BaseLLM(ABC):
 
         Returns:
             ChatMessage: The response of the LLM structured as a `ChatMessage`.
+
         """

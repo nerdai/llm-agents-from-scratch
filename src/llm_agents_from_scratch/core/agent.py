@@ -14,9 +14,17 @@ from .task_handler import TaskHandler
 class LLMAgent:
     """A simple LLM Agent Class."""
 
-    def __init__(self, llm: BaseLLM, tools: list[BaseTool] = []):
+    def __init__(self, llm: BaseLLM, tools: list[BaseTool] | None = None):
+        """Initialize an LLMAgent.
+
+        Args:
+            llm (BaseLLM): The backbone LLM of the LLM agent.
+            tools (list[BaseTool], optional): The set of tools for the LLM
+                agent. Defaults to None.
+
+        """
         self.llm = llm
-        self.tools = tools
+        self.tools = tools or []
 
     def add_tool(self, tool: BaseTool) -> Self:
         """Add a tool to the agents tool set.
@@ -25,17 +33,17 @@ class LLMAgent:
 
         Args:
             tool (BaseTool): The tool to equip the LLM agent.
+
         """
         self.tools = self.tools + [tool]
         return self
 
     def run(self, task: Task) -> TaskHandler:
         """Asynchronously run `task`."""
-
         task_handler = TaskHandler(task, self.llm, self.tools)
 
         async def _run() -> None:
-            """Internal async run helper task."""
+            """Asynchronously process the task."""
             while not task_handler.done():
                 try:
                     step = await task_handler.get_next_step()

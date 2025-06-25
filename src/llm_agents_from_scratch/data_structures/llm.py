@@ -1,4 +1,4 @@
-"""Data Structures for LLMs"""
+"""Data Structures for LLMs."""
 
 from enum import Enum
 from typing import Any

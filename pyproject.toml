@@ -34,3 +34,40 @@ dependencies = [
   "ollama>=0.5.1",
   "pydantic>=2.11.7"
 ]
+
+[tool.ruff]
+line-length = 79
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+docstring-code-format = true
+
+[tool.ruff.lint]
+select = [
+  "A", # flake8-builtins
+  "B", # flake8-bugbear
+  "COM", # flake8-commas
+  "C4", # flake8-comprehensions
+  "RET", # flake8-return
+  "SIM", # flake8-simplify
+  "ICN", # flake8-import-conventions
+  "Q", # flake8-quotes
+  "RSE", # flake8-raise
+  "D", # pydocstyle
+  "E", # pycodestyle
+  "F", # pyflakes
+  "I", # isort
+  "W", # pycodestyle
+  "N", # pep8-naming
+  "ERA", # eradicate
+  "PL", # pylint
+  "D213" # Multiline Docstrings start on newline
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["D104"]
+"tests/**/*.py" = ["D"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google" # Ensures Google style

@@ -37,7 +37,11 @@ class OllamaLLM(BaseLLM):
         Returns:
             CompleteResult: The text completion result.
         """
-        response = await self._client.generate(model=self.model, prompt=prompt)
+        response = await self._client.generate(
+            model=self.model,
+            prompt=prompt,
+            **kwargs,
+        )
         return CompleteResult(
             response=response.response,
             prompt=prompt,

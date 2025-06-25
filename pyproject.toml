@@ -34,3 +34,6 @@ dependencies = [
   "ollama>=0.5.1",
   "pydantic>=2.11.7"
 ]
+
+[tool.ruff]
+line-length = 79

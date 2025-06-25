@@ -39,4 +39,4 @@ class CompleteResult(BaseModel):
     """
 
     response: str
-    full_response: str
+    prompt: str

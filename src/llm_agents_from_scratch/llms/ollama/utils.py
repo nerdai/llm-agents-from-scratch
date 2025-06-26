@@ -1,6 +1,7 @@
 """Ollama utils."""
 
 from ollama import Message as OllamaMessage
+from typing_extensions import assert_never
 
 from llm_agents_from_scratch.data_structures import ChatMessage, ChatRole
 
@@ -52,12 +53,8 @@ def chat_message_to_ollama_message(chat_message: ChatMessage) -> OllamaMessage:
             role = "user"
         case ChatRole.SYSTEM:
             role = "system"
-        case _:
-            msg = (
-                "Failed to convert ChatMessage to ~ollama.message due to "
-                f"unsupported role: `{chat_message.role}`."
-            )
-            raise RuntimeError(msg)
+        case _:  # pragma: no cover
+            assert_never(chat_message.role)
 
     return OllamaMessage(
         role=role,

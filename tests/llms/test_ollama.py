@@ -1,3 +1,4 @@
+import pytest
 from ollama import Message as OllamaMessage
 
 from llm_agents_from_scratch.base.llm import BaseLLM
@@ -84,3 +85,14 @@ def test_ollama_message_to_chat_message() -> None:
     assert converted[2].content == "2"
     assert converted[3].role == ChatRole.TOOL
     assert converted[3].content == "3"
+
+
+def test_ollama_message_to_chat_message_raises_error() -> None:
+    """Test conversion to chat message raises error with invalid role."""
+    with pytest.raises(RuntimeError):
+        ollama_message_to_chat_message(
+            OllamaMessage(
+                role="invalid role",
+                content="0",
+            ),
+        )

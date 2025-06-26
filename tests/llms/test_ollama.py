@@ -1,3 +1,5 @@
+from unittest.mock import MagicMock, patch
+
 import pytest
 from ollama import Message as OllamaMessage
 
@@ -13,6 +15,18 @@ from llm_agents_from_scratch.llms.ollama.utils import (
 def test_ollama_llm_class() -> None:
     names_of_base_classes = [b.__name__ for b in OllamaLLM.__mro__]
     assert BaseLLM.__name__ in names_of_base_classes
+
+
+@patch("llm_agents_from_scratch.llms.ollama.llm.AsyncClient")
+def test_init(mock_async_client_class: MagicMock) -> None:
+    """Tests init of OllamaLLM."""
+    mock_instance = MagicMock()
+    mock_async_client_class.return_value = mock_instance
+    llm = OllamaLLM(model="llama3.2")
+
+    assert llm.model == "llama3.2"
+    assert llm._client == mock_instance
+    mock_async_client_class.assert_called_once()
 
 
 # test converter methods

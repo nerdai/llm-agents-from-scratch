@@ -21,6 +21,10 @@ def ollama_message_to_chat_message(
             role = ChatRole.ASSISTANT
         case "tool":
             role = ChatRole.TOOL
+        case "user":
+            role = ChatRole.USER
+        case "system":
+            role = ChatRole.SYSTEM
         case _:
             msg = (
                 "Failed to convert ~ollama.Message due to invalid role: "

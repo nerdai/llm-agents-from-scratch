@@ -31,6 +31,10 @@ def test_chat_message_to_ollama_message() -> None:
             role="assistant",
             content="2",
         ),
+        ChatMessage(
+            role="tool",
+            content="3",
+        ),
     ]
 
     ollama_messages = [chat_message_to_ollama_message(m) for m in messages]
@@ -41,6 +45,8 @@ def test_chat_message_to_ollama_message() -> None:
     assert ollama_messages[1].role == "user"
     assert ollama_messages[2].content == "2"
     assert ollama_messages[2].role == "assistant"
+    assert ollama_messages[3].content == "3"
+    assert ollama_messages[3].role == "tool"
 
 
 def test_ollama_message_to_chat_message() -> None:

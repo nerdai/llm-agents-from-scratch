@@ -44,6 +44,10 @@ def chat_message_to_ollama_message(chat_message: ChatMessage) -> OllamaMessage:
             role = "assistant"
         case ChatRole.TOOL:
             role = "tool"
+        case ChatRole.USER:
+            role = "user"
+        case ChatRole.SYSTEM:
+            role = "system"
         case _:
             msg = (
                 "Failed to convert ChatMessage to ~ollama.message due to "
@@ -51,9 +55,7 @@ def chat_message_to_ollama_message(chat_message: ChatMessage) -> OllamaMessage:
             )
             raise RuntimeError(msg)
 
-    tool_calls = [OllamaMessage.ToolCall() for el in chat_message.tool_calls]
     return OllamaMessage(
         role=role,
         content=chat_message.content,
-        tool_calls=tool_calls,
     )

@@ -1,6 +1,7 @@
-from unittest.mock import MagicMock, patch
+from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
+from ollama import GenerateResponse
 from ollama import Message as OllamaMessage
 
 from llm_agents_from_scratch.base.llm import BaseLLM
@@ -27,6 +28,30 @@ def test_init(mock_async_client_class: MagicMock) -> None:
     assert llm.model == "llama3.2"
     assert llm._client == mock_instance
     mock_async_client_class.assert_called_once()
+
+
+@pytest.mark.asyncio
+@patch("llm_agents_from_scratch.llms.ollama.llm.AsyncClient")
+async def test_complete(mock_async_client_class: MagicMock) -> None:
+    """Test complete method."""
+    # arrange mocks
+    mock_instance = MagicMock()
+    mock_generate = AsyncMock()
+    mock_generate.return_value = GenerateResponse(
+        model="llama3.2",
+        response="fake response",
+    )
+    mock_instance.generate = mock_generate
+    mock_async_client_class.return_value = mock_instance
+
+    llm = OllamaLLM(model="llama3.2")
+
+    # act
+    result = await llm.complete("fake prompt")
+
+    # assert
+    assert result.response == "fake response"
+    assert result.prompt == "fake prompt"
 
 
 # test converter methods

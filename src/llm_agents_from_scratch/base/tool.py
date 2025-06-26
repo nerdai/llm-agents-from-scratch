@@ -34,7 +34,17 @@ class BaseTool(ABC):
         *args: Any,
         **kwargs: Any,
     ) -> ToolCallResult:
-        """Execute the tool call."""
+        """Execute the tool call.
+
+        Args:
+            tool_call (ToolCall): The tool call to execute.
+            *args (Any): Additional positional arguments.
+            **kwargs (Any): Additional keyword arguments.
+
+
+        Returns:
+            ToolCallResult: The result of the tool call execution.
+        """
 
 
 class AsyncBaseTool(ABC):
@@ -62,4 +72,14 @@ class AsyncBaseTool(ABC):
         *args: Any,
         **kwargs: Any,
     ) -> ToolCallResult:
-        """Asynchronously execute the tool call."""
+        """Asynchronously execute the tool call.
+
+        Args:
+            tool_call (ToolCall): The tool call to execute.
+            *args (Any): Additional positional arguments.
+            **kwargs (Any): Additional keyword arguments.
+
+
+        Returns:
+            ToolCallResult: The result of the tool call execution.
+        """

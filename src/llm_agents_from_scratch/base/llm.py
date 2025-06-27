@@ -30,7 +30,7 @@ class BaseLLM(ABC):
     @abstractmethod
     async def chat(
         self,
-        query: str,
+        input: str,
         chat_messages: list[ChatMessage] | None = None,
         tools: list[BaseTool] | None = None,
         **kwargs: Any,
@@ -38,7 +38,7 @@ class BaseLLM(ABC):
         """Chat interface.
 
         Args:
-            query (str): The user's current input.
+            input (str): The user's current input.
             chat_messages (list[ChatMessage]|None, optional): chat history.
             tools (list[BaseTool]|None, optional): tools that the LLM can call.
             **kwargs (Any): Additional keyword arguments.

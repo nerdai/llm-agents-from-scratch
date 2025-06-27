@@ -59,7 +59,7 @@ class OllamaLLM(BaseLLM):
 
     async def chat(
         self,
-        query: str,
+        input: str,
         chat_messages: list[ChatMessage] | None = None,
         tools: list[BaseTool] | None = None,
         **kwargs: Any,
@@ -67,7 +67,7 @@ class OllamaLLM(BaseLLM):
         """Chat with an Ollama LLM.
 
         Args:
-            query (str): The user's current input.
+            input (str): The user's current input.
             chat_messages (list[ChatMessage] | None, optional): The chat
                 history.
             tools (list[BaseTool] | None, optional): The tools available to the
@@ -77,7 +77,11 @@ class OllamaLLM(BaseLLM):
         Returns:
             ChatMessage: The chat message from the LLM.
         """
-        o_messages = [ChatMessage(role="user", content=query)]
+        o_messages = [
+            chat_message_to_ollama_message(
+                ChatMessage(role="user", content=input),
+            ),
+        ]
         o_messages.extend(
             [chat_message_to_ollama_message(cm) for cm in chat_messages]
             if chat_messages

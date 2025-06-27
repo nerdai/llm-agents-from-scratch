@@ -9,11 +9,14 @@ from llm_agents_from_scratch.data_structures import (
     ChatMessage,
     ChatRole,
     ToolCall,
+    ToolCallResult,
 )
 from llm_agents_from_scratch.llms.ollama import OllamaLLM
 from llm_agents_from_scratch.llms.ollama.utils import (
+    DEFAULT_TOOL_RESPONSE_TEMPLATE,
     chat_message_to_ollama_message,
     ollama_message_to_chat_message,
+    tool_call_result_to_ollama_message,
 )
 
 
@@ -71,15 +74,30 @@ async def test_chat(mock_async_client_class: MagicMock) -> None:
             role="assistant",
             content="some fake content",
             tool_calls=[
-                OllamaMessage.ToolCall.Function(
-                    name="a fake tool",
-                    arguments={"arg1": 1},
+                OllamaMessage.ToolCall(
+                    function=OllamaMessage.ToolCall.Function(
+                        name="a fake tool",
+                        arguments={"arg1": 1},
+                    ),
                 ),
             ],
         ),
     )
     mock_instance.chat = mock_chat
     mock_async_client_class.return_value = mock_instance
+
+    llm = OllamaLLM(model="llama3.2")
+
+    # act
+    result = await llm.chat("Some new input.")
+
+    assert result.role == "assistant"
+    assert result.content == "some fake content"
+    mock_chat.assert_awaited_once_with(
+        model="llama3.2",
+        messages=[OllamaMessage(role="user", content="Some new input.")],
+    )
+    mock_async_client_class.assert_called_once()
 
 
 # test converter methods
@@ -200,3 +218,24 @@ def test_ollama_message_to_chat_message_raises_error() -> None:
                 content="0",
             ),
         )
+
+
+def test_tool_call_result_to_ollama_message() -> None:
+    """Test conversion of tool call result to an ~ollama.Message."""
+    tool_call_result = ToolCallResult(
+        tool_call=ToolCall(
+            tool_name="a fake tool",
+            arguments={"arg1": 1},
+        ),
+        content="Some content",
+        error=False,
+    )
+
+    converted = tool_call_result_to_ollama_message(tool_call_result)
+
+    assert converted.role == "tool"
+    assert converted.content == DEFAULT_TOOL_RESPONSE_TEMPLATE.format(
+        tool_name="a fake tool",
+        arguments={"arg1": 1},
+        tool_call_result="Some content",
+    )

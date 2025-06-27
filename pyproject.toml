@@ -64,6 +64,9 @@ select = [
   "PL", # pylint
   "D213" # Multiline Docstrings start on newline
 ]
+ignore = [
+  "A002" # Ignore variable `input` is shadowing a Python builtin in function
+]
 
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["D104"]

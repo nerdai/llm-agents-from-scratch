@@ -1,12 +1,22 @@
 """Ollama LLM integration."""
 
-from typing import Any
+from typing import Any, Sequence
 
 from ollama import AsyncClient
 
 from llm_agents_from_scratch.base.llm import BaseLLM
 from llm_agents_from_scratch.base.tool import BaseTool
-from llm_agents_from_scratch.data_structures import ChatMessage, CompleteResult
+from llm_agents_from_scratch.data_structures import (
+    ChatMessage,
+    CompleteResult,
+    ToolCallResult,
+)
+
+from .utils import (
+    chat_message_to_ollama_message,
+    ollama_message_to_chat_message,
+    tool_call_result_to_ollama_message,
+)
 
 
 class OllamaLLM(BaseLLM):
@@ -49,18 +59,55 @@ class OllamaLLM(BaseLLM):
 
     async def chat(
         self,
-        chat_messages: list[ChatMessage],
+        query: str,
+        chat_messages: list[ChatMessage] | None = None,
         tools: list[BaseTool] | None = None,
         **kwargs: Any,
     ) -> ChatMessage:
         """Chat with an Ollama LLM.
 
         Args:
-            chat_messages (list[ChatMessage]): The chat history.
-            tools (list[BaseTool]): The tools available to the LLM.
+            query (str): The user's current input.
+            chat_messages (list[ChatMessage] | None, optional): The chat
+                history.
+            tools (list[BaseTool] | None, optional): The tools available to the
+                LLM.
             **kwargs (Any): Additional keyword arguments.
 
         Returns:
             ChatMessage: The chat message from the LLM.
         """
-        raise NotImplementedError  # pragma: no cover
+        o_messages = [ChatMessage(role="user", content=query)]
+        o_messages.extend(
+            [chat_message_to_ollama_message(cm) for cm in chat_messages]
+            if chat_messages
+            else [],
+        )
+
+        result = await self._client.chat(model=self.model, messages=o_messages)
+
+        return ollama_message_to_chat_message(result.message)
+
+    async def continue_conversation_with_tool_results(
+        self,
+        tool_call_results: Sequence[ToolCallResult],
+        chat_messages: Sequence[ChatMessage],
+        **kwargs: Any,
+    ) -> ChatMessage:
+        """Implements continue_conversation_with_tool_results method.
+
+        Args:
+            tool_call_results (Sequence[ToolCallResult]): The tool call results.
+            chat_messages (Sequence[ChatMessage]): The chat history.
+            **kwargs (Any): Additional keyword arguments.
+
+        Returns:
+            ChatMessage: The chat message from the LLM.
+        """
+        o_messages = [
+            tool_call_result_to_ollama_message(tc) for tc in tool_call_results
+        ] + [chat_message_to_ollama_message(cm) for cm in chat_messages]
+
+        result = await self._client.chat(model=self.model, messages=o_messages)
+
+        return ollama_message_to_chat_message(result.message)

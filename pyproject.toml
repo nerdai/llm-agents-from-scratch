@@ -36,7 +36,7 @@ dependencies = [
 ]
 
 [tool.ruff]
-line-length = 79
+line-length = 80
 
 [tool.ruff.format]
 quote-style = "double"

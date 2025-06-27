@@ -1,7 +1,7 @@
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
-from ollama import GenerateResponse
+from ollama import ChatResponse, GenerateResponse
 from ollama import Message as OllamaMessage
 
 from llm_agents_from_scratch.base.llm import BaseLLM
@@ -56,6 +56,30 @@ async def test_complete(mock_async_client_class: MagicMock) -> None:
     # assert
     assert result.response == "fake response"
     assert result.prompt == "fake prompt"
+
+
+@pytest.mark.asyncio
+@patch("llm_agents_from_scratch.llms.ollama.llm.AsyncClient")
+async def test_chat(mock_async_client_class: MagicMock) -> None:
+    """Test chat method."""
+    # arrange mocks
+    mock_instance = MagicMock()
+    mock_chat = AsyncMock()
+    mock_chat.return_value = ChatResponse(
+        model="llama3.2",
+        message=OllamaMessage(
+            role="assistant",
+            content="some fake content",
+            tool_calls=[
+                OllamaMessage.ToolCall.Function(
+                    name="a fake tool",
+                    arguments={"arg1": 1},
+                ),
+            ],
+        ),
+    )
+    mock_instance.chat = mock_chat
+    mock_async_client_class.return_value = mock_instance
 
 
 # test converter methods

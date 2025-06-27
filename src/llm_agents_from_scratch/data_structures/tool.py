@@ -25,5 +25,6 @@ class ToolCallResult(BaseModel):
         error: Whether or not the tool call yielded an error.
     """
 
+    tool_call: ToolCall
     content: Any | None
     error: bool = False

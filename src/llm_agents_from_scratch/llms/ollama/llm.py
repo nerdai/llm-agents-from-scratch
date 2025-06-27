@@ -88,6 +88,8 @@ class OllamaLLM(BaseLLM):
             else [],
         )
 
+        # TODO: add tools to chat request.
+
         result = await self._client.chat(model=self.model, messages=o_messages)
 
         return ollama_message_to_chat_message(result.message)

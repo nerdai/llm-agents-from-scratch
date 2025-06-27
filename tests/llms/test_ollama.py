@@ -100,6 +100,53 @@ async def test_chat(mock_async_client_class: MagicMock) -> None:
     mock_async_client_class.assert_called_once()
 
 
+@pytest.mark.asyncio
+@patch("llm_agents_from_scratch.llms.ollama.llm.AsyncClient")
+async def test_continue_conversation_with_tool_results(
+    mock_async_client_class: MagicMock,
+) -> None:
+    """Test continue_conversation_with_tool_results method."""
+
+    # arrange mocks
+    mock_instance = MagicMock()
+    mock_chat = AsyncMock()
+    mock_chat.return_value = ChatResponse(
+        model="llama3.2",
+        message=OllamaMessage(
+            role="assistant",
+            content="Thank you for the tool call results.",
+        ),
+    )
+    mock_instance.chat = mock_chat
+    mock_async_client_class.return_value = mock_instance
+
+    llm = OllamaLLM(model="llama3.2")
+
+    # act
+    tool_call_results = [
+        ToolCallResult(
+            tool_call=ToolCall(
+                tool_name="a fake tool",
+                arguments={"arg1": 1},
+            ),
+            content="Some content",
+            error=False,
+        ),
+    ]
+    result = await llm.continue_conversation_with_tool_results(
+        tool_call_results=tool_call_results,
+        chat_messages=[],
+    )
+
+    assert result.role == "assistant"
+    assert result.content == "Thank you for the tool call results."
+    mock_chat.assert_awaited_once_with(
+        model="llama3.2",
+        messages=[tool_call_result_to_ollama_message(tool_call_results[0])],
+    )
+    mock_async_client_class.assert_called_once()
+
+
 # test converter methods
 def test_chat_message_to_ollama_message() -> None:
     """Tests conversion from ChatMessage to ~ollama.Message."""

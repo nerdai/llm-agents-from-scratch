@@ -1,5 +1,6 @@
 from .agent import Task, TaskResult, TaskStep, TaskStepResult
 from .llm import ChatMessage, ChatRole, CompleteResult
+from .tool import ToolCall, ToolCallResult
 
 __all__ = [
     # agent
@@ -11,4 +12,7 @@ __all__ = [
     "ChatRole",
     "ChatMessage",
     "CompleteResult",
+    # tool
+    "ToolCall",
+    "ToolCallResult",
 ]

@@ -5,7 +5,11 @@ from ollama import GenerateResponse
 from ollama import Message as OllamaMessage
 
 from llm_agents_from_scratch.base.llm import BaseLLM
-from llm_agents_from_scratch.data_structures import ChatMessage, ChatRole
+from llm_agents_from_scratch.data_structures import (
+    ChatMessage,
+    ChatRole,
+    ToolCall,
+)
 from llm_agents_from_scratch.llms.ollama import OllamaLLM
 from llm_agents_from_scratch.llms.ollama.utils import (
     chat_message_to_ollama_message,
@@ -69,6 +73,15 @@ def test_chat_message_to_ollama_message() -> None:
         ChatMessage(
             role="assistant",
             content="2",
+            tool_calls=[
+                ToolCall(
+                    tool_name="a tool",
+                    arguments={
+                        "arg1": "1",
+                        "arg2": 2,
+                    },
+                ),
+            ],
         ),
         ChatMessage(
             role="tool",
@@ -80,12 +93,23 @@ def test_chat_message_to_ollama_message() -> None:
 
     assert ollama_messages[0].content == "0"
     assert ollama_messages[0].role == "system"
+    assert ollama_messages[0].tool_calls is None
+
     assert ollama_messages[1].content == "1"
     assert ollama_messages[1].role == "user"
+    assert ollama_messages[1].tool_calls is None
+
     assert ollama_messages[2].content == "2"
     assert ollama_messages[2].role == "assistant"
+    assert ollama_messages[2].tool_calls[0].function.name == "a tool"
+    assert ollama_messages[2].tool_calls[0].function.arguments == {
+        "arg1": "1",
+        "arg2": 2,
+    }
+
     assert ollama_messages[3].content == "3"
     assert ollama_messages[3].role == "tool"
+    assert ollama_messages[3].tool_calls is None
 
 
 def test_ollama_message_to_chat_message() -> None:
@@ -124,12 +148,23 @@ def test_ollama_message_to_chat_message() -> None:
 
     assert converted[0].role == ChatRole.SYSTEM
     assert converted[0].content == "0"
+    assert converted[0].tool_calls is None
+
     assert converted[1].role == ChatRole.USER
     assert converted[1].content == "1"
+    assert converted[1].tool_calls is None
+
     assert converted[2].role == ChatRole.ASSISTANT
     assert converted[2].content == "2"
+    assert converted[2].tool_calls[0].tool_name == "fake tool"
+    assert converted[2].tool_calls[0].arguments == {
+        "fake_param": "1",
+        "another_fake_param": "2",
+    }
+
     assert converted[3].role == ChatRole.TOOL
     assert converted[3].content == "3"
+    assert converted[3].tool_calls is None
 
 
 def test_ollama_message_to_chat_message_raises_error() -> None:

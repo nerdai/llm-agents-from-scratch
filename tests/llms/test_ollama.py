@@ -1,10 +1,13 @@
+from typing import Any
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 from ollama import ChatResponse, GenerateResponse
 from ollama import Message as OllamaMessage
+from ollama import Tool as OllamaTool
 
 from llm_agents_from_scratch.base.llm import BaseLLM
+from llm_agents_from_scratch.base.tool import BaseTool
 from llm_agents_from_scratch.data_structures import (
     ChatMessage,
     ChatRole,
@@ -15,9 +18,49 @@ from llm_agents_from_scratch.llms.ollama import OllamaLLM
 from llm_agents_from_scratch.llms.ollama.utils import (
     DEFAULT_TOOL_RESPONSE_TEMPLATE,
     chat_message_to_ollama_message,
+    get_tool_json_schema,
     ollama_message_to_chat_message,
     tool_call_result_to_ollama_message,
+    tool_to_ollama_tool,
 )
+
+
+class MyTool(BaseTool):
+    @property
+    def name(self) -> str:
+        return "my_tool"
+
+    @property
+    def description(self) -> str:
+        return "mock description"
+
+    @property
+    def parameters_schema(self) -> dict[str, Any]:
+        return {
+            "type": "object",
+            "properties": {
+                "param1": {
+                    "type": "string",
+                    "description": "param 1",
+                },
+                "param2": {
+                    "type": "number",
+                    "description": "param 2",
+                },
+            },
+            "required": ["param1"],
+        }
+
+    def __call__(
+        self,
+        tool_call: ToolCall,
+        *args,
+        **kwargs,
+    ) -> ToolCallResult:
+        return ToolCallResult(
+            tool_call=tool_call,
+            content="fake content",
+        )
 
 
 def test_ollama_llm_class() -> None:
@@ -76,7 +119,7 @@ async def test_chat(mock_async_client_class: MagicMock) -> None:
             tool_calls=[
                 OllamaMessage.ToolCall(
                     function=OllamaMessage.ToolCall.Function(
-                        name="a fake tool",
+                        name="a_fake_tool",
                         arguments={"arg1": 1},
                     ),
                 ),
@@ -96,6 +139,7 @@ async def test_chat(mock_async_client_class: MagicMock) -> None:
     mock_chat.assert_awaited_once_with(
         model="llama3.2",
         messages=[OllamaMessage(role="user", content="Some new input.")],
+        tools=None,
     )
     mock_async_client_class.assert_called_once()
 
@@ -286,3 +330,30 @@ def test_tool_call_result_to_ollama_message() -> None:
         arguments={"arg1": 1},
         tool_call_result="Some content",
     )
+
+
+def test_get_tool_json_schema() -> None:
+    """Tests util for getting JSON schema of a tool."""
+    # arrange
+    my_tool = MyTool()
+
+    # act
+    schema = get_tool_json_schema(my_tool)
+
+    # assert
+    assert schema["type"] == "function"
+    assert schema["function"]["name"] == my_tool.name
+    assert schema["function"]["description"] == my_tool.description
+    assert schema["function"]["parameters"] == my_tool.parameters_schema
+
+
+def test_tool_to_ollama_tool() -> None:
+    """Tests tool conversion util method."""
+    # arrange
+    my_tool = MyTool()
+
+    # act
+    converted_tool = tool_to_ollama_tool(my_tool)
+
+    # arrange
+    assert isinstance(converted_tool, OllamaTool)

@@ -9,7 +9,7 @@ from llm_agents_from_scratch.data_structures import (
     ToolCallResult,
 )
 
-from .tool import BaseTool
+from .tool import AsyncBaseTool, BaseTool
 
 
 class BaseLLM(ABC):
@@ -32,7 +32,7 @@ class BaseLLM(ABC):
         self,
         input: str,
         chat_messages: Sequence[ChatMessage] | None = None,
-        tools: Sequence[BaseTool] | None = None,
+        tools: Sequence[BaseTool | AsyncBaseTool] | None = None,
         **kwargs: Any,
     ) -> ChatMessage:
         """Chat interface.

@@ -5,7 +5,7 @@ from typing import Any, Sequence
 from ollama import AsyncClient
 
 from llm_agents_from_scratch.base.llm import BaseLLM
-from llm_agents_from_scratch.base.tool import BaseTool
+from llm_agents_from_scratch.base.tool import AsyncBaseTool, BaseTool
 from llm_agents_from_scratch.data_structures import (
     ChatMessage,
     CompleteResult,
@@ -16,6 +16,7 @@ from .utils import (
     chat_message_to_ollama_message,
     ollama_message_to_chat_message,
     tool_call_result_to_ollama_message,
+    tool_to_ollama_tool,
 )
 
 
@@ -61,7 +62,7 @@ class OllamaLLM(BaseLLM):
         self,
         input: str,
         chat_messages: list[ChatMessage] | None = None,
-        tools: list[BaseTool] | None = None,
+        tools: list[BaseTool | AsyncBaseTool] | None = None,
         **kwargs: Any,
     ) -> ChatMessage:
         """Chat with an Ollama LLM.
@@ -77,6 +78,7 @@ class OllamaLLM(BaseLLM):
         Returns:
             ChatMessage: The chat message from the LLM.
         """
+        # prepare chat history
         o_messages = [
             chat_message_to_ollama_message(
                 ChatMessage(role="user", content=input),
@@ -88,9 +90,14 @@ class OllamaLLM(BaseLLM):
             else [],
         )
 
-        # TODO: add tools to chat request.
+        # prepare tools
+        o_tools = [tool_to_ollama_tool(t) for t in tools] if tools else None
 
-        result = await self._client.chat(model=self.model, messages=o_messages)
+        result = await self._client.chat(
+            model=self.model,
+            messages=o_messages,
+            tools=o_tools,
+        )
 
         return ollama_message_to_chat_message(result.message)
 

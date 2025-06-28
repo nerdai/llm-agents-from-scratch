@@ -25,44 +25,6 @@ from llm_agents_from_scratch.llms.ollama.utils import (
 )
 
 
-class MyTool(BaseTool):
-    @property
-    def name(self) -> str:
-        return "my_tool"
-
-    @property
-    def description(self) -> str:
-        return "mock description"
-
-    @property
-    def parameters_schema(self) -> dict[str, Any]:
-        return {
-            "type": "object",
-            "properties": {
-                "param1": {
-                    "type": "string",
-                    "description": "param 1",
-                },
-                "param2": {
-                    "type": "number",
-                    "description": "param 2",
-                },
-            },
-            "required": ["param1"],
-        }
-
-    def __call__(
-        self,
-        tool_call: ToolCall,
-        *args,
-        **kwargs,
-    ) -> ToolCallResult:
-        return ToolCallResult(
-            tool_call=tool_call,
-            content="fake content",
-        )
-
-
 def test_ollama_llm_class() -> None:
     names_of_base_classes = [b.__name__ for b in OllamaLLM.__mro__]
     assert BaseLLM.__name__ in names_of_base_classes
@@ -332,6 +294,44 @@ def test_tool_call_result_to_ollama_message() -> None:
     )
 
 
+class MyTool(BaseTool):
+    @property
+    def name(self) -> str:
+        return "my_tool"
+
+    @property
+    def description(self) -> str:
+        return "mock description"
+
+    @property
+    def parameters_schema(self) -> dict[str, Any]:
+        return {
+            "type": "object",
+            "properties": {
+                "param1": {
+                    "type": "string",
+                    "description": "param 1",
+                },
+                "param2": {
+                    "type": "number",
+                    "description": "param 2",
+                },
+            },
+            "required": ["param1"],
+        }
+
+    def __call__(
+        self,
+        tool_call: ToolCall,
+        *args,
+        **kwargs,
+    ) -> ToolCallResult:
+        return ToolCallResult(
+            tool_call=tool_call,
+            content="fake content",
+        )
+
+
 def test_get_tool_json_schema() -> None:
     """Tests util for getting JSON schema of a tool."""
     # arrange
@@ -357,3 +357,8 @@ def test_tool_to_ollama_tool() -> None:
 
     # arrange
     assert isinstance(converted_tool, OllamaTool)
+    assert converted_tool.function.name == my_tool.name
+    assert converted_tool.function.description == my_tool.description
+    assert len(converted_tool.function.parameters.properties) == len(
+        my_tool.parameters_schema["properties"],
+    )

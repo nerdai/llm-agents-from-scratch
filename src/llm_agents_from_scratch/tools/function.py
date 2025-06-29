@@ -43,7 +43,7 @@ class FunctionTool(BaseTool):
         return self.desc
 
     @property
-    def parameters_schema(self) -> dict[str, Any]:
+    def parameters_json_schema(self) -> dict[str, Any]:
         """JSON schema for tool parameters."""
         return {}
 

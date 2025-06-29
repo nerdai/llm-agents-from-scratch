@@ -24,7 +24,7 @@ class BaseTool(ABC):
 
     @property
     @abstractmethod
-    def parameters_schema(self) -> dict[str, Any]:
+    def parameters_json_schema(self) -> dict[str, Any]:
         """JSON schema for tool parameters."""
 
     @abstractmethod
@@ -62,7 +62,7 @@ class AsyncBaseTool(ABC):
 
     @property
     @abstractmethod
-    def parameters_schema(self) -> dict[str, Any]:
+    def parameters_json_schema(self) -> dict[str, Any]:
         """JSON schema for tool parameters."""
 
     @abstractmethod

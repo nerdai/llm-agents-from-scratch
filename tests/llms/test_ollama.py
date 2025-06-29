@@ -304,7 +304,7 @@ class MyTool(BaseTool):
         return "mock description"
 
     @property
-    def parameters_schema(self) -> dict[str, Any]:
+    def parameters_json_schema(self) -> dict[str, Any]:
         return {
             "type": "object",
             "properties": {
@@ -344,7 +344,7 @@ def test_get_tool_json_schema() -> None:
     assert schema["type"] == "function"
     assert schema["function"]["name"] == my_tool.name
     assert schema["function"]["description"] == my_tool.description
-    assert schema["function"]["parameters"] == my_tool.parameters_schema
+    assert schema["function"]["parameters"] == my_tool.parameters_json_schema
 
 
 def test_tool_to_ollama_tool() -> None:
@@ -360,5 +360,5 @@ def test_tool_to_ollama_tool() -> None:
     assert converted_tool.function.name == my_tool.name
     assert converted_tool.function.description == my_tool.description
     assert len(converted_tool.function.parameters.properties) == len(
-        my_tool.parameters_schema["properties"],
+        my_tool.parameters_json_schema["properties"],
     )

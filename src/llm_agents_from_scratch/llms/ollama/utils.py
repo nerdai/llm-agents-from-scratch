@@ -157,7 +157,7 @@ def get_tool_json_schema(tool: BaseTool | AsyncBaseTool) -> dict[str, Any]:
         "function": {
             "name": tool.name,
             "description": tool.description,
-            "parameters": tool.parameters_schema,
+            "parameters": tool.parameters_json_schema,
         },
     }
 

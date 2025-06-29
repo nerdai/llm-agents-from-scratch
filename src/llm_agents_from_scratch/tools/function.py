@@ -6,16 +6,6 @@ from llm_agents_from_scratch.base.tool import BaseTool
 from llm_agents_from_scratch.data_structures import ToolCall, ToolCallResult
 
 
-def to_camel_case(snake_str: str) -> str:
-    """Convert a string to camel case.
-
-    Args:
-        snake_str (str): The string to convert to camel case.
-    """
-    elements = snake_str.split("_")
-    return "".join(w.capitalize() for w in elements)
-
-
 class FunctionTool(BaseTool):
     """Function calling tool.
 
@@ -35,7 +25,7 @@ class FunctionTool(BaseTool):
     @property
     def name(self) -> str:
         """Name of function tool."""
-        return to_camel_case(self.func.__name__)
+        return self.func.__name__
 
     @property
     def description(self) -> str:

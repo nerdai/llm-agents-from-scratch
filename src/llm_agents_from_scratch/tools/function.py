@@ -99,5 +99,14 @@ class FunctionTool(BaseTool):
         *args: Any,
         **kwargs: Any,
     ) -> ToolCallResult:
-        """Execute the function tool with a ToolCall."""
+        """Execute the function tool with a ToolCall.
+
+        Args:
+            tool_call (ToolCall): The ToolCall to execute.
+            *args (Any): Additional positional arguments.
+            **kwargs (Any): Additional keyword arguments.
+
+        Returns:
+            ToolCallResult: The result of the tool call execution.
+        """
         raise NotImplementedError

@@ -1,3 +1,3 @@
-from .function import FunctionTool
+from .function import SimpleFunctionTool
 
-__all__ = ["FunctionTool"]
+__all__ = ["SimpleFunctionTool"]

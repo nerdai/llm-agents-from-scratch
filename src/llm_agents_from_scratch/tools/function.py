@@ -31,6 +31,8 @@ def function_signature_to_json_schema(func: Callable) -> dict[str, Any]:
         list: "array",
         type(None): "null",
         bool: "boolean",
+        tuple: "array",
+        bytes: "string",
     }
 
     properties = {}
@@ -64,14 +66,15 @@ def function_signature_to_json_schema(func: Callable) -> dict[str, Any]:
     }
 
 
-class FunctionTool(BaseTool):
-    """Function calling tool.
+class SimpleFunctionTool(BaseTool):
+    """Simple function calling tool.
 
-    Turn a Python function into a tool for an LLM.
+    Turn a Python function into a tool for an LLM. Uses manual validation for
+    JSON schema.
     """
 
     def __init__(self, func: Callable, desc: str | None = None) -> None:
-        """Initialize a FunctionTool.
+        """Initialize a SimpleFunctionTool.
 
         Args:
             func (Callable): The Python function to expose as a tool to the LLM.

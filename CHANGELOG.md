@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Add simple function tool that allows for passing as an LLM tool (#16)
 - Add tools to `OllamaLLM.chat` request and required utils (#14)
 - Add initial implementation of `OllamaLLM` (#11)
 - Add implementation of `base.tool.BaseTool` and relevant data structures (#12)

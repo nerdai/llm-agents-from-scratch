@@ -30,6 +30,7 @@ authors = [
 requires-python = ">=3.10"
 dependencies = [
   "asyncio>=3.4.3",
+  "jsonschema>=4.24.0",
   "mcp[cli]>=1.9.4",
   "ollama>=0.5.1",
   "pydantic>=2.11.7"

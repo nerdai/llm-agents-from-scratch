@@ -99,5 +99,5 @@ class FunctionTool(BaseTool):
         *args: Any,
         **kwargs: Any,
     ) -> ToolCallResult:
-        """Execute the function tool with a Toolcall."""
+        """Execute the function tool with a ToolCall."""
         raise NotImplementedError

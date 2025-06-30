@@ -1,8 +1,10 @@
 from typing import Any, Sequence
+from unittest.mock import MagicMock
 
 import pytest
 
 from llm_agents_from_scratch.tools.function import (
+    FunctionTool,
     function_signature_to_json_schema,
 )
 
@@ -54,3 +56,23 @@ def test_function_as_json_schema(func, properties, required) -> None:
     assert schema["type"] == "object"
     assert schema["properties"] == properties
     assert schema["required"] == required
+
+
+def test_function_tool_init() -> None:
+    """Tests FunctionTool initialization."""
+    tool = FunctionTool(my_mock_fn_1, desc="mock desc")
+
+    assert tool.name == "my_mock_fn_1"
+    assert tool.description == "mock desc"
+    assert tool.parameters_json_schema == function_signature_to_json_schema(
+        my_mock_fn_1,
+    )
+    assert tool.func == my_mock_fn_1
+
+
+def test_function_tool_callable_raises_not_implemented_error() -> None:
+    tool = FunctionTool(my_mock_fn_1, desc="mock desc")
+    tool_call = MagicMock()
+
+    with pytest.raises(NotImplementedError):
+        tool(tool_call)

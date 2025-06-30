@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Rename `FunctionTool` to `SimpleFunctionTool` (#19)
 - Implement `__call__` for `FunctionTool` (#18)
 - Add simple function tool that allows for passing as an LLM tool (#16)
 - Add tools to `OllamaLLM.chat` request and required utils (#14)

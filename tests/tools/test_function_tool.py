@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from llm_agents_from_scratch.data_structures.tool import ToolCall
-from llm_agents_from_scratch.tools.function import (
+from llm_agents_from_scratch.tools.simple_function import (
     SimpleFunctionTool,
     function_signature_to_json_schema,
 )
@@ -71,7 +71,7 @@ def test_function_tool_init() -> None:
     assert tool.func == my_mock_fn_1
 
 
-@patch("llm_agents_from_scratch.tools.function.validate")
+@patch("llm_agents_from_scratch.tools.simple_function.validate")
 def test_function_tool_call(mock_validate: MagicMock) -> None:
     """Tests a function tool call."""
     tool = SimpleFunctionTool(my_mock_fn_1, desc="mock desc")

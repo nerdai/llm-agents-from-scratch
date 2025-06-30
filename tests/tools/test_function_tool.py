@@ -1,4 +1,5 @@
 from typing import Any, Sequence
+from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -70,7 +71,8 @@ def test_function_tool_init() -> None:
     assert tool.func == my_mock_fn_1
 
 
-def test_function_tool_call() -> None:
+@patch("llm_agents_from_scratch.tools.function.validate")
+def test_function_tool_call(mock_validate: MagicMock) -> None:
     """Tests a function tool call."""
     tool = FunctionTool(my_mock_fn_1, desc="mock desc")
     tool_call = ToolCall(
@@ -81,3 +83,7 @@ def test_function_tool_call() -> None:
     result = tool(tool_call=tool_call)
 
     assert result.content == "1 and y"
+    mock_validate.assert_called_once_with(
+        tool_call.arguments,
+        schema=tool.parameters_json_schema,
+    )

@@ -87,3 +87,21 @@ def test_function_tool_call(mock_validate: MagicMock) -> None:
         tool_call.arguments,
         schema=tool.parameters_json_schema,
     )
+    assert result.error is False
+
+
+def test_function_tool_call_returns_error() -> None:
+    """Tests a function tool call."""
+    tool = FunctionTool(my_mock_fn_1, desc="mock desc")
+    tool_call = ToolCall(
+        tool_name="my_mock_fn_1",
+        arguments={"param1": "1", "param2": "y"},
+    )
+
+    result = tool(tool_call=tool_call)
+
+    assert (
+        "Failed to execute function call: '1' is not of type 'number'"
+        in result.content
+    )
+    assert result.error is True

@@ -3,6 +3,8 @@
 import inspect
 from typing import Any, Callable, get_type_hints
 
+from jsonschema import validate
+
 from llm_agents_from_scratch.base.tool import BaseTool
 from llm_agents_from_scratch.data_structures import ToolCall, ToolCallResult
 
@@ -68,15 +70,16 @@ class FunctionTool(BaseTool):
     Turn a Python function into a tool for an LLM.
     """
 
-    def __init__(self, func: Callable, desc: str) -> None:
+    def __init__(self, func: Callable, desc: str | None = None) -> None:
         """Initialize a FunctionTool.
 
         Args:
             func (Callable): The Python function to expose as a tool to the LLM.
-            desc (str): Description of the function.
+            desc (str | None, optional): Description of the function.
+                Defaults to None.
         """
         self.func = func
-        self.desc = desc
+        self.desc = desc or func.__doc__ or f"Tool for {func.__name__}"
 
     @property
     def name(self) -> str:
@@ -109,4 +112,19 @@ class FunctionTool(BaseTool):
         Returns:
             ToolCallResult: The result of the tool call execution.
         """
-        raise NotImplementedError
+        try:
+            # validate the arguments
+            validate(tool_call.arguments, schema=self.parameters_json_schema)
+            # execute the function
+            res = self.func(**tool_call.arguments)
+            content = str(res)
+            error = False
+        except Exception as e:
+            content = f"Failed to execute function call: {e}"
+            error = True
+
+        return ToolCallResult(
+            tool_call=tool_call,
+            content=content,
+            error=error,
+        )

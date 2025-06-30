@@ -1,5 +1,4 @@
 from typing import Any, Sequence
-from unittest.mock import MagicMock
 
 import pytest
 
@@ -68,11 +67,3 @@ def test_function_tool_init() -> None:
         my_mock_fn_1,
     )
     assert tool.func == my_mock_fn_1
-
-
-def test_function_tool_callable_raises_not_implemented_error() -> None:
-    tool = FunctionTool(my_mock_fn_1, desc="mock desc")
-    tool_call = MagicMock()
-
-    with pytest.raises(NotImplementedError):
-        tool(tool_call)

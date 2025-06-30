@@ -2,6 +2,7 @@ from typing import Any, Sequence
 
 import pytest
 
+from llm_agents_from_scratch.data_structures.tool import ToolCall
 from llm_agents_from_scratch.tools.function import (
     FunctionTool,
     function_signature_to_json_schema,
@@ -13,8 +14,8 @@ def my_mock_fn_1(
     param2: str = "x",
     *args: Any,
     **kwargs: Any,
-) -> bool:
-    return False
+) -> str:
+    return f"{param1} and {param2}"
 
 
 def my_mock_fn_2(
@@ -67,3 +68,16 @@ def test_function_tool_init() -> None:
         my_mock_fn_1,
     )
     assert tool.func == my_mock_fn_1
+
+
+def test_function_tool_call() -> None:
+    """Tests a function tool call."""
+    tool = FunctionTool(my_mock_fn_1, desc="mock desc")
+    tool_call = ToolCall(
+        tool_name="my_mock_fn_1",
+        arguments={"param1": 1, "param2": "y"},
+    )
+
+    result = tool(tool_call=tool_call)
+
+    assert result.content == "1 and y"

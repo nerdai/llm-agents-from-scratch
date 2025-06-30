@@ -7,7 +7,7 @@ def test_base_abstract_attr() -> None:
 
     assert "name" in abstract_methods
     assert "description" in abstract_methods
-    assert "parameters_schema" in abstract_methods
+    assert "parameters_json_schema" in abstract_methods
     assert "__call__" in abstract_methods
 
 
@@ -17,5 +17,5 @@ def test_async_base_abstract_attr() -> None:
 
     assert "name" in abstract_methods
     assert "description" in abstract_methods
-    assert "parameters_schema" in abstract_methods
+    assert "parameters_json_schema" in abstract_methods
     assert "__call__" in abstract_methods

@@ -29,7 +29,7 @@ class PydanticFunction(Protocol):
         ...
 
 
-def validate_pydantic_function(func: Callable) -> type[BaseModel]:
+def _validate_pydantic_function(func: Callable) -> type[BaseModel]:
     """Validates func as a proper `PydanticFunction`.
 
     Args:
@@ -90,7 +90,7 @@ class PydanticFunctionTool(BaseTool):
         """
         self.func = func
         self.desc = desc or func.__doc__ or f"Tool for {func.__name__}"
-        self.params_mdl = validate_pydantic_function(func)
+        self.params_mdl = _validate_pydantic_function(func)
 
     @property
     def name(self) -> str:

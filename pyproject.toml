@@ -21,8 +21,9 @@ dev = [
 
 [project]
 name = "llm-agents-from-scratch"
-version = "0.1.0"
+version = "0.0.1"
 description = "Build an LLM agent, equipped with MCP, from scratch."
+license = "Apache-2.0"
 readme = "README.md"
 authors = [
   {name = "Andrei Fajardo", email = "andrei@nerdai.io"}

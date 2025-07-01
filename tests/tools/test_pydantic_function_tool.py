@@ -4,6 +4,7 @@ from typing import Callable
 import pytest
 from pydantic import BaseModel, Field
 
+from llm_agents_from_scratch.data_structures import ToolCall
 from llm_agents_from_scratch.tools.pydantic_function import (
     PydanticFunctionTool,
     _validate_pydantic_function,
@@ -79,3 +80,34 @@ def test_init_pydantic_function_tool() -> None:
     )  # default when None
     assert tool.parameters_json_schema == ParamSet1.model_json_schema()
     assert tool.func == my_mock_fn_1
+
+
+def test_function_tool_call() -> None:
+    """Tests a function tool call."""
+    tool = PydanticFunctionTool(my_mock_fn_1, desc="mock desc")
+    tool_call = ToolCall(
+        tool_name="my_mock_fn_1",
+        arguments={"param1": 1, "param2": "y"},
+    )
+
+    result = tool(tool_call=tool_call)
+
+    assert result.content == "1 and y"
+    assert result.error is False
+
+
+def test_function_tool_call_returns_error() -> None:
+    """Tests a function tool call raises error at validation of params."""
+    tool = PydanticFunctionTool(my_mock_fn_1, desc="mock desc")
+    tool_call = ToolCall(
+        tool_name="my_mock_fn_1",
+        arguments={"param1": "1.35", "param2": "y"},
+    )
+
+    result = tool(tool_call=tool_call)
+
+    assert (
+        "Input should be a valid integer, unable to parse string as an integer"
+        in result.content
+    )
+    assert result.error is True

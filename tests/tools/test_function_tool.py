@@ -115,7 +115,7 @@ def test_function_tool_call(mock_validate: MagicMock) -> None:
 
 
 def test_function_tool_call_returns_error() -> None:
-    """Tests a function tool call."""
+    """Tests a function tool call raises error at validation of params."""
     tool = SimpleFunctionTool(my_mock_fn_1, desc="mock desc")
     tool_call = ToolCall(
         tool_name="my_mock_fn_1",
@@ -132,8 +132,6 @@ def test_function_tool_call_returns_error() -> None:
 
 
 # async
-
-
 def test_async_function_tool_init() -> None:
     """Tests AsyncSimpleFunctionTool initialization."""
     tool = AsyncSimpleFunctionTool(my_mock_fn_3, desc="mock desc")

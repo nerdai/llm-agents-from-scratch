@@ -26,7 +26,7 @@ class PydanticFunction(Protocol):
         Returns:
             Any: The result of the function call.
         """
-        pass
+        ...
 
 
 def _validate_pydantic_function(func: Callable) -> type[BaseModel]:

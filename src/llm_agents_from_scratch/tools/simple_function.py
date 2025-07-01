@@ -1,4 +1,4 @@
-"""Function Tool."""
+"""Simple Function Tool."""
 
 import inspect
 from typing import Any, Awaitable, Callable, get_type_hints

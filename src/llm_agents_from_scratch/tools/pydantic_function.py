@@ -15,8 +15,17 @@ class PydanticFunction(Protocol):
     __name__: str
     __doc__: str | None
 
-    def __call__(self, params: BaseModel, *args: Any, **kwds: Any) -> Any:
-        """Callable interface."""
+    def __call__(self, params: BaseModel, *args: Any, **kwargs: Any) -> Any:
+        """Callable interface.
+
+        Args:
+            params (BaseModel): The function's params as a ~pydantic.BaseModel.
+            *args (Any): Additional positional arguments.
+            **kwargs (Any): Additional keyword arguments.
+
+        Returns:
+            Any: The result of the function call.
+        """
         ...
 
 

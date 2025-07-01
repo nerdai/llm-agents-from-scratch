@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ...
 
+## [0.0.1] - 2025-07-01
+
 ### Added
 
 - Add `AsyncSimpleFunctionTool` (#20)

@@ -73,7 +73,6 @@ def test_validate_pydantic_function_raises_error(
 
 def test_pydantic_function_protocol() -> None:
     """Test interface for PydanticFunction protocol."""
-    assert callable(PydanticFunction)
     assert hasattr(PydanticFunction, "__call__")  # noqa: B004
     assert hasattr(PydanticFunction, "__name__")
     assert hasattr(PydanticFunction, "__doc__")

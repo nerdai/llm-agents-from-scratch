@@ -46,8 +46,7 @@ jobs:
     needs: deploy
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-      releases: write
+      contents: write
     steps:
       - name: Create GitHub Release
         id: create_release

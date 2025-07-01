@@ -6,6 +6,7 @@ from pydantic import BaseModel, Field
 
 from llm_agents_from_scratch.data_structures import ToolCall
 from llm_agents_from_scratch.tools.pydantic_function import (
+    PydanticFunction,
     PydanticFunctionTool,
     _validate_pydantic_function,
 )
@@ -68,6 +69,13 @@ def test_validate_pydantic_function_raises_error(
     """Tests all the cases where validation of a PydanticFunction fails."""
     with pytest.raises(RuntimeError, match=re.escape(msg)):
         _validate_pydantic_function(func)
+
+
+def test_pydantic_function_protocol() -> None:
+    """Test interface for PydanticFunction protocol."""
+    assert hasattr(PydanticFunction, "__call__")  # noqa: B004
+    assert hasattr(PydanticFunction, "__name__")
+    assert hasattr(PydanticFunction, "__doc__")
 
 
 def test_init_pydantic_function_tool() -> None:

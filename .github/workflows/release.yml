@@ -8,6 +8,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Install apt dependencies
         run: |
@@ -42,6 +45,9 @@ jobs:
   release_github:
     needs: deploy
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      releases: write
     steps:
       - name: Create GitHub Release
         id: create_release

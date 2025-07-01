@@ -5,6 +5,7 @@ import pytest
 from pydantic import BaseModel, Field
 
 from llm_agents_from_scratch.tools.pydantic_function import (
+    PydanticFunctionTool,
     _validate_pydantic_function,
 )
 
@@ -59,10 +60,22 @@ def invalid_pydantic_fn_3(params) -> bool:
         ),
     ],
 )
-def test__validate_pydantic_function_raises_error(
+def test_validate_pydantic_function_raises_error(
     func: Callable,
     msg: str,
 ) -> None:
     """Tests all the cases where validation of a PydanticFunction fails."""
     with pytest.raises(RuntimeError, match=re.escape(msg)):
         _validate_pydantic_function(func)
+
+
+def test_init_pydantic_function_tool() -> None:
+    """Tests PydanticFunctionTool initialization."""
+    tool = PydanticFunctionTool(my_mock_fn_1)
+
+    assert tool.name == "my_mock_fn_1"
+    assert (
+        tool.description == f"Tool for {my_mock_fn_1.__name__}"
+    )  # default when None
+    assert tool.parameters_json_schema == ParamSet1.model_json_schema()
+    assert tool.func == my_mock_fn_1

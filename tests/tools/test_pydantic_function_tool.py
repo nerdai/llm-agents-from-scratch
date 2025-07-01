@@ -1,0 +1,68 @@
+import re
+from typing import Callable
+
+import pytest
+from pydantic import BaseModel, Field
+
+from llm_agents_from_scratch.tools.pydantic_function import (
+    validate_pydantic_function,
+)
+
+
+class ParamSet1(BaseModel):
+    param1: int = Field(description="A mock param 1")
+    param2: str = Field(description="A mock param 2", default="x")
+
+
+def my_mock_fn_1(params: ParamSet1) -> str:
+    return f"{params.param1} and {params.param2}"
+
+
+def test_validate_pydantic_function() -> None:
+    param_mdl = validate_pydantic_function(my_mock_fn_1)
+
+    assert param_mdl == ParamSet1
+
+
+def invalid_pydantic_fn_1(foo: str) -> bool:
+    return False
+
+
+def invalid_pydantic_fn_2(params: str) -> bool:
+    return False
+
+
+def invalid_pydantic_fn_3(params) -> bool:
+    return False
+
+
+@pytest.mark.parametrize(
+    ("func", "msg"),
+    [
+        (
+            invalid_pydantic_fn_1,
+            "Validation of `func` failed: Missing `params` argument.",
+        ),
+        (
+            invalid_pydantic_fn_2,
+            (
+                "Validation of `func` failed: <class 'str'> is not"
+                " a subclass of `~pydantic.BaseModel`."
+            ),
+        ),
+        (
+            invalid_pydantic_fn_3,
+            (
+                "Validation of `func` failed: `params` argument must have "
+                "type annotation."
+            ),
+        ),
+    ],
+)
+def test_validate_pydantic_function_raises_error(
+    func: Callable,
+    msg: str,
+) -> None:
+    """Tests all the cases where validation of a PydanticFunction fails."""
+    with pytest.raises(RuntimeError, match=re.escape(msg)):
+        validate_pydantic_function(func)

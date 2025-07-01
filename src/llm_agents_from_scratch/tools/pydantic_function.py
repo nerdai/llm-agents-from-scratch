@@ -47,20 +47,12 @@ def validate_pydantic_function(func: Callable) -> type[BaseModel]:
         )
 
     if annotation := type_hints.get("params"):
-        try:
-            if not issubclass(annotation, BaseModel):
-                msg = (
-                    f"Validation of `func` failed: {annotation} is not"
-                    " a subclass of `~pydantic.BaseModel`."
-                )
-                raise RuntimeError(msg)
-        except TypeError as e:
+        if not issubclass(annotation, BaseModel):
             msg = (
-                f"Validation of `func` failed: {annotation} is not a valid "
-                "BaseModel class type."
+                f"Validation of `func` failed: {annotation} is not"
+                " a subclass of `~pydantic.BaseModel`."
             )
-            raise RuntimeError(msg) from e
-
+            raise RuntimeError(msg)
     else:
         msg = (
             "Validation of `func` failed: `params` argument must have "

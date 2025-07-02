@@ -1,3 +1,4 @@
+import asyncio
 import re
 from typing import Callable
 
@@ -6,6 +7,8 @@ from pydantic import BaseModel, Field
 
 from llm_agents_from_scratch.data_structures import ToolCall
 from llm_agents_from_scratch.tools.pydantic_function import (
+    AsyncPydanticFunction,
+    AsyncPydanticFunctionTool,
     PydanticFunction,
     PydanticFunctionTool,
     _validate_pydantic_function,
@@ -21,10 +24,24 @@ def my_mock_fn_1(params: ParamSet1) -> str:
     return f"{params.param1} and {params.param2}"
 
 
-def test__validate_pydantic_function() -> None:
-    param_mdl = _validate_pydantic_function(my_mock_fn_1)
+async def my_mock_async_fn_1(params: ParamSet1) -> str:
+    return f"{params.param1} and {params.param2}"
 
-    assert param_mdl == ParamSet1
+
+@pytest.mark.parametrize(
+    ("func", "expected_param_mdl"),
+    [
+        (my_mock_fn_1, ParamSet1),
+        (my_mock_async_fn_1, ParamSet1),
+    ],
+)
+def test_validate_pydantic_function(
+    func: Callable,
+    expected_param_mdl: type[BaseModel],
+) -> None:
+    param_mdl = _validate_pydantic_function(func)
+
+    assert param_mdl == expected_param_mdl
 
 
 def invalid_pydantic_fn_1(foo: str) -> bool:
@@ -113,6 +130,58 @@ def test_function_tool_call_returns_error() -> None:
     )
 
     result = tool(tool_call=tool_call)
+
+    assert (
+        "Input should be a valid integer, unable to parse string as an integer"
+        in result.content
+    )
+    assert result.error is True
+
+
+# async
+def test_async_pydantic_function_protocol() -> None:
+    """Test interface for PydanticFunction protocol."""
+    assert hasattr(AsyncPydanticFunction, "__call__")  # noqa: B004
+    assert hasattr(AsyncPydanticFunction, "__name__")
+    assert hasattr(AsyncPydanticFunction, "__doc__")
+
+
+def test_async_function_tool_init() -> None:
+    """Tests AsyncPydanticFunctionTool initialization."""
+    tool = AsyncPydanticFunctionTool(my_mock_async_fn_1, desc="mock desc")
+
+    assert tool.name == "my_mock_async_fn_1"
+    assert tool.description == "mock desc"
+    assert tool.parameters_json_schema == ParamSet1.model_json_schema()
+    assert tool.func == my_mock_async_fn_1
+    assert asyncio.iscoroutinefunction(tool.func)
+
+
+@pytest.mark.asyncio
+async def test_async_function_tool_call() -> None:
+    """Tests an async function tool call."""
+    tool = AsyncPydanticFunctionTool(my_mock_async_fn_1, desc="mock desc")
+    tool_call = ToolCall(
+        tool_name="my_mock_fn_1",
+        arguments={"param1": 1, "param2": "y"},
+    )
+
+    result = await tool(tool_call=tool_call)
+
+    assert result.content == "1 and y"
+    assert result.error is False
+
+
+@pytest.mark.asyncio
+async def test_async_function_tool_call_returns_error() -> None:
+    """Tests an async function tool call returns error from validation."""
+    tool = AsyncPydanticFunctionTool(my_mock_async_fn_1, desc="mock desc")
+    tool_call = ToolCall(
+        tool_name="my_mock_fn_1",
+        arguments={"param1": "1.3156", "param2": "y"},
+    )
+
+    result = await tool(tool_call=tool_call)
 
     assert (
         "Input should be a valid integer, unable to parse string as an integer"

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Add `AsyncPydanticFunctionTool` (#30)
 - Add `PydanticFunctionTool` (#28)
 
 ## [0.0.1] - 2025-07-01

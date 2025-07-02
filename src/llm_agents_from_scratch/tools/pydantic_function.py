@@ -182,7 +182,7 @@ class AsyncPydanticFunctionTool(BaseTool):
         func: AsyncPydanticFunction,
         desc: str | None = None,
     ):
-        """Initialize a PydanticFunctionTool.
+        """Initialize an AsyncPydanticFunctionTool.
 
         Args:
             func (AsyncPydanticFunction): The async Pydantic function to expose

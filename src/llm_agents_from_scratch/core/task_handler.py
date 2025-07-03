@@ -55,6 +55,8 @@ class TaskHandler(asyncio.Future):
     @background_task.setter
     def background_task(self, asyncio_task: asyncio.Task) -> None:
         """Setter for background_task."""
+        if self._background_task is not None:
+            raise ValueError("A background task has already been set.")
         self.background_task = asyncio_task
 
     async def get_next_step(self) -> TaskStep | None:

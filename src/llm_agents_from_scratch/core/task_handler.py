@@ -42,15 +42,20 @@ class TaskHandler(asyncio.Future):
         self.task = task
         self.llm = llm
         self.tools = tools
-        self._asyncio_tasks: list[asyncio.Task] = []
+        self._background_task: asyncio.Task | None = None
+        self._lock: asyncio.Lock = asyncio.Lock()
 
-    def add_asyncio_task(self, asyncio_task: asyncio.Task) -> None:
-        """Register a asyncio.Task.
+    @property
+    def background_task(self) -> asyncio.Task:
+        """Get the background ~asyncio.Task for the handler."""
+        if not self._background_task:
+            raise ValueError("No background task is running for this handler.")
+        return self._background_task
 
-        Args:
-            asyncio_task (asyncio.Task): The task to register.
-        """
-        self._asyncio_tasks.append(asyncio_task)
+    @background_task.setter
+    def background_task(self, asyncio_task: asyncio.Task) -> None:
+        """Setter for background_task."""
+        self.background_task = asyncio_task
 
     async def get_next_step(self) -> TaskStep | None:
         """Based on task progress, determine next step.

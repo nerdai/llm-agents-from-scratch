@@ -58,6 +58,6 @@ class LLMAgent:
                 except Exception as e:
                     task_handler.set_exception(e)
 
-        task_handler.add_asyncio_task(asyncio.create_task(_run()))
+        task_handler.background_task = asyncio.create_task(_run())
 
         return task_handler

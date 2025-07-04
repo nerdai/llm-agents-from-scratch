@@ -61,7 +61,7 @@ class TaskHandler(asyncio.Future):
         """Setter for background_task."""
         if self._background_task is not None:
             raise ValueError("A background task has already been set.")
-        self.background_task = asyncio_task
+        self._background_task = asyncio_task
 
     async def get_next_step(self) -> TaskStep:
         """Based on task progress, determine next step.

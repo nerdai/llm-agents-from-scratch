@@ -199,6 +199,11 @@ async def test_run_step() -> None:
             tool_name="plus_two",
             arguments={"arg1": 1},
         ),
+        # this tool doesn't exist
+        ToolCall(
+            tool_name="plus_three",
+            arguments={"arg1": 1},
+        ),
     ]
     mock_llm.chat.return_value = ChatMessage(
         role=ChatRole.ASSISTANT,

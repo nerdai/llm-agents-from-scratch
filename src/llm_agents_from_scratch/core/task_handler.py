@@ -10,6 +10,7 @@ from llm_agents_from_scratch.data_structures import (
     TaskStep,
     TaskStepResult,
 )
+from llm_agents_from_scratch.errors import TaskHandlerError
 
 DEFAULT_GET_NEXT_INSTRUCTION_PROMPT = "{current_rollout}"
 
@@ -53,14 +54,16 @@ class TaskHandler(asyncio.Future):
     def background_task(self) -> asyncio.Task:
         """Get the background ~asyncio.Task for the handler."""
         if not self._background_task:
-            raise ValueError("No background task is running for this handler.")
+            raise TaskHandlerError(
+                "No background task is running for this handler.",
+            )
         return self._background_task
 
     @background_task.setter
     def background_task(self, asyncio_task: asyncio.Task) -> None:
         """Setter for background_task."""
         if self._background_task is not None:
-            raise ValueError("A background task has already been set.")
+            raise TaskHandlerError("A background task has already been set.")
         self._background_task = asyncio_task
 
     async def get_next_step(self) -> TaskStep:
@@ -84,7 +87,7 @@ class TaskHandler(asyncio.Future):
                 mdl=TaskStep,
             )
         except Exception as e:
-            raise ValueError(f"Failed to get next step: {str(e)}") from e
+            raise TaskHandlerError(f"Failed to get next step: {str(e)}") from e
 
         return task_step
 

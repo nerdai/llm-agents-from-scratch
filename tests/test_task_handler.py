@@ -20,6 +20,7 @@ def test_task_handler_init(
 
     assert handler.task.instruction == "mock instruction"
     assert handler.llm == mock_llm
+    assert handler.tools_registry == {}
 
 
 def test_task_handler_raises_error_when_getting_unset_bg_task(

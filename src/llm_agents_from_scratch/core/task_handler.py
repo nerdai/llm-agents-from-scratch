@@ -4,15 +4,20 @@ import asyncio
 from typing import Any
 
 from llm_agents_from_scratch.base.llm import BaseLLM
-from llm_agents_from_scratch.base.tool import BaseTool
+from llm_agents_from_scratch.base.tool import AsyncBaseTool, BaseTool
 from llm_agents_from_scratch.data_structures import (
+    ChatMessage,
+    ChatRole,
     Task,
     TaskStep,
     TaskStepResult,
+    ToolCallResult,
 )
 from llm_agents_from_scratch.errors import TaskHandlerError
 
 DEFAULT_GET_NEXT_INSTRUCTION_PROMPT = "{current_rollout}"
+DEFAULT_SYSTEM_MESSAGE = "{original_instruction} {current_rollout}"
+DEFAULT_USER_MESSAGE = "{instruction}"
 
 
 class TaskHandler(asyncio.Future):
@@ -21,7 +26,7 @@ class TaskHandler(asyncio.Future):
     Attributes:
         task: The task to execute.
         llm: The backbone LLM.
-        tools: The tools the LLM agent can use.
+        tools_registry: The tools the LLM agent can use represented as a dict.
         rollout: The execution log of the task.
     """
 
@@ -29,7 +34,7 @@ class TaskHandler(asyncio.Future):
         self,
         task: Task,
         llm: BaseLLM,
-        tools: list[BaseTool],
+        tools: list[BaseTool | AsyncBaseTool],
         *args: Any,
         **kwargs: Any,
     ) -> None:
@@ -45,7 +50,7 @@ class TaskHandler(asyncio.Future):
         super().__init__(*args, **kwargs)
         self.task = task
         self.llm = llm
-        self.tools = tools
+        self.tools_registry = {t.name: t for t in tools}
         self.rollout = ""
         self._background_task: asyncio.Task | None = None
         self._lock: asyncio.Lock = asyncio.Lock()
@@ -65,6 +70,14 @@ class TaskHandler(asyncio.Future):
         if self._background_task is not None:
             raise TaskHandlerError("A background task has already been set.")
         self._background_task = asyncio_task
+
+    def _rollout_from_single_run_step(
+        self,
+        chat_history: list[ChatMessage],
+    ) -> str:
+        """Update rollout after a run_step execution."""
+        # TODO: implement
+        return ""
 
     async def get_next_step(self) -> TaskStep:
         """Based on task progress, determine next step.
@@ -94,7 +107,10 @@ class TaskHandler(asyncio.Future):
     async def run_step(self, step: TaskStep) -> TaskStepResult:
         """Run next step of a given task.
 
-        Example: perform tool call, generated LLM response, etc.
+        A single step is executed through a single-turn conversation that the
+        LLM agent has with itself. In other words, it is both the `user`
+        providing the instruction (from `get_next_step`) as well as the
+        `assistant` that provides the result.
 
         Args:
             step (TaskStep): The step to execute.
@@ -102,5 +118,72 @@ class TaskHandler(asyncio.Future):
         Returns:
             TaskStepResult: The result of the step execution.
         """
-        # TODO: implement
-        pass  # pragma: no cover
+        async with self._lock:
+            rollout = self.rollout
+
+        # include rollout as context in the system message
+        system_message = ChatMessage(
+            role=ChatRole.SYSTEM,
+            content=DEFAULT_SYSTEM_MESSAGE.format(
+                original_instruction=self.task.instruction,
+                current_rollout=rollout,
+            ),
+        )
+        user_message = ChatMessage(
+            role=ChatRole.USER,
+            content=DEFAULT_USER_MESSAGE.format(
+                instruction=step.instruction,
+            ),
+        )
+
+        # start conversation
+        response = await self.llm.chat(
+            input=user_message.content,
+            chat_messages=[system_message],
+            tools=list(self.tools_registry.keys()),
+        )
+
+        chat_history = [
+            system_message,
+            user_message,
+            response,
+        ]
+
+        # see if there are tool calls
+        if response.tool_calls:
+            tool_call_results = []
+            for tool_call in response.tool_calls:
+                if tool := self.tools_registry.get(tool_call.tool_name):
+                    if isinstance(tool, AsyncBaseTool):
+                        tool_call_result = await tool(tool_call=tool_call)
+                    else:
+                        tool_call_result = tool(tool_call=tool_call)
+                else:
+                    error_msg = (
+                        f"Tool with name {tool_call.tool_name} doesn't exist.",
+                    )
+                    tool_call_result = ToolCallResult(
+                        tool_call=tool_call,
+                        error=True,
+                        content=error_msg,
+                    )
+                tool_call_results.append(tool_call_result)
+
+            # send back to llm
+            final_response = (
+                await self.llm.continue_conversation_with_tool_results(
+                    tool_call_results=tool_call_results,
+                    chat_messages=chat_history,
+                )
+            )
+
+        # augment rollout from this turn
+        async with self._lock:
+            self.rollout += self._rollout_from_single_run_step(
+                chat_history=chat_history + [final_response],
+            )
+
+        return TaskStepResult(
+            task_step=step,
+            content=final_response.content,
+        )

@@ -18,6 +18,7 @@ from llm_agents_from_scratch.errors import TaskHandlerError
 DEFAULT_GET_NEXT_INSTRUCTION_PROMPT = "{current_rollout}"
 DEFAULT_SYSTEM_MESSAGE = "{original_instruction} {current_rollout}"
 DEFAULT_USER_MESSAGE = "{instruction}"
+DEFAULT_ROLLOUT_BLOCK_FROM_CHAT_MESSAGE = "{role}: {content}"
 
 
 class TaskHandler(asyncio.Future):
@@ -71,13 +72,23 @@ class TaskHandler(asyncio.Future):
             raise TaskHandlerError("A background task has already been set.")
         self._background_task = asyncio_task
 
-    def _rollout_from_single_run_step(
+    def _rollout_contribution_from_single_run_step(
         self,
         chat_history: list[ChatMessage],
     ) -> str:
         """Update rollout after a run_step execution."""
-        # TODO: implement
-        return ""
+        rollout_contributions = []
+        for msg in chat_history:
+            # don't include system messages in rollout
+            if msg.role == "system":
+                continue
+            rollout_contributions.append(
+                DEFAULT_ROLLOUT_BLOCK_FROM_CHAT_MESSAGE.format(
+                    role=msg.role.value,
+                    content=msg.content,
+                ),
+            )
+        return "\n".join(rollout_contributions)
 
     async def get_next_step(self) -> TaskStep:
         """Based on task progress, determine next step.
@@ -169,7 +180,7 @@ class TaskHandler(asyncio.Future):
                     )
                 tool_call_results.append(tool_call_result)
 
-            # send back to llm
+            # send tool call results back to llm to get result
             final_response = (
                 await self.llm.continue_conversation_with_tool_results(
                     tool_call_results=tool_call_results,
@@ -179,7 +190,7 @@ class TaskHandler(asyncio.Future):
 
         # augment rollout from this turn
         async with self._lock:
-            self.rollout += self._rollout_from_single_run_step(
+            self.rollout += self._rollout_contribution_from_single_run_step(
                 chat_history=chat_history + [final_response],
             )
 

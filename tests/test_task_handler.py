@@ -5,6 +5,7 @@ import pytest
 
 from llm_agents_from_scratch.base.llm import BaseLLM
 from llm_agents_from_scratch.core import TaskHandler
+from llm_agents_from_scratch.core.task_handler import DEFAULT_SYSTEM_MESSAGE
 from llm_agents_from_scratch.data_structures import (
     ChatMessage,
     ChatRole,
@@ -13,6 +14,10 @@ from llm_agents_from_scratch.data_structures import (
     ToolCall,
 )
 from llm_agents_from_scratch.errors import TaskHandlerError
+from llm_agents_from_scratch.tools.simple_function import (
+    AsyncSimpleFunctionTool,
+    SimpleFunctionTool,
+)
 
 
 def test_task_handler_init(
@@ -168,3 +173,77 @@ def test_private_rollout_contribution_from_single_run_step(
         "assistant: done!"
     )
     assert rollout_contribution == expected_rollout_contribution
+
+
+@pytest.mark.asyncio
+async def test_run_step() -> None:
+    """Tests run step."""
+
+    def plus_one(arg1: int) -> int:
+        return arg1 + 1
+
+    # async simple tool
+    async def plus_two(arg1: int) -> int:
+        await asyncio.sleep(0.1)
+        return arg1 + 2
+
+    # arrange mocks
+    mock_llm = AsyncMock()
+    # initial chat response
+    tool_calls = [
+        ToolCall(
+            tool_name="plus_one",
+            arguments={"arg1": 1},
+        ),
+        ToolCall(
+            tool_name="plus_two",
+            arguments={"arg1": 1},
+        ),
+    ]
+    mock_llm.chat.return_value = ChatMessage(
+        role=ChatRole.ASSISTANT,
+        content="Initial response.",
+        tool_calls=tool_calls,
+    )
+    # continue conversation with tool calls
+    mock_return_value = ChatMessage(
+        role=ChatRole.ASSISTANT,
+        content="The final response.",
+    )
+    mock_llm.continue_conversation_with_tool_results.return_value = (
+        mock_return_value
+    )
+
+    handler = TaskHandler(
+        task=Task(instruction="mock instruction"),
+        llm=mock_llm,
+        tools=[
+            SimpleFunctionTool(func=plus_one),
+            AsyncSimpleFunctionTool(func=plus_two),
+        ],
+    )
+
+    # act
+    step = TaskStep(
+        instruction="Some instruction.",
+        last_step=False,
+    )
+    step_result = await handler.run_step(step)
+
+    # assert
+    mock_llm.chat.assert_awaited_once_with(
+        input="Some instruction.",
+        chat_messages=[
+            ChatMessage(
+                role=ChatRole.SYSTEM,
+                content=DEFAULT_SYSTEM_MESSAGE.format(
+                    original_instruction="mock instruction",
+                    current_rollout="",
+                ),
+            ),
+        ],
+        tools=list(handler.tools_registry.keys()),
+    )
+    mock_llm.continue_conversation_with_tool_results.assert_awaited_once()
+    assert step_result.task_step == step
+    assert step_result.content == "Final response."

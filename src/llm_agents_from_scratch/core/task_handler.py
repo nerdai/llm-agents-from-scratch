@@ -76,7 +76,7 @@ class TaskHandler(asyncio.Future):
             rollout = self.rollout
 
         if rollout == "":
-            return TaskStep(instruction=self.task.instruction)
+            return TaskStep(instruction=self.task.instruction, last_step=False)
 
         prompt = DEFAULT_GET_NEXT_INSTRUCTION_PROMPT.format(
             current_rollout=rollout,

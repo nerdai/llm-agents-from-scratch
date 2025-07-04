@@ -1,10 +1,11 @@
 import asyncio
+from unittest.mock import AsyncMock
 
 import pytest
 
 from llm_agents_from_scratch.base.llm import BaseLLM
 from llm_agents_from_scratch.core import TaskHandler
-from llm_agents_from_scratch.data_structures.agent import Task
+from llm_agents_from_scratch.data_structures.agent import Task, TaskStep
 from llm_agents_from_scratch.errors import TaskHandlerError
 
 
@@ -50,3 +51,32 @@ async def test_task_handler_raises_error_when_setting_already_set_bg_task(
     handler.background_task = asyncio.create_task(fn())
     with pytest.raises(TaskHandlerError):
         handler.background_task = asyncio.create_task(fn())
+
+
+@pytest.mark.asyncio
+async def test_get_next_step(mock_llm: BaseLLM) -> None:
+    """Tests get next step."""
+
+    handler = TaskHandler(
+        task=Task(instruction="mock instruction"),
+        llm=mock_llm,
+        tools=[],
+    )
+
+    # initial task step
+    initial_step = await handler.get_next_step()
+
+    # update rollout and get next step
+    expected_next_step = TaskStep(
+        instruction="Some next instruction.",
+        last_step=False,
+    )
+    magic_mock_llm = AsyncMock()
+    magic_mock_llm.structured_output.return_value = expected_next_step
+    handler.llm = magic_mock_llm
+    handler.rollout = "some progress"
+    next_step = await handler.get_next_step()
+
+    assert initial_step.instruction == "mock instruction"
+    assert initial_step.last_step is False
+    assert next_step == expected_next_step

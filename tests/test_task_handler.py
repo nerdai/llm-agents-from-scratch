@@ -80,3 +80,32 @@ async def test_get_next_step(mock_llm: BaseLLM) -> None:
     assert initial_step.instruction == "mock instruction"
     assert initial_step.last_step is False
     assert next_step == expected_next_step
+
+
+@pytest.mark.asyncio
+async def test_get_next_step_raises_error(mock_llm: BaseLLM) -> None:
+    """Tests get next step."""
+
+    handler = TaskHandler(
+        task=Task(instruction="mock instruction"),
+        llm=mock_llm,
+        tools=[],
+    )
+
+    # initial task step
+    initial_step = await handler.get_next_step()
+
+    # update rollout and get next step
+    magic_mock_llm = AsyncMock()
+    magic_mock_llm.structured_output.side_effect = RuntimeError("oops.")
+    handler.llm = magic_mock_llm
+    handler.rollout = "some progress"
+
+    with pytest.raises(
+        TaskHandlerError,
+        match="Failed to get next step: oops.",
+    ):
+        await handler.get_next_step()
+
+    assert initial_step.instruction == "mock instruction"
+    assert initial_step.last_step is False

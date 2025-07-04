@@ -56,8 +56,9 @@ class BaseLLM(ABC):
         input: str,
         chat_messages: Sequence[ChatMessage] | None = None,
         tools: Sequence[BaseTool | AsyncBaseTool] | None = None,
+        return_history: bool = False,
         **kwargs: Any,
-    ) -> ChatMessage:
+    ) -> ChatMessage | tuple[ChatMessage, list[ChatMessage]]:
         """Chat interface.
 
         Args:
@@ -65,6 +66,8 @@ class BaseLLM(ABC):
             chat_messages (Sequence[ChatMessage]|None, optional): chat history.
             tools (Sequence[BaseTool]|None, optional): tools that the LLM
                 can call.
+            return_history (bool): Whether to return the update chat history.
+                Defaults to False.
             **kwargs (Any): Additional keyword arguments.
 
         Returns:
@@ -76,6 +79,7 @@ class BaseLLM(ABC):
         self,
         tool_call_results: Sequence[ToolCallResult],
         chat_messages: Sequence[ChatMessage],
+        return_history: bool = False,
         **kwargs: Any,
     ) -> ChatMessage:
         """Continue a conversation submitting tool call results.
@@ -85,6 +89,8 @@ class BaseLLM(ABC):
                 Tool call results.
             chat_messages (Sequence[ChatMessage]): The chat history.
                 Defaults to None.
+            return_history (bool): Whether to return the update chat history.
+                Defaults to False.
             **kwargs (Any): Additional keyword arguments.
 
         Returns:

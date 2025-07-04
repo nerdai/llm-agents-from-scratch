@@ -92,6 +92,7 @@ class OllamaLLM(BaseLLM):
         input: str,
         chat_messages: list[ChatMessage] | None = None,
         tools: list[BaseTool | AsyncBaseTool] | None = None,
+        return_history: bool = False,
         **kwargs: Any,
     ) -> ChatMessage:
         """Chat with an Ollama LLM.
@@ -102,6 +103,8 @@ class OllamaLLM(BaseLLM):
                 history.
             tools (list[BaseTool] | None, optional): The tools available to the
                 LLM.
+            return_history (bool): Whether to return the update chat history.
+                Defaults to False.
             **kwargs (Any): Additional keyword arguments.
 
         Returns:
@@ -134,6 +137,7 @@ class OllamaLLM(BaseLLM):
         self,
         tool_call_results: Sequence[ToolCallResult],
         chat_messages: Sequence[ChatMessage],
+        return_history: bool = False,
         **kwargs: Any,
     ) -> ChatMessage:
         """Implements continue_conversation_with_tool_results method.
@@ -141,6 +145,8 @@ class OllamaLLM(BaseLLM):
         Args:
             tool_call_results (Sequence[ToolCallResult]): The tool call results.
             chat_messages (Sequence[ChatMessage]): The chat history.
+            return_history (bool): Whether to return the update chat history.
+                Defaults to False.
             **kwargs (Any): Additional keyword arguments.
 
         Returns:

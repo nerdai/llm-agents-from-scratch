@@ -1,7 +1,9 @@
 """Base LLM."""
 
 from abc import ABC, abstractmethod
-from typing import Any, Sequence
+from typing import Any, Sequence, TypeVar
+
+from pydantic import BaseModel
 
 from llm_agents_from_scratch.data_structures import (
     ChatMessage,
@@ -10,6 +12,8 @@ from llm_agents_from_scratch.data_structures import (
 )
 
 from .tool import AsyncBaseTool, BaseTool
+
+StructuredOutputType = TypeVar("StructuredOutputType", bound=BaseModel)
 
 
 class BaseLLM(ABC):
@@ -25,6 +29,25 @@ class BaseLLM(ABC):
 
         Returns:
             str: The completion of the prompt.
+        """
+
+    @abstractmethod
+    async def structured_output(
+        self,
+        prompt: str,
+        mdl: type[StructuredOutputType],
+        **kwargs: Any,
+    ) -> StructuredOutputType:
+        """Structured output interface for returning ~pydantic.BaseModels.
+
+        Args:
+            prompt (str): The prompt to elicit the structured output response.
+            mdl (type[StructuredOutputType]): The ~pydantic.BaseModel to output.
+            **kwargs (Any): Additional keyword arguments.
+
+        Returns:
+            StructuredOutputType: The structured output as the specified `mdl`
+                type.
         """
 
     @abstractmethod

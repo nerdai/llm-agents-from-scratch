@@ -2,7 +2,7 @@ from typing import Any, Sequence
 
 import pytest
 
-from llm_agents_from_scratch.base.llm import BaseLLM
+from llm_agents_from_scratch.base.llm import BaseLLM, StructuredOutputType
 from llm_agents_from_scratch.base.tool import BaseTool
 from llm_agents_from_scratch.data_structures import (
     ChatMessage,
@@ -18,6 +18,14 @@ class MockBaseLLM(BaseLLM):
             response=result,
             full_response=f"{prompt} {result}",
         )
+
+    async def structured_output(
+        self,
+        prompt: str,
+        mdl: type[StructuredOutputType],
+        **kwargs: Any,
+    ) -> StructuredOutputType:
+        return mdl()
 
     async def chat(
         self,

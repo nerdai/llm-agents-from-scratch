@@ -5,6 +5,7 @@ import pytest
 from ollama import ChatResponse, GenerateResponse
 from ollama import Message as OllamaMessage
 from ollama import Tool as OllamaTool
+from pydantic import BaseModel
 
 from llm_agents_from_scratch.base.llm import BaseLLM
 from llm_agents_from_scratch.base.tool import BaseTool
@@ -64,6 +65,45 @@ async def test_complete(mock_async_client_class: MagicMock) -> None:
     # assert
     assert result.response == "fake response"
     assert result.prompt == "fake prompt"
+
+
+@pytest.mark.asyncio
+@patch("llm_agents_from_scratch.llms.ollama.llm.AsyncClient")
+async def test_structured_output(mock_async_client_class: MagicMock) -> None:
+    """Test structured_output method."""
+
+    # Structured output type
+    class Pet(BaseModel):
+        animal: str
+        name: str
+
+    # arrange mocks
+    mock_instance = MagicMock()
+    mock_chat = AsyncMock()
+    mock_chat.return_value = ChatResponse(
+        model="llama3.2",
+        message=OllamaMessage(
+            role="assistant",
+            content=Pet(animal="dog", name="spot").model_dump_json(),
+        ),
+    )
+    mock_instance.chat = mock_chat
+    mock_async_client_class.return_value = mock_instance
+
+    llm = OllamaLLM(model="llama3.2")
+
+    # act
+    new_pet = await llm.structured_output("Generate a pet.", mdl=Pet)
+
+    assert isinstance(new_pet, Pet)
+    assert new_pet.animal == "dog"
+    assert new_pet.name == "spot"
+    mock_chat.assert_awaited_once_with(
+        model="llama3.2",
+        messages=[OllamaMessage(role="user", content="Generate a pet.")],
+        format=Pet.model_json_schema(),
+    )
+    mock_async_client_class.assert_called_once()
 
 
 @pytest.mark.asyncio

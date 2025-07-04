@@ -1,4 +1,5 @@
 import asyncio
+import contextlib
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -46,7 +47,7 @@ async def test_run(
         @override
         async def get_next_step(self) -> TaskStep | None:
             await asyncio.sleep(0.1)
-            return TaskStep(instruction="mock step")
+            return TaskStep(instruction="mock step", last_step=True)
 
         @override
         async def run_step(self, step: TaskStep) -> TaskStepResult:
@@ -54,7 +55,6 @@ async def test_run(
             return TaskStepResult(
                 task_step=step,
                 content="mock result",
-                last_step=True,
             )
 
     # arrange
@@ -68,8 +68,9 @@ async def test_run(
     await handler
 
     # cleanup
-    for t in handler._asyncio_tasks:
-        t.cancel()
+    handler.background_task.cancel()
+    with contextlib.suppress(asyncio.CancelledError):
+        await handler.background_task
 
     assert handler == mock_handler
     mock_task_handler_class.assert_called_once_with(
@@ -91,7 +92,7 @@ async def test_run_exception(
 
     class MockTaskHandler(TaskHandler):
         @override
-        async def get_next_step(self) -> TaskStep | None:
+        async def get_next_step(self) -> TaskStep:
             raise err
 
     # arrange

@@ -48,16 +48,19 @@ class LLMAgent:
                 try:
                     step = await task_handler.get_next_step()
                     step_result = await task_handler.run_step(step)
-                    if step_result.last_step:
+                    if step.last_step:
+                        async with task_handler._lock:
+                            rollout = task_handler.rollout
+
                         task_result = TaskResult(
                             task=task,
                             content=step_result.content,
-                            rollout="",
+                            rollout=rollout,
                         )
                         task_handler.set_result(task_result)
                 except Exception as e:
                     task_handler.set_exception(e)
 
-        task_handler.add_asyncio_task(asyncio.create_task(_run()))
+        task_handler.background_task = asyncio.create_task(_run())
 
         return task_handler

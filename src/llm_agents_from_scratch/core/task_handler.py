@@ -10,6 +10,9 @@ from llm_agents_from_scratch.data_structures import (
     TaskStep,
     TaskStepResult,
 )
+from llm_agents_from_scratch.errors import TaskHandlerError
+
+DEFAULT_GET_NEXT_INSTRUCTION_PROMPT = "{current_rollout}"
 
 
 class TaskHandler(asyncio.Future):
@@ -19,6 +22,7 @@ class TaskHandler(asyncio.Future):
         task: The task to execute.
         llm: The backbone LLM.
         tools: The tools the LLM agent can use.
+        rollout: The execution log of the task.
     """
 
     def __init__(
@@ -42,24 +46,50 @@ class TaskHandler(asyncio.Future):
         self.task = task
         self.llm = llm
         self.tools = tools
-        self._asyncio_tasks: list[asyncio.Task] = []
+        self.rollout = ""
+        self._background_task: asyncio.Task | None = None
+        self._lock: asyncio.Lock = asyncio.Lock()
 
-    def add_asyncio_task(self, asyncio_task: asyncio.Task) -> None:
-        """Register a asyncio.Task.
+    @property
+    def background_task(self) -> asyncio.Task:
+        """Get the background ~asyncio.Task for the handler."""
+        if not self._background_task:
+            raise TaskHandlerError(
+                "No background task is running for this handler.",
+            )
+        return self._background_task
 
-        Args:
-            asyncio_task (asyncio.Task): The task to register.
-        """
-        self._asyncio_tasks.append(asyncio_task)
+    @background_task.setter
+    def background_task(self, asyncio_task: asyncio.Task) -> None:
+        """Setter for background_task."""
+        if self._background_task is not None:
+            raise TaskHandlerError("A background task has already been set.")
+        self._background_task = asyncio_task
 
-    async def get_next_step(self) -> TaskStep | None:
+    async def get_next_step(self) -> TaskStep:
         """Based on task progress, determine next step.
 
         Returns:
-            TaskStep | None: The next step to run, if `None` then Task is done.
+            TaskStep: The next step to run, if `None` then Task is done.
         """
-        # TODO: implement
-        pass  # pragma: no cover
+        async with self._lock:
+            rollout = self.rollout
+
+        if rollout == "":
+            return TaskStep(instruction=self.task.instruction, last_step=False)
+
+        prompt = DEFAULT_GET_NEXT_INSTRUCTION_PROMPT.format(
+            current_rollout=rollout,
+        )
+        try:
+            task_step = await self.llm.structured_output(
+                prompt=prompt,
+                mdl=TaskStep,
+            )
+        except Exception as e:
+            raise TaskHandlerError(f"Failed to get next step: {str(e)}") from e
+
+        return task_step
 
     async def run_step(self, step: TaskStep) -> TaskStepResult:
         """Run next step of a given task.

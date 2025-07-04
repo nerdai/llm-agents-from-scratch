@@ -4,7 +4,7 @@ from typing import Any, Sequence
 
 from ollama import AsyncClient
 
-from llm_agents_from_scratch.base.llm import BaseLLM
+from llm_agents_from_scratch.base.llm import BaseLLM, StructuredOutputType
 from llm_agents_from_scratch.base.tool import AsyncBaseTool, BaseTool
 from llm_agents_from_scratch.data_structures import (
     ChatMessage,
@@ -57,6 +57,35 @@ class OllamaLLM(BaseLLM):
             response=response.response,
             prompt=prompt,
         )
+
+    async def structured_output(
+        self,
+        prompt: str,
+        mdl: type[StructuredOutputType],
+        **kwargs: Any,
+    ) -> StructuredOutputType:
+        """Structured output interface implementation for Ollama LLM.
+
+        Args:
+            prompt (str): The prompt to elicit the structured output response.
+            mdl (type[StructuredOutputType]): The ~pydantic.BaseModel to output.
+            **kwargs (Any): Additional keyword arguments.
+
+        Returns:
+            StructuredOutputType: The structured output as the specified `mdl`
+                type.
+        """
+        o_messages = [
+            chat_message_to_ollama_message(
+                ChatMessage(role="user", content=prompt),
+            ),
+        ]
+        result = await self._client.chat(
+            model=self.model,
+            messages=o_messages,
+            format=mdl.model_json_schema(),
+        )
+        return mdl.model_validate_json(result.message.content)
 
     async def chat(
         self,

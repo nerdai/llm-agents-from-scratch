@@ -13,7 +13,7 @@ from llm_agents_from_scratch.data_structures import (
 
 from .tool import AsyncBaseTool, BaseTool
 
-T = TypeVar("T", bound=BaseModel)
+StructuredOutputType = TypeVar("StructuredOutputType", bound=BaseModel)
 
 
 class BaseLLM(ABC):
@@ -32,16 +32,22 @@ class BaseLLM(ABC):
         """
 
     @abstractmethod
-    async def structured_output(self, prompt: str, mdl: T, **kwargs: Any) -> T:
+    async def structured_output(
+        self,
+        prompt: str,
+        mdl: type[StructuredOutputType],
+        **kwargs: Any,
+    ) -> StructuredOutputType:
         """Structured output interface for returning ~pydantic.BaseModels.
 
         Args:
             prompt (str): The prompt to elicit the structured output response.
-            mdl (T): The ~pydantic.BaseModel to output.
+            mdl (type[StructuredOutputType]): The ~pydantic.BaseModel to output.
             **kwargs (Any): Additional keyword arguments.
 
         Returns:
-            T: The structured output as the specified `mdl` type.
+            StructuredOutputType: The structured output as the specified `mdl`
+                type.
         """
 
     @abstractmethod

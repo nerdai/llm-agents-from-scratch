@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- First implementation of `TaskHandler.run_step()` (#35)
 - Implement `TaskHandler.get_next_step()` (#33)
 - Add `BaseLLM.structured_output()` and impl for `OllamaLLM` (#34)
 - Add `AsyncPydanticFunctionTool` (#30)

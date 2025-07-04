@@ -5,7 +5,13 @@ import pytest
 
 from llm_agents_from_scratch.base.llm import BaseLLM
 from llm_agents_from_scratch.core import TaskHandler
-from llm_agents_from_scratch.data_structures.agent import Task, TaskStep
+from llm_agents_from_scratch.data_structures import (
+    ChatMessage,
+    ChatRole,
+    Task,
+    TaskStep,
+    ToolCall,
+)
 from llm_agents_from_scratch.errors import TaskHandlerError
 
 
@@ -110,3 +116,55 @@ async def test_get_next_step_raises_error(mock_llm: BaseLLM) -> None:
 
     assert initial_step.instruction == "mock instruction"
     assert initial_step.last_step is False
+
+
+def test_private_rollout_contribution_from_single_run_step(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests helper method to get rollout contribution from run step."""
+    handler = TaskHandler(
+        task=Task(instruction="mock instruction"),
+        llm=mock_llm,
+        tools=[],
+    )
+    chat_history = [
+        ChatMessage(
+            role=ChatRole.SYSTEM,
+            content="a system message",
+        ),
+        ChatMessage(
+            role=ChatRole.USER,
+            content="a user message",
+        ),
+        ChatMessage(
+            role=ChatRole.ASSISTANT,
+            content="an assistant message",
+            tool_calls=[
+                ToolCall(
+                    tool_name="a tool",
+                    arguments={"tool_arg": 1},
+                ),
+            ],
+        ),
+        ChatMessage(
+            role=ChatRole.TOOL,
+            content="tool name: `a tool`\ntool result: 1+2=3.",
+        ),
+        ChatMessage(
+            role=ChatRole.ASSISTANT,
+            content="done!",
+        ),
+    ]
+
+    # act
+    rollout_contribution = handler._rollout_contribution_from_single_run_step(
+        chat_history=chat_history,
+    )
+
+    expected_rollout_contribution = """user: a user message
+assistant: an assistant message
+tool: tool name: `a tool`
+tool result: 1+2=3.
+assistant: done!"""
+
+    assert rollout_contribution == expected_rollout_contribution

@@ -246,4 +246,4 @@ async def test_run_step() -> None:
     )
     mock_llm.continue_conversation_with_tool_results.assert_awaited_once()
     assert step_result.task_step == step
-    assert step_result.content == "Final response."
+    assert step_result.content == "The final response."

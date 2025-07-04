@@ -1,6 +1,6 @@
 """Data Structures for LLM Agent."""
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class Task(BaseModel):
@@ -20,7 +20,15 @@ class TaskStep(BaseModel):
         instruction: The instruction for the task.
     """
 
-    instruction: str
+    instruction: str = Field(
+        description="The instruction for this step in the task.",
+    )
+    last_step: bool = Field(
+        description=(
+            "Whether or not this task step should be the final one "
+            "because there is enough context to complete the overall task."
+        ),
+    )
 
 
 class TaskStepResult(BaseModel):
@@ -35,7 +43,6 @@ class TaskStepResult(BaseModel):
 
     task_step: TaskStep
     content: str | None
-    last_step: bool = False
 
 
 class TaskResult(BaseModel):

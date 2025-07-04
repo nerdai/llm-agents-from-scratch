@@ -148,7 +148,7 @@ def test_private_rollout_contribution_from_single_run_step(
         ),
         ChatMessage(
             role=ChatRole.TOOL,
-            content="tool name: `a tool`\ntool result: 1+2=3.",
+            content="\n\ttool name: `a tool`\n\ttool result: 1+2=3.",
         ),
         ChatMessage(
             role=ChatRole.ASSISTANT,
@@ -161,10 +161,10 @@ def test_private_rollout_contribution_from_single_run_step(
         chat_history=chat_history,
     )
 
-    expected_rollout_contribution = """user: a user message
-assistant: an assistant message
-tool: tool name: `a tool`
-tool result: 1+2=3.
-assistant: done!"""
-
+    expected_rollout_contribution = (
+        "user: a user message\n"
+        "assistant: an assistant message\n"
+        "tool: \n\ttool name: `a tool`\n\ttool result: 1+2=3.\n"
+        "assistant: done!"
+    )
     assert rollout_contribution == expected_rollout_contribution

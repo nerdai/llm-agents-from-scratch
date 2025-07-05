@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+## [0.0.2] - 2025-07-05
+
 ### Changed
 
 - Update `TaskHandler.run_step()` to work with updated `continue_conversation_with_tool_results` (#39)

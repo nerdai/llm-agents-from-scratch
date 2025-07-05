@@ -8,8 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+### Changed
+
+- Updated return type of `continue_conversation_with_tool_results` to `list[ChatMessage]` (#38)
+
+### Deleted
+
+- Delete `llms.ollama.utils.tool_call_result_to_ollama_message` (#38)
+
 ### Added
 
+- Add `llms.ollama.utils.tool_call_result_to_chat_message` (#38)
 - First implementation of `TaskHandler.run_step()` (#35)
 - Implement `TaskHandler.get_next_step()` (#33)
 - Add `BaseLLM.structured_output()` and impl for `OllamaLLM` (#34)

@@ -1,4 +1,5 @@
 import asyncio
+import contextlib
 from unittest.mock import AsyncMock
 
 import pytest
@@ -62,7 +63,15 @@ async def test_task_handler_raises_error_when_setting_already_set_bg_task(
 
     handler.background_task = asyncio.create_task(fn())
     with pytest.raises(TaskHandlerError):
-        handler.background_task = asyncio.create_task(fn())
+        new_task = asyncio.create_task(fn())
+        handler.background_task = new_task
+
+    # cleanup
+    handler.background_task.cancel()
+    new_task.cancel()
+    with contextlib.suppress(asyncio.CancelledError):
+        await handler.background_task
+        await new_task
 
 
 @pytest.mark.asyncio
@@ -211,10 +220,25 @@ async def test_run_step() -> None:
         tool_calls=tool_calls,
     )
     # continue conversation with tool calls
-    mock_return_value = ChatMessage(
-        role=ChatRole.ASSISTANT,
-        content="The final response.",
-    )
+    mock_return_value = [
+        # tool calls
+        ChatMessage(
+            role=ChatRole.TOOL,
+            content="2",
+        ),
+        ChatMessage(
+            role=ChatRole.TOOL,
+            content="3",
+        ),
+        ChatMessage(
+            role=ChatRole.TOOL,
+            content="error: tool name `plus_three` doesn't exist",
+        ),
+        ChatMessage(
+            role=ChatRole.ASSISTANT,
+            content="The final response.",
+        ),
+    ]
     mock_llm.continue_conversation_with_tool_results.return_value = (
         mock_return_value
     )
@@ -252,3 +276,46 @@ async def test_run_step() -> None:
     mock_llm.continue_conversation_with_tool_results.assert_awaited_once()
     assert step_result.task_step == step
     assert step_result.content == "The final response."
+
+
+@pytest.mark.asyncio
+async def test_run_step_without_tool_calls() -> None:
+    """Tests run step."""
+
+    # arrange mocks
+    mock_llm = AsyncMock()
+    mock_llm.chat.return_value = ChatMessage(
+        role=ChatRole.ASSISTANT,
+        content="Initial response.",
+    )
+
+    handler = TaskHandler(
+        task=Task(instruction="mock instruction"),
+        llm=mock_llm,
+        tools=[],
+    )
+
+    # act
+    step = TaskStep(
+        instruction="Some instruction.",
+        last_step=False,
+    )
+    step_result = await handler.run_step(step)
+
+    # assert
+    mock_llm.chat.assert_awaited_once_with(
+        input="Some instruction.",
+        chat_messages=[
+            ChatMessage(
+                role=ChatRole.SYSTEM,
+                content=DEFAULT_SYSTEM_MESSAGE.format(
+                    original_instruction="mock instruction",
+                    current_rollout="",
+                ),
+            ),
+        ],
+        tools=list(handler.tools_registry.keys()),
+    )
+    mock_llm.continue_conversation_with_tool_results.assert_not_awaited()
+    assert step_result.task_step == step
+    assert step_result.content == "Initial response."

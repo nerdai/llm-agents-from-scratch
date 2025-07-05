@@ -10,7 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-- Updated return type of `continue_conversation_with_tool_results` to `list[ChatMessage]` (#38)
+- Update `TaskHandler.run_step()` to work with updated `continue_conversation_with_tool_results` (#39)
+- Update return type of `continue_conversation_with_tool_results` to `list[ChatMessage]` (#38)
 
 ### Deleted
 

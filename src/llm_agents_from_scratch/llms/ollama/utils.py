@@ -119,16 +119,16 @@ def chat_message_to_ollama_message(chat_message: ChatMessage) -> OllamaMessage:
     )
 
 
-def tool_call_result_to_ollama_message(
+def tool_call_result_to_chat_message(
     tool_call_result: ToolCallResult,
-) -> OllamaMessage:
+) -> ChatMessage:
     """Convert a tool call result to an ~ollama.Message.
 
     Args:
         tool_call_result (ToolCallResult): The tool call result.
 
     Returns:
-        OllamaMessage: The converted message.
+        ChatMessage: The converted message.
     """
     formatted_content = DEFAULT_TOOL_RESPONSE_TEMPLATE.format(
         tool_name=tool_call_result.tool_call.tool_name,
@@ -136,8 +136,8 @@ def tool_call_result_to_ollama_message(
         tool_call_result=tool_call_result.content,
     )
 
-    return OllamaMessage(
-        role="tool",
+    return ChatMessage(
+        role=ChatRole.TOOL,
         content=formatted_content,
     )
 

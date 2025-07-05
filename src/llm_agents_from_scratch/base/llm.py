@@ -77,7 +77,7 @@ class BaseLLM(ABC):
         tool_call_results: Sequence[ToolCallResult],
         chat_messages: Sequence[ChatMessage],
         **kwargs: Any,
-    ) -> ChatMessage:
+    ) -> list[ChatMessage]:
         """Continue a conversation submitting tool call results.
 
         Args:
@@ -88,5 +88,8 @@ class BaseLLM(ABC):
             **kwargs (Any): Additional keyword arguments.
 
         Returns:
-            ChatMessage: The response of the LLM structured as a `ChatMessage`.
+            list[ChatMessage]: The chat messages that continue the provided
+                conversation history. This should include the tool call
+                results as chat messages as well as the LLM's response to the
+                tool call results.
         """

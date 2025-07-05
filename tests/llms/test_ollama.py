@@ -21,7 +21,7 @@ from llm_agents_from_scratch.llms.ollama.utils import (
     chat_message_to_ollama_message,
     get_tool_json_schema,
     ollama_message_to_chat_message,
-    tool_call_result_to_ollama_message,
+    tool_call_result_to_chat_message,
     tool_to_ollama_tool,
 )
 
@@ -179,16 +179,21 @@ async def test_continue_conversation_with_tool_results(
             error=False,
         ),
     ]
-    result = await llm.continue_conversation_with_tool_results(
+    new_messages = await llm.continue_conversation_with_tool_results(
         tool_call_results=tool_call_results,
         chat_messages=[],
     )
 
-    assert result.role == "assistant"
-    assert result.content == "Thank you for the tool call results."
+    assert len(new_messages) == len(tool_call_results) + 1
+    assert new_messages[-1].role == "assistant"
+    assert new_messages[-1].content == "Thank you for the tool call results."
     mock_chat.assert_awaited_once_with(
         model="llama3.2",
-        messages=[tool_call_result_to_ollama_message(tool_call_results[0])],
+        messages=[
+            chat_message_to_ollama_message(
+                tool_call_result_to_chat_message(tool_call_results[0]),
+            ),
+        ],
     )
     mock_async_client_class.assert_called_once()
 
@@ -313,8 +318,8 @@ def test_ollama_message_to_chat_message_raises_error() -> None:
         )
 
 
-def test_tool_call_result_to_ollama_message() -> None:
-    """Test conversion of tool call result to an ~ollama.Message."""
+def test_tool_call_result_to_chat_message() -> None:
+    """Test conversion of tool call result to an ChatMessage."""
     tool_call_result = ToolCallResult(
         tool_call=ToolCall(
             tool_name="a fake tool",
@@ -324,7 +329,7 @@ def test_tool_call_result_to_ollama_message() -> None:
         error=False,
     )
 
-    converted = tool_call_result_to_ollama_message(tool_call_result)
+    converted = tool_call_result_to_chat_message(tool_call_result)
 
     assert converted.role == "tool"
     assert converted.content == DEFAULT_TOOL_RESPONSE_TEMPLATE.format(

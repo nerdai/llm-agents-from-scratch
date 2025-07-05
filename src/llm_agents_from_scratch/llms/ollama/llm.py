@@ -15,7 +15,7 @@ from llm_agents_from_scratch.data_structures import (
 from .utils import (
     chat_message_to_ollama_message,
     ollama_message_to_chat_message,
-    tool_call_result_to_ollama_message,
+    tool_call_result_to_chat_message,
     tool_to_ollama_tool,
 )
 
@@ -92,6 +92,7 @@ class OllamaLLM(BaseLLM):
         input: str,
         chat_messages: list[ChatMessage] | None = None,
         tools: list[BaseTool | AsyncBaseTool] | None = None,
+        return_history: bool = False,
         **kwargs: Any,
     ) -> ChatMessage:
         """Chat with an Ollama LLM.
@@ -102,6 +103,8 @@ class OllamaLLM(BaseLLM):
                 history.
             tools (list[BaseTool] | None, optional): The tools available to the
                 LLM.
+            return_history (bool): Whether to return the update chat history.
+                Defaults to False.
             **kwargs (Any): Additional keyword arguments.
 
         Returns:
@@ -135,7 +138,7 @@ class OllamaLLM(BaseLLM):
         tool_call_results: Sequence[ToolCallResult],
         chat_messages: Sequence[ChatMessage],
         **kwargs: Any,
-    ) -> ChatMessage:
+    ) -> list[ChatMessage]:
         """Implements continue_conversation_with_tool_results method.
 
         Args:
@@ -144,12 +147,25 @@ class OllamaLLM(BaseLLM):
             **kwargs (Any): Additional keyword arguments.
 
         Returns:
-            ChatMessage: The chat message from the LLM.
+            list[ChatMessage]: The chat messages that continue the provided
+                conversation history. This should include the tool call
+                results as chat messages as well as the LLM's response to the
+                tool call results.
         """
+        # augment chat messages and convert to Ollama messages
+        tool_messages = [
+            tool_call_result_to_chat_message(tc) for tc in tool_call_results
+        ]
         o_messages = [
-            tool_call_result_to_ollama_message(tc) for tc in tool_call_results
-        ] + [chat_message_to_ollama_message(cm) for cm in chat_messages]
+            chat_message_to_ollama_message(cm) for cm in chat_messages
+        ] + [chat_message_to_ollama_message(tm) for tm in tool_messages]
 
-        result = await self._client.chat(model=self.model, messages=o_messages)
+        # send chat request
+        o_result = await self._client.chat(
+            model=self.model,
+            messages=o_messages,
+        )
 
-        return ollama_message_to_chat_message(result.message)
+        return tool_messages + [
+            ollama_message_to_chat_message(o_result.message),
+        ]

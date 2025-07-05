@@ -211,10 +211,25 @@ async def test_run_step() -> None:
         tool_calls=tool_calls,
     )
     # continue conversation with tool calls
-    mock_return_value = ChatMessage(
-        role=ChatRole.ASSISTANT,
-        content="The final response.",
-    )
+    mock_return_value = [
+        # tool calls
+        ChatMessage(
+            role=ChatRole.TOOL,
+            content="2",
+        ),
+        ChatMessage(
+            role=ChatRole.TOOL,
+            content="3",
+        ),
+        ChatMessage(
+            role=ChatRole.TOOL,
+            content="error: tool name `plus_three` doesn't exist",
+        ),
+        ChatMessage(
+            role=ChatRole.ASSISTANT,
+            content="The final response.",
+        ),
+    ]
     mock_llm.continue_conversation_with_tool_results.return_value = (
         mock_return_value
     )

@@ -181,20 +181,26 @@ class TaskHandler(asyncio.Future):
                 tool_call_results.append(tool_call_result)
 
             # send tool call results back to llm to get result
-            final_response = (
+            new_messages = (
                 await self.llm.continue_conversation_with_tool_results(
                     tool_call_results=tool_call_results,
                     chat_messages=chat_history,
                 )
             )
 
+            # get final content and update chat history
+            final_content = new_messages[-1].content
+            chat_history += new_messages
+        else:
+            final_content = response.content
+
         # augment rollout from this turn
         async with self._lock:
             self.rollout += self._rollout_contribution_from_single_run_step(
-                chat_history=chat_history + [final_response],
+                chat_history=chat_history,
             )
 
         return TaskStepResult(
             task_step=step,
-            content=final_response.content,
+            content=final_content,
         )

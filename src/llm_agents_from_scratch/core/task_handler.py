@@ -151,7 +151,7 @@ class TaskHandler(asyncio.Future):
         response = await self.llm.chat(
             input=user_message.content,
             chat_messages=[system_message],
-            tools=list(self.tools_registry.keys()),
+            tools=list(self.tools_registry.values()),
         )
 
         chat_history = [

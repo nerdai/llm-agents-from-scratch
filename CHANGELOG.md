@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+### Changed
+
+- Fixed bug in `TaskHandler.run_step()` where tool names were passed to `llm.chat()` (#46)
+
 ### Added
 
 - Remove `OllamaLLM` from root import -- too slow! (#45)

@@ -73,6 +73,7 @@ ignore = [
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["D104"]
 "tests/**/*.py" = ["D"]
+"docs/notebooks/**/*.ipynb" = ["E501"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google" # Ensures Google style

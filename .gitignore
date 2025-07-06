@@ -15,6 +15,7 @@ __pycache__
 .pytest_cache
 .ruff_cache
 .env
+import_profile.txt
 
 
 # Virtual environments

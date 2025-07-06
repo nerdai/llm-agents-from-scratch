@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Remove `OllamaLLM` from root import -- too slow! (#45)
 - `OllamaLLM` and `.tools` to root import (#44)
 
 ## [0.0.2] - 2025-07-05

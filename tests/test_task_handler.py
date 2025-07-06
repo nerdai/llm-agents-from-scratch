@@ -271,7 +271,7 @@ async def test_run_step() -> None:
                 ),
             ),
         ],
-        tools=list(handler.tools_registry.keys()),
+        tools=list(handler.tools_registry.values()),
     )
     mock_llm.continue_conversation_with_tool_results.assert_awaited_once()
     assert step_result.task_step == step

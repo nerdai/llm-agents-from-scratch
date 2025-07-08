@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Added library logger `llm_agents_from_scratch.logger` (#50)
 - Remove `OllamaLLM` from root import -- too slow! (#45)
 - `OllamaLLM` and `.tools` to root import (#44)
 

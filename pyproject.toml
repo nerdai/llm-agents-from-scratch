@@ -38,6 +38,11 @@ dependencies = [
   "pydantic>=2.11.7"
 ]
 
+[tool.coverage.run]
+omit = [
+  "src/llm_agents_from_scratch/logger.py"
+]
+
 [tool.ruff]
 line-length = 80
 

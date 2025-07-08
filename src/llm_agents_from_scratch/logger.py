@@ -2,9 +2,9 @@
 
 import logging
 import sys
-from typing import override
 
 from colorama import Fore, Style, init
+from typing_extensions import override
 
 # Initialize colorama for cross-platform colored output
 init(autoreset=True)

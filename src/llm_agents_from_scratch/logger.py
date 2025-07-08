@@ -70,6 +70,24 @@ def configure_logging() -> logging.Logger:
     return library_logger
 
 
+def set_log_level(level: str | int) -> None:
+    """Set the logging level for the library.
+
+    Args:
+        level: Logging level (e.g., "INFO", "DEBUG", logging.INFO)
+    """
+    if isinstance(level, str):
+        level = getattr(logging, level.upper())
+
+    # Update the root library logger
+    library_logger = logging.getLogger(ROOT_LOGGER_NAME)
+    library_logger.setLevel(level)
+
+    # Update all handlers
+    for handler in library_logger.handlers:
+        handler.setLevel(level)
+
+
 def get_logger(name: str | None = None) -> logging.Logger:
     """Get logger, configuring on first use."""
     global _logger_configured  # noqa: PLW0603

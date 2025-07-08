@@ -1,3 +1,4 @@
+import logging
 from typing import Any, Sequence
 
 import pytest
@@ -9,6 +10,14 @@ from llm_agents_from_scratch.data_structures import (
     CompleteResult,
     ToolCallResult,
 )
+
+
+@pytest.fixture(autouse=True)
+def suppress_logging():
+    """Suppress logging during tests."""
+    logging.disable(logging.CRITICAL)
+    yield
+    logging.disable(logging.NOTSET)  # Re-enable logging
 
 
 class MockBaseLLM(BaseLLM):

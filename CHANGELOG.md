@@ -10,10 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- Fixed bug in `OllamaLLM.chat()` where chat history was coming after user message (#51)
 - Fixed bug in `TaskHandler.run_step()` where tool names were passed to `llm.chat()` (#46)
 
 ### Added
 
+- Add `logger.set_log_level()` and logger attribute to `TaskHandler` (#51)
 - Added library logger `llm_agents_from_scratch.logger` (#50)
 - Remove `OllamaLLM` from root import -- too slow! (#45)
 - `OllamaLLM` and `.tools` to root import (#44)

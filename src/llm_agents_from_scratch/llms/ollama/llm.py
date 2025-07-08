@@ -111,15 +111,16 @@ class OllamaLLM(BaseLLM):
             ChatMessage: The chat message from the LLM.
         """
         # prepare chat history
-        o_messages = [
+        o_messages = (
+            [chat_message_to_ollama_message(cm) for cm in chat_messages]
+            if chat_messages
+            else []
+        )
+
+        o_messages.append(
             chat_message_to_ollama_message(
                 ChatMessage(role="user", content=input),
             ),
-        ]
-        o_messages.extend(
-            [chat_message_to_ollama_message(cm) for cm in chat_messages]
-            if chat_messages
-            else [],
         )
 
         # prepare tools

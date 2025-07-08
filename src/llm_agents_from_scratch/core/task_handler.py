@@ -14,11 +14,36 @@ from llm_agents_from_scratch.data_structures import (
     ToolCallResult,
 )
 from llm_agents_from_scratch.errors import TaskHandlerError
+from llm_agents_from_scratch.logger import get_logger
 
 DEFAULT_GET_NEXT_INSTRUCTION_PROMPT = "{current_rollout}"
-DEFAULT_SYSTEM_MESSAGE = "{original_instruction} {current_rollout}"
 DEFAULT_USER_MESSAGE = "{instruction}"
 DEFAULT_ROLLOUT_BLOCK_FROM_CHAT_MESSAGE = "{role}: {content}"
+DEFAULT_SYSTEM_MESSAGE_WITHOUT_ROLLOUT = """You are a helpful assistant.
+Here is the original user task instruction:
+
+<instruction>
+{original_instruction}
+</instruction>
+"""
+
+DEFAULT_SYSTEM_MESSAGE = """You are a helpful assistant. Here is the original
+user task instruction:
+
+<instruction>
+{original_instruction}
+</instruction>
+
+Also, here is some past dialogue and context, where another assitant was
+working towards completing the task.
+
+<history>
+{current_rollout}
+</history>
+"""
+
+
+"{original_instruction} {current_rollout}"
 
 
 class TaskHandler(asyncio.Future):
@@ -29,6 +54,7 @@ class TaskHandler(asyncio.Future):
         llm: The backbone LLM.
         tools_registry: The tools the LLM agent can use represented as a dict.
         rollout: The execution log of the task.
+        logger: TaskHandler logger.
     """
 
     def __init__(
@@ -45,6 +71,7 @@ class TaskHandler(asyncio.Future):
             task (Task): The task to process.
             llm (BaseLLM): The backbone LLM.
             tools (list[BaseTool]): The tools the LLM can use.
+            logger
             *args: Additional positional arguments.
             **kwargs: Additional keyword arguments.
         """
@@ -55,6 +82,7 @@ class TaskHandler(asyncio.Future):
         self.rollout = ""
         self._background_task: asyncio.Task | None = None
         self._lock: asyncio.Lock = asyncio.Lock()
+        self.logger = get_logger(self.__class__.__name__)
 
     @property
     def background_task(self) -> asyncio.Task:
@@ -110,6 +138,7 @@ class TaskHandler(asyncio.Future):
                 prompt=prompt,
                 mdl=TaskStep,
             )
+            self.logger.info(f"🧠 New Step: {task_step.instruction}")
         except Exception as e:
             raise TaskHandlerError(f"Failed to get next step: {str(e)}") from e
 
@@ -129,8 +158,10 @@ class TaskHandler(asyncio.Future):
         Returns:
             TaskStepResult: The result of the step execution.
         """
+        self.logger.info(f"⚙️ Processing Step: {step.instruction}")
         async with self._lock:
             rollout = self.rollout
+            self.logger.debug(f"🧵 Rollout: {rollout}")
 
         # include rollout as context in the system message
         system_message = ChatMessage(
@@ -138,6 +169,10 @@ class TaskHandler(asyncio.Future):
             content=DEFAULT_SYSTEM_MESSAGE.format(
                 original_instruction=self.task.instruction,
                 current_rollout=rollout,
+            )
+            if rollout
+            else DEFAULT_SYSTEM_MESSAGE_WITHOUT_ROLLOUT.format(
+                original_instruction=self.task.instruction,
             ),
         )
         user_message = ChatMessage(
@@ -164,11 +199,17 @@ class TaskHandler(asyncio.Future):
         if response.tool_calls:
             tool_call_results = []
             for tool_call in response.tool_calls:
+                self.logger.info(
+                    f"🛠️ Executing Tool Call: {tool_call.tool_name}",
+                )
                 if tool := self.tools_registry.get(tool_call.tool_name):
                     if isinstance(tool, AsyncBaseTool):
                         tool_call_result = await tool(tool_call=tool_call)
                     else:
                         tool_call_result = tool(tool_call=tool_call)
+                    self.logger.info(
+                        f"✅ Successful Tool Call: {tool_call_result.content}",
+                    )
                 else:
                     error_msg = (
                         f"Tool with name {tool_call.tool_name} doesn't exist.",
@@ -177,6 +218,9 @@ class TaskHandler(asyncio.Future):
                         tool_call=tool_call,
                         error=True,
                         content=error_msg,
+                    )
+                    self.logger.info(
+                        f"❌ Tool Call Failure: {tool_call_result.content}",
                     )
                 tool_call_results.append(tool_call_result)
 
@@ -200,6 +244,9 @@ class TaskHandler(asyncio.Future):
                 chat_history=chat_history,
             )
 
+        self.logger.info(
+            f"✅ Step Result: {final_content}",
+        )
         return TaskStepResult(
             task_step=step,
             content=final_content,

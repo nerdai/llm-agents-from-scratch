@@ -6,7 +6,9 @@ import pytest
 
 from llm_agents_from_scratch.base.llm import BaseLLM
 from llm_agents_from_scratch.core import TaskHandler
-from llm_agents_from_scratch.core.task_handler import DEFAULT_SYSTEM_MESSAGE
+from llm_agents_from_scratch.core.task_handler import (
+    DEFAULT_SYSTEM_MESSAGE_WITHOUT_ROLLOUT,
+)
 from llm_agents_from_scratch.data_structures import (
     ChatMessage,
     ChatRole,
@@ -265,7 +267,7 @@ async def test_run_step() -> None:
         chat_messages=[
             ChatMessage(
                 role=ChatRole.SYSTEM,
-                content=DEFAULT_SYSTEM_MESSAGE.format(
+                content=DEFAULT_SYSTEM_MESSAGE_WITHOUT_ROLLOUT.format(
                     original_instruction="mock instruction",
                     current_rollout="",
                 ),
@@ -308,7 +310,7 @@ async def test_run_step_without_tool_calls() -> None:
         chat_messages=[
             ChatMessage(
                 role=ChatRole.SYSTEM,
-                content=DEFAULT_SYSTEM_MESSAGE.format(
+                content=DEFAULT_SYSTEM_MESSAGE_WITHOUT_ROLLOUT.format(
                     original_instruction="mock instruction",
                     current_rollout="",
                 ),

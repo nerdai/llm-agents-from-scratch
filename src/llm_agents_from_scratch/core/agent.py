@@ -13,7 +13,13 @@ from .task_handler import TaskHandler
 
 
 class LLMAgent:
-    """A simple LLM Agent Class."""
+    """A simple LLM Agent Class.
+
+    Attributes:
+        llm: The backbone LLM
+        tools: The set of tools available to the LLM agent.
+        logger: LLMAgent logger.
+    """
 
     def __init__(self, llm: BaseLLM, tools: list[BaseTool] | None = None):
         """Initialize an LLMAgent.
@@ -22,7 +28,6 @@ class LLMAgent:
             llm (BaseLLM): The backbone LLM of the LLM agent.
             tools (list[BaseTool], optional): The set of tools for the LLM
                 agent. Defaults to None.
-            logger (logging.Logger): the object's logger.
 
         """
         self.llm = llm
@@ -62,6 +67,10 @@ class LLMAgent:
                             rollout=rollout,
                         )
                         task_handler.set_result(task_result)
+                        self.logger.info(
+                            f"🏁 Task completed: {task_result.content}",
+                        )
+
                 except Exception as e:
                     task_handler.set_exception(e)
 

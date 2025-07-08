@@ -7,6 +7,7 @@ from typing_extensions import Self
 from llm_agents_from_scratch.base.llm import BaseLLM
 from llm_agents_from_scratch.base.tool import BaseTool
 from llm_agents_from_scratch.data_structures import Task, TaskResult
+from llm_agents_from_scratch.logger import get_logger
 
 from .task_handler import TaskHandler
 
@@ -21,10 +22,12 @@ class LLMAgent:
             llm (BaseLLM): The backbone LLM of the LLM agent.
             tools (list[BaseTool], optional): The set of tools for the LLM
                 agent. Defaults to None.
+            logger (logging.Logger): the object's logger.
 
         """
         self.llm = llm
         self.tools = tools or []
+        self.logger = get_logger(self.__class__.__name__)
 
     def add_tool(self, tool: BaseTool) -> Self:
         """Add a tool to the agents tool set.
@@ -44,6 +47,7 @@ class LLMAgent:
 
         async def _run() -> None:
             """Asynchronously process the task."""
+            self.logger.info(f"🚀 Starting task: {task.instruction}")
             while not task_handler.done():
                 try:
                     step = await task_handler.get_next_step()

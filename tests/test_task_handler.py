@@ -154,7 +154,7 @@ def test_private_rollout_contribution_from_single_run_step(
         ),
         ChatMessage(
             role=ChatRole.ASSISTANT,
-            content="an assistant message",
+            content="",
             tool_calls=[
                 ToolCall(
                     tool_name="a tool",
@@ -177,12 +177,14 @@ def test_private_rollout_contribution_from_single_run_step(
         chat_history=chat_history,
     )
 
+    print(rollout_contribution)
     expected_rollout_contribution = (
         "user: a user message\n"
-        "assistant: an assistant message\n"
+        "assistant: I need to make a tool call(s) to a tool\n"
         "tool: \n\ttool name: `a tool`\n\ttool result: 1+2=3.\n"
         "assistant: done!"
     )
+
     assert rollout_contribution == expected_rollout_contribution
 
 

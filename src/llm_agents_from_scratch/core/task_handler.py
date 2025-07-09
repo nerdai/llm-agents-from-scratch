@@ -16,34 +16,41 @@ from llm_agents_from_scratch.data_structures import (
 from llm_agents_from_scratch.errors import TaskHandlerError
 from llm_agents_from_scratch.logger import get_logger
 
-DEFAULT_GET_NEXT_INSTRUCTION_PROMPT = "{current_rollout}"
-DEFAULT_USER_MESSAGE = "{instruction}"
-DEFAULT_ROLLOUT_BLOCK_FROM_CHAT_MESSAGE = "{role}: {content}"
-DEFAULT_SYSTEM_MESSAGE_WITHOUT_ROLLOUT = """You are a helpful assistant.
-Here is the original user task instruction:
+DEFAULT_GET_NEXT_INSTRUCTION_PROMPT = """You are overseeing an assistant's
+progress in accomplishing a user instruction. Below the historical dialogue
+between a fictitious user and an assistant, which includes the original (real)
+user instruction or request, as well as the current progress made by the
+assistant so far.
 
-<instruction>
-{original_instruction}
-</instruction>
-"""
-
-DEFAULT_SYSTEM_MESSAGE = """You are a helpful assistant. Here is the original
-user task instruction:
-
-<instruction>
-{original_instruction}
-</instruction>
-
-Also, here is some past dialogue and context, where another assitant was
-working towards completing the task.
+<warning>
+If the assistant's past dialogue indicates that the it can conclude the task in
+the next step, return the instruction: 'There is sufficient context to complete
+the task within the provided history — another tool call may not even be
+necessary! Proceed with completion and mark this as the last step. NOTE: that
+the real user has not seen this dialogue, and so just provide the final task
+result without referencing it.'
+</warning>
 
 <history>
 {current_rollout}
 </history>
 """
 
+DEFAULT_USER_MESSAGE = "{instruction}"
 
-"{original_instruction} {current_rollout}"
+DEFAULT_ROLLOUT_BLOCK_FROM_CHAT_MESSAGE = "{role}: {content}"
+
+DEFAULT_SYSTEM_MESSAGE_WITHOUT_ROLLOUT = """You are a helpful assistant."""
+
+DEFAULT_SYSTEM_MESSAGE = """You are a helpful assistant.
+
+Here is some past dialogue and context, where another assistant was working
+towards completing the task.
+
+<history>
+{current_rollout}
+</history>
+"""
 
 
 class TaskHandler(asyncio.Future):
@@ -110,10 +117,19 @@ class TaskHandler(asyncio.Future):
             # don't include system messages in rollout
             if msg.role == "system":
                 continue
+
+            if msg.tool_calls and msg.role == "assistant":
+                content = (
+                    "I need to make a tool call(s) to "
+                    f"{', '.join([t.tool_name for t in msg.tool_calls])}"
+                )
+            else:
+                content = msg.content
+
             rollout_contributions.append(
                 DEFAULT_ROLLOUT_BLOCK_FROM_CHAT_MESSAGE.format(
                     role=msg.role.value,
-                    content=msg.content,
+                    content=content,
                 ),
             )
         return "\n".join(rollout_contributions)
@@ -126,22 +142,28 @@ class TaskHandler(asyncio.Future):
         """
         async with self._lock:
             rollout = self.rollout
+            self.logger.debug(f"🧵 Rollout: {rollout}")
 
         if rollout == "":
-            return TaskStep(instruction=self.task.instruction, last_step=False)
-
-        prompt = DEFAULT_GET_NEXT_INSTRUCTION_PROMPT.format(
-            current_rollout=rollout,
-        )
-        try:
-            task_step = await self.llm.structured_output(
-                prompt=prompt,
-                mdl=TaskStep,
+            task_step = TaskStep(
+                instruction=self.task.instruction,
+                last_step=False,
             )
-            self.logger.info(f"🧠 New Step: {task_step.instruction}")
-        except Exception as e:
-            raise TaskHandlerError(f"Failed to get next step: {str(e)}") from e
+        else:
+            prompt = DEFAULT_GET_NEXT_INSTRUCTION_PROMPT.format(
+                current_rollout=rollout,
+            )
+            try:
+                task_step = await self.llm.structured_output(
+                    prompt=prompt,
+                    mdl=TaskStep,
+                )
+            except Exception as e:
+                raise TaskHandlerError(
+                    f"Failed to get next step: {str(e)}",
+                ) from e
 
+        self.logger.info(f"🧠 New Step: {task_step.instruction}")
         return task_step
 
     async def run_step(self, step: TaskStep) -> TaskStepResult:
@@ -171,16 +193,16 @@ class TaskHandler(asyncio.Future):
                 current_rollout=rollout,
             )
             if rollout
-            else DEFAULT_SYSTEM_MESSAGE_WITHOUT_ROLLOUT.format(
-                original_instruction=self.task.instruction,
-            ),
+            else DEFAULT_SYSTEM_MESSAGE_WITHOUT_ROLLOUT,
         )
+        self.logger.debug(f"💬 SYSTEM: {system_message.content}")
         user_message = ChatMessage(
             role=ChatRole.USER,
             content=DEFAULT_USER_MESSAGE.format(
                 instruction=step.instruction,
             ),
         )
+        self.logger.debug(f"💬 USER: {user_message.content}")
 
         # start conversation
         response = await self.llm.chat(
@@ -188,6 +210,7 @@ class TaskHandler(asyncio.Future):
             chat_messages=[system_message],
             tools=list(self.tools_registry.values()),
         )
+        self.logger.debug(f"💬 ASSISTANT: {response.content}")
 
         chat_history = [
             system_message,

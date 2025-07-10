@@ -5,8 +5,8 @@ from unittest.mock import AsyncMock
 import pytest
 
 from llm_agents_from_scratch.agent import TaskHandler
-from llm_agents_from_scratch.agent.task_handler import (
-    DEFAULT_SYSTEM_MESSAGE_WITHOUT_ROLLOUT,
+from llm_agents_from_scratch.agent.templates import (
+    default_task_handler_templates,
 )
 from llm_agents_from_scratch.base.llm import BaseLLM
 from llm_agents_from_scratch.data_structures import (
@@ -367,7 +367,9 @@ async def test_run_step() -> None:
         chat_messages=[
             ChatMessage(
                 role=ChatRole.SYSTEM,
-                content=DEFAULT_SYSTEM_MESSAGE_WITHOUT_ROLLOUT.format(
+                content=default_task_handler_templates[
+                    "system_message_without_rollout"
+                ].format(
                     original_instruction="mock instruction",
                     current_rollout="",
                 ),
@@ -410,7 +412,9 @@ async def test_run_step_without_tool_calls() -> None:
         chat_messages=[
             ChatMessage(
                 role=ChatRole.SYSTEM,
-                content=DEFAULT_SYSTEM_MESSAGE_WITHOUT_ROLLOUT.format(
+                content=default_task_handler_templates[
+                    "system_message_without_rollout"
+                ].format(
                     original_instruction="mock instruction",
                     current_rollout="",
                 ),

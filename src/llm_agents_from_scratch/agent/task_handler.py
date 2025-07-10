@@ -18,43 +18,7 @@ from llm_agents_from_scratch.data_structures import (
 from llm_agents_from_scratch.errors import TaskHandlerError
 from llm_agents_from_scratch.logger import get_logger
 
-DEFAULT_GET_NEXT_INSTRUCTION_PROMPT = """You are overseeing an assistant's
-progress in accomplishing a user instruction. Provided below is the assistant's
-current response to the original task instruction. Also provided, is an
-internal 'thinking' process of the assistant that the user has not seen.
-
-Determine if the current the response is sufficient to answer the original task
-instruction. In the case that it is not, provide a new instruction to the
-assistant in order to help them improve upon their current response.
-
-<user-instruction>
-{instruction}
-</user-instruction>
-
-<current-response>
-{current_response}
-</current-response>
-
-<thinking-process>
-{current_rollout}
-</thinking-process>
-"""
-
-DEFAULT_USER_MESSAGE = "{instruction}"
-
-DEFAULT_ROLLOUT_BLOCK_FROM_CHAT_MESSAGE = "{role}: {content}"
-
-DEFAULT_SYSTEM_MESSAGE_WITHOUT_ROLLOUT = """You are a helpful assistant."""
-
-DEFAULT_SYSTEM_MESSAGE = """You are a helpful assistant.
-
-Here is some past dialogue and context, where another assistant was working
-towards completing the task.
-
-<history>
-{current_rollout}
-</history>
-"""
+from .templates import TaskHandlerTemplates, default_task_handler_templates
 
 
 class TaskHandler(asyncio.Future):
@@ -64,6 +28,7 @@ class TaskHandler(asyncio.Future):
         task: The task to execute.
         llm: The backbone LLM.
         tools_registry: The tools the LLM agent can use represented as a dict.
+        templates: Associated prompt templates.
         rollout: The execution log of the task.
         logger: TaskHandler logger.
     """
@@ -73,6 +38,7 @@ class TaskHandler(asyncio.Future):
         task: Task,
         llm: BaseLLM,
         tools: list[BaseTool | AsyncBaseTool],
+        templates: TaskHandlerTemplates = default_task_handler_templates,
         *args: Any,
         **kwargs: Any,
     ) -> None:
@@ -82,7 +48,7 @@ class TaskHandler(asyncio.Future):
             task (Task): The task to process.
             llm (BaseLLM): The backbone LLM.
             tools (list[BaseTool]): The tools the LLM can use.
-            logger
+            templates (TaskHandlerTemplates): Associated prompt templates.
             *args: Additional positional arguments.
             **kwargs: Additional keyword arguments.
         """
@@ -91,6 +57,7 @@ class TaskHandler(asyncio.Future):
         self.llm = llm
         self.tools_registry = {t.name: t for t in tools}
         self.rollout = ""
+        self.templates = templates
         self._background_task: asyncio.Task | None = None
         self._lock: asyncio.Lock = asyncio.Lock()
         self.logger = get_logger(self.__class__.__name__)
@@ -135,7 +102,7 @@ class TaskHandler(asyncio.Future):
                 )
 
             rollout_contributions.append(
-                DEFAULT_ROLLOUT_BLOCK_FROM_CHAT_MESSAGE.format(
+                self.templates["rollout_block_from_chat_message"].format(
                     role=role.value,
                     content=content,
                 ),
@@ -161,7 +128,7 @@ class TaskHandler(asyncio.Future):
                 instruction=self.task.instruction,
                 last_step=False,
             )
-        prompt = DEFAULT_GET_NEXT_INSTRUCTION_PROMPT.format(
+        prompt = self.templates["get_next_step"].format(
             instruction=self.task.instruction,
             current_rollout=rollout,
             current_response=previous_step_result.content,
@@ -217,17 +184,17 @@ class TaskHandler(asyncio.Future):
         # include rollout as context in the system message
         system_message = ChatMessage(
             role=ChatRole.SYSTEM,
-            content=DEFAULT_SYSTEM_MESSAGE.format(
+            content=self.templates["system_message"].format(
                 original_instruction=self.task.instruction,
                 current_rollout=rollout,
             )
             if rollout
-            else DEFAULT_SYSTEM_MESSAGE_WITHOUT_ROLLOUT,
+            else self.templates["system_message_without_rollout"],
         )
         self.logger.debug(f"💬 SYSTEM: {system_message.content}")
         user_message = ChatMessage(
             role=ChatRole.USER,
-            content=DEFAULT_USER_MESSAGE.format(
+            content=self.templates["user_message"].format(
                 instruction=step.instruction,
             ),
         )

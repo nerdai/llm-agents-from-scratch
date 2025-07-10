@@ -12,8 +12,10 @@ from llm_agents_from_scratch.core.task_handler import (
 from llm_agents_from_scratch.data_structures import (
     ChatMessage,
     ChatRole,
+    GetNextStep,
     Task,
     TaskStep,
+    TaskStepResult,
     ToolCall,
 )
 from llm_agents_from_scratch.errors import TaskHandlerError
@@ -87,22 +89,29 @@ async def test_get_next_step(mock_llm: BaseLLM) -> None:
     )
 
     # initial task step
-    initial_step = await handler.get_next_step()
+    initial_step = await handler.get_next_step(previous_step_result=None)
 
     # update rollout and get next step
-    expected_next_step = TaskStep(
-        instruction="Some next instruction.",
-        last_step=False,
+    expected_next_step = GetNextStep(
+        task_step=TaskStep(
+            instruction="Some next instruction.",
+        ),
+        task_result=None,
     )
+
     magic_mock_llm = AsyncMock()
     magic_mock_llm.structured_output.return_value = expected_next_step
     handler.llm = magic_mock_llm
     handler.rollout = "some progress"
-    next_step = await handler.get_next_step()
+    next_step = await handler.get_next_step(
+        previous_step_result=TaskStepResult(
+            task_step=TaskStep(instruction="mock step"),
+            content="mock step result",
+        ),
+    )
 
     assert initial_step.instruction == "mock instruction"
-    assert initial_step.last_step is False
-    assert next_step == expected_next_step
+    assert next_step == expected_next_step.task_step
 
 
 @pytest.mark.asyncio
@@ -116,7 +125,7 @@ async def test_get_next_step_raises_error(mock_llm: BaseLLM) -> None:
     )
 
     # initial task step
-    initial_step = await handler.get_next_step()
+    initial_step = await handler.get_next_step(previous_step_result=None)
 
     # update rollout and get next step
     magic_mock_llm = AsyncMock()
@@ -128,10 +137,14 @@ async def test_get_next_step_raises_error(mock_llm: BaseLLM) -> None:
         TaskHandlerError,
         match="Failed to get next step: oops.",
     ):
-        await handler.get_next_step()
+        await handler.get_next_step(
+            previous_step_result=TaskStepResult(
+                task_step=TaskStep(instruction="mock step"),
+                content="mock step result",
+            ),
+        )
 
     assert initial_step.instruction == "mock instruction"
-    assert initial_step.last_step is False
 
 
 def test_private_rollout_contribution_from_single_run_step(
@@ -179,7 +192,7 @@ def test_private_rollout_contribution_from_single_run_step(
 
     print(rollout_contribution)
     expected_rollout_contribution = (
-        "user: a user message\n"
+        "assistant: a user message\n"
         "assistant: I need to make a tool call(s) to a tool\n"
         "tool: \n\ttool name: `a tool`\n\ttool result: 1+2=3.\n"
         "assistant: done!"

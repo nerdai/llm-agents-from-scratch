@@ -8,7 +8,9 @@ from llm_agents_from_scratch.base.tool import AsyncBaseTool, BaseTool
 from llm_agents_from_scratch.data_structures import (
     ChatMessage,
     ChatRole,
+    GetNextStep,
     Task,
+    TaskResult,
     TaskStep,
     TaskStepResult,
     ToolCallResult,
@@ -17,23 +19,25 @@ from llm_agents_from_scratch.errors import TaskHandlerError
 from llm_agents_from_scratch.logger import get_logger
 
 DEFAULT_GET_NEXT_INSTRUCTION_PROMPT = """You are overseeing an assistant's
-progress in accomplishing a user instruction. Below the historical dialogue
-between a fictitious user and an assistant, which includes the original (real)
-user instruction or request, as well as the current progress made by the
-assistant so far.
+progress in accomplishing a user instruction. Provided below is the assistant's
+current response to the original task instruction. Also provided, is an
+internal 'thinking' process of the assistant that the user has not seen.
 
-<warning>
-If the assistant's past dialogue indicates that the it can conclude the task in
-the next step, return the instruction: 'There is sufficient context to complete
-the task within the provided history — another tool call may not even be
-necessary! Proceed with completion and mark this as the last step. NOTE: that
-the real user has not seen this dialogue, and so just provide the final task
-result without referencing it.'
-</warning>
+Determine if the current the response is sufficient to answer the original task
+instruction. In the case that it is not, provide a new instruction to the
+assistant in order to help them improve upon their current response.
 
-<history>
+<user-instruction>
+{instruction}
+</user-instruction>
+
+<current-response>
+{current_response}
+</current-response>
+
+<thinking-process>
 {current_rollout}
-</history>
+</thinking-process>
 """
 
 DEFAULT_USER_MESSAGE = "{instruction}"
@@ -115,27 +119,34 @@ class TaskHandler(asyncio.Future):
         rollout_contributions = []
         for msg in chat_history:
             # don't include system messages in rollout
-            if msg.role == "system":
+            content = msg.content
+            role = msg.role
+
+            if role == "system":
                 continue
+
+            if role == "user":
+                role = ChatRole.ASSISTANT
 
             if msg.tool_calls and msg.role == "assistant":
                 content = (
                     "I need to make a tool call(s) to "
                     f"{', '.join([t.tool_name for t in msg.tool_calls])}"
                 )
-            else:
-                content = msg.content
 
             rollout_contributions.append(
                 DEFAULT_ROLLOUT_BLOCK_FROM_CHAT_MESSAGE.format(
-                    role=msg.role.value,
+                    role=role.value,
                     content=content,
                 ),
             )
         return "\n".join(rollout_contributions)
 
-    async def get_next_step(self) -> TaskStep:
-        """Based on task progress, determine next step.
+    async def get_next_step(
+        self,
+        previous_step_result: TaskStepResult | None,
+    ) -> TaskStep | TaskResult:
+        """Based on most previous step result, get next step or conclude task.
 
         Returns:
             TaskStep: The next step to run, if `None` then Task is done.
@@ -144,27 +155,44 @@ class TaskHandler(asyncio.Future):
             rollout = self.rollout
             self.logger.debug(f"🧵 Rollout: {rollout}")
 
-        if rollout == "":
-            task_step = TaskStep(
+        if not previous_step_result:
+            return TaskStep(
                 instruction=self.task.instruction,
                 last_step=False,
             )
-        else:
-            prompt = DEFAULT_GET_NEXT_INSTRUCTION_PROMPT.format(
-                current_rollout=rollout,
+        prompt = DEFAULT_GET_NEXT_INSTRUCTION_PROMPT.format(
+            instruction=self.task.instruction,
+            current_rollout=rollout,
+            current_response=previous_step_result.content,
+        )
+        self.logger.debug(f"---NEXT STEP PROMPT: {prompt}")
+        try:
+            next_step = await self.llm.structured_output(
+                prompt=prompt,
+                mdl=GetNextStep,
             )
-            try:
-                task_step = await self.llm.structured_output(
-                    prompt=prompt,
-                    mdl=TaskStep,
-                )
-            except Exception as e:
-                raise TaskHandlerError(
-                    f"Failed to get next step: {str(e)}",
-                ) from e
+            self.logger.debug(f"---NEXT STEP: {next_step.model_dump_json()}")
+        except Exception as e:
+            raise TaskHandlerError(
+                f"Failed to get next step: {str(e)}",
+            ) from e
 
-        self.logger.info(f"🧠 New Step: {task_step.instruction}")
-        return task_step
+        task_step = next_step.task_step
+        task_result = next_step.task_result
+
+        if task_result:
+            self.logger.info("No new step required.")
+            return task_result
+
+        if task_step:
+            self.logger.info(f"🧠 New Step: {task_step.instruction}")
+            return task_step
+
+        error_msg = (
+            "Getting next step failed. Structured output didn't yield a "
+            "`TaskResult` nor a `TaskStep`."
+        )
+        raise TaskHandlerError(error_msg)
 
     async def run_step(self, step: TaskStep) -> TaskStepResult:
         """Run next step of a given task.

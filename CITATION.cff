@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: "Fajardo"
+    given-names: "Andrei"
+    email: "andrei@nerdai.io"
+title: "llm-agents-from-scratch"
+version: "0.0.3"
+abstract: "Build an LLM agent, equipped with MCP, from scratch."
+keywords:
+  - llms
+  - agents
+  - mcp
+  - tool-calling
+license: Apache-2.0
+doi: 10.5281/zenodo.15857309
+repository-code: "https://github.com/nerdai/llm-agents-from-scratch"
+type: software
+date-released: "2025-07-01"
+contact:
+  - family-names: "Fajardo"
+    given-names: "Andrei"
+    email: "andrei@nerdai.io"

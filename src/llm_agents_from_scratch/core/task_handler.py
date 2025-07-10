@@ -149,7 +149,8 @@ class TaskHandler(asyncio.Future):
         """Based on most previous step result, get next step or conclude task.
 
         Returns:
-            TaskStep: The next step to run, if `None` then Task is done.
+            TaskStep | TaskResult: Either the next step or the result of the
+                task.
         """
         async with self._lock:
             rollout = self.rollout

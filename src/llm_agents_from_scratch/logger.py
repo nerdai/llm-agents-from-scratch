@@ -9,11 +9,8 @@ from typing_extensions import override
 # Initialize colorama for cross-platform colored output
 init(autoreset=True)
 
-ROOT_LOGGER_NAME = "llm_agents_fs"  # truncate from scratch for brevity in logs
-LOG_LEVEL = logging.DEBUG
-
-
-_logger_configured = False
+ROOT_LOGGER_NAME = "llm_agents_fs"
+DEFAULT_LOG_LEVEL = logging.INFO
 
 
 class ColoredFormatter(logging.Formatter):
@@ -21,7 +18,7 @@ class ColoredFormatter(logging.Formatter):
 
     COLORS = {
         "DEBUG": Fore.BLUE,
-        "INFO": Fore.MAGENTA,  # Using magenta instead of Flower's green
+        "INFO": Fore.MAGENTA,
         "WARNING": Fore.YELLOW,
         "ERROR": Fore.RED,
         "CRITICAL": Fore.RED + Style.BRIGHT,
@@ -29,19 +26,10 @@ class ColoredFormatter(logging.Formatter):
 
     @override
     def format(self, record: logging.LogRecord) -> str:
-        """Implements format.
-
-        Args:
-            record (logging.LogRecord): The record to format.
-
-        Returns:
-            str: Formatted record.
-        """
         levelname = record.levelname
         original_msg = record.getMessage()
         logger_name = record.name
 
-        # Add color to level name
         colored_levelname = (
             f"{self.COLORS.get(levelname, '')}{levelname}{Style.RESET_ALL}"
         )
@@ -49,29 +37,27 @@ class ColoredFormatter(logging.Formatter):
         return f"{colored_levelname} ({logger_name}) :      {original_msg}"
 
 
-def configure_logging() -> logging.Logger:
-    """Configure logger for the library.
+def get_logger(name: str | None = None) -> logging.Logger:
+    """Get a logger for the library.
+
+    Args:
+        name: Optional module name (will be prefixed with library name)
 
     Returns:
-        logging.Logger: the configured logger.
+        Logger instance with NullHandler by default
     """
-    library_logger = logging.getLogger(ROOT_LOGGER_NAME)
-    library_logger.setLevel(LOG_LEVEL)
+    logger_name = f"{ROOT_LOGGER_NAME}.{name}" if name else ROOT_LOGGER_NAME
+    logger = logging.getLogger(logger_name)
 
-    # setup console handler
-    console_handler = logging.StreamHandler(sys.stdout)
-    console_handler.setLevel(LOG_LEVEL)
-    formatter = ColoredFormatter()
-    console_handler.setFormatter(formatter)
+    # Add NullHandler only to root library logger if no handlers exist
+    if logger_name == ROOT_LOGGER_NAME and not logger.handlers:
+        logger.addHandler(logging.NullHandler())
 
-    # add handler to library logger
-    library_logger.addHandler(console_handler)
-
-    return library_logger
+    return logger
 
 
-def set_log_level(level: str | int) -> None:
-    """Set the logging level for the library.
+def enable_console_logging(level: str | int = DEFAULT_LOG_LEVEL) -> None:
+    """Enable colored console logging for the library.
 
     Args:
         level: Logging level (e.g., "INFO", "DEBUG", logging.INFO)
@@ -79,23 +65,30 @@ def set_log_level(level: str | int) -> None:
     if isinstance(level, str):
         level = getattr(logging, level.upper())
 
-    # Update the root library logger
     library_logger = logging.getLogger(ROOT_LOGGER_NAME)
     library_logger.setLevel(level)
 
-    # Update all handlers
-    for handler in library_logger.handlers:
-        handler.setLevel(level)
+    # Remove existing console handlers to avoid duplicates
+    for handler in library_logger.handlers[:]:
+        if isinstance(handler, logging.StreamHandler):
+            library_logger.removeHandler(handler)
+
+    # Add new console handler
+    console_handler = logging.StreamHandler(sys.stdout)
+    console_handler.setLevel(level)
+    console_handler.setFormatter(ColoredFormatter())
+    library_logger.addHandler(console_handler)
 
 
-def get_logger(name: str | None = None) -> logging.Logger:
-    """Get logger, configuring on first use."""
-    global _logger_configured  # noqa: PLW0603
+def disable_console_logging() -> None:
+    """Disable console logging for the library."""
+    library_logger = logging.getLogger(ROOT_LOGGER_NAME)
 
-    if not _logger_configured:
-        configure_logging()
-        _logger_configured = True
+    # Remove console handlers
+    for handler in library_logger.handlers[:]:
+        if isinstance(handler, logging.StreamHandler):
+            library_logger.removeHandler(handler)
 
-    # Return specific logger
-    logger_name = f"{ROOT_LOGGER_NAME}.{name}" if name else ROOT_LOGGER_NAME
-    return logging.getLogger(logger_name)
+    # Ensure NullHandler exists
+    if not library_logger.handlers:
+        library_logger.addHandler(logging.NullHandler())

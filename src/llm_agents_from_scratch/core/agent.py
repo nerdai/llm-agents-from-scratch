@@ -6,7 +6,12 @@ from typing_extensions import Self
 
 from llm_agents_from_scratch.base.llm import BaseLLM
 from llm_agents_from_scratch.base.tool import BaseTool
-from llm_agents_from_scratch.data_structures import Task, TaskResult
+from llm_agents_from_scratch.data_structures import (
+    Task,
+    TaskHandlerResult,
+    TaskResult,
+    TaskStep,
+)
 from llm_agents_from_scratch.logger import get_logger
 
 from .task_handler import TaskHandler
@@ -53,23 +58,29 @@ class LLMAgent:
         async def _run() -> None:
             """Asynchronously process the task."""
             self.logger.info(f"🚀 Starting task: {task.instruction}")
+            step_result = None
             while not task_handler.done():
                 try:
-                    step = await task_handler.get_next_step()
-                    step_result = await task_handler.run_step(step)
-                    if step.last_step:
-                        async with task_handler._lock:
-                            rollout = task_handler.rollout
+                    next_step = await task_handler.get_next_step(step_result)
 
-                        task_result = TaskResult(
-                            task=task,
-                            content=step_result.content,
-                            rollout=rollout,
-                        )
-                        task_handler.set_result(task_result)
-                        self.logger.info(
-                            f"🏁 Task completed: {task_result.content}",
-                        )
+                    match next_step:
+                        case TaskStep():
+                            step_result = await task_handler.run_step(
+                                next_step,
+                            )
+                        case TaskResult():
+                            async with task_handler._lock:
+                                rollout = task_handler.rollout
+
+                            task_handler.set_result(
+                                TaskHandlerResult(
+                                    task_result=next_step,
+                                    rollout=rollout,
+                                ),
+                            )
+                            self.logger.info(
+                                f"🏁 Task completed: {next_step.content}",
+                            )
 
                 except Exception as e:
                     task_handler.set_exception(e)

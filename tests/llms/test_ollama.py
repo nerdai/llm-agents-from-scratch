@@ -17,7 +17,6 @@ from llm_agents_from_scratch.data_structures import (
 )
 from llm_agents_from_scratch.llms.ollama import OllamaLLM
 from llm_agents_from_scratch.llms.ollama.utils import (
-    DEFAULT_TOOL_RESPONSE_TEMPLATE,
     chat_message_to_ollama_message,
     get_tool_json_schema,
     ollama_message_to_chat_message,
@@ -332,11 +331,7 @@ def test_tool_call_result_to_chat_message() -> None:
     converted = tool_call_result_to_chat_message(tool_call_result)
 
     assert converted.role == "tool"
-    assert converted.content == DEFAULT_TOOL_RESPONSE_TEMPLATE.format(
-        tool_name="a fake tool",
-        arguments={"arg1": 1},
-        tool_call_result="Some content",
-    )
+    assert converted.content == tool_call_result.model_dump_json(indent=4)
 
 
 class MyTool(BaseTool):

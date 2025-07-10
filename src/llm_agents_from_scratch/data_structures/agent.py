@@ -23,12 +23,6 @@ class TaskStep(BaseModel):
     instruction: str = Field(
         description="The instruction for this step in the task.",
     )
-    last_step: bool = Field(
-        description=(
-            "Whether or not this task step should be the final one "
-            "because there is enough context to complete the overall task."
-        ),
-    )
 
 
 class TaskStepResult(BaseModel):
@@ -42,7 +36,7 @@ class TaskStepResult(BaseModel):
     """
 
     task_step: TaskStep
-    content: str | None
+    content: str
 
 
 class TaskResult(BaseModel):
@@ -51,11 +45,34 @@ class TaskResult(BaseModel):
     Attributes:
         task: The `Task` that was executed.
         content: The content results of the task execution.
-        rollout: The rollout of the task execution.
         error: Whether or not the execution resulted in an error.
     """
 
     task: Task
     content: str
-    rollout: str
     error: bool = False
+
+    def __str__(self) -> str:
+        """String representation of TaskResult."""
+        return self.content
+
+
+class GetNextStep(BaseModel):
+    """Structured output for TaskHandler."""
+
+    task_step: TaskStep | None = Field(
+        description="If a next step is required. Otherwise is set to `None`.",
+    )
+    task_result: TaskResult | None = Field(
+        description=(
+            "If no next step is required, the task has a final result. "
+            "Otherwise is set to `None`."
+        ),
+    )
+
+
+class TaskHandlerResult(BaseModel):
+    """Task Handler Future Result."""
+
+    task_result: TaskResult
+    rollout: str

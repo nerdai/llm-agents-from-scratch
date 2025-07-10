@@ -47,7 +47,6 @@ def get_logger(name: str | None = None) -> logging.Logger:
         Logger instance with NullHandler by default
     """
     logger_name = f"{ROOT_LOGGER_NAME}.{name}" if name else ROOT_LOGGER_NAME
-
     logger = logging.getLogger(logger_name)
 
     # Add NullHandler only to root library logger if no handlers exist

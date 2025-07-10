@@ -14,6 +14,7 @@ from llm_agents_from_scratch.data_structures import (
     ChatRole,
     GetNextStep,
     Task,
+    TaskResult,
     TaskStep,
     TaskStepResult,
     ToolCall,
@@ -111,7 +112,46 @@ async def test_get_next_step(mock_llm: BaseLLM) -> None:
     )
 
     assert initial_step.instruction == "mock instruction"
+    assert isinstance(next_step, TaskStep)
     assert next_step == expected_next_step.task_step
+
+
+@pytest.mark.asyncio
+async def test_get_next_step_completes_task(mock_llm: BaseLLM) -> None:
+    """Tests get next step returns TaskResult."""
+    task = Task(instruction="mock instruction")
+    handler = TaskHandler(
+        task=task,
+        llm=mock_llm,
+        tools=[],
+    )
+
+    # initial task step
+    initial_step = await handler.get_next_step(previous_step_result=None)
+
+    # update rollout and get next step
+    expected_next_step = GetNextStep(
+        task_step=None,
+        task_result=TaskResult(
+            task=task,
+            content="Mock result.",
+        ),
+    )
+
+    magic_mock_llm = AsyncMock()
+    magic_mock_llm.structured_output.return_value = expected_next_step
+    handler.llm = magic_mock_llm
+    handler.rollout = "some progress"
+    next_step = await handler.get_next_step(
+        previous_step_result=TaskStepResult(
+            task_step=TaskStep(instruction="mock step"),
+            content="mock step result",
+        ),
+    )
+
+    assert initial_step.instruction == "mock instruction"
+    assert isinstance(next_step, TaskResult)
+    assert next_step == expected_next_step.task_result
 
 
 @pytest.mark.asyncio

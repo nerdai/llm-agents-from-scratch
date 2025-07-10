@@ -10,12 +10,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- Rename `llm_agents_from_scratch.core` to `llm_agents_from_scratch.agent` (#55)
 - Revised `TaskHandler.get_next_step()` to return `TaskStep | TaskResult` (#54)
 - Fixed bug in `OllamaLLM.chat()` where chat history was coming after user message (#51)
 - Fixed bug in `TaskHandler.run_step()` where tool names were passed to `llm.chat()` (#46)
 
 ### Added
 
+- Add `~agent.templates` module and add `TaskHandler.templates` attribute (#55)
 - Add `enable_console_logging` and `disable_console_logging` to not stream logs as a library by default (#54)
 - Add first working cookbook for a simple `LLMAgent` and task (#54)
 - Add `data_structures.task_handler.GetNextStep` (#54)

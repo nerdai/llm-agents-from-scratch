@@ -4,11 +4,11 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from llm_agents_from_scratch.base.llm import BaseLLM
-from llm_agents_from_scratch.core import TaskHandler
-from llm_agents_from_scratch.core.task_handler import (
+from llm_agents_from_scratch.agent import TaskHandler
+from llm_agents_from_scratch.agent.task_handler import (
     DEFAULT_SYSTEM_MESSAGE_WITHOUT_ROLLOUT,
 )
+from llm_agents_from_scratch.base.llm import BaseLLM
 from llm_agents_from_scratch.data_structures import (
     ChatMessage,
     ChatRole,

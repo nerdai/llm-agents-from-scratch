@@ -4,8 +4,8 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
+from llm_agents_from_scratch.agent import LLMAgent, TaskHandler
 from llm_agents_from_scratch.base.llm import BaseLLM
-from llm_agents_from_scratch.core import LLMAgent, TaskHandler
 from llm_agents_from_scratch.data_structures.agent import (
     Task,
     TaskResult,

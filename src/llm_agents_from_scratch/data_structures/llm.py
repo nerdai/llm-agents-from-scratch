@@ -3,8 +3,9 @@
 from enum import Enum
 
 from pydantic import BaseModel, ConfigDict
+from typing_extensions import Self
 
-from .tool import ToolCall
+from .tool import ToolCall, ToolCallResult
 
 
 class ChatRole(str, Enum):
@@ -29,6 +30,14 @@ class ChatMessage(BaseModel):
     role: ChatRole
     content: str
     tool_calls: list[ToolCall] | None = None
+
+    @classmethod
+    def from_tool_call_result(cls, tool_call_result: ToolCallResult) -> Self:
+        """Create a ChatMessage from a ToolCallResult."""
+        return cls(
+            role=ChatRole.TOOL,
+            content=tool_call_result.model_dump_json(indent=4),
+        )
 
 
 class CompleteResult(BaseModel):

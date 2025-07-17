@@ -11,7 +11,6 @@ from llm_agents_from_scratch.data_structures import (
     ChatMessage,
     ChatRole,
     ToolCall,
-    ToolCallResult,
 )
 
 
@@ -104,23 +103,6 @@ def chat_message_to_ollama_message(chat_message: ChatMessage) -> OllamaMessage:
         role=role,
         content=chat_message.content,
         tool_calls=converted_tool_calls,
-    )
-
-
-def tool_call_result_to_chat_message(
-    tool_call_result: ToolCallResult,
-) -> ChatMessage:
-    """Convert a tool call result to an ~ollama.Message.
-
-    Args:
-        tool_call_result (ToolCallResult): The tool call result.
-
-    Returns:
-        ChatMessage: The converted message.
-    """
-    return ChatMessage(
-        role=ChatRole.TOOL,
-        content=tool_call_result.model_dump_json(indent=4),
     )
 
 

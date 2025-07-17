@@ -15,7 +15,6 @@ from llm_agents_from_scratch.data_structures import (
 from .utils import (
     chat_message_to_ollama_message,
     ollama_message_to_chat_message,
-    tool_call_result_to_chat_message,
     tool_to_ollama_tool,
 )
 
@@ -155,7 +154,7 @@ class OllamaLLM(BaseLLM):
         """
         # augment chat messages and convert to Ollama messages
         tool_messages = [
-            tool_call_result_to_chat_message(tc) for tc in tool_call_results
+            ChatMessage.from_tool_call_result(tc) for tc in tool_call_results
         ]
         o_messages = [
             chat_message_to_ollama_message(cm) for cm in chat_messages

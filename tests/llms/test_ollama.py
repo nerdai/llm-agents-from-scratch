@@ -20,7 +20,6 @@ from llm_agents_from_scratch.llms.ollama.utils import (
     chat_message_to_ollama_message,
     get_tool_json_schema,
     ollama_message_to_chat_message,
-    tool_call_result_to_chat_message,
     tool_to_ollama_tool,
 )
 
@@ -191,7 +190,7 @@ async def test_continue_conversation_with_tool_results(
         model="llama3.2",
         messages=[
             chat_message_to_ollama_message(
-                tool_call_result_to_chat_message(tool_call_results[0]),
+                ChatMessage.from_tool_call_result(tool_call_results[0]),
             ),
         ],
     )
@@ -329,7 +328,7 @@ def test_tool_call_result_to_chat_message() -> None:
         error=False,
     )
 
-    converted = tool_call_result_to_chat_message(tool_call_result)
+    converted = ChatMessage.from_tool_call_result(tool_call_result)
 
     assert converted.role == "tool"
     assert converted.content == tool_call_result.model_dump_json(indent=4)

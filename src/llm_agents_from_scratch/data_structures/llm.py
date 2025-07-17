@@ -41,3 +41,7 @@ class CompleteResult(BaseModel):
 
     response: str
     prompt: str
+
+    def __str__(self) -> str:
+        """String representation."""
+        return self.response

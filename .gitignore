@@ -16,6 +16,8 @@ __pycache__
 .ruff_cache
 .env
 import_profile.txt
+scratchpad/
+snippets/
 
 
 # Virtual environments

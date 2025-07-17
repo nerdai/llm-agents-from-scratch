@@ -8,7 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
-- ...
+### Added
+
+- Add classmethod `ChatMessage.from_tool_call_result` (#61)
+
+### Changed
+
+- Removed `llm_agents_from_scratch.llms.ollama.utils.tool_call_result_to_chat_message` (#61)
 
 ## [0.0.3] - 2025-07-10
 

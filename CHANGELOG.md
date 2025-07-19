@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- Use `param.kind` in instrospection for `function_signature_to_json_schema` (#62)
 - Removed `llm_agents_from_scratch.llms.ollama.utils.tool_call_result_to_chat_message` (#61)
 
 ## [0.0.3] - 2025-07-10

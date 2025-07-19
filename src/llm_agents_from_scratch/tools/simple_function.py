@@ -40,7 +40,7 @@ def function_signature_to_json_schema(func: Callable) -> dict[str, Any]:
     required = []
     for param in sig.parameters.values():
         # skip args and kwargs
-        if param.name.startswith(("args", "kwargs")):
+        if param.kind in (param.VAR_POSITIONAL, param.VAR_KEYWORD):
             continue
 
         # get type annotations
@@ -139,7 +139,7 @@ class SimpleFunctionTool(BaseTool):
 
 
 class AsyncSimpleFunctionTool(AsyncBaseTool):
-    """Simple function calling tool.
+    """Async simple function calling tool.
 
     Turn a Python function into a tool for an LLM. Uses manual validation for
     JSON schema.
@@ -150,7 +150,7 @@ class AsyncSimpleFunctionTool(AsyncBaseTool):
         func: Callable[..., Awaitable[Any]],
         desc: str | None = None,
     ) -> None:
-        """Initialize a SimpleFunctionTool.
+        """Initialize an AsyncSimpleFunctionTool.
 
         Args:
             func (Callable[..., Awaitable[Any]]): Async function.

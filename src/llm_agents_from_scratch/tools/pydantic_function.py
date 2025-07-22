@@ -5,7 +5,7 @@ from typing import Any, Awaitable, Callable, Protocol, get_type_hints
 
 from pydantic import BaseModel
 
-from llm_agents_from_scratch.base.tool import BaseTool
+from llm_agents_from_scratch.base.tool import AsyncBaseTool, BaseTool
 from llm_agents_from_scratch.data_structures import ToolCall, ToolCallResult
 
 
@@ -165,7 +165,7 @@ class PydanticFunctionTool(BaseTool):
         )
 
 
-class AsyncPydanticFunctionTool(BaseTool):
+class AsyncPydanticFunctionTool(AsyncBaseTool):
     """Async Pydantic function calling tool.
 
     Turn an async Python function that takes in a ~pydantic.BaseModel params

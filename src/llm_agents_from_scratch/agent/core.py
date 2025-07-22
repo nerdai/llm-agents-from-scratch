@@ -5,7 +5,7 @@ import asyncio
 from typing_extensions import Self
 
 from llm_agents_from_scratch.base.llm import BaseLLM
-from llm_agents_from_scratch.base.tool import BaseTool
+from llm_agents_from_scratch.base.tool import AsyncBaseTool, BaseTool
 from llm_agents_from_scratch.data_structures import (
     Task,
     TaskHandlerResult,
@@ -26,7 +26,11 @@ class LLMAgent:
         logger: LLMAgent logger.
     """
 
-    def __init__(self, llm: BaseLLM, tools: list[BaseTool] | None = None):
+    def __init__(
+        self,
+        llm: BaseLLM,
+        tools: list[BaseTool | AsyncBaseTool] | None = None,
+    ):
         """Initialize an LLMAgent.
 
         Args:
@@ -39,20 +43,23 @@ class LLMAgent:
         self.tools = tools or []
         self.logger = get_logger(self.__class__.__name__)
 
-    def add_tool(self, tool: BaseTool) -> Self:
+    def add_tool(self, tool: BaseTool | AsyncBaseTool) -> Self:
         """Add a tool to the agents tool set.
 
         NOTE: Supports fluent style for convenience.
 
         Args:
-            tool (BaseTool): The tool to equip the LLM agent.
+            tool (BaseTool | AsyncBaseTool): The tool to equip the LLM agent.
 
         """
         self.tools = self.tools + [tool]
         return self
 
     def run(self, task: Task) -> TaskHandler:
-        """Asynchronously run `task`."""
+        """Agent's processing loop for executing tasks.
+
+        Asynchronously run `task`.
+        """
         task_handler = TaskHandler(task, self.llm, self.tools)
 
         async def _run() -> None:

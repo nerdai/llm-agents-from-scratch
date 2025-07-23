@@ -12,7 +12,7 @@ from llm_agents_from_scratch.base.llm import BaseLLM
 from llm_agents_from_scratch.data_structures import (
     ChatMessage,
     ChatRole,
-    GetNextStep,
+    NextStepDecision,
     Task,
     TaskResult,
     TaskStep,
@@ -94,7 +94,7 @@ async def test_get_next_step(mock_llm: BaseLLM) -> None:
     initial_step = await handler.get_next_step(previous_step_result=None)
 
     # update rollout and get next step
-    expected_next_step = GetNextStep(
+    expected_next_step = NextStepDecision(
         task_step=TaskStep(
             task_id=task.id_,
             instruction="Some next instruction.",
@@ -132,7 +132,7 @@ async def test_get_next_step_completes_task(mock_llm: BaseLLM) -> None:
     initial_step = await handler.get_next_step(previous_step_result=None)
 
     # update rollout and get next step
-    expected_next_step = GetNextStep(
+    expected_next_step = NextStepDecision(
         task_step=None,
         task_result=TaskResult(
             task_id=task.id_,
@@ -195,7 +195,7 @@ async def test_get_next_step_raises_error_from_structured_output_call(
 async def test_get_next_step_raises_error_if_no_task_step_nor_result(
     mock_llm: BaseLLM,
 ) -> None:
-    """Tests get_next_step raises error `GetNextStep` is None for step and
+    """Tests get_next_step raises error `NextStepDecision` is None for step and
     result."""
 
     handler = TaskHandler(
@@ -209,7 +209,7 @@ async def test_get_next_step_raises_error_if_no_task_step_nor_result(
 
     # update rollout and get next step
     magic_mock_llm = AsyncMock()
-    magic_mock_llm.structured_output.return_value = GetNextStep(
+    magic_mock_llm.structured_output.return_value = NextStepDecision(
         task_step=None,
         task_result=None,
     )

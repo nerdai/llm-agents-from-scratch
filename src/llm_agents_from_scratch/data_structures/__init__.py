@@ -1,5 +1,5 @@
 from .agent import (
-    GetNextStep,
+    NextStepDecision,
     Task,
     TaskHandlerResult,
     TaskResult,
@@ -11,7 +11,7 @@ from .tool import ToolCall, ToolCallResult
 
 __all__ = [
     # agent
-    "GetNextStep",
+    "NextStepDecision",
     "Task",
     "TaskHandlerResult",
     "TaskResult",

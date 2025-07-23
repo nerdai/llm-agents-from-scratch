@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+### Changed
+
+- Remove error from TaskResult and rename GetNextStep to NextStepDecision (#69)
+
 ### Added
 
 - Add ids to Task, TaskStep, and results (#67)

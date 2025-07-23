@@ -125,6 +125,7 @@ class TaskHandler(asyncio.Future):
 
         if not previous_step_result:
             return TaskStep(
+                task_id=self.task.id_,
                 instruction=self.task.instruction,
                 last_step=False,
             )
@@ -267,6 +268,6 @@ class TaskHandler(asyncio.Future):
             f"✅ Step Result: {final_content}",
         )
         return TaskStepResult(
-            task_step=step,
+            task_step_id=step.id_,
             content=final_content,
         )

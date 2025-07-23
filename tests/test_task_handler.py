@@ -83,8 +83,9 @@ async def test_task_handler_raises_error_when_setting_already_set_bg_task(
 async def test_get_next_step(mock_llm: BaseLLM) -> None:
     """Tests get next step."""
 
+    task = Task(instruction="mock instruction")
     handler = TaskHandler(
-        task=Task(instruction="mock instruction"),
+        task=task,
         llm=mock_llm,
         tools=[],
     )
@@ -95,6 +96,7 @@ async def test_get_next_step(mock_llm: BaseLLM) -> None:
     # update rollout and get next step
     expected_next_step = GetNextStep(
         task_step=TaskStep(
+            task_id=task.id_,
             instruction="Some next instruction.",
         ),
         task_result=None,
@@ -106,7 +108,7 @@ async def test_get_next_step(mock_llm: BaseLLM) -> None:
     handler.rollout = "some progress"
     next_step = await handler.get_next_step(
         previous_step_result=TaskStepResult(
-            task_step=TaskStep(instruction="mock step"),
+            task_step_id=initial_step.id_,
             content="mock step result",
         ),
     )
@@ -133,7 +135,7 @@ async def test_get_next_step_completes_task(mock_llm: BaseLLM) -> None:
     expected_next_step = GetNextStep(
         task_step=None,
         task_result=TaskResult(
-            task=task,
+            task_id=task.id_,
             content="Mock result.",
         ),
     )
@@ -144,7 +146,7 @@ async def test_get_next_step_completes_task(mock_llm: BaseLLM) -> None:
     handler.rollout = "some progress"
     next_step = await handler.get_next_step(
         previous_step_result=TaskStepResult(
-            task_step=TaskStep(instruction="mock step"),
+            task_step_id=initial_step.id_,
             content="mock step result",
         ),
     )
@@ -181,7 +183,7 @@ async def test_get_next_step_raises_error_from_structured_output_call(
     ):
         await handler.get_next_step(
             previous_step_result=TaskStepResult(
-                task_step=TaskStep(instruction="mock step"),
+                task_step_id=initial_step.id_,
                 content="mock step result",
             ),
         )
@@ -224,7 +226,7 @@ async def test_get_next_step_raises_error_if_no_task_step_nor_result(
     ):
         await handler.get_next_step(
             previous_step_result=TaskStepResult(
-                task_step=TaskStep(instruction="mock step"),
+                task_step_id=initial_step.id_,
                 content="mock step result",
             ),
         )
@@ -345,8 +347,9 @@ async def test_run_step() -> None:
         mock_return_value
     )
 
+    task = Task(instruction="mock instruction")
     handler = TaskHandler(
-        task=Task(instruction="mock instruction"),
+        task=task,
         llm=mock_llm,
         tools=[
             SimpleFunctionTool(func=plus_one),
@@ -356,6 +359,7 @@ async def test_run_step() -> None:
 
     # act
     step = TaskStep(
+        task_id=task.id_,
         instruction="Some instruction.",
         last_step=False,
     )
@@ -378,7 +382,7 @@ async def test_run_step() -> None:
         tools=list(handler.tools_registry.values()),
     )
     mock_llm.continue_conversation_with_tool_results.assert_awaited_once()
-    assert step_result.task_step == step
+    assert step_result.task_step_id == step.id_
     assert step_result.content == "The final response."
 
 
@@ -401,6 +405,7 @@ async def test_run_step_without_tool_calls() -> None:
 
     # act
     step = TaskStep(
+        task_id=handler.task.id_,
         instruction="Some instruction.",
         last_step=False,
     )
@@ -423,5 +428,5 @@ async def test_run_step_without_tool_calls() -> None:
         tools=list(handler.tools_registry.keys()),
     )
     mock_llm.continue_conversation_with_tool_results.assert_not_awaited()
-    assert step_result.task_step == step
+    assert step_result.task_step_id == step.id_
     assert step_result.content == "Initial response."

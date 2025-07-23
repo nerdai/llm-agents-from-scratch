@@ -1,5 +1,7 @@
 """Data Structures for LLM Agent."""
 
+import uuid
+
 from pydantic import BaseModel, Field
 
 
@@ -10,6 +12,7 @@ class Task(BaseModel):
         instruction: The instruction for the task.
     """
 
+    id_: str = Field(default_factory=lambda: str(uuid.uuid4()))
     instruction: str
 
 
@@ -20,6 +23,8 @@ class TaskStep(BaseModel):
         instruction: The instruction for the task.
     """
 
+    id_: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    task_id: str
     instruction: str = Field(
         description="The instruction for this step in the task.",
     )
@@ -35,7 +40,7 @@ class TaskStepResult(BaseModel):
             Task.
     """
 
-    task_step: TaskStep
+    task_step_id: str
     content: str
 
 
@@ -48,7 +53,7 @@ class TaskResult(BaseModel):
         error: Whether or not the execution resulted in an error.
     """
 
-    task: Task
+    task_id: str
     content: str
     error: bool = False
 

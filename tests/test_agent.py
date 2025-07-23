@@ -71,8 +71,8 @@ async def test_run(
     agent = LLMAgent(llm=mock_llm)
 
     mock_get_next_step.side_effect = [
-        TaskStep(instruction="mock step"),
-        TaskResult(task=task, content="mock result"),
+        TaskStep(task_id=task.id_, instruction="mock step"),
+        TaskResult(task_id=task.id_, content="mock result"),
     ]
 
     # arrange

@@ -430,3 +430,4 @@ async def test_run_step_without_tool_calls() -> None:
     mock_llm.continue_conversation_with_tool_results.assert_not_awaited()
     assert step_result.task_step_id == step.id_
     assert step_result.content == "Initial response."
+    assert str(step_result) == "Initial response."

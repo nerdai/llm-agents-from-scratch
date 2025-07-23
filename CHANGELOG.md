@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Add `__str__` to `TaskStepResult` (#70)
 - Add ids to Task, TaskStep, and results (#67)
 
 ## [0.0.4] - 2025-07-23

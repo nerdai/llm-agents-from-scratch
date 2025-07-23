@@ -39,12 +39,14 @@ class TaskStepResult(BaseModel):
     Attributes:
         task_step_id: The ID of the `TaskStep` that was executed.
         content: The content results of the execution.
-        last_step: Whether or not the step was the final step for the parent
-            Task.
     """
 
     task_step_id: str
     content: str
+
+    def __str__(self) -> str:
+        """String representation of TaskStepResult."""
+        return self.content
 
 
 class TaskResult(BaseModel):

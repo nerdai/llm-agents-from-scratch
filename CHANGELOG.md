@@ -8,7 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
-- ...
+### Added
+
+- Add ids to Task, TaskStep, and results (#67)
 
 ## [0.0.4] - 2025-07-23
 

@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- ...
+
+## [0.0.4] - 2025-07-23
+
 ### Added
 
 - Add `tool_registry` to `LLMAgent` and raise `LLMAgentError` for duplicated tools (#65)

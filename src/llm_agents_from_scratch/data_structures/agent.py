@@ -9,6 +9,7 @@ class Task(BaseModel):
     """Represents a single task with an instruction.
 
     Attributes:
+        id_: Identifier for task.
         instruction: The instruction for the task.
     """
 
@@ -20,6 +21,8 @@ class TaskStep(BaseModel):
     """Represents a step within a task and its own instruction.
 
     Attributes:
+        id_: Identifier for task step.
+        task_id: ID of associated task.
         instruction: The instruction for the task.
     """
 
@@ -34,7 +37,7 @@ class TaskStepResult(BaseModel):
     """The result of a task step execution.
 
     Attributes:
-        task_step: The `TaskStep` that was executed.
+        task_step_id: The ID of the `TaskStep` that was executed.
         content: The content results of the execution.
         last_step: Whether or not the step was the final step for the parent
             Task.
@@ -48,7 +51,7 @@ class TaskResult(BaseModel):
     """The result of the task execution.
 
     Attributes:
-        task: The `Task` that was executed.
+        task_id: The ID `Task` that was executed.
         content: The content results of the task execution.
         error: Whether or not the execution resulted in an error.
     """

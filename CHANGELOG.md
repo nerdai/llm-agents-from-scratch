@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Add `tool_registry` to `LLMAgent` and raise `LLMAgentError` for duplicated tools (#65)
 - Add classmethod `ChatMessage.from_tool_call_result` (#61)
 
 ### Changed

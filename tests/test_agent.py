@@ -6,11 +6,13 @@ import pytest
 
 from llm_agents_from_scratch.agent import LLMAgent, TaskHandler
 from llm_agents_from_scratch.base.llm import BaseLLM
+from llm_agents_from_scratch.base.tool import BaseTool
 from llm_agents_from_scratch.data_structures.agent import (
     Task,
     TaskResult,
     TaskStep,
 )
+from llm_agents_from_scratch.errors import LLMAgentError
 
 
 def test_init(mock_llm: BaseLLM) -> None:
@@ -19,6 +21,15 @@ def test_init(mock_llm: BaseLLM) -> None:
 
     assert len(agent.tools) == 0
     assert agent.llm == mock_llm
+
+
+def test_init_raises_error_duplicated_tools(
+    mock_llm: BaseLLM,
+    _test_tool: BaseTool,
+) -> None:
+    """Tests init of LLMAgent."""
+    with pytest.raises(LLMAgentError):
+        LLMAgent(llm=mock_llm, tools=[_test_tool, _test_tool])
 
 
 def test_add_tool(mock_llm: BaseLLM) -> None:
@@ -32,6 +43,19 @@ def test_add_tool(mock_llm: BaseLLM) -> None:
 
     # assert
     assert agent.tools == [tool]
+
+
+def test_add_tool_raises_error(
+    mock_llm: BaseLLM,
+    _test_tool: BaseTool,
+) -> None:
+    """Tests add tool."""
+
+    # arrange
+    agent = LLMAgent(llm=mock_llm, tools=[_test_tool])
+
+    with pytest.raises(LLMAgentError):
+        agent.add_tool(_test_tool)
 
 
 @pytest.mark.asyncio

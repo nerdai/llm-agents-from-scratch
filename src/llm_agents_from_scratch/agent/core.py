@@ -12,6 +12,7 @@ from llm_agents_from_scratch.data_structures import (
     TaskResult,
     TaskStep,
 )
+from llm_agents_from_scratch.errors import LLMAgentError
 from llm_agents_from_scratch.logger import get_logger
 
 from .task_handler import TaskHandler
@@ -22,7 +23,7 @@ class LLMAgent:
 
     Attributes:
         llm: The backbone LLM
-        tools: The set of tools available to the LLM agent.
+        tools_registry: The tools the LLM agent can use represented as a dict.
         logger: LLMAgent logger.
     """
 
@@ -40,8 +41,19 @@ class LLMAgent:
 
         """
         self.llm = llm
-        self.tools = tools or []
+        tools = tools or []
+        # validate no duplications in tool names
+        if len({t.name for t in tools}) < len(tools):
+            raise LLMAgentError(
+                "Provided tool list contains duplicate tool names.",
+            )
+        self.tools_registry = {t.name: t for t in tools}
         self.logger = get_logger(self.__class__.__name__)
+
+    @property
+    def tools(self) -> list[BaseTool | AsyncBaseTool]:
+        """Return tools as list."""
+        return list(self.tools_registry.values())
 
     def add_tool(self, tool: BaseTool | AsyncBaseTool) -> Self:
         """Add a tool to the agents tool set.
@@ -52,7 +64,9 @@ class LLMAgent:
             tool (BaseTool | AsyncBaseTool): The tool to equip the LLM agent.
 
         """
-        self.tools = self.tools + [tool]
+        if tool.name in self.tools_registry:
+            raise LLMAgentError(f"Tool with name {tool.name} already exists.")
+        self.tools_registry[tool.name] = tool
         return self
 
     def run(self, task: Task) -> TaskHandler:

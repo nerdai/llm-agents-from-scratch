@@ -12,6 +12,7 @@ from llm_agents_from_scratch.data_structures import (
     TaskResult,
     TaskStep,
 )
+from llm_agents_from_scratch.errors import LLMAgentError
 from llm_agents_from_scratch.logger import get_logger
 
 from .task_handler import TaskHandler
@@ -43,7 +44,7 @@ class LLMAgent:
         tools = tools or []
         # validate no duplications in tool names
         if len({t.name for t in tools}) < len(tools):
-            raise RuntimeError(
+            raise LLMAgentError(
                 "Provided tool list contains duplicate tool names.",
             )
         self.tools_registry = {t.name: t for t in tools}
@@ -64,7 +65,7 @@ class LLMAgent:
 
         """
         if tool.name in self.tools_registry:
-            raise RuntimeError(f"Tool with name {tool.name} already exists.")
+            raise LLMAgentError(f"Tool with name {tool.name} already exists.")
         self.tools_registry[tool.name] = tool
         return self
 

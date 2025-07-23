@@ -10,6 +10,7 @@ from llm_agents_from_scratch.data_structures import (
     CompleteResult,
     ToolCallResult,
 )
+from llm_agents_from_scratch.tools import SimpleFunctionTool
 
 
 @pytest.fixture(autouse=True)
@@ -59,3 +60,15 @@ class MockBaseLLM(BaseLLM):
 @pytest.fixture()
 def mock_llm() -> BaseLLM:
     return MockBaseLLM()
+
+
+@pytest.fixture()
+def _test_tool() -> BaseTool:
+    def my_mock_fn_1(
+        param1: int,
+        *args: Any,
+        **kwargs: Any,
+    ) -> str:
+        return f"{param1}"
+
+    return SimpleFunctionTool(my_mock_fn_1)

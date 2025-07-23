@@ -8,7 +8,7 @@ from llm_agents_from_scratch.base.tool import AsyncBaseTool, BaseTool
 from llm_agents_from_scratch.data_structures import (
     ChatMessage,
     ChatRole,
-    GetNextStep,
+    NextStepDecision,
     Task,
     TaskResult,
     TaskStep,
@@ -138,7 +138,7 @@ class TaskHandler(asyncio.Future):
         try:
             next_step = await self.llm.structured_output(
                 prompt=prompt,
-                mdl=GetNextStep,
+                mdl=NextStepDecision,
             )
             self.logger.debug(f"---NEXT STEP: {next_step.model_dump_json()}")
         except Exception as e:

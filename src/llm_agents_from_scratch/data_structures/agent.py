@@ -53,20 +53,18 @@ class TaskResult(BaseModel):
     Attributes:
         task_id: The ID `Task` that was executed.
         content: The content results of the task execution.
-        error: Whether or not the execution resulted in an error.
     """
 
     task_id: str
     content: str
-    error: bool = False
 
     def __str__(self) -> str:
         """String representation of TaskResult."""
         return self.content
 
 
-class GetNextStep(BaseModel):
-    """Structured output for TaskHandler."""
+class NextStepDecision(BaseModel):
+    """Structured output for TaskHandler.get_next_step()."""
 
     task_step: TaskStep | None = Field(
         description="If a next step is required. Otherwise is set to `None`.",

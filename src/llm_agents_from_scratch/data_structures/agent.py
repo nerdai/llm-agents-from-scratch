@@ -46,6 +46,10 @@ class TaskStepResult(BaseModel):
     task_step_id: str
     content: str
 
+    def __str__(self) -> str:
+        """String representation of TaskStepResult."""
+        return self.content
+
 
 class TaskResult(BaseModel):
     """The result of the task execution.

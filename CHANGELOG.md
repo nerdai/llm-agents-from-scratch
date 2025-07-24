@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- Nest `TaskHandler` within `LLMAgent` (#72)
 - Remove error from TaskResult and rename GetNextStep to NextStepDecision (#69)
 
 ### Added

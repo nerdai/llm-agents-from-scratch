@@ -4,7 +4,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from llm_agents_from_scratch.agent import LLMAgent, TaskHandler
+from llm_agents_from_scratch.agent import LLMAgent
 from llm_agents_from_scratch.base.llm import BaseLLM
 from llm_agents_from_scratch.base.tool import BaseTool
 from llm_agents_from_scratch.data_structures.agent import (
@@ -59,7 +59,7 @@ def test_add_tool_raises_error(
 
 
 @pytest.mark.asyncio
-@patch.object(TaskHandler, "get_next_step")
+@patch.object(LLMAgent.TaskHandler, "get_next_step")
 async def test_run(
     mock_get_next_step: AsyncMock,
     mock_llm: BaseLLM,
@@ -92,7 +92,7 @@ async def test_run(
 
 
 @pytest.mark.asyncio
-@patch.object(TaskHandler, "get_next_step")
+@patch.object(LLMAgent.TaskHandler, "get_next_step")
 async def test_run_exception(
     mock_get_next_step: AsyncMock,
     mock_llm: BaseLLM,

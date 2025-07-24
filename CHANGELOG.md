@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- ...
+
+## [0.0.5] - 2025-07-24
+
 ### Changed
 
 - Nest `TaskHandler` within `LLMAgent` (#72)

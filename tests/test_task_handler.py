@@ -4,7 +4,7 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from llm_agents_from_scratch.agent import TaskHandler
+from llm_agents_from_scratch.agent import LLMAgent
 from llm_agents_from_scratch.agent.templates import (
     default_task_handler_templates,
 )
@@ -29,24 +29,27 @@ from llm_agents_from_scratch.tools.simple_function import (
 def test_task_handler_init(
     mock_llm: BaseLLM,
 ) -> None:
-    handler = TaskHandler(
-        task=Task(instruction="mock instruction"),
+    llm_agent = LLMAgent(
         llm=mock_llm,
-        tools=[],
+    )
+    handler = LLMAgent.TaskHandler(
+        llm_agent=llm_agent,
+        task=Task(instruction="mock instruction"),
     )
 
     assert handler.task.instruction == "mock instruction"
-    assert handler.llm == mock_llm
-    assert handler.tools_registry == {}
+    assert handler.llm_agent == llm_agent
 
 
 def test_task_handler_raises_error_when_getting_unset_bg_task(
     mock_llm: BaseLLM,
 ) -> None:
-    handler = TaskHandler(
-        task=Task(instruction="mock instruction"),
+    llm_agent = LLMAgent(
         llm=mock_llm,
-        tools=[],
+    )
+    handler = LLMAgent.TaskHandler(
+        llm_agent=llm_agent,
+        task=Task(instruction="mock instruction"),
     )
 
     with pytest.raises(TaskHandlerError):
@@ -60,10 +63,12 @@ async def test_task_handler_raises_error_when_setting_already_set_bg_task(
     async def fn() -> None:
         await asyncio.sleep(0.1)
 
-    handler = TaskHandler(
-        task=Task(instruction="mock instruction"),
+    llm_agent = LLMAgent(
         llm=mock_llm,
-        tools=[],
+    )
+    handler = LLMAgent.TaskHandler(
+        llm_agent=llm_agent,
+        task=Task(instruction="mock instruction"),
     )
 
     handler.background_task = asyncio.create_task(fn())
@@ -84,10 +89,12 @@ async def test_get_next_step(mock_llm: BaseLLM) -> None:
     """Tests get next step."""
 
     task = Task(instruction="mock instruction")
-    handler = TaskHandler(
-        task=task,
+    llm_agent = LLMAgent(
         llm=mock_llm,
-        tools=[],
+    )
+    handler = LLMAgent.TaskHandler(
+        llm_agent=llm_agent,
+        task=task,
     )
 
     # initial task step
@@ -104,7 +111,7 @@ async def test_get_next_step(mock_llm: BaseLLM) -> None:
 
     magic_mock_llm = AsyncMock()
     magic_mock_llm.structured_output.return_value = expected_next_step
-    handler.llm = magic_mock_llm
+    handler.llm_agent.llm = magic_mock_llm
     handler.rollout = "some progress"
     next_step = await handler.get_next_step(
         previous_step_result=TaskStepResult(
@@ -122,10 +129,12 @@ async def test_get_next_step(mock_llm: BaseLLM) -> None:
 async def test_get_next_step_completes_task(mock_llm: BaseLLM) -> None:
     """Tests get next step returns TaskResult."""
     task = Task(instruction="mock instruction")
-    handler = TaskHandler(
-        task=task,
+    llm_agent = LLMAgent(
         llm=mock_llm,
-        tools=[],
+    )
+    handler = LLMAgent.TaskHandler(
+        llm_agent=llm_agent,
+        task=task,
     )
 
     # initial task step
@@ -142,7 +151,7 @@ async def test_get_next_step_completes_task(mock_llm: BaseLLM) -> None:
 
     magic_mock_llm = AsyncMock()
     magic_mock_llm.structured_output.return_value = expected_next_step
-    handler.llm = magic_mock_llm
+    handler.llm_agent.llm = magic_mock_llm
     handler.rollout = "some progress"
     next_step = await handler.get_next_step(
         previous_step_result=TaskStepResult(
@@ -162,10 +171,13 @@ async def test_get_next_step_raises_error_from_structured_output_call(
 ) -> None:
     """Tests get next step raises error when invoking ~llm.structured_output."""
 
-    handler = TaskHandler(
-        task=Task(instruction="mock instruction"),
+    task = Task(instruction="mock instruction")
+    llm_agent = LLMAgent(
         llm=mock_llm,
-        tools=[],
+    )
+    handler = LLMAgent.TaskHandler(
+        llm_agent=llm_agent,
+        task=task,
     )
 
     # initial task step
@@ -174,7 +186,7 @@ async def test_get_next_step_raises_error_from_structured_output_call(
     # update rollout and get next step
     magic_mock_llm = AsyncMock()
     magic_mock_llm.structured_output.side_effect = RuntimeError("oops.")
-    handler.llm = magic_mock_llm
+    handler.llm_agent.llm = magic_mock_llm
     handler.rollout = "some progress"
 
     with pytest.raises(
@@ -198,10 +210,13 @@ async def test_get_next_step_raises_error_if_no_task_step_nor_result(
     """Tests get_next_step raises error `NextStepDecision` is None for step and
     result."""
 
-    handler = TaskHandler(
-        task=Task(instruction="mock instruction"),
+    task = Task(instruction="mock instruction")
+    llm_agent = LLMAgent(
         llm=mock_llm,
-        tools=[],
+    )
+    handler = LLMAgent.TaskHandler(
+        llm_agent=llm_agent,
+        task=task,
     )
 
     # initial task step
@@ -213,7 +228,7 @@ async def test_get_next_step_raises_error_if_no_task_step_nor_result(
         task_step=None,
         task_result=None,
     )
-    handler.llm = magic_mock_llm
+    handler.llm_agent.llm = magic_mock_llm
     handler.rollout = "some progress"
 
     expected_error_msg = (
@@ -238,10 +253,13 @@ def test_private_rollout_contribution_from_single_run_step(
     mock_llm: BaseLLM,
 ) -> None:
     """Tests helper method to get rollout contribution from run step."""
-    handler = TaskHandler(
-        task=Task(instruction="mock instruction"),
+    task = Task(instruction="mock instruction")
+    llm_agent = LLMAgent(
         llm=mock_llm,
-        tools=[],
+    )
+    handler = LLMAgent.TaskHandler(
+        llm_agent=llm_agent,
+        task=task,
     )
     chat_history = [
         ChatMessage(
@@ -348,13 +366,16 @@ async def test_run_step() -> None:
     )
 
     task = Task(instruction="mock instruction")
-    handler = TaskHandler(
-        task=task,
+    llm_agent = LLMAgent(
         llm=mock_llm,
         tools=[
             SimpleFunctionTool(func=plus_one),
             AsyncSimpleFunctionTool(func=plus_two),
         ],
+    )
+    handler = LLMAgent.TaskHandler(
+        llm_agent=llm_agent,
+        task=task,
     )
 
     # act
@@ -379,7 +400,7 @@ async def test_run_step() -> None:
                 ),
             ),
         ],
-        tools=list(handler.tools_registry.values()),
+        tools=list(handler.llm_agent.tools_registry.values()),
     )
     mock_llm.continue_conversation_with_tool_results.assert_awaited_once()
     assert step_result.task_step_id == step.id_
@@ -397,10 +418,12 @@ async def test_run_step_without_tool_calls() -> None:
         content="Initial response.",
     )
 
-    handler = TaskHandler(
-        task=Task(instruction="mock instruction"),
+    llm_agent = LLMAgent(
         llm=mock_llm,
-        tools=[],
+    )
+    handler = LLMAgent.TaskHandler(
+        llm_agent=llm_agent,
+        task=Task(instruction="mock instruction"),
     )
 
     # act
@@ -425,7 +448,7 @@ async def test_run_step_without_tool_calls() -> None:
                 ),
             ),
         ],
-        tools=list(handler.tools_registry.keys()),
+        tools=list(handler.llm_agent.tools_registry.keys()),
     )
     mock_llm.continue_conversation_with_tool_results.assert_not_awaited()
     assert step_result.task_step_id == step.id_

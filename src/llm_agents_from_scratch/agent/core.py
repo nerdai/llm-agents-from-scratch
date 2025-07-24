@@ -79,8 +79,8 @@ class LLMAgent:
         """Handler for processing tasks.
 
         Attributes:
+            llm_agent (LLMAgent): The LLM agent.
             task: The task to execute.
-            llm: The backbone LLM.
             tools_registry: The tools the LLM agent can use represented as
                 a dict.
             templates: Associated prompt templates.
@@ -90,9 +90,8 @@ class LLMAgent:
 
         def __init__(
             self,
+            llm_agent: "LLMAgent",
             task: Task,
-            llm: BaseLLM,
-            tools: list[BaseTool | AsyncBaseTool],
             templates: TaskHandlerTemplates = default_task_handler_templates,
             *args: Any,
             **kwargs: Any,
@@ -100,17 +99,15 @@ class LLMAgent:
             """Initialize a TaskHandler.
 
             Args:
+                llm_agent (LLMAgent): The LLM agent.
                 task (Task): The task to process.
-                llm (BaseLLM): The backbone LLM.
-                tools (list[BaseTool]): The tools the LLM can use.
                 templates (TaskHandlerTemplates): Associated prompt templates.
                 *args: Additional positional arguments.
                 **kwargs: Additional keyword arguments.
             """
             super().__init__(*args, **kwargs)
+            self.llm_agent = llm_agent
             self.task = task
-            self.llm = llm
-            self.tools_registry = {t.name: t for t in tools}
             self.rollout = ""
             self.templates = templates
             self._background_task: asyncio.Task | None = None
@@ -193,7 +190,7 @@ class LLMAgent:
             )
             self.logger.debug(f"---NEXT STEP PROMPT: {prompt}")
             try:
-                next_step = await self.llm.structured_output(
+                next_step = await self.llm_agent.llm.structured_output(
                     prompt=prompt,
                     mdl=NextStepDecision,
                 )
@@ -261,10 +258,10 @@ class LLMAgent:
             self.logger.debug(f"💬 USER: {user_message.content}")
 
             # start conversation
-            response = await self.llm.chat(
+            response = await self.llm_agent.llm.chat(
                 input=user_message.content,
                 chat_messages=[system_message],
-                tools=list(self.tools_registry.values()),
+                tools=list(self.llm_agent.tools_registry.values()),
             )
             self.logger.debug(f"💬 ASSISTANT: {response.content}")
 
@@ -281,7 +278,9 @@ class LLMAgent:
                     self.logger.info(
                         f"🛠️ Executing Tool Call: {tool_call.tool_name}",
                     )
-                    if tool := self.tools_registry.get(tool_call.tool_name):
+                    if tool := self.llm_agent.tools_registry.get(
+                        tool_call.tool_name,
+                    ):
                         if isinstance(tool, AsyncBaseTool):
                             tool_call_result = await tool(tool_call=tool_call)
                         else:
@@ -307,11 +306,9 @@ class LLMAgent:
                     tool_call_results.append(tool_call_result)
 
                 # send tool call results back to llm to get result
-                new_messages = (
-                    await self.llm.continue_conversation_with_tool_results(
-                        tool_call_results=tool_call_results,
-                        chat_messages=chat_history,
-                    )
+                new_messages = await self.llm_agent.llm.continue_conversation_with_tool_results(  # noqa: E501
+                    tool_call_results=tool_call_results,
+                    chat_messages=chat_history,
                 )
 
                 # get final content and update chat history
@@ -341,7 +338,7 @@ class LLMAgent:
 
         Asynchronously run `task`.
         """
-        task_handler = self.TaskHandler(task, self.llm, self.tools)
+        task_handler = self.TaskHandler(self, task)
 
         async def _run() -> None:
             """Asynchronously process the task."""

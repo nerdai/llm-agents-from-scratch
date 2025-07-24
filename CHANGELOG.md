@@ -8,7 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
-- ...
+### Changed
+
+- Rename `llm_agents_from_scratch.agent.core` to `llm_agents_from_scratch.agent.llm_agent` (#74)
 
 ## [0.0.5] - 2025-07-24
 

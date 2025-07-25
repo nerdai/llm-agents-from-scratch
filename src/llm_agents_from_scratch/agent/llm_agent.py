@@ -81,8 +81,6 @@ class LLMAgent:
         Attributes:
             llm_agent (LLMAgent): The LLM agent.
             task: The task to execute.
-            tools_registry: The tools the LLM agent can use represented as
-                a dict.
             templates: Associated prompt templates.
             rollout: The execution log of the task.
             logger: TaskHandler logger.

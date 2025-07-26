@@ -175,7 +175,6 @@ class LLMAgent:
                 return TaskStep(
                     task_id=self.task.id_,
                     instruction=self.task.instruction,
-                    last_step=False,
                 )
 
             async with self._lock:

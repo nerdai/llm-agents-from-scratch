@@ -186,7 +186,6 @@ class LLMAgent:
                 self.logger.debug(f"🧵 Rollout: {rollout}")
 
             prompt = self.templates["get_next_step"].format(
-                task_id=self.task.id_,
                 instruction=self.task.instruction,
                 current_rollout=rollout,
                 current_response=previous_step_result.content,

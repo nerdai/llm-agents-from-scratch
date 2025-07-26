@@ -297,8 +297,8 @@ def test_private_rollout_contribution_from_single_run_step(
 
     print(rollout_contribution)
     expected_rollout_contribution = (
-        "assistant: a user message\n"
-        "assistant: I need to make a tool call(s) to a tool\n"
+        "assistant: The current instruction is 'a user message'\n"
+        "assistant: I need to make a tool call(s) to `a tool`.\n"
         "tool: \n\ttool name: `a tool`\n\ttool result: 1+2=3.\n"
         "assistant: done!"
     )

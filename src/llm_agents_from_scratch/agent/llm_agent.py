@@ -146,11 +146,14 @@ class LLMAgent:
 
                 if role == "user":
                     role = ChatRole.ASSISTANT
+                    content = f"The current instruction is '{content}'"
 
                 if msg.tool_calls and msg.role == "assistant":
+                    called_tools = ", ".join(
+                        [f"`{t.tool_name}`" for t in msg.tool_calls],
+                    )
                     content = (
-                        "I need to make a tool call(s) to "
-                        f"{', '.join([t.tool_name for t in msg.tool_calls])}"
+                        f"I need to make a tool call(s) to {called_tools}."
                     )
 
                 rollout_contributions.append(
@@ -183,6 +186,7 @@ class LLMAgent:
                 self.logger.debug(f"🧵 Rollout: {rollout}")
 
             prompt = self.templates["get_next_step"].format(
+                task_id=self.task.id_,
                 instruction=self.task.instruction,
                 current_rollout=rollout,
                 current_response=previous_step_result.content,
@@ -206,11 +210,11 @@ class LLMAgent:
 
             if task_result:
                 self.logger.info("No new step required.")
-                return task_result
+                return task_result.with_task_id(self.task.id_)
 
             if task_step:
                 self.logger.info(f"🧠 New Step: {task_step.instruction}")
-                return task_step
+                return task_step.with_task_id(self.task.id_)
 
             error_msg = (
                 "Getting next step failed. Structured output didn't yield a "

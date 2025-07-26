@@ -186,6 +186,7 @@ class LLMAgent:
                 self.logger.debug(f"🧵 Rollout: {rollout}")
 
             prompt = self.templates["get_next_step"].format(
+                task_id=self.task.id_,
                 instruction=self.task.instruction,
                 current_rollout=rollout,
                 current_response=previous_step_result.content,
@@ -208,18 +209,12 @@ class LLMAgent:
             task_result = next_step.task_result
 
             if task_result:
-                # overwrite task_id set by the LLM which may be incorrect
-                task_result = task_result.with_task_id(self.task.id_)
                 self.logger.info("No new step required.")
-                return task_result
+                return task_result.with_task_id(self.task.id_)
 
             if task_step:
-                # overwrite id and task_id set by the LLM which may be incorrect
-                task_step = task_step.with_new_id().with_task_id(
-                    self.task.id_,
-                )
                 self.logger.info(f"🧠 New Step: {task_step.instruction}")
-                return task_step
+                return task_step.with_task_id(self.task.id_)
 
             error_msg = (
                 "Getting next step failed. Structured output didn't yield a "

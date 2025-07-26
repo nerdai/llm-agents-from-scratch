@@ -3,6 +3,7 @@
 import uuid
 
 from pydantic import BaseModel, Field
+from pydantic.json_schema import SkipJsonSchema
 from typing_extensions import Self
 
 
@@ -27,20 +28,11 @@ class TaskStep(BaseModel):
         instruction: The instruction for the task.
     """
 
-    id_: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    id_: SkipJsonSchema[str] = Field(default_factory=lambda: str(uuid.uuid4()))
     task_id: str
     instruction: str = Field(
         description="The instruction for this step in the task.",
     )
-
-    def with_new_id(self) -> Self:
-        """Modify id_.
-
-        NOTE: Useful when LLM fills in the ID field after a structured_output
-        call that doesn't confrom to the uuid.uuid4() style.
-        """
-        self.id_ = str(uuid.uuid4())
-        return self
 
     def with_task_id(self, task_id: str) -> Self:
         """Modify task_id.

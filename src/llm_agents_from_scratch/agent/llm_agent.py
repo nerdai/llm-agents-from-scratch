@@ -109,7 +109,6 @@ class LLMAgent:
             self.rollout = ""
             self.templates = templates
             self._background_task: asyncio.Task | None = None
-            self._lock: asyncio.Lock = asyncio.Lock()
             self.logger = get_logger(self.__class__.__name__)
 
         @property
@@ -181,13 +180,11 @@ class LLMAgent:
                     last_step=False,
                 )
 
-            async with self._lock:
-                rollout = self.rollout
-                self.logger.debug(f"🧵 Rollout: {rollout}")
+            self.logger.debug(f"🧵 Rollout: {self.rollout}")
 
             prompt = self.templates["get_next_step"].format(
                 instruction=self.task.instruction,
-                current_rollout=rollout,
+                current_rollout=self.rollout,
                 current_response=previous_step_result.content,
             )
             self.logger.debug(f"---NEXT STEP PROMPT: {prompt}")
@@ -236,18 +233,16 @@ class LLMAgent:
                 TaskStepResult: The result of the step execution.
             """
             self.logger.info(f"⚙️ Processing Step: {step.instruction}")
-            async with self._lock:
-                rollout = self.rollout
-                self.logger.debug(f"🧵 Rollout: {rollout}")
+            self.logger.debug(f"🧵 Rollout: {self.rollout}")
 
             # include rollout as context in the system message
             system_message = ChatMessage(
                 role=ChatRole.SYSTEM,
                 content=self.templates["system_message"].format(
                     original_instruction=self.task.instruction,
-                    current_rollout=rollout,
+                    current_rollout=self.rollout,
                 )
-                if rollout
+                if self.rollout
                 else self.templates["system_message_without_rollout"],
             )
             self.logger.debug(f"💬 SYSTEM: {system_message.content}")
@@ -320,12 +315,9 @@ class LLMAgent:
                 final_content = response.content
 
             # augment rollout from this turn
-            async with self._lock:
-                rollout = self.rollout
-                rollout += self._rollout_contribution_from_single_run_step(
-                    chat_history=chat_history,
-                )
-                self.rollout = rollout
+            self.rollout += self._rollout_contribution_from_single_run_step(
+                chat_history=chat_history,
+            )
 
             self.logger.info(
                 f"✅ Step Result: {final_content}",
@@ -356,13 +348,10 @@ class LLMAgent:
                                 next_step,
                             )
                         case TaskResult():
-                            async with task_handler._lock:
-                                rollout = task_handler.rollout
-
                             task_handler.set_result(
                                 TaskHandlerResult(
                                     task_result=next_step,
-                                    rollout=rollout,
+                                    rollout=task_handler.rollout,
                                 ),
                             )
                             self.logger.info(

@@ -171,16 +171,17 @@ class LLMAgent:
                 TaskStep | TaskResult: Either the next step or the result of the
                     task.
             """
-            async with self._lock:
-                rollout = self.rollout
-                self.logger.debug(f"🧵 Rollout: {rollout}")
-
             if not previous_step_result:
                 return TaskStep(
                     task_id=self.task.id_,
                     instruction=self.task.instruction,
                     last_step=False,
                 )
+
+            async with self._lock:
+                rollout = self.rollout
+                self.logger.debug(f"🧵 Rollout: {rollout}")
+
             prompt = self.templates["get_next_step"].format(
                 instruction=self.task.instruction,
                 current_rollout=rollout,

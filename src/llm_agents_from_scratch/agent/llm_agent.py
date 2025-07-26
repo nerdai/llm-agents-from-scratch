@@ -145,18 +145,26 @@ class LLMAgent:
 
                 if role == "user":
                     role = ChatRole.ASSISTANT
-                    content = f"The current instruction is '{content}'"
+                    content = self.templates[
+                        "rollout_contribution_content_instruction"
+                    ].format(
+                        instruction=content,
+                    )
 
                 if msg.tool_calls and msg.role == "assistant":
                     called_tools = ", ".join(
                         [f"`{t.tool_name}`" for t in msg.tool_calls],
                     )
-                    content = (
-                        f"I need to make a tool call(s) to {called_tools}."
+                    content = self.templates[
+                        "rollout_contribution_content_tool_call_request"
+                    ].format(
+                        called_tools=called_tools,
                     )
 
                 rollout_contributions.append(
-                    self.templates["rollout_block_from_chat_message"].format(
+                    self.templates[
+                        "rollout_contribution_from_chat_message"
+                    ].format(
                         role=role.value,
                         content=content,
                     ),
@@ -179,7 +187,6 @@ class LLMAgent:
                     instruction=self.task.instruction,
                     last_step=False,
                 )
-
             self.logger.debug(f"🧵 Rollout: {self.rollout}")
 
             prompt = self.templates["get_next_step"].format(
@@ -246,6 +253,8 @@ class LLMAgent:
                 else self.templates["system_message_without_rollout"],
             )
             self.logger.debug(f"💬 SYSTEM: {system_message.content}")
+
+            # fictitious user
             user_message = ChatMessage(
                 role=ChatRole.USER,
                 content=self.templates["user_message"].format(
@@ -254,11 +263,11 @@ class LLMAgent:
             )
             self.logger.debug(f"💬 USER: {user_message.content}")
 
-            # start conversation
+            # start single-turn conversation
             response = await self.llm_agent.llm.chat(
                 input=user_message.content,
                 chat_messages=[system_message],
-                tools=list(self.llm_agent.tools_registry.values()),
+                tools=self.llm_agent.tools,
             )
             self.logger.debug(f"💬 ASSISTANT: {response.content}")
 
@@ -268,7 +277,7 @@ class LLMAgent:
                 response,
             ]
 
-            # see if there are tool calls
+            # check if there are tool calls
             if response.tool_calls:
                 tool_call_results = []
                 for tool_call in response.tool_calls:

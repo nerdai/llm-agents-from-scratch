@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+### Added
+
+- Add `with_task_id()` to `TaskResult` and `TaskStep` (#77)
+- Add `SkipJsonSchema` annotation to `id_` for `TaskStep` (#77)
+
 ### Changed
 
 - [Fix] Move check for previous_step_result at top of method (#76)

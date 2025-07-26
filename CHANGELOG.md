@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- Remove TaskHandler._lock since we actually don't need it (#79)
 - [Fix] Move check for previous_step_result at top of method (#76)
 - Rename `llm_agents_from_scratch.agent.core` to `llm_agents_from_scratch.agent.llm_agent` (#74)
 

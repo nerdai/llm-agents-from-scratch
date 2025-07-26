@@ -3,6 +3,7 @@
 import uuid
 
 from pydantic import BaseModel, Field
+from typing_extensions import Self
 
 
 class Task(BaseModel):
@@ -31,6 +32,24 @@ class TaskStep(BaseModel):
     instruction: str = Field(
         description="The instruction for this step in the task.",
     )
+
+    def with_new_id(self) -> Self:
+        """Modify id_.
+
+        NOTE: Useful when LLM fills in the ID field after a structured_output
+        call that doesn't confrom to the uuid.uuid4() style.
+        """
+        self.id_ = str(uuid.uuid4())
+        return self
+
+    def with_task_id(self, task_id: str) -> Self:
+        """Modify task_id.
+
+        NOTE: Useful when LLM fills in the task_id field after a
+        structured_output that doesn't retain the original task_id.
+        """
+        self.task_id = task_id
+        return self
 
 
 class TaskStepResult(BaseModel):
@@ -63,6 +82,15 @@ class TaskResult(BaseModel):
     def __str__(self) -> str:
         """String representation of TaskResult."""
         return self.content
+
+    def with_task_id(self, task_id: str) -> Self:
+        """Modify task_id.
+
+        NOTE: Useful when LLM fills in the task_id field after a
+        structured_output that doesn't retain the original task_id.
+        """
+        self.task_id = task_id
+        return self
 
 
 class NextStepDecision(BaseModel):

@@ -146,11 +146,14 @@ class LLMAgent:
 
                 if role == "user":
                     role = ChatRole.ASSISTANT
+                    content = f"The current instruction is '{content}'"
 
                 if msg.tool_calls and msg.role == "assistant":
+                    called_tools = ", ".join(
+                        [f"`{t.tool_name}`" for t in msg.tool_calls],
+                    )
                     content = (
-                        "I need to make a tool call(s) to "
-                        f"{', '.join([t.tool_name for t in msg.tool_calls])}"
+                        f"I need to make a tool call(s) to {called_tools}."
                     )
 
                 rollout_contributions.append(
@@ -205,10 +208,16 @@ class LLMAgent:
             task_result = next_step.task_result
 
             if task_result:
+                # overwrite task_id set by the LLM which may be incorrect
+                task_result = task_result.with_task_id(self.task.id_)
                 self.logger.info("No new step required.")
                 return task_result
 
             if task_step:
+                # overwrite id and task_id set by the LLM which may be incorrect
+                task_step = task_step.with_new_id().with_task_id(
+                    self.task.id_,
+                )
                 self.logger.info(f"🧠 New Step: {task_step.instruction}")
                 return task_step
 

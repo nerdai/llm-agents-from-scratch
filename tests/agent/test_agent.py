@@ -87,7 +87,10 @@ async def test_run(
     with contextlib.suppress(asyncio.CancelledError):
         await handler.background_task
     assert str(handler.result().task_result) == "mock result"
-    expected_rollout = "assistant: mock step\nassistant: mock chat response"
+    expected_rollout = (
+        "assistant: The current instruction is 'mock step'\n"
+        "assistant: mock chat response"
+    )
     assert handler.result().rollout == expected_rollout
 
 

@@ -339,12 +339,21 @@ class LLMAgent:
     def run(self, task: Task) -> TaskHandler:
         """Agent's processing loop for executing tasks.
 
-        Asynchronously run `task`.
+        Args:
+            task (Task): the Task to perform.
+
+        Returns:
+            TaskHandler: the TaskHandler object responsible for task execution.
         """
         task_handler = self.TaskHandler(self, task)
 
-        async def _run() -> None:
-            """Asynchronously process the task."""
+        async def _process_loop() -> None:
+            """The processing loop for the task handler execute its task.
+
+            Cycle between get_next_step and run_step, until the task_handler
+            is marked as done, either through a set result or an exception being
+            set.
+            """
             self.logger.info(f"🚀 Starting task: {task.instruction}")
             step_result = None
             while not task_handler.done():
@@ -370,6 +379,6 @@ class LLMAgent:
                 except Exception as e:
                     task_handler.set_exception(e)
 
-        task_handler.background_task = asyncio.create_task(_run())
+        task_handler.background_task = asyncio.create_task(_process_loop())
 
         return task_handler

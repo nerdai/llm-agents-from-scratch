@@ -345,7 +345,7 @@ class LLMAgent:
         Returns:
             TaskHandler: the TaskHandler object responsible for task execution.
         """
-        task_handler = self.TaskHandler(self, task)
+        task_handler = self.TaskHandler(llm_agent=self, task=task)
 
         async def _process_loop() -> None:
             """The processing loop for the task handler execute its task.

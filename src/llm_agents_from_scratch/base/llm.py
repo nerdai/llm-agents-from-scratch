@@ -54,21 +54,24 @@ class BaseLLM(ABC):
     async def chat(
         self,
         input: str,
-        chat_messages: Sequence[ChatMessage] | None = None,
+        chat_history: Sequence[ChatMessage] | None = None,
         tools: Sequence[BaseTool | AsyncBaseTool] | None = None,
         **kwargs: Any,
-    ) -> ChatMessage:
+    ) -> tuple[ChatMessage, ChatMessage]:
         """Chat interface.
 
         Args:
             input (str): The user's current input.
-            chat_messages (Sequence[ChatMessage]|None, optional): chat history.
+            chat_history (Sequence[ChatMessage]|None, optional): chat history.
             tools (Sequence[BaseTool]|None, optional): tools that the LLM
                 can call.
             **kwargs (Any): Additional keyword arguments.
 
         Returns:
-            ChatMessage: The response of the LLM structured as a `ChatMessage`.
+            tuple[ChatMessage, ChatMessage]: A tuple of ChatMessage with the
+                first message corresponding to the ChatMessage created from the
+                supplied input string, and the second ChatMessage is the
+                response from the LLM structured.
         """
 
     @abstractmethod
@@ -77,7 +80,7 @@ class BaseLLM(ABC):
         tool_call_results: Sequence[ToolCallResult],
         chat_messages: Sequence[ChatMessage],
         **kwargs: Any,
-    ) -> list[ChatMessage]:
+    ) -> tuple[list[ChatMessage], ChatMessage]:
         """Continue a conversation submitting tool call results.
 
         Args:
@@ -88,8 +91,8 @@ class BaseLLM(ABC):
             **kwargs (Any): Additional keyword arguments.
 
         Returns:
-            list[ChatMessage]: The chat messages that continue the provided
-                conversation history. This should include the tool call
-                results as chat messages as well as the LLM's response to the
-                tool call results.
+            tuple[list[ChatMessage], ChatMessage]: A tuple whose first element
+                is a list of ChatMessage objects corresponding to the
+                supplied ToolCallResult converted objects. The second element
+                is the response ChatMessage from the LLM.
         """

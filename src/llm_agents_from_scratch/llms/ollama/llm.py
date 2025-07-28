@@ -89,16 +89,16 @@ class OllamaLLM(BaseLLM):
     async def chat(
         self,
         input: str,
-        chat_messages: list[ChatMessage] | None = None,
+        chat_history: list[ChatMessage] | None = None,
         tools: list[BaseTool | AsyncBaseTool] | None = None,
         return_history: bool = False,
         **kwargs: Any,
-    ) -> ChatMessage:
+    ) -> tuple[ChatMessage, ChatMessage]:
         """Chat with an Ollama LLM.
 
         Args:
             input (str): The user's current input.
-            chat_messages (list[ChatMessage] | None, optional): The chat
+            chat_history (list[ChatMessage] | None, optional): The chat
                 history.
             tools (list[BaseTool] | None, optional): The tools available to the
                 LLM.
@@ -107,18 +107,22 @@ class OllamaLLM(BaseLLM):
             **kwargs (Any): Additional keyword arguments.
 
         Returns:
-            ChatMessage: The chat message from the LLM.
+            tuple[ChatMessage, ChatMessage]: A tuple of ChatMessage with the
+                first message corresponding to the ChatMessage created from the
+                supplied input string, and the second ChatMessage is the
+                response from the LLM structured.
         """
         # prepare chat history
         o_messages = (
-            [chat_message_to_ollama_message(cm) for cm in chat_messages]
-            if chat_messages
+            [chat_message_to_ollama_message(cm) for cm in chat_history]
+            if chat_history
             else []
         )
 
+        user_message = ChatMessage(role="user", content=input)
         o_messages.append(
             chat_message_to_ollama_message(
-                ChatMessage(role="user", content=input),
+                user_message,
             ),
         )
 
@@ -131,33 +135,33 @@ class OllamaLLM(BaseLLM):
             tools=o_tools,
         )
 
-        return ollama_message_to_chat_message(result.message)
+        return user_message, ollama_message_to_chat_message(result.message)
 
     async def continue_conversation_with_tool_results(
         self,
         tool_call_results: Sequence[ToolCallResult],
-        chat_messages: Sequence[ChatMessage],
+        chat_history: Sequence[ChatMessage],
         **kwargs: Any,
-    ) -> list[ChatMessage]:
+    ) -> tuple[list[ChatMessage], ChatMessage]:
         """Implements continue_conversation_with_tool_results method.
 
         Args:
             tool_call_results (Sequence[ToolCallResult]): The tool call results.
-            chat_messages (Sequence[ChatMessage]): The chat history.
+            chat_history (Sequence[ChatMessage]): The chat history.
             **kwargs (Any): Additional keyword arguments.
 
         Returns:
-            list[ChatMessage]: The chat messages that continue the provided
-                conversation history. This should include the tool call
-                results as chat messages as well as the LLM's response to the
-                tool call results.
+            tuple[list[ChatMessage], ChatMessage]: A tuple whose first element
+                is a list of ChatMessage objects corresponding to the
+                supplied ToolCallResult converted objects. The second element
+                is the response ChatMessage from the LLM.
         """
         # augment chat messages and convert to Ollama messages
         tool_messages = [
             ChatMessage.from_tool_call_result(tc) for tc in tool_call_results
         ]
         o_messages = [
-            chat_message_to_ollama_message(cm) for cm in chat_messages
+            chat_message_to_ollama_message(cm) for cm in chat_history
         ] + [chat_message_to_ollama_message(tm) for tm in tool_messages]
 
         # send chat request
@@ -166,6 +170,4 @@ class OllamaLLM(BaseLLM):
             messages=o_messages,
         )
 
-        return tool_messages + [
-            ollama_message_to_chat_message(o_result.message),
-        ]
+        return tool_messages, ollama_message_to_chat_message(o_result.message)

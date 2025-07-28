@@ -254,33 +254,24 @@ class LLMAgent:
             )
             self.logger.debug(f"💬 SYSTEM: {system_message.content}")
 
-            # fictitious user
-            user_message = ChatMessage(
-                role=ChatRole.USER,
-                content=self.templates["user_message"].format(
-                    instruction=step.instruction,
-                ),
+            # fictitious user's input
+            user_input = self.templates["user_message"].format(
+                instruction=step.instruction,
             )
-            self.logger.debug(f"💬 USER: {user_message.content}")
+            self.logger.debug(f"💬 USER INPUT: {user_input}")
 
             # start single-turn conversation
-            response = await self.llm_agent.llm.chat(
-                input=user_message.content,
-                chat_messages=[system_message],
+            user_message, response_message = await self.llm_agent.llm.chat(
+                input=user_input,
+                chat_history=[system_message],
                 tools=self.llm_agent.tools,
             )
-            self.logger.debug(f"💬 ASSISTANT: {response.content}")
-
-            chat_history = [
-                system_message,
-                user_message,
-                response,
-            ]
+            self.logger.debug(f"💬 ASSISTANT: {response_message.content}")
 
             # check if there are tool calls
-            if response.tool_calls:
+            if response_message.tool_calls:
                 tool_call_results = []
-                for tool_call in response.tool_calls:
+                for tool_call in response_message.tool_calls:
                     self.logger.info(
                         f"🛠️ Executing Tool Call: {tool_call.tool_name}",
                     )
@@ -312,16 +303,36 @@ class LLMAgent:
                     tool_call_results.append(tool_call_result)
 
                 # send tool call results back to llm to get result
-                new_messages = await self.llm_agent.llm.continue_conversation_with_tool_results(  # noqa: E501
+                (
+                    tool_messages,
+                    another_response_message,
+                ) = await self.llm_agent.llm.continue_conversation_with_tool_results(  # noqa: E501
                     tool_call_results=tool_call_results,
-                    chat_messages=chat_history,
+                    chat_history=[
+                        system_message,
+                        user_message,
+                        response_message,
+                    ],
                 )
 
                 # get final content and update chat history
-                final_content = new_messages[-1].content
-                chat_history += new_messages
+                final_content = another_response_message.content
+                chat_history = (
+                    [
+                        system_message,
+                        user_message,
+                        response_message,
+                    ]
+                    + tool_messages
+                    + [another_response_message]
+                )
             else:
-                final_content = response.content
+                final_content = response_message.content
+                chat_history = [
+                    system_message,
+                    user_message,
+                    response_message,
+                ]
 
             # augment rollout from this turn
             self.rollout += self._rollout_contribution_from_single_run_step(

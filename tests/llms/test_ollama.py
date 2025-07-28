@@ -133,10 +133,12 @@ async def test_chat(mock_async_client_class: MagicMock) -> None:
     llm = OllamaLLM(model="llama3.2")
 
     # act
-    result = await llm.chat("Some new input.")
+    user_message, response_message = await llm.chat("Some new input.")
 
-    assert result.role == "assistant"
-    assert result.content == "some fake content"
+    assert user_message.role == "user"
+    assert user_message.content == "Some new input."
+    assert response_message.role == "assistant"
+    assert response_message.content == "some fake content"
     mock_chat.assert_awaited_once_with(
         model="llama3.2",
         messages=[OllamaMessage(role="user", content="Some new input.")],
@@ -178,14 +180,17 @@ async def test_continue_conversation_with_tool_results(
             error=False,
         ),
     ]
-    new_messages = await llm.continue_conversation_with_tool_results(
+    (
+        tool_messages,
+        response_message,
+    ) = await llm.continue_conversation_with_tool_results(
         tool_call_results=tool_call_results,
-        chat_messages=[],
+        chat_history=[],
     )
 
-    assert len(new_messages) == len(tool_call_results) + 1
-    assert new_messages[-1].role == "assistant"
-    assert new_messages[-1].content == "Thank you for the tool call results."
+    assert len(tool_messages) == len(tool_call_results)
+    assert response_message.role == "assistant"
+    assert response_message.content == "Thank you for the tool call results."
     mock_chat.assert_awaited_once_with(
         model="llama3.2",
         messages=[

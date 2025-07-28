@@ -78,7 +78,7 @@ class BaseLLM(ABC):
     async def continue_conversation_with_tool_results(
         self,
         tool_call_results: Sequence[ToolCallResult],
-        chat_messages: Sequence[ChatMessage],
+        chat_history: Sequence[ChatMessage],
         **kwargs: Any,
     ) -> tuple[list[ChatMessage], ChatMessage]:
         """Continue a conversation submitting tool call results.
@@ -86,7 +86,7 @@ class BaseLLM(ABC):
         Args:
             tool_call_results (Sequence[ToolCallResult]):
                 Tool call results.
-            chat_messages (Sequence[ChatMessage]): The chat history.
+            chat_history (Sequence[ChatMessage]): The chat history.
                 Defaults to None.
             **kwargs (Any): Additional keyword arguments.
 

@@ -256,17 +256,15 @@ class LLMAgent:
             self.logger.debug(f"💬 SYSTEM: {system_message.content}")
 
             # fictitious user's input
-            user_input = (
-                self.templates["user_message"].format(
-                    instruction=step.instruction,
-                ),
+            user_input = self.templates["user_message"].format(
+                instruction=step.instruction,
             )
             self.logger.debug(f"💬 USER INPUT: {user_input}")
 
             # start single-turn conversation
             user_message, response_message = await self.llm_agent.llm.chat(
                 input=user_input,
-                chat_messages=chat_history,
+                chat_history=chat_history,
                 tools=self.llm_agent.tools,
             )
             self.logger.debug(f"💬 ASSISTANT: {response_message.content}")
@@ -316,7 +314,7 @@ class LLMAgent:
                     another_response_message,
                 ) = await self.llm_agent.llm.continue_conversation_with_tool_results(  # noqa: E501
                     tool_call_results=tool_call_results,
-                    chat_messages=chat_history,
+                    chat_history=chat_history,
                 )
 
                 # get final content and update chat history

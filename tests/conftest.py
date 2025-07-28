@@ -39,16 +39,20 @@ class MockBaseLLM(BaseLLM):
 
     async def chat(
         self,
-        chat_messages: Sequence[ChatMessage],
+        input: str,
+        chat_history: Sequence[ChatMessage],
         tools: Sequence[BaseTool] | None = None,
         **kwargs: Any,
-    ) -> ChatMessage:
-        return ChatMessage(role="assistant", content="mock chat response")
+    ) -> tuple[ChatMessage, ChatMessage]:
+        return (
+            ChatMessage(role="user", content=input),
+            ChatMessage(role="assistant", content="mock chat response"),
+        )
 
     async def continue_conversation_with_tool_results(
         self,
         tool_call_results: Sequence[ToolCallResult],
-        chat_messages: Sequence[ChatMessage],
+        chat_history: Sequence[ChatMessage],
         **kwargs: Any,
     ):
         return ChatMessage(

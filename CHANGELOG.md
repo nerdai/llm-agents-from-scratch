@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- Update `BaseLLM.chat` and `BaseLLM.continue_conversation_with_tool_call_results` for better consistency (#84)
 - Refactor: Change LLMAgent.run helper method _run name to_process_loop (#83)
 - Remove TaskHandler._lock since we actually don't need it (#79)
 - [Fix] Move check for previous_step_result at top of method (#76)

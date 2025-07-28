@@ -336,31 +336,39 @@ async def test_run_step() -> None:
             arguments={"arg1": 1},
         ),
     ]
-    mock_llm.chat.return_value = ChatMessage(
-        role=ChatRole.ASSISTANT,
-        content="Initial response.",
-        tool_calls=tool_calls,
+    mock_llm.chat.return_value = (
+        ChatMessage(
+            role=ChatRole.USER,
+            content="Some instruction.",
+        ),
+        ChatMessage(
+            role=ChatRole.ASSISTANT,
+            content="Initial response.",
+            tool_calls=tool_calls,
+        ),
     )
     # continue conversation with tool calls
-    mock_return_value = [
-        # tool calls
-        ChatMessage(
-            role=ChatRole.TOOL,
-            content="2",
-        ),
-        ChatMessage(
-            role=ChatRole.TOOL,
-            content="3",
-        ),
-        ChatMessage(
-            role=ChatRole.TOOL,
-            content="error: tool name `plus_three` doesn't exist",
-        ),
+    mock_return_value = (
+        [
+            # tool calls
+            ChatMessage(
+                role=ChatRole.TOOL,
+                content="2",
+            ),
+            ChatMessage(
+                role=ChatRole.TOOL,
+                content="3",
+            ),
+            ChatMessage(
+                role=ChatRole.TOOL,
+                content="error: tool name `plus_three` doesn't exist",
+            ),
+        ],
         ChatMessage(
             role=ChatRole.ASSISTANT,
             content="The final response.",
         ),
-    ]
+    )
     mock_llm.continue_conversation_with_tool_results.return_value = (
         mock_return_value
     )
@@ -382,14 +390,13 @@ async def test_run_step() -> None:
     step = TaskStep(
         task_id=task.id_,
         instruction="Some instruction.",
-        last_step=False,
     )
     step_result = await handler.run_step(step)
 
     # assert
     mock_llm.chat.assert_awaited_once_with(
         input="Some instruction.",
-        chat_messages=[
+        chat_history=[
             ChatMessage(
                 role=ChatRole.SYSTEM,
                 content=default_task_handler_templates[
@@ -413,9 +420,15 @@ async def test_run_step_without_tool_calls() -> None:
 
     # arrange mocks
     mock_llm = AsyncMock()
-    mock_llm.chat.return_value = ChatMessage(
-        role=ChatRole.ASSISTANT,
-        content="Initial response.",
+    mock_llm.chat.return_value = (
+        ChatMessage(
+            role=ChatRole.USER,
+            content="Some instruction.",
+        ),
+        ChatMessage(
+            role=ChatRole.ASSISTANT,
+            content="Initial response.",
+        ),
     )
 
     llm_agent = LLMAgent(
@@ -437,7 +450,7 @@ async def test_run_step_without_tool_calls() -> None:
     # assert
     mock_llm.chat.assert_awaited_once_with(
         input="Some instruction.",
-        chat_messages=[
+        chat_history=[
             ChatMessage(
                 role=ChatRole.SYSTEM,
                 content=default_task_handler_templates[

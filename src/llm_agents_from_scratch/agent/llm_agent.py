@@ -252,7 +252,6 @@ class LLMAgent:
                 if self.rollout
                 else self.templates["system_message_without_rollout"],
             )
-            chat_history = [system_message]
             self.logger.debug(f"💬 SYSTEM: {system_message.content}")
 
             # fictitious user's input
@@ -264,15 +263,10 @@ class LLMAgent:
             # start single-turn conversation
             user_message, response_message = await self.llm_agent.llm.chat(
                 input=user_input,
-                chat_history=chat_history,
+                chat_history=[system_message],
                 tools=self.llm_agent.tools,
             )
             self.logger.debug(f"💬 ASSISTANT: {response_message.content}")
-
-            chat_history += [
-                user_message,
-                response_message,
-            ]
 
             # check if there are tool calls
             if response_message.tool_calls:
@@ -314,15 +308,31 @@ class LLMAgent:
                     another_response_message,
                 ) = await self.llm_agent.llm.continue_conversation_with_tool_results(  # noqa: E501
                     tool_call_results=tool_call_results,
-                    chat_history=chat_history,
+                    chat_history=[
+                        system_message,
+                        user_message,
+                        response_message,
+                    ],
                 )
 
                 # get final content and update chat history
                 final_content = another_response_message.content
-                chat_history += tool_messages
-                chat_history += [another_response_message]
+                chat_history = (
+                    [
+                        system_message,
+                        user_message,
+                        response_message,
+                    ]
+                    + tool_messages
+                    + [another_response_message]
+                )
             else:
                 final_content = response_message.content
+                chat_history = [
+                    system_message,
+                    user_message,
+                    response_message,
+                ]
 
             # augment rollout from this turn
             self.rollout += self._rollout_contribution_from_single_run_step(

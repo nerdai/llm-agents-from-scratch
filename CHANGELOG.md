@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- ...
+
+## [0.0.6] - 2025-07-27
+
 ### Added
 
 - Add templates for `_rollout_contribution_from_single_run_step` (#81)

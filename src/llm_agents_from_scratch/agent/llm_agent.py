@@ -209,23 +209,18 @@ class LLMAgent:
 
             if next_step.kind == "final_result":
                 self.logger.info("No new step required.")
-                return TaskResult(
+                retval = TaskResult(
                     task_id=self.task.id_,
                     content=next_step.content,
                 )
-
-            if next_step.kind == "next_step":
+            else:  # next_step.kind == "next_step":
                 self.logger.info(f"🧠 New Step: {next_step.content}")
-                return TaskStep(
+                retval = TaskStep(
                     task_id=self.task.id_,
                     instruction=next_step.content,
                 )
 
-            error_msg = (
-                "Getting next step failed. Structured output didn't yield a "
-                "`TaskResult` nor a `TaskStep`."
-            )
-            raise TaskHandlerError(error_msg)
+            return retval
 
         async def run_step(self, step: TaskStep) -> TaskStepResult:
             """Run next step of a given task.

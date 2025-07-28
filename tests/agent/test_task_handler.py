@@ -102,11 +102,8 @@ async def test_get_next_step(mock_llm: BaseLLM) -> None:
 
     # update rollout and get next step
     expected_next_step = NextStepDecision(
-        task_step=TaskStep(
-            task_id=task.id_,
-            instruction="Some next instruction.",
-        ),
-        task_result=None,
+        kind="next_step",
+        content="Some next instruction.",
     )
 
     magic_mock_llm = AsyncMock()
@@ -122,7 +119,7 @@ async def test_get_next_step(mock_llm: BaseLLM) -> None:
 
     assert initial_step.instruction == "mock instruction"
     assert isinstance(next_step, TaskStep)
-    assert next_step == expected_next_step.task_step
+    assert next_step.instruction == expected_next_step.content
 
 
 @pytest.mark.asyncio
@@ -142,11 +139,8 @@ async def test_get_next_step_completes_task(mock_llm: BaseLLM) -> None:
 
     # update rollout and get next step
     expected_next_step = NextStepDecision(
-        task_step=None,
-        task_result=TaskResult(
-            task_id=task.id_,
-            content="Mock result.",
-        ),
+        kind="final_result",
+        content="Mock result.",
     )
 
     magic_mock_llm = AsyncMock()
@@ -162,7 +156,7 @@ async def test_get_next_step_completes_task(mock_llm: BaseLLM) -> None:
 
     assert initial_step.instruction == "mock instruction"
     assert isinstance(next_step, TaskResult)
-    assert next_step == expected_next_step.task_result
+    assert next_step.content == expected_next_step.content
 
 
 @pytest.mark.asyncio
@@ -192,52 +186,6 @@ async def test_get_next_step_raises_error_from_structured_output_call(
     with pytest.raises(
         TaskHandlerError,
         match="Failed to get next step: oops.",
-    ):
-        await handler.get_next_step(
-            previous_step_result=TaskStepResult(
-                task_step_id=initial_step.id_,
-                content="mock step result",
-            ),
-        )
-
-    assert initial_step.instruction == "mock instruction"
-
-
-@pytest.mark.asyncio
-async def test_get_next_step_raises_error_if_no_task_step_nor_result(
-    mock_llm: BaseLLM,
-) -> None:
-    """Tests get_next_step raises error `NextStepDecision` is None for step and
-    result."""
-
-    task = Task(instruction="mock instruction")
-    llm_agent = LLMAgent(
-        llm=mock_llm,
-    )
-    handler = LLMAgent.TaskHandler(
-        llm_agent=llm_agent,
-        task=task,
-    )
-
-    # initial task step
-    initial_step = await handler.get_next_step(previous_step_result=None)
-
-    # update rollout and get next step
-    magic_mock_llm = AsyncMock()
-    magic_mock_llm.structured_output.return_value = NextStepDecision(
-        task_step=None,
-        task_result=None,
-    )
-    handler.llm_agent.llm = magic_mock_llm
-    handler.rollout = "some progress"
-
-    expected_error_msg = (
-        "Getting next step failed. Structured output didn't yield a "
-        "`TaskResult` nor a `TaskStep`."
-    )
-    with pytest.raises(
-        TaskHandlerError,
-        match=expected_error_msg,
     ):
         await handler.get_next_step(
             previous_step_result=TaskStepResult(

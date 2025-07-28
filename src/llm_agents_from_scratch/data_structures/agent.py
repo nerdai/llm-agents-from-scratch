@@ -1,6 +1,7 @@
 """Data Structures for LLM Agent."""
 
 import uuid
+from typing import Literal
 
 from pydantic import BaseModel, Field
 from pydantic.json_schema import SkipJsonSchema
@@ -88,13 +89,11 @@ class TaskResult(BaseModel):
 class NextStepDecision(BaseModel):
     """Structured output for TaskHandler.get_next_step()."""
 
-    task_step: TaskStep | None = Field(
-        description="If a next step is required. Otherwise is set to `None`.",
-    )
-    task_result: TaskResult | None = Field(
+    kind: Literal["next_step", "final_result"]
+    content: str = Field(
         description=(
-            "If no next step is required, the task has a final result. "
-            "Otherwise is set to `None`."
+            "Content for the next step of the task execution. Or, the "
+            "the final result."
         ),
     )
 

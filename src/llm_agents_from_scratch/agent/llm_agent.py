@@ -185,7 +185,6 @@ class LLMAgent:
                 return TaskStep(
                     task_id=self.task.id_,
                     instruction=self.task.instruction,
-                    last_step=False,
                 )
             self.logger.debug(f"🧵 Rollout: {self.rollout}")
 
@@ -208,22 +207,20 @@ class LLMAgent:
                     f"Failed to get next step: {str(e)}",
                 ) from e
 
-            task_step = next_step.task_step
-            task_result = next_step.task_result
-
-            if task_result:
+            if next_step.kind == "final_result":
                 self.logger.info("No new step required.")
-                return task_result.with_task_id(self.task.id_)
+                retval = TaskResult(
+                    task_id=self.task.id_,
+                    content=next_step.content,
+                )
+            else:  # next_step.kind == "next_step":
+                self.logger.info(f"🧠 New Step: {next_step.content}")
+                retval = TaskStep(
+                    task_id=self.task.id_,
+                    instruction=next_step.content,
+                )
 
-            if task_step:
-                self.logger.info(f"🧠 New Step: {task_step.instruction}")
-                return task_step.with_task_id(self.task.id_)
-
-            error_msg = (
-                "Getting next step failed. Structured output didn't yield a "
-                "`TaskResult` nor a `TaskStep`."
-            )
-            raise TaskHandlerError(error_msg)
+            return retval
 
         async def run_step(self, step: TaskStep) -> TaskStepResult:
             """Run next step of a given task.

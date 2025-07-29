@@ -121,7 +121,7 @@ async def test_run_max_steps_reached_error(
     mock_get_next_step: AsyncMock,
     mock_llm: BaseLLM,
 ) -> None:
-    """Tests run method with exception."""
+    """Tests run method reaches max step."""
 
     # arrange
     task = Task(instruction="mock instruction")

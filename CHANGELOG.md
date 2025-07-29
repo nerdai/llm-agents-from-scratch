@@ -8,7 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
-- ...
+### Changed
+
+- Remove `with_task_id()` from `TaskStep` and `TaskResult` (#95)
 
 ## [0.0.7] - 2025-07-29
 

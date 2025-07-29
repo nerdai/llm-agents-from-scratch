@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- Remove TaskHandlerResult and use TaskResult directly (#93)
 - Improve `NextStepDecision` to allow for only one next_step or task_result (#88)
 
 ## [0.0.6] - 2025-07-27

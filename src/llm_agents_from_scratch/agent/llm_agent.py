@@ -18,7 +18,11 @@ from llm_agents_from_scratch.data_structures import (
     TaskStepResult,
     ToolCallResult,
 )
-from llm_agents_from_scratch.errors import LLMAgentError, TaskHandlerError
+from llm_agents_from_scratch.errors import (
+    LLMAgentError,
+    MaxStepsReachedError,
+    TaskHandlerError,
+)
 from llm_agents_from_scratch.logger import get_logger
 
 from .templates import TaskHandlerTemplates, default_task_handler_templates
@@ -344,11 +348,13 @@ class LLMAgent:
                 content=final_content,
             )
 
-    def run(self, task: Task) -> TaskHandler:
+    def run(self, task: Task, max_steps: int | None = None) -> TaskHandler:
         """Agent's processing loop for executing tasks.
 
         Args:
             task (Task): the Task to perform.
+            max_steps (int | None): Maximum number of steps to run for task.
+                Defaults to None.
 
         Returns:
             TaskHandler: the TaskHandler object responsible for task execution.
@@ -364,8 +370,12 @@ class LLMAgent:
             """
             self.logger.info(f"🚀 Starting task: {task.instruction}")
             step_result = None
+            ix = 0
             while not task_handler.done():
                 try:
+                    if max_steps and ix == max_steps:
+                        raise MaxStepsReachedError("Max steps reached.")
+
                     next_step = await task_handler.get_next_step(step_result)
 
                     match next_step:
@@ -386,6 +396,8 @@ class LLMAgent:
 
                 except Exception as e:
                     task_handler.set_exception(e)
+                finally:
+                    ix += 1
 
         task_handler.background_task = asyncio.create_task(_process_loop())
 

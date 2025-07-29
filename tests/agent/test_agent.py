@@ -12,7 +12,7 @@ from llm_agents_from_scratch.data_structures.agent import (
     TaskResult,
     TaskStep,
 )
-from llm_agents_from_scratch.errors import LLMAgentError
+from llm_agents_from_scratch.errors import LLMAgentError, MaxStepsReachedError
 
 
 def test_init(mock_llm: BaseLLM) -> None:
@@ -113,3 +113,32 @@ async def test_run_exception(
     await asyncio.sleep(0.1)  # Let it run
 
     assert handler.exception() == err
+
+
+@pytest.mark.asyncio
+@patch.object(LLMAgent.TaskHandler, "get_next_step")
+async def test_run_max_steps_reached_error(
+    mock_get_next_step: AsyncMock,
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests run method with exception."""
+
+    # arrange
+    task = Task(instruction="mock instruction")
+    mock_get_next_step.side_effect = [
+        TaskStep(
+            instruction="mock 1",
+            task_id=task.id_,
+        ),
+        TaskStep(
+            instruction="mock 2",
+            task_id=task.id_,
+        ),
+    ]
+    agent = LLMAgent(llm=mock_llm)
+
+    # act
+    handler = agent.run(task, max_steps=1)
+    await asyncio.sleep(0.1)  # Let it run
+
+    assert isinstance(handler.exception(), MaxStepsReachedError)

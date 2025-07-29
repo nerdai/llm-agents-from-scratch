@@ -96,10 +96,3 @@ class NextStepDecision(BaseModel):
             "the final result."
         ),
     )
-
-
-class TaskHandlerResult(BaseModel):
-    """Task Handler Future Result."""
-
-    task_result: TaskResult
-    rollout: str

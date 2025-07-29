@@ -1,4 +1,4 @@
-from .agent import LLMAgentError
+from .agent import LLMAgentError, MaxStepsReachedError
 from .core import LLMAgentsFromScratchError, LLMAgentsFromScratchWarning
 from .task_handler import TaskHandlerError
 
@@ -8,6 +8,7 @@ __all__ = [
     "LLMAgentsFromScratchWarning",
     # agent
     "LLMAgentError",
+    "MaxStepsReachedError",
     # task handler
     "TaskHandlerError",
 ]

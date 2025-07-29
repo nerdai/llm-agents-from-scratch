@@ -12,7 +12,6 @@ from llm_agents_from_scratch.data_structures import (
     ChatRole,
     NextStepDecision,
     Task,
-    TaskHandlerResult,
     TaskResult,
     TaskStep,
     TaskStepResult,
@@ -384,12 +383,7 @@ class LLMAgent:
                                 next_step,
                             )
                         case TaskResult():
-                            task_handler.set_result(
-                                TaskHandlerResult(
-                                    task_result=next_step,
-                                    rollout=task_handler.rollout,
-                                ),
-                            )
+                            task_handler.set_result(next_step)
                             self.logger.info(
                                 f"🏁 Task completed: {next_step.content}",
                             )

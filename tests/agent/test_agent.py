@@ -86,12 +86,12 @@ async def test_run(
     handler.background_task.cancel()
     with contextlib.suppress(asyncio.CancelledError):
         await handler.background_task
-    assert str(handler.result().task_result) == "mock result"
+    assert str(handler.result()) == "mock result"
     expected_rollout = (
         "assistant: The current instruction is 'mock step'\n"
         "assistant: mock chat response"
     )
-    assert handler.result().rollout == expected_rollout
+    assert handler.rollout == expected_rollout
 
 
 @pytest.mark.asyncio

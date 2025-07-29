@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+### Added
+
+- Add `max_steps` to `LLMAgent.run` and set handler result to `MaxStepsReachedError` if reached (#91)
+
 ### Changed
 
 - Improve `NextStepDecision` to allow for only one next_step or task_result (#88)

@@ -72,6 +72,7 @@ async def test_run(
 
     mock_get_next_step.side_effect = [
         TaskStep(task_id=task.id_, instruction="mock step"),
+        TaskStep(task_id=task.id_, instruction="another mock step"),
         TaskResult(task_id=task.id_, content="mock result"),
     ]
 
@@ -89,6 +90,8 @@ async def test_run(
     assert str(handler.result()) == "mock result"
     expected_rollout = (
         "💬 assistant: The current instruction is 'mock step'\n\n"
+        "💬 assistant: mock chat response\n\n"
+        "💬 assistant: The current instruction is 'another mock step'\n\n"
         "💬 assistant: mock chat response"
     )
     assert handler.rollout == expected_rollout

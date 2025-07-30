@@ -172,7 +172,7 @@ class LLMAgent:
                         content=content,
                     ),
                 )
-            return "\n".join(rollout_contributions)
+            return "\n\n".join(rollout_contributions)
 
         async def get_next_step(
             self,
@@ -335,9 +335,16 @@ class LLMAgent:
                 ]
 
             # augment rollout from this turn
-            self.rollout += self._rollout_contribution_from_single_run_step(
-                chat_history=chat_history,
+            rollout_contribution = (
+                self._rollout_contribution_from_single_run_step(
+                    chat_history=chat_history,
+                )
             )
+            if self.rollout:
+                self.rollout += "\n\n" + rollout_contribution
+
+            else:
+                self.rollout = rollout_contribution
 
             self.logger.info(
                 f"✅ Step Result: {final_content}",

@@ -88,8 +88,8 @@ async def test_run(
         await handler.background_task
     assert str(handler.result()) == "mock result"
     expected_rollout = (
-        "assistant: The current instruction is 'mock step'\n"
-        "assistant: mock chat response"
+        "💬 assistant: The current instruction is 'mock step'\n\n"
+        "💬 assistant: mock chat response"
     )
     assert handler.rollout == expected_rollout
 

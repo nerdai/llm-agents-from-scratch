@@ -26,7 +26,7 @@ assistant in order to help them improve upon their current response.
 
 DEFAULT_USER_MESSAGE = "{instruction}"
 
-DEFAULT_ROLLOUT_CONTRIBUTION_FROM_CHAT_MESSAGE = "{role}: {content}"
+DEFAULT_ROLLOUT_CONTRIBUTION_FROM_CHAT_MESSAGE = "💬 {role}: {content}"
 
 DEFAULT_ROLLOUT_CONTRIBUTION_CONTENT_INSTRUCTION = (
     "The current instruction is '{instruction}'"

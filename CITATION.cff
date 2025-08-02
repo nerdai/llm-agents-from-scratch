@@ -5,7 +5,7 @@ authors:
     given-names: "Andrei"
     email: "andrei@nerdai.io"
 title: "llm-agents-from-scratch"
-version: "0.0.7"
+version: "0.0.8"
 abstract: "Build an LLM agent, equipped with MCP, from scratch."
 keywords:
   - llms

@@ -8,6 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- ...
+
+## [0.0.8] - 2025-08-02
+
+### Added
+
+- Add `TaskHandler.step_counter` (#103)
+- [docs] Add simple benchmark and llm as judge for `hailstone.ipynb` (#102)
+
 ### Changed
 
 - Add task demarcation in `TaskHandler.rollout` and better tool call requests formats (#100)

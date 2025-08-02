@@ -86,6 +86,7 @@ class LLMAgent:
             task: The task to execute.
             templates: Associated prompt templates.
             rollout: The execution log of the task.
+            step_counter: The number of TaskSteps executed.
             logger: TaskHandler logger.
         """
 
@@ -110,6 +111,7 @@ class LLMAgent:
             self.llm_agent = llm_agent
             self.task = task
             self.rollout = ""
+            self.step_counter = 0
             self.templates = templates
             self._background_task: asyncio.Task | None = None
             self.logger = get_logger(self.__class__.__name__)
@@ -247,6 +249,7 @@ class LLMAgent:
             Returns:
                 TaskStepResult: The result of the step execution.
             """
+            self.step_counter += 1
             self.logger.info(f"⚙️ Processing Step: {step.instruction}")
             self.logger.debug(f"🧵 Rollout: {self.rollout}")
 
@@ -384,10 +387,9 @@ class LLMAgent:
             """
             self.logger.info(f"🚀 Starting task: {task.instruction}")
             step_result = None
-            ix = 0
             while not task_handler.done():
                 try:
-                    if max_steps and ix == max_steps:
+                    if task_handler.step_counter == max_steps:
                         raise MaxStepsReachedError("Max steps reached.")
 
                     next_step = await task_handler.get_next_step(step_result)
@@ -405,8 +407,6 @@ class LLMAgent:
 
                 except Exception as e:
                     task_handler.set_exception(e)
-                finally:
-                    ix += 1
 
         task_handler.background_task = asyncio.create_task(_process_loop())
 

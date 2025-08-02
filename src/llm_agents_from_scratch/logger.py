@@ -11,6 +11,7 @@ init(autoreset=True)
 
 ROOT_LOGGER_NAME = "llm_agents_fs"
 DEFAULT_LOG_LEVEL = logging.INFO
+DEFAULT_MSG_MAX_LENGTH = 150
 
 
 class ColoredFormatter(logging.Formatter):
@@ -27,14 +28,19 @@ class ColoredFormatter(logging.Formatter):
     @override
     def format(self, record: logging.LogRecord) -> str:
         levelname = record.levelname
-        original_msg = record.getMessage()
         logger_name = record.name
+        original_msg = record.getMessage()
+
+        if len(original_msg) > DEFAULT_MSG_MAX_LENGTH:
+            log_msg = original_msg[:DEFAULT_MSG_MAX_LENGTH] + "...[TRUNCATED]"
+        else:
+            log_msg = original_msg
 
         colored_levelname = (
             f"{self.COLORS.get(levelname, '')}{levelname}{Style.RESET_ALL}"
         )
 
-        return f"{colored_levelname} ({logger_name}) :      {original_msg}"
+        return f"{colored_levelname} ({logger_name}) :      {log_msg}"
 
 
 def get_logger(name: str | None = None) -> logging.Logger:

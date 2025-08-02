@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- Add task demarcation in `TaskHandler.rollout` and better tool call requests formats (#100)
+- Add `max_msg_length` for log formatter (#99)
 - Improved `TaskHandler.rollout` formatting (#96)
 - Remove `with_task_id()` from `TaskStep` and `TaskResult` (#95)
 

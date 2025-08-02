@@ -209,6 +209,10 @@ def test_private_rollout_contribution_from_single_run_step(
         llm_agent=llm_agent,
         task=task,
     )
+    a_tool_call = ToolCall(
+        tool_name="a tool",
+        arguments={"tool_arg": 1},
+    )
     chat_history = [
         ChatMessage(
             role=ChatRole.SYSTEM,
@@ -222,10 +226,7 @@ def test_private_rollout_contribution_from_single_run_step(
             role=ChatRole.ASSISTANT,
             content="",
             tool_calls=[
-                ToolCall(
-                    tool_name="a tool",
-                    arguments={"tool_arg": 1},
-                ),
+                a_tool_call,
             ],
         ),
         ChatMessage(
@@ -245,10 +246,13 @@ def test_private_rollout_contribution_from_single_run_step(
 
     print(rollout_contribution)
     expected_rollout_contribution = (
+        "=== Task Step Start ===\n\n"
         "💬 assistant: The current instruction is 'a user message'\n\n"
-        "💬 assistant: I need to make a tool call(s) to `a tool`.\n\n"
+        "💬 assistant: I need to make the following tool call(s):"
+        f"\n\n{a_tool_call.model_dump_json(indent=4)}.\n\n"
         "💬 tool: \n\ttool name: `a tool`\n\ttool result: 1+2=3.\n\n"
-        "💬 assistant: done!"
+        "💬 assistant: done!\n\n"
+        "=== Task Step End ==="
     )
 
     assert rollout_contribution == expected_rollout_contribution

@@ -33,7 +33,7 @@ DEFAULT_ROLLOUT_CONTRIBUTION_CONTENT_INSTRUCTION = (
 )
 
 DEFAULT_ROLLOUT_CONTRIBUTION_CONTENT_TOOL_CALL_REQUEST = (
-    "I need to make a tool call(s) to {called_tools}."
+    "I need to make the following tool call(s):\n\n{called_tools}."
 )
 
 DEFAULT_SYSTEM_MESSAGE_WITHOUT_ROLLOUT = """You are a helpful assistant."""

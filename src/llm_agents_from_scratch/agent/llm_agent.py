@@ -137,7 +137,7 @@ class LLMAgent:
             chat_history: list[ChatMessage],
         ) -> str:
             """Update rollout after a run_step execution."""
-            rollout_contributions = []
+            rollout_contributions = ["=== Task Step Start ==="]
             for msg in chat_history:
                 # don't include system messages in rollout
                 content = msg.content
@@ -155,8 +155,11 @@ class LLMAgent:
                     )
 
                 if msg.tool_calls and msg.role == "assistant":
-                    called_tools = ", ".join(
-                        [f"`{t.tool_name}`" for t in msg.tool_calls],
+                    called_tools = "\n\n".join(
+                        [
+                            f"{t.model_dump_json(indent=4)}"
+                            for t in msg.tool_calls
+                        ],
                     )
                     content = self.templates[
                         "rollout_contribution_content_tool_call_request"
@@ -172,6 +175,11 @@ class LLMAgent:
                         content=content,
                     ),
                 )
+
+            rollout_contributions.append(
+                "=== Task Step End ===",
+            )
+
             return "\n\n".join(rollout_contributions)
 
         async def get_next_step(

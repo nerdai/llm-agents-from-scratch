@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+### Changed
+
+- [docs] Store previous runs in a separate section in `hailstone.ipynb` (#110)
+
 ### Added
 
 - [docs] Add Qwen2.5-72b run to hailstone.ipynb (#108)

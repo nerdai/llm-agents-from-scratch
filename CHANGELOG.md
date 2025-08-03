@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- [docs] Add trajectory evaluation hailstone.ipynb (#106)
 - [docs] Add eval report for evaluation of final result outcomes (#105)
 
 ## [0.0.8] - 2025-08-02

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- [docs] Add Qwen2.5-72b run to hailstone.ipynb (#108)
 - [docs] Add trajectory evaluation hailstone.ipynb (#106)
 - [docs] Add eval report for evaluation of final result outcomes (#105)
 

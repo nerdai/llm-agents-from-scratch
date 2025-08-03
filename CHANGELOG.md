@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- [docs] Book version of hailstone.ipynb (#111)
 - [docs] Store previous runs in a separate section in `hailstone.ipynb` (#110)
 
 ### Added

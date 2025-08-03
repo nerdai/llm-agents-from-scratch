@@ -19,6 +19,9 @@ import_profile.txt
 scratchpad/
 snippets/
 
+# remote dev
+runpod.sh
+
 
 # Virtual environments
 .venv

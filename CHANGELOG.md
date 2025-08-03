@@ -8,7 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
-- ...
+### Added
+
+- [docs] Add eval report for evaluation of final result outcomes (#105)
 
 ## [0.0.8] - 2025-08-02
 

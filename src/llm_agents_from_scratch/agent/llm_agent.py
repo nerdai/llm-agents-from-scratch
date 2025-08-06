@@ -32,7 +32,8 @@ class LLMAgent:
 
     Attributes:
         llm: The backbone LLM
-        tools_registry: The tools the LLM agent can use represented as a dict.
+        tools_registry: The tools the LLM agent can equip the LLM with,
+            represented as a dict.
         logger: LLMAgent logger.
     """
 
@@ -45,8 +46,8 @@ class LLMAgent:
 
         Args:
             llm (BaseLLM): The backbone LLM of the LLM agent.
-            tools (list[BaseTool], optional): The set of tools for the LLM
-                agent. Defaults to None.
+            tools (list[BaseTool], optional): The set of tools with which the
+                LLM can be equipped. Defaults to None.
 
         """
         self.llm = llm

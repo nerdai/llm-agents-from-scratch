@@ -352,9 +352,11 @@ async def test_run_step() -> None:
             ChatMessage(
                 role=ChatRole.SYSTEM,
                 content=default_task_handler_templates[
-                    "system_message_without_rollout"
+                    "run_step_system_message_without_rollout"
                 ].format(
-                    original_instruction="mock instruction",
+                    llm_agent_system_message=llm_agent.templates[
+                        "system_message"
+                    ],
                     current_rollout="",
                 ),
             ),
@@ -406,9 +408,11 @@ async def test_run_step_without_tool_calls() -> None:
             ChatMessage(
                 role=ChatRole.SYSTEM,
                 content=default_task_handler_templates[
-                    "system_message_without_rollout"
+                    "run_step_system_message_without_rollout"
                 ].format(
-                    original_instruction="mock instruction",
+                    llm_agent_system_message=llm_agent.templates[
+                        "system_message"
+                    ],
                     current_rollout="",
                 ),
             ),

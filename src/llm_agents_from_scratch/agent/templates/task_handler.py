@@ -24,7 +24,7 @@ assistant in order to help them improve upon their current response.
 </thinking-process>
 """
 
-DEFAULT_USER_MESSAGE = "{instruction}"
+DEFAULT_RUN_STEP_USER_MESSAGE = "{instruction}"
 
 DEFAULT_ROLLOUT_CONTRIBUTION_FROM_CHAT_MESSAGE = "💬 {role}: {content}"
 
@@ -36,9 +36,12 @@ DEFAULT_ROLLOUT_CONTRIBUTION_CONTENT_TOOL_CALL_REQUEST = (
     "I need to make the following tool call(s):\n\n{called_tools}."
 )
 
-DEFAULT_SYSTEM_MESSAGE_WITHOUT_ROLLOUT = """You are a helpful assistant."""
+DEFAULT_RUN_STEP_SYSTEM_MESSAGE_WITHOUT_ROLLOUT = (
+    """{llm_agent_system_message}"""
+)
 
-DEFAULT_SYSTEM_MESSAGE = """You are a helpful assistant.
+DEFAULT_RUN_STEP_SYSTEM_MESSAGE = """
+{llm_agent_system_message}
 
 Here is some past dialogue and context, where another assistant was working
 towards completing the task.
@@ -46,7 +49,7 @@ towards completing the task.
 <history>
 {current_rollout}
 </history>
-"""
+""".strip()
 
 
 class TaskHandlerTemplates(TypedDict):
@@ -56,9 +59,9 @@ class TaskHandlerTemplates(TypedDict):
     rollout_contribution_from_chat_message: str
     rollout_contribution_content_instruction: str
     rollout_contribution_content_tool_call_request: str
-    system_message_without_rollout: str
-    system_message: str
-    user_message: str
+    run_step_system_message_without_rollout: str
+    run_step_system_message: str
+    run_step_user_message: str
 
 
 default_templates = TaskHandlerTemplates(
@@ -66,7 +69,7 @@ default_templates = TaskHandlerTemplates(
     rollout_contribution_from_chat_message=DEFAULT_ROLLOUT_CONTRIBUTION_FROM_CHAT_MESSAGE,
     rollout_contribution_content_instruction=DEFAULT_ROLLOUT_CONTRIBUTION_CONTENT_INSTRUCTION,
     rollout_contribution_content_tool_call_request=DEFAULT_ROLLOUT_CONTRIBUTION_CONTENT_TOOL_CALL_REQUEST,
-    system_message_without_rollout=DEFAULT_SYSTEM_MESSAGE_WITHOUT_ROLLOUT,
-    system_message=DEFAULT_SYSTEM_MESSAGE,
-    user_message=DEFAULT_USER_MESSAGE,
+    run_step_system_message_without_rollout=DEFAULT_RUN_STEP_SYSTEM_MESSAGE_WITHOUT_ROLLOUT,
+    run_step_system_message=DEFAULT_RUN_STEP_SYSTEM_MESSAGE,
+    run_step_user_message=DEFAULT_RUN_STEP_USER_MESSAGE,
 )

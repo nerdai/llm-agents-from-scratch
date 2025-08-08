@@ -265,17 +265,25 @@ class LLMAgent:
             # include rollout as context in the system message
             system_message = ChatMessage(
                 role=ChatRole.SYSTEM,
-                content=self.templates["system_message"].format(
-                    original_instruction=self.task.instruction,
+                content=self.templates["run_step_system_message"].format(
+                    llm_agent_system_message=self.llm_agent.templates[
+                        "system_message"
+                    ],
                     current_rollout=self.rollout,
                 )
                 if self.rollout
-                else self.templates["system_message_without_rollout"],
+                else self.templates[
+                    "run_step_system_message_without_rollout"
+                ].format(
+                    llm_agent_system_message=self.llm_agent.templates[
+                        "system_message"
+                    ],
+                ),
             )
             self.logger.debug(f"💬 SYSTEM: {system_message.content}")
 
             # fictitious user's input
-            user_input = self.templates["user_message"].format(
+            user_input = self.templates["run_step_user_message"].format(
                 instruction=step.instruction,
             )
             self.logger.debug(f"💬 USER INPUT: {user_input}")

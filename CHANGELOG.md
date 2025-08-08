@@ -10,11 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- Renamed a few required keys in `TaskHandlerTemplates` (#117)
 - [docs] Book version of hailstone.ipynb (#111)
 - [docs] Store previous runs in a separate section in `hailstone.ipynb` (#110)
 
 ### Added
 
+- [Feature] Add LLMAgentTemplates and add as an attribute to LLMAgent (#117)
 - [docs] Add Qwen2.5-72b run to hailstone.ipynb (#108)
 - [docs] Add trajectory evaluation hailstone.ipynb (#106)
 - [docs] Add eval report for evaluation of final result outcomes (#105)

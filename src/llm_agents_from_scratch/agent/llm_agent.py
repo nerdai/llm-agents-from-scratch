@@ -24,7 +24,12 @@ from llm_agents_from_scratch.errors import (
 )
 from llm_agents_from_scratch.logger import get_logger
 
-from .templates import TaskHandlerTemplates, default_task_handler_templates
+from .templates import (
+    LLMAgentTemplates,
+    TaskHandlerTemplates,
+    default_llm_agent_templates,
+    default_task_handler_templates,
+)
 
 
 class LLMAgent:
@@ -34,6 +39,7 @@ class LLMAgent:
         llm: The backbone LLM
         tools_registry: The tools the LLM agent can equip the LLM with,
             represented as a dict.
+        templates: Prompt templates for LLM Agent.
         logger: LLMAgent logger.
     """
 
@@ -41,6 +47,7 @@ class LLMAgent:
         self,
         llm: BaseLLM,
         tools: list[BaseTool | AsyncBaseTool] | None = None,
+        templates: LLMAgentTemplates = default_llm_agent_templates,
     ):
         """Initialize an LLMAgent.
 
@@ -48,7 +55,7 @@ class LLMAgent:
             llm (BaseLLM): The backbone LLM of the LLM agent.
             tools (list[BaseTool], optional): The set of tools with which the
                 LLM can be equipped. Defaults to None.
-
+            templates (LLMAgentTemplates): Prompt templates for LLM Agent.
         """
         self.llm = llm
         tools = tools or []
@@ -58,6 +65,7 @@ class LLMAgent:
                 "Provided tool list contains duplicate tool names.",
             )
         self.tools_registry = {t.name: t for t in tools}
+        self.templates = templates
         self.logger = get_logger(self.__class__.__name__)
 
     @property
@@ -257,17 +265,25 @@ class LLMAgent:
             # include rollout as context in the system message
             system_message = ChatMessage(
                 role=ChatRole.SYSTEM,
-                content=self.templates["system_message"].format(
-                    original_instruction=self.task.instruction,
+                content=self.templates["run_step_system_message"].format(
+                    llm_agent_system_message=self.llm_agent.templates[
+                        "system_message"
+                    ],
                     current_rollout=self.rollout,
                 )
                 if self.rollout
-                else self.templates["system_message_without_rollout"],
+                else self.templates[
+                    "run_step_system_message_without_rollout"
+                ].format(
+                    llm_agent_system_message=self.llm_agent.templates[
+                        "system_message"
+                    ],
+                ),
             )
             self.logger.debug(f"💬 SYSTEM: {system_message.content}")
 
             # fictitious user's input
-            user_input = self.templates["user_message"].format(
+            user_input = self.templates["run_step_user_message"].format(
                 instruction=step.instruction,
             )
             self.logger.debug(f"💬 USER INPUT: {user_input}")
@@ -366,18 +382,29 @@ class LLMAgent:
                 content=final_content,
             )
 
-    def run(self, task: Task, max_steps: int | None = None) -> TaskHandler:
+    def run(
+        self,
+        task: Task,
+        max_steps: int | None = None,
+        task_handler_templates: TaskHandlerTemplates = default_task_handler_templates,  # noqa: E501
+    ) -> TaskHandler:
         """Agent's processing loop for executing tasks.
 
         Args:
             task (Task): the Task to perform.
             max_steps (int | None): Maximum number of steps to run for task.
                 Defaults to None.
+            task_handler_templates (TaskHandlerTemplates): Prompt templates
+                used by TaskHandler.
 
         Returns:
             TaskHandler: the TaskHandler object responsible for task execution.
         """
-        task_handler = self.TaskHandler(llm_agent=self, task=task)
+        task_handler = self.TaskHandler(
+            llm_agent=self,
+            task=task,
+            templates=task_handler_templates,
+        )
 
         async def _process_loop() -> None:
             """The processing loop for the task handler execute its task.

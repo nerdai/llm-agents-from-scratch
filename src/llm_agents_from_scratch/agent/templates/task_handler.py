@@ -61,7 +61,7 @@ class TaskHandlerTemplates(TypedDict):
     user_message: str
 
 
-default_task_handler_templates = TaskHandlerTemplates(
+default_templates = TaskHandlerTemplates(
     get_next_step=DEFAULT_GET_NEXT_INSTRUCTION_PROMPT,
     rollout_contribution_from_chat_message=DEFAULT_ROLLOUT_CONTRIBUTION_FROM_CHAT_MESSAGE,
     rollout_contribution_content_instruction=DEFAULT_ROLLOUT_CONTRIBUTION_CONTENT_INSTRUCTION,
@@ -69,15 +69,4 @@ default_task_handler_templates = TaskHandlerTemplates(
     system_message_without_rollout=DEFAULT_SYSTEM_MESSAGE_WITHOUT_ROLLOUT,
     system_message=DEFAULT_SYSTEM_MESSAGE,
     user_message=DEFAULT_USER_MESSAGE,
-)
-
-
-class LLMAgentTemplates(TypedDict):
-    """Prompt templates dict for LLMAgent."""
-
-    system_message: str
-
-
-default_llm_agent_templates = LLMAgentTemplates(
-    system_message=DEFAULT_SYSTEM_MESSAGE,
 )

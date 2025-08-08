@@ -70,3 +70,14 @@ default_task_handler_templates = TaskHandlerTemplates(
     system_message=DEFAULT_SYSTEM_MESSAGE,
     user_message=DEFAULT_USER_MESSAGE,
 )
+
+
+class LLMAgentTemplates(TypedDict):
+    """Prompt templates dict for LLMAgent."""
+
+    system_message: str
+
+
+default_llm_agent_templates = LLMAgentTemplates(
+    system_message=DEFAULT_SYSTEM_MESSAGE,
+)

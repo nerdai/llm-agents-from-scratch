@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- ...
+
+## [0.0.9] - 2025-08-09
+
 ### Changed
 
 - Renamed a few required keys in `TaskHandlerTemplates` (#117)

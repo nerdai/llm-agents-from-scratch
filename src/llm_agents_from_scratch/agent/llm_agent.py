@@ -321,7 +321,7 @@ class LLMAgent:
                             "doesn't exist."
                         )
                         tool_call_result = ToolCallResult(
-                            tool_call=tool_call,
+                            tool_call_id=tool_call.id_,
                             error=True,
                             content=error_msg,
                         )

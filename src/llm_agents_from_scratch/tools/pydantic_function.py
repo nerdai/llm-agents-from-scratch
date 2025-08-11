@@ -159,7 +159,7 @@ class PydanticFunctionTool(BaseTool):
             error = True
 
         return ToolCallResult(
-            tool_call=tool_call,
+            tool_call_id=tool_call.id_,
             content=content,
             error=error,
         )
@@ -236,7 +236,7 @@ class AsyncPydanticFunctionTool(AsyncBaseTool):
             error = True
 
         return ToolCallResult(
-            tool_call=tool_call,
+            tool_call_id=tool_call.id_,
             content=content,
             error=error,
         )

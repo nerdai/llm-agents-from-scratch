@@ -170,12 +170,13 @@ async def test_continue_conversation_with_tool_results(
     llm = OllamaLLM(model="llama3.2")
 
     # act
+    tool_call = ToolCall(
+        tool_name="a fake tool",
+        arguments={"arg1": 1},
+    )
     tool_call_results = [
         ToolCallResult(
-            tool_call=ToolCall(
-                tool_name="a fake tool",
-                arguments={"arg1": 1},
-            ),
+            tool_call_id=tool_call.id_,
             content="Some content",
             error=False,
         ),
@@ -355,7 +356,7 @@ class MyTool(BaseTool):
         **kwargs,
     ) -> ToolCallResult:
         return ToolCallResult(
-            tool_call=tool_call,
+            tool_call_id=tool_call.id_,
             content="fake content",
         )
 

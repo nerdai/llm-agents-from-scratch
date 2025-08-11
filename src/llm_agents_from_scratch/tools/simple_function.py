@@ -132,7 +132,7 @@ class SimpleFunctionTool(BaseTool):
             error = True
 
         return ToolCallResult(
-            tool_call=tool_call,
+            tool_call_id=tool_call.id_,
             content=content,
             error=error,
         )
@@ -203,7 +203,7 @@ class AsyncSimpleFunctionTool(AsyncBaseTool):
             error = True
 
         return ToolCallResult(
-            tool_call=tool_call,
+            tool_call_id=tool_call.id_,
             content=content,
             error=error,
         )

@@ -8,7 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
-- ...
+### Added
+
+- [Feature] Add id_to ToolCall and tool_call_id to ToolCallResult (#119)
+
+### Changed
+
+- Removed `tool_call: ToolCall` attr from `ToolCallResult` (#119)
 
 ## [0.0.9] - 2025-08-09
 

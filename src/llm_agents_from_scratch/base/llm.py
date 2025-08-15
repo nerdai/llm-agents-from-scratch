@@ -81,7 +81,7 @@ class BaseLLM(ABC):
         chat_history: Sequence[ChatMessage],
         **kwargs: Any,
     ) -> tuple[list[ChatMessage], ChatMessage]:
-        """Continue a conversation submitting tool call results.
+        """Continue a chat by submitting tool call results.
 
         Args:
             tool_call_results (Sequence[ToolCallResult]):

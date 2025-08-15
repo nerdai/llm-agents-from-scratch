@@ -25,17 +25,24 @@ class OllamaLLM(BaseLLM):
     Integration to `ollama` library for running open source models locally.
     """
 
-    def __init__(self, model: str, *args: Any, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        model: str,
+        host: str | None = None,
+        *args: Any,
+        **kwargs: Any,
+    ) -> None:
         """Create an OllamaLLM instance.
 
         Args:
             model (str): The name of the LLM model.
+            host (str | None): Host of running Ollama service. Defaults to None.
             *args (Any): Additional positional arguments.
             **kwargs (Any): Additional keyword arguments.
         """
         super().__init__(*args, **kwargs)
         self.model = model
-        self._client = AsyncClient()
+        self._client = AsyncClient(host=host)
 
     async def complete(self, prompt: str, **kwargs: Any) -> CompleteResult:
         """Complete a prompt with an Ollama LLM.

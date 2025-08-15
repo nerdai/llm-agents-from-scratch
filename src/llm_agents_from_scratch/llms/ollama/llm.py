@@ -116,7 +116,7 @@ class OllamaLLM(BaseLLM):
             tuple[ChatMessage, ChatMessage]: A tuple of ChatMessage with the
                 first message corresponding to the ChatMessage created from the
                 supplied input string, and the second ChatMessage is the
-                response from the LLM structured.
+                response from the LLM.
         """
         # prepare chat history
         o_messages = (

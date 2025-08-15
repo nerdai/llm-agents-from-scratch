@@ -149,10 +149,10 @@ async def test_chat(mock_async_client_class: MagicMock) -> None:
 
 @pytest.mark.asyncio
 @patch("llm_agents_from_scratch.llms.ollama.llm.AsyncClient")
-async def test_continue_conversation_with_tool_results(
+async def test_continue_chat_with_tool_results(
     mock_async_client_class: MagicMock,
 ) -> None:
-    """Test continue_conversation_with_tool_results method."""
+    """Test continue_chat_with_tool_results method."""
 
     # arrange mocks
     mock_instance = MagicMock()
@@ -184,7 +184,7 @@ async def test_continue_conversation_with_tool_results(
     (
         tool_messages,
         response_message,
-    ) = await llm.continue_conversation_with_tool_results(
+    ) = await llm.continue_chat_with_tool_results(
         tool_call_results=tool_call_results,
         chat_history=[],
     )

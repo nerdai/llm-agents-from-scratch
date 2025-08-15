@@ -137,13 +137,13 @@ class OllamaLLM(BaseLLM):
 
         return user_message, ollama_message_to_chat_message(result.message)
 
-    async def continue_conversation_with_tool_results(
+    async def continue_chat_with_tool_results(
         self,
         tool_call_results: Sequence[ToolCallResult],
         chat_history: Sequence[ChatMessage],
         **kwargs: Any,
     ) -> tuple[list[ChatMessage], ChatMessage]:
-        """Implements continue_conversation_with_tool_results method.
+        """Implements continue_chat_with_tool_results method.
 
         Args:
             tool_call_results (Sequence[ToolCallResult]): The tool call results.

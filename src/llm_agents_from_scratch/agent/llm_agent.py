@@ -334,7 +334,7 @@ class LLMAgent:
                 (
                     tool_messages,
                     another_response_message,
-                ) = await self.llm_agent.llm.continue_conversation_with_tool_results(  # noqa: E501
+                ) = await self.llm_agent.llm.continue_chat_with_tool_results(  # noqa: E501
                     tool_call_results=tool_call_results,
                     chat_history=[
                         system_message,

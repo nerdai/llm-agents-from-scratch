@@ -8,4 +8,4 @@ def test_base_abstract_attr() -> None:
     assert "complete" in abstract_methods
     assert "chat" in abstract_methods
     assert "structured_output" in abstract_methods
-    assert "continue_conversation_with_tool_results" in abstract_methods
+    assert "continue_chat_with_tool_results" in abstract_methods

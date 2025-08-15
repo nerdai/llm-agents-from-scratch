@@ -75,7 +75,7 @@ class BaseLLM(ABC):
         """
 
     @abstractmethod
-    async def continue_conversation_with_tool_results(
+    async def continue_chat_with_tool_results(
         self,
         tool_call_results: Sequence[ToolCallResult],
         chat_history: Sequence[ChatMessage],

@@ -321,9 +321,7 @@ async def test_run_step() -> None:
             content="The final response.",
         ),
     )
-    mock_llm.continue_conversation_with_tool_results.return_value = (
-        mock_return_value
-    )
+    mock_llm.continue_chat_with_tool_results.return_value = mock_return_value
 
     task = Task(instruction="mock instruction")
     llm_agent = LLMAgent(
@@ -363,7 +361,7 @@ async def test_run_step() -> None:
         ],
         tools=list(handler.llm_agent.tools_registry.values()),
     )
-    mock_llm.continue_conversation_with_tool_results.assert_awaited_once()
+    mock_llm.continue_chat_with_tool_results.assert_awaited_once()
     assert step_result.task_step_id == step.id_
     assert step_result.content == "The final response."
 
@@ -419,7 +417,7 @@ async def test_run_step_without_tool_calls() -> None:
         ],
         tools=list(handler.llm_agent.tools_registry.keys()),
     )
-    mock_llm.continue_conversation_with_tool_results.assert_not_awaited()
+    mock_llm.continue_chat_with_tool_results.assert_not_awaited()
     assert step_result.task_step_id == step.id_
     assert step_result.content == "Initial response."
     assert str(step_result) == "Initial response."

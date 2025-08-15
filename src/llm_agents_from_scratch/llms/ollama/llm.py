@@ -98,7 +98,6 @@ class OllamaLLM(BaseLLM):
         input: str,
         chat_history: list[ChatMessage] | None = None,
         tools: list[BaseTool | AsyncBaseTool] | None = None,
-        return_history: bool = False,
         **kwargs: Any,
     ) -> tuple[ChatMessage, ChatMessage]:
         """Chat with an Ollama LLM.

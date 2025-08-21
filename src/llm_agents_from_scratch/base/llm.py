@@ -1,7 +1,7 @@
 """Base LLM."""
 
 from abc import ABC, abstractmethod
-from typing import Any, Sequence, TypeVar
+from typing import Any, Sequence, TypeAlias, TypeVar
 
 from pydantic import BaseModel
 
@@ -96,3 +96,6 @@ class BaseLLM(ABC):
                 supplied ToolCallResult converted objects. The second element
                 is the response ChatMessage from the LLM.
         """
+
+
+LLM: TypeAlias = BaseLLM

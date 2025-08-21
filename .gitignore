@@ -31,3 +31,7 @@ runpod.sh
 .coverage
 coverage.xml
 htmlcov/
+
+# uml diagrams
+uml/*/*.png
+uml/*/*.svg

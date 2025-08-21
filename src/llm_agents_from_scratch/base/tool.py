@@ -1,7 +1,7 @@
 """Base Tool."""
 
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, TypeAlias
 
 from llm_agents_from_scratch.data_structures.tool import (
     ToolCall,
@@ -83,3 +83,6 @@ class AsyncBaseTool(ABC):
         Returns:
             ToolCallResult: The result of the tool call execution.
         """
+
+
+Tool: TypeAlias = BaseTool | AsyncBaseTool

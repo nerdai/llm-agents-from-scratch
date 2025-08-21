@@ -11,7 +11,7 @@ from llm_agents_from_scratch.data_structures import (
     ToolCallResult,
 )
 
-from .tool import AsyncBaseTool, BaseTool
+from .tool import Tool
 
 StructuredOutputType = TypeVar("StructuredOutputType", bound=BaseModel)
 
@@ -55,7 +55,7 @@ class BaseLLM(ABC):
         self,
         input: str,
         chat_history: Sequence[ChatMessage] | None = None,
-        tools: Sequence[BaseTool | AsyncBaseTool] | None = None,
+        tools: Sequence[Tool] | None = None,
         **kwargs: Any,
     ) -> tuple[ChatMessage, ChatMessage]:
         """Chat interface.

@@ -6,7 +6,7 @@ from typing import Any
 from typing_extensions import Self
 
 from llm_agents_from_scratch.base.llm import BaseLLM
-from llm_agents_from_scratch.base.tool import AsyncBaseTool, BaseTool
+from llm_agents_from_scratch.base.tool import AsyncBaseTool, Tool
 from llm_agents_from_scratch.data_structures import (
     ChatMessage,
     ChatRole,
@@ -46,14 +46,14 @@ class LLMAgent:
     def __init__(
         self,
         llm: BaseLLM,
-        tools: list[BaseTool | AsyncBaseTool] | None = None,
+        tools: list[Tool] | None = None,
         templates: LLMAgentTemplates = default_llm_agent_templates,
     ):
         """Initialize an LLMAgent.
 
         Args:
             llm (BaseLLM): The backbone LLM of the LLM agent.
-            tools (list[BaseTool], optional): The set of tools with which the
+            tools (list[Tool], optional): The set of tools with which the
                 LLM can be equipped. Defaults to None.
             templates (LLMAgentTemplates): Prompt templates for LLM Agent.
         """
@@ -69,17 +69,17 @@ class LLMAgent:
         self.logger = get_logger(self.__class__.__name__)
 
     @property
-    def tools(self) -> list[BaseTool | AsyncBaseTool]:
+    def tools(self) -> list[Tool]:
         """Return tools as list."""
         return list(self.tools_registry.values())
 
-    def add_tool(self, tool: BaseTool | AsyncBaseTool) -> Self:
+    def add_tool(self, tool: Tool) -> Self:
         """Add a tool to the agents tool set.
 
         NOTE: Supports fluent style for convenience.
 
         Args:
-            tool (BaseTool | AsyncBaseTool): The tool to equip the LLM agent.
+            tool (Tool): The tool to equip the LLM agent.
 
         """
         if tool.name in self.tools_registry:

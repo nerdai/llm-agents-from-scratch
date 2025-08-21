@@ -5,7 +5,7 @@ from typing import Any
 
 from typing_extensions import Self
 
-from llm_agents_from_scratch.base.llm import BaseLLM
+from llm_agents_from_scratch.base.llm import LLM
 from llm_agents_from_scratch.base.tool import AsyncBaseTool, Tool
 from llm_agents_from_scratch.data_structures import (
     ChatMessage,
@@ -45,14 +45,14 @@ class LLMAgent:
 
     def __init__(
         self,
-        llm: BaseLLM,
+        llm: LLM,
         tools: list[Tool] | None = None,
         templates: LLMAgentTemplates = default_llm_agent_templates,
     ):
         """Initialize an LLMAgent.
 
         Args:
-            llm (BaseLLM): The backbone LLM of the LLM agent.
+            llm (LLM): The backbone LLM of the LLM agent.
             tools (list[Tool], optional): The set of tools with which the
                 LLM can be equipped. Defaults to None.
             templates (LLMAgentTemplates): Prompt templates for LLM Agent.

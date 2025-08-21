@@ -4,7 +4,7 @@ from typing import Any, Sequence
 
 from ollama import AsyncClient
 
-from llm_agents_from_scratch.base.llm import BaseLLM, StructuredOutputType
+from llm_agents_from_scratch.base.llm import LLM, StructuredOutputType
 from llm_agents_from_scratch.base.tool import Tool
 from llm_agents_from_scratch.data_structures import (
     ChatMessage,
@@ -19,7 +19,7 @@ from .utils import (
 )
 
 
-class OllamaLLM(BaseLLM):
+class OllamaLLM(LLM):
     """Ollama LLM class.
 
     Integration to `ollama` library for running open source models locally.

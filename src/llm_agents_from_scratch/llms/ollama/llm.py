@@ -5,7 +5,7 @@ from typing import Any, Sequence
 from ollama import AsyncClient
 
 from llm_agents_from_scratch.base.llm import BaseLLM, StructuredOutputType
-from llm_agents_from_scratch.base.tool import AsyncBaseTool, BaseTool
+from llm_agents_from_scratch.base.tool import Tool
 from llm_agents_from_scratch.data_structures import (
     ChatMessage,
     CompleteResult,
@@ -97,7 +97,7 @@ class OllamaLLM(BaseLLM):
         self,
         input: str,
         chat_history: list[ChatMessage] | None = None,
-        tools: list[BaseTool | AsyncBaseTool] | None = None,
+        tools: list[Tool] | None = None,
         **kwargs: Any,
     ) -> tuple[ChatMessage, ChatMessage]:
         """Chat with an Ollama LLM.

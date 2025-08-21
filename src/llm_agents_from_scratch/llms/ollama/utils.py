@@ -6,7 +6,7 @@ from ollama import Message as OllamaMessage
 from ollama import Tool as OllamaTool
 from typing_extensions import assert_never
 
-from llm_agents_from_scratch.base.tool import AsyncBaseTool, BaseTool
+from llm_agents_from_scratch.base.tool import Tool
 from llm_agents_from_scratch.data_structures import (
     ChatMessage,
     ChatRole,
@@ -106,11 +106,11 @@ def chat_message_to_ollama_message(chat_message: ChatMessage) -> OllamaMessage:
     )
 
 
-def get_tool_json_schema(tool: BaseTool | AsyncBaseTool) -> dict[str, Any]:
+def get_tool_json_schema(tool: Tool) -> dict[str, Any]:
     """Prepare a tool as a JSON schema.
 
     Args:
-        tool (BaseTool | AsyncBaseTool): The tool for which to get the JSON
+        tool (Tool): The tool for which to get the JSON
             schema.
 
     Returns:
@@ -126,11 +126,11 @@ def get_tool_json_schema(tool: BaseTool | AsyncBaseTool) -> dict[str, Any]:
     }
 
 
-def tool_to_ollama_tool(tool: BaseTool | AsyncBaseTool) -> OllamaTool:
+def tool_to_ollama_tool(tool: Tool) -> OllamaTool:
     """Convert a BaseTool or AsyncBaseTool to an ~ollama.Tool type.
 
     Args:
-        tool (BaseTool | AsyncBaseTool): The base tool to convert.
+        tool (Tool): The base tool to convert.
 
     Returns:
         ~ollama.Tool: The converted tool.

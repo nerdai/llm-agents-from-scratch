@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Add Tool type alias for BaseTool | AsyncBaseTool (#131)
 - Add host param to OllamaLLM construction to properly connect the internal AsyncClient to it. (#125)
 - [Feature] Add id_to ToolCall and tool_call_id to ToolCallResult (#119)
 

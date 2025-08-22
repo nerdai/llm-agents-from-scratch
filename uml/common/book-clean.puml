@@ -1,0 +1,40 @@
+' Clean, professional theme for print
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam dpi 300
+
+' Background and borders
+skinparam backgroundcolor white
+skinparam arrowcolor #333
+skinparam linecolor #333
+skinparam arrowthickness 1.2
+
+' Participants
+skinparam participantbackgroundcolor #f9fafb
+skinparam participantbordercolor #222
+skinparam participantpadding 12
+
+' Lifelines
+skinparam sequencelifelinebackgroundcolor white
+skinparam sequencelifelinebordercolor #ccc
+
+' Notes
+skinparam noteBackgroundColor #fffbe6
+skinparam noteBorderColor #e0d97a
+skinparam noteBorderThickness 1
+
+' Fonts
+skinparam defaultfontname "Inter, Arial"
+skinparam defaultfontsize 16
+skinparam titleFontSize 20
+skinparam titleFontColor #222
+
+' Alignment
+skinparam SequenceMessageAlign center
+
+' Visibility Symbols
+skinparam classAttributeIconSize 0
+skinparam classOperationIconSize 0
+skinparam classFontName Courier
+skinparam classAttributeFontName Courier
+skinparam classFontSize 14

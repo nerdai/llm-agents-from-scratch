@@ -26,12 +26,10 @@ runpod.sh
 # Virtual environments
 .venv
 
-
 # coverage
 .coverage
 coverage.xml
 htmlcov/
 
 # uml diagrams
-uml/*/*.png
-uml/*/*.svg
+uml/rendered

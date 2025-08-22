@@ -1,0 +1,31 @@
+@startuml
+!include ../common/book-clean.puml
+
+actor user
+participant "llm_agent: LLMAgent" as LLMAgent
+
+user -> user : creates task: Task
+
+user -> LLMAgent : wants to run task
+
+activate LLMAgent
+create participant "task_handler: TaskHandler" as TaskHandler
+LLMAgent -> TaskHandler : <<creates>>
+
+LLMAgent --> user : task_handler
+deactivate LLMAgent
+
+activate TaskHandler
+loop until completion
+    TaskHandler -> TaskHandler : get_next_step()
+    TaskHandler -> TaskHandler : run_step()
+end
+
+alt success
+    TaskHandler -> TaskHandler : set_result()
+else exception
+    TaskHandler -> TaskHandler : set_exception()
+end
+deactivate TaskHandler
+
+@enduml

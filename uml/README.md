@@ -1,31 +1,79 @@
 # UML Diagrams
 
-To generate diagrams for this book, I've used [D2](https://d2lang.com/). D2
-stands for Declarative Diagramming and is a declarative scripting language for
-generating diagrams, such as UML class and sequence diagrams.
+To generate diagrams for this book, I've used [PlantUML](https://plantuml.com/). PlantUML is a mature, open-source tool for creating UML diagrams from plain text descriptions, supporting class diagrams, sequence diagrams, activity diagrams, and more.
 
-To generate the UML diagrams of this book, you'll need to have D2 installed on
-your machine. Use the command found below to perform the installation:
+## Installation
+
+### Prerequisites
+
+PlantUML requires Java to be installed on your machine.
+
+### Installing PlantUML
+
+#### Option 1: Package Manager (may have older version)**
 
 ```sh
-curl -fsSL https://d2lang.com/install.sh | sh -s --
+# Ubuntu/Debian
+sudo apt install plantuml
+
+# macOS
+brew install plantuml
+```
+
+#### Option 2: Latest JAR (recommended)**
+
+```sh
+# Download the latest PlantUML JAR
+wget https://github.com/plantuml/plantuml/releases/latest/download/plantuml.jar -O ~/plantuml.jar
+
+# Add alias to your shell configuration (~/.bashrc or ~/.zshrc)
+echo "alias plantuml-new='java -jar ~/plantuml.jar'" >> ~/.zshrc
+
+# Reload your shell configuration
+source ~/.zshrc
 ```
 
 ## Generating Diagrams
 
-After installing `d2` on your machine, you can now generate any UML image from
-the `*.d2` files contained in this folder.
+After installing PlantUML, you can generate UML images from the `*.puml` files in this folder.
+
+### Individual Files
 
 ```sh
+# Generate PNG (default, good for print)
+plantuml-new uml/ch04/llm_agent_class.puml
+
 # Generate SVG (vector format, good for web)
-d2 uml/ch04/llm_agent.d2 uml/ch04/llm_agent.svg --sketch
+plantuml-new -tsvg uml/ch04/llm_agent_class.puml
 
-# Generate PNG (raster format, good for print)
-d2 uml/ch04/llm_agent.d2 uml/ch04/llm_agent.png --sketch
+# High resolution for print
+plantuml-new -SDPI=300 uml/ch04/llm_agent_class.puml
+```
 
-# Watch mode - automatically regenerates when .d2 file changes
-d2 -w uml/ch04/llm_agent.d2 uml/ch04/llm_agent.png --sketch
+### Batch Generation
 
-# High resolution for print (2x scale)
-d2 uml/ch04/llm_agent.d2 uml/ch04/llm_agent.png --sketch --scale 2
+```sh
+# Generate all diagrams using make
+make diagrams      # PNG files
+make diagrams-svg  # SVG files
+
+# Or manually generate all files
+plantuml-new -SDPI=300 uml/**/*.puml
+```
+
+## Directory Structure
+
+```sh
+uml/
+├── common/
+│   └── book-clean.puml     # Shared styling
+├── ch04/
+│   ├── llm_agent_class.puml
+│   └── llm_agent_sequence.puml
+└── rendered/               # Generated images
+    └── ch04/
+        ├── llm_agent_class.png
+        ├── llm_agent_class.svg
+        ├── llm_agent_sequence.png
+        └── llm_agent_sequence.svg
 ```

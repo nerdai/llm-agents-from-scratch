@@ -12,11 +12,10 @@ skinparam arrowthickness 1.2
 ' Participants
 skinparam participantbackgroundcolor #f9fafb
 skinparam participantbordercolor #222
-skinparam participantpadding 12
+skinparam participantpadding 6
 
 ' Lifelines
 skinparam sequencelifelinebackgroundcolor white
-skinparam sequencelifelinebordercolor #ccc
 
 ' Notes
 skinparam noteBackgroundColor #fffbe6
@@ -38,3 +37,9 @@ skinparam classOperationIconSize 0
 skinparam classFontName Courier
 skinparam classAttributeFontName Courier
 skinparam classFontSize 14
+
+' Stereotypes
+skinparam stereotypePosition bottom
+
+' Sequence Message Alignment
+skinparam sequenceMessageAlign reverseDirection

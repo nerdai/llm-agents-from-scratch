@@ -1,0 +1,25 @@
+@startmindmap llm_agent_build_mental_model
+* LLM Agent
+**_ Stage 3
+*** human in the loop
+*** memory
+**_ Stage 4
+*** A2A
+**** LLM Agent
+**** LLM Agent
+**** LLM Agent
+
+left side
+
+**_ Stage 1
+*** LLM
+**** Ollama
+*** Tools
+**** SimpleFunction
+**** PydanticFunction
+
+**_ Stage 2
+*** MCP Tools
+
+
+@endmindmap

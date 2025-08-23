@@ -18,8 +18,7 @@
 skinparam Shadowing false
 skinparam RoundCorner 12
 
-' PNG only; SVG ignores dpi (use scale/width in export rules)
-skinparam dpi 300
+skinparam dpi 128
 
 ' Background & borders
 skinparam BackgroundColor white

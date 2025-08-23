@@ -14,11 +14,11 @@
 left side
 
 **_ Stage 1
-*** LLM
-**** Ollama
 *** Tools
 **** SimpleFunction
 **** PydanticFunction
+*** LLM
+**** Ollama
 
 **_ Stage 2
 *** MCP Tools

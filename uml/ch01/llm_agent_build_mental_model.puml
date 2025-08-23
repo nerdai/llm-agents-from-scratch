@@ -1,8 +1,8 @@
 @startmindmap llm_agent_build_mental_model
 
 <style>
-rootNode {
-  LineThickness 2.0
+node {
+  FontName GRAPHIC_FONT
 }
 </style>
 

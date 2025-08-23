@@ -1,10 +1,5 @@
 @startmindmap llm_agent_build_mental_model
-
-<style>
-node {
-  FontName GRAPHIC_FONT
-}
-</style>
+!include ../common/book-clean.puml
 
 * LLM Agent
 **_ Stage 3

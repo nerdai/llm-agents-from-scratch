@@ -54,26 +54,12 @@ plantuml-new -SDPI=300 uml/ch04/llm_agent_class.puml
 
 ```sh
 # Generate all diagrams using make
-make diagrams      # PNG files
-make diagrams-svg  # SVG files
+make diagrams      # SVG files
 
 # Or manually generate all files
 plantuml-new -SDPI=300 uml/**/*.puml
 ```
 
-## Directory Structure
-
-```sh
-uml/
-├── common/
-│   └── book-clean.puml     # Shared styling
-├── ch04/
-│   ├── llm_agent_class.puml
-│   └── llm_agent_sequence.puml
-└── rendered/               # Generated images
-    └── ch04/
-        ├── llm_agent_class.png
-        ├── llm_agent_class.svg
-        ├── llm_agent_sequence.png
-        └── llm_agent_sequence.svg
-```
+> [!NOTE]
+> For the book, most of these SVG images are further polished with
+> inkscape.

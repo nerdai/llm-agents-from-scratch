@@ -5,7 +5,7 @@
 '   !define CODE_FONT "Courier Std"
 
 !ifndef GRAPHIC_FONT
-!define GRAPHIC_FONT Arial
+!define GRAPHIC_FONT "Arial"
 !endif
 !ifndef ANNO_FONT
 !define ANNO_FONT "Times"

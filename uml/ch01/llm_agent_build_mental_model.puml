@@ -1,4 +1,11 @@
 @startmindmap llm_agent_build_mental_model
+
+<style>
+rootNode {
+  LineThickness 2.0
+}
+</style>
+
 * LLM Agent
 **_ Stage 3
 *** human in the loop

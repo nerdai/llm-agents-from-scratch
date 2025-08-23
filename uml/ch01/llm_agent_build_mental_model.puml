@@ -1,10 +1,5 @@
 @startmindmap llm_agent_build_mental_model
-
-<style>
-rootNode {
-  LineThickness 2.0
-}
-</style>
+!include ../common/book-clean.puml
 
 * LLM Agent
 **_ Stage 3
@@ -19,11 +14,11 @@ rootNode {
 left side
 
 **_ Stage 1
-*** LLM
-**** Ollama
 *** Tools
 **** SimpleFunction
 **** PydanticFunction
+*** LLM
+**** Ollama
 
 **_ Stage 2
 *** MCP Tools

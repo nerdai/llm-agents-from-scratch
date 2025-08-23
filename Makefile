@@ -20,14 +20,7 @@ coverage-report: ## Show coverage summary in terminal
 coverage-html: ## Generate HTML coverage report
 	coverage html
 
-diagrams:	## Generate UML diagrams from PlantUML files
-	@echo "Generating UML diagrams..."
-	@mkdir -p uml/rendered
-	@find uml -name "*.puml" -not -path "uml/common/*" -exec dirname {} \; | sed 's|^uml|uml/rendered|' | sort -u | xargs mkdir -p
-	@find uml -name "*.puml" -not -path "uml/common/*" -exec sh -c 'java -jar ~/plantuml.jar -SDPI=300 -o "$$(dirname "{}" | sed "s|^uml|$(PWD)/uml/rendered|")" "{}"' \;
-	@echo "Diagrams generated in uml/rendered/ directory with chapter structure!"
-
-diagrams-svg:	## Generate SVG diagrams (for web)
+diagrams:	## Generate SVG diagrams (for web)
 	@echo "Generating SVG diagrams..."
 	@mkdir -p uml/rendered
 	@find uml -name "*.puml" -not -path "uml/common/*" -exec dirname {} \; | sed 's|^uml|uml/rendered|' | sort -u | xargs mkdir -p

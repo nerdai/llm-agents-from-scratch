@@ -1,45 +1,81 @@
-' Clean, professional theme for print
-skinparam shadowing false
-skinparam roundcorner 12
-skinparam dpi 300
+'── Book-clean theme (Manning font spec) ──────────────────────
+' You can override font families before including:
+'   !define GRAPHIC_FONT Arial
+'   !define ANNO_FONT "Humanist 521 Bold Condensed"   ' or Times
+'   !define CODE_FONT "Courier Std"
 
-' Background and borders
-skinparam backgroundcolor white
-skinparam arrowcolor #333
-skinparam linecolor #333
-skinparam arrowthickness 1.2
+!ifndef GRAPHIC_FONT
+!define GRAPHIC_FONT "Arial"
+!endif
+!ifndef ANNO_FONT
+!define ANNO_FONT "Times"
+!endif
+!ifndef CODE_FONT
+!define CODE_FONT "Courier Std"
+!endif
+
+' General look
+skinparam Shadowing false
+skinparam RoundCorner 12
+
+skinparam dpi 128
+
+' Background & borders
+skinparam BackgroundColor white
+skinparam ArrowColor #333
+skinparam LineColor  #333
+skinparam ArrowThickness 1.2
 
 ' Participants
-skinparam participantbackgroundcolor #f9fafb
-skinparam participantbordercolor #222
-skinparam participantpadding 6
+skinparam ParticipantBackgroundColor #f9fafb
+skinparam ParticipantBorderColor #222
+skinparam ParticipantPadding 6
 
 ' Lifelines
-skinparam sequencelifelinebackgroundcolor white
+skinparam SequenceLifeLineBackgroundColor white
 
-' Notes
-skinparam noteBackgroundColor #fffbe6
-skinparam noteBorderColor #e0d97a
-skinparam noteBorderThickness 1
+' Notes / legends (Annotations)
+skinparam NoteBackgroundColor #fffbe6
+skinparam NoteBorderColor #e0d97a
+skinparam NoteBorderThickness 1
 
-' Fonts
-skinparam defaultfontname "Inter, Arial"
-skinparam defaultfontsize 16
-skinparam titleFontSize 20
-skinparam titleFontColor #222
+'──────────── Fonts (per Manning spec) ────────────
+' Graphic text
+skinparam DefaultFontName GRAPHIC_FONT
+skinparam DefaultFontSize 7
+skinparam ArrowFontName   GRAPHIC_FONT
+skinparam ArrowFontSize   7
+skinparam ParticipantFontName GRAPHIC_FONT
+skinparam ParticipantFontSize 7
 
-' Alignment
-skinparam SequenceMessageAlign center
+' Headings
+skinparam TitleFontName GRAPHIC_FONT
+skinparam TitleFontSize 8
+skinparam TitleFontColor #222
+' Sequence group header labels (loop/alt/opt/etc.)
+skinparam SequenceGroupFontName GRAPHIC_FONT
+skinparam SequenceGroupFontSize 8
 
-' Visibility Symbols
-skinparam classAttributeIconSize 0
-skinparam classOperationIconSize 0
-skinparam classFontName Courier
-skinparam classAttributeFontName Courier
-skinparam classFontSize 14
+' Annotations (notes/legend)
+skinparam NoteFontName   ANNO_FONT
+skinparam NoteFontSize   9
+skinparam LegendFontName ANNO_FONT
+skinparam LegendFontSize 9
 
-' Stereotypes
-skinparam stereotypePosition bottom
+' Code text (class diagrams etc.)
+skinparam ClassFontName              CODE_FONT
+skinparam ClassFontSize              8
+skinparam ClassAttributeFontName     CODE_FONT
+skinparam ClassAttributeFontSize     8
+skinparam ClassOperationFontName     CODE_FONT
+skinparam ClassOperationFontSize     8
 
-' Sequence Message Alignment
-skinparam sequenceMessageAlign reverseDirection
+' Hide the little +/# icons next to members
+skinparam ClassAttributeIconSize 0
+skinparam ClassOperationIconSize 0
+
+' Stereotypes under the box
+skinparam StereotypePosition bottom
+
+' Sequence message alignment (one setting only)
+skinparam SequenceMessageAlign reverseDirection

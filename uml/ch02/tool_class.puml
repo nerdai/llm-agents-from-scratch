@@ -1,0 +1,45 @@
+@startuml tool_class
+!include ../common/book-clean.puml
+
+
+' External dependencies
+package "external_dependencies" <<Folder>> {
+    class "pydantic.BaseModel" as BaseModel
+}
+
+' Data structures
+package "llm_agents_from_scratch.data_structures.tool" <<Folder>> {
+
+  class ToolCall {
+    +id_: str
+    +tool_name: str
+    +arguments: dict[str, Any]
+  }
+
+  class ToolCallResult {
+    +tool_call_id: str
+    +content: Any | None
+    +error: bool
+  }
+}
+
+' BaseTool
+package "llm_agents_from_scratch.base.tool" <<Folder>> {
+  abstract class BaseTool {
+    +name: str
+    +description: str
+    +parameters_json_schema: dict[str, Any]
+    --
+    +__call__(tool_call: ToolCall): ToolCallResult
+  }
+}
+
+llm_agents_from_scratch.data_structures.tool -[hidden]down- llm_agents_from_scratch.base
+
+' Relations
+BaseModel <|.. ToolCall
+BaseModel <|.. ToolCallResult
+ToolCallResult <-- BaseTool : " returns"
+ToolCall --> BaseTool : " gets called with"
+
+@enduml

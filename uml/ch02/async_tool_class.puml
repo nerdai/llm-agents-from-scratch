@@ -1,0 +1,53 @@
+@startuml async_tool_class
+!include ../common/book-clean.puml
+
+
+' External dependencies
+package "external_dependencies" <<Folder>> {
+    class "pydantic.BaseModel" as BaseModel
+}
+
+' Data structures
+package "llm_agents_from_scratch.data_structures.tool" <<Folder>> {
+
+  class ToolCall {
+    +id_: str
+    +tool_name: str
+    +arguments: dict[str, Any]
+  }
+
+  class ToolCallResult {
+    +tool_call_id: str
+    +content: Any | None
+    +error: bool
+  }
+}
+
+' BaseTool
+package "llm_agents_from_scratch.base.tool" <<Folder>> {
+  abstract class AsyncBaseTool {
+    +name: str
+    +description: str
+    +parameters_json_schema: dict[str, Any]
+    --
+    +<<async>> __call__(tool_call: ToolCall): ToolCallResult
+  }
+}
+
+note top of AsyncBaseTool
+  Very similar to BaseTool
+end note
+
+note left of AsyncBaseTool::__call__
+  This method is async
+end note
+
+llm_agents_from_scratch.data_structures.tool -[hidden]down- llm_agents_from_scratch.base
+
+' Relations
+BaseModel <|.. ToolCall
+BaseModel <|.. ToolCallResult
+ToolCallResult <-- AsyncBaseTool : " returns"
+ToolCall --> AsyncBaseTool : " gets called with"
+
+@enduml

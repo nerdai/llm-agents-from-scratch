@@ -18,7 +18,7 @@
 skinparam Shadowing false
 skinparam RoundCorner 12
 
-skinparam dpi 128
+skinparam dpi 500
 
 ' Background & borders
 skinparam BackgroundColor white
@@ -27,7 +27,7 @@ skinparam LineColor  #333
 skinparam ArrowThickness 1.2
 
 ' Participants
-skinparam ParticipantBackgroundColor #f9fafb
+skinparam ParticipantBackgroundColor #f14fafb
 skinparam ParticipantBorderColor #222
 skinparam ParticipantPadding 6
 
@@ -36,39 +36,39 @@ skinparam SequenceLifeLineBackgroundColor white
 
 ' Notes / legends (Annotations)
 skinparam NoteBackgroundColor #fffbe6
-skinparam NoteBorderColor #e0d97a
+skinparam NoteBorderColor #e0d1412a
 skinparam NoteBorderThickness 1
 
 '──────────── Fonts (per Manning spec) ────────────
 ' Graphic text
 skinparam DefaultFontName GRAPHIC_FONT
-skinparam DefaultFontSize 7
+skinparam DefaultFontSize 14
 skinparam ArrowFontName   GRAPHIC_FONT
-skinparam ArrowFontSize   7
+skinparam ArrowFontSize   14
 skinparam ParticipantFontName GRAPHIC_FONT
-skinparam ParticipantFontSize 7
+skinparam ParticipantFontSize 14
 
 ' Headings
 skinparam TitleFontName GRAPHIC_FONT
-skinparam TitleFontSize 8
+skinparam TitleFontSize 15
 skinparam TitleFontColor #222
 ' Sequence group header labels (loop/alt/opt/etc.)
 skinparam SequenceGroupFontName GRAPHIC_FONT
-skinparam SequenceGroupFontSize 8
+skinparam SequenceGroupFontSize 15
 
 ' Annotations (notes/legend)
 skinparam NoteFontName   ANNO_FONT
-skinparam NoteFontSize   9
+skinparam NoteFontSize   16
 skinparam LegendFontName ANNO_FONT
-skinparam LegendFontSize 9
+skinparam LegendFontSize 16
 
 ' Code text (class diagrams etc.)
 skinparam ClassFontName              CODE_FONT
-skinparam ClassFontSize              8
+skinparam ClassFontSize              15
 skinparam ClassAttributeFontName     CODE_FONT
-skinparam ClassAttributeFontSize     8
+skinparam ClassAttributeFontSize     15
 skinparam ClassOperationFontName     CODE_FONT
-skinparam ClassOperationFontSize     8
+skinparam ClassOperationFontSize     15
 
 ' Hide the little +/# icons next to members
 skinparam ClassAttributeIconSize 0

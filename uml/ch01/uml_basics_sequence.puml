@@ -1,0 +1,24 @@
+@startuml uml_basics_sequence
+!include ../common/book-clean.puml
+title Tool Call Sequence
+
+actor "LLM agent" as agent
+participant "tool: BaseTool" as tool
+
+agent -> agent : creates tool call: ToolCall
+
+agent -> tool : wants to perform tool call
+
+activate tool
+
+tool -> tool : processes tool call
+
+create participant "tool_call_result: ToolCallResult" as result
+tool -> result : creates
+deactivate tool
+
+result -> result : init
+result -> tool
+
+tool --> agent : returns tool_call_result
+@enduml

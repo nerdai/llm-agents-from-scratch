@@ -39,7 +39,7 @@ llm_agents_from_scratch.data_structures.tool -[hidden]down- llm_agents_from_scra
 ' Relations
 BaseModel <|.. ToolCall
 BaseModel <|.. ToolCallResult
-ToolCallResult <-- BaseTool : " returns"
-ToolCall --> BaseTool : " gets called with"
+ToolCall --> BaseTool::__call__ : " input"
+ToolCallResult <-- BaseTool::__call__ : " returns"
 
 @enduml

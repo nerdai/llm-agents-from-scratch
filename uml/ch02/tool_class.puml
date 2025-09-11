@@ -37,8 +37,8 @@ package "llm_agents_from_scratch.base.tool" <<Folder>> {
 llm_agents_from_scratch.data_structures.tool -[hidden]down- llm_agents_from_scratch.base
 
 ' Relations
-BaseModel <|.. ToolCall : " inherits"
-BaseModel <|.. ToolCallResult : " inherits"
+BaseModel <|-- ToolCall : " inherits"
+BaseModel <|-- ToolCallResult : " inherits"
 ToolCall --> BaseTool::__call__ : " input"
 ToolCallResult <-- BaseTool::__call__ : " returns"
 

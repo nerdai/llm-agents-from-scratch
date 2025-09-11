@@ -45,8 +45,8 @@ end note
 llm_agents_from_scratch.data_structures.tool -[hidden]down- llm_agents_from_scratch.base
 
 ' Relations
-BaseModel <|.. ToolCall : " inherits"
-BaseModel <|.. ToolCallResult : " inherits"
+BaseModel <|-- ToolCall : " inherits"
+BaseModel <|-- ToolCallResult : " inherits"
 ToolCallResult <-- AsyncBaseTool::__call__ : " returns"
 ToolCall --> AsyncBaseTool::__call__ : " gets called with"
 

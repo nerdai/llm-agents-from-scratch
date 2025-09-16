@@ -1,0 +1,43 @@
+@startuml simple_function_tool_class
+!include ../common/book-clean.puml
+
+package "llm_agents_from_scratch.base.tool" <<Folder>> {
+  abstract class BaseTool {
+    +name: str
+    +description: str
+    +parameters_json_schema: dict[str, Any]
+    --
+    +__call__(tool_call: ToolCall): ToolCallResult
+  }
+
+  abstract class AsyncBaseTool {
+    +name: str
+    +description: str
+    +parameters_json_schema: dict[str, Any]
+    --
+    +<<async>> __call__(tool_call: ToolCall): ToolCallResult
+  }
+}
+
+package "llm_agents_from_scratch.tools" <<Folder>> {
+
+  class SimpleFunctionTool {
+    +func: Callable
+  }
+
+  class AsyncSimpleFunctionTool {
+    +func: <<async>> Callable
+  }
+}
+
+' Notes
+note left of SimpleFunctionTool::func
+  Additional attribute
+end note
+
+' Relations
+BaseTool <|-- SimpleFunctionTool : " inherits"
+AsyncBaseTool <|-- AsyncSimpleFunctionTool : " inherits"
+
+
+@enduml

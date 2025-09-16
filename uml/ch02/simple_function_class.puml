@@ -30,14 +30,8 @@ package "llm_agents_from_scratch.tools" <<Folder>> {
   }
 }
 
-' Notes
-note left of SimpleFunctionTool::func
-  Additional attribute
-end note
-
 ' Relations
 BaseTool <|-- SimpleFunctionTool : " inherits"
 AsyncBaseTool <|-- AsyncSimpleFunctionTool : " inherits"
-
 
 @enduml

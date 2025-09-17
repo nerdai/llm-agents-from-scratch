@@ -1,9 +1,10 @@
 """Simple Function Tool."""
 
 import inspect
+import json
 from typing import Any, Awaitable, Callable, get_type_hints
 
-from jsonschema import validate
+from jsonschema import SchemaError, ValidationError, validate
 
 from llm_agents_from_scratch.base.tool import AsyncBaseTool, BaseTool
 from llm_agents_from_scratch.data_structures import ToolCall, ToolCallResult
@@ -198,16 +199,33 @@ class AsyncSimpleFunctionTool(AsyncBaseTool):
         try:
             # validate the arguments
             validate(tool_call.arguments, schema=self.parameters_json_schema)
+        except (SchemaError, ValidationError) as e:
+            error_details = {
+                "error_type": e.__class__.__name__,
+                "message": e.message,
+            }
+            return ToolCallResult(
+                tool_call_id=tool_call.id_,
+                content=json.dumps(error_details),
+                error=True,
+            )
+
+        try:
             # execute the function
             res = await self.func(**tool_call.arguments)
-            content = str(res)
-            error = False
         except Exception as e:
-            content = f"Failed to execute function call: {e}"
-            error = True
+            error_details = {
+                "error_type": e.__class__.__name__,
+                "message": f"Internal error while executing tool: {str(e)}",
+            }
+            return ToolCallResult(
+                tool_call_id=tool_call.id_,
+                content=json.dumps(error_details),
+                error=True,
+            )
 
         return ToolCallResult(
             tool_call_id=tool_call.id_,
-            content=content,
-            error=error,
+            content=str(res),
+            error=False,
         )

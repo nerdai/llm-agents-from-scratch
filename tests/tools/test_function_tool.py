@@ -124,10 +124,11 @@ def test_function_tool_call_returns_error() -> None:
 
     result = tool(tool_call=tool_call)
 
-    assert (
-        "Failed to execute function call: '1' is not of type 'number'"
-        in result.content
+    expected_content = (
+        '{"error_type": "ValidationError", "message": "\'1\' '
+        "is not of type 'number'\"}"
     )
+    assert expected_content == result.content
     assert result.error is True
 
 

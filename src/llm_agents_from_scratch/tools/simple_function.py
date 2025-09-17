@@ -87,7 +87,7 @@ class SimpleFunctionTool(BaseTool):
                 Defaults to None.
         """
         self.func = func
-        self.desc = desc or func.__doc__ or f"Tool for {func.__name__}"
+        self._desc = desc
 
     @property
     def name(self) -> str:
@@ -97,7 +97,9 @@ class SimpleFunctionTool(BaseTool):
     @property
     def description(self) -> str:
         """Description of what this function tool does."""
-        return self.desc
+        return (
+            self._desc or self.func.__doc__ or f"Tool for {self.func.__name__}"
+        )
 
     @property
     def parameters_json_schema(self) -> dict[str, Any]:
@@ -158,7 +160,7 @@ class AsyncSimpleFunctionTool(AsyncBaseTool):
                 Defaults to None.
         """
         self.func = func
-        self.desc = desc or func.__doc__ or f"Tool for {func.__name__}"
+        self._desc = desc
 
     @property
     def name(self) -> str:
@@ -168,7 +170,9 @@ class AsyncSimpleFunctionTool(AsyncBaseTool):
     @property
     def description(self) -> str:
         """Description of what this function tool does."""
-        return self.desc
+        return (
+            self._desc or self.func.__doc__ or f"Tool for {self.func.__name__}"
+        )
 
     @property
     def parameters_json_schema(self) -> dict[str, Any]:

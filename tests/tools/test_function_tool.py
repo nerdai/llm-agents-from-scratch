@@ -38,6 +38,15 @@ async def my_mock_fn_3(
     return f"{param1} and {param2}"
 
 
+def my_mock_fn_that_raises(
+    param1: int,
+    param2: str = "x",
+    *args: Any,
+    **kwargs: Any,
+) -> str:
+    raise RuntimeError("Oops!")
+
+
 @pytest.mark.parametrize(
     ("func", "properties", "required"),
     [
@@ -114,7 +123,7 @@ def test_function_tool_call(mock_validate: MagicMock) -> None:
     assert result.error is False
 
 
-def test_function_tool_call_returns_error() -> None:
+def test_function_tool_call_returns_validation_error() -> None:
     """Tests a function tool call raises error at validation of params."""
     tool = SimpleFunctionTool(my_mock_fn_1, desc="mock desc")
     tool_call = ToolCall(
@@ -124,10 +133,29 @@ def test_function_tool_call_returns_error() -> None:
 
     result = tool(tool_call=tool_call)
 
-    assert (
-        "Failed to execute function call: '1' is not of type 'number'"
-        in result.content
+    expected_content = (
+        '{"error_type": "ValidationError", "message": "\'1\' '
+        "is not of type 'number'\"}"
     )
+    assert expected_content == result.content
+    assert result.error is True
+
+
+def test_function_tool_call_returns_execution_error() -> None:
+    """Tests a function tool call raises error at validation of params."""
+    tool = SimpleFunctionTool(my_mock_fn_that_raises, desc="mock desc")
+    tool_call = ToolCall(
+        tool_name="my_mock_fn_that_raises",
+        arguments={"param1": 1, "param2": "y"},
+    )
+
+    result = tool(tool_call=tool_call)
+
+    expected_content = (
+        '{"error_type": "RuntimeError", '
+        '"message": "Internal error while executing tool: Oops!"}'
+    )
+    assert expected_content == result.content
     assert result.error is True
 
 
@@ -166,7 +194,7 @@ async def test_async_function_tool_call(mock_validate: MagicMock) -> None:
 
 
 @pytest.mark.asyncio
-async def test_async_function_tool_call_returns_error() -> None:
+async def test_async_function_tool_call_returns_validation_error() -> None:
     """Tests a function tool call."""
     tool = AsyncSimpleFunctionTool(my_mock_fn_1, desc="mock desc")
     tool_call = ToolCall(
@@ -176,8 +204,29 @@ async def test_async_function_tool_call_returns_error() -> None:
 
     result = await tool(tool_call=tool_call)
 
-    assert (
-        "Failed to execute function call: '1' is not of type 'number'"
-        in result.content
+    expected_content = (
+        '{"error_type": "ValidationError", "message": "\'1\' '
+        "is not of type 'number'\"}"
     )
+
+    assert expected_content == result.content
+    assert result.error is True
+
+
+@pytest.mark.asyncio
+async def test_async_function_tool_call_returns_execution_error() -> None:
+    """Tests a function tool call raises error at validation of params."""
+    tool = AsyncSimpleFunctionTool(my_mock_fn_that_raises, desc="mock desc")
+    tool_call = ToolCall(
+        tool_name="my_mock_fn_that_raises",
+        arguments={"param1": 1, "param2": "y"},
+    )
+
+    result = await tool(tool_call=tool_call)
+
+    expected_content = (
+        '{"error_type": "RuntimeError", '
+        '"message": "Internal error while executing tool: Oops!"}'
+    )
+    assert expected_content == result.content
     assert result.error is True

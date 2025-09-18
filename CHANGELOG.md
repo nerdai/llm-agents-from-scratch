@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- [feat] More specific error handling with simple function tools (#184)
 - refactor: Store custom desc in _desc for SimpleFunctionTool and AsyncSimpleFunctionTool. (#181)
 - Remove return_history param in OllamaLLM.chat() (#126)
 - Rename continue_conversation_with_tool_results to continue_chat_with_tool_results (#123)

@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- ...
+
+## [0.0.10] - 2025-09-18
+
 ### Added
 
 - Add LLM type alias for BaseLLM to match Tool alias (#132)

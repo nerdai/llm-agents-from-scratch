@@ -34,10 +34,10 @@ package "llm_agents_from_scratch.data_structures.llm" <<Folder>> {
 package "llm_agents_from_scratch.base.llm" <<Folder>> {
   abstract class BaseLLM {
     --
-    +complete(prompt: str): CompleteResult\n
-    +chat(\n\tinput: str,\n\tchat_history: list[ChatMessage]\n): tuple[ChatMessage, ChatMessage]\n
-    +continue_chat_with_tool_results(\n\ttool_call_results: list[ToolCallResult],\n\tchat_history: list[ChatMessage]\n): tuple[list[ChatMessage], ChatMessage]\n
-    +structured_output<T>(\n\tprompt:str,\n\tmdl: type[T]\n): T
+    +<<async>> complete(\n\tprompt: str\n): CompleteResult\n
+    +<<async>> chat(\n\tinput: str,\n\tchat_history: list[ChatMessage]\n): tuple[ChatMessage, ChatMessage]\n
+    +<<async>> continue_chat_with_tool_results(\n\ttool_call_results: list[ToolCallResult],\n\tchat_history: list[ChatMessage]\n): tuple[list[ChatMessage], ChatMessage]\n
+    +<<async>> structured_output<T>(\n\tprompt:str,\n\tmdl: type[T]\n): T
   }
 }
 

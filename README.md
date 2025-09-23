@@ -1,4 +1,4 @@
-# LLM Agents From Scratch
+# LLM Agents From Scratch (oops)
 
 ---------------------------------------------------------------------------------------
 [![Linting](https://github.com/nerdai/llm-agents-from-scratch/actions/workflows/lint.yml/badge.svg)](https://github.com/nerdai/llm-agents-from-scratch/actions/workflows/lint.yml)

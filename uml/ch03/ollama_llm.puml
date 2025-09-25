@@ -18,7 +18,7 @@ package "llm_agents_from_scratch.llms" <<Folder>> {
     +model: str
     -_client: ~ollama.AsyncClient
     --
-    +<<constructor>> __init__():
+    +<<constructor>> __init__(\n\tmodel:str,\n\thost: str | None\n):
   }
 }
 

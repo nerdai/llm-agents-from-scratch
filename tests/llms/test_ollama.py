@@ -61,8 +61,7 @@ async def test_complete(mock_async_client_class: MagicMock) -> None:
     result = await llm.complete("fake prompt")
 
     # assert
-    assert str(result) == "fake response"
-    assert str(result) == result.response
+    assert result.response == "fake response"
     assert result.prompt == "fake prompt"
 
 

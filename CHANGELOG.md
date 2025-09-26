@@ -8,7 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
-- ...
+### Changed
+
+- Remove __str__() impl for CompleteResult (#204)
 
 ## [0.0.10] - 2025-09-18
 

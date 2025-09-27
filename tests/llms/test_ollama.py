@@ -17,8 +17,8 @@ from llm_agents_from_scratch.data_structures import (
 )
 from llm_agents_from_scratch.llms.ollama import OllamaLLM
 from llm_agents_from_scratch.llms.ollama.utils import (
+    _get_tool_json_schema,
     chat_message_to_ollama_message,
-    get_tool_json_schema,
     ollama_message_to_chat_message,
     tool_to_ollama_tool,
 )
@@ -360,13 +360,13 @@ class MyTool(BaseTool):
         )
 
 
-def test_get_tool_json_schema() -> None:
+def test__get_tool_json_schema() -> None:
     """Tests util for getting JSON schema of a tool."""
     # arrange
     my_tool = MyTool()
 
     # act
-    schema = get_tool_json_schema(my_tool)
+    schema = _get_tool_json_schema(my_tool)
 
     # assert
     assert schema["type"] == "function"

@@ -106,7 +106,7 @@ def chat_message_to_ollama_message(chat_message: ChatMessage) -> OllamaMessage:
     )
 
 
-def get_tool_json_schema(tool: Tool) -> dict[str, Any]:
+def _get_tool_json_schema(tool: Tool) -> dict[str, Any]:
     """Prepare a tool as a JSON schema.
 
     Args:
@@ -135,5 +135,5 @@ def tool_to_ollama_tool(tool: Tool) -> OllamaTool:
     Returns:
         ~ollama.Tool: The converted tool.
     """
-    json_schema = get_tool_json_schema(tool)
+    json_schema = _get_tool_json_schema(tool)
     return OllamaTool.model_validate(json_schema)

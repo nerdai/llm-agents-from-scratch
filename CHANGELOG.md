@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- refactor: make get_tool_json_schema() internal (#207)
 - Remove __str__() impl for CompleteResult (#204)
 
 ## [0.0.10] - 2025-09-18

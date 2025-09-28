@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+### Added
+
+- feat: Add tools param to continue_chat_with_tool_results for BaseLLM and OllamaLLM (#215)
+
 ### Changed
 
 - refactor: make get_tool_json_schema() internal (#207)

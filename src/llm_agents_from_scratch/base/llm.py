@@ -79,6 +79,7 @@ class BaseLLM(ABC):
         self,
         tool_call_results: Sequence[ToolCallResult],
         chat_history: Sequence[ChatMessage],
+        tools: Sequence[Tool] | None = None,
         **kwargs: Any,
     ) -> tuple[list[ChatMessage], ChatMessage]:
         """Continue a chat by submitting tool call results.
@@ -88,6 +89,8 @@ class BaseLLM(ABC):
                 Tool call results.
             chat_history (Sequence[ChatMessage]): The chat history.
                 Defaults to None.
+            tools (Sequence[BaseTool]|None, optional): tools that the LLM
+                can call.
             **kwargs (Any): Additional keyword arguments.
 
         Returns:

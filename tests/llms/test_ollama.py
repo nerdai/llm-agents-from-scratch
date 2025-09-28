@@ -198,6 +198,7 @@ async def test_continue_chat_with_tool_results(
                 ChatMessage.from_tool_call_result(tool_call_results[0]),
             ),
         ],
+        tools=None,
     )
     mock_async_client_class.assert_called_once()
 

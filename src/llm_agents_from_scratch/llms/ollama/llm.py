@@ -147,6 +147,7 @@ class OllamaLLM(LLM):
         self,
         tool_call_results: Sequence[ToolCallResult],
         chat_history: Sequence[ChatMessage],
+        tools: Sequence[Tool] | None = None,
         **kwargs: Any,
     ) -> tuple[list[ChatMessage], ChatMessage]:
         """Implements continue_chat_with_tool_results method.
@@ -154,6 +155,8 @@ class OllamaLLM(LLM):
         Args:
             tool_call_results (Sequence[ToolCallResult]): The tool call results.
             chat_history (Sequence[ChatMessage]): The chat history.
+            tools (Sequence[BaseTool]|None, optional): tools that the LLM
+                can call.
             **kwargs (Any): Additional keyword arguments.
 
         Returns:
@@ -170,10 +173,14 @@ class OllamaLLM(LLM):
             chat_message_to_ollama_message(cm) for cm in chat_history
         ] + [chat_message_to_ollama_message(tm) for tm in tool_messages]
 
+        # prepare tools
+        o_tools = [tool_to_ollama_tool(t) for t in tools] if tools else None
+
         # send chat request
         o_result = await self._client.chat(
             model=self.model,
             messages=o_messages,
+            tools=o_tools,
         )
 
         return tool_messages, ollama_message_to_chat_message(o_result.message)

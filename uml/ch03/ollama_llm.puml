@@ -5,10 +5,10 @@
 package "llm_agents_from_scratch.base.llm" <<Folder>> {
   abstract class BaseLLM {
     --
-    +<<async>> complete(\n\t...\n): CompleteResponse\n
-    +<<async>> chat(\n\t...\n): tuple[ChatMessage, ChatMessage]\n
-    +<<async>> continue_chat_with_tool_results(\n\t...\n): tuple[list[ChatMessage], ChatMessage]\n
-    +<<async>> structured_output<T>(\n\t...\n): T
+    +<<async>> complete()
+    +<<async>> chat()
+    +<<async>> continue_chat_with_tool_results()
+    +<<async>> structured_output<T>()
   }
 }
 

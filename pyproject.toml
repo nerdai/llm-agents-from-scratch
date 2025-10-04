@@ -35,7 +35,8 @@ dependencies = [
   "jsonschema>=4.24.0",
   "mcp[cli]>=1.9.4",
   "ollama>=0.5.1",
-  "pydantic>=2.11.7"
+  "pydantic>=2.11.7",
+  "typing-extensions>=4.14.0"
 ]
 
 [tool.coverage.run]

@@ -1,0 +1,18 @@
+ch01:
+  "1": "applications"
+  "2": "deep-research"
+  "3": "agent"
+  "4": "planning"
+  "5": "equip-tool"
+  "6": "tool-call-process"
+  "7": "agent-processing-loop"
+  "8": "agent-with-memory"
+  "9": "agent-processing-loop-save-into-memory"
+  "10": "agent-processing-loop-hitl"
+  "11": "multi-llm-agents"
+  "12": "llm-agents-from-scratch"
+  "13": "uml-basics-class-diagram"
+  "14": "uml-basics-sequence"
+  "15": "build-plans-ch01"
+  png_only:
+    - "deep-research"

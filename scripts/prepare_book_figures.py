@@ -51,7 +51,6 @@ def main(
     output_path = figures_path / "all_chapters"
     output_path.mkdir(exist_ok=True)
     cp_commands = []
-    print(cfg)
     for ch, data in cfg.items():
         # png
         cp_commands.extend(
@@ -77,8 +76,6 @@ def main(
 
     for cmd in cp_commands:
         subprocess.run(cmd, check=False)
-
-    print(cp_commands)
 
 
 if __name__ == "__main__":

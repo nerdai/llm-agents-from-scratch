@@ -18,6 +18,10 @@ class Task(BaseModel):
     id_: str = Field(default_factory=lambda: str(uuid.uuid4()))
     instruction: str
 
+    def __str__(self) -> str:
+        """String representation of Task."""
+        return self.instruction
+
 
 class TaskStep(BaseModel):
     """Represents a step within a task and its own instruction.
@@ -33,6 +37,10 @@ class TaskStep(BaseModel):
     instruction: str = Field(
         description="The instruction for this step in the task.",
     )
+
+    def __str__(self) -> str:
+        """String representation of TaskStep."""
+        return self.instruction
 
 
 class TaskStepResult(BaseModel):

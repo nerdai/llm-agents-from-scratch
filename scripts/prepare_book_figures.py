@@ -6,6 +6,8 @@ convention required for Manning books.
 """
 
 import subprocess
+import shutil
+
 from pathlib import Path
 
 import fire
@@ -49,6 +51,8 @@ def main(
 
     # loop through all figures
     output_path = figures_path / "all_chapters"
+    if output_path.exists():
+        shutil.rmtree(output_path)
     output_path.mkdir(exist_ok=True)
     cp_commands = []
     for ch, data in cfg.items():

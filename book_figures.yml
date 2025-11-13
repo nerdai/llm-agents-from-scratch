@@ -31,11 +31,11 @@ ch02:
     "13": "function-signature-to-json-schema"
     "14": "invoking-simple-function-tool"
     "15": "mental-model-async-simple-function-tool"
-  ch03:
+ch03:
   figures:
     "1": "build-plans-ch03"
     "2": "llm-agent-with-basellm-inheritance-partial"
-    "3": "llm-interaction-completion-example"
+    "3": "llm-interaction-completion"
     "4": "llm-interaction-chat"
     "5": "basellm-datastructures-uml-class"
     "6": "llm-interaction-completion-example"

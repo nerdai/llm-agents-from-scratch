@@ -5,9 +5,8 @@ figures can be found, and creates copies of each figure, using the naming
 convention required for Manning books.
 """
 
-import subprocess
 import shutil
-
+import subprocess
 from pathlib import Path
 
 import fire

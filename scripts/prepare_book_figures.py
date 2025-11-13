@@ -5,6 +5,7 @@ figures can be found, and creates copies of each figure, using the naming
 convention required for Manning books.
 """
 
+import shutil
 import subprocess
 from pathlib import Path
 
@@ -49,6 +50,8 @@ def main(
 
     # loop through all figures
     output_path = figures_path / "all_chapters"
+    if output_path.exists():
+        shutil.rmtree(output_path)
     output_path.mkdir(exist_ok=True)
     cp_commands = []
     for ch, data in cfg.items():

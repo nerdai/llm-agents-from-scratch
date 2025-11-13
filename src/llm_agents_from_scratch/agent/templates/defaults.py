@@ -1,6 +1,6 @@
-"""Prompt templates for LLMAgent (TaskHandler)."""
+"""Default templates."""
 
-from typing import TypedDict
+DEFAULT_SYSTEM_MESSAGE = """You are a helpful assistant."""
 
 DEFAULT_GET_NEXT_INSTRUCTION_PROMPT = """You are overseeing an assistant's
 progress in accomplishing a user instruction. Provided below is the assistant's
@@ -50,26 +50,3 @@ towards completing the task.
 {current_rollout}
 </history>
 """.strip()
-
-
-class TaskHandlerTemplates(TypedDict):
-    """Prompt templates dict for TaskHandler."""
-
-    get_next_step: str
-    rollout_contribution_from_chat_message: str
-    rollout_contribution_content_instruction: str
-    rollout_contribution_content_tool_call_request: str
-    run_step_system_message_without_rollout: str
-    run_step_system_message: str
-    run_step_user_message: str
-
-
-default_templates = TaskHandlerTemplates(
-    get_next_step=DEFAULT_GET_NEXT_INSTRUCTION_PROMPT,
-    rollout_contribution_from_chat_message=DEFAULT_ROLLOUT_CONTRIBUTION_FROM_CHAT_MESSAGE,
-    rollout_contribution_content_instruction=DEFAULT_ROLLOUT_CONTRIBUTION_CONTENT_INSTRUCTION,
-    rollout_contribution_content_tool_call_request=DEFAULT_ROLLOUT_CONTRIBUTION_CONTENT_TOOL_CALL_REQUEST,
-    run_step_system_message_without_rollout=DEFAULT_RUN_STEP_SYSTEM_MESSAGE_WITHOUT_ROLLOUT,
-    run_step_system_message=DEFAULT_RUN_STEP_SYSTEM_MESSAGE,
-    run_step_user_message=DEFAULT_RUN_STEP_USER_MESSAGE,
-)

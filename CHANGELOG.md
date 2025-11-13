@@ -10,10 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Add string representations of Task and TaskStep (#248)
 - feat: Add tools param to continue_chat_with_tool_results for BaseLLM and OllamaLLM (#215)
 
 ### Changed
 
+- refactor!: rip out TaskHandlerTemplates (#250)
+- refactor!: move task_handler_templates up to __init__() (#249)
 - refactor: make get_tool_json_schema() internal (#207)
 - Remove __str__() impl for CompleteResult (#204)
 

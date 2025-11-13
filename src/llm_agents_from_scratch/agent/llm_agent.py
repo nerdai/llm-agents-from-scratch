@@ -40,6 +40,7 @@ class LLMAgent:
         tools_registry: The tools the LLM agent can equip the LLM with,
             represented as a dict.
         templates: Prompt templates for LLM Agent.
+        task_handler_templates: Prompt templates for the TaskHandler
         logger: LLMAgent logger.
     """
 
@@ -48,6 +49,7 @@ class LLMAgent:
         llm: LLM,
         tools: list[Tool] | None = None,
         templates: LLMAgentTemplates = default_llm_agent_templates,
+        task_handler_templates: TaskHandlerTemplates = default_task_handler_templates,  # noqa: E501
     ):
         """Initialize an LLMAgent.
 
@@ -56,6 +58,8 @@ class LLMAgent:
             tools (list[Tool], optional): The set of tools with which the
                 LLM can be equipped. Defaults to None.
             templates (LLMAgentTemplates): Prompt templates for LLM Agent.
+            task_handler_templates (LLMAgentTemplates): Prompt templates for
+                LLM Agent's TaskHandler.
         """
         self.llm = llm
         tools = tools or []
@@ -66,6 +70,7 @@ class LLMAgent:
             )
         self.tools_registry = {t.name: t for t in tools}
         self.templates = templates
+        self.task_handler_templates = task_handler_templates
         self.logger = get_logger(self.__class__.__name__)
 
     @property

@@ -391,7 +391,6 @@ class LLMAgent:
         self,
         task: Task,
         max_steps: int | None = None,
-        task_handler_templates: TaskHandlerTemplates = default_task_handler_templates,  # noqa: E501
     ) -> TaskHandler:
         """Agent's processing loop for executing tasks.
 
@@ -399,8 +398,6 @@ class LLMAgent:
             task (Task): the Task to perform.
             max_steps (int | None): Maximum number of steps to run for task.
                 Defaults to None.
-            task_handler_templates (TaskHandlerTemplates): Prompt templates
-                used by TaskHandler.
 
         Returns:
             TaskHandler: the TaskHandler object responsible for task execution.
@@ -408,7 +405,7 @@ class LLMAgent:
         task_handler = self.TaskHandler(
             llm_agent=self,
             task=task,
-            templates=task_handler_templates,
+            templates=self.task_handler_templates,
         )
 
         async def _process_loop() -> None:

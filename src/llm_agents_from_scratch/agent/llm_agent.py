@@ -24,12 +24,7 @@ from llm_agents_from_scratch.errors import (
 )
 from llm_agents_from_scratch.logger import get_logger
 
-from .templates import (
-    LLMAgentTemplates,
-    TaskHandlerTemplates,
-    default_llm_agent_templates,
-    default_task_handler_templates,
-)
+from .templates import LLMAgentTemplates, default_llm_agent_templates
 
 
 class LLMAgent:
@@ -40,7 +35,6 @@ class LLMAgent:
         tools_registry: The tools the LLM agent can equip the LLM with,
             represented as a dict.
         templates: Prompt templates for LLM Agent.
-        task_handler_templates: Prompt templates for the TaskHandler
         logger: LLMAgent logger.
     """
 
@@ -49,7 +43,6 @@ class LLMAgent:
         llm: LLM,
         tools: list[Tool] | None = None,
         templates: LLMAgentTemplates = default_llm_agent_templates,
-        task_handler_templates: TaskHandlerTemplates = default_task_handler_templates,  # noqa: E501
     ):
         """Initialize an LLMAgent.
 
@@ -58,8 +51,6 @@ class LLMAgent:
             tools (list[Tool], optional): The set of tools with which the
                 LLM can be equipped. Defaults to None.
             templates (LLMAgentTemplates): Prompt templates for LLM Agent.
-            task_handler_templates (LLMAgentTemplates): Prompt templates for
-                LLM Agent's TaskHandler.
         """
         self.llm = llm
         tools = tools or []
@@ -70,7 +61,6 @@ class LLMAgent:
             )
         self.tools_registry = {t.name: t for t in tools}
         self.templates = templates
-        self.task_handler_templates = task_handler_templates
         self.logger = get_logger(self.__class__.__name__)
 
     @property
@@ -98,7 +88,6 @@ class LLMAgent:
         Attributes:
             llm_agent (LLMAgent): The LLM agent.
             task: The task to execute.
-            templates: Associated prompt templates.
             rollout: The execution log of the task.
             step_counter: The number of TaskSteps executed.
             logger: TaskHandler logger.
@@ -108,7 +97,6 @@ class LLMAgent:
             self,
             llm_agent: "LLMAgent",
             task: Task,
-            templates: TaskHandlerTemplates = default_task_handler_templates,
             *args: Any,
             **kwargs: Any,
         ) -> None:
@@ -117,7 +105,6 @@ class LLMAgent:
             Args:
                 llm_agent (LLMAgent): The LLM agent.
                 task (Task): The task to process.
-                templates (TaskHandlerTemplates): Associated prompt templates.
                 *args: Additional positional arguments.
                 **kwargs: Additional keyword arguments.
             """
@@ -126,7 +113,6 @@ class LLMAgent:
             self.task = task
             self.rollout = ""
             self.step_counter = 0
-            self.templates = templates
             self._background_task: asyncio.Task | None = None
             self.logger = get_logger(self.__class__.__name__)
 
@@ -164,7 +150,7 @@ class LLMAgent:
 
                 if role == "user":
                     role = ChatRole.ASSISTANT
-                    content = self.templates[
+                    content = self.llm_agent.templates[
                         "rollout_contribution_content_instruction"
                     ].format(
                         instruction=content,
@@ -177,14 +163,14 @@ class LLMAgent:
                             for t in msg.tool_calls
                         ],
                     )
-                    content = self.templates[
+                    content = self.llm_agent.templates[
                         "rollout_contribution_content_tool_call_request"
                     ].format(
                         called_tools=called_tools,
                     )
 
                 rollout_contributions.append(
-                    self.templates[
+                    self.llm_agent.templates[
                         "rollout_contribution_from_chat_message"
                     ].format(
                         role=role.value,
@@ -215,7 +201,7 @@ class LLMAgent:
                 )
             self.logger.debug(f"🧵 Rollout: {self.rollout}")
 
-            prompt = self.templates["get_next_step"].format(
+            prompt = self.llm_agent.templates["get_next_step"].format(
                 instruction=self.task.instruction,
                 current_rollout=self.rollout,
                 current_response=previous_step_result.content,
@@ -270,14 +256,16 @@ class LLMAgent:
             # include rollout as context in the system message
             system_message = ChatMessage(
                 role=ChatRole.SYSTEM,
-                content=self.templates["run_step_system_message"].format(
+                content=self.llm_agent.templates[
+                    "run_step_system_message"
+                ].format(
                     llm_agent_system_message=self.llm_agent.templates[
                         "system_message"
                     ],
                     current_rollout=self.rollout,
                 )
                 if self.rollout
-                else self.templates[
+                else self.llm_agent.templates[
                     "run_step_system_message_without_rollout"
                 ].format(
                     llm_agent_system_message=self.llm_agent.templates[
@@ -288,7 +276,9 @@ class LLMAgent:
             self.logger.debug(f"💬 SYSTEM: {system_message.content}")
 
             # fictitious user's input
-            user_input = self.templates["run_step_user_message"].format(
+            user_input = self.llm_agent.templates[
+                "run_step_user_message"
+            ].format(
                 instruction=step.instruction,
             )
             self.logger.debug(f"💬 USER INPUT: {user_input}")
@@ -405,7 +395,6 @@ class LLMAgent:
         task_handler = self.TaskHandler(
             llm_agent=self,
             task=task,
-            templates=self.task_handler_templates,
         )
 
         async def _process_loop() -> None:

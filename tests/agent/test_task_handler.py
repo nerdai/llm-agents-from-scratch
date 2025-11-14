@@ -5,7 +5,7 @@ from unittest.mock import AsyncMock
 import pytest
 
 from llm_agents_from_scratch.agent import LLMAgent
-from llm_agents_from_scratch.agent.templates import default_llm_agent_templates
+from llm_agents_from_scratch.agent.templates import default_templates
 from llm_agents_from_scratch.base.llm import BaseLLM
 from llm_agents_from_scratch.data_structures import (
     ChatMessage,
@@ -347,7 +347,7 @@ async def test_run_step() -> None:
         chat_history=[
             ChatMessage(
                 role=ChatRole.SYSTEM,
-                content=default_llm_agent_templates[
+                content=default_templates[
                     "run_step_system_message_without_rollout"
                 ].format(
                     llm_agent_system_message=llm_agent.templates[
@@ -403,7 +403,7 @@ async def test_run_step_without_tool_calls() -> None:
         chat_history=[
             ChatMessage(
                 role=ChatRole.SYSTEM,
-                content=default_llm_agent_templates[
+                content=default_templates[
                     "run_step_system_message_without_rollout"
                 ].format(
                     llm_agent_system_message=llm_agent.templates[

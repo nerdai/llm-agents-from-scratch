@@ -24,7 +24,7 @@ from llm_agents_from_scratch.errors import (
 )
 from llm_agents_from_scratch.logger import get_logger
 
-from .templates import LLMAgentTemplates, default_llm_agent_templates
+from .templates import LLMAgentTemplates, default_templates
 
 
 class LLMAgent:
@@ -42,7 +42,7 @@ class LLMAgent:
         self,
         llm: LLM,
         tools: list[Tool] | None = None,
-        templates: LLMAgentTemplates = default_llm_agent_templates,
+        templates: LLMAgentTemplates = default_templates,
     ):
         """Initialize an LLMAgent.
 

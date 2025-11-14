@@ -25,17 +25,17 @@ def _get_image_id(chapter: str, fig_num: str) -> str:
 def main(
     figures_path: Path | str,
     config_path: Path | None = None,
-    include_svg: bool = False,
+    include_pdf: bool = False,
 ) -> None:
     """Main runner.
 
-    Create .png and .svg copies of book figures for every chapter using the
+    Create .png and .pdf copies of book figures for every chapter using the
     naming convention as specified by Manning.
 
     Args:
         figures_path (Path | str): Path to where book figures are located.
         config_path (Path | None, optional): Path to where `book_figures.yml`
-        include_svg (bool): Whether or not to include .svg version of images
+        include_pdf (bool): Whether or not to include .pdf version of images
 
     Examples:
         >>> uv run python scripts/prepare_book_figures.py --figures_path "./"
@@ -65,13 +65,13 @@ def main(
             for fig_num, fig_name in data["figures"].items()
         )
 
-        # svg
-        if include_svg:
+        # pdf
+        if include_pdf:
             cp_commands.extend(
                 [
                     "cp",
-                    f"{(figures_path / ch / fig_name).as_posix()}.svg",
-                    f"{output_path / _get_image_id(ch, fig_num)}.svg",
+                    f"{(figures_path / ch / fig_name).as_posix()}.pdf",
+                    f"{output_path / _get_image_id(ch, fig_num)}.pdf",
                 ]
                 for fig_num, fig_name in data["figures"].items()
                 if fig_name not in data["png_only"]

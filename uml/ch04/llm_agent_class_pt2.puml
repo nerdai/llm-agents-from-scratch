@@ -28,12 +28,6 @@ package "llm_agents_from_scratch.data_structures.agent" <<Folder>> {
 }
 
 package "llm_agents_from_scratch.agent" <<Folder>> {
-  class LLMAgent {
-    ...
-    --
-    ...
-  }
-
   class "LLMAgent.TaskHandler" as TaskHandler {
     +llm_agent: LLMAgent
     +task: Task
@@ -47,8 +41,6 @@ package "llm_agents_from_scratch.agent" <<Folder>> {
     -_rollout_contribution_from_single_run_step()
   }
 
-  TaskHandler -[hidden]left-> LLMAgent
-  LLMAgent +-- TaskHandler : <<nested>>
 }
 
 BaseModel <|.. TaskStep : " inherits"

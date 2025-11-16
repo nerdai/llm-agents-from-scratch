@@ -75,7 +75,7 @@ class TaskResult(BaseModel):
 
 
 class NextStepDecision(BaseModel):
-    """Structured output for TaskHandler.get_next_step()."""
+    """Structured output used within TaskHandler.get_next_step()."""
 
     kind: Literal["next_step", "final_result"]
     content: str = Field(

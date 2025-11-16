@@ -33,7 +33,6 @@ package "llm_agents_from_scratch.agent" <<Folder>> {
   class "LLMAgent.TaskHandler" as TaskHandler {
     +llm_agent: LLMAgent
     +task: Task
-    +templates: TaskHandlerTemplates
     +rollout: str
     +step_counter: int
     -_background_task: ~asyncio.Task

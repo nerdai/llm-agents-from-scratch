@@ -1,0 +1,39 @@
+@startuml llm_agent_uml_class_pt1
+!include ../common/book-clean.puml
+
+' External dependencies
+package "external_dependencies" <<Folder>> {
+    class "pydantic.BaseModel" as BaseModel
+}
+
+
+package "llm_agents_from_scratch.data_structures.agent" <<Folder>> {
+
+  class Task {
+    +id_: str
+    +instruction: str
+  }
+
+  class TaskResult {
+    +task_id: str
+    +content: str
+  }
+}
+
+package "llm_agents_from_scratch.agent" <<Folder>> {
+  class LLMAgent {
+    +llm: LLM
+    +tool_registry: dict[str, Tool]
+    +tools: list[Tool]
+    +templates: LLMAgentTemplates
+    --
+    +<<constructor>> __init__(\n\tllm: LLM,\n\ttools: list[Tool] | None\n\ttemplates: LLMAgentTemplates\n):
+    +add_tool(tool: Tool)
+    +run(task: Task): LLMAgent.TaskHandler
+  }
+}
+
+BaseModel <|.. Task : " inherits"
+BaseModel <|.. TaskResult : " inherits"
+
+@enduml

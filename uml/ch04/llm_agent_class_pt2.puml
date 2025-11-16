@@ -48,8 +48,8 @@ package "llm_agents_from_scratch.agent" <<Folder>> {
   LLMAgent +-- TaskHandler : <<nested>>
 }
 
-BaseModel <|.. TaskStep
-BaseModel <|.. TaskStepResult
-Future <|.. TaskHandler
+BaseModel <|.. TaskStep : " inherits"
+BaseModel <|.. TaskStepResult : " inherits"
+Future <|.. TaskHandler : " inherits"
 
 @enduml

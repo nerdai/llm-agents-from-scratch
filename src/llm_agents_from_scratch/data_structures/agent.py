@@ -4,7 +4,6 @@ import uuid
 from typing import Literal
 
 from pydantic import BaseModel, Field
-from pydantic.json_schema import SkipJsonSchema
 
 
 class Task(BaseModel):
@@ -32,7 +31,7 @@ class TaskStep(BaseModel):
         instruction: The instruction for the task.
     """
 
-    id_: SkipJsonSchema[str] = Field(default_factory=lambda: str(uuid.uuid4()))
+    id_: str = Field(default_factory=lambda: str(uuid.uuid4()))
     task_id: str
     instruction: str = Field(
         description="The instruction for this step in the task.",
@@ -76,7 +75,7 @@ class TaskResult(BaseModel):
 
 
 class NextStepDecision(BaseModel):
-    """Structured output for TaskHandler.get_next_step()."""
+    """Structured output used within TaskHandler.get_next_step()."""
 
     kind: Literal["next_step", "final_result"]
     content: str = Field(

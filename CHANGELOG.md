@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- refactor!: Remove SkipJsonSchema from id_ annotation for TaskStep (#259)
 - refactor!: rip out TaskHandlerTemplates (#250)
 - refactor!: move task_handler_templates up to __init__() (#249)
 - refactor: make get_tool_json_schema() internal (#207)

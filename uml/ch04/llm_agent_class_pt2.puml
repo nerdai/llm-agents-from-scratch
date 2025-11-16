@@ -9,11 +9,6 @@ package "external_dependencies" <<Folder>> {
 
 
 package "llm_agents_from_scratch.data_structures.agent" <<Folder>> {
-  class NextStepDecision {
-    +kind: "next_step" | "final_result"
-    +content: str
-  }
-
   class TaskStep {
     +id_: str
     +task_id: str
@@ -24,6 +19,12 @@ package "llm_agents_from_scratch.data_structures.agent" <<Folder>> {
     +task_step_id: str
     +content: str
   }
+
+  class NextStepDecision {
+    +kind: "next_step" | "final_result"
+    +content: str
+  }
+
 }
 
 package "llm_agents_from_scratch.agent" <<Folder>> {
@@ -52,6 +53,7 @@ package "llm_agents_from_scratch.agent" <<Folder>> {
 
 BaseModel <|.. TaskStep : " inherits"
 BaseModel <|.. TaskStepResult : " inherits"
+BaseModel <|.. NextStepDecision : " inherits"
 Future <|.. TaskHandler : " inherits"
 
 @enduml

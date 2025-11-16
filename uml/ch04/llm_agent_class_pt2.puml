@@ -1,4 +1,4 @@
-@startuml llm_agent_uml_class
+@startuml llm_agent_uml_class_pt2
 !include ../common/book-clean.puml
 
 ' External dependencies

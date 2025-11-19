@@ -36,8 +36,8 @@ package "llm_agents_from_scratch.agent" <<Folder>> {
     -_background_task: ~asyncio.Task
     --
     +<<constructor>> __init__(\n\tllm_agent: LLMAgent,\n\ttask: Task \n):
-    +get_next_step(\n\tprevious_step_result: TaskStepResult | None\n): TaskStep | TaskResult
-    +run_step(step: TaskStep): TaskStepResult
+    +<<async>> get_next_step(\n\tprevious_step_result: TaskStepResult | None\n): TaskStep | TaskResult
+    +<<async>> run_step(step: TaskStep): TaskStepResult
     -_rollout_contribution_from_single_run_step()
   }
 

@@ -29,7 +29,7 @@ package "llm_agents_from_scratch.agent" <<Folder>> {
     --
     +<<constructor>> __init__(\n\tllm: LLM,\n\ttools: list[Tool] | None\n\ttemplates: LLMAgentTemplates\n):
     +add_tool(tool: Tool)
-    +run(task: Task): LLMAgent.TaskHandler
+    +<<async*>> run(\n\ttask: Task,\n\tmax_steps: int | None\n): TaskResult
   }
 }
 

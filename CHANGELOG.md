@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- ...
+
+## [0.0.11] - 2025-11-26
+
 ### Added
 
 - Add string representations of Task and TaskStep (#248)

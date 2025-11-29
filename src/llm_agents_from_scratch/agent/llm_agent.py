@@ -339,7 +339,14 @@ class LLMAgent:
                 )
 
                 # get final content and update chat history
-                final_content = another_response_message.content
+                if another_response_message.tool_calls:
+                    final_content = "I need to make the following tool-calls:\n"
+                    final_content = "\n".join(
+                        t.model_dump_json(indent=4)
+                        for t in another_response_message.tool_calls
+                    )
+                else:
+                    final_content = another_response_message.content
                 chat_history = (
                     [
                         system_message,

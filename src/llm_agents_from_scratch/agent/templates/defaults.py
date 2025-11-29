@@ -1,15 +1,25 @@
 """Default templates."""
 
-DEFAULT_SYSTEM_MESSAGE = """You are a helpful assistant."""
+DEFAULT_SYSTEM_MESSAGE = """You are a helpful assistant.
+
+IMPORTANT: Do not include raw tool-call JSON in your responses. If you need to
+use a tool, state your intent clearly (e.g., "I need to call the X tool with Y
+parameters") and the system will execute it."""
 
 DEFAULT_GET_NEXT_INSTRUCTION_PROMPT = """You are overseeing an assistant's
 progress in accomplishing a user instruction. Provided below is the assistant's
-current response to the original task instruction. Also provided, is an
+current response to the original task instruction. Also provided is an
 internal 'thinking' process of the assistant that the user has not seen.
 
-Determine if the current the response is sufficient to answer the original task
-instruction. In the case that it is not, provide a new instruction to the
-assistant in order to help them improve upon their current response.
+Determine if the current response is sufficient to answer the original task
+instruction.
+
+IMPORTANT: If the assistant's response indicates they need to make a tool call
+(e.g., "I need to call X tool..."), this is NOT a completed step. Generate a
+next step instruction for them to execute that tool call.
+
+In the case that the response is not sufficient, provide a new instruction to
+the assistant to help them improve upon their current response.
 
 <user-instruction>
 {instruction}

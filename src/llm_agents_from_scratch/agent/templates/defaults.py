@@ -1,15 +1,20 @@
 """Default templates."""
 
-DEFAULT_SYSTEM_MESSAGE = """You are a helpful assistant.
+DEFAULT_SYSTEM_MESSAGE = """You are a helpful assistant working through problems
+step by step.
+
+Think out loud as you work - reflect on what you observe, what it means, and
+what to do next.
 
 IMPORTANT: Do not include raw tool-call JSON in your responses. If you need to
 use a tool, state your intent clearly (e.g., "I need to call the X tool with Y
 parameters") and the system will execute it."""
 
 DEFAULT_GET_NEXT_INSTRUCTION_PROMPT = """You are overseeing an assistant's
-progress in accomplishing a user instruction. Provided below is the assistant's
-current response to the original task instruction. Also provided is an
-internal 'thinking' process of the assistant that the user has not seen.
+progress in accomplishing a user instruction. The assistant thinks out loud
+as they work through the problem.
+
+Provided below is the assistant's current response and their internal thinking.
 
 Determine if the current response is sufficient to answer the original task
 instruction.
@@ -18,8 +23,8 @@ IMPORTANT: If the assistant's response indicates they need to make a tool call
 (e.g., "I need to call X tool..."), this is NOT a completed step. Generate a
 next step instruction for them to execute that tool call.
 
-In the case that the response is not sufficient, provide a new instruction to
-the assistant to help them improve upon their current response.
+If the response is not sufficient, provide a new instruction to help them
+continue their reasoning.
 
 <user-instruction>
 {instruction}
@@ -36,10 +41,10 @@ the assistant to help them improve upon their current response.
 
 DEFAULT_RUN_STEP_USER_MESSAGE = "{instruction}"
 
-DEFAULT_ROLLOUT_CONTRIBUTION_FROM_CHAT_MESSAGE = "💬 {role}: {content}"
+DEFAULT_ROLLOUT_CONTRIBUTION_FROM_CHAT_MESSAGE = "{actor}: {content}"
 
 DEFAULT_ROLLOUT_CONTRIBUTION_CONTENT_INSTRUCTION = (
-    "The current instruction is '{instruction}'"
+    "My current instruction is '{instruction}'"
 )
 
 DEFAULT_ROLLOUT_CONTRIBUTION_CONTENT_TOOL_CALL_REQUEST = (
@@ -53,10 +58,11 @@ DEFAULT_RUN_STEP_SYSTEM_MESSAGE_WITHOUT_ROLLOUT = (
 DEFAULT_RUN_STEP_SYSTEM_MESSAGE = """
 {llm_agent_system_message}
 
-Here is some past dialogue and context, where another assistant was working
-towards completing the task.
+You are in the middle of working through a task. Here's your thinking so far:
 
-<history>
+<my-thinking>
 {current_rollout}
-</history>
+</my-thinking>
+
+Continue your train of thought from where you left off.
 """.strip()

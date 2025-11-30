@@ -149,6 +149,8 @@ class LLMAgent:
                     continue
 
                 if role == "user":
+                    # From the LLMAgent to the backbone LLM, but in a rollout
+                    # we'll simplify to just LLM agent having a monologue
                     role = ChatRole.ASSISTANT
                     content = self.llm_agent.templates[
                         "rollout_contribution_content_instruction"
@@ -173,7 +175,8 @@ class LLMAgent:
                     self.llm_agent.templates[
                         "rollout_contribution_from_chat_message"
                     ].format(
-                        role=role.value,
+                        actor=("🔧 " if role == ChatRole.TOOL else "💬 ")
+                        + role.value,
                         content=content,
                     ),
                 )

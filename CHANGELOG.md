@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- refactor: rollouts as monologue (#280)
 - fix: better default prompts and handle tool calls in final content (#279)
 
 ## [0.0.11] - 2025-11-26

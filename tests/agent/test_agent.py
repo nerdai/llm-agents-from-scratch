@@ -90,11 +90,11 @@ async def test_run(
     assert str(handler.result()) == "mock result"
     expected_rollout = (
         "=== Task Step Start ===\n\n"
-        "💬 assistant: The current instruction is 'mock step'\n\n"
+        "💬 assistant: My current instruction is 'mock step'\n\n"
         "💬 assistant: mock chat response\n\n"
         "=== Task Step End ===\n\n"
         "=== Task Step Start ===\n\n"
-        "💬 assistant: The current instruction is 'another mock step'\n\n"
+        "💬 assistant: My current instruction is 'another mock step'\n\n"
         "💬 assistant: mock chat response\n\n"
         "=== Task Step End ==="
     )

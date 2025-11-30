@@ -242,13 +242,12 @@ def test_private_rollout_contribution_from_single_run_step(
         chat_history=chat_history,
     )
 
-    print(rollout_contribution)
     expected_rollout_contribution = (
         "=== Task Step Start ===\n\n"
-        "💬 assistant: The current instruction is 'a user message'\n\n"
+        "💬 assistant: My current instruction is 'a user message'\n\n"
         "💬 assistant: I need to make the following tool call(s):"
         f"\n\n{a_tool_call.model_dump_json(indent=4)}.\n\n"
-        "💬 tool: \n\ttool name: `a tool`\n\ttool result: 1+2=3.\n\n"
+        "🔧 tool: \n\ttool name: `a tool`\n\ttool result: 1+2=3.\n\n"
         "💬 assistant: done!\n\n"
         "=== Task Step End ==="
     )

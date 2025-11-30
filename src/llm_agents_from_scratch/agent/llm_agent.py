@@ -340,8 +340,9 @@ class LLMAgent:
 
                 # get final content and update chat history
                 if another_response_message.tool_calls:
+                    # if has tool calls, we'll make them in the next step
                     final_content = "I need to make the following tool-calls:\n"
-                    final_content = "\n".join(
+                    final_content += "\n".join(
                         t.model_dump_json(indent=4)
                         for t in another_response_message.tool_calls
                     )

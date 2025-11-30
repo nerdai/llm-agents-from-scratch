@@ -419,3 +419,128 @@ async def test_run_step_without_tool_calls() -> None:
     assert step_result.task_step_id == step.id_
     assert step_result.content == "Initial response."
     assert str(step_result) == "Initial response."
+
+
+@pytest.mark.asyncio
+async def test_run_step_with_tool_calls_in_final_response() -> None:
+    """Tests run step."""
+
+    def plus_one(arg1: int) -> int:
+        return arg1 + 1
+
+    # async simple tool
+    async def plus_two(arg1: int) -> int:
+        await asyncio.sleep(0.1)
+        return arg1 + 2
+
+    # arrange mocks
+    mock_llm = AsyncMock()
+    # initial chat response
+    tool_calls = [
+        ToolCall(
+            tool_name="plus_one",
+            arguments={"arg1": 1},
+        ),
+        ToolCall(
+            tool_name="plus_two",
+            arguments={"arg1": 1},
+        ),
+        # this tool doesn't exist
+        ToolCall(
+            tool_name="plus_three",
+            arguments={"arg1": 1},
+        ),
+    ]
+    mock_llm.chat.return_value = (
+        ChatMessage(
+            role=ChatRole.USER,
+            content="Some instruction.",
+        ),
+        ChatMessage(
+            role=ChatRole.ASSISTANT,
+            content="Initial response.",
+            tool_calls=tool_calls,
+        ),
+    )
+    # continue conversation with tool calls
+    # this will return another set tool call request
+    second_set_tool_calls = [
+        ToolCall(
+            tool_name="plus_one",
+            arguments={"arg1": 2},
+        ),
+        ToolCall(
+            tool_name="plus_two",
+            arguments={"arg1": 2},
+        ),
+    ]
+    mock_return_value = (
+        [
+            # tool calls
+            ChatMessage(
+                role=ChatRole.TOOL,
+                content="2",
+            ),
+            ChatMessage(
+                role=ChatRole.TOOL,
+                content="3",
+            ),
+            ChatMessage(
+                role=ChatRole.TOOL,
+                content="error: tool name `plus_three` doesn't exist",
+            ),
+        ],
+        ChatMessage(
+            role=ChatRole.ASSISTANT,
+            content="",
+            # final response contains more tool calls
+            tool_calls=second_set_tool_calls,
+        ),
+    )
+    mock_llm.continue_chat_with_tool_results.return_value = mock_return_value
+
+    task = Task(instruction="mock instruction")
+    llm_agent = LLMAgent(
+        llm=mock_llm,
+        tools=[
+            SimpleFunctionTool(func=plus_one),
+            AsyncSimpleFunctionTool(func=plus_two),
+        ],
+    )
+    handler = LLMAgent.TaskHandler(
+        llm_agent=llm_agent,
+        task=task,
+    )
+
+    # act
+    step = TaskStep(
+        task_id=task.id_,
+        instruction="Some instruction.",
+    )
+    step_result = await handler.run_step(step)
+
+    # assert
+    mock_llm.chat.assert_awaited_once_with(
+        input="Some instruction.",
+        chat_history=[
+            ChatMessage(
+                role=ChatRole.SYSTEM,
+                content=default_templates[
+                    "run_step_system_message_without_rollout"
+                ].format(
+                    llm_agent_system_message=llm_agent.templates[
+                        "system_message"
+                    ],
+                    current_rollout="",
+                ),
+            ),
+        ],
+        tools=list(handler.llm_agent.tools_registry.values()),
+    )
+    mock_llm.continue_chat_with_tool_results.assert_awaited_once()
+    assert step_result.task_step_id == step.id_
+    expected_final_content = (
+        "I need to make the following tool-calls:\n"
+        + "\n".join(t.model_dump_json(indent=4) for t in second_set_tool_calls)
+    )
+    assert step_result.content == expected_final_content

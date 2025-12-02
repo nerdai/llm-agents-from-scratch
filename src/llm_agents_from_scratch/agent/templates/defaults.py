@@ -20,8 +20,9 @@ Determine if the current response is sufficient to answer the original task
 instruction.
 
 IMPORTANT: If the assistant's response indicates they need to make a tool call
-(e.g., "I need to call X tool..."), this is NOT a completed step. Generate a
-next step instruction for them to execute that tool call.
+(e.g., "I need to call X tool..."), this is NOT a completed step. Do not
+WAIT for that tool call, instead generate a next step instruction for them to
+execute it.
 
 If the response is not sufficient, provide a new instruction to help them
 continue their reasoning.

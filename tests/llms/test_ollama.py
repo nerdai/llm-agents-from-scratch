@@ -142,6 +142,7 @@ async def test_chat(mock_async_client_class: MagicMock) -> None:
         model="llama3.2",
         messages=[OllamaMessage(role="user", content="Some new input.")],
         tools=None,
+        think=False,
     )
     mock_async_client_class.assert_called_once()
 
@@ -199,6 +200,7 @@ async def test_continue_chat_with_tool_results(
             ),
         ],
         tools=None,
+        think=False,
     )
     mock_async_client_class.assert_called_once()
 

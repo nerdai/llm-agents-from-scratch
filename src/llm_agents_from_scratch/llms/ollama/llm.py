@@ -29,7 +29,8 @@ class OllamaLLM(LLM):
         self,
         model: str,
         host: str | None = None,
-        *args: Any,
+        *,
+        think: bool = False,
         **kwargs: Any,
     ) -> None:
         """Create an OllamaLLM instance.
@@ -37,12 +38,13 @@ class OllamaLLM(LLM):
         Args:
             model (str): The name of the LLM model.
             host (str | None): Host of running Ollama service. Defaults to None.
-            *args (Any): Additional positional arguments.
+            think (bool): Enable/disable thinking mode. Defaults to False.
             **kwargs (Any): Additional keyword arguments.
         """
-        super().__init__(*args, **kwargs)
+        super().__init__(**kwargs)
         self.model = model
         self._client = AsyncClient(host=host)
+        self.think = think
 
     async def complete(self, prompt: str, **kwargs: Any) -> CompleteResult:
         """Complete a prompt with an Ollama LLM.
@@ -139,6 +141,7 @@ class OllamaLLM(LLM):
             model=self.model,
             messages=o_messages,
             tools=o_tools,
+            think=self.think,
         )
 
         return user_message, ollama_message_to_chat_message(result.message)
@@ -181,6 +184,7 @@ class OllamaLLM(LLM):
             model=self.model,
             messages=o_messages,
             tools=o_tools,
+            think=self.think,
         )
 
         return tool_messages, ollama_message_to_chat_message(o_result.message)

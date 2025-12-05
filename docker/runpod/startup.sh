@@ -15,6 +15,12 @@ service ssh start
 
 echo "Starting llmagentsfromscratch/runpod container..."
 
+# Set up persistent ollama storage
+echo "[startup] Setting up ollama persistence..."
+mkdir -p /workspace/ollama
+rm -rf ~/.ollama
+ln -s /workspace/ollama ~/.ollama
+
 # Start ollama server
 echo "[startup] Starting ollama server..."
 ollama serve &

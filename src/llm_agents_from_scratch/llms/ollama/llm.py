@@ -92,6 +92,8 @@ class OllamaLLM(LLM):
             model=self.model,
             messages=o_messages,
             format=mdl.model_json_schema(),
+            think=self.think,
+            **kwargs,
         )
         return mdl.model_validate_json(result.message.content)
 

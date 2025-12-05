@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- feat!: no think in ollama llm structured output (#285)
 - feat!: add think param to OllamaLLM (#284)
 - refactor: rollouts as monologue (#280)
 - fix: better default prompts and handle tool calls in final content (#279)

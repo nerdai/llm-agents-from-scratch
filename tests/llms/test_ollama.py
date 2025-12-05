@@ -100,6 +100,7 @@ async def test_structured_output(mock_async_client_class: MagicMock) -> None:
         model="llama3.2",
         messages=[OllamaMessage(role="user", content="Generate a pet.")],
         format=Pet.model_json_schema(),
+        think=False,
     )
     mock_async_client_class.assert_called_once()
 

@@ -80,7 +80,8 @@ class NextStepDecision(BaseModel):
     kind: Literal["next_step", "final_result"]
     content: str = Field(
         description=(
-            "Content for the next step of the task execution. Or, the "
-            "the final result."
+            "If kind='next_step': describe the next tool call to make. "
+            "If kind='final_result': the final answer (ONLY when task "
+            "objective is fully achieved)."
         ),
     )

@@ -11,21 +11,7 @@ use a tool, state your intent clearly (e.g., "I need to call the X tool with Y
 parameters") and the system will execute it."""
 
 DEFAULT_GET_NEXT_INSTRUCTION_PROMPT = """You are overseeing an assistant's
-progress in accomplishing a user instruction. The assistant thinks out loud
-as they work through the problem.
-
-Provided below is the assistant's current response and their internal thinking.
-
-Determine if the current response is sufficient to answer the original task
-instruction.
-
-IMPORTANT: If the assistant's response indicates they need to make a tool call
-(e.g., "I need to call X tool..."), this is NOT a completed step. Do not
-WAIT for that tool call, instead generate a next step instruction for them to
-execute it.
-
-If the response is not sufficient, provide a new instruction to help them
-continue their reasoning.
+progress in accomplishing a user instruction.
 
 <user-instruction>
 {instruction}
@@ -38,7 +24,20 @@ continue their reasoning.
 <thinking-process>
 {current_rollout}
 </thinking-process>
-"""
+
+DECISION CRITERIA:
+- If current_response contains phrases like "I need to...", "Now I should...",
+  "Next I will...", or describes a pending action → kind="next_step"
+- If the task objective is FULLY achieved with a
+  final answer → kind="final_result"
+- When in doubt, choose "next_step"
+
+CRITICAL: Statements like "I need to call monte_carlo_estimate" mean the task
+is NOT complete. Generate a next_step instruction for the assistant to execute
+that tool call.
+
+What is your decision?
+""".strip()
 
 DEFAULT_RUN_STEP_USER_MESSAGE = "{instruction}"
 

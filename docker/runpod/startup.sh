@@ -26,16 +26,11 @@ echo "[startup] Starting ollama server..."
 ollama serve &
 sleep 3
 
-# Pull models if specified
-if [[ -n "${OLLAMA_MODELS:-}" ]]; then
-  echo "[startup] Pulling ollama models: $OLLAMA_MODELS"
-  IFS=',' read -ra MODELS <<< "$OLLAMA_MODELS"
-  for model in "${MODELS[@]}"; do
-    model=$(echo "$model" | xargs)
-    echo "[startup] Pulling $model..."
-    ollama pull "$model"
-  done
-  echo "[startup] Ollama models ready!"
+# Pull model if specified
+if [[ -n "${OLLAMA_MODEL:-}" ]]; then
+  echo "[startup] Pulling ollama model: $OLLAMA_MODEL"
+  ollama pull "$OLLAMA_MODEL"
+  echo "[startup] Ollama model ready!"
 fi
 
 # Clone and install llm-agents-from-scratch

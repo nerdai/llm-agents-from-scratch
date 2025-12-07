@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+### Added
+
+- feat: add optional notebook-utils (#290)
+
 ### Changed
 
 - feat!: no think in ollama llm structured output (#285)

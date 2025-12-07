@@ -43,6 +43,9 @@ dependencies = [
 notebook-utils = [
   "pandas>=2.3.3"
 ]
+notebooks = [
+  "ipython>=8.37.0"
+]
 
 [tool.coverage.run]
 omit = [

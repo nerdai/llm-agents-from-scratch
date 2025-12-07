@@ -758,6 +758,10 @@ dependencies = [
 notebook-utils = [
     { name = "pandas" },
 ]
+notebooks = [
+    { name = "ipython", version = "8.37.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
+    { name = "ipython", version = "9.3.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+]
 
 [package.dev-dependencies]
 dev = [
@@ -780,6 +784,7 @@ dev = [
 requires-dist = [
     { name = "asyncio", specifier = ">=3.4.3" },
     { name = "colorama", specifier = ">=0.4.6" },
+    { name = "ipython", marker = "extra == 'notebooks'", specifier = ">=8.37.0" },
     { name = "jsonschema", specifier = ">=4.24.0" },
     { name = "mcp", extras = ["cli"], specifier = ">=1.9.4" },
     { name = "ollama", specifier = ">=0.5.1" },
@@ -787,7 +792,7 @@ requires-dist = [
     { name = "pydantic", specifier = ">=2.11.7" },
     { name = "typing-extensions", specifier = ">=4.14.0" },
 ]
-provides-extras = ["notebook-utils"]
+provides-extras = ["notebook-utils", "notebooks"]
 
 [package.metadata.requires-dev]
 dev = [

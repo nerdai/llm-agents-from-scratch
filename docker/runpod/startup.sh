@@ -42,7 +42,7 @@ else
 fi
 
 cd llm-agents-from-scratch
-uv pip install --system -e .
+uv pip install --system -e ".[notebook-utils]"
 cd ~
 
 echo "llm-agents-from-scratch installed!"

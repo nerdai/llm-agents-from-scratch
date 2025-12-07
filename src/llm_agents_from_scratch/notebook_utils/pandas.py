@@ -4,7 +4,7 @@
 from ._check_installation import check_notebooks_utils_installed
 
 
-def display_dataframes() -> None:
+def set_dataframe_display_options() -> None:
     """Formatter to display pd.DataFrames in notebooks."""
     check_notebooks_utils_installed()
 

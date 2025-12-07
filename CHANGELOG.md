@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- feat: set_dataframe_display_options to notebook_utils api + docker adds notebook-utils extra (#291)
 - feat!: no think in ollama llm structured output (#285)
 - feat!: add think param to OllamaLLM (#284)
 - refactor: rollouts as monologue (#280)

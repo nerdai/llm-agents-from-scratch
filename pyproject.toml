@@ -39,6 +39,11 @@ dependencies = [
   "typing-extensions>=4.14.0"
 ]
 
+[project.optional-dependencies]
+notebook-utils = [
+  "pandas>=2.3.3"
+]
+
 [tool.coverage.run]
 omit = [
   "src/llm_agents_from_scratch/logger.py"

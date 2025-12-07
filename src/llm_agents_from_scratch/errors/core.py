@@ -11,3 +11,9 @@ class LLMAgentsFromScratchWarning(Warning):
     """Base warning for all llm-agents-from-scratch warnings."""
 
     pass
+
+
+class MissingExtraError(LLMAgentsFromScratchError):
+    """Raises when an extra is not installed."""
+
+    pass

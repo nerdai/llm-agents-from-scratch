@@ -1,12 +1,15 @@
 # ruff: noqa: PLC0415
 """Pandas notebook utils."""
 
-from ._check_installation import check_notebooks_utils_installed
+from ..utils import check_extra_was_installed
 
 
 def set_dataframe_display_options() -> None:
     """Formatter to display pd.DataFrames in notebooks."""
-    check_notebooks_utils_installed()
+    check_extra_was_installed(
+        extra="notebook-utils",
+        packages=["pandas", "IPython"],
+    )
 
     import pandas as pd
     from IPython.display import HTML, display

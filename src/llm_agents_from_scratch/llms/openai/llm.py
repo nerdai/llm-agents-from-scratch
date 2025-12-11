@@ -18,7 +18,16 @@ class OpenAILLM(BaseLLM):
         api_key: str | None = None,
         **kwargs: Any,
     ) -> None:
-        """Instantiate an OpenAILLM instance."""
+        """Create an OpenAILLM instance.
+
+        Args:
+            model (str): The name of the OpenAI LLM.
+            api_key (str | None, optional): An OpenAI api key. Defaults to None.
+                If None, will fallback to OpenAI's api key resolution, looking
+                for an OPENAI_API_KEY env var.
+            **kwargs (Any): Additional keyword arguments. Passed to the
+                construction of an ~openai.AsyncOpenAI
+        """
         check_extra_was_installed(extra="openai", packages="openai")
         from openai import AsyncOpenAI  # noqa: PLC0415
 

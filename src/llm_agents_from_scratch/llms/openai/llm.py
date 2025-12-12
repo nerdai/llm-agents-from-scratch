@@ -67,3 +67,12 @@ class OpenAILLM(LLM):
             **kwargs,
         )
         return response.output_parsed  # type: ignore[no-any-return]
+
+    async def chat(self, input, chat_history=None, tools=None, **kwargs):
+        """Implements chat LLM interaction mode."""
+        response = await self.client.responses.create(
+            model=self.model,
+            input=prompt,
+            **kwargs,
+        )
+        return await super().chat(input, chat_history, tools, **kwargs)

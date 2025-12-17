@@ -3,8 +3,15 @@
 from typing import Any
 
 from llm_agents_from_scratch.base.llm import LLM, StructuredOutputType
-from llm_agents_from_scratch.data_structures.llm import CompleteResult
+from llm_agents_from_scratch.base.tool import Tool
+from llm_agents_from_scratch.data_structures import ChatMessage, CompleteResult
 from llm_agents_from_scratch.utils import check_extra_was_installed
+
+from .utils import (
+    chat_message_to_openai_response_input_param,
+    openai_response_to_chat_message,
+    tool_to_openai_tool,
+)
 
 
 class OpenAILLM(LLM):
@@ -68,11 +75,38 @@ class OpenAILLM(LLM):
         )
         return response.output_parsed  # type: ignore[no-any-return]
 
-    async def chat(self, input, chat_history=None, tools=None, **kwargs):
+    async def chat(
+        self,
+        input: str,
+        chat_history: list[ChatMessage] | None = None,
+        tools: list[Tool] | None = None,
+        **kwargs: Any,
+    ) -> tuple[ChatMessage, ChatMessage]:
         """Implements chat LLM interaction mode."""
+        # prepare chat history
+        context = (
+            [
+                chat_message_to_openai_response_input_param(cm)
+                for cm in chat_history
+            ]
+            if chat_history
+            else []
+        )
+
+        user_message = ChatMessage(role="user", content=input)
+        context.append(
+            chat_message_to_openai_response_input_param(user_message),
+        )
+
+        # prepare tools
+        openai_tools = (
+            [tool_to_openai_tool(t) for t in tools] if tools else None
+        )
+
         response = await self.client.responses.create(
             model=self.model,
-            input=prompt,
+            input=context,
+            tools=openai_tools,
             **kwargs,
         )
-        return await super().chat(input, chat_history, tools, **kwargs)
+        return user_message, openai_response_to_chat_message(response)

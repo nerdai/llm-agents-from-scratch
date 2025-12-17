@@ -4,9 +4,7 @@ from unittest.mock import patch
 import pytest
 
 from llm_agents_from_scratch.errors import MissingExtraError
-from llm_agents_from_scratch.notebook_utils._check_installation import (
-    check_notebooks_utils_installed,
-)
+from llm_agents_from_scratch.utils import check_extra_was_installed
 
 
 def test_check_raises_error_missing_pandas() -> None:
@@ -24,7 +22,10 @@ def test_check_raises_error_missing_pandas() -> None:
             MissingExtraError,
             match=re.escape(msg),
         ):
-            check_notebooks_utils_installed()
+            check_extra_was_installed(
+                extra="notebook-utils",
+                packages=["pandas", "IPython"],
+            )
 
 
 def test_check_raises_error_missing_ipython() -> None:
@@ -42,4 +43,7 @@ def test_check_raises_error_missing_ipython() -> None:
             MissingExtraError,
             match=re.escape(msg),
         ):
-            check_notebooks_utils_installed()
+            check_extra_was_installed(
+                extra="notebook-utils",
+                packages=["pandas", "IPython"],
+            )

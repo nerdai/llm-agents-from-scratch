@@ -1,10 +1,14 @@
 """BONUS Material: OpenAI LLM."""
 
-from typing import Any
+from typing import Any, Sequence
 
 from llm_agents_from_scratch.base.llm import LLM, StructuredOutputType
 from llm_agents_from_scratch.base.tool import Tool
-from llm_agents_from_scratch.data_structures import ChatMessage, CompleteResult
+from llm_agents_from_scratch.data_structures import (
+    ChatMessage,
+    CompleteResult,
+    ToolCallResult,
+)
 from llm_agents_from_scratch.utils import check_extra_was_installed
 
 from .utils import (
@@ -110,3 +114,13 @@ class OpenAILLM(LLM):
             **kwargs,
         )
         return user_message, openai_response_to_chat_message(response)
+
+    async def continue_chat_with_tool_results(
+        self,
+        tool_call_results: Sequence[ToolCallResult],
+        chat_history: Sequence[ChatMessage],
+        tools: Sequence[Tool] | None = None,
+        **kwargs: Any,
+    ) -> tuple[list[ChatMessage], ChatMessage]:
+        """Implements continue chat with tool results."""
+        raise NotImplementedError

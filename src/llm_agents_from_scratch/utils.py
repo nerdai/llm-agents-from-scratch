@@ -12,7 +12,7 @@ def check_extra_was_installed(extra: str, packages: str | list[str]) -> None:
         MissingExtraError: If any of packages is not available, indicating
             that the specified extra has not been installed.
     """
-    packages = list(packages) if isinstance(packages, str) else packages
+    packages = [packages] if isinstance(packages, str) else packages
     if not all(find_spec(p) for p in packages):
         msg = (
             f"The `{extra}` extra is required for this function. "

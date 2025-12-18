@@ -1,6 +1,6 @@
 """BONUS Material: OpenAI LLM."""
 
-from typing import Any, Sequence
+from typing import TYPE_CHECKING, Any, Sequence
 
 from llm_agents_from_scratch.base.llm import LLM, StructuredOutputType
 from llm_agents_from_scratch.base.tool import Tool
@@ -16,6 +16,9 @@ from .utils import (
     openai_response_to_chat_message,
     tool_to_openai_tool,
 )
+
+if TYPE_CHECKING:
+    from openai.types.responses import Response
 
 
 class OpenAILLM(LLM):
@@ -47,12 +50,12 @@ class OpenAILLM(LLM):
 
     async def complete(self, prompt: str, **kwargs: Any) -> CompleteResult:
         """Implements complete LLM interaction mode."""
-        response = await self.client.responses.create(
+        response: "Response" = await self.client.responses.create(
             model=self.model,
             input=prompt,
             **kwargs,
         )
-        return CompleteResult(response=response, prompt=prompt)
+        return CompleteResult(response=str(response.output_text), prompt=prompt)
 
     async def structured_output(
         self,

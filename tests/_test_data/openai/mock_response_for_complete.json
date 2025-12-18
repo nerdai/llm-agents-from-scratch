@@ -1,0 +1,37 @@
+{
+  "id": "resp_abc123",
+  "created_at": 1734567890.0,
+  "model": "gpt-4o",
+  "object": "response",
+  "output": [
+    {
+      "id": "msg_67b73f697ba4819183a15cc17d011509",
+      "type": "message",
+      "role": "assistant",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "fake response",
+          "annotations": []
+        }
+      ]
+    }
+  ],
+  "parallel_tool_calls": true,
+  "tool_choice": "auto",
+  "tools": [],
+  "error": null,
+  "status": "completed",
+  "usage": {
+    "input_tokens": 12,
+    "output_tokens": 32,
+    "total_tokens": 44,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    }
+  }
+}

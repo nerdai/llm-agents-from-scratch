@@ -5,6 +5,7 @@ from pathlib import Path
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
+from pydantic import BaseModel
 
 from llm_agents_from_scratch.base.llm import BaseLLM
 from llm_agents_from_scratch.llms.openai import OpenAILLM
@@ -60,3 +61,53 @@ async def test_complete(mock_async_client_class: MagicMock) -> None:
     # assert
     assert result.response == "fake response"
     assert result.prompt == "fake prompt"
+
+
+@pytest.mark.skipif(not openai_installed, reason="openai is not installed")
+@pytest.mark.asyncio
+@patch("openai.AsyncOpenAI")
+async def test_structured_output(mock_async_client_class: MagicMock) -> None:
+    """Test structured_output method."""
+    from openai.lib._parsing._responses import parse_response  # noqa: PLC0415
+    from openai.types.responses import Response  # noqa: PLC0415
+
+    # load test data
+    with open(
+        TEST_DATA_PATH / "mock_response_for_structured_output.json",
+        "r",
+    ) as f:
+        mock_response_data = f.read()
+
+    # Structured output type
+    class Pet(BaseModel):
+        animal: str
+        name: str
+
+    # arrange mocks
+    mock_instance = MagicMock()
+    mock_parse = AsyncMock()
+    mock_response = Response.model_validate_json(
+        mock_response_data,
+    )
+    mock_parse.return_value = parse_response(
+        text_format=Pet,
+        input_tools=None,
+        response=mock_response,
+    )
+    mock_instance.responses.parse = mock_parse
+    mock_async_client_class.return_value = mock_instance
+
+    llm = OpenAILLM("gpt-5.2")
+
+    # act
+    new_pet = await llm.structured_output("Generate a pet.", mdl=Pet)
+
+    assert isinstance(new_pet, Pet)
+    assert new_pet.animal == "cat"
+    assert new_pet.name == "Whiskers"
+    mock_parse.assert_awaited_once_with(
+        model="gpt-5.2",
+        input="Generate a pet.",
+        text_format=Pet,
+    )
+    mock_async_client_class.assert_called_once()

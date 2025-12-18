@@ -18,7 +18,7 @@ from .utils import (
 )
 
 if TYPE_CHECKING:
-    from openai.types.responses import Response
+    from openai.types.responses import ParsedResponse, Response
 
 
 class OpenAILLM(LLM):
@@ -74,7 +74,7 @@ class OpenAILLM(LLM):
             StructuredOutputType: The structured output as the specified `mdl`
                 type.
         """
-        response = await self.client.responses.parse(
+        response: "ParsedResponse" = await self.client.responses.parse(
             model=self.model,
             input=prompt,
             text_format=mdl,

@@ -3,9 +3,14 @@
 import json
 from typing import TYPE_CHECKING
 
+from pydantic import ValidationError
+
 from llm_agents_from_scratch.base.tool import Tool
 from llm_agents_from_scratch.data_structures.llm import ChatMessage, ChatRole
-from llm_agents_from_scratch.data_structures.tool import ToolCall
+from llm_agents_from_scratch.data_structures.tool import (
+    ToolCall,
+    ToolCallResult,
+)
 
 if TYPE_CHECKING:  # pragma: no cover
     from openai.types.responses import (
@@ -51,10 +56,21 @@ def chat_message_to_openai_response_input_param(
     )
 
     if chat_message.role == "tool":
+        try:
+            tool_call_result = ToolCallResult.model_validate_json(
+                chat_message.content,
+            )
+        except ValidationError as e:
+            raise RuntimeError(
+                f"Unable to ToolCallResult from ChatMessage: {str(e)}",
+            ) from e
         function_call_output: FunctionCallOutput = {
             "type": "function_call_output",
-            "call_id": chat_message.tool_calls[0].id_,
-            "output": str(chat_message.content),
+            "call_id": tool_call_result.tool_call_id,
+            "output": tool_call_result.model_dump_json(
+                exclude="tool_call_id",
+                indent=2,
+            ),
         }
         return function_call_output
 

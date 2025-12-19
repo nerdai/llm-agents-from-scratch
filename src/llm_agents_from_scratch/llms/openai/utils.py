@@ -81,7 +81,7 @@ def tool_to_openai_tool(tool: Tool) -> "ToolParam":
         "type": "function",
         "name": tool.name,
         "description": tool.description,
-        "parameters": tool.parameters_json_schema(),
+        "parameters": tool.parameters_json_schema,
         "strict": True,
     }
     return openai_tool

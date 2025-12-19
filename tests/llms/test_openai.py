@@ -2,6 +2,7 @@
 
 from importlib.util import find_spec
 from pathlib import Path
+from typing import Literal
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
@@ -10,6 +11,8 @@ from pydantic import BaseModel
 from llm_agents_from_scratch.base.llm import BaseLLM
 from llm_agents_from_scratch.data_structures.tool import ToolCall
 from llm_agents_from_scratch.llms.openai import OpenAILLM
+from llm_agents_from_scratch.llms.openai.utils import tool_to_openai_tool
+from llm_agents_from_scratch.tools import SimpleFunctionTool
 
 openai_installed = bool(find_spec("openai"))
 
@@ -151,6 +154,13 @@ async def test_chat_with_no_tool_results(
     assert user_message.content == "Some new input."
     assert response_message.role == "assistant"
     assert response_message.content == "Hello! How can I help you today?"
+    mock_create.assert_awaited_once_with(
+        model="gpt-5.2",
+        input=[
+            {"type": "message", "content": "Some new input.", "role": "user"},
+        ],
+        tools=None,
+    )
     mock_async_client_class.assert_called_once()
 
 
@@ -183,8 +193,20 @@ async def test_chat_with_tool_results(
 
     llm = OpenAILLM("gpt-5.2")
 
+    def get_weather(
+        location: str,
+        unit: Literal["celsius", "fahrenheit"],
+    ) -> float:
+        """Get the current weather for a location"""
+        return 42.0
+
+    get_weather_tool = SimpleFunctionTool(get_weather)
+
     # act
-    user_message, response_message = await llm.chat("Some new input.")
+    user_message, response_message = await llm.chat(
+        "Some new input.",
+        tools=[get_weather_tool],
+    )
 
     # assert
     assert user_message.role == "user"
@@ -195,5 +217,12 @@ async def test_chat_with_tool_results(
         id_="call_xyz789",
         tool_name="get_weather",
         arguments={"location": "San Francisco", "unit": "celsius"},
+    )
+    mock_create.assert_awaited_once_with(
+        model="gpt-5.2",
+        input=[
+            {"type": "message", "content": "Some new input.", "role": "user"},
+        ],
+        tools=[tool_to_openai_tool(get_weather_tool)],
     )
     mock_async_client_class.assert_called_once()

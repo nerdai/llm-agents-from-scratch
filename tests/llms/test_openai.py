@@ -111,3 +111,43 @@ async def test_structured_output(mock_async_client_class: MagicMock) -> None:
         text_format=Pet,
     )
     mock_async_client_class.assert_called_once()
+
+
+@pytest.mark.skipif(not openai_installed, reason="openai is not installed")
+@pytest.mark.asyncio
+@patch("openai.AsyncOpenAI")
+async def test_chat_with_no_tool_results(
+    mock_async_client_class: MagicMock,
+) -> None:
+    """Test chat method."""
+    from openai.types.responses import Response  # noqa: PLC0415
+
+    # load test data
+    with open(
+        TEST_DATA_PATH / "mock_response_for_chat.json",
+        "r",
+    ) as f:
+        mock_response_data = f.read()
+
+    # arrange mocks
+    mock_instance = MagicMock()
+    mock_create = AsyncMock()
+    mock_response = Response.model_validate_json(
+        mock_response_data,
+    )
+
+    mock_create.return_value = mock_response
+    mock_instance.responses.create = mock_create
+    mock_async_client_class.return_value = mock_instance
+
+    llm = OpenAILLM("gpt-5.2")
+
+    # act
+    user_message, response_message = await llm.chat("Some new input.")
+
+    # assert
+    assert user_message.role == "user"
+    assert user_message.content == "Some new input."
+    assert response_message.role == "assistant"
+    assert response_message.content == "Hello! How can I help you today?"
+    mock_async_client_class.assert_called_once()

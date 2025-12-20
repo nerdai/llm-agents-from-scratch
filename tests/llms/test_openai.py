@@ -208,6 +208,8 @@ async def test_chat_with_tool_results(
         "Some new input.",
         chat_history=[
             ChatMessage(role="system", content="You are a helpful assistant."),
+            ChatMessage(role="user", content="What is 42 + 0?"),
+            ChatMessage(role="assistant", content="42"),
         ],
         tools=[get_weather_tool],
     )
@@ -226,6 +228,8 @@ async def test_chat_with_tool_results(
         model="gpt-5.2",
         instructions="You are a helpful assistant.",
         input=[
+            {"type": "message", "content": "What is 42 + 0?", "role": "user"},
+            {"type": "message", "content": "42", "role": "assistant"},
             {"type": "message", "content": "Some new input.", "role": "user"},
         ],
         tools=[tool_to_openai_tool(get_weather_tool)],

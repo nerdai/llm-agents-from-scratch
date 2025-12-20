@@ -31,7 +31,6 @@ class OpenAILLM(LLM):
     def __init__(
         self,
         model: str,
-        /,
         *,
         api_key: str | None = None,
         **kwargs: Any,

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- feat: bonus material add OpenAILLM (#296)
 - feat: add optional notebook-utils (#290)
 
 ### Changed

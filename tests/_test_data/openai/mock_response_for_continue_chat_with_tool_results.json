@@ -1,0 +1,37 @@
+{
+  "id": "resp_notool_001",
+  "created_at": 1734567890.0,
+  "model": "gpt-4o",
+  "object": "response",
+  "output": [
+    {
+      "id": "msg_abc123",
+      "type": "message",
+      "role": "assistant",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "Thank you for the tool results.",
+          "annotations": []
+        }
+      ]
+    }
+  ],
+  "parallel_tool_calls": true,
+  "tool_choice": "auto",
+  "tools": [],
+  "error": null,
+  "status": "completed",
+  "usage": {
+    "input_tokens": 12,
+    "output_tokens": 9,
+    "total_tokens": 21,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    }
+  }
+}

@@ -9,9 +9,16 @@ import pytest
 from pydantic import BaseModel
 
 from llm_agents_from_scratch.base.llm import BaseLLM
-from llm_agents_from_scratch.data_structures import ChatMessage, ToolCall
+from llm_agents_from_scratch.data_structures import (
+    ChatMessage,
+    ToolCall,
+    ToolCallResult,
+)
 from llm_agents_from_scratch.llms.openai import OpenAILLM
-from llm_agents_from_scratch.llms.openai.utils import tool_to_openai_tool
+from llm_agents_from_scratch.llms.openai.utils import (
+    chat_message_to_openai_response_input_param,
+    tool_to_openai_tool,
+)
 from llm_agents_from_scratch.tools import SimpleFunctionTool
 
 openai_installed = bool(find_spec("openai"))
@@ -233,5 +240,73 @@ async def test_chat_with_tool_results(
             {"type": "message", "content": "Some new input.", "role": "user"},
         ],
         tools=[tool_to_openai_tool(get_weather_tool)],
+    )
+    mock_async_client_class.assert_called_once()
+
+
+@pytest.mark.skipif(not openai_installed, reason="openai is not installed")
+@pytest.mark.asyncio
+@patch("openai.AsyncOpenAI")
+async def test_continue_chat_with_tool_results(
+    mock_async_client_class: MagicMock,
+) -> None:
+    """Test continue_chat_with_tool_results method."""
+    from openai.types.responses import Response  # noqa: PLC0415
+
+    # load test data
+    with open(
+        TEST_DATA_PATH
+        / "mock_response_for_continue_chat_with_tool_results.json",
+        "r",
+    ) as f:
+        mock_response_data = f.read()
+
+    # arrange mocks
+    mock_instance = MagicMock()
+    mock_create = AsyncMock()
+    mock_response = Response.model_validate_json(
+        mock_response_data,
+    )
+
+    mock_create.return_value = mock_response
+    mock_instance.responses.create = mock_create
+    mock_async_client_class.return_value = mock_instance
+
+    llm = OpenAILLM("gpt-5.2")
+
+    # act
+    tool_call = ToolCall(
+        tool_name="a fake tool",
+        arguments={"arg1": 1},
+    )
+    tool_call_results = [
+        ToolCallResult(
+            tool_call_id=tool_call.id_,
+            content="Some content",
+            error=False,
+        ),
+    ]
+    (
+        tool_messages,
+        response_message,
+    ) = await llm.continue_chat_with_tool_results(
+        tool_call_results=tool_call_results,
+        chat_history=[],
+    )
+
+    # assert
+    assert len(tool_messages) == len(tool_call_results)
+    assert response_message.role == "assistant"
+    assert response_message.content == "Thank you for the tool results."
+    mock_create.assert_awaited_once_with(
+        model="gpt-5.2",
+        instructions=None,
+        input=[
+            chat_message_to_openai_response_input_param(
+                ChatMessage.from_tool_call_result(tool_result),
+            )
+            for tool_result in tool_call_results
+        ],
+        tools=None,
     )
     mock_async_client_class.assert_called_once()

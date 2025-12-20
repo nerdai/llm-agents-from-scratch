@@ -15,6 +15,7 @@ from llm_agents_from_scratch.data_structures import (
     ToolCallResult,
 )
 from llm_agents_from_scratch.llms.openai import OpenAILLM
+from llm_agents_from_scratch.llms.openai.errors import DataConversionError
 from llm_agents_from_scratch.llms.openai.utils import (
     chat_message_to_openai_response_input_param,
     tool_to_openai_tool,
@@ -310,3 +311,23 @@ async def test_continue_chat_with_tool_results(
         tools=None,
     )
     mock_async_client_class.assert_called_once()
+
+
+def test_chat_message_to_openai_response_input_param_raises_error() -> None:
+    """Tests chat_message_to_openai_response_input_param raises error.
+
+    This helper should raise error if unable to build a ToolCallResult from
+    the content of a ChatMessage with role set to TOOL.
+    """
+    # invalid chat message
+    invalid_chat_message = ChatMessage(
+        role="tool",
+        content="This should be valid ToolCallResult data.",
+    )
+    msg = (
+        "An error occured converting a ChatMessage "
+        "to an openai.ResponseInputParam. "
+    )
+
+    with pytest.raises(DataConversionError, match=msg):
+        chat_message_to_openai_response_input_param(invalid_chat_message)

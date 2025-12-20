@@ -12,6 +12,8 @@ from llm_agents_from_scratch.data_structures.tool import (
     ToolCallResult,
 )
 
+from .errors import DataConversionError
+
 if TYPE_CHECKING:  # pragma: no cover
     from openai.types.responses import (
         Response,
@@ -61,9 +63,12 @@ def chat_message_to_openai_response_input_param(
                 chat_message.content,
             )
         except ValidationError as e:
-            raise RuntimeError(
-                f"Unable to ToolCallResult from ChatMessage: {str(e)}",
-            ) from e
+            msg = (
+                "An error occured converting a ChatMessage "
+                "to an openai.ResponseInputParam. "
+                f"Unable to build ToolCallResult from ChatMessage: {str(e)}",
+            )
+            raise DataConversionError(msg) from e
         function_call_output: FunctionCallOutput = {
             "type": "function_call_output",
             "call_id": tool_call_result.tool_call_id,

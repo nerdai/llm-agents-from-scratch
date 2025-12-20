@@ -9,7 +9,7 @@ import pytest
 from pydantic import BaseModel
 
 from llm_agents_from_scratch.base.llm import BaseLLM
-from llm_agents_from_scratch.data_structures.tool import ToolCall
+from llm_agents_from_scratch.data_structures import ChatMessage, ToolCall
 from llm_agents_from_scratch.llms.openai import OpenAILLM
 from llm_agents_from_scratch.llms.openai.utils import tool_to_openai_tool
 from llm_agents_from_scratch.tools import SimpleFunctionTool
@@ -156,6 +156,7 @@ async def test_chat_with_no_tool_results(
     assert response_message.content == "Hello! How can I help you today?"
     mock_create.assert_awaited_once_with(
         model="gpt-5.2",
+        instructions=None,
         input=[
             {"type": "message", "content": "Some new input.", "role": "user"},
         ],
@@ -205,6 +206,9 @@ async def test_chat_with_tool_results(
     # act
     user_message, response_message = await llm.chat(
         "Some new input.",
+        chat_history=[
+            ChatMessage(role="system", content="You are a helpful assistant."),
+        ],
         tools=[get_weather_tool],
     )
 
@@ -220,6 +224,7 @@ async def test_chat_with_tool_results(
     )
     mock_create.assert_awaited_once_with(
         model="gpt-5.2",
+        instructions="You are a helpful assistant.",
         input=[
             {"type": "message", "content": "Some new input.", "role": "user"},
         ],

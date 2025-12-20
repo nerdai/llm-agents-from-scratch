@@ -18,7 +18,11 @@ from .utils import (
 )
 
 if TYPE_CHECKING:
-    from openai.types.responses import ParsedResponse, Response
+    from openai.types.responses import (
+        ParsedResponse,
+        Response,
+        ResponseInputItemParam,
+    )
 
 
 class OpenAILLM(LLM):
@@ -82,22 +86,64 @@ class OpenAILLM(LLM):
         )
         return response.output_parsed  # type: ignore[no-any-return]
 
+    def _prepare_input_and_instructions_from_history(
+        self,
+        chat_history: Sequence[ChatMessage],
+    ) -> tuple[list["ResponseInputItemParam"], str | None]:
+        """Prepare response inputs and instructions.
+
+        With OpenAI Responses API system messages can be supplied in
+        instructions params. This helper extracts system messages from the chat
+        history and prepares instructions by concatenating the content of such
+        messages.
+
+        Returns:
+            tuple[list[openai.ResponseInputParam], str | None]: The input and
+                instructions when invoking openai.client.responses.create()
+        """
+        context = []
+        instruction_messages = []
+        for cm in chat_history:
+            if cm.role == "system":
+                instruction_messages.append(cm.content)
+            else:
+                context.append(chat_message_to_openai_response_input_param(cm))
+        instructions = (
+            "/n".join(instruction_messages) if instruction_messages else None
+        )
+        return context, instructions
+
     async def chat(
         self,
         input: str,
-        chat_history: list[ChatMessage] | None = None,
-        tools: list[Tool] | None = None,
+        chat_history: Sequence[ChatMessage] | None = None,
+        tools: Sequence[Tool] | None = None,
         **kwargs: Any,
     ) -> tuple[ChatMessage, ChatMessage]:
-        """Implements chat LLM interaction mode."""
-        # prepare chat history
-        context = (
-            [
-                chat_message_to_openai_response_input_param(cm)
-                for cm in chat_history
-            ]
-            if chat_history
-            else []
+        """Implements chat LLM interaction mode.
+
+        Args:
+            input (str): The user's current input.
+            chat_history (list[ChatMessage] | None, optional): The chat
+                history.
+            tools (list[BaseTool] | None, optional): The tools available to the
+                LLM.
+            return_history (bool): Whether to return the update chat history.
+                Defaults to False.
+            **kwargs (Any): Additional keyword arguments.
+
+        Returns:
+            tuple[ChatMessage, ChatMessage]: A tuple of ChatMessage with the
+                first message corresponding to the ChatMessage created from the
+                supplied input string, and the second ChatMessage is the
+                response from the LLM.
+        """
+        # prepare chat history and instructions
+        chat_history = chat_history or []
+        context, instructions = (
+            self._prepare_input_and_instructions_from_history(
+                chat_history,
+            )
         )
 
         user_message = ChatMessage(role="user", content=input)
@@ -112,6 +158,7 @@ class OpenAILLM(LLM):
 
         response = await self.client.responses.create(
             model=self.model,
+            instructions=instructions,
             input=context,
             tools=openai_tools,
             **kwargs,
@@ -125,5 +172,54 @@ class OpenAILLM(LLM):
         tools: Sequence[Tool] | None = None,
         **kwargs: Any,
     ) -> tuple[list[ChatMessage], ChatMessage]:
-        """Implements continue chat with tool results."""
-        raise NotImplementedError
+        """Implements continue chat with tool results.
+
+        Args:
+            tool_call_results (Sequence[ToolCallResult]): The tool call results.
+            chat_history (Sequence[ChatMessage]): The chat history.
+            tools (Sequence[BaseTool]|None, optional): tools that the LLM
+                can call.
+            **kwargs (Any): Additional keyword arguments.
+
+        Returns:
+            tuple[list[ChatMessage], ChatMessage]: A tuple whose first element
+                is a list of ChatMessage objects corresponding to the
+                supplied ToolCallResult converted objects. The second element
+                is the response ChatMessage from the LLM.
+        """
+        # prepare input from chat history
+        chat_history = chat_history or []
+        context_from_chat_history, instructions = (
+            self._prepare_input_and_instructions_from_history(
+                chat_history,
+            )
+        )
+
+        # prepare input from tool call results
+        tool_messages = [
+            ChatMessage.from_tool_call_result(tc) for tc in tool_call_results
+        ]
+        context_from_tool_messages = [
+            chat_message_to_openai_response_input_param(tm)
+            for tm in tool_messages
+        ]
+
+        openai_response_input_params = (
+            context_from_chat_history + context_from_tool_messages
+        )
+
+        # prepare tools
+        openai_tools = (
+            [tool_to_openai_tool(t) for t in tools] if tools else None
+        )
+
+        # send response
+        response = await self.client.responses.create(
+            model=self.model,
+            instructions=instructions,
+            input=openai_response_input_params,
+            tools=openai_tools,
+            **kwargs,
+        )
+
+        return tool_messages, openai_response_to_chat_message(response)

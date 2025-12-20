@@ -100,8 +100,8 @@ class OllamaLLM(LLM):
     async def chat(
         self,
         input: str,
-        chat_history: list[ChatMessage] | None = None,
-        tools: list[Tool] | None = None,
+        chat_history: Sequence[ChatMessage] | None = None,
+        tools: Sequence[Tool] | None = None,
         **kwargs: Any,
     ) -> tuple[ChatMessage, ChatMessage]:
         """Chat with an Ollama LLM.

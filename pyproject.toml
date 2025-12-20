@@ -46,6 +46,9 @@ notebook-utils = [
 notebooks = [
   "ipython>=8.37.0"
 ]
+openai = [
+  "openai>=2.9.0"
+]
 
 [tool.coverage.run]
 omit = [

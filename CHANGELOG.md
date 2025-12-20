@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- ...
+
+## [0.0.12] - 2025-12-20
+
 ### Added
 
 - feat: bonus material add OpenAILLM (#296)

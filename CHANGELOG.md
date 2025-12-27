@@ -8,7 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
-- ...
+### Changed
+
+- fix: pass kwargs to client construction for OpenAILLM (#301)
 
 ## [0.0.12] - 2025-12-20
 

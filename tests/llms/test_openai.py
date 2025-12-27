@@ -38,11 +38,15 @@ def test_init(mock_async_client_class: MagicMock) -> None:
     """Tests init of OpenAILLM."""
     mock_instance = MagicMock()
     mock_async_client_class.return_value = mock_instance
-    llm = OpenAILLM("gpt-5.2")
+    llm = OpenAILLM("gpt-5.2", timeout=3000, max_retries=2)
 
     assert llm.model == "gpt-5.2"
     assert llm.client == mock_instance
-    mock_async_client_class.assert_called_once()
+    mock_async_client_class.assert_called_once_with(
+        api_key=None,
+        timeout=3000,
+        max_retries=2,
+    )
 
 
 @pytest.mark.skipif(not openai_installed, reason="openai is not installed")

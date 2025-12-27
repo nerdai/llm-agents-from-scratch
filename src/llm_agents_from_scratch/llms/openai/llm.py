@@ -49,7 +49,7 @@ class OpenAILLM(LLM):
         from openai import AsyncOpenAI  # noqa: PLC0415
 
         self.model = model
-        self.client = AsyncOpenAI(api_key=api_key)
+        self.client = AsyncOpenAI(api_key=api_key, **kwargs)
 
     async def complete(self, prompt: str, **kwargs: Any) -> CompleteResult:
         """Implements complete LLM interaction mode."""

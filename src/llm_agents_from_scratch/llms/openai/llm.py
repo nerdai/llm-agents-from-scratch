@@ -48,6 +48,8 @@ class OpenAILLM(LLM):
         check_extra_was_installed(extra="openai", packages="openai")
         from openai import AsyncOpenAI  # noqa: PLC0415
 
+        # Avoid passing duplicate `api_key` if provided both explicitly and in kwargs.
+        kwargs.pop("api_key", None)
         self.model = model
         self.client = AsyncOpenAI(api_key=api_key, **kwargs)
 

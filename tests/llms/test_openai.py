@@ -1,7 +1,7 @@
 """Unit tests for OpenAILLM."""
 
-from functools import reduce
 from importlib.util import find_spec
+from itertools import chain
 from pathlib import Path
 from typing import Literal
 from unittest.mock import AsyncMock, MagicMock, patch
@@ -312,14 +312,16 @@ async def test_continue_chat_with_tool_results(
     mock_create.assert_awaited_once_with(
         model="gpt-5.2",
         instructions=None,
-        input=chat_message_to_openai_response_input_param(asst_msg)
-        + reduce(
-            lambda acc, tool_result: acc
-            + chat_message_to_openai_response_input_param(
-                ChatMessage.from_tool_call_result(tool_result),
+        input=list(
+            chain(
+                chat_message_to_openai_response_input_param(asst_msg),
+                *(
+                    chat_message_to_openai_response_input_param(
+                        ChatMessage.from_tool_call_result(tool_result),
+                    )
+                    for tool_result in tool_call_results
+                ),
             ),
-            tool_call_results,
-            [],
         ),
         tools=None,
     )

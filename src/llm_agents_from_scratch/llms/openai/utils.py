@@ -58,7 +58,7 @@ def chat_message_to_openai_response_input_param(
     )
 
     # tool call requests
-    if chat_message.tool_calls and len(chat_message.tool_calls) > 0:
+    if chat_message.tool_calls:
         function_tool_calls_list = []
         for tool_call in chat_message.tool_calls:
             function_tool_call: ResponseFunctionToolCallParam = {

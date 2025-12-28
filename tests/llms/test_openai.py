@@ -1,5 +1,6 @@
 """Unit tests for OpenAILLM."""
 
+from functools import reduce
 from importlib.util import find_spec
 from pathlib import Path
 from typing import Literal
@@ -284,6 +285,11 @@ async def test_continue_chat_with_tool_results(
         tool_name="a fake tool",
         arguments={"arg1": 1},
     )
+    asst_msg = ChatMessage(
+        role="assistant",
+        content="",
+        tool_calls=[tool_call],
+    )
     tool_call_results = [
         ToolCallResult(
             tool_call_id=tool_call.id_,
@@ -296,7 +302,7 @@ async def test_continue_chat_with_tool_results(
         response_message,
     ) = await llm.continue_chat_with_tool_results(
         tool_call_results=tool_call_results,
-        chat_history=[],
+        chat_history=[asst_msg],
     )
 
     # assert
@@ -306,12 +312,15 @@ async def test_continue_chat_with_tool_results(
     mock_create.assert_awaited_once_with(
         model="gpt-5.2",
         instructions=None,
-        input=[
-            chat_message_to_openai_response_input_param(
+        input=chat_message_to_openai_response_input_param(asst_msg)
+        + reduce(
+            lambda acc, tool_result: acc
+            + chat_message_to_openai_response_input_param(
                 ChatMessage.from_tool_call_result(tool_result),
-            )
-            for tool_result in tool_call_results
-        ],
+            ),
+            tool_call_results,
+            [],
+        ),
         tools=None,
     )
     mock_async_client_class.assert_called_once()

@@ -15,11 +15,7 @@ from llm_agents_from_scratch.data_structures.tool import (
 from .errors import DataConversionError
 
 if TYPE_CHECKING:  # pragma: no cover
-    from openai.types.responses import (
-        Response,
-        ResponseInputItemParam,
-        ToolParam,
-    )
+    from openai.types.responses import Response, ResponseInputParam, ToolParam
 
 
 def openai_response_to_chat_message(openai_response: "Response") -> ChatMessage:
@@ -46,17 +42,36 @@ def openai_response_to_chat_message(openai_response: "Response") -> ChatMessage:
 
 def chat_message_to_openai_response_input_param(
     chat_message: ChatMessage,
-) -> "ResponseInputItemParam":
+) -> "ResponseInputParam":
     """Convert a ChatMessage to an ~openai.ResponseInputParam.
 
-    NOTE: ResponseInputParam is a union type. This method returns one of two of
-    its available options—EasyInputMessageParam or FunctionCallOutput.
+    NOTE: ResponseInputParam is a list of ResponseInputParamItem. This method
+    returns one of three of its available options:
+        — EasyInputMessageParam
+        - FunctionCallOutput
+        - ResponseFunctionToolCallParam
     """
     from openai.types.responses.response_input_param import (  # noqa: PLC0415
         EasyInputMessageParam,
         FunctionCallOutput,
+        ResponseFunctionToolCallParam,
     )
 
+    # tool call requests
+    if chat_message.tool_calls and len(chat_message.tool_calls) > 0:
+        function_tool_calls_list = []
+        for tool_call in chat_message.tool_calls:
+            function_tool_call: ResponseFunctionToolCallParam = {
+                "type": "function_call",
+                "arguments": json.dumps(tool_call.arguments),
+                "call_id": tool_call.id_,
+                "name": tool_call.tool_name,
+            }
+            function_tool_calls_list.append(function_tool_call)
+
+        return function_tool_calls_list
+
+    # tool call results
     if chat_message.role == "tool":
         try:
             tool_call_result = ToolCallResult.model_validate_json(
@@ -77,14 +92,14 @@ def chat_message_to_openai_response_input_param(
                 indent=2,
             ),
         }
-        return function_call_output
+        return [function_call_output]
 
     input_message: EasyInputMessageParam = {
         "type": "message",
         "content": chat_message.content,
         "role": chat_message.role.value,
     }
-    return input_message
+    return [input_message]
 
 
 def tool_to_openai_tool(tool: Tool) -> "ToolParam":

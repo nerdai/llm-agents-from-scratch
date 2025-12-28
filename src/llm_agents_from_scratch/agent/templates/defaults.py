@@ -13,17 +13,17 @@ parameters") and the system will execute it."""
 DEFAULT_GET_NEXT_INSTRUCTION_PROMPT = """You are overseeing an assistant's
 progress in accomplishing a user instruction.
 
-<user-instruction>
-{instruction}
-</user-instruction>
+<thinking-process>
+{current_rollout}
+</thinking-process>
 
 <current-response>
 {current_response}
 </current-response>
 
-<thinking-process>
-{current_rollout}
-</thinking-process>
+<user-instruction>
+{instruction}
+</user-instruction>
 
 DECISION CRITERIA:
 - If current_response contains phrases like "I need to...", "Now I should...",

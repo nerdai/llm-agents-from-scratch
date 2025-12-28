@@ -109,9 +109,9 @@ class OpenAILLM(LLM):
             if cm.role == "system":
                 instruction_messages.append(cm.content)
             else:
-                context.append(chat_message_to_openai_response_input_param(cm))
+                context.extend(chat_message_to_openai_response_input_param(cm))
         instructions = (
-            "/n".join(instruction_messages) if instruction_messages else None
+            "\n".join(instruction_messages) if instruction_messages else None
         )
         return context, instructions
 
@@ -149,7 +149,7 @@ class OpenAILLM(LLM):
         )
 
         user_message = ChatMessage(role="user", content=input)
-        context.append(
+        context.extend(
             chat_message_to_openai_response_input_param(user_message),
         )
 
@@ -201,10 +201,11 @@ class OpenAILLM(LLM):
         tool_messages = [
             ChatMessage.from_tool_call_result(tc) for tc in tool_call_results
         ]
-        context_from_tool_messages = [
-            chat_message_to_openai_response_input_param(tm)
-            for tm in tool_messages
-        ]
+        context_from_tool_messages = []
+        for tm in tool_messages:
+            context_from_tool_messages.extend(
+                chat_message_to_openai_response_input_param(tm),
+            )
 
         openai_response_input_params = (
             context_from_chat_history + context_from_tool_messages

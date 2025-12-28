@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- fix: OpenAILLM.continue_chat_with_tool_results() (#304)
 - fix: pass kwargs to client construction for OpenAILLM (#301)
 
 ## [0.0.12] - 2025-12-20

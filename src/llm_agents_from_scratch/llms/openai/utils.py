@@ -47,7 +47,7 @@ def chat_message_to_openai_response_input_param(
 
     NOTE: ResponseInputParam is a list of ResponseInputParamItem. This method
     returns one of three of its available options:
-        — EasyInputMessageParam
+        - EasyInputMessageParam
         - FunctionCallOutput
         - ResponseFunctionToolCallParam
     """

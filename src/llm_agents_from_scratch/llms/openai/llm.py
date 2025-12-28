@@ -111,7 +111,7 @@ class OpenAILLM(LLM):
             else:
                 context.extend(chat_message_to_openai_response_input_param(cm))
         instructions = (
-            "/n".join(instruction_messages) if instruction_messages else None
+            "\n".join(instruction_messages) if instruction_messages else None
         )
         return context, instructions
 

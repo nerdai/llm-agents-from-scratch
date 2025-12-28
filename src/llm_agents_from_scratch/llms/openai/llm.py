@@ -215,7 +215,6 @@ class OpenAILLM(LLM):
         openai_tools = (
             [tool_to_openai_tool(t) for t in tools] if tools else None
         )
-        print(openai_response_input_params)
 
         # send response
         response = await self.client.responses.create(

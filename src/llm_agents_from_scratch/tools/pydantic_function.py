@@ -1,6 +1,7 @@
 """Pydantic Function Tool."""
 
 import inspect
+import json
 from typing import Any, Awaitable, Callable, Protocol, get_type_hints
 
 from pydantic import BaseModel
@@ -157,7 +158,11 @@ class PydanticFunctionTool(BaseTool):
             content = str(res)
             error = False
         except Exception as e:
-            content = f"Failed to execute function call: {e}"
+            error_details = {
+                "error_type": e.__class__.__name__,
+                "message": f"Internal error while executing tool: {str(e)}",
+            }
+            content = json.dumps(error_details)
             error = True
 
         return ToolCallResult(
@@ -236,7 +241,11 @@ class AsyncPydanticFunctionTool(AsyncBaseTool):
             content = str(res)
             error = False
         except Exception as e:
-            content = f"Failed to execute function call: {e}"
+            error_details = {
+                "error_type": e.__class__.__name__,
+                "message": f"Internal error while executing tool: {str(e)}",
+            }
+            content = json.dumps(error_details)
             error = True
 
         return ToolCallResult(

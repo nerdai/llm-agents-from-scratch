@@ -57,4 +57,7 @@ template (i.e. backbone LLM) you'd like use.
 
 <img width="1546" height="1227" alt="image" src="https://github.com/user-attachments/assets/55b90581-1d71-4bd2-9b86-91518f8570c6" />
 
-
+After selecting your on-demand GPUs, you'll be prompted to configure the
+deployment, where you can specify the Runpod template. By default, Runpod
+uses a PyTorch template, so you'll need to change this to one you'd like to use.
+Click on the "Change Template" button.

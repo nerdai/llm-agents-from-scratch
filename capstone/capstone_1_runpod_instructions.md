@@ -125,3 +125,5 @@ The notebook is located at: `/llm-agents-from-scratch/capstone/capstone_1_ch05.i
 
 Now, instead of running this notebook on your local machine, you can run it on
 your deployed Pod.
+
+<img width="1546" height="1227" alt="image" src="https://github.com/user-attachments/assets/4ebb10d4-f6bc-41e8-837c-b6c46b118303" />

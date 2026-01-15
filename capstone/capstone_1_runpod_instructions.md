@@ -112,3 +112,5 @@ deployed Pod. Click on the "Connect" tab, then click the JupyterLab link.
 
 If successful, this should open up a new browser window exposing the typical
 JupyterLab UI.
+
+<img width="1546" height="1227" alt="image" src="https://github.com/user-attachments/assets/59c134d2-36d6-4adf-8868-34ea28a539c2" />

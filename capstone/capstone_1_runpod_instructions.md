@@ -114,3 +114,14 @@ If successful, this should open up a new browser window exposing the typical
 JupyterLab UI.
 
 <img width="1546" height="1227" alt="image" src="https://github.com/user-attachments/assets/59c134d2-36d6-4adf-8868-34ea28a539c2" />
+
+### Step 4. Navigate to the Capstone Jupyter notebook
+
+As mentioned earlier, the template downloads a clone of the book's GitHub repo
+into the container. All that remains now is to navigate the repo to locate and
+open the Jupyter notebook for Capstone 1.
+
+The notebook is located at: `/llm-agents-from-scratch/capstone/capstone_1_ch05.ipynb`.
+
+Now, instead of running this notebook on your local machine, you can run it on
+your deployed Pod.

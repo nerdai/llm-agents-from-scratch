@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD033 -->
 # Running Capstone 1 Experiments on Runpod
 
 This document contains instructions for running Capstone 1 experiments using
@@ -13,8 +14,7 @@ Qwen3-Coder:480B)
 ## High-level steps
 
 0. (Optional) Create a Runpod secret for OPENAI_API_KEY
-1. Deploy a Pod (on-demand GPU) with one of the `llm-agents-from-scratch`
-templates
+1. Deploy a Pod (on-demand GPU) with an `llm-agents-from-scratch` Runpod template
 2. Wait for Pod to become available and finish its setup
 3. Connect to the Pod's JupyterLab service
 4. Navigate to the Capstone Jupyter notebook
@@ -32,6 +32,25 @@ console and click "Secrets" found in the left side-bar menu. Afterwards, click
 on "Create Secret" to create a new secret.
 
 For the Secret name, be sure to use "openai_api_key", and fill in the secret
-value with your API key.
+value with your API key. Click "Create Secrete" button once the necessary fields
+have been populated.
 
 <img width="1546" height="1227" alt="image" src="https://github.com/user-attachments/assets/24cf524d-9f75-4470-964a-385b29f59e83" />
+
+### Deploy a Pod with an `llm-agents-from-scratch` Runpod template
+
+I've prepared two Runpod templates for Capstone 1. These templates use a Docker
+image that has the necessary tools installed, including CUDA, uv, and ollama. It
+also clones the book's GitHub repository and installs the
+`llm-agents-from-scratch` package onto the system's Python. The two templates
+are differ in terms of the backbone LLM:
+
+| Template                              | Backbone LLM     | GPU VRAM Required |
+|---------------------------------------|------------------|-------------------|
+| `llmagentsfromscratch-qwen3coder30b`  | Qwen3-Coder:30b  | 48GB              |
+| `llmagentsfromscratch-qwen3coder480b` | Qwen3-Coder:480b | 300GB             |
+
+To deploy a Pod with one of these templates, on the Runpod console, click on
+"Pods" found in the left-hand sidebar, and then click the "+ Deploy" button.
+Specify the appropriate number of GPU VRAM for the Pod that's required for the
+template (i.e. backbone LLM) you'd like use.

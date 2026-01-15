@@ -64,3 +64,5 @@ Click on the "Change Template" button.
 
 <img width="1546" height="1227" alt="image" src="https://github.com/user-attachments/assets/589e141a-e2fe-4ff7-afcc-6f8e3ef05f60" />
 
+Next, you can search for the llm-agents-from-scratch template that you'd like
+to use. Simply enter the name of the template in the search bar.

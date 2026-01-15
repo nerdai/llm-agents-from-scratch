@@ -69,4 +69,8 @@ to use. Simply enter the name of the template in the search bar.
 
 <img width="1546" height="1227" alt="image" src="https://github.com/user-attachments/assets/cfa91d2d-de72-4c86-ad9d-d62acbcf4add" />
 
+The llm-agents-from-scratch template should appear. Click on it to select the
+template to deploy the Pod with it. You'll be navigated back to the Configure
+Deployment page.
 
+Finally, click on the "Deploy On-Demand" button.

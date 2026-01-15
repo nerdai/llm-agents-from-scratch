@@ -54,3 +54,7 @@ To deploy a Pod with one of these templates, on the Runpod console, click on
 "Pods" found in the left-hand sidebar, and then click the "+ Deploy" button.
 Specify the appropriate number of GPU VRAM for the Pod that's required for the
 template (i.e. backbone LLM) you'd like use.
+
+<img width="1546" height="1227" alt="image" src="https://github.com/user-attachments/assets/55b90581-1d71-4bd2-9b86-91518f8570c6" />
+
+

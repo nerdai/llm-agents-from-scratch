@@ -138,3 +138,7 @@ Execution times for the repeated runs section are given in the table below.
 |---------------------------------------|----------------------------------|
 | `llmagentsfromscratch-qwen3coder30b`  | ~15 minutes                      |
 | `llmagentsfromscratch-qwen3coder480b` | ~20 minutes                      |
+
+## IMPORTANT
+
+Make sure to terminate your Pod when you're finished to not incur additional costs.

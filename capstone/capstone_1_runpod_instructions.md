@@ -37,7 +37,7 @@ have been populated.
 
 <img width="1546" height="1227" alt="image" src="https://github.com/user-attachments/assets/24cf524d-9f75-4470-964a-385b29f59e83" />
 
-### Deploy a Pod with an `llm-agents-from-scratch` Runpod template
+### Step 1. Deploy a Pod with an `llm-agents-from-scratch` Runpod template
 
 I've prepared two Runpod templates for Capstone 1. These templates use a Docker
 image that has the necessary tools installed, including CUDA, uv, and ollama. It
@@ -76,3 +76,27 @@ Deployment page.
 Finally, click on the "Deploy On-Demand" button.
 
 <img width="1546" height="1227" alt="image" src="https://github.com/user-attachments/assets/3419682b-8652-4fa0-8ad5-c6a7c855e394" />
+
+### Step 2. Wait for Pod to become available and finish its setup
+
+After deploying the Pod, the Docker image used by the template will be
+downloaded, and its startup process will be executed. Included in this startup
+is the downloading of the Ollama LLM model as well as the downloading of the
+`llm-agents-from-scratch` source code and its installation into the container's
+system Python. It also launches the JupyterLab service that you'll connect
+with in the next step.
+
+Go ahead and grab a cup of coffee. Expected setup times are provided in the
+table below, but note that these vary depnding on your selected GPU hardware.
+
+| Template                              | Setup Time    |
+|---------------------------------------|---------------|
+| `llmagentsfromscratch-qwen3coder30b`  | 5–10 minutes  |
+| `llmagentsfromscratch-qwen3coder480b` | 20–30 minutes |
+
+You can monitor the setup process by viewing the Pod's system as well as
+container logs. The system logs contains details on the downloading of the
+Docker image, while the container logs emit updates for the startup process.
+
+Your Pod is ready cnce the container logs contains details for launching the
+JupyterLab service, as shown in the next screenshot.

@@ -102,3 +102,8 @@ Your Pod is ready cnce the container logs contains details for launching the
 JupyterLab service, as shown in the next screenshot.
 
 <img width="1546" height="1227" alt="image" src="https://github.com/user-attachments/assets/5b9914d2-2d0b-43af-94f2-07405f663539" />
+
+### Step 3. Connect to the Pod's JupyterLab service
+
+Once startup has completed, you can connect to the JupyterLab service for your
+deployed Pod. Click on the "Connect" tab and then click on the JuptyerLab link.

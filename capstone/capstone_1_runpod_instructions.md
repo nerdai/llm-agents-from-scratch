@@ -100,3 +100,5 @@ Docker image, while the container logs emit updates for the startup process.
 
 Your Pod is ready cnce the container logs contains details for launching the
 JupyterLab service, as shown in the next screenshot.
+
+<img width="1546" height="1227" alt="image" src="https://github.com/user-attachments/assets/5b9914d2-2d0b-43af-94f2-07405f663539" />

@@ -74,3 +74,5 @@ template to deploy the Pod with it. You'll be navigated back to the Configure
 Deployment page.
 
 Finally, click on the "Deploy On-Demand" button.
+
+<img width="1546" height="1227" alt="image" src="https://github.com/user-attachments/assets/3419682b-8652-4fa0-8ad5-c6a7c855e394" />

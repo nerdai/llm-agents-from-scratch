@@ -33,3 +33,5 @@ on "Create Secret" to create a new secret.
 
 For the Secret name, be sure to use "openai_api_key", and fill in the secret
 value with your API key.
+
+<img width="1546" height="1227" alt="image" src="https://github.com/user-attachments/assets/24cf524d-9f75-4470-964a-385b29f59e83" />

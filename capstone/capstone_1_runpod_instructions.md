@@ -27,12 +27,12 @@ supply an OpenAI API key. The Runpod templates that I've prepared for running
 these experiments will create the necessary environment variable from a Runpod
 secret.
 
-To create the Runpod secret for your OpenAI API key, login into the Runpod
-console and click "Secrets" found in the left side-bar menu. Afterwards, click
+To create the Runpod secret for your OpenAI API key, log in to the Runpod
+console and click "Secrets" found in the left sidebar menu. Afterwards, click
 on "Create Secret" to create a new secret.
 
 For the Secret name, be sure to use "openai_api_key", and fill in the secret
-value with your API key. Click "Create Secrete" button once the necessary fields
+value with your API key. Click "Create Secret" button once the necessary fields
 have been populated.
 
 <img width="1546" height="1227" alt="image" src="https://github.com/user-attachments/assets/24cf524d-9f75-4470-964a-385b29f59e83" />
@@ -43,7 +43,7 @@ I've prepared two Runpod templates for Capstone 1. These templates use a Docker
 image that has the necessary tools installed, including CUDA, uv, and ollama. It
 also clones the book's GitHub repository and installs the
 `llm-agents-from-scratch` package onto the system's Python. The two templates
-are differ in terms of the backbone LLM:
+differ in terms of the backbone LLM:
 
 | Template                              | Backbone LLM     | GPU VRAM Required |
 |---------------------------------------|------------------|-------------------|
@@ -87,7 +87,7 @@ system Python. It also launches the JupyterLab service that you'll connect
 with in the next step.
 
 Go ahead and grab a cup of coffee. Expected setup times are provided in the
-table below, but note that these vary depnding on your selected GPU hardware.
+table below, but note that these vary depending on your selected GPU hardware.
 
 | Template                              | Setup Time    |
 |---------------------------------------|---------------|
@@ -95,10 +95,10 @@ table below, but note that these vary depnding on your selected GPU hardware.
 | `llmagentsfromscratch-qwen3coder480b` | 20–30 minutes |
 
 You can monitor the setup process by viewing the Pod's system as well as
-container logs. The system logs contains details on the downloading of the
+container logs. The system logs contain details on the downloading of the
 Docker image, while the container logs emit updates for the startup process.
 
-Your Pod is ready cnce the container logs contains details for launching the
+Your Pod is ready once the container logs contains details for launching the
 JupyterLab service, as shown in the next screenshot.
 
 <img width="1546" height="1227" alt="image" src="https://github.com/user-attachments/assets/5b9914d2-2d0b-43af-94f2-07405f663539" />
@@ -123,7 +123,18 @@ open the Jupyter notebook for Capstone 1.
 
 The notebook is located at: `/llm-agents-from-scratch/capstone/capstone_1_ch05.ipynb`.
 
-Now, instead of running this notebook on your local machine, you can run it on
-your deployed Pod.
-
 <img width="1546" height="1227" alt="image" src="https://github.com/user-attachments/assets/4ebb10d4-f6bc-41e8-837c-b6c46b118303" />
+
+### Step 5. Run the notebook
+
+Now, instead of running this notebook on your local machine, you can run it on
+your deployed Pod. Note that an Ollama service has already been launched as
+part of the startup process. You should be able to click through each of the
+cells and execute them successfully.
+
+Execution times for the repeated runs section are given in the table below.
+
+| Template                              | Execution Time (repeated trials) |
+|---------------------------------------|----------------------------------|
+| `llmagentsfromscratch-qwen3coder30b`  | ~15 minutes                      |
+| `llmagentsfromscratch-qwen3coder480b` | ~20 minutes                      |

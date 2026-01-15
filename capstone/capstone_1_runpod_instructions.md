@@ -107,3 +107,5 @@ JupyterLab service, as shown in the next screenshot.
 
 Once startup has completed, you can connect to the JupyterLab service for your
 deployed Pod. Click on the "Connect" tab and then click on the JuptyerLab link.
+
+<img width="1546" height="1227" alt="image" src="https://github.com/user-attachments/assets/c258934b-9d8f-454a-b6b8-5df31c515a43" />

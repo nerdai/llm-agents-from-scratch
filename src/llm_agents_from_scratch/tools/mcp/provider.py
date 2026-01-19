@@ -67,4 +67,20 @@ class MCPToolProvider:
 
     async def get_tools(self) -> list["MCPTool"]:
         """List tools."""
-        raise NotImplementedError
+        from llm_agents_from_scratch.tools.mcp.tool import (  # noqa: PLC0415
+            MCPTool,
+        )
+
+        async with self.session() as session:
+            response = await session.list_tools()
+
+        return [
+            MCPTool(
+                provider=self,
+                name=f"{self.name}.{tool.name}",
+                desc=tool.description,
+                params_json_schema=tool.inputSchema,
+                additional_annotations=tool.annotations,
+            )
+            for tool in response.tools
+        ]

@@ -1,6 +1,11 @@
 """MCP Tool Provier."""
 
-from mcp import StdioServerParameters
+from contextlib import asynccontextmanager
+from typing import AsyncGenerator
+
+from mcp import ClientSession, StdioServerParameters
+from mcp.client.stdio import stdio_client
+from mcp.client.streamable_http import streamablehttp_client
 
 from ...errors import MissingMCPServerParamsError
 
@@ -33,3 +38,26 @@ class MCPToolProvider:
         self.name = str
         self.stdio_params = StdioServerParameters
         self.streamable_http_url = streamable_http_url
+
+    @asynccontextmanager
+    async def session(self) -> AsyncGenerator[ClientSession]:
+        """An async context manager for creatting a client session.
+
+        Yields:
+            Generator[ClientSession]: _description_
+        """
+        if self.stdio_params:
+            async with stdio_client(self.stdio_params) as (read, write):  # noqa: SIM117
+                async with ClientSession(read, write) as session:
+                    await session.initialize()
+                    yield session
+        else:
+            async with streamablehttp_client(self.streamable_http_url) as (  # noqa: SIM117
+                read_stream,
+                write_stream,
+                _,
+            ):
+                # Create a session using the client streams
+                async with ClientSession(read_stream, write_stream) as session:
+                    await session.initialize()
+                    yield session

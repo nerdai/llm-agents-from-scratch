@@ -66,7 +66,7 @@ class MCPToolProvider:
                     yield session
 
     async def get_tools(self) -> list["MCPTool"]:
-        """List tools."""
+        """Fetch tools from the MCP server and create MCPTool instances."""
         from llm_agents_from_scratch.tools.mcp.tool import (  # noqa: PLC0415
             MCPTool,
         )

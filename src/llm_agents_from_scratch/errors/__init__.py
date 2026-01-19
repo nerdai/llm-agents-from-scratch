@@ -4,6 +4,7 @@ from .core import (
     LLMAgentsFromScratchWarning,
     MissingExtraError,
 )
+from .mcp import MCPError, MissingMCPServerParamsError
 from .task_handler import TaskHandlerError
 
 __all__ = [
@@ -14,6 +15,9 @@ __all__ = [
     # agent
     "LLMAgentError",
     "MaxStepsReachedError",
+    # mcp
+    "MCPError",
+    "MissingMCPServerParamsError",
     # task handler
     "TaskHandlerError",
 ]

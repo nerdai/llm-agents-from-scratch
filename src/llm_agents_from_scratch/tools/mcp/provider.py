@@ -43,7 +43,7 @@ class MCPToolProvider:
         self.streamable_http_url = streamable_http_url
 
     @asynccontextmanager
-    async def session(self) -> AsyncGenerator[ClientSession]:
+    async def session(self) -> AsyncGenerator[ClientSession, None]:
         """An async context manager for creatting a client session.
 
         Yields:

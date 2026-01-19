@@ -1,13 +1,16 @@
 """MCP Tool Provier."""
 
 from contextlib import asynccontextmanager
-from typing import AsyncGenerator
+from typing import TYPE_CHECKING, AsyncGenerator
 
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 from mcp.client.streamable_http import streamablehttp_client
 
-from ...errors import MissingMCPServerParamsError
+from llm_agents_from_scratch.errors import MissingMCPServerParamsError
+
+if TYPE_CHECKING:
+    from .tool import MCPTool
 
 
 class MCPToolProvider:
@@ -61,3 +64,7 @@ class MCPToolProvider:
                 async with ClientSession(read_stream, write_stream) as session:
                     await session.initialize()
                     yield session
+
+    async def get_tools(self) -> list["MCPTool"]:
+        """List tools."""
+        raise NotImplementedError

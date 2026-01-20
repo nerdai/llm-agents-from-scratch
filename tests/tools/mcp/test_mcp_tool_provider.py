@@ -1,5 +1,8 @@
 """Unit tests for MCPToolProvider."""
 
+from contextlib import asynccontextmanager
+from unittest.mock import AsyncMock, patch
+
 import pytest
 from mcp import StdioServerParameters
 
@@ -61,3 +64,47 @@ def test_mcp_tool_provider_init_emits_warning() -> None:
             stdio_params=stdio_params,
             streamable_http_url="https://mock-server-url.io",
         )
+
+
+@pytest.mark.asyncio
+@patch("llm_agents_from_scratch.tools.mcp.provider.stdio_client")
+@patch("llm_agents_from_scratch.tools.mcp.provider.ClientSession")
+async def test_session_creation(
+    mock_client_session_cls: AsyncMock,
+    mock_stdio_client: AsyncMock,
+) -> None:
+    """Tests creation of sessions."""
+
+    # mock stdio_client() async tonctext manager
+    mock_read = AsyncMock()
+    mock_write = AsyncMock()
+
+    @asynccontextmanager
+    async def async_context_manager(*args, **kwargs):
+        yield (mock_read, mock_write)
+
+    # Set up the mock to return the async context manager
+    mock_stdio_client.return_value = async_context_manager()
+
+    # mock ClientSession
+    client_session = AsyncMock()
+
+    @asynccontextmanager
+    async def async_client_session(*args, **kwargs):
+        yield client_session
+
+    mock_client_session_cls.return_value = async_client_session()
+
+    stdio_params = StdioServerParameters(
+        command="uv run",
+        args=["fake.py"],
+    )
+    stdio_provider = MCPToolProvider(
+        name="mock provider",
+        stdio_params=stdio_params,
+    )
+
+    async with stdio_provider.session() as _session:
+        pass
+
+    mock_stdio_client.assert_called_once()

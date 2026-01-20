@@ -1,7 +1,12 @@
 """Unit tests for MCPToolProvider."""
 
+import pytest
 from mcp import StdioServerParameters
 
+from llm_agents_from_scratch.errors import (
+    MCPWarning,
+    MissingMCPServerParamsError,
+)
 from llm_agents_from_scratch.tools.mcp import MCPToolProvider
 
 
@@ -30,3 +35,29 @@ def test_mcp_tool_provider_init() -> None:
     assert stdio_provider.name == "mock provider"
     assert stdio_provider.streamable_http_url is None
     assert stdio_provider.stdio_params == stdio_params
+
+
+def test_mcp_tool_provider_init_raises_error() -> None:
+    """Tests initialization raises error if no connection details provided."""
+    with pytest.raises(
+        MissingMCPServerParamsError,
+        match="You must supply at least one",
+    ):
+        MCPToolProvider(name="invalid provider")
+
+
+def test_mcp_tool_provider_init_emits_warning() -> None:
+    """Tests init emits warning if both connection details provided."""
+    with pytest.warns(
+        MCPWarning,
+        match="Both `stdio_params` and `streamable_http_url`",
+    ):
+        stdio_params = StdioServerParameters(
+            command="uv run",
+            args=["fake.py"],
+        )
+        MCPToolProvider(
+            name="mock provider",
+            stdio_params=stdio_params,
+            streamable_http_url="https://mock-server-url.io",
+        )

@@ -1,5 +1,7 @@
 """Unit tests for MCPToolProvider."""
 
+from unittest.mock import AsyncMock, patch
+
 import pytest
 from mcp import StdioServerParameters
 
@@ -7,7 +9,9 @@ from llm_agents_from_scratch.errors import (
     MCPWarning,
     MissingMCPServerParamsError,
 )
-from llm_agents_from_scratch.tools.mcp import MCPToolProvider
+from llm_agents_from_scratch.tools.model_context_protocol import (
+    MCPToolProvider,
+)
 
 
 def test_mcp_tool_provider_init() -> None:
@@ -61,3 +65,24 @@ def test_mcp_tool_provider_init_emits_warning() -> None:
             stdio_params=stdio_params,
             streamable_http_url="https://mock-server-url.io",
         )
+
+
+@pytest.mark.asyncio
+@patch(
+    "llm_agents_from_scratch.tools.model_context_protocol.provider.stdio_client",
+)
+async def test_session_creation(mock_stdio_client: AsyncMock) -> None:
+    """Tests creation of MCP server sessions."""
+    stdio_params = StdioServerParameters(
+        command="uv run",
+        args=["fake.py"],
+    )
+    stdio_provider = MCPToolProvider(
+        name="mock provider",
+        stdio_params=stdio_params,
+    )
+
+    async with stdio_provider.session() as _session:
+        pass
+
+    mock_stdio_client.assert_called_once_with(stdio_params)

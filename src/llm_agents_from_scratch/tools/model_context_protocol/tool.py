@@ -6,7 +6,9 @@ from mcp.types import ToolAnnotations
 
 from llm_agents_from_scratch.base.tool import AsyncBaseTool
 from llm_agents_from_scratch.data_structures import ToolCall, ToolCallResult
-from llm_agents_from_scratch.tools.mcp.provider import MCPToolProvider
+from llm_agents_from_scratch.tools.model_context_protocol.provider import (
+    MCPToolProvider,
+)
 
 
 class MCPTool(AsyncBaseTool):

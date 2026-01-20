@@ -58,4 +58,4 @@ class MCPTool(AsyncBaseTool):
         Returns:
             ToolCallResult: The tool call result.
         """
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover

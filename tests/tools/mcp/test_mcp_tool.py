@@ -2,7 +2,7 @@
 
 from unittest.mock import MagicMock
 
-from llm_agents_from_scratch.tools.model_context_protocol import MCPTool
+from llm_agents_from_scratch.tools.mcp import MCPTool
 
 
 def test_function_tool_init() -> None:

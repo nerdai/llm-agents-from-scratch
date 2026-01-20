@@ -29,11 +29,22 @@ class MCPToolProvider:
         """Initialize an MCPToolProvider.
 
         Args:
-            name (str): _description_
-            stdio_params (StdioServerParameters | None, optional):
-                _description_. Defaults to None.
-            streamable_http_url (str | None, optional):
-                _description_. Defaults to None.
+            name (str): A name identifier for this provider. Used to prefix
+                tool names when creating MCPTool instances (e.g.,
+                "{name}.{tool_name}").
+            stdio_params (StdioServerParameters | None, optional): Parameters
+                for connecting to an MCP server via stdio. If both this and
+                `streamable_http_url` are provided, stdio will be used and
+                HTTP will be ignored. Defaults to None.
+            streamable_http_url (str | None, optional): URL for connecting to
+                an MCP server via HTTP. Only used if `stdio_params` is None.
+                Defaults to None.
+
+        Raises:
+            MissingMCPServerParamsError: If neither `stdio_params` nor
+                `streamable_http_url` is provided.
+            MCPWarning: If both `stdio_params` and `streamable_http_url` are
+                provided (stdio will be prioritized).
         """
         if (stdio_params is None) and (streamable_http_url is None):
             msg = (
@@ -58,7 +69,8 @@ class MCPToolProvider:
         """An async context manager for creatting a client session.
 
         Yields:
-            Generator[ClientSession]: _description_
+            ClientSession: An initialized MCP client session. Automatically
+                closed when exiting the context.
         """
         if self.stdio_params:
             async with stdio_client(self.stdio_params) as (read, write):  # noqa: SIM117

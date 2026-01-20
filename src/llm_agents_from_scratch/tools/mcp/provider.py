@@ -1,5 +1,6 @@
 """MCP Tool Provier."""
 
+import warnings
 from contextlib import asynccontextmanager
 from typing import TYPE_CHECKING, AsyncGenerator
 
@@ -7,7 +8,10 @@ from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 from mcp.client.streamable_http import streamablehttp_client
 
-from llm_agents_from_scratch.errors import MissingMCPServerParamsError
+from llm_agents_from_scratch.errors import (
+    MCPWarning,
+    MissingMCPServerParamsError,
+)
 
 if TYPE_CHECKING:
     from .tool import MCPTool
@@ -38,8 +42,15 @@ class MCPToolProvider:
             )
             raise MissingMCPServerParamsError(msg)
 
-        self.name = str
-        self.stdio_params = StdioServerParameters
+        if stdio_params and streamable_http_url:
+            msg = (
+                "Both `stdio_params` and `streamable_http_url` were provided; "
+                "`stdio_params` will be used and `streamable_http_url` ignored."
+            )
+            warnings.warn(msg, MCPWarning, stacklevel=2)
+
+        self.name = name
+        self.stdio_params = stdio_params
         self.streamable_http_url = streamable_http_url
 
     @asynccontextmanager

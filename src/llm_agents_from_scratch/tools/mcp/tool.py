@@ -58,4 +58,15 @@ class MCPTool(AsyncBaseTool):
         Returns:
             ToolCallResult: The tool call result.
         """
-        raise NotImplementedError  # pragma: no cover
+        # initiate session with the MCP server
+        async with self.provider.session() as session:
+            result = await session.call_tool(
+                name=self.name.removesuffix(self.provider.name + "."),
+                arguments=tool_call.arguments,
+            )
+
+        return ToolCallResult(
+            tool_call_id=tool_call.id_,
+            content=result.content,
+            error=result.isError,
+        )

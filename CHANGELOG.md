@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+### Added
+
+- feat: MCPToolProvider and start of MCPTool (#326)
+
 ### Changed
 
 - fix: use same error handling as simple function tool for PydanticFunctionTool (#310)

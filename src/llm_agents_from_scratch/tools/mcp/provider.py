@@ -66,7 +66,7 @@ class MCPToolProvider:
 
     @asynccontextmanager
     async def session(self) -> AsyncGenerator[ClientSession, None]:
-        """An async context manager for creatting a client session.
+        """An async context manager for creating a client session.
 
         Yields:
             ClientSession: An initialized MCP client session. Automatically

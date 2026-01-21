@@ -153,13 +153,13 @@ async def test_session_creation(
 async def test_session_creation_streamable_http(
     mock_client_session_cls: AsyncMock,
     mock_streamablehttp_client: AsyncMock,
-    mock_streambled_http_client_transport: AsyncContextManager[Any],
+    mock_streamable_http_client_transport: AsyncContextManager[Any],
     mock_client_session: AsyncContextManager[AsyncMock],
 ) -> None:
     """Tests creation of sessions."""
     # Set up the mock to return the async context manager
     mock_streamablehttp_client.return_value = (
-        mock_streambled_http_client_transport
+        mock_streamable_http_client_transport
     )
     mock_client_session_cls.return_value = mock_client_session
 

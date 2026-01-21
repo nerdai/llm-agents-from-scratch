@@ -60,8 +60,9 @@ class MCPTool(AsyncBaseTool):
         """
         # initiate session with the MCP server
         async with self.provider.session() as session:
+            # call tool
             result = await session.call_tool(
-                name=self.name.removesuffix(self.provider.name + "."),
+                name=self.name.removeprefix(self.provider.name + "."),
                 arguments=tool_call.arguments,
             )
 

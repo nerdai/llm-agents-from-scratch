@@ -2,7 +2,7 @@
 
 import warnings
 from contextlib import asynccontextmanager
-from typing import TYPE_CHECKING, AsyncGenerator
+from typing import TYPE_CHECKING, AsyncIterator
 
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
@@ -67,7 +67,7 @@ class MCPToolProvider:
         self.streamable_http_url = streamable_http_url
 
     @asynccontextmanager
-    async def session(self) -> AsyncGenerator[ClientSession, None]:
+    async def session(self) -> AsyncIterator[ClientSession]:
         """An async context manager for creating a client session.
 
         Yields:

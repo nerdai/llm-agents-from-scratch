@@ -81,7 +81,7 @@ def mock_stdio_client_transport() -> AsyncContextManager[Any]:
 
 
 @pytest.fixture()
-def mock_streambled_http_client_transport() -> AsyncContextManager[Any]:
+def mock_streamable_http_client_transport() -> AsyncContextManager[Any]:
     """Mock streamablehttp_client() async context manager."""
     mock_read = AsyncMock()
     mock_write = AsyncMock()

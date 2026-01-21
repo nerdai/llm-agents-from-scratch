@@ -43,8 +43,10 @@ class MCPToolProvider:
         Raises:
             MissingMCPServerParamsError: If neither `stdio_params` nor
                 `streamable_http_url` is provided.
-            MCPWarning: If both `stdio_params` and `streamable_http_url` are
-                provided (stdio will be prioritized).
+
+        Warns:
+            MCPWarning: Emitted if both `stdio_params` and
+                `streamable_http_url` are provided (stdio will be prioritized).
         """
         if (stdio_params is None) and (streamable_http_url is None):
             msg = (

@@ -5,7 +5,7 @@ from typing import Any, AsyncContextManager
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
-from mcp import ClientSession, StdioServerParameters
+from mcp import ClientSession, ListToolsResult, StdioServerParameters, Tool
 
 from llm_agents_from_scratch.errors import (
     MCPWarning,
@@ -98,6 +98,17 @@ def mock_streambled_http_client_transport() -> AsyncContextManager[Any]:
 def mock_client_session() -> AsyncContextManager[AsyncMock]:
     """Mock ClientSession."""
     client_session = AsyncMock(spec=ClientSession)
+    mock_list_tools = AsyncMock()
+    mock_list_tools.return_value = ListToolsResult(
+        tools=[
+            Tool(
+                name="mock_tool",
+                description="mock_desc",
+                inputSchema={"param1": {"type": "number"}},
+            ),
+        ],
+    )
+    client_session.list_tools = mock_list_tools
 
     @asynccontextmanager
     async def async_client_session(*args, **kwargs):
@@ -162,3 +173,35 @@ async def test_session_creation_streamable_http(
 
     mock_streamablehttp_client.assert_called_once()
     mock_client_session_cls.assert_called_once()
+
+
+@pytest.mark.asyncio
+@patch("llm_agents_from_scratch.tools.mcp.provider.stdio_client")
+@patch("llm_agents_from_scratch.tools.mcp.provider.ClientSession")
+async def test_list_tools_stdio_client(
+    mock_client_session_cls: AsyncMock,
+    mock_stdio_client: AsyncMock,
+    mock_stdio_client_transport: AsyncContextManager[Any],
+    mock_client_session: AsyncContextManager[AsyncMock],
+) -> None:
+    """Tests creation of sessions."""
+    # Set up the mock to return the async context manager
+    mock_stdio_client.return_value = mock_stdio_client_transport
+    mock_client_session_cls.return_value = mock_client_session
+
+    stdio_params = StdioServerParameters(
+        command="uv run",
+        args=["fake.py"],
+    )
+    stdio_provider = MCPToolProvider(
+        name="mock_provider",
+        stdio_params=stdio_params,
+    )
+
+    mcp_tools = await stdio_provider.get_tools()
+
+    assert len(mcp_tools) == 1
+    assert mcp_tools[0].description == "mock_desc"
+    assert mcp_tools[0].name == "mock_provider.mock_tool"
+    assert mcp_tools[0].parameters_json_schema == {"param1": {"type": "number"}}
+    assert mcp_tools[0].additional_annotations is None

@@ -1,10 +1,11 @@
 """Unit tests for MCPToolProvider."""
 
 from contextlib import asynccontextmanager
+from typing import Any, AsyncContextManager
 from unittest.mock import AsyncMock, patch
 
 import pytest
-from mcp import StdioServerParameters
+from mcp import ClientSession, StdioServerParameters
 
 from llm_agents_from_scratch.errors import (
     MCPWarning,
@@ -66,16 +67,9 @@ def test_mcp_tool_provider_init_emits_warning() -> None:
         )
 
 
-@pytest.mark.asyncio
-@patch("llm_agents_from_scratch.tools.mcp.provider.stdio_client")
-@patch("llm_agents_from_scratch.tools.mcp.provider.ClientSession")
-async def test_session_creation(
-    mock_client_session_cls: AsyncMock,
-    mock_stdio_client: AsyncMock,
-) -> None:
-    """Tests creation of sessions."""
-
-    # mock stdio_client() async tonctext manager
+@pytest.fixture()
+def mock_stdio_client_transport() -> AsyncContextManager[Any]:
+    """Mock stdio_client() async context manager."""
     mock_read = AsyncMock()
     mock_write = AsyncMock()
 
@@ -83,17 +77,34 @@ async def test_session_creation(
     async def async_context_manager(*args, **kwargs):
         yield (mock_read, mock_write)
 
-    # Set up the mock to return the async context manager
-    mock_stdio_client.return_value = async_context_manager()
+    return async_context_manager()  # Return instance, not function
 
-    # mock ClientSession
-    client_session = AsyncMock()
+
+@pytest.fixture()
+def mock_client_session() -> AsyncContextManager[AsyncMock]:
+    """Mock ClientSession."""
+    client_session = AsyncMock(spec=ClientSession)
 
     @asynccontextmanager
     async def async_client_session(*args, **kwargs):
         yield client_session
 
-    mock_client_session_cls.return_value = async_client_session()
+    return async_client_session()  # Return instance, not function
+
+
+@pytest.mark.asyncio
+@patch("llm_agents_from_scratch.tools.mcp.provider.stdio_client")
+@patch("llm_agents_from_scratch.tools.mcp.provider.ClientSession")
+async def test_session_creation(
+    mock_client_session_cls: AsyncMock,
+    mock_stdio_client: AsyncMock,
+    mock_stdio_client_transport: AsyncContextManager[Any],
+    mock_client_session: AsyncContextManager[AsyncMock],
+) -> None:
+    """Tests creation of sessions."""
+    # Set up the mock to return the async context manager
+    mock_stdio_client.return_value = mock_stdio_client_transport
+    mock_client_session_cls.return_value = mock_client_session
 
     stdio_params = StdioServerParameters(
         command="uv run",
@@ -108,3 +119,4 @@ async def test_session_creation(
         pass
 
     mock_stdio_client.assert_called_once()
+    mock_client_session_cls.assert_called_once()

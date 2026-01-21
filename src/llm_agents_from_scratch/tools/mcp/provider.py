@@ -1,4 +1,4 @@
-"""MCP Tool Provier."""
+"""MCP Tool Provider."""
 
 import warnings
 from contextlib import asynccontextmanager

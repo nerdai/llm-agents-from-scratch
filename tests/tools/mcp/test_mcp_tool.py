@@ -18,3 +18,8 @@ def test_function_tool_init() -> None:
     assert tool.description == "mock desc"
     assert tool.additional_annotations is None
     assert tool.parameters_json_schema == {"param1": {"type": "number"}}
+
+
+def test_tool_call() -> None:
+    """Tests MCP tool call."""
+    ...

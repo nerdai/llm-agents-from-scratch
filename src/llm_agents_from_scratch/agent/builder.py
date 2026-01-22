@@ -65,7 +65,25 @@ class LLMAgentBuilder:
         return self
 
     async def build(self) -> LLMAgent:
-        """Build an LLMAgent."""
+        """Build an LLMAgent with configured tools and MCP providers.
+
+        Discovers tools from all registered MCP providers concurrently,
+        combines them with manually added tools, and returns a configured
+        LLMAgent.
+
+        This is the recommended pattern for building agents with MCP tools.
+        Alternatively, you can manually discover tools and pass them directly:
+
+            provider = MCPToolProvider(name="github", url="...")
+            tools = await provider.get_tools()
+            agent = LLMAgent(llm=llm, tools=tools)
+
+        Returns:
+            LLMAgent: The configured agent with all tools.
+
+        Raises:
+            LLMAgentBuilderError: If `llm` is not set.
+        """
         if not self.llm:
             raise LLMAgentBuilderError("`llm` must be set")
 

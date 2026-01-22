@@ -6,6 +6,7 @@ import pytest
 
 from llm_agents_from_scratch import LLMAgentBuilder
 from llm_agents_from_scratch.agent.templates import default_templates
+from llm_agents_from_scratch.errors import LLMAgentBuilderError
 from llm_agents_from_scratch.tools.mcp.tool import MCPTool
 
 
@@ -79,3 +80,12 @@ async def test_build() -> None:
     mock_get_tools.assert_awaited_once()
     assert agent.llm == builder.llm
     assert agent.templates == builder.templates
+
+
+@pytest.mark.asyncio
+async def test_build_raises_error_with_no_llm_set() -> None:
+    """Tests build for LLMAgent."""
+    mock_tool = MagicMock()
+
+    with pytest.raises(LLMAgentBuilderError, match="`llm` must be set"):
+        await LLMAgentBuilder().with_tool(mock_tool).build()

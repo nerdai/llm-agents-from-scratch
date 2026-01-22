@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- feat: Add LLMAgentBuilder (#329)
 - feat: implement MCPTool and unit tests (#328)
 - feat: MCPToolProvider and start of MCPTool (#326)
 

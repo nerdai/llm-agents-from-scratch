@@ -1,5 +1,8 @@
 """LLM Agent Builder."""
 
+import asyncio
+from itertools import chain
+
 from typing_extensions import Self
 
 from llm_agents_from_scratch.agent.templates import (
@@ -8,6 +11,8 @@ from llm_agents_from_scratch.agent.templates import (
 )
 from llm_agents_from_scratch.base import LLM
 from llm_agents_from_scratch.base.tool import Tool
+from llm_agents_from_scratch.errors import LLMAgentBuilderError
+from llm_agents_from_scratch.tools import MCPTool
 from llm_agents_from_scratch.tools.mcp import MCPToolProvider
 
 from .llm_agent import LLMAgent
@@ -61,4 +66,20 @@ class LLMAgentBuilder:
 
     async def build(self) -> LLMAgent:
         """Build an LLMAgent."""
-        raise NotImplementedError
+        if not self.llm:
+            raise LLMAgentBuilderError("`llm` must be set")
+
+        # discover tools for mcp providers
+        coros = []
+        for provider in self.mcp_providers:
+            coro = provider.get_tools()
+            coros.append(coro)
+
+        discovered_tools: list[list[MCPTool]] = await asyncio.gather(*coros)
+        mcp_tools = list(chain.from_iterable(discovered_tools))
+
+        return LLMAgent(
+            llm=self.llm,
+            tools=self.tools + mcp_tools,
+            templates=self.templates,
+        )

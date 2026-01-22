@@ -1,4 +1,4 @@
-from .agent import LLMAgentError, MaxStepsReachedError
+from .agent import LLMAgentBuilderError, LLMAgentError, MaxStepsReachedError
 from .core import (
     LLMAgentsFromScratchError,
     LLMAgentsFromScratchWarning,
@@ -14,6 +14,7 @@ __all__ = [
     "MissingExtraError",
     # agent
     "LLMAgentError",
+    "LLMAgentBuilderError",
     "MaxStepsReachedError",
     # mcp
     "MCPError",

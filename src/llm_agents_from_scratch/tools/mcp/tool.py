@@ -20,7 +20,28 @@ class MCPTool(AsyncBaseTool):
         params_json_schema: dict[str, Any],
         additional_annotations: ToolAnnotations | None = None,
     ) -> None:
-        """Initialize an MCP Tool."""
+        """Initialize an MCP Tool.
+
+        Note:
+            It is highly recommended to use `MCPToolProvider.get_tools()` to
+            create MCPTool instances. It automatically names tools as
+            "{provider_name}.{server_tool_name}" to avoid collisions across
+            providers. When the tool is invoked, the provider prefix is
+            stripped to call the tool by its original server-side name.
+
+        Args:
+            provider (MCPToolProvider): The provider that owns this tool and
+                manages the connection to the MCP server.
+            name (str): The fully qualified tool name. When created via
+                `provider.get_tools()`, this follows the format
+                "{provider_name}.{server_tool_name}".
+            desc (str): A description of what the tool does.
+            params_json_schema (dict[str, Any]): JSON schema defining the
+                tool's input parameters.
+            additional_annotations (ToolAnnotations | None, optional):
+                Additional MCP tool annotations (hints for clients).
+                Defaults to None.
+        """
         self.provider = provider
         self._name = name
         self._desc = desc
@@ -58,4 +79,16 @@ class MCPTool(AsyncBaseTool):
         Returns:
             ToolCallResult: The tool call result.
         """
-        raise NotImplementedError  # pragma: no cover
+        # initiate session with the MCP server
+        async with self.provider.session() as session:
+            # call tool
+            result = await session.call_tool(
+                name=self.name.removeprefix(self.provider.name + "."),
+                arguments=tool_call.arguments,
+            )
+
+        return ToolCallResult(
+            tool_call_id=tool_call.id_,
+            content=[el.model_dump() for el in result.content],
+            error=result.isError,
+        )

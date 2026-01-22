@@ -28,7 +28,41 @@ class LLMAgentBuilder:
         templates: LLMAgentTemplates = default_templates,
         mcp_providers: list[MCPToolProvider] | None = None,
     ) -> None:
-        """Initialize an LLMAgentBuilder."""
+        """Initialize an LLMAgentBuilder.
+
+        All parameters can also be set via fluent `with_*` builder methods for
+        chained configuration.
+
+        Examples:
+            Fluent style::
+
+                agent = await (
+                    LLMAgentBuilder()
+                    .with_llm(llm)
+                    .with_tool(my_tool)
+                    .with_mcp_provider(provider)
+                    .build()
+                )
+
+            Direct params::
+
+                agent = await LLMAgentBuilder(
+                    llm=llm,
+                    tools=[my_tool],
+                    mcp_providers=[provider],
+                ).build()
+
+        Args:
+            llm (LLM | None, optional): The backbone LLM for the agent.
+                Required before calling `build()`. Defaults to None.
+            tools (list[Tool] | None, optional): Initial list of tools to
+                equip the agent with. Defaults to None.
+            templates (LLMAgentTemplates, optional): Prompt templates for
+                the agent. Defaults to `default_templates`.
+            mcp_providers (list[MCPToolProvider] | None, optional): MCP
+                providers for tool discovery. Tools are fetched during
+                `build()`. Defaults to None.
+        """
         self.llm = llm
         self.templates = templates
         self.mcp_providers = mcp_providers or []

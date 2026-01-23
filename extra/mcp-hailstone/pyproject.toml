@@ -1,0 +1,10 @@
+[project]
+name = "mcp-hailstone"
+version = "0.1.0"
+description = "A simple MCP server for the Hailstone tool."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+authors = [
+  {name = "Andrei Fajardo", email = "andrei@nerdai.io"}
+]

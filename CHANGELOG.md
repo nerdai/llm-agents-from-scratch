@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- ...
+
+## [0.0.13] - 2026-01-24
+
 ### Added
 
 - feat: Add LLMAgentBuilder (#329)

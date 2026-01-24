@@ -2,26 +2,26 @@
 !include ../common/book-clean.puml
 
 * LLM Agent
-**_ Stage 3
-*** human in the loop
-*** memory
-**_ Stage 4
+**_ Part 3
 *** A2A
+**** LLM Agent
+**** LLM Agent
 **** LLM Agent
 **** LLM Agent
 **** LLM Agent
 
 left side
 
-**_ Stage 1
+**_ Part 1
 *** Tools
 **** SimpleFunction
 **** PydanticFunction
 *** LLM
 **** Ollama
-
-**_ Stage 2
+**_ Part 2
 *** MCP Tools
-
+*** Skills
+*** Human in the Loop
+*** Memory
 
 @endmindmap

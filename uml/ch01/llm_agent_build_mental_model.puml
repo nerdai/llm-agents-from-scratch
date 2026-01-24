@@ -3,10 +3,9 @@
 
 * LLM Agent
 **_ Stage 3
-*** human in the loop
-*** memory
-**_ Stage 4
 *** A2A
+**** LLM Agent
+**** LLM Agent
 **** LLM Agent
 **** LLM Agent
 **** LLM Agent
@@ -19,9 +18,10 @@ left side
 **** PydanticFunction
 *** LLM
 **** Ollama
-
 **_ Stage 2
 *** MCP Tools
-
+*** Skills
+*** Human in the Loop
+*** Memory
 
 @endmindmap

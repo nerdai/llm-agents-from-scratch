@@ -178,6 +178,6 @@ async def test_list_tools_stdio_client(
 
     assert len(mcp_tools) == 1
     assert mcp_tools[0].description == "mock_desc"
-    assert mcp_tools[0].name == "mock_provider.mock_tool"
+    assert mcp_tools[0].name == "mcp__mock_provider__mock_tool"
     assert mcp_tools[0].parameters_json_schema == {"param1": {"type": "number"}}
     assert mcp_tools[0].additional_annotations is None

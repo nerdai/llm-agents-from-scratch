@@ -31,7 +31,7 @@ class MCPToolProvider:
         Args:
             name (str): A name identifier for this provider. Used to prefix
                 tool names when creating MCPTool instances (e.g.,
-                "{name}.{tool_name}").
+                "mcp__{name}__{tool_name}").
             stdio_params (StdioServerParameters | None, optional): Parameters
                 for connecting to an MCP server via stdio. If both this and
                 `streamable_http_url` are provided, stdio will be used and
@@ -102,7 +102,7 @@ class MCPToolProvider:
         return [
             MCPTool(
                 provider=self,
-                name=f"{self.name}.{tool.name}",
+                name=f"mcp__{self.name}__{tool.name}",
                 desc=tool.description,
                 params_json_schema=tool.inputSchema,
                 additional_annotations=tool.annotations,

@@ -8,7 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
-- ...
+### Changed
+
+- refactor: use same MCP tool namespacing as Claude Code (#337)
 
 ## [0.0.13] - 2026-01-24
 

@@ -79,13 +79,13 @@ class MCPTool(AsyncBaseTool):
         Returns:
             ToolCallResult: The tool call result.
         """
-        # initiate session with the MCP server
-        async with self.provider.session() as session:
-            # call tool
-            result = await session.call_tool(
-                name=self.name.removeprefix(self.provider.name + "."),
-                arguments=tool_call.arguments,
-            )
+        # get established session with the MCP server
+        session = await self.provider.session()
+        # call tool
+        result = await session.call_tool(
+            name=self.name.removeprefix(self.provider.name + "."),
+            arguments=tool_call.arguments,
+        )
 
         return ToolCallResult(
             tool_call_id=tool_call.id_,

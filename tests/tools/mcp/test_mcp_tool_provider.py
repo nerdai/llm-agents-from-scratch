@@ -113,8 +113,7 @@ async def test_session_creation(
         stdio_params=stdio_params,
     )
 
-    async with stdio_provider.session() as _session:
-        pass
+    await stdio_provider.session()
 
     mock_stdio_client.assert_called_once()
     mock_client_session_cls.assert_called_once()
@@ -144,8 +143,7 @@ async def test_session_creation_streamable_http(
         streamable_http_url="http://mock-url.io",
     )
 
-    async with streamablehttp_provider.session() as _session:
-        pass
+    await streamablehttp_provider.session()
 
     mock_streamablehttp_client.assert_called_once()
     mock_client_session_cls.assert_called_once()

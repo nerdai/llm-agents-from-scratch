@@ -1,8 +1,8 @@
 """MCP Tool Provider."""
 
+import asyncio
 import warnings
-from contextlib import asynccontextmanager
-from typing import TYPE_CHECKING, AsyncIterator
+from typing import TYPE_CHECKING
 
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
@@ -65,39 +65,74 @@ class MCPToolProvider:
         self.name = name
         self.stdio_params = stdio_params
         self.streamable_http_url = streamable_http_url
+        self._shutdown_event = asyncio.Event()
+        self._session_ready = asyncio.Event()
+        self._session_task: asyncio.Task | None = None
+        self._session: ClientSession | None = None
 
-    @asynccontextmanager
-    async def session(self) -> AsyncIterator[ClientSession]:
-        """An async context manager for creating a client session.
+    async def _maintain_session(self) -> None:
+        """Maintain persistent session until shutdown signal.
 
-        Yields:
-            ClientSession: An initialized MCP client session. Automatically
-                closed when exiting the context.
+        This method runs as a background task, keeping the MCP session
+        alive by holding the context managers open. When the shutdown
+        event is set, the context managers exit gracefully.
         """
         if self.stdio_params:
             async with stdio_client(self.stdio_params) as (read, write):  # noqa: SIM117
                 async with ClientSession(read, write) as session:
                     await session.initialize()
-                    yield session
+                    self._session = session
+                    self._session_ready.set()
+
+                    # Wait for shutdown signal
+                    await self._shutdown_event.wait()
         else:
             async with streamablehttp_client(self.streamable_http_url) as (  # noqa: SIM117
                 read_stream,
                 write_stream,
                 _,
             ):
-                # Create a session using the client streams
                 async with ClientSession(read_stream, write_stream) as session:
                     await session.initialize()
-                    yield session
+                    self._session = session
+                    self._session_ready.set()
+
+                    # Wait for shutdown signal
+                    await self._shutdown_event.wait()
+
+    async def _ensure_session(self) -> None:
+        """Start session task if not already running."""
+        if self._session_task is None:
+            self._session_task = asyncio.create_task(self._maintain_session())
+            # Wait for session ready signal
+            await self._session_ready.wait()
+
+    async def session(self) -> ClientSession:
+        """Get the persistent session.
+
+        Returns:
+            ClientSession: An initialized MCP client session.
+
+        Note:
+            This method uses lazy initialization - the session is created
+            on the first call and reused for subsequent calls.
+        """
+        await self._ensure_session()
+        return self._session  # type: ignore[return-value]
 
     async def get_tools(self) -> list["MCPTool"]:
-        """Fetch tools from the MCP server and create MCPTool instances."""
+        """Fetch tools from the MCP server and create MCPTool instances.
+
+        Returns:
+            list[MCPTool]: A list of MCPTool instances representing the
+                tools available from the MCP server.
+        """
         from llm_agents_from_scratch.tools.mcp.tool import (  # noqa: PLC0415
             MCPTool,
         )
 
-        async with self.session() as session:
-            response = await session.list_tools()
+        session = await self.session()
+        response = await session.list_tools()
 
         return [
             MCPTool(
@@ -109,3 +144,22 @@ class MCPToolProvider:
             )
             for tool in response.tools
         ]
+
+    async def close(self) -> None:
+        """Close the persistent session and clean up resources.
+
+        Note:
+            For short-lived scripts, calling close() is optional as the OS
+            will clean up subprocess resources when your program exits.
+            For long-running applications, you should call close() to
+            prevent resource leaks.
+        """
+        if self._session_task:
+            self._shutdown_event.set()
+            try:
+                await self._session_task
+            finally:
+                self._session = None
+                self._session_task = None
+                self._shutdown_event.clear()
+                self._session_ready.clear()

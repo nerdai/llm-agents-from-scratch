@@ -79,7 +79,6 @@ class MCPTool(AsyncBaseTool):
         Returns:
             ToolCallResult: The tool call result.
         """
-        # get established session with the MCP server
         session = await self.provider.session()
         # call tool
         result = await session.call_tool(

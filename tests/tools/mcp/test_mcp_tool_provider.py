@@ -113,11 +113,11 @@ async def test_session_creation(
         stdio_params=stdio_params,
     )
 
-    async with stdio_provider.session() as _session:
-        pass
+    await stdio_provider.session()
 
     mock_stdio_client.assert_called_once()
     mock_client_session_cls.assert_called_once()
+    assert stdio_provider._session_ready.is_set()
 
 
 @pytest.mark.asyncio
@@ -144,11 +144,11 @@ async def test_session_creation_streamable_http(
         streamable_http_url="http://mock-url.io",
     )
 
-    async with streamablehttp_provider.session() as _session:
-        pass
+    await streamablehttp_provider.session()
 
     mock_streamablehttp_client.assert_called_once()
     mock_client_session_cls.assert_called_once()
+    assert streamablehttp_provider._session_ready.is_set()
 
 
 @pytest.mark.asyncio
@@ -181,3 +181,37 @@ async def test_list_tools_stdio_client(
     assert mcp_tools[0].name == "mcp__mock_provider__mock_tool"
     assert mcp_tools[0].parameters_json_schema == {"param1": {"type": "number"}}
     assert mcp_tools[0].additional_annotations is None
+
+
+@pytest.mark.asyncio
+@patch("llm_agents_from_scratch.tools.mcp.provider.stdio_client")
+@patch("llm_agents_from_scratch.tools.mcp.provider.ClientSession")
+async def test_close(
+    mock_client_session_cls: AsyncMock,
+    mock_stdio_client: AsyncMock,
+    mock_stdio_client_transport: AsyncContextManager[Any],
+    mock_client_session: Callable[..., AsyncContextManager[AsyncMock]],
+) -> None:
+    """Test closing of session."""
+    # Set up the mock to return the async context manager
+    mock_stdio_client.side_effect = mock_stdio_client_transport
+    mock_client_session_cls.side_effect = mock_client_session
+
+    stdio_params = StdioServerParameters(
+        command="uv run",
+        args=["fake.py"],
+    )
+    stdio_provider = MCPToolProvider(
+        name="mock_provider",
+        stdio_params=stdio_params,
+    )
+
+    await stdio_provider.session()
+    assert stdio_provider._session_ready.is_set()
+    assert not stdio_provider._shutdown_event.is_set()
+
+    # act
+    await stdio_provider.close()
+    assert not stdio_provider._shutdown_event.is_set()
+    assert stdio_provider._session is None
+    assert stdio_provider._session_task is None

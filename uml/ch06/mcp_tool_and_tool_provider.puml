@@ -40,6 +40,6 @@ package "llm_agents_from_scratch.tools.mcp" <<Folder>> {
 ' Relations
 AsyncBaseTool <|-- MCPTool : " inherits"
 MCPToolProvider --> MCPTool : " creates"
-MCPTool --> MCPToolProvider : " provider"
+MCPTool --> MCPToolProvider : " references"
 
 @enduml

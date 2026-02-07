@@ -1,0 +1,45 @@
+@startuml mcp_tool_and_tool_provider
+!include ../common/book-clean.puml
+
+package "llm_agents_from_scratch.base.tool" <<Folder>> {
+  abstract class AsyncBaseTool {
+    +name: str
+    +description: str
+    +parameters_json_schema: dict[str, Any]
+    --
+    +<<async>> __call__(tool_call: ToolCall): ToolCallResult
+  }
+}
+
+package "llm_agents_from_scratch.tools.mcp" <<Folder>> {
+
+  class MCPToolProvider {
+    +name: str
+    +stdio_params: mcp.StdioServerParameters | None
+    +streamable_http_url: str | None
+    -_shutdown_event: asyncio.Event
+    -_session_ready: asyncio.Event
+    -_session_task: asyncio.Task | None
+    -_session: mcp.ClientSession | None
+    --
+    +__init__(\n\tname: str,\n\tstdio_params: mcp.StdioServerParameters | None,\n\tstreamable_http_url: str | None\n)
+    +<<async>> get_tools(): list[MCPTool]
+    +<<async>> session(): mcp.ClientSession
+    +<<async>> close(): None
+    -<<async>> _maintain_session(): None
+    -<<async>> _ensure_session(): None
+  }
+
+  class MCPTool {
+    +provider: MCPToolProvider
+    --
+    +__init__(\n\tprovider: MCPToolProvider,\n\tname: str,\n\tdesc: str,\n\tparams_json_schema: dict[str, Any],\n\tadditional_annotations: mcp.ToolAnnotations | None\n)
+  }
+}
+
+' Relations
+AsyncBaseTool <|-- MCPTool : " inherits"
+MCPToolProvider "1" --> "*" MCPTool : " creates"
+MCPTool --> MCPToolProvider : " provider"
+
+@enduml

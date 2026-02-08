@@ -65,6 +65,7 @@ class MCPToolProvider:
         self.name = name
         self.stdio_params = stdio_params
         self.streamable_http_url = streamable_http_url
+        # initialize session management attributes
         self._shutdown_event = asyncio.Event()
         self._session_ready = asyncio.Event()
         self._session_task: asyncio.Task | None = None

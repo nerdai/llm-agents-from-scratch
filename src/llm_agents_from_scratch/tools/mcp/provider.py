@@ -71,8 +71,8 @@ class MCPToolProvider:
         self._session_task: asyncio.Task | None = None
         self._session: ClientSession | None = None
 
-    async def _maintain_session(self) -> None:
-        """Maintain persistent session until shutdown signal.
+    async def _create_session(self) -> None:
+        """Create and maintain persistent session until shutdown signal.
 
         This method runs as a background task, keeping the MCP session
         alive by holding the context managers open. When the shutdown
@@ -101,13 +101,6 @@ class MCPToolProvider:
                     # Wait for shutdown signal
                     await self._shutdown_event.wait()
 
-    async def _ensure_session(self) -> None:
-        """Start session task if not already running."""
-        if self._session_task is None:
-            self._session_task = asyncio.create_task(self._maintain_session())
-            # Wait for session ready signal
-            await self._session_ready.wait()
-
     async def session(self) -> ClientSession:
         """Get the persistent session.
 
@@ -118,7 +111,9 @@ class MCPToolProvider:
             This method uses lazy initialization - the session is created
             on the first call and reused for subsequent calls.
         """
-        await self._ensure_session()
+        if not self._session_ready.is_set():
+            self._session_task = asyncio.create_task(self._create_session())
+            await self._session_ready.wait()
         return self._session  # type: ignore[return-value]
 
     async def get_tools(self) -> list["MCPTool"]:

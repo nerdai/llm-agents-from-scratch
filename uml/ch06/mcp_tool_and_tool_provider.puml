@@ -26,8 +26,7 @@ package "llm_agents_from_scratch.tools.mcp" <<Folder>> {
     +<<async>> get_tools(): list[MCPTool]
     +<<async>> session(): mcp.ClientSession
     +<<async>> close(): None
-    -<<async>> _maintain_session(): None
-    -<<async>> _ensure_session(): None
+    -<<async>> _create_session(): None
   }
 
   class MCPTool {

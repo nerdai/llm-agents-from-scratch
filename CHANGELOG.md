@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- fix: outdated naming convetion for tools MCPTool.__call__() (#359)
 - refactor: simplify MCPToolProvider session initialization (#353)
 - refactor: Use persistent sessions for MCPProviders (#338)
 - refactor: use same MCP tool namespacing as Claude Code (#337)

@@ -82,7 +82,7 @@ class MCPTool(AsyncBaseTool):
         session = await self.provider.session()
         # call tool
         result = await session.call_tool(
-            name=self.name.removeprefix(self.provider.name + "."),
+            name=self.name.removeprefix(f"mcp__{self.provider.name}__"),
             arguments=tool_call.arguments,
         )
 

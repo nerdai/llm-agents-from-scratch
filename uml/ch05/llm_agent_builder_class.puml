@@ -1,0 +1,28 @@
+@startuml llm_agent_builder_class
+!include ../common/book-clean.puml
+
+
+package "llm_agents_from_scratch.agent" <<Folder>> {
+  class LLMAgent
+
+  class LLMAgentBuilder {
+    +llm: LLM | None
+    +tools: list[Tool]
+    +templates: LLMAgentTemplates
+    +mcp_providers: list[MCPToolProvider]
+    --
+    +<<constructor>> __init__(\n\tllm: LLM | None,\n\ttools: list[Tool] | None,\n\ttemplates: LLMAgentTemplates,\n\tmcp_providers: list[MCPToolProvider] | None\n):
+    +with_llm(llm: LLM): Self
+    +with_tool(tool: Tool): Self
+    +with_tools(tools: list[Tool]): Self
+    +with_templates(templates: LLMAgentTemplates): Self
+    +with_mcp_provider(provider: MCPToolProvider): Self
+    +with_mcp_providers(providers: list[MCPToolProvider]): Self
+    +<<async>> build(): LLMAgent
+  }
+}
+
+' Relations
+LLMAgentBuilder ..> LLMAgent : " creates"
+
+@enduml

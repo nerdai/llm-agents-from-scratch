@@ -227,7 +227,7 @@ class LLMAgent:
                 self.logger.info("No new step required.")
                 retval = TaskResult(
                     task_id=self.task.id_,
-                    content=next_step.content,
+                    content=previous_step_result.content,
                 )
             else:  # next_step.kind == "next_step":
                 self.logger.info(f"🧠 New Step: {next_step.content}")

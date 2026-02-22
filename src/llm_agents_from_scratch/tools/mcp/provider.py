@@ -25,6 +25,7 @@ class MCPToolProvider:
         name: str,
         stdio_params: StdioServerParameters | None = None,
         streamable_http_url: str | None = None,
+        streamable_http_headers: dict[str, str] | None = None,
     ) -> None:
         """Initialize an MCPToolProvider.
 
@@ -39,6 +40,10 @@ class MCPToolProvider:
             streamable_http_url (str | None, optional): URL for connecting to
                 an MCP server via HTTP. Only used if `stdio_params` is None.
                 Defaults to None.
+            streamable_http_headers (dict[str, str] | None, optional): HTTP
+                headers to include with every request to the MCP server (e.g.,
+                ``{"Authorization": "Bearer <token>"}``). Only used when
+                connecting via HTTP. Defaults to None.
 
         Raises:
             MissingMCPServerParamsError: If neither `stdio_params` nor
@@ -65,6 +70,7 @@ class MCPToolProvider:
         self.name = name
         self.stdio_params = stdio_params
         self.streamable_http_url = streamable_http_url
+        self.streamable_http_headers = streamable_http_headers
         # initialize session management attributes
         self._shutdown_event = asyncio.Event()
         self._session_ready = asyncio.Event()
@@ -88,7 +94,10 @@ class MCPToolProvider:
                     # Wait for shutdown signal
                     await self._shutdown_event.wait()
         else:
-            async with streamablehttp_client(self.streamable_http_url) as (  # noqa: SIM117
+            async with streamablehttp_client(  # noqa: SIM117
+                self.streamable_http_url,
+                self.streamable_http_headers,
+            ) as (
                 read_stream,
                 write_stream,
                 _,

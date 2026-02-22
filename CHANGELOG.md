@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- refactor: use prev result content if final result LLMAgent.get_next_step() (#375)
 - feat: add headers params for streamable http (#369)
 - fix: outdated naming convetion for tools MCPTool.__call__() (#359)
 - refactor: simplify MCPToolProvider session initialization (#353)

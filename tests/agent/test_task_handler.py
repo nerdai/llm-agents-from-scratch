@@ -138,7 +138,7 @@ async def test_get_next_step_completes_task(mock_llm: BaseLLM) -> None:
     # update rollout and get next step
     expected_next_step = NextStepDecision(
         kind="final_result",
-        content="Mock result.",
+        content="",
     )
 
     magic_mock_llm = AsyncMock()
@@ -148,13 +148,13 @@ async def test_get_next_step_completes_task(mock_llm: BaseLLM) -> None:
     next_step = await handler.get_next_step(
         previous_step_result=TaskStepResult(
             task_step_id=initial_step.id_,
-            content="mock step result",
+            content="sufficient result",
         ),
     )
 
     assert initial_step.instruction == "mock instruction"
     assert isinstance(next_step, TaskResult)
-    assert next_step.content == expected_next_step.content
+    assert next_step.content == "sufficient result"  # prev step result content
 
 
 @pytest.mark.asyncio

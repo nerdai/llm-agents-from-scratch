@@ -6,6 +6,9 @@ dist/
 wheels/
 *.egg-info
 
+# book notes
+REQUIRED_BOOK_UPDATES.md
+
 # local dev
 .ipynb_checkpoints
 .__pycache__

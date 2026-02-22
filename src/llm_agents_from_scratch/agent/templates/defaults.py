@@ -36,6 +36,9 @@ CRITICAL: Statements like "I need to call monte_carlo_estimate" mean the task
 is NOT complete. Generate a next_step instruction for the assistant to execute
 that tool call.
 
+NOTE: When kind="final_result", set content to an empty string. The
+current_response will be used as the final answer.
+
 What is your decision?
 """.strip()
 

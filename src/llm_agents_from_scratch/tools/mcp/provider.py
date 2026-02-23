@@ -116,13 +116,29 @@ class MCPToolProvider:
         Returns:
             ClientSession: An initialized MCP client session.
 
+        Raises:
+            Exception: Re-raises any exception encountered during session
+                creation (e.g. invalid server path, connection refused).
+
         Note:
             This method uses lazy initialization - the session is created
             on the first call and reused for subsequent calls.
         """
         if not self._session_ready.is_set():
             self._session_task = asyncio.create_task(self._create_session())
-            await self._session_ready.wait()
+            session_ready_task = asyncio.create_task(self._session_ready.wait())
+
+            # Wait for the first of the these two tasks to complete.
+            # If session_ready_task completes first, then everything is good and
+            # the session created successfully. Otherwise, the session_ready
+            # event was never set, meaning an error was encountered.
+            done, _pending = await asyncio.wait(
+                [self._session_task, session_ready_task],
+                return_when=asyncio.FIRST_COMPLETED,
+            )
+
+            if self._session_task in done:
+                self._session_task.result()  # re-raises the encountered error
         return self._session  # type: ignore[return-value]
 
     async def get_tools(self) -> list["MCPTool"]:

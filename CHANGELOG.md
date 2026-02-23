@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- ...
+
+## [0.0.14] - 2026-02-22
+
 ### Changed
 
 - fix: MCPToolProvider.session() fails silently (#376)

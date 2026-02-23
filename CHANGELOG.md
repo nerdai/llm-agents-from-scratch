@@ -8,7 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
-- ...
+### Changed
+
+- fix: add clean up of session_ready_task (#378)
 
 ## [0.0.14] - 2026-02-22
 

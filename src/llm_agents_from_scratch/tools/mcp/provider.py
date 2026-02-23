@@ -138,6 +138,7 @@ class MCPToolProvider:
             )
 
             if self._session_task in done:
+                session_ready_task.cancel()  # clean-up session ready task
                 self._session_task.result()  # re-raises the encountered error
         return self._session  # type: ignore[return-value]
 

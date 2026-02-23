@@ -154,6 +154,33 @@ async def test_session_creation_streamable_http(
 @pytest.mark.asyncio
 @patch("llm_agents_from_scratch.tools.mcp.provider.stdio_client")
 @patch("llm_agents_from_scratch.tools.mcp.provider.ClientSession")
+async def test_session_creation_raises_error(
+    mock_client_session_cls: AsyncMock,
+    mock_stdio_client: AsyncMock,
+    mock_stdio_client_transport: AsyncContextManager[Any],
+    mock_client_session: Callable[..., AsyncContextManager[AsyncMock]],
+) -> None:
+    """Tests creation of sessions."""
+    # Set up the mock to return the async context manager
+    mock_stdio_client.side_effect = mock_stdio_client_transport
+    mock_client_session_cls.side_effect = FileNotFoundError()
+
+    stdio_params = StdioServerParameters(
+        command="uv run",
+        args=["fake.py"],
+    )
+    stdio_provider = MCPToolProvider(
+        name="mock provider",
+        stdio_params=stdio_params,
+    )
+
+    with pytest.raises(FileNotFoundError):
+        await stdio_provider.session()
+
+
+@pytest.mark.asyncio
+@patch("llm_agents_from_scratch.tools.mcp.provider.stdio_client")
+@patch("llm_agents_from_scratch.tools.mcp.provider.ClientSession")
 async def test_list_tools_stdio_client(
     mock_client_session_cls: AsyncMock,
     mock_stdio_client: AsyncMock,

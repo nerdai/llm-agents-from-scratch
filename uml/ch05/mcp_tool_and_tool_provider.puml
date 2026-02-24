@@ -17,6 +17,7 @@ package "llm_agents_from_scratch.tools.mcp" <<Folder>> {
     +name: str
     +stdio_params: mcp.StdioServerParameters | None
     +streamable_http_url: str | None
+    +streamable_http_headers: dict[str, str] | None
     -_shutdown_event: asyncio.Event
     -_session_ready: asyncio.Event
     -_session_task: asyncio.Task | None

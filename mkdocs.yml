@@ -88,6 +88,7 @@ plugins:
 repo_url: https://github.com/nerdai/llm-agents-from-scratch
 repo_name: nerdai/llm-agents-from-scratch
 site_name: LLM Agents From Scratch
+site_url: https://masfromscratch.com
 theme:
   custom_dir: docs/overrides
   name: material

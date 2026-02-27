@@ -38,6 +38,16 @@ nav:
     - Chapter 3: notebooks/ch03.ipynb
     - Chapter 4: notebooks/ch04.ipynb
     - Chapter 5: notebooks/ch05.ipynb
+  - More Examples:
+    # Symlinked from more-examples/ — do not copy directly.
+    - Chapter 5:
+      - GitHub MCP: more-examples/ch05/github_mcp.ipynb
+      - GoodNews MCP: more-examples/ch05/goodnews_mcp.ipynb
+  - Capstones:
+    # Symlinked from capstones/ — do not copy directly.
+    - Capstone 1:
+      - Monte Carlo Estimation of Pi: capstones/one/capstone_1_ch05.ipynb
+      - Runpod Instructions: capstones/one/capstone_1_runpod_instructions.md
   - API Reference:
     - Base:
       - LLM: api_reference/base/llm.md

@@ -1,0 +1,16 @@
+{% if config.extra.social %}
+<div class="md-social">
+  <span class="md-social__label">Connect with the author</span>
+  {% for social in config.extra.social %}
+  <a
+    href="{{ social.link }}"
+    target="_blank"
+    rel="noopener"
+    title="{{ social.name | default(social.link) }}"
+    class="md-social__link"
+  >
+    {% include ".icons/" ~ social.icon ~ ".svg" %}
+  </a>
+  {% endfor %}
+</div>
+{% endif %}

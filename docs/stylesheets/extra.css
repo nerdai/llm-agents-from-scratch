@@ -1,0 +1,11 @@
+.md-social {
+  display: flex;
+  align-items: center;
+}
+
+.md-social__label {
+  font-size: 0.7rem;
+  color: var(--md-footer-fg-color--light);
+  margin-right: 0.5rem;
+  white-space: nowrap;
+}

@@ -1,0 +1,122 @@
+extra_css:
+  - stylesheets/extra.css
+extra:
+  generator: false
+  social:
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/nerdai/
+    - icon: fontawesome/brands/x-twitter
+      link: https://x.com/_nerdai_
+    - icon: fontawesome/brands/bluesky
+      link: https://bsky.app/profile/nerdai.bsky.social
+markdown_extensions:
+  - attr_list
+  - admonition
+  - footnotes
+  - md_in_html
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.details
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true
+nav:
+  - Home: index.md
+  - Chapter Notebooks:
+    # Symlinked from examples/ — do not copy directly.
+    # To add a new chapter: ln -s ../../examples/chXX.ipynb docs/notebooks/chXX.ipynb
+    - Chapter 2: notebooks/ch02.ipynb
+    - Chapter 3: notebooks/ch03.ipynb
+    - Chapter 4: notebooks/ch04.ipynb
+    - Chapter 5: notebooks/ch05.ipynb
+  - More Examples:
+    # Symlinked from more-examples/ — do not copy directly.
+    - Chapter 5:
+      - GitHub MCP: more-examples/ch05/github_mcp.ipynb
+      - GoodNews MCP: more-examples/ch05/goodnews_mcp.ipynb
+  - Capstones:
+    # Symlinked from capstones/ — do not copy directly.
+    - Capstone 1:
+      - Monte Carlo Estimation of Pi: capstones/one/capstone_1_ch05.ipynb
+      - Runpod Instructions: capstones/one/capstone_1_runpod_instructions.md
+  - API Reference:
+    - Base:
+      - LLM: api_reference/base/llm.md
+      - Tool: api_reference/base/tool.md
+    - Agent:
+      - LLMAgent: api_reference/agent/llm_agent.md
+      - Builder: api_reference/agent/builder.md
+    - Data Structures:
+      - Agent: api_reference/data_structures/agent.md
+      - LLM: api_reference/data_structures/llm.md
+      - Tool: api_reference/data_structures/tool.md
+    - LLMs:
+      - OllamaLLM: api_reference/llms/ollama.md
+      - OpenAILLM: api_reference/llms/openai.md
+    - Tools:
+      - Simple Function: api_reference/tools/simple_function.md
+      - Pydantic Function: api_reference/tools/pydantic_function.md
+      - MCP: api_reference/tools/mcp.md
+    - Errors: api_reference/errors/index.md
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            members_order: source
+            separate_signature: true
+            show_overloads: true
+            show_submodules: true
+            show_root_heading: false
+            show_root_full_path: true
+            show_root_toc_entry: false
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+  - mkdocs-jupyter:
+      execute: false
+repo_url: https://github.com/nerdai/llm-agents-from-scratch
+repo_name: nerdai/llm-agents-from-scratch
+site_name: LLM Agents From Scratch
+theme:
+  custom_dir: docs/overrides
+  name: material
+  features:
+    - content.code.annotate
+    - content.code.copy
+    - content.tabs.link
+    - navigation.footer
+    - navigation.indexes
+    - navigation.instant
+    - navigation.tabs
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - toc.follow
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep-purple
+      accent: orange
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: orange
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode

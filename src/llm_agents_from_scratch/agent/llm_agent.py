@@ -31,11 +31,11 @@ class LLMAgent:
     """A simple LLM Agent Class.
 
     Attributes:
-        llm: The backbone LLM
-        tools_registry: The tools the LLM agent can equip the LLM with,
-            represented as a dict.
-        templates: Prompt templates for LLM Agent.
-        logger: LLMAgent logger.
+        llm (LLM): The backbone LLM.
+        tools_registry (dict[str, Tool]): The tools the LLM agent can equip
+            the LLM with, represented as a dict.
+        templates (LLMAgentTemplates): Prompt templates for LLM Agent.
+        logger (logging.Logger): LLMAgent logger.
     """
 
     def __init__(

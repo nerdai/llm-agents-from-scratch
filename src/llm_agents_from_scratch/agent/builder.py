@@ -19,7 +19,15 @@ from .llm_agent import LLMAgent
 
 
 class LLMAgentBuilder:
-    """A builder for LLM Agents."""
+    """A builder for LLM Agents.
+
+    Attributes:
+        llm (LLM | None): The backbone LLM for the agent.
+        tools (list[Tool]): Tools to equip the agent with.
+        templates (LLMAgentTemplates): Prompt templates for the agent.
+        mcp_providers (list[MCPToolProvider]): MCP providers for tool
+            discovery.
+    """
 
     def __init__(
         self,

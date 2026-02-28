@@ -40,15 +40,15 @@ core concepts to full multi-agent systems.
 | Ch | Title | Notebook |
 | -- | ----- | -------- |
 | 1 | What Are LLM Agents and Multi-Agent Systems? | — |
-| 2 | Working with Tools | [Ch 2](https://nerdai.github.io/llm-agents-from-scratch/notebooks/ch02.ipynb) |
-| 3 | Working with LLMs | [Ch 3](https://nerdai.github.io/llm-agents-from-scratch/notebooks/ch03.ipynb) |
-| 4 | The LLM Agent Class | [Ch 4](https://nerdai.github.io/llm-agents-from-scratch/notebooks/ch04.ipynb) |
+| 2 | Working with Tools | [Ch 2](https://masfromscratch.com/notebooks/ch02/) |
+| 3 | Working with LLMs | [Ch 3](https://masfromscratch.com/notebooks/ch03/) |
+| 4 | The LLM Agent Class | [Ch 4](https://masfromscratch.com/notebooks/ch04/) |
 
 ### Part 2 — Enhance Your LLM Agent
 
 | Ch | Title | Notebook |
 | -- | ----- | -------- |
-| 5 | MCP Tools | [Ch 5](https://nerdai.github.io/llm-agents-from-scratch/notebooks/ch05.ipynb) |
+| 5 | MCP Tools | [Ch 5](https://masfromscratch.com/notebooks/ch05/) |
 | 6 | Skills | — |
 | 7 | Memory | — |
 | 8 | Human in the Loop | — |
@@ -68,7 +68,7 @@ in the book and apply it to something closer to a real-world system.
 
 | Capstone | Description | Notebook |
 | -------- | ----------- | -------- |
-| Monte Carlo Estimation of Pi | Orchestrate parallel tool calls to estimate π using the Monte Carlo method. | [Open](https://nerdai.github.io/llm-agents-from-scratch/capstones/one/capstone_1_ch05.ipynb) |
+| Monte Carlo Estimation of Pi | Orchestrate parallel tool calls to estimate π using the Monte Carlo method. | [Open](https://masfromscratch.com/capstones/one/capstone_1_ch05/) |
 | Deep Research Agent | *Coming soon.* | — |
 | OpenClaw Personal Assistant | *Coming soon.* | — |
 

@@ -9,3 +9,246 @@
   margin-right: 0.5rem;
   white-space: nowrap;
 }
+
+/* ===================== Landing Page ===================== */
+
+/* Hero */
+
+.landing-hero {
+  background: linear-gradient(135deg, #a1a397 0%, #868a80 100%);
+  border-radius: 0.5rem;
+  margin-bottom: 3rem;
+  overflow: hidden;
+  padding: 4.5rem 3.5rem;
+  position: relative;
+}
+
+.landing-hero::before {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  content: "";
+  height: 600px;
+  position: absolute;
+  right: -10%;
+  top: -40%;
+  width: 600px;
+}
+
+.landing-hero::after {
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 50%;
+  bottom: -50%;
+  content: "";
+  height: 500px;
+  left: -8%;
+  position: absolute;
+  width: 500px;
+}
+
+/* Hide auto-generated "Home" page title when the landing hero is present */
+.md-content__inner:has(.landing-hero) > h1 {
+  display: none;
+}
+
+.landing-hero__inner {
+  align-items: center;
+  display: flex;
+  gap: 3.5rem;
+  margin: 0 auto;
+  max-width: 960px;
+  position: relative;
+  z-index: 1;
+}
+
+.landing-hero__text {
+  flex: 1;
+  min-width: 0;
+}
+
+.landing-hero__text h1 {
+  color: #1a1a1a !important;
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.landing-hero__text p {
+  color: rgba(0, 0, 0, 0.65) !important;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
+.landing-hero__text .md-button {
+  border-radius: 0.3rem;
+  font-size: 0.9rem;
+  margin: 0.3rem 0.3rem 0.3rem 0;
+  padding: 0.6rem 1.4rem;
+}
+
+.landing-hero__text .md-button--primary {
+  background: #512da8;
+  border-color: #512da8;
+  color: #fff !important;
+  font-weight: 600;
+}
+
+.landing-hero__text .md-button--primary:hover {
+  background: #311b92;
+  border-color: #311b92;
+}
+
+.landing-hero__btn-secondary {
+  border-color: rgba(0, 0, 0, 0.35) !important;
+  color: rgba(0, 0, 0, 0.75) !important;
+}
+
+.landing-hero__btn-secondary:hover {
+  border-color: rgba(0, 0, 0, 0.7) !important;
+  color: #1a1a1a !important;
+}
+
+/* Book cover */
+
+.landing-hero__book {
+  flex-shrink: 0;
+  width: 280px;
+}
+
+.landing-hero__book p {
+  margin: 0 !important;
+}
+
+.landing-hero__book img {
+  display: block;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.3));
+  transform: rotate(-2.5deg);
+  transition:
+    transform 0.35s ease,
+    filter 0.35s ease;
+  width: 100%;
+}
+
+.landing-hero__book img:hover {
+  filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.4));
+  transform: rotate(0deg) scale(1.03);
+}
+
+/* Mobile */
+
+@media screen and (max-width: 680px) {
+  .landing-hero {
+    padding: 3rem 1.5rem;
+  }
+
+  .landing-hero__inner {
+    flex-direction: column-reverse;
+    gap: 2rem;
+    text-align: center;
+  }
+
+  .landing-hero__text .md-button {
+    margin: 0.3rem;
+  }
+
+  .landing-hero__book {
+    width: 180px;
+  }
+
+  .landing-hero__book img {
+    transform: rotate(0deg);
+  }
+}
+
+/* Features grid */
+
+.landing-grid {
+  display: grid;
+  gap: 1.2rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  margin: 1.5rem 0 2.5rem;
+}
+
+.landing-card {
+  background: var(--md-code-bg-color);
+  border-radius: 0.4rem;
+  border-top: 3px solid #ff9800;
+  padding: 1.5rem 1.5rem 1.2rem;
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s;
+}
+
+.landing-card:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  transform: translateY(-3px);
+}
+
+.landing-card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+}
+
+.landing-card p {
+  color: var(--md-default-fg-color--light);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.landing-card .md-button {
+  font-size: 0.8rem;
+  margin-top: 1rem;
+  padding: 0.4rem 1rem;
+}
+
+/* Book illustration */
+
+.landing-illustration {
+  display: block;
+  margin: 0.5rem auto 2rem;
+  width: 100%;
+  text-align: center;
+}
+
+.landing-illustration p {
+  margin: 0;
+  line-height: 0;
+}
+
+.landing-illustration img {
+  border-radius: 0.4rem;
+  display: block;
+  width: 100%;
+}
+
+[data-md-color-scheme="slate"] .landing-illustration img {
+  filter: invert(1) opacity(0.87);
+}
+
+.landing-illustration__caption {
+  color: var(--md-default-fg-color--light);
+  font-size: 0.8rem;
+  line-height: 1.5 !important;
+  margin-top: 0.75rem !important;
+}
+
+/* Example card variant */
+
+.landing-card--example {
+  border-top-color: #00897b;
+}
+
+/* Capstone card variant */
+
+.landing-card--capstone {
+  border-top-color: #512da8;
+}
+
+/* Coming soon card variant */
+
+.landing-card--soon {
+  opacity: 0.55;
+}

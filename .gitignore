@@ -37,3 +37,6 @@ htmlcov/
 
 # uml diagrams
 uml/rendered
+
+# mkdocs build output
+site/

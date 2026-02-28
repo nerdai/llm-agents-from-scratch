@@ -105,11 +105,12 @@ theme:
     - search.highlight
     - toc.follow
   icon:
+    logo: material/robot
     repo: fontawesome/brands/github
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: deep-purple
+      primary: black
       accent: orange
       toggle:
         icon: material/brightness-7

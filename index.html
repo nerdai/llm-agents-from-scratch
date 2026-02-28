@@ -69,13 +69,18 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="orange">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="orange">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
+      
+        
+        <a href="#build-a-multi-agent-system-from-scratch" class="md-skip">
+          Skip to content
+        </a>
       
     </div>
     <div data-md-component="announce">
@@ -90,7 +95,7 @@
     <a href="." title="LLM Agents From Scratch" class="md-header__button md-logo" aria-label="LLM Agents From Scratch" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5 2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5 2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5 2.5 2.5 0 0 0-2.5-2.5"/></svg>
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -120,7 +125,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
     
       <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
@@ -364,7 +369,9 @@
           
             
               
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -378,7 +385,7 @@
     <a href="." title="LLM Agents From Scratch" class="md-nav__button md-logo" aria-label="LLM Agents From Scratch" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5 2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5 2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5 2.5 2.5 0 0 0-2.5-2.5"/></svg>
 
     </a>
     LLM Agents From Scratch
@@ -411,6 +418,26 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="." class="md-nav__link md-nav__link--active">
         
@@ -428,6 +455,225 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#about-the-book" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        About the Book
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="About the Book">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#build-your-first-llm-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build Your First LLM Agent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enhance-your-llm-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enhance Your LLM Agent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-multi-agent-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build Multi-Agent Systems
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#from-the-book" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        From the Book
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="From the Book">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#part-1-build-your-first-llm-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 1 — Build Your First LLM Agent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#part-2-enhance-your-llm-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 2 — Enhance Your LLM Agent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#part-3-building-multi-agent-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 3 — Building Multi-Agent Systems
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#more-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        More Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="More Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#github-mcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GitHub MCP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#goodnews-mcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GoodNews MCP
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#capstone-projects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capstone Projects
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Capstone Projects">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#monte-carlo-estimation-of-pi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monte Carlo Estimation of Pi
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deep-research-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deep Research Agent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openclaw-personal-assistant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OpenClaw Personal Assistant
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#community" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Community
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1724,7 +1970,9 @@
             
             
               
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" hidden>
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -1733,6 +1981,216 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#about-the-book" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        About the Book
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="About the Book">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#build-your-first-llm-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build Your First LLM Agent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enhance-your-llm-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enhance Your LLM Agent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-multi-agent-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build Multi-Agent Systems
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#from-the-book" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        From the Book
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="From the Book">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#part-1-build-your-first-llm-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 1 — Build Your First LLM Agent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#part-2-enhance-your-llm-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 2 — Enhance Your LLM Agent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#part-3-building-multi-agent-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 3 — Building Multi-Agent Systems
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#more-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        More Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="More Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#github-mcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GitHub MCP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#goodnews-mcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GoodNews MCP
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#capstone-projects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capstone Projects
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Capstone Projects">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#monte-carlo-estimation-of-pi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monte Carlo Estimation of Pi
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deep-research-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deep Research Agent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openclaw-personal-assistant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OpenClaw Personal Assistant
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#community" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Community
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -1746,13 +2204,201 @@
               <article class="md-content__inner md-typeset">
                 
                   
+  
+
 
 
   
   
 
 
-  <h1>Home</h1>
+<!-- markdownlint-disable-file MD041 MD033 MD042 -->
+
+<div class="landing-hero">
+<div class="landing-hero__inner">
+<div class="landing-hero__text">
+<h1 id="build-a-multi-agent-system-from-scratch">Build a Multi-Agent System From Scratch<a class="headerlink" href="#build-a-multi-agent-system-from-scratch" title="Permanent link">&para;</a></h1>
+<p>The companion library for <em>Build a Multi-Agent System — With MCP and A2A</em>
+(Manning). Learn how LLM agents work by building one yourself, from first
+principles, step by step.</p>
+<p>Available now through Manning's Early Access Program (MEAP) — buy today and
+get each chapter as it's completed.</p>
+<p><a class="md-button md-button--primary" href="https://hubs.la/Q03Q0h7S0">Buy the Book <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 3.75A.75.75 0 0 1 .75 3h7.497c1.566 0 2.945.8 3.751 2.014A4.5 4.5 0 0 1 15.75 3h7.5a.75.75 0 0 1 .75.75v15.063a.75.75 0 0 1-.755.75l-7.682-.052a3 3 0 0 0-2.142.878l-.89.891a.75.75 0 0 1-1.061 0l-.902-.901a3 3 0 0 0-2.121-.879H.75a.75.75 0 0 1-.75-.75Zm12.75 15.232a4.5 4.5 0 0 1 2.823-.971l6.927.047V4.5h-6.75a3 3 0 0 0-3 3ZM11.247 7.497a3 3 0 0 0-3-2.997H1.5V18h6.947c1.018 0 2.006.346 2.803.98Z"/></svg></span></a></p>
+</div>
+<div class="landing-hero__book">
+<img src="assets/no-bg-book-cover.svg" alt="Build a Multi-Agent System book cover">
+</div>
+</div>
+</div>
+<h2 id="about-the-book">About the Book<a class="headerlink" href="#about-the-book" title="Permanent link">&para;</a></h2>
+<p>Multi-agent systems and the LLM agents that power them are among the most
+discussed topics in AI today. There are already many capable frameworks out
+there — the goal of this book isn't to replace them, but to help you deeply
+understand how they work by having you build one yourself, from scratch.</p>
+<p>All the code lives in the book's own hand-rolled agent framework, primarily
+designed for educational purposes rather than production deployment. It will
+give you the foundation to work more confidently with any other LLM agent
+framework of your choosing, or even to build your own specialised solutions.</p>
+<div class="landing-grid landing-grid--3">
+<div class="landing-card">
+<h3 id="build-your-first-llm-agent"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 7v2h2v8h2V7zm2-5a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2"/></svg></span> Build Your First LLM Agent<a class="headerlink" href="#build-your-first-llm-agent" title="Permanent link">&para;</a></h3>
+<p>Start from scratch. Understand what LLM agents and MAS really are, build
+tools with <code>SimpleFunction</code> and <code>PydanticFunction</code>, integrate a local Ollama
+LLM, and assemble the full <code>LLMAgent</code> class.</p>
+</div>
+<div class="landing-card">
+<h3 id="enhance-your-llm-agent"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 7v2h4v2h-2a2 2 0 0 0-2 2v4h6v-2h-4v-2h2a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zm3-5a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2"/></svg></span> Enhance Your LLM Agent<a class="headerlink" href="#enhance-your-llm-agent" title="Permanent link">&para;</a></h3>
+<p>Extend your agent with <strong>MCP Tools</strong>, composable <strong>Skills</strong>, short- and
+long-term <strong>Memory</strong>, and <strong>Human-in-the-Loop</strong> patterns, with each chapter
+adding a new capability on top of what you already built.</p>
+</div>
+<div class="landing-card">
+<h3 id="build-multi-agent-systems"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 15v-1.5a1.5 1.5 0 0 0-1.5-1.5 1.5 1.5 0 0 0 1.5-1.5V9a2 2 0 0 0-2-2H9v2h4v2h-2v2h2v2H9v2h4a2 2 0 0 0 2-2M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2"/></svg></span> Build Multi-Agent Systems<a class="headerlink" href="#build-multi-agent-systems" title="Permanent link">&para;</a></h3>
+<p>Connect multiple LLM agents into a collaborative MAS using the
+<strong>Agent2Agent (A2A)</strong> protocol, distributing work across agents that
+communicate, coordinate, and act together.</p>
+</div>
+</div>
+<div class="landing-illustration">
+<img src="assets/llm-agent-simple-interface.svg" alt="Diagram of the LLMAgent interface showing its LLM, tools, and run() method" style="width:100%;display:block;">
+<p class="landing-illustration__caption">The <code>LLMAgent</code> you build through the book: a backbone LLM, a set of tools, and a single <code>.run()</code> method to kick it all off.</p>
+</div>
+
+<hr />
+<h2 id="from-the-book">From the Book<a class="headerlink" href="#from-the-book" title="Permanent link">&para;</a></h2>
+<p>Each chapter builds on the last, progressively deepening your understanding
+from core concepts to full multi-agent systems:</p>
+<h3 id="part-1-build-your-first-llm-agent">Part 1 — Build Your First LLM Agent<a class="headerlink" href="#part-1-build-your-first-llm-agent" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Ch</th>
+<th>Title</th>
+<th>Notebook</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>What Are LLM Agents and Multi-Agent Systems?</td>
+<td>—</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Working with Tools</td>
+<td><a href="notebooks/ch02/">Ch 2</a></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Working with LLMs</td>
+<td><a href="notebooks/ch03/">Ch 3</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td>The LLM Agent Class</td>
+<td><a href="notebooks/ch04/">Ch 4</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="part-2-enhance-your-llm-agent">Part 2 — Enhance Your LLM Agent<a class="headerlink" href="#part-2-enhance-your-llm-agent" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Ch</th>
+<th>Title</th>
+<th>Notebook</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5</td>
+<td>MCP Tools</td>
+<td><a href="notebooks/ch05/">Ch 5</a></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Skills</td>
+<td>—</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Memory</td>
+<td>—</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Human in the Loop</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h3 id="part-3-building-multi-agent-systems">Part 3 — Building Multi-Agent Systems<a class="headerlink" href="#part-3-building-multi-agent-systems" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Ch</th>
+<th>Title</th>
+<th>Notebook</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>9</td>
+<td>Multi-Agent Systems with Agent2Agent</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="more-examples">More Examples<a class="headerlink" href="#more-examples" title="Permanent link">&para;</a></h2>
+<p>A selection of additional worked examples showing the framework applied to real
+integrations. Each explores a different use case you can adapt for your own
+projects.</p>
+<div class="landing-grid">
+<div class="landing-card landing-card--example">
+<h3 id="github-mcp"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"/></svg></span> GitHub MCP<a class="headerlink" href="#github-mcp" title="Permanent link">&para;</a></h3>
+<p>Walk through connecting the agent to the official GitHub MCP server. Discover
+its available tools and run a simple query — a hands-on look at real-world MCP
+integration.</p>
+<p><a class="md-button md-button--primary" href="more-examples/ch05/github_mcp/">Open Notebook</a></p>
+</div>
+<div class="landing-card landing-card--example">
+<h3 id="goodnews-mcp"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 5v14H4V5zm0-2H4c-1.11 0-2 .89-2 2v14c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2m-2 12H6v2h12zm-8-8H6v6h4zm2 2h6V7h-6zm6 2h-6v2h6z"/></svg></span> GoodNews MCP<a class="headerlink" href="#goodnews-mcp" title="Permanent link">&para;</a></h3>
+<p>Connect to the GoodNews MCP server to get good news delivered straight to your
+LLM agent.</p>
+<p><a class="md-button md-button--primary" href="more-examples/ch05/goodnews_mcp/">Open Notebook</a></p>
+</div>
+</div>
+<p><a class="md-button" href="more-examples/ch05/github_mcp/">Browse all examples <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"/></svg></span></a></p>
+<hr />
+<h2 id="capstone-projects">Capstone Projects<a class="headerlink" href="#capstone-projects" title="Permanent link">&para;</a></h2>
+<p>Capstones are larger, end-to-end projects that pull together what you have
+built in the book and apply it to something closer to a real-world system.</p>
+<div class="landing-grid">
+<div class="landing-card landing-card--capstone">
+<h3 id="monte-carlo-estimation-of-pi"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 5v2h2v12h2V7h6v9a3 3 0 0 0 3 3 3 3 0 0 0 3-3h-2a1 1 0 0 1-1 1 1 1 0 0 1-1-1V7h2V5"/></svg></span> Monte Carlo Estimation of Pi<a class="headerlink" href="#monte-carlo-estimation-of-pi" title="Permanent link">&para;</a></h3>
+<p>Orchestrate parallel tool calls to estimate π using the Monte Carlo method.
+A great first capstone that exercises the full <code>LLMAgent</code> class.</p>
+<p><a class="md-button md-button--primary" href="capstones/one/capstone_1_ch05/">Open Notebook</a></p>
+</div>
+<div class="landing-card landing-card--capstone landing-card--soon">
+<h3 id="deep-research-agent"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg></span> Deep Research Agent<a class="headerlink" href="#deep-research-agent" title="Permanent link">&para;</a></h3>
+<p><em>Coming soon.</em> An autonomous research agent that plans searches, synthesises
+results, and produces structured reports on any topic you give it.</p>
+</div>
+<div class="landing-card landing-card--capstone landing-card--soon">
+<h3 id="openclaw-personal-assistant"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.5 15.5c0 1.11-.89 2-2 2s-2-.89-2-2 .9-2 2-2 2 .9 2 2m-9-2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.89 2-2-.89-2-2-2M23 15v3c0 .55-.45 1-1 1h-1v1c0 1.11-.89 2-2 2H5a2 2 0 0 1-2-2v-1H2c-.55 0-1-.45-1-1v-3c0-.55.45-1 1-1h1c0-3.87 3.13-7 7-7h1V5.73c-.6-.34-1-.99-1-1.73 0-1.1.9-2 2-2s2 .9 2 2c0 .74-.4 1.39-1 1.73V7h1c3.87 0 7 3.13 7 7h1c.55 0 1 .45 1 1m-2 1h-2v-2c0-2.76-2.24-5-5-5h-4c-2.76 0-5 2.24-5 5v2H3v1h2v3h14v-3h2z"/></svg></span> OpenClaw Personal Assistant<a class="headerlink" href="#openclaw-personal-assistant" title="Permanent link">&para;</a></h3>
+<p><em>Coming soon.</em> Build a personal assistant with persistent memory, skill
+composition, and human-in-the-loop checkpoints using your own framework.</p>
+</div>
+</div>
+<p><a class="md-button" href="capstones/one/capstone_1_ch05/">Browse all capstones <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"/></svg></span></a></p>
+<hr />
+<h2 id="community">Community<a class="headerlink" href="#community" title="Permanent link">&para;</a></h2>
+<p>The framework is open source and built to be extended. Have you built a new
+tool integration, a custom agent, or an interesting notebook? Share it with
+other readers. A dedicated community showcase page is in the works.</p>
+<p><a class="md-button md-button--primary" href="https://github.com/nerdai/llm-agents-from-scratch/discussions">Share on GitHub Discussions <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg></span></a></p>
 
 
 
@@ -1760,10 +2406,13 @@
 
 
 
+  
+  
 
 
 
 
+  
 
 
 
@@ -1788,6 +2437,8 @@
         <footer class="md-footer">
   
     
+      
+        
       
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         

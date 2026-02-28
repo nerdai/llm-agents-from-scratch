@@ -225,13 +225,14 @@
 }
 
 [data-md-color-scheme="slate"] .landing-illustration img {
-  filter: invert(1);
+  filter: invert(1) opacity(0.87);
 }
 
-.landing-illustration figcaption {
+.landing-illustration__caption {
   color: var(--md-default-fg-color--light);
   font-size: 0.8rem;
-  margin-top: 0.75rem;
+  line-height: 1.5 !important;
+  margin-top: 0.75rem !important;
 }
 
 /* Example card variant */

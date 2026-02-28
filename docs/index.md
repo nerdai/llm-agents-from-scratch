@@ -68,10 +68,10 @@ communicate, coordinate, and act together.
 
 </div>
 
-<figure class="landing-illustration">
+<div class="landing-illustration">
 <img src="assets/llm-agent-simple-interface.svg" alt="Diagram of the LLMAgent interface showing its LLM, tools, and run() method" style="width:100%;display:block;">
-<figcaption>The <code>LLMAgent</code> you build through the book: a backbone LLM, a set of tools, and a single <code>.run()</code> method to kick it all off.</figcaption>
-</figure>
+<p class="landing-illustration__caption">The <code>LLMAgent</code> you build through the book: a backbone LLM, a set of tools, and a single <code>.run()</code> method to kick it all off.</p>
+</div>
 
 ---
 

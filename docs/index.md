@@ -40,6 +40,11 @@ designed for educational purposes rather than production deployment. It will
 give you the foundation to work more confidently with any other LLM agent
 framework of your choosing, or even to build your own specialised solutions.
 
+<div class="landing-illustration">
+<img src="assets/llm_agent_build_mental_model.svg" alt="Mind map showing how Parts 1, 2, and 3 build from Tools and LLMs into an LLM Agent and then a full Multi-Agent System" style="width:100%;display:block;">
+<p class="landing-illustration__caption">The book's learning arc: build the foundations in Part 1, extend your agent in Part 2, and connect agents into a full MAS in Part 3.</p>
+</div>
+
 <div class="landing-grid landing-grid--3" markdown>
 
 <div class="landing-card" markdown>

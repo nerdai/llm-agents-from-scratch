@@ -61,7 +61,7 @@ pre-commit install
 # Run all tests
 make test
 
-# Lint (ruff, mypy, isort, codespell)
+# Lint (ruff, mypy)
 make lint
 
 # Format (ruff)

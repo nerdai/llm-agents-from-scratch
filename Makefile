@@ -5,7 +5,7 @@ format:	## Run code autoformatters (ruff).
 	pre-commit install
 	git ls-files | xargs pre-commit run ruff-format --files
 
-lint:	## Run linters: pre-commit (ruff, codespell) and mypy
+lint:	## Run linters: pre-commit (ruff, mypy)
 	pre-commit install && git ls-files | xargs pre-commit run --show-diff-on-failure --files
 
 test:

@@ -21,7 +21,7 @@ pytest tests/test_file.py -v --capture=no
 # Run a specific test
 pytest tests/test_file.py::test_function_name -v
 
-# Lint and format (runs pre-commit hooks: ruff, mypy, codespell)
+# Lint and format (runs pre-commit hooks: ruff, mypy)
 make lint
 
 # Format only (ruff)
@@ -64,6 +64,7 @@ The library uses abstract base classes with type aliases for flexibility:
 ### Data Structures (Pydantic Models)
 
 All in `data_structures/`:
+
 - **Task pipeline**: `Task` → `TaskStep` → `TaskStepResult` → `TaskResult`
 - **LLM communication**: `ChatMessage`, `ChatRole`, `CompleteResult`
 - **Tool invocation**: `ToolCall`, `ToolCallResult`
@@ -72,6 +73,7 @@ All in `data_structures/`:
 ### Error Hierarchy
 
 Base: `LLMAgentsFromScratchError` (`errors/core.py`)
+
 - `LLMAgentError` → `LLMAgentBuilderError`, `MaxStepsReachedError`
 - `MCPError` → `MissingMCPServerParamsError`
 - `TaskHandlerError`

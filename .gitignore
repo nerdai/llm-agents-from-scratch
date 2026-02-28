@@ -40,3 +40,7 @@ uml/rendered
 
 # mkdocs build output
 site/
+
+# capstone variants (non-default LLM backends)
+capstones/one/_capstone_1_ch05-gpt5.ipynb
+capstones/one/_capstone_1_ch05-openai.ipynb

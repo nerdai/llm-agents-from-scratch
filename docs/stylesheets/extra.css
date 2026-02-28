@@ -197,3 +197,21 @@
   line-height: 1.6;
   margin: 0;
 }
+
+.landing-card .md-button {
+  font-size: 0.8rem;
+  margin-top: 1rem;
+  padding: 0.4rem 1rem;
+}
+
+/* Capstone card variant */
+
+.landing-card--capstone {
+  border-top-color: #512da8;
+}
+
+/* Coming soon card variant */
+
+.landing-card--soon {
+  opacity: 0.55;
+}

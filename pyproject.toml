@@ -4,11 +4,9 @@ build-backend = "hatchling.build"
 
 [dependency-groups]
 dev = [
-  "black>=24.10.0",
   "codespell>=2.3.0",
   "fire>=0.7.0",
   "ipykernel>=6.29.5",
-  "isort>=5.13.2",
   "mypy>=1.14.1",
   "pre-commit>=4.1.0",
   "pylint>=3.3.3",

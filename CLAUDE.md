@@ -21,10 +21,10 @@ pytest tests/test_file.py -v --capture=no
 # Run a specific test
 pytest tests/test_file.py::test_function_name -v
 
-# Lint and format (runs pre-commit hooks: ruff, mypy, isort, codespell)
+# Lint and format (runs pre-commit hooks: ruff, mypy, codespell)
 make lint
 
-# Format only (black)
+# Format only (ruff)
 make format
 
 # Coverage
@@ -82,7 +82,7 @@ Base: `LLMAgentsFromScratchError` (`errors/core.py`)
 - **Line length**: 80 characters
 - **Docstrings**: Google style (enforced by ruff)
 - **Type hints**: Required throughout (mypy strict mode with `disallow_untyped_defs`)
-- **Imports**: Sorted with isort (black profile, line-length 79)
+- **Imports**: Sorted by ruff (isort rules, black profile, line-length 79)
 
 ## Testing
 

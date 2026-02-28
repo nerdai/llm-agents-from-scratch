@@ -16,8 +16,10 @@ The companion library for *Build a Multi-Agent System — With MCP and A2A*
 (Manning). Learn how LLM agents work by building one yourself, from first
 principles, step by step.
 
-[Get Started :octicons-arrow-right-24:](notebooks/ch02.ipynb){ .md-button .md-button--primary }
-[GitHub :fontawesome-brands-github:](https://github.com/nerdai/llm-agents-from-scratch){ .md-button .landing-hero__btn-secondary }
+Available now through Manning's Early Access Program (MEAP) — buy today and
+get each chapter as it's completed.
+
+[Buy the Book :octicons-book-24:](https://hubs.la/Q03Q0h7S0){ .md-button .md-button--primary }
 
 </div>
 <div class="landing-hero__book">
@@ -66,6 +68,11 @@ communicate, coordinate, and act together.
 
 </div>
 
+<figure class="landing-illustration">
+<img src="assets/llm-agent-simple-interface.svg" alt="Diagram of the LLMAgent interface showing its LLM, tools, and run() method" style="width:100%;display:block;">
+<figcaption>The <code>LLMAgent</code> you build through the book: a backbone LLM, a set of tools, and a single <code>.run()</code> method to kick it all off.</figcaption>
+</figure>
+
 ---
 
 ## From the Book
@@ -107,7 +114,7 @@ projects.
 
 <div class="landing-grid" markdown>
 
-<div class="landing-card" markdown>
+<div class="landing-card landing-card--example" markdown>
 ### :material-github: GitHub MCP
 
 Walk through connecting the agent to the official GitHub MCP server. Discover
@@ -117,7 +124,7 @@ integration.
 [Open Notebook](more-examples/ch05/github_mcp.ipynb){ .md-button .md-button--primary }
 </div>
 
-<div class="landing-card" markdown>
+<div class="landing-card landing-card--example" markdown>
 ### :material-newspaper-variant-outline: GoodNews MCP
 
 Connect to the GoodNews MCP server to get good news delivered straight to your

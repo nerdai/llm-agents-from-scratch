@@ -105,6 +105,7 @@ theme:
     - search.highlight
     - toc.follow
   icon:
+    logo: material/robot
     repo: fontawesome/brands/github
   palette:
     - media: "(prefers-color-scheme: light)"

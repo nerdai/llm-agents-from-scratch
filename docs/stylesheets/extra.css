@@ -204,6 +204,42 @@
   padding: 0.4rem 1rem;
 }
 
+/* Book illustration */
+
+.landing-illustration {
+  display: block;
+  margin: 0.5rem auto 2rem;
+  width: 100%;
+  text-align: center;
+}
+
+.landing-illustration p {
+  margin: 0;
+  line-height: 0;
+}
+
+.landing-illustration img {
+  border-radius: 0.4rem;
+  display: block;
+  width: 100%;
+}
+
+[data-md-color-scheme="slate"] .landing-illustration img {
+  filter: invert(1);
+}
+
+.landing-illustration figcaption {
+  color: var(--md-default-fg-color--light);
+  font-size: 0.8rem;
+  margin-top: 0.75rem;
+}
+
+/* Example card variant */
+
+.landing-card--example {
+  border-top-color: #00897b;
+}
+
 /* Capstone card variant */
 
 .landing-card--capstone {

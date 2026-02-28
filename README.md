@@ -12,7 +12,7 @@ The companion library for *Build a Multi-Agent System — With MCP and A2A*
 principles, step by step.
 
 > **Available now through Manning's Early Access Program (MEAP)** — buy today and get each chapter as it's completed.
-> [Buy the Book →](https://hubs.la/Q03Q0h7S0)
+> [Buy the Book →](https://hubs.la/Q03Q0h770)
 
 ---
 
@@ -39,25 +39,25 @@ core concepts to full multi-agent systems.
 
 | Ch | Title | Notebook |
 | -- | ----- | -------- |
-| 1  | What Are LLM Agents and Multi-Agent Systems? | — |
-| 2  | Working with Tools | [Ch 2](https://nerdai.github.io/llm-agents-from-scratch/notebooks/ch02.ipynb) |
-| 3  | Working with LLMs | [Ch 3](https://nerdai.github.io/llm-agents-from-scratch/notebooks/ch03.ipynb) |
-| 4  | The LLM Agent Class | [Ch 4](https://nerdai.github.io/llm-agents-from-scratch/notebooks/ch04.ipynb) |
+| 1 | What Are LLM Agents and Multi-Agent Systems? | — |
+| 2 | Working with Tools | [Ch 2](https://nerdai.github.io/llm-agents-from-scratch/notebooks/ch02.ipynb) |
+| 3 | Working with LLMs | [Ch 3](https://nerdai.github.io/llm-agents-from-scratch/notebooks/ch03.ipynb) |
+| 4 | The LLM Agent Class | [Ch 4](https://nerdai.github.io/llm-agents-from-scratch/notebooks/ch04.ipynb) |
 
 ### Part 2 — Enhance Your LLM Agent
 
 | Ch | Title | Notebook |
 | -- | ----- | -------- |
-| 5  | MCP Tools | [Ch 5](https://nerdai.github.io/llm-agents-from-scratch/notebooks/ch05.ipynb) |
-| 6  | Skills | — |
-| 7  | Memory | — |
-| 8  | Human in the Loop | — |
+| 5 | MCP Tools | [Ch 5](https://nerdai.github.io/llm-agents-from-scratch/notebooks/ch05.ipynb) |
+| 6 | Skills | — |
+| 7 | Memory | — |
+| 8 | Human in the Loop | — |
 
 ### Part 3 — Building Multi-Agent Systems
 
 | Ch | Title | Notebook |
 | -- | ----- | -------- |
-| 9  | Multi-Agent Systems with Agent2Agent | — |
+| 9 | Multi-Agent Systems with Agent2Agent | — |
 
 ---
 

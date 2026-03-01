@@ -157,7 +157,7 @@ built in the book and apply it to something closer to a real-world system.
 Orchestrate parallel tool calls to estimate π using the Monte Carlo method.
 A great first capstone that exercises the full `LLMAgent` class.
 
-[Open Notebook](capstones/one/capstone_1_ch05.ipynb){ .md-button .md-button--primary }
+[Read Capstone](capstones/one/index.md){ .md-button .md-button--primary }
 </div>
 
 <div class="landing-card landing-card--capstone landing-card--soon" markdown>
@@ -176,7 +176,7 @@ composition, and human-in-the-loop checkpoints using your own framework.
 
 </div>
 
-[Browse all capstones :octicons-arrow-right-24:](capstones/one/capstone_1_ch05.ipynb){ .md-button }
+[Browse all capstones :octicons-arrow-right-24:](capstones/one/index.md){ .md-button }
 
 ---
 

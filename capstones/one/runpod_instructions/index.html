@@ -1045,7 +1045,7 @@
   <a href="#optional-step-0-create-a-runpod-secret-for-openai_api_key" class="md-nav__link">
     <span class="md-ellipsis">
       
-        (Optional) Step 0. Create a Runpod secret for OPENAI_API_KEY
+        (Optional) Step 0. Create a RunPod secret for OPENAI_API_KEY
       
     </span>
   </a>
@@ -1056,7 +1056,7 @@
   <a href="#step-1-deploy-a-pod-with-an-llm-agents-from-scratch-runpod-template" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 1. Deploy a Pod with an llm-agents-from-scratch Runpod template
+        Step 1. Deploy a Pod with an llm-agents-from-scratch RunPod template
       
     </span>
   </a>
@@ -1942,7 +1942,7 @@
   <a href="#optional-step-0-create-a-runpod-secret-for-openai_api_key" class="md-nav__link">
     <span class="md-ellipsis">
       
-        (Optional) Step 0. Create a Runpod secret for OPENAI_API_KEY
+        (Optional) Step 0. Create a RunPod secret for OPENAI_API_KEY
       
     </span>
   </a>
@@ -1953,7 +1953,7 @@
   <a href="#step-1-deploy-a-pod-with-an-llm-agents-from-scratch-runpod-template" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 1. Deploy a Pod with an llm-agents-from-scratch Runpod template
+        Step 1. Deploy a Pod with an llm-agents-from-scratch RunPod template
       
     </span>
   </a>
@@ -2040,40 +2040,41 @@
   
 
 
-<!-- markdownlint-disable MD033 -->
-<h1 id="running-capstone-1-experiments-on-runpod">Running Capstone 1 Experiments on Runpod<a class="headerlink" href="#running-capstone-1-experiments-on-runpod" title="Permanent link">&para;</a></h1>
+<h1 id="running-capstone-1-experiments-on-runpod">Running Capstone 1 Experiments on RunPod<a class="headerlink" href="#running-capstone-1-experiments-on-runpod" title="Permanent link">&para;</a></h1>
+<!-- markdownlint-disable-file MD033 MD041 -->
+
 <p>This document contains instructions for running Capstone 1 experiments using
-Runpod on-demand GPUs. You'll spin up a Runpod pod with the correct hardware
+RunPod on-demand GPUs. You'll spin up a RunPod pod with the correct hardware
 requirements and execute this Capstone's Jupyter notebook on it.</p>
 <h2 id="what-youll-need">What you'll need<a class="headerlink" href="#what-youll-need" title="Permanent link">&para;</a></h2>
 <ol>
-<li>A Runpod account with credits ($20 of credits should be enough to run
+<li>A RunPod account with credits ($20 of credits should be enough to run
 Qwen3-Coder:480B)</li>
 <li>An OpenAI API key (Optional, recommended for the judge LLM)</li>
 </ol>
 <h2 id="high-level-steps">High-level steps<a class="headerlink" href="#high-level-steps" title="Permanent link">&para;</a></h2>
 <ol>
-<li>(Optional) Create a Runpod secret for OPENAI_API_KEY</li>
-<li>Deploy a Pod (on-demand GPU) with an <code>llm-agents-from-scratch</code> Runpod template</li>
+<li>(Optional) Create a RunPod secret for OPENAI_API_KEY</li>
+<li>Deploy a Pod (on-demand GPU) with an <code>llm-agents-from-scratch</code> RunPod template</li>
 <li>Wait for Pod to become available and finish its setup</li>
 <li>Connect to the Pod's JupyterLab service</li>
 <li>Navigate to the Capstone Jupyter notebook</li>
 <li>Run the notebook</li>
 </ol>
-<h3 id="optional-step-0-create-a-runpod-secret-for-openai_api_key">(Optional) Step 0. Create a Runpod secret for <code>OPENAI_API_KEY</code><a class="headerlink" href="#optional-step-0-create-a-runpod-secret-for-openai_api_key" title="Permanent link">&para;</a></h3>
+<h3 id="optional-step-0-create-a-runpod-secret-for-openai_api_key">(Optional) Step 0. Create a RunPod secret for <code>OPENAI_API_KEY</code><a class="headerlink" href="#optional-step-0-create-a-runpod-secret-for-openai_api_key" title="Permanent link">&para;</a></h3>
 <p>If you're planning to use the <code>OpenAILLM</code> for the judge LLM, you'll need to
-supply an OpenAI API key. The Runpod templates that I've prepared for running
-these experiments will create the necessary environment variable from a Runpod
+supply an OpenAI API key. The RunPod templates that I've prepared for running
+these experiments will create the necessary environment variable from a RunPod
 secret.</p>
-<p>To create the Runpod secret for your OpenAI API key, log in to the Runpod
+<p>To create the RunPod secret for your OpenAI API key, log in to the RunPod
 console and click "Secrets" found in the left sidebar menu. Afterwards, click
 on "Create Secret" to create a new secret.</p>
 <p>For the Secret name, be sure to use "openai_api_key", and fill in the secret
 value with your API key. Click "Create Secret" button once the necessary fields
 have been populated.</p>
 <p><img width="1546" height="1227" alt="image" src="https://github.com/user-attachments/assets/24cf524d-9f75-4470-964a-385b29f59e83" /></p>
-<h3 id="step-1-deploy-a-pod-with-an-llm-agents-from-scratch-runpod-template">Step 1. Deploy a Pod with an <code>llm-agents-from-scratch</code> Runpod template<a class="headerlink" href="#step-1-deploy-a-pod-with-an-llm-agents-from-scratch-runpod-template" title="Permanent link">&para;</a></h3>
-<p>I've prepared two Runpod templates for Capstone 1. These templates use a Docker
+<h3 id="step-1-deploy-a-pod-with-an-llm-agents-from-scratch-runpod-template">Step 1. Deploy a Pod with an <code>llm-agents-from-scratch</code> RunPod template<a class="headerlink" href="#step-1-deploy-a-pod-with-an-llm-agents-from-scratch-runpod-template" title="Permanent link">&para;</a></h3>
+<p>I've prepared two RunPod templates for Capstone 1. These templates use a Docker
 image that has the necessary tools installed, including CUDA, uv, and ollama. It
 also clones the book's GitHub repository and installs the
 <code>llm-agents-from-scratch</code> package onto the system's Python. The two templates
@@ -2099,13 +2100,13 @@ differ in terms of the backbone LLM:</p>
 </tr>
 </tbody>
 </table>
-<p>To deploy a Pod with one of these templates, on the Runpod console, click on
+<p>To deploy a Pod with one of these templates, on the RunPod console, click on
 "Pods" found in the left-hand sidebar, and then click the "+ Deploy" button.
 Specify the appropriate number of GPU VRAM for the Pod that's required for the
 template (i.e. backbone LLM) you'd like use.</p>
 <p><img width="1546" height="1227" alt="image" src="https://github.com/user-attachments/assets/55b90581-1d71-4bd2-9b86-91518f8570c6" /></p>
 <p>After selecting your on-demand GPUs, you'll be prompted to configure the
-deployment, where you can specify the Runpod template. By default, Runpod
+deployment, where you can specify the RunPod template. By default, RunPod
 uses a PyTorch template, so you'll need to change this to one you'd like to use.
 Click on the "Change Template" button.</p>
 <p><img width="1546" height="1227" alt="image" src="https://github.com/user-attachments/assets/589e141a-e2fe-4ff7-afcc-6f8e3ef05f60" /></p>
@@ -2161,7 +2162,7 @@ JupyterLab UI.</p>
 <p>As mentioned earlier, the template downloads a clone of the book's GitHub repo
 into the container. All that remains now is to navigate the repo to locate and
 open the Jupyter notebook for Capstone 1.</p>
-<p>The notebook is located at: <code>/llm-agents-from-scratch/capstone/capstone_1_ch05.ipynb</code>.</p>
+<p>The notebook is located at: <code>/llm-agents-from-scratch/capstones/one/capstone_1.ipynb</code>.</p>
 <p><img width="1546" height="1227" alt="image" src="https://github.com/user-attachments/assets/4ebb10d4-f6bc-41e8-837c-b6c46b118303" /></p>
 <h3 id="step-5-run-the-notebook">Step 5. Run the notebook<a class="headerlink" href="#step-5-run-the-notebook" title="Permanent link">&para;</a></h3>
 <p>Now, instead of running this notebook on your local machine, you can run it on

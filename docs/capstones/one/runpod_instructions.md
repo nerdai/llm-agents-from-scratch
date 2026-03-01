@@ -121,7 +121,7 @@ As mentioned earlier, the template downloads a clone of the book's GitHub repo
 into the container. All that remains now is to navigate the repo to locate and
 open the Jupyter notebook for Capstone 1.
 
-The notebook is located at: `/llm-agents-from-scratch/capstone/capstone_1_ch05.ipynb`.
+The notebook is located at: `/llm-agents-from-scratch/capstones/one/capstone_1.ipynb`.
 
 <img width="1546" height="1227" alt="image" src="https://github.com/user-attachments/assets/4ebb10d4-f6bc-41e8-837c-b6c46b118303" />
 

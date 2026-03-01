@@ -10,6 +10,12 @@
   white-space: nowrap;
 }
 
+/* ===================== Figures ===================== */
+
+.md-content figure img {
+  border-radius: 0.5rem;
+}
+
 /* ===================== Landing Page ===================== */
 
 /* Hero */

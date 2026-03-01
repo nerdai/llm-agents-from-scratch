@@ -46,8 +46,9 @@ nav:
   - Capstones:
     # Symlinked from capstones/ — do not copy directly.
     - Capstone 1:
-      - Monte Carlo Estimation of Pi: capstones/one/capstone_1_ch05.ipynb
-      - Runpod Instructions: capstones/one/capstone_1_runpod_instructions.md
+      - capstones/one/index.md
+      - Notebook: capstones/one/capstone_1.ipynb
+      - Runpod Instructions: capstones/one/runpod_instructions.md
   - API Reference:
     - Base:
       - LLM: api_reference/base/llm.md

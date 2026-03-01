@@ -1,5 +1,6 @@
-<!-- markdownlint-disable-file MD001 MD033 MD046 -->
 # Capstone I: Monte Carlo Estimation of Pi
+
+<!-- markdownlint-disable-file MD001 MD033 MD046 -->
 
 !!! info "About this capstone"
     This capstone was originally drafted as a chapter for
@@ -35,6 +36,14 @@ uv run --with jupyter jupyter lab
 ```
 
 Once Jupyter has launched, navigate to and open `capstones/one/capstone_1.ipynb`.
+
+!!! warning "Running LLMs locally can be painfully slow without a GPU"
+    If you're following along on your own machine without a dedicated GPU, you may find
+    that inference is too slow to be practical. The experiments in this capstone were run
+    on GPUs available through [Runpod](https://www.runpod.io). You can replicate them by
+    spinning up an appropriate Runpod GPU instance using the templates created for this
+    project. Instructions are in the book's GitHub repository:
+    [runpod_instructions.md](runpod_instructions.md).
 
 ---
 
@@ -1257,14 +1266,6 @@ smaller models. Interestingly, for this task, there's not much difference betwee
 30B and 8B Qwen3 models. The closed-source model, GPT-5-mini, also performs
 relatively well. However, it often hallucinated tool results and re-estimated Pi
 consecutively without adding points to the sample.
-
-!!! note
-    The experiments for the 30B and 480B Qwen3 models were run on GPUs available
-    through Runpod. You can run these experiments for yourself by spinning up an
-    appropriate Runpod GPU and using the Runpod templates I created for these two
-    models. From there, you simply need to execute the Jupyter notebook for this
-    Capstone project. Instructions can be found in the book's GitHub repository:
-    [runpod_instructions.md](runpod_instructions.md).
 
 ---
 

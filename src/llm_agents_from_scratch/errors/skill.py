@@ -49,3 +49,15 @@ class NameMismatchWarning(SkillValidationWarning):
     """Emitted when the skill name does not match its parent directory name."""
 
     pass
+
+
+class NameTooLongWarning(SkillValidationWarning):
+    """Emitted when the skill name exceeds 64 characters."""
+
+    pass
+
+
+class EmptySkillBodyError(SkillValidationError):
+    """Raised when a SKILL.md file has no body content after the frontmatter."""
+
+    pass

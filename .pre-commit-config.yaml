@@ -30,6 +30,7 @@ repos:
         entry: mypy --config-file=mypy.ini --explicit-package-bases src
         additional_dependencies:
           - pydantic>=2.10.5
+          - types-PyYAML>=6.0.12
         # https://github.com/python/mypy/issues/13916 -- duplicate module error with .pyi and .py files
         pass_filenames: false
   - repo: https://github.com/pappasam/toml-sort

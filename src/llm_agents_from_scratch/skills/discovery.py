@@ -3,13 +3,21 @@
 import warnings
 from pathlib import Path
 
+import yaml
+from pydantic import ValidationError
+
 from ..data_structures.skill import SkillInfo
 from ..errors import (
+    EmptySkillBodyError,
+    InvalidFrontmatterError,
+    MissingSkillMdError,
+    NameMismatchWarning,
+    NameTooLongWarning,
     SkillSkippedWarning,
     SkillValidationError,
     SkillValidationWarning,
 )
-from .constants import SKILLS_PATHS
+from .constants import MAX_NAME_LENGTH, SKILLS_PATHS
 from .skill import Skill
 
 
@@ -36,7 +44,31 @@ def validate_skill_dir(
         SkillValidationError: If the skill directory has a fatal issue that
             prevents the skill from being loaded.
     """
-    raise NotImplementedError  # pragma: no cover
+    skill_warnings: list[SkillValidationWarning] = []
+    skill_md_path = dir / "SKILL.md"
+    if not skill_md_path.is_file():
+        raise MissingSkillMdError
+
+    try:
+        with open(skill_md_path, "r") as f:
+            skill_md = f.read()
+
+        _, frontmatter_str, body = skill_md.split("---", 2)
+        frontmatter = yaml.safe_load(frontmatter_str)
+        info = SkillInfo.model_validate(frontmatter)
+    except (ValueError, ValidationError, yaml.YAMLError) as e:
+        raise InvalidFrontmatterError(str(e)) from e
+
+    if not body.strip():
+        raise EmptySkillBodyError
+
+    if info.name != dir.name:
+        skill_warnings.append(NameMismatchWarning())
+
+    if len(info.name) > MAX_NAME_LENGTH:
+        skill_warnings.append(NameTooLongWarning())
+
+    return info, skill_warnings
 
 
 def discover_skills(path: Path) -> list[Skill]:
@@ -55,7 +87,6 @@ def discover_skills(path: Path) -> list[Skill]:
                 try:
                     info, skill_warnings = validate_skill_dir(skill_dir)
                 except SkillValidationError as e:
-                    # skip skill
                     warnings.warn(
                         str(e),
                         SkillSkippedWarning,

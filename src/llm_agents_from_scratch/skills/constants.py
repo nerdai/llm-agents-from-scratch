@@ -12,3 +12,5 @@ SKILLS_PATHS: dict[str, list[Path]] = {
         Path.home() / ".agent/skills",
     ],
 }
+
+MAX_NAME_LENGTH = 64

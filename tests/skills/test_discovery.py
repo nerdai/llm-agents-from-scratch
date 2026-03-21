@@ -66,15 +66,9 @@ def test_discover_skills_valid_skill_dir(skills_dir: Path) -> None:
     """Tests discover_skills creates a Skill for a valid skill directory."""
     mock_info = MagicMock()
 
-    with (
-        patch(
-            "llm_agents_from_scratch.skills.discovery.validate_skill_dir",
-            return_value=[],
-        ),
-        patch(
-            "llm_agents_from_scratch.skills.discovery.SkillInfo.from_skill_md",
-            return_value=mock_info,
-        ),
+    with patch(
+        "llm_agents_from_scratch.skills.discovery.validate_skill_dir",
+        return_value=(mock_info, []),
     ):
         skills = discover_skills(Path("."))
 
@@ -96,11 +90,7 @@ def test_discover_skills_emits_cosmetic_warnings(skills_dir: Path) -> None:
     with (
         patch(
             "llm_agents_from_scratch.skills.discovery.validate_skill_dir",
-            return_value=cosmetic_warnings,
-        ),
-        patch(
-            "llm_agents_from_scratch.skills.discovery.SkillInfo.from_skill_md",
-            return_value=mock_info,
+            return_value=(mock_info, cosmetic_warnings),
         ),
         warnings.catch_warnings(record=True) as caught,
     ):

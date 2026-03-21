@@ -8,8 +8,9 @@ from .mcp import MCPError, MCPWarning, MissingMCPServerParamsError
 from .skill import (
     InvalidFrontmatterError,
     MissingSkillMdError,
-    NameMismatchError,
+    NameMismatchWarning,
     SkillsError,
+    SkillSkippedWarning,
     SkillsWarning,
     SkillValidationError,
     SkillValidationWarning,
@@ -34,9 +35,10 @@ __all__ = [
     "SkillsWarning",
     "SkillValidationError",
     "SkillValidationWarning",
+    "SkillSkippedWarning",
     "MissingSkillMdError",
     "InvalidFrontmatterError",
-    "NameMismatchError",
+    "NameMismatchWarning",
     # task handler
     "TaskHandlerError",
 ]

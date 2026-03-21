@@ -985,6 +985,7 @@ dependencies = [
     { name = "mcp", extra = ["cli"] },
     { name = "ollama" },
     { name = "pydantic" },
+    { name = "pyyaml" },
     { name = "typing-extensions" },
 ]
 
@@ -1030,6 +1031,7 @@ requires-dist = [
     { name = "openai", marker = "extra == 'openai'", specifier = ">=2.9.0" },
     { name = "pandas", marker = "extra == 'notebook-utils'", specifier = ">=2.3.3" },
     { name = "pydantic", specifier = ">=2.11.7" },
+    { name = "pyyaml", specifier = ">=6.0.2" },
     { name = "typing-extensions", specifier = ">=4.14.0" },
 ]
 provides-extras = ["notebook-utils", "notebooks", "openai"]

@@ -1,6 +1,6 @@
 """Data Structures for Skills."""
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class SkillInfo(BaseModel):
@@ -24,6 +24,24 @@ class SkillInfo(BaseModel):
     compatibility: str | None = None
     metadata: dict[str, str] | None = None
     allowed_tools: str | None = Field(None, alias="allowed-tools")
+
+    @field_validator("name", "description")
+    @classmethod
+    def must_be_non_empty(cls, v: str) -> str:
+        """Validate that name and description are non-empty strings.
+
+        Args:
+            v: The field value to validate.
+
+        Returns:
+            The validated field value.
+
+        Raises:
+            ValueError: If the field value is empty or whitespace-only.
+        """
+        if not v or not v.strip():
+            raise ValueError("must be a non-empty string")
+        return v
 
     @classmethod
     def from_skill_md(cls, skill_md: str) -> "SkillInfo":

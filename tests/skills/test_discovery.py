@@ -7,6 +7,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from llm_agents_from_scratch.errors import (
+    SkillSkippedWarning,
     SkillValidationError,
     SkillValidationWarning,
 )
@@ -84,18 +85,42 @@ def test_discover_skills_valid_skill_dir(skills_dir: Path) -> None:
     assert skills[0].location == (skill_dir / "SKILL.md").resolve()
 
 
-def test_discover_skills_warns_on_validation_errors(skills_dir: Path) -> None:
-    """Tests discover_skills emits SkillValidationWarning for each error."""
+def test_discover_skills_emits_cosmetic_warnings(skills_dir: Path) -> None:
+    """Tests discover_skills emits returned warnings and still loads skill."""
     assert skills_dir.exists()
-    errors = [
-        SkillValidationError("missing SKILL.md"),
-        SkillValidationError("invalid name"),
+    mock_info = MagicMock()
+    cosmetic_warnings = [
+        SkillValidationWarning("name does not match directory"),
     ]
 
     with (
         patch(
             "llm_agents_from_scratch.skills.discovery.validate_skill_dir",
-            return_value=errors,
+            return_value=cosmetic_warnings,
+        ),
+        patch(
+            "llm_agents_from_scratch.skills.discovery.SkillInfo.from_skill_md",
+            return_value=mock_info,
+        ),
+        warnings.catch_warnings(record=True) as caught,
+    ):
+        warnings.simplefilter("always")
+        skills = discover_skills(Path("."))
+
+    assert len(skills) == 1
+    assert len(caught) == 1
+    assert issubclass(caught[0].category, SkillValidationWarning)
+    assert "name does not match directory" in str(caught[0].message)
+
+
+def test_discover_skills_skips_on_fatal_error(skills_dir: Path) -> None:
+    """Tests discover_skills emits SkillSkippedWarning and skips the skill."""
+    assert skills_dir.exists()
+
+    with (
+        patch(
+            "llm_agents_from_scratch.skills.discovery.validate_skill_dir",
+            side_effect=SkillValidationError("missing SKILL.md"),
         ),
         warnings.catch_warnings(record=True) as caught,
     ):
@@ -103,7 +128,6 @@ def test_discover_skills_warns_on_validation_errors(skills_dir: Path) -> None:
         skills = discover_skills(Path("."))
 
     assert skills == []
-    assert len(caught) == len(errors)
-    assert all(issubclass(w.category, SkillValidationWarning) for w in caught)
+    assert len(caught) == 1
+    assert issubclass(caught[0].category, SkillSkippedWarning)
     assert "missing SKILL.md" in str(caught[0].message)
-    assert "invalid name" in str(caught[1].message)

@@ -4,22 +4,35 @@ import warnings
 from pathlib import Path
 
 from ..data_structures.skill import SkillInfo
-from ..errors import SkillValidationError, SkillValidationWarning
+from ..errors import (
+    SkillSkippedWarning,
+    SkillValidationError,
+    SkillValidationWarning,
+)
 from .constants import SKILLS_PATHS
 from .skill import Skill
 
 
-def validate_skill_dir(dir: Path) -> list[SkillValidationError]:
+def validate_skill_dir(dir: Path) -> list[SkillValidationWarning]:
     """Validate a directory as a skill directory.
 
     A valid skill directory must contain a SKILL.md file with a valid
     name and description in its frontmatter.
 
+    Cosmetic issues (e.g. name/directory mismatch) are returned as warnings
+    so the skill is still loaded. Fatal issues (e.g. missing SKILL.md,
+    unparseable frontmatter) are raised as errors so the caller can skip
+    the skill and emit a SkillSkippedWarning.
+
     Args:
         dir: Path to the directory to validate.
 
     Returns:
-        List of validation errors. Empty list means the directory is valid.
+        List of warnings for cosmetic issues. Empty list means no issues.
+
+    Raises:
+        SkillValidationError: If the skill directory has a fatal issue that
+            prevents the skill from being loaded.
     """
     raise NotImplementedError  # pragma: no cover
 
@@ -37,24 +50,28 @@ def discover_skills(path: Path) -> list[Skill]:
                     continue
 
                 # validate dir is an actual Skill dir
-                errors = validate_skill_dir(skill_dir)
-                if not errors:
-                    with open(skill_dir / "SKILL.md", "r") as f:
-                        skill_md = f.read()
-                        info = SkillInfo.from_skill_md(skill_md)
-                        skills.append(
-                            Skill(
-                                info=info,
-                                location=(skill_dir / "SKILL.md").resolve(),
-                                scope=scope,  # type: ignore[arg-type]
-                            ),
-                        )
-                else:
-                    for error in errors:
-                        warnings.warn(
-                            str(error),
-                            SkillValidationWarning,
-                            stacklevel=2,
-                        )
+                try:
+                    skill_warnings = validate_skill_dir(skill_dir)
+                except SkillValidationError as e:
+                    warnings.warn(
+                        str(e),
+                        SkillSkippedWarning,
+                        stacklevel=2,
+                    )
+                    continue
+
+                for w in skill_warnings:
+                    warnings.warn(str(w), type(w), stacklevel=2)
+
+                with open(skill_dir / "SKILL.md", "r") as f:
+                    skill_md = f.read()
+                    info = SkillInfo.from_skill_md(skill_md)
+                    skills.append(
+                        Skill(
+                            info=info,
+                            location=(skill_dir / "SKILL.md").resolve(),
+                            scope=scope,  # type: ignore[arg-type]
+                        ),
+                    )
 
     return skills

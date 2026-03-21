@@ -74,15 +74,17 @@ def validate_skill_dir(
     if info.name != dir.name:
         skill_warnings.append(
             NameMismatchWarning(
-                f"Skill name '{info.name}' does not match directory name '{dir.name}'.",
+                f"Skill name '{info.name}' does not match "
+                f"directory name '{dir.name}'.",
             ),
         )
 
     if len(info.name) > MAX_NAME_LENGTH:
         skill_warnings.append(
             NameTooLongWarning(
-                f"Skill name '{info.name}' is {len(info.name)} characters long, "
-                f"which exceeds the maximum allowed length of {MAX_NAME_LENGTH}.",
+                f"Skill name '{info.name}' is {len(info.name)} characters"
+                f" long, which exceeds the maximum allowed length of"
+                f" {MAX_NAME_LENGTH}.",
             ),
         )
 

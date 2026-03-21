@@ -10,6 +10,7 @@ from llm_agents_from_scratch.errors import (
     MissingSkillMdError,
     NameMismatchWarning,
     NameTooLongWarning,
+    SkillValidationError,
 )
 from llm_agents_from_scratch.skills.discovery import validate_skill_dir
 
@@ -118,6 +119,17 @@ def test_name_too_long_returns_warning(tmp_path: Path) -> None:
 
     assert len(skill_warnings) == 1
     assert isinstance(skill_warnings[0], NameTooLongWarning)
+
+
+def test_unreadable_skill_md_raises(skill_dir: Path) -> None:
+    """Tests validate_skill_dir raises SkillValidationError on OSError."""
+    skill_md = skill_dir / "SKILL.md"
+    skill_md.chmod(0o000)
+    try:
+        with pytest.raises(SkillValidationError):
+            validate_skill_dir(skill_dir)
+    finally:
+        skill_md.chmod(0o644)
 
 
 def test_both_cosmetic_warnings_returned(tmp_path: Path) -> None:

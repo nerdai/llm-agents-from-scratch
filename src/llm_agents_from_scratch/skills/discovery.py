@@ -13,7 +13,9 @@ from .constants import SKILLS_PATHS
 from .skill import Skill
 
 
-def validate_skill_dir(dir: Path) -> list[SkillValidationWarning]:
+def validate_skill_dir(
+    dir: Path,
+) -> tuple[SkillInfo, list[SkillValidationWarning]]:
     """Validate a directory as a skill directory.
 
     A valid skill directory must contain a SKILL.md file with a valid
@@ -51,8 +53,9 @@ def discover_skills(path: Path) -> list[Skill]:
 
                 # validate dir is an actual Skill dir
                 try:
-                    skill_warnings = validate_skill_dir(skill_dir)
+                    info, skill_warnings = validate_skill_dir(skill_dir)
                 except SkillValidationError as e:
+                    # skip skill
                     warnings.warn(
                         str(e),
                         SkillSkippedWarning,
@@ -62,16 +65,12 @@ def discover_skills(path: Path) -> list[Skill]:
 
                 for w in skill_warnings:
                     warnings.warn(str(w), type(w), stacklevel=2)
-
-                with open(skill_dir / "SKILL.md", "r") as f:
-                    skill_md = f.read()
-                    info = SkillInfo.from_skill_md(skill_md)
-                    skills.append(
-                        Skill(
-                            info=info,
-                            location=(skill_dir / "SKILL.md").resolve(),
-                            scope=scope,  # type: ignore[arg-type]
-                        ),
-                    )
+                skills.append(
+                    Skill(
+                        info=info,
+                        location=(skill_dir / "SKILL.md").resolve(),
+                        scope=scope,  # type: ignore[arg-type]
+                    ),
+                )
 
     return skills

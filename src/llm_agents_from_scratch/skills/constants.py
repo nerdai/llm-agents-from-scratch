@@ -2,11 +2,6 @@
 
 from pathlib import Path
 
-SKILLS_DIRS = [
-    ".from_scratch/skills",  # llm-agents-from-scratch skills dir
-    ".agents/skills",  # cross-client skill sharing
-]
-
 SKILLS_PATHS: dict[str, list[Path]] = {
     "project": [
         Path.cwd() / ".from_scratch/skills",

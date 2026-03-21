@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- feat: implement validate_skill_dir() (#417)
 - feat: skills data structures, errors and skill construct (#412)
 
 ### Changed

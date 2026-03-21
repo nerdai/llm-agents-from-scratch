@@ -10,7 +10,13 @@ class SkillsWarning(LLMAgentsFromScratchWarning):
 
 
 class SkillValidationWarning(SkillsWarning):
-    """Emitted when a skill directory has validation issues."""
+    """Emitted when a skill has cosmetic issues but is still loaded."""
+
+    pass
+
+
+class SkillSkippedWarning(SkillsWarning):
+    """Emitted when a skill is skipped due to a fatal validation error."""
 
     pass
 
@@ -39,7 +45,19 @@ class InvalidFrontmatterError(SkillValidationError):
     pass
 
 
-class NameMismatchError(SkillValidationError):
-    """Raised when the skill name does not match its parent directory name."""
+class NameMismatchWarning(SkillValidationWarning):
+    """Emitted when the skill name does not match its parent directory name."""
+
+    pass
+
+
+class NameTooLongWarning(SkillValidationWarning):
+    """Emitted when the skill name exceeds 64 characters."""
+
+    pass
+
+
+class EmptySkillBodyError(SkillValidationError):
+    """Raised when a SKILL.md file has no body content after the frontmatter."""
 
     pass

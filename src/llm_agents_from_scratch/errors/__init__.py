@@ -6,10 +6,13 @@ from .core import (
 )
 from .mcp import MCPError, MCPWarning, MissingMCPServerParamsError
 from .skill import (
+    EmptySkillBodyError,
     InvalidFrontmatterError,
     MissingSkillMdError,
-    NameMismatchError,
+    NameMismatchWarning,
+    NameTooLongWarning,
     SkillsError,
+    SkillSkippedWarning,
     SkillsWarning,
     SkillValidationError,
     SkillValidationWarning,
@@ -34,9 +37,12 @@ __all__ = [
     "SkillsWarning",
     "SkillValidationError",
     "SkillValidationWarning",
+    "SkillSkippedWarning",
     "MissingSkillMdError",
     "InvalidFrontmatterError",
-    "NameMismatchError",
+    "EmptySkillBodyError",
+    "NameMismatchWarning",
+    "NameTooLongWarning",
     # task handler
     "TaskHandlerError",
 ]

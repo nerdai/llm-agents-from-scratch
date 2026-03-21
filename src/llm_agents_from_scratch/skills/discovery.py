@@ -38,7 +38,10 @@ def validate_skill_dir(
         dir: Path to the directory to validate.
 
     Returns:
-        List of warnings for cosmetic issues. Empty list means no issues.
+        Tuple[SkillInfo, list[SkillValidationWarning]]: A pair where
+            the first element is the validated skill metadata, and the
+            second element is a list of warnings for cosmetic issues.
+            An empty list means no issues.
 
     Raises:
         SkillValidationError: If the skill directory has a fatal issue that

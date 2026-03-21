@@ -50,7 +50,9 @@ def validate_skill_dir(
     skill_warnings: list[SkillValidationWarning] = []
     skill_md_path = dir / "SKILL.md"
     if not skill_md_path.is_file():
-        raise MissingSkillMdError
+        raise MissingSkillMdError(
+            f"Missing SKILL.md file in skill directory: {dir}",
+        )
 
     try:
         with open(skill_md_path, "r") as f:

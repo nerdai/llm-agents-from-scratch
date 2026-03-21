@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+### Added
+
+- feat: skills data structures, errors and skill construct (#412)
+
 ### Changed
 
 - fix: add clean up of session_ready_task (#378)

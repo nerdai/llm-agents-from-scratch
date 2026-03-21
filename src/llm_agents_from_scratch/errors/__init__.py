@@ -5,6 +5,15 @@ from .core import (
     MissingExtraError,
 )
 from .mcp import MCPError, MCPWarning, MissingMCPServerParamsError
+from .skill import (
+    InvalidFrontmatterError,
+    MissingSkillMdError,
+    NameMismatchError,
+    SkillsError,
+    SkillsWarning,
+    SkillValidationError,
+    SkillValidationWarning,
+)
 from .task_handler import TaskHandlerError
 
 __all__ = [
@@ -20,6 +29,14 @@ __all__ = [
     "MCPError",
     "MissingMCPServerParamsError",
     "MCPWarning",
+    # skill
+    "SkillsError",
+    "SkillsWarning",
+    "SkillValidationError",
+    "SkillValidationWarning",
+    "MissingSkillMdError",
+    "InvalidFrontmatterError",
+    "NameMismatchError",
     # task handler
     "TaskHandlerError",
 ]

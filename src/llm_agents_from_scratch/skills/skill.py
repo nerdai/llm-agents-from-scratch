@@ -1,9 +1,8 @@
 """Skill construct."""
 
 from pathlib import Path
-from typing import Literal
 
-from ..data_structures.skill import SkillInfo
+from ..data_structures.skill import SkillInfo, SkillScope
 from ..errors import (
     EmptySkillBodyError,
     InvalidFrontmatterError,
@@ -27,7 +26,7 @@ class Skill:
         self,
         info: SkillInfo,
         location: Path,
-        scope: Literal["project", "user"],
+        scope: SkillScope,
     ):
         """Instantiate a Skill.
 
@@ -39,10 +38,6 @@ class Skill:
         self.info = info
         self.location = location
         self.scope = scope
-
-    info: SkillInfo
-    location: Path
-    scope: Literal["project", "user"]
 
     def read_body(self) -> str:
         """Return body content as string.

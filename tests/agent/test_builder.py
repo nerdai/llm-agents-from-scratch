@@ -6,6 +6,7 @@ import pytest
 
 from llm_agents_from_scratch import LLMAgentBuilder
 from llm_agents_from_scratch.agent.templates import default_templates
+from llm_agents_from_scratch.data_structures.skill import SkillScope
 from llm_agents_from_scratch.errors import LLMAgentBuilderError
 from llm_agents_from_scratch.tools.mcp.tool import MCPTool
 
@@ -52,6 +53,16 @@ def test_init() -> None:
     assert builder.templates == default_templates
 
 
+def test_with_skills_scopes() -> None:
+    """Tests with_skills_scopes sets scopes on builder."""
+
+    builder = LLMAgentBuilder().with_skills_scopes([SkillScope.PROJECT])
+    assert builder.skills_scopes == [SkillScope.PROJECT]
+
+    builder = LLMAgentBuilder().with_skills_scopes(None)
+    assert builder.skills_scopes is None
+
+
 @pytest.mark.asyncio
 async def test_build() -> None:
     """Tests build for LLMAgent."""
@@ -80,6 +91,23 @@ async def test_build() -> None:
     mock_get_tools.assert_awaited_once()
     assert agent.llm == builder.llm
     assert agent.templates == builder.templates
+
+
+@pytest.mark.asyncio
+async def test_build_forwards_skills_scopes() -> None:
+    """Tests build forwards skills_scopes to LLMAgent correctly."""
+    mock_llm = MagicMock()
+
+    # explicit scopes forwarded as-is
+    agent = await LLMAgentBuilder(
+        llm=mock_llm,
+        skills_scopes=[SkillScope.PROJECT],
+    ).build()
+    assert agent.skills_scopes == [SkillScope.PROJECT]
+
+    # None resolved to defaults by LLMAgent
+    agent = await LLMAgentBuilder(llm=mock_llm).build()
+    assert agent.skills_scopes == [SkillScope.USER, SkillScope.PROJECT]
 
 
 @pytest.mark.asyncio

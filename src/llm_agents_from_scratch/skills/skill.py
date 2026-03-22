@@ -1,9 +1,8 @@
 """Skill construct."""
 
 from pathlib import Path
-from typing import Literal
 
-from ..data_structures.skill import SkillInfo
+from ..data_structures.skill import SkillInfo, SkillScope
 from ..errors import (
     EmptySkillBodyError,
     InvalidFrontmatterError,
@@ -18,31 +17,29 @@ class Skill:
     Attributes:
         info: Parsed frontmatter metadata from the skill's SKILL.md file.
         location: Absolute path to the skill's SKILL.md file on disk.
-        scope: The scope of the skill, either "project" or "user". Used to
-            resolve name collisions via deterministic precedence, with
-            "project" taking priority over "user".
+        scope: The scope of the skill (`SkillScope.PROJECT` or
+            `SkillScope.USER`). Used to resolve name collisions via
+            deterministic precedence, with `SkillScope.PROJECT` taking
+            priority over `SkillScope.USER`.
     """
 
     def __init__(
         self,
         info: SkillInfo,
         location: Path,
-        scope: Literal["project", "user"],
+        scope: SkillScope,
     ):
         """Instantiate a Skill.
 
         Args:
             info: Parsed frontmatter metadata from the skill's SKILL.md file.
             location: Absolute path to the skill's SKILL.md file on disk.
-            scope: The scope of the skill, either "project" or "user".
+            scope: The scope of the skill (`SkillScope.PROJECT` or
+                `SkillScope.USER`).
         """
         self.info = info
         self.location = location
         self.scope = scope
-
-    info: SkillInfo
-    location: Path
-    scope: Literal["project", "user"]
 
     def read_body(self) -> str:
         """Return body content as string.

@@ -1,6 +1,15 @@
 """Data Structures for Skills."""
 
+from enum import Enum
+
 from pydantic import BaseModel, ConfigDict, Field, field_validator
+
+
+class SkillScope(str, Enum):
+    """Skill scope enum."""
+
+    PROJECT = "project"
+    USER = "user"
 
 
 class SkillInfo(BaseModel):

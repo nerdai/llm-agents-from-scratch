@@ -5,7 +5,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from llm_agents_from_scratch.data_structures.skill import SkillInfo
+from llm_agents_from_scratch.data_structures.skill import SkillInfo, SkillScope
 from llm_agents_from_scratch.errors import (
     EmptySkillBodyError,
     InvalidFrontmatterError,
@@ -14,7 +14,7 @@ from llm_agents_from_scratch.errors import (
 from llm_agents_from_scratch.skills.skill import Skill
 
 
-def make_skill(scope: str = "project") -> Skill:
+def make_skill(scope: SkillScope = SkillScope.PROJECT) -> Skill:
     """Create a Skill instance for testing."""
     info = MagicMock()
     location = Path("/fake/skill/SKILL.md")
@@ -25,17 +25,17 @@ def test_skill_init_sets_attributes() -> None:
     """Tests Skill.__init__ sets info, location, and scope."""
     info = MagicMock()
     location = Path("/fake/skill/SKILL.md")
-    skill = Skill(info=info, location=location, scope="project")  # type: ignore[arg-type]
+    skill = Skill(info=info, location=location, scope=SkillScope.PROJECT)
 
     assert skill.info is info
     assert skill.location == location
-    assert skill.scope == "project"
+    assert skill.scope == SkillScope.PROJECT
 
 
 def test_skill_init_user_scope() -> None:
     """Tests Skill.__init__ accepts user scope."""
-    skill = make_skill(scope="user")
-    assert skill.scope == "user"
+    skill = make_skill(scope=SkillScope.USER)
+    assert skill.scope == SkillScope.USER
 
 
 def test_skill_read_body_returns_stripped_body(tmp_path: Path) -> None:
@@ -46,7 +46,7 @@ def test_skill_read_body_returns_stripped_body(tmp_path: Path) -> None:
         "## Instructions\n\nDo the thing.\n",
     )
     info = SkillInfo(name="my-skill", description="Does things.")
-    skill = Skill(info=info, location=skill_md, scope="project")
+    skill = Skill(info=info, location=skill_md, scope=SkillScope.PROJECT)
 
     assert skill.read_body() == "## Instructions\n\nDo the thing."
 
@@ -56,7 +56,7 @@ def test_skill_read_body_raises_on_empty_body(tmp_path: Path) -> None:
     skill_md = tmp_path / "SKILL.md"
     skill_md.write_text("---\nname: my-skill\ndescription: Does things.\n---\n")
     info = SkillInfo(name="my-skill", description="Does things.")
-    skill = Skill(info=info, location=skill_md, scope="project")
+    skill = Skill(info=info, location=skill_md, scope=SkillScope.PROJECT)
 
     with pytest.raises(EmptySkillBodyError):
         skill.read_body()
@@ -66,7 +66,7 @@ def test_skill_read_body_raises_on_unreadable_file(tmp_path: Path) -> None:
     """Tests Skill.read_body() raises SkillValidationError if unreadable."""
     skill_md = tmp_path / "SKILL.md"
     info = SkillInfo(name="my-skill", description="Does things.")
-    skill = Skill(info=info, location=skill_md, scope="project")
+    skill = Skill(info=info, location=skill_md, scope=SkillScope.PROJECT)
 
     with pytest.raises(SkillValidationError):
         skill.read_body()
@@ -77,7 +77,7 @@ def test_skill_read_body_raises_on_missing_delimiters(tmp_path: Path) -> None:
     skill_md = tmp_path / "SKILL.md"
     skill_md.write_text("name: my-skill\ndescription: Does things.\n")
     info = SkillInfo(name="my-skill", description="Does things.")
-    skill = Skill(info=info, location=skill_md, scope="project")
+    skill = Skill(info=info, location=skill_md, scope=SkillScope.PROJECT)
 
     with pytest.raises(InvalidFrontmatterError):
         skill.read_body()
@@ -87,7 +87,7 @@ def test_skill_catalog_returns_xml_snippet() -> None:
     """Tests Skill.catalog() returns expected XML string."""
     info = SkillInfo(name="pdf-processing", description="Handle PDF files.")
     location = Path("/home/user/.agents/skills/pdf-processing/SKILL.md")
-    skill = Skill(info=info, location=location, scope="project")
+    skill = Skill(info=info, location=location, scope=SkillScope.PROJECT)
 
     expected = (
         "<skill>\n"

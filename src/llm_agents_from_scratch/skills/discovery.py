@@ -6,7 +6,7 @@ from pathlib import Path
 import yaml
 from pydantic import ValidationError
 
-from ..data_structures.skill import SkillInfo
+from ..data_structures.skill import SkillInfo, SkillScope
 from ..errors import (
     EmptySkillBodyError,
     InvalidFrontmatterError,
@@ -17,8 +17,9 @@ from ..errors import (
     SkillValidationError,
     SkillValidationWarning,
 )
-from .constants import MAX_NAME_LENGTH, SKILLS_PATHS
+from .constants import MAX_NAME_LENGTH
 from .skill import Skill
+from .utils import get_skills_paths
 
 
 def validate_skill_dir(
@@ -92,11 +93,11 @@ def validate_skill_dir(
     return info, skill_warnings
 
 
-def discover_skills(path: Path) -> list[Skill]:
+def discover_skills() -> list[Skill]:
     """Scan project and user directories for skills."""
     skills: list[Skill] = []
-    for scope, skills_paths in SKILLS_PATHS.items():
-        for skills_path in skills_paths:
+    for scope in SkillScope:
+        for skills_path in get_skills_paths(scope):
             if not skills_path.exists():
                 continue
 

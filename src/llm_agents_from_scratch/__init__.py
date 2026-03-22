@@ -6,10 +6,12 @@ from llm_agents_from_scratch._version import VERSION
 # ruff: noqa: F403, F401
 from .agent import *
 from .agent import __all__ as _agent_all
+from .skills import *
+from .skills import __all__ as _skills_all
 from .tools import *
 from .tools import __all__ as _tool_all
 
 __version__ = VERSION
 
 
-__all__ = sorted(_agent_all + _tool_all)  # noqa: PLE0605
+__all__ = sorted(_agent_all + _skills_all + _tool_all)  # noqa: PLE0605

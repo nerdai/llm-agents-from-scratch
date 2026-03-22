@@ -6,6 +6,7 @@ import pytest
 
 from llm_agents_from_scratch import LLMAgentBuilder
 from llm_agents_from_scratch.agent.templates import default_templates
+from llm_agents_from_scratch.data_structures.skill import SkillScope
 from llm_agents_from_scratch.errors import LLMAgentBuilderError
 from llm_agents_from_scratch.tools.mcp.tool import MCPTool
 
@@ -50,6 +51,16 @@ def test_init() -> None:
     assert builder.tools == [mock_tool]
     assert builder.mcp_providers == [mock_mcp_provider]
     assert builder.templates == default_templates
+
+
+def test_with_skills_scopes() -> None:
+    """Tests with_skills_scopes sets scopes on builder."""
+
+    builder = LLMAgentBuilder().with_skills_scopes([SkillScope.PROJECT])
+    assert builder.skills_scopes == [SkillScope.PROJECT]
+
+    builder = LLMAgentBuilder().with_skills_scopes(None)
+    assert builder.skills_scopes is None
 
 
 @pytest.mark.asyncio

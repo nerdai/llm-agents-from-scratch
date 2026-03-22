@@ -1,6 +1,6 @@
 import asyncio
 import contextlib
-from unittest.mock import AsyncMock
+from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
@@ -17,6 +17,7 @@ from llm_agents_from_scratch.data_structures import (
     TaskStepResult,
     ToolCall,
 )
+from llm_agents_from_scratch.data_structures.skill import SkillScope
 from llm_agents_from_scratch.errors import TaskHandlerError
 from llm_agents_from_scratch.tools.simple_function import (
     AsyncSimpleFunctionTool,
@@ -37,6 +38,29 @@ def test_task_handler_init(
 
     assert handler.task.instruction == "mock instruction"
     assert handler.llm_agent == llm_agent
+
+
+def test_task_handler_init_discovers_skills(
+    mock_llm: BaseLLM,
+) -> None:
+    mock_skill = MagicMock()
+    mock_skills = {"my-skill": mock_skill}
+    llm_agent = LLMAgent(
+        llm=mock_llm,
+        skills_scopes=[SkillScope.PROJECT],
+    )
+
+    with patch(
+        "llm_agents_from_scratch.agent.llm_agent.discover_skills",
+        return_value=mock_skills,
+    ) as mock_discover:
+        handler = LLMAgent.TaskHandler(
+            llm_agent=llm_agent,
+            task=Task(instruction="mock instruction"),
+        )
+
+    mock_discover.assert_called_once_with([SkillScope.PROJECT])
+    assert handler.skills == mock_skills
 
 
 def test_task_handler_raises_error_when_getting_unset_bg_task(

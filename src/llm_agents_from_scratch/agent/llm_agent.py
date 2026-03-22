@@ -17,12 +17,15 @@ from llm_agents_from_scratch.data_structures import (
     TaskStepResult,
     ToolCallResult,
 )
+from llm_agents_from_scratch.data_structures.skill import SkillScope
 from llm_agents_from_scratch.errors import (
     LLMAgentError,
     MaxStepsReachedError,
     TaskHandlerError,
 )
 from llm_agents_from_scratch.logger import get_logger
+from llm_agents_from_scratch.skills.discovery import discover_skills
+from llm_agents_from_scratch.skills.skill import Skill
 
 from .templates import LLMAgentTemplates, default_templates
 
@@ -36,6 +39,9 @@ class LLMAgent:
             the LLM with, represented as a dict.
         templates (LLMAgentTemplates): Prompt templates for LLM Agent.
         logger (logging.Logger): LLMAgent logger.
+        skills_scopes (list[SkillScope]): The skill scopes to scan during
+            discovery. An empty list disables skills entirely. Added in
+            Chapter 6.
     """
 
     def __init__(
@@ -43,6 +49,8 @@ class LLMAgent:
         llm: LLM,
         tools: list[Tool] | None = None,
         templates: LLMAgentTemplates = default_templates,
+        # added in ch06
+        skills_scopes: list[SkillScope] | None = None,
     ):
         """Initialize an LLMAgent.
 
@@ -51,6 +59,12 @@ class LLMAgent:
             tools (list[Tool], optional): The set of tools with which the
                 LLM can be equipped. Defaults to None.
             templates (LLMAgentTemplates): Prompt templates for LLM Agent.
+            skills_scopes (list[SkillScope], optional): The skill scopes to
+                scan during discovery, in processing order (last wins on
+                name collision). Pass `[]` to disable skills. Defaults to
+                None, which enables all scopes in priority order
+                ``[SkillScope.USER, SkillScope.PROJECT]``. Added in
+                Chapter 6.
         """
         self.llm = llm
         tools = tools or []
@@ -62,6 +76,12 @@ class LLMAgent:
         self.tools_registry = {t.name: t for t in tools}
         self.templates = templates
         self.logger = get_logger(self.__class__.__name__)
+        # added in ch06
+        self.skills_scopes = (
+            skills_scopes
+            if skills_scopes is not None
+            else [SkillScope.USER, SkillScope.PROJECT]
+        )
 
     @property
     def tools(self) -> list[Tool]:
@@ -91,6 +111,9 @@ class LLMAgent:
             rollout: The execution log of the task.
             step_counter: The number of TaskSteps executed.
             logger: TaskHandler logger.
+            skills (dict[str, Skill]): Skills discovered at the start of
+                each run, keyed by name. Populated in `_process_loop`.
+                Added in Chapter 6.
         """
 
         def __init__(
@@ -115,6 +138,10 @@ class LLMAgent:
             self.step_counter = 0
             self._background_task: asyncio.Task | None = None
             self.logger = get_logger(self.__class__.__name__)
+            # added in ch06
+            self.skills: dict[str, Skill] = discover_skills(
+                llm_agent.skills_scopes,
+            )
 
         @property
         def background_task(self) -> asyncio.Task:

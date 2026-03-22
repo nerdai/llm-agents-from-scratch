@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- refactor: introduce `SkillScope` enum and `get_skills_paths()` utility (#422)
 - feat: implement `Skill.read_body()` (#419)
 - feat: implement `Skill.catalog()` (#418)
 - feat: implement validate_skill_dir() (#417)

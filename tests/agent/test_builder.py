@@ -94,6 +94,23 @@ async def test_build() -> None:
 
 
 @pytest.mark.asyncio
+async def test_build_forwards_skills_scopes() -> None:
+    """Tests build forwards skills_scopes to LLMAgent correctly."""
+    mock_llm = MagicMock()
+
+    # explicit scopes forwarded as-is
+    agent = await LLMAgentBuilder(
+        llm=mock_llm,
+        skills_scopes=[SkillScope.PROJECT],
+    ).build()
+    assert agent.skills_scopes == [SkillScope.PROJECT]
+
+    # None resolved to defaults by LLMAgent
+    agent = await LLMAgentBuilder(llm=mock_llm).build()
+    assert agent.skills_scopes == [SkillScope.USER, SkillScope.PROJECT]
+
+
+@pytest.mark.asyncio
 async def test_build_raises_error_with_no_llm_set() -> None:
     """Tests build for LLMAgent."""
     mock_tool = MagicMock()

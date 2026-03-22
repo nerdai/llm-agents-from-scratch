@@ -10,9 +10,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- feat: implement `Skill.read_body()` (#419)
 - feat: implement `Skill.catalog()` (#418)
 - feat: implement validate_skill_dir() (#417)
 - feat: skills data structures, errors and skill construct (#412)
+
+### Removed
+
+- chore: remove `SkillInfo.from_skill_md()` (#420)
 
 ### Changed
 

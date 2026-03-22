@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Literal
 
 from ..data_structures.skill import SkillInfo
+from .constants import CATALOG_SKILL_TEMPLATE
 
 
 class Skill:
@@ -44,4 +45,8 @@ class Skill:
 
     def catalog(self) -> str:
         """Returns XML structured string for cataloging skill."""
-        raise NotImplementedError  # pragma: no cover
+        return CATALOG_SKILL_TEMPLATE.format(
+            name=self.info.name,
+            description=self.info.description,
+            location=self.location.as_posix(),
+        )

@@ -23,7 +23,7 @@ class SkillInfo(BaseModel):
     license: str | None = None
     compatibility: str | None = None
     metadata: dict[str, str] | None = None
-    allowed_tools: str | None = Field(None, alias="allowed-tools")
+    allowed_tools: str | None = Field(default=None, alias="allowed-tools")
 
     @field_validator("name", "description")
     @classmethod

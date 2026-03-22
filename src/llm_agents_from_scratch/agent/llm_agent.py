@@ -24,6 +24,8 @@ from llm_agents_from_scratch.errors import (
     TaskHandlerError,
 )
 from llm_agents_from_scratch.logger import get_logger
+from llm_agents_from_scratch.skills.discovery import discover_skills
+from llm_agents_from_scratch.skills.skill import Skill
 
 from .templates import LLMAgentTemplates, default_templates
 
@@ -58,9 +60,11 @@ class LLMAgent:
                 LLM can be equipped. Defaults to None.
             templates (LLMAgentTemplates): Prompt templates for LLM Agent.
             skills_scopes (list[SkillScope], optional): The skill scopes to
-                scan during discovery. Pass `[]` to disable skills. Defaults
-                to None, which enables all scopes (`SkillScope.PROJECT` and
-                `SkillScope.USER`). Added in Chapter 6.
+                scan during discovery, in processing order (last wins on
+                name collision). Pass `[]` to disable skills. Defaults to
+                None, which enables all scopes in priority order
+                ``[SkillScope.USER, SkillScope.PROJECT]``. Added in
+                Chapter 6.
         """
         self.llm = llm
         tools = tools or []
@@ -76,7 +80,7 @@ class LLMAgent:
         self.skills_scopes = (
             skills_scopes
             if skills_scopes is not None
-            else [SkillScope.PROJECT, SkillScope.USER]
+            else [SkillScope.USER, SkillScope.PROJECT]
         )
 
     @property
@@ -107,6 +111,9 @@ class LLMAgent:
             rollout: The execution log of the task.
             step_counter: The number of TaskSteps executed.
             logger: TaskHandler logger.
+            skills (dict[str, Skill]): Skills discovered at the start of
+                each run, keyed by name. Populated in `_process_loop`.
+                Added in Chapter 6.
         """
 
         def __init__(
@@ -131,6 +138,10 @@ class LLMAgent:
             self.step_counter = 0
             self._background_task: asyncio.Task | None = None
             self.logger = get_logger(self.__class__.__name__)
+            # added in ch06
+            self.skills: dict[str, Skill] = discover_skills(
+                llm_agent.skills_scopes,
+            )
 
         @property
         def background_task(self) -> asyncio.Task:

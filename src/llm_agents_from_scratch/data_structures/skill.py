@@ -42,8 +42,3 @@ class SkillInfo(BaseModel):
         if not v or not v.strip():
             raise ValueError("must be a non-empty string")
         return v
-
-    @classmethod
-    def from_skill_md(cls, skill_md: str) -> "SkillInfo":
-        """Construct from a loaded SKILL.md file."""
-        raise NotImplementedError  # pragma: no cover

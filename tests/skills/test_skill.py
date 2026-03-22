@@ -4,7 +4,6 @@ from pathlib import Path
 from unittest.mock import MagicMock
 
 from llm_agents_from_scratch.data_structures.skill import SkillInfo
-from llm_agents_from_scratch.skills.constants import CATALOG_SKILL_TEMPLATE
 from llm_agents_from_scratch.skills.skill import Skill
 
 
@@ -38,9 +37,13 @@ def test_skill_catalog_returns_xml_snippet() -> None:
     location = Path("/home/user/.agents/skills/pdf-processing/SKILL.md")
     skill = Skill(info=info, location=location, scope="project")
 
-    expected = CATALOG_SKILL_TEMPLATE.format(
-        name="pdf-processing",
-        description="Handle PDF files.",
-        location=location.as_posix(),
+    expected = (
+        "<skill>\n"
+        "    <name>pdf-processing</name>\n"
+        "    <description>Handle PDF files.</description>\n"
+        "    <location>"
+        "/home/user/.agents/skills/pdf-processing/SKILL.md"
+        "</location>\n"
+        "  </skill>"
     )
     assert skill.catalog() == expected

@@ -55,16 +55,17 @@ def validate_skill_dir(
         )
 
     try:
-        with open(skill_md_path, "r") as f:
+        with open(skill_md_path, "r", encoding="utf-8") as f:
             skill_md = f.read()
-
-        _, frontmatter_str, body = skill_md.split("---", 2)
-        frontmatter = yaml.safe_load(frontmatter_str)
-        info = SkillInfo.model_validate(frontmatter)
     except OSError as e:
         raise SkillValidationError(
             f"Failed to read SKILL.md at {skill_md_path}: {e}",
         ) from e
+
+    try:
+        _, frontmatter_str, body = skill_md.split("---", 2)
+        frontmatter = yaml.safe_load(frontmatter_str)
+        info = SkillInfo.model_validate(frontmatter)
     except (ValueError, ValidationError, yaml.YAMLError) as e:
         raise InvalidFrontmatterError(str(e)) from e
 

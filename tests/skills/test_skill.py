@@ -6,7 +6,11 @@ from unittest.mock import MagicMock
 import pytest
 
 from llm_agents_from_scratch.data_structures.skill import SkillInfo
-from llm_agents_from_scratch.errors import EmptySkillBodyError
+from llm_agents_from_scratch.errors import (
+    EmptySkillBodyError,
+    InvalidFrontmatterError,
+    SkillValidationError,
+)
 from llm_agents_from_scratch.skills.skill import Skill
 
 
@@ -55,6 +59,27 @@ def test_skill_read_body_raises_on_empty_body(tmp_path: Path) -> None:
     skill = Skill(info=info, location=skill_md, scope="project")
 
     with pytest.raises(EmptySkillBodyError):
+        skill.read_body()
+
+
+def test_skill_read_body_raises_on_unreadable_file(tmp_path: Path) -> None:
+    """Tests Skill.read_body() raises SkillValidationError if unreadable."""
+    skill_md = tmp_path / "SKILL.md"
+    info = SkillInfo(name="my-skill", description="Does things.")
+    skill = Skill(info=info, location=skill_md, scope="project")
+
+    with pytest.raises(SkillValidationError):
+        skill.read_body()
+
+
+def test_skill_read_body_raises_on_missing_delimiters(tmp_path: Path) -> None:
+    """Tests Skill.read_body() raises InvalidFrontmatterError if no delims."""
+    skill_md = tmp_path / "SKILL.md"
+    skill_md.write_text("name: my-skill\ndescription: Does things.\n")
+    info = SkillInfo(name="my-skill", description="Does things.")
+    skill = Skill(info=info, location=skill_md, scope="project")
+
+    with pytest.raises(InvalidFrontmatterError):
         skill.read_body()
 
 

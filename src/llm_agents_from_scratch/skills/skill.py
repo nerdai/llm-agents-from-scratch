@@ -17,9 +17,10 @@ class Skill:
     Attributes:
         info: Parsed frontmatter metadata from the skill's SKILL.md file.
         location: Absolute path to the skill's SKILL.md file on disk.
-        scope: The scope of the skill, either "project" or "user". Used to
-            resolve name collisions via deterministic precedence, with
-            "project" taking priority over "user".
+        scope: The scope of the skill (`SkillScope.PROJECT` or
+            `SkillScope.USER`). Used to resolve name collisions via
+            deterministic precedence, with `SkillScope.PROJECT` taking
+            priority over `SkillScope.USER`.
     """
 
     def __init__(
@@ -33,7 +34,8 @@ class Skill:
         Args:
             info: Parsed frontmatter metadata from the skill's SKILL.md file.
             location: Absolute path to the skill's SKILL.md file on disk.
-            scope: The scope of the skill, either "project" or "user".
+            scope: The scope of the skill (`SkillScope.PROJECT` or
+                `SkillScope.USER`).
         """
         self.info = info
         self.location = location

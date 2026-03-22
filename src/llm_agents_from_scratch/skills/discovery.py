@@ -93,10 +93,22 @@ def validate_skill_dir(
     return info, skill_warnings
 
 
-def discover_skills() -> list[Skill]:
-    """Scan project and user directories for skills."""
-    skills: list[Skill] = []
-    for scope in SkillScope:
+def discover_skills(scopes: list[SkillScope]) -> dict[str, Skill]:
+    """Scan directories for skills across the provided scopes.
+
+    Scopes are processed in the order given — on name collision, the last
+    scope wins. To give `SkillScope.PROJECT` priority over `SkillScope.USER`,
+    pass them as ``[SkillScope.USER, SkillScope.PROJECT]``.
+
+    Args:
+        scopes: The scopes to scan, in processing order.
+
+    Returns:
+        dict[str, Skill]: Discovered skills keyed by name, deduplicated with
+            last-scope precedence.
+    """
+    skills: dict[str, Skill] = {}
+    for scope in scopes:
         for skills_path in get_skills_paths(scope):
             if not skills_path.exists():
                 continue
@@ -118,12 +130,10 @@ def discover_skills() -> list[Skill]:
 
                 for w in skill_warnings:
                     warnings.warn(str(w), type(w), stacklevel=2)
-                skills.append(
-                    Skill(
-                        info=info,
-                        location=(skill_dir / "SKILL.md").resolve(),
-                        scope=scope,  # type: ignore[arg-type]
-                    ),
+                skills[info.name] = Skill(
+                    info=info,
+                    location=(skill_dir / "SKILL.md").resolve(),
+                    scope=scope,  # type: ignore[arg-type]
                 )
 
     return skills

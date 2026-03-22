@@ -17,6 +17,7 @@ from llm_agents_from_scratch.data_structures import (
     TaskStepResult,
     ToolCallResult,
 )
+from llm_agents_from_scratch.data_structures.skill import SkillScope
 from llm_agents_from_scratch.errors import (
     LLMAgentError,
     MaxStepsReachedError,
@@ -36,6 +37,9 @@ class LLMAgent:
             the LLM with, represented as a dict.
         templates (LLMAgentTemplates): Prompt templates for LLM Agent.
         logger (logging.Logger): LLMAgent logger.
+        skills_scopes (list[SkillScope]): The skill scopes to scan during
+            discovery. An empty list disables skills entirely. Added in
+            Chapter 6.
     """
 
     def __init__(
@@ -43,6 +47,8 @@ class LLMAgent:
         llm: LLM,
         tools: list[Tool] | None = None,
         templates: LLMAgentTemplates = default_templates,
+        # added in ch06
+        skills_scopes: list[SkillScope] | None = None,
     ):
         """Initialize an LLMAgent.
 
@@ -51,6 +57,10 @@ class LLMAgent:
             tools (list[Tool], optional): The set of tools with which the
                 LLM can be equipped. Defaults to None.
             templates (LLMAgentTemplates): Prompt templates for LLM Agent.
+            skills_scopes (list[SkillScope], optional): The skill scopes to
+                scan during discovery. Pass `[]` to disable skills. Defaults
+                to None, which enables all scopes (`SkillScope.PROJECT` and
+                `SkillScope.USER`). Added in Chapter 6.
         """
         self.llm = llm
         tools = tools or []
@@ -62,6 +72,12 @@ class LLMAgent:
         self.tools_registry = {t.name: t for t in tools}
         self.templates = templates
         self.logger = get_logger(self.__class__.__name__)
+        # added in ch06
+        self.skills_scopes = (
+            skills_scopes
+            if skills_scopes is not None
+            else [SkillScope.PROJECT, SkillScope.USER]
+        )
 
     @property
     def tools(self) -> list[Tool]:

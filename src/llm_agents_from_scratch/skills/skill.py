@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Literal
 
 from ..data_structures.skill import SkillInfo
+from ..errors import EmptySkillBodyError
 from .constants import CATALOG_SKILL_TEMPLATE
 
 
@@ -40,8 +41,22 @@ class Skill:
     scope: Literal["project", "user"]
 
     def read_body(self) -> str:
-        """Return body content as string."""
-        raise NotImplementedError  # pragma: no cover
+        """Return body content as string.
+
+        Note: Most error conditions (e.g. malformed frontmatter, missing
+            delimiters) are caught during discovery. EmptySkillBodyError can
+            only be raised if the skill file is modified between discovery
+            and activation.
+        """
+        with open(self.location, "r") as f:
+            skill_md = f.read()
+
+        _, _, body = skill_md.split("---", 2)
+
+        if not body.strip():
+            raise EmptySkillBodyError
+
+        return body.strip()
 
     def catalog(self) -> str:
         """Returns XML structured string for cataloging skill."""

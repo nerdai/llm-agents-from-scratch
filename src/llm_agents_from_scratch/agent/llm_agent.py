@@ -112,7 +112,9 @@ class LLMAgent:
             step_counter: The number of TaskSteps executed.
             logger: TaskHandler logger.
             skills (dict[str, Skill]): Skills discovered at the start of
-                each run, keyed by name. Populated in `_process_loop`.
+                each run, keyed by name. Includes all discovered skills
+                regardless of ``disable-model-invocation`` — that flag
+                only controls catalog visibility, not registry membership.
                 Added in Chapter 6.
         """
 

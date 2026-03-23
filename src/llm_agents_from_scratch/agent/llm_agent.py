@@ -165,16 +165,21 @@ class LLMAgent:
         def _skills_catalog(self) -> str:
             """Return formatted skills catalog, or empty string.
 
-            Builds the ``<skills>`` XML block from all discovered skills.
-            Returns an empty string when no skills are available so callers
-            can append it unconditionally without adding noise. Added in
+            Builds the ``<available_skills>`` XML block from discovered
+            skills that have not opted out of model-driven activation
+            (i.e. ``disable-model-invocation`` is not set). Returns an
+            empty string when no visible skills remain so callers can
+            append it unconditionally without adding noise. Added in
             Chapter 6.
             """
-            if not self.skills:
+            visible = [
+                skill
+                for skill in self.skills.values()
+                if not skill.info.disable_model_invocation
+            ]
+            if not visible:
                 return ""
-            entries = "\n".join(
-                skill.catalog() for skill in self.skills.values()
-            )
+            entries = "\n".join(skill.catalog() for skill in visible)
             return self.llm_agent.templates["skills_catalog"].format(
                 skills=entries,
             )

@@ -73,6 +73,6 @@ Continue your train of thought from where you left off.
 DEFAULT_SKILLS_CATALOG = """The following skills are available. To activate \
 one, call the `use_skill_tool` with the skill name.
 
-<skills>
+<available_skills>
 {skills}
-</skills>""".strip()
+</available_skills>""".strip()

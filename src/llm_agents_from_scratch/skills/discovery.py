@@ -13,6 +13,7 @@ from ..errors import (
     MissingSkillMdError,
     NameMismatchWarning,
     NameTooLongWarning,
+    SkillShadowedWarning,
     SkillSkippedWarning,
     SkillValidationError,
     SkillValidationWarning,
@@ -130,6 +131,16 @@ def discover_skills(scopes: list[SkillScope]) -> dict[str, Skill]:
 
                 for w in skill_warnings:
                     warnings.warn(str(w), type(w), stacklevel=2)
+
+                if info.name in skills:
+                    shadowed_scope = skills[info.name].scope
+                    warnings.warn(
+                        f"Skill '{info.name}' ({scope.value} scope) shadows"
+                        f" an existing skill of the same name"
+                        f" ({shadowed_scope.value} scope).",
+                        SkillShadowedWarning,
+                        stacklevel=2,
+                    )
                 skills[info.name] = Skill(
                     info=info,
                     location=(skill_dir / "SKILL.md").resolve(),

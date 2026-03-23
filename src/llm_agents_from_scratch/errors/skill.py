@@ -45,6 +45,12 @@ class InvalidFrontmatterError(SkillValidationError):
     pass
 
 
+class EmptySkillBodyError(SkillValidationError):
+    """Raised when a SKILL.md file has no body content after the frontmatter."""
+
+    pass
+
+
 class NameMismatchWarning(SkillValidationWarning):
     """Emitted when the skill name does not match its parent directory name."""
 
@@ -57,7 +63,7 @@ class NameTooLongWarning(SkillValidationWarning):
     pass
 
 
-class EmptySkillBodyError(SkillValidationError):
-    """Raised when a SKILL.md file has no body content after the frontmatter."""
+class SkillShadowedWarning(SkillValidationWarning):
+    """Emitted when a skill is shadowed and overridden."""
 
     pass

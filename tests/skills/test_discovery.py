@@ -8,6 +8,7 @@ import pytest
 
 from llm_agents_from_scratch.data_structures.skill import SkillScope
 from llm_agents_from_scratch.errors import (
+    SkillShadowedWarning,
     SkillSkippedWarning,
     SkillValidationError,
     SkillValidationWarning,
@@ -163,3 +164,45 @@ def test_discover_skills_project_overrides_user(tmp_path: Path) -> None:
 
     assert len(skills) == 1
     assert skills["my-skill"].scope == SkillScope.PROJECT
+
+
+def test_discover_skills_emits_shadowed_warning(tmp_path: Path) -> None:
+    """Tests that a SkillShadowedWarning is emitted on name collision."""
+    user_dir = tmp_path / "user"
+    project_dir = tmp_path / "project"
+    for d in (user_dir, project_dir):
+        skill_dir = d / "my-skill"
+        skill_dir.mkdir(parents=True)
+        (skill_dir / "SKILL.md").write_text(
+            "---\nname: my-skill\ndescription: A test skill.\n"
+            "---\nBody content.",
+        )
+
+    user_info = MagicMock()
+    user_info.name = "my-skill"
+    project_info = MagicMock()
+    project_info.name = "my-skill"
+
+    def _validate(dir: Path):
+        if dir.parent == user_dir:
+            return user_info, []
+        return project_info, []
+
+    with (
+        _patch_paths(project=[project_dir], user=[user_dir]),
+        patch(
+            "llm_agents_from_scratch.skills.discovery.validate_skill_dir",
+            side_effect=_validate,
+        ),
+        warnings.catch_warnings(record=True) as caught,
+    ):
+        warnings.simplefilter("always")
+        discover_skills(scopes=[SkillScope.USER, SkillScope.PROJECT])
+
+    shadowed = [
+        w for w in caught if issubclass(w.category, SkillShadowedWarning)
+    ]
+    assert len(shadowed) == 1
+    assert "my-skill" in str(shadowed[0].message)
+    assert "project" in str(shadowed[0].message)
+    assert "user" in str(shadowed[0].message)

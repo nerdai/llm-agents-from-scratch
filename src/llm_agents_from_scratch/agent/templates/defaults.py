@@ -69,3 +69,10 @@ You are in the middle of working through a task. Here's your thinking so far:
 
 Continue your train of thought from where you left off.
 """.strip()
+
+DEFAULT_SKILLS_CATALOG = """The following skills are available. To activate \
+one, call the `use_skill_tool` with the skill name.
+
+<skills>
+{skills}
+</skills>""".strip()

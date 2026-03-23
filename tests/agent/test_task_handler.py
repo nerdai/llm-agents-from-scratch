@@ -19,6 +19,7 @@ from llm_agents_from_scratch.data_structures import (
 )
 from llm_agents_from_scratch.data_structures.skill import SkillScope
 from llm_agents_from_scratch.errors import TaskHandlerError
+from llm_agents_from_scratch.skills.skill import Skill
 from llm_agents_from_scratch.tools.simple_function import (
     AsyncSimpleFunctionTool,
     SimpleFunctionTool,
@@ -567,3 +568,77 @@ async def test_run_step_with_tool_calls_in_final_response() -> None:
         + "\n".join(t.model_dump_json(indent=4) for t in second_set_tool_calls)
     )
     assert step_result.content == expected_final_content
+
+
+def test_skills_catalog_empty_when_no_skills(mock_llm: BaseLLM) -> None:
+    """Tests _skills_catalog returns empty string when no skills."""
+    llm_agent = LLMAgent(llm=mock_llm)
+    handler = LLMAgent.TaskHandler(
+        llm_agent=llm_agent,
+        task=Task(instruction="mock instruction"),
+    )
+    assert handler._skills_catalog == ""
+
+
+def test_skills_catalog_returns_catalog_xml(mock_llm: BaseLLM) -> None:
+    """Tests _skills_catalog returns formatted XML when skills present."""
+    mock_skill = MagicMock(spec=Skill)
+    mock_skill.catalog.return_value = "<skill><name>my-skill</name></skill>"
+
+    llm_agent = LLMAgent(llm=mock_llm)
+    handler = LLMAgent.TaskHandler(
+        llm_agent=llm_agent,
+        task=Task(instruction="mock instruction"),
+    )
+    handler.skills = {"my-skill": mock_skill}
+
+    expected = default_templates["skills_catalog"].format(
+        skills="<skill><name>my-skill</name></skill>",
+    )
+    assert handler._skills_catalog == expected
+
+
+@pytest.mark.asyncio
+async def test_run_step_injects_skills_catalog() -> None:
+    """Tests run_step appends skills catalog to system message when present."""
+    mock_skill = MagicMock(spec=Skill)
+    mock_skill.catalog.return_value = "<skill><name>my-skill</name></skill>"
+
+    mock_llm = AsyncMock()
+    mock_llm.chat.return_value = (
+        ChatMessage(role=ChatRole.USER, content="Some instruction."),
+        ChatMessage(role=ChatRole.ASSISTANT, content="Done."),
+    )
+
+    llm_agent = LLMAgent(llm=mock_llm)
+    handler = LLMAgent.TaskHandler(
+        llm_agent=llm_agent,
+        task=Task(instruction="mock instruction"),
+    )
+    handler.skills = {"my-skill": mock_skill}
+
+    step = TaskStep(
+        task_id=handler.task.id_,
+        instruction="Some instruction.",
+    )
+    await handler.run_step(step)
+
+    expected_catalog = default_templates["skills_catalog"].format(
+        skills="<skill><name>my-skill</name></skill>",
+    )
+    expected_system_content = (
+        default_templates["run_step_system_message_without_rollout"].format(
+            llm_agent_system_message=llm_agent.templates["system_message"],
+        )
+        + f"\n\n{expected_catalog}"
+    )
+    mock_llm.chat.assert_awaited_once_with(
+        input="Some instruction.",
+        chat_history=[
+            ChatMessage(
+                role=ChatRole.SYSTEM,
+                content=expected_system_content,
+            ),
+        ],
+        tools=list(handler.llm_agent.tools_registry.values()),
+    )

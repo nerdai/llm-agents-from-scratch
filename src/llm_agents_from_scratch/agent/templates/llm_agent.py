@@ -10,6 +10,7 @@ from .defaults import (
     DEFAULT_RUN_STEP_SYSTEM_MESSAGE,
     DEFAULT_RUN_STEP_SYSTEM_MESSAGE_WITHOUT_ROLLOUT,
     DEFAULT_RUN_STEP_USER_MESSAGE,
+    DEFAULT_SKILLS_CATALOG,
     DEFAULT_SYSTEM_MESSAGE,
 )
 
@@ -26,6 +27,8 @@ class LLMAgentTemplates(TypedDict):
     run_step_system_message_without_rollout: str
     run_step_system_message: str
     run_step_user_message: str
+    # added in ch06
+    skills_catalog: str
 
 
 default_templates = LLMAgentTemplates(
@@ -37,4 +40,6 @@ default_templates = LLMAgentTemplates(
     run_step_system_message_without_rollout=DEFAULT_RUN_STEP_SYSTEM_MESSAGE_WITHOUT_ROLLOUT,
     run_step_system_message=DEFAULT_RUN_STEP_SYSTEM_MESSAGE,
     run_step_user_message=DEFAULT_RUN_STEP_USER_MESSAGE,
+    # added in ch06
+    skills_catalog=DEFAULT_SKILLS_CATALOG,
 )

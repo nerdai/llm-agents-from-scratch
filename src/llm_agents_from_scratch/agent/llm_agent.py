@@ -161,6 +161,24 @@ class LLMAgent:
                 )
             self._background_task = asyncio_task
 
+        @property
+        def _skills_catalog(self) -> str:
+            """Return formatted skills catalog, or empty string.
+
+            Builds the ``<skills>`` XML block from all discovered skills.
+            Returns an empty string when no skills are available so callers
+            can append it unconditionally without adding noise. Added in
+            Chapter 6.
+            """
+            if not self.skills:
+                return ""
+            entries = "\n".join(
+                skill.catalog() for skill in self.skills.values()
+            )
+            return self.llm_agent.templates["skills_catalog"].format(
+                skills=entries,
+            )
+
         def _rollout_contribution_from_single_run_step(
             self,
             chat_history: list[ChatMessage],
@@ -303,6 +321,12 @@ class LLMAgent:
                     ],
                 ),
             )
+            # added in ch06: bolt on skills catalog when skills are available
+            if catalog := self._skills_catalog:
+                system_message = ChatMessage(
+                    role=ChatRole.SYSTEM,
+                    content=f"{system_message.content}\n\n{catalog}",
+                )
             self.logger.debug(f"💬 SYSTEM: {system_message.content}")
 
             # fictitious user's input

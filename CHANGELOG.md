@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- feat: handle `disable-model-invocation` flag and shadowing warnings (#429)
 - feat: inject skills catalog into `TaskHandler` system prompt (#423)
 - feat: add `skills_scopes` to `LLMAgent` and skill discovery to `TaskHandler` (#424)
 - refactor: introduce `SkillScope` enum and `get_skills_paths()` utility (#422)

@@ -12,6 +12,7 @@ from .skill import (
     NameMismatchWarning,
     NameTooLongWarning,
     SkillsError,
+    SkillShadowedWarning,
     SkillSkippedWarning,
     SkillsWarning,
     SkillValidationError,
@@ -35,6 +36,7 @@ __all__ = [
     # skill
     "SkillsError",
     "SkillsWarning",
+    "SkillShadowedWarning",
     "SkillValidationError",
     "SkillValidationWarning",
     "SkillSkippedWarning",

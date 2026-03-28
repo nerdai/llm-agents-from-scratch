@@ -570,6 +570,44 @@ async def test_run_step_with_tool_calls_in_final_response() -> None:
     assert step_result.content == expected_final_content
 
 
+def test_task_handler_use_skill_tool_set_when_skills_present(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests _use_skill_tool is set when skills are discovered."""
+    mock_skill = MagicMock(spec=Skill)
+    mock_skill.info = MagicMock(disable_model_invocation=False)
+
+    llm_agent = LLMAgent(llm=mock_llm)
+    with patch(
+        "llm_agents_from_scratch.agent.llm_agent.discover_skills",
+        return_value={"my-skill": mock_skill},
+    ):
+        handler = LLMAgent.TaskHandler(
+            llm_agent=llm_agent,
+            task=Task(instruction="mock instruction"),
+        )
+
+    assert handler._use_skill_tool is not None
+    assert handler._use_skill_tool.name == "from_scratch__use_skill"
+
+
+def test_task_handler_use_skill_tool_none_when_no_skills(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests _use_skill_tool is None when no skills are discovered."""
+    llm_agent = LLMAgent(llm=mock_llm)
+    with patch(
+        "llm_agents_from_scratch.agent.llm_agent.discover_skills",
+        return_value={},
+    ):
+        handler = LLMAgent.TaskHandler(
+            llm_agent=llm_agent,
+            task=Task(instruction="mock instruction"),
+        )
+
+    assert handler._use_skill_tool is None
+
+
 def test_skills_catalog_empty_when_no_skills(mock_llm: BaseLLM) -> None:
     """Tests _skills_catalog returns empty string when no skills."""
     llm_agent = LLMAgent(llm=mock_llm)

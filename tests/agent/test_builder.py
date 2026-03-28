@@ -87,7 +87,7 @@ async def test_build() -> None:
     )
     agent = await builder.build()
 
-    assert set(agent.tools) == {test_mcp_tool, mock_tool}
+    assert {test_mcp_tool, mock_tool}.issubset(set(agent.tools))
     mock_get_tools.assert_awaited_once()
     assert agent.llm == builder.llm
     assert agent.templates == builder.templates

@@ -407,6 +407,7 @@ async def test_run_step_without_tool_calls() -> None:
 
     llm_agent = LLMAgent(
         llm=mock_llm,
+        include_default_tools=False,
     )
     handler = LLMAgent.TaskHandler(
         llm_agent=llm_agent,
@@ -437,7 +438,7 @@ async def test_run_step_without_tool_calls() -> None:
                 ),
             ),
         ],
-        tools=list(handler.llm_agent.tools_registry.keys()),
+        tools=list(handler.llm_agent.tools_registry.values()),
     )
     mock_llm.continue_chat_with_tool_results.assert_not_awaited()
     assert step_result.task_step_id == step.id_

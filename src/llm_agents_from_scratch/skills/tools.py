@@ -1,0 +1,107 @@
+"""Tools for Skills activation."""
+
+from typing import Any
+
+from ..base.tool import BaseTool
+from ..data_structures import ToolCall, ToolCallResult
+from .constants import ACTIVATION_CONTENT_TEMPLATE, SKILL_RESOURCES_TEMPLATE
+from .skill import Skill
+
+
+class UseSkillTool(BaseTool):
+    """A dedicated tool for activating a skill."""
+
+    def __init__(
+        self,
+        skills: dict[str, Skill],
+        activated_skills: set[str],
+    ) -> None:
+        """Initialize a UseSkillTool.
+
+        Args:
+            skills (dict[str, Skill]): All discovered skills, keyed by name.
+            activated_skills (set[str]): Mutable set tracking already-activated
+                skill names. Updated in-place on each successful activation.
+        """
+        self._skills = skills
+        self._activated_skills = activated_skills
+        self._visible = [
+            name
+            for name, s in skills.items()
+            if not s.info.disable_model_invocation
+        ]
+
+    @property
+    def name(self) -> str:
+        """Name of skill activation tool."""
+        return "use_skill"
+
+    @property
+    def description(self) -> str:
+        """Description of the skill activation tool."""
+        return (
+            "Load and activate a skill by name, returning its full"
+            " instructions. Only call this tool with a skill name from the"
+            " available skills catalog."
+        )
+
+    @property
+    def parameters_json_schema(self) -> dict[str, Any]:
+        """JSON schema for tool parameters.
+
+        The ``name`` field is constrained to an enum of visible skill names
+        (i.e. skills that have not set ``disable-model-invocation``).
+        """
+        return {
+            "type": "object",
+            "properties": {
+                "name": {"type": "string", "enum": self._visible},
+            },
+            "required": ["name"],
+        }
+
+    def _build_skill_content(self, name: str) -> str:
+        """Build the ``<skill_content>`` block for a skill.
+
+        Args:
+            name: The skill name to build content for.
+
+        Returns:
+            Formatted ``<skill_content>`` XML string.
+        """
+        skill = self._skills[name]
+        resources = skill.resources
+        skill_resources = (
+            SKILL_RESOURCES_TEMPLATE.format(
+                files="\n".join(
+                    f"  <file>{r.as_posix()}</file>" for r in resources
+                ),
+            )
+            if resources
+            else ""
+        )
+        return ACTIVATION_CONTENT_TEMPLATE.format(
+            name=skill.info.name,
+            body=skill.read_body(),
+            skill_dir=skill.location.parent.as_posix(),
+            skill_resources=skill_resources,
+        )
+
+    def __call__(
+        self,
+        tool_call: ToolCall,
+        *args: Any,
+        **kwargs: Any,
+    ) -> ToolCallResult:
+        """Execute the skill activation tool.
+
+        Args:
+            tool_call (ToolCall): The ToolCall to execute.
+            *args (Any): Additional positional arguments.
+            **kwargs (Any): Additional keyword arguments.
+
+        Returns:
+            ToolCallResult: The skill content on first activation, or an
+                informational message if the skill was already activated.
+        """
+        return super().__call__(tool_call, *args, **kwargs)  # type: ignore

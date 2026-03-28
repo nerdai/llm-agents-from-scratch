@@ -8,7 +8,7 @@ from ..errors import (
     InvalidFrontmatterError,
     SkillValidationError,
 )
-from .constants import CATALOG_SKILL_TEMPLATE
+from .constants import CATALOG_SKILL_TEMPLATE, OPTIONAL_SUBDIRS
 
 
 class Skill:
@@ -21,6 +21,9 @@ class Skill:
             `SkillScope.USER`). Used to resolve name collisions via
             deterministic precedence, with `SkillScope.PROJECT` taking
             priority over `SkillScope.USER`.
+        resources: Relative paths of resource files found in the skill's
+            optional subdirectories (``assets/``, ``scripts/``,
+            ``references/``). Empty list if none of those directories exist.
     """
 
     def __init__(
@@ -71,6 +74,23 @@ class Skill:
             raise EmptySkillBodyError
 
         return body.strip()
+
+    @property
+    def resources(self) -> list[Path]:
+        """Return relative paths of resource files in optional subdirectories.
+
+        Scans the directories listed in ``OPTIONAL_SUBDIRS`` (``assets/``,
+        ``scripts/``, ``references/``) under the skill directory and returns
+        the relative path of each file found. Returns an empty list if none
+        of those directories exist.
+        """
+        skill_dir = self.location.parent
+        files: list[Path] = []
+        for subdir in OPTIONAL_SUBDIRS:
+            p = skill_dir / subdir
+            if p.is_dir():
+                files.extend(sorted(p.iterdir()))
+        return [f.relative_to(skill_dir) for f in files if f.is_file()]
 
     def catalog(self) -> str:
         """Returns XML structured string for cataloging skill."""

@@ -26,6 +26,7 @@ from llm_agents_from_scratch.errors import (
 from llm_agents_from_scratch.logger import get_logger
 from llm_agents_from_scratch.skills.discovery import discover_skills
 from llm_agents_from_scratch.skills.skill import Skill
+from llm_agents_from_scratch.skills.tools import UseSkillTool
 
 from .templates import LLMAgentTemplates, default_templates
 
@@ -116,6 +117,11 @@ class LLMAgent:
                 regardless of ``disable-model-invocation`` — that flag
                 only controls catalog visibility, not registry membership.
                 Added in Chapter 6.
+            _activated_skills (set[str]): Names of skills already activated
+                in this task run. Added in Chapter 6.
+            _use_skill_tool (UseSkillTool | None): Task-scoped skill
+                activation tool. Set when skills are discovered; ``None``
+                otherwise. Added in Chapter 6.
         """
 
         def __init__(
@@ -143,6 +149,10 @@ class LLMAgent:
             # added in ch06
             self.skills: dict[str, Skill] = discover_skills(
                 llm_agent.skills_scopes,
+            )
+            self._activated_skills: set[str] = set()
+            self._use_skill_tool: UseSkillTool | None = (
+                UseSkillTool(skills=self.skills) if self.skills else None
             )
 
         @property
@@ -345,10 +355,14 @@ class LLMAgent:
             self.logger.debug(f"💬 USER INPUT: {user_input}")
 
             # start single-turn conversation
+            # added in ch06: include use_skill tool when skills are available
+            all_tools = self.llm_agent.tools + (
+                [self._use_skill_tool] if self._use_skill_tool else []
+            )
             user_message, response_message = await self.llm_agent.llm.chat(
                 input=user_input,
                 chat_history=[system_message],
-                tools=self.llm_agent.tools,
+                tools=all_tools,
             )
             self.logger.debug(f"💬 ASSISTANT: {response_message.content}")
 
@@ -359,8 +373,16 @@ class LLMAgent:
                     self.logger.info(
                         f"🛠️ Executing Tool Call: {tool_call.tool_name}",
                     )
-                    if tool := self.llm_agent.tools_registry.get(
-                        tool_call.tool_name,
+                    if tool := (
+                        self.llm_agent.tools_registry.get(
+                            tool_call.tool_name,
+                        )
+                        or (
+                            self._use_skill_tool
+                            if self._use_skill_tool
+                            and tool_call.tool_name == self._use_skill_tool.name
+                            else None
+                        )
                     ):
                         if isinstance(tool, AsyncBaseTool):
                             tool_call_result = await tool(tool_call=tool_call)

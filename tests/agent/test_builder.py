@@ -117,3 +117,11 @@ async def test_build_raises_error_with_no_llm_set() -> None:
 
     with pytest.raises(LLMAgentBuilderError, match="`llm` must be set"):
         await LLMAgentBuilder().with_tool(mock_tool).build()
+
+
+def test_with_include_default_tools() -> None:
+    """Tests with_include_default_tools fluent method."""
+    builder = LLMAgentBuilder()
+    result = builder.with_include_default_tools(False)
+    assert result is builder
+    assert builder.include_default_tools is False

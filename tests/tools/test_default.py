@@ -1,6 +1,7 @@
 """Unit tests for default tools."""
 
 from pathlib import Path
+from unittest.mock import patch
 
 from llm_agents_from_scratch.data_structures import ToolCall
 from llm_agents_from_scratch.tools.default import DEFAULT_TOOLS, ReadFileTool
@@ -107,6 +108,28 @@ def test_read_file_tool_allows_path_within_base_dir(tmp_path: Path) -> None:
 
     assert result.error is False
     assert result.content == "safe content"
+
+
+def test_read_file_tool_error_on_os_error(tmp_path: Path) -> None:
+    """Tests ReadFileTool returns error on generic OSError."""
+    f = tmp_path / "file.txt"
+    f.write_text("data")
+
+    tool = ReadFileTool()
+    tool_call = ToolCall(
+        tool_name="from_scratch__read_file",
+        arguments={"path": str(f)},
+    )
+
+    with patch.object(
+        Path,
+        "read_text",
+        side_effect=OSError("permission denied"),
+    ):
+        result = tool(tool_call=tool_call)
+
+    assert result.error is True
+    assert "OSError" in result.content
 
 
 def test_default_tools_contains_read_file_tool() -> None:

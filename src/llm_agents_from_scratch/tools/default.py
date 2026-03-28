@@ -9,23 +9,7 @@ from ..data_structures import ToolCall, ToolCallResult
 
 
 class ReadFileTool(BaseTool):
-    """A tool for reading the contents of a local file.
-
-    Attributes:
-        _base_dir (Path | None): Optional base directory used to resolve
-            relative paths. When set, paths outside this directory are
-            rejected.
-    """
-
-    def __init__(self, base_dir: Path | None = None) -> None:
-        """Initialize a ReadFileTool.
-
-        Args:
-            base_dir (Path | None, optional): Base directory to resolve
-                relative paths against and enforce path containment.
-                Defaults to None.
-        """
-        self._base_dir = base_dir
+    """A tool for reading the contents of a local file."""
 
     @property
     def name(self) -> str:
@@ -77,28 +61,8 @@ class ReadFileTool(BaseTool):
                 error=True,
             )
 
-        path = Path(raw_path)
-        if self._base_dir is not None:
-            path = (self._base_dir / path).resolve()
-            try:
-                path.relative_to(self._base_dir.resolve())
-            except ValueError:
-                return ToolCallResult(
-                    tool_call_id=tool_call.id_,
-                    content=json.dumps(
-                        {
-                            "error_type": "PermissionError",
-                            "message": (
-                                f"Path '{raw_path}' is outside the allowed"
-                                " base directory."
-                            ),
-                        },
-                    ),
-                    error=True,
-                )
-
         try:
-            content = path.read_text(encoding="utf-8")
+            content = Path(raw_path).read_text(encoding="utf-8")
         except FileNotFoundError:
             return ToolCallResult(
                 tool_call_id=tool_call.id_,

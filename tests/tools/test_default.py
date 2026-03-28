@@ -72,44 +72,6 @@ def test_read_file_tool_error_on_missing_path_argument() -> None:
     assert "Missing" in result.content
 
 
-def test_read_file_tool_enforces_base_dir(tmp_path: Path) -> None:
-    """Tests ReadFileTool rejects paths outside base_dir."""
-    allowed = tmp_path / "allowed"
-    allowed.mkdir()
-    outside = tmp_path / "secret.txt"
-    outside.write_text("secret")
-
-    tool = ReadFileTool(base_dir=allowed)
-    tool_call = ToolCall(
-        tool_name="from_scratch__read_file",
-        arguments={"path": str(outside)},
-    )
-
-    result = tool(tool_call=tool_call)
-
-    assert result.error is True
-    assert "PermissionError" in result.content
-
-
-def test_read_file_tool_allows_path_within_base_dir(tmp_path: Path) -> None:
-    """Tests ReadFileTool reads files within base_dir."""
-    base = tmp_path / "base"
-    base.mkdir()
-    f = base / "data.txt"
-    f.write_text("safe content")
-
-    tool = ReadFileTool(base_dir=base)
-    tool_call = ToolCall(
-        tool_name="from_scratch__read_file",
-        arguments={"path": "data.txt"},
-    )
-
-    result = tool(tool_call=tool_call)
-
-    assert result.error is False
-    assert result.content == "safe content"
-
-
 def test_read_file_tool_error_on_os_error(tmp_path: Path) -> None:
     """Tests ReadFileTool returns error on generic OSError."""
     f = tmp_path / "file.txt"

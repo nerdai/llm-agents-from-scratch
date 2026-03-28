@@ -2,6 +2,7 @@
 
 from pathlib import Path
 
+from llm_agents_from_scratch.data_structures import ToolCall
 from llm_agents_from_scratch.data_structures.skill import SkillInfo, SkillScope
 from llm_agents_from_scratch.skills.skill import Skill
 from llm_agents_from_scratch.skills.tools import UseSkillTool
@@ -24,13 +25,13 @@ def make_skill(
 
 def test_use_skill_tool_name() -> None:
     """Tests UseSkillTool.name returns 'use_skill'."""
-    tool = UseSkillTool(skills={}, activated_skills=set())
+    tool = UseSkillTool(skills={})
     assert tool.name == "use_skill"
 
 
 def test_use_skill_tool_description() -> None:
     """Tests UseSkillTool.description mentions activation."""
-    tool = UseSkillTool(skills={}, activated_skills=set())
+    tool = UseSkillTool(skills={})
     assert "activate" in tool.description.lower()
 
 
@@ -40,7 +41,7 @@ def test_use_skill_tool_parameters_json_schema_enum() -> None:
         "skill-a": make_skill(name="skill-a"),
         "skill-b": make_skill(name="skill-b"),
     }
-    tool = UseSkillTool(skills=skills, activated_skills=set())
+    tool = UseSkillTool(skills=skills)
 
     enum = tool.parameters_json_schema["properties"]["name"]["enum"]
     assert "skill-a" in enum
@@ -53,7 +54,7 @@ def test_use_skill_tool_parameters_json_schema_excludes_disabled() -> None:
         "visible": make_skill(name="visible"),
         "hidden": make_skill(name="hidden", disable_model_invocation=True),
     }
-    tool = UseSkillTool(skills=skills, activated_skills=set())
+    tool = UseSkillTool(skills=skills)
 
     enum = tool.parameters_json_schema["properties"]["name"]["enum"]
     assert "visible" in enum
@@ -74,7 +75,7 @@ def test_use_skill_tool_build_skill_content_without_resources(
         location=skill_md,
         scope=SkillScope.PROJECT,
     )
-    tool = UseSkillTool(skills={"my-skill": skill}, activated_skills=set())
+    tool = UseSkillTool(skills={"my-skill": skill})
 
     content = tool._build_skill_content("my-skill")
 
@@ -101,7 +102,7 @@ def test_use_skill_tool_build_skill_content_with_resources(
         location=skill_md,
         scope=SkillScope.PROJECT,
     )
-    tool = UseSkillTool(skills={"my-skill": skill}, activated_skills=set())
+    tool = UseSkillTool(skills={"my-skill": skill})
 
     content = tool._build_skill_content("my-skill")
 
@@ -111,3 +112,49 @@ def test_use_skill_tool_build_skill_content_with_resources(
         "Relative paths in this skill are relative to the skill directory."
         in content
     )
+
+
+def test_use_skill_tool_call_returns_skill_content(tmp_path: Path) -> None:
+    """Tests __call__ returns skill content on successful activation."""
+    skill_md = tmp_path / "SKILL.md"
+    skill_md.write_text(
+        "---\nname: my-skill\ndescription: Does things.\n---\n\n"
+        "## Instructions\n\nDo the thing.\n",
+    )
+    skill = Skill(
+        info=SkillInfo(name="my-skill", description="Does things."),
+        location=skill_md,
+        scope=SkillScope.PROJECT,
+    )
+    tool = UseSkillTool(skills={"my-skill": skill})
+    tool_call = ToolCall(tool_name="use_skill", arguments={"name": "my-skill"})
+
+    result = tool(tool_call=tool_call)
+
+    assert result.error is False
+    assert '<skill_content name="my-skill">' in result.content
+    assert "## Instructions" in result.content
+
+
+def test_use_skill_tool_call_returns_error_on_invalid_name(
+    tmp_path: Path,
+) -> None:
+    """Tests __call__ returns error ToolCallResult for unknown skill name."""
+    skill_md = tmp_path / "SKILL.md"
+    skill_md.write_text(
+        "---\nname: my-skill\ndescription: Does things.\n---\n\nBody.\n",
+    )
+    skill = Skill(
+        info=SkillInfo(name="my-skill", description="Does things."),
+        location=skill_md,
+        scope=SkillScope.PROJECT,
+    )
+    tool = UseSkillTool(skills={"my-skill": skill})
+    tool_call = ToolCall(
+        tool_name="use_skill",
+        arguments={"name": "nonexistent"},
+    )
+
+    result = tool(tool_call=tool_call)
+
+    assert result.error is True

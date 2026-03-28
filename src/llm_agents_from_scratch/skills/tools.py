@@ -1,6 +1,9 @@
 """Tools for Skills activation."""
 
+import json
 from typing import Any
+
+from jsonschema import SchemaError, ValidationError, validate
 
 from ..base.tool import BaseTool
 from ..data_structures import ToolCall, ToolCallResult
@@ -9,22 +12,24 @@ from .skill import Skill
 
 
 class UseSkillTool(BaseTool):
-    """A dedicated tool for activating a skill."""
+    """A dedicated tool for activating a skill.
+
+    Attributes:
+        skills (dict[str, Skill]): All discovered skills, keyed by name.
+            Includes skills with ``disable-model-invocation`` set — those are
+            excluded from the enum but remain loadable if called directly.
+    """
 
     def __init__(
         self,
         skills: dict[str, Skill],
-        activated_skills: set[str],
     ) -> None:
         """Initialize a UseSkillTool.
 
         Args:
             skills (dict[str, Skill]): All discovered skills, keyed by name.
-            activated_skills (set[str]): Mutable set tracking already-activated
-                skill names. Updated in-place on each successful activation.
         """
         self._skills = skills
-        self._activated_skills = activated_skills
         self._visible = [
             name
             for name, s in skills.items()
@@ -101,7 +106,28 @@ class UseSkillTool(BaseTool):
             **kwargs (Any): Additional keyword arguments.
 
         Returns:
-            ToolCallResult: The skill content on first activation, or an
-                informational message if the skill was already activated.
+            ToolCallResult: The activated skill's full content.
         """
-        return super().__call__(tool_call, *args, **kwargs)  # type: ignore
+        try:
+            # validate the arguments
+            validate(tool_call.arguments, schema=self.parameters_json_schema)
+        except (SchemaError, ValidationError) as e:
+            error_details = {
+                "error_type": e.__class__.__name__,
+                "message": e.message,
+            }
+            return ToolCallResult(
+                tool_call_id=tool_call.id_,
+                content=json.dumps(error_details),
+                error=True,
+            )
+
+        # if pass validation then "name" is present in arguments
+        skill_name: str = tool_call.arguments["name"]
+        content = self._build_skill_content(skill_name)
+
+        return ToolCallResult(
+            tool_call_id=tool_call.id_,
+            content=content,
+            error=False,
+        )

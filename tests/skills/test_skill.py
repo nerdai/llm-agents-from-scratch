@@ -83,6 +83,36 @@ def test_skill_read_body_raises_on_missing_delimiters(tmp_path: Path) -> None:
         skill.read_body()
 
 
+def test_skill_resources_returns_empty_when_no_subdirs(tmp_path: Path) -> None:
+    """Tests Skill.resources returns [] when no optional subdirs exist."""
+    skill_md = tmp_path / "SKILL.md"
+    skill_md.write_text(
+        "---\nname: my-skill\ndescription: Does things.\n---\n\nBody.\n",
+    )
+    info = SkillInfo(name="my-skill", description="Does things.")
+    skill = Skill(info=info, location=skill_md, scope=SkillScope.PROJECT)
+
+    assert skill.resources == []
+
+
+def test_skill_resources_returns_relative_paths(tmp_path: Path) -> None:
+    """Tests Skill.resources returns relative paths for files in subdirs."""
+    skill_md = tmp_path / "SKILL.md"
+    skill_md.write_text(
+        "---\nname: my-skill\ndescription: Does things.\n---\n\nBody.\n",
+    )
+    (tmp_path / "scripts").mkdir()
+    (tmp_path / "scripts" / "run.py").write_text("print('hi')")
+    (tmp_path / "references").mkdir()
+    (tmp_path / "references" / "guide.md").write_text("# Guide")
+    info = SkillInfo(name="my-skill", description="Does things.")
+    skill = Skill(info=info, location=skill_md, scope=SkillScope.PROJECT)
+
+    resources = skill.resources
+    assert Path("scripts/run.py") in resources
+    assert Path("references/guide.md") in resources
+
+
 def test_skill_catalog_returns_xml_snippet() -> None:
     """Tests Skill.catalog() returns expected XML string."""
     info = SkillInfo(name="pdf-processing", description="Handle PDF files.")

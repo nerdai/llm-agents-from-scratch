@@ -83,6 +83,11 @@ class Skill:
         ``scripts/``, ``references/``) under the skill directory and returns
         the relative path of each file found. Returns an empty list if none
         of those directories exist.
+
+        Note: Only top-level files within each optional subdirectory are
+            returned. This conforms to the Agent Skills specification, which
+            advises keeping file references one level deep from ``SKILL.md``
+            and avoiding deeply nested resource chains.
         """
         skill_dir = self.location.parent
         files: list[Path] = []

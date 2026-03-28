@@ -39,15 +39,15 @@ class UseSkillTool(BaseTool):
     @property
     def name(self) -> str:
         """Name of skill activation tool."""
-        return "use_skill"
+        return "from_scratch__use_skill"
 
     @property
     def description(self) -> str:
         """Description of the skill activation tool."""
         return (
             "Load and activate a skill by name, returning its full"
-            " instructions. Only call this tool with a skill name from the"
-            " available skills catalog."
+            " instructions. Only call this tool with a skill name from"
+            " the <available_skills> catalog."
         )
 
     @property

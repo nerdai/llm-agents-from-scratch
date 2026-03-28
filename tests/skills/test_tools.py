@@ -26,7 +26,7 @@ def make_skill(
 def test_use_skill_tool_name() -> None:
     """Tests UseSkillTool.name returns 'use_skill'."""
     tool = UseSkillTool(skills={})
-    assert tool.name == "use_skill"
+    assert tool.name == "from_scratch__use_skill"
 
 
 def test_use_skill_tool_description() -> None:

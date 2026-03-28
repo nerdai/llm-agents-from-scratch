@@ -119,9 +119,9 @@ class LLMAgent:
                 Added in Chapter 6.
             _activated_skills (set[str]): Names of skills already activated
                 in this task run. Added in Chapter 6.
-            _task_tools (dict[str, Tool]): Task-scoped tools registered per
-                run (e.g. ``use_skill``). Non-empty when skills are present.
-                Added in Chapter 6.
+            _use_skill_tool (UseSkillTool | None): Task-scoped skill
+                activation tool. Set when skills are discovered; ``None``
+                otherwise. Added in Chapter 6.
         """
 
         def __init__(
@@ -151,10 +151,9 @@ class LLMAgent:
                 llm_agent.skills_scopes,
             )
             self._activated_skills: set[str] = set()
-            self._task_tools: dict[str, Tool] = {}
-            if self.skills:
-                use_skill_tool = UseSkillTool(skills=self.skills)
-                self._task_tools[use_skill_tool.name] = use_skill_tool
+            self._use_skill_tool: UseSkillTool | None = (
+                UseSkillTool(skills=self.skills) if self.skills else None
+            )
 
         @property
         def background_task(self) -> asyncio.Task:
@@ -356,8 +355,10 @@ class LLMAgent:
             self.logger.debug(f"💬 USER INPUT: {user_input}")
 
             # start single-turn conversation
-            # added in ch06: merge agent tools with task-scoped tools
-            all_tools = self.llm_agent.tools + list(self._task_tools.values())
+            # added in ch06: include use_skill tool when skills are available
+            all_tools = self.llm_agent.tools + (
+                [self._use_skill_tool] if self._use_skill_tool else []
+            )
             user_message, response_message = await self.llm_agent.llm.chat(
                 input=user_input,
                 chat_history=[system_message],
@@ -376,7 +377,12 @@ class LLMAgent:
                         self.llm_agent.tools_registry.get(
                             tool_call.tool_name,
                         )
-                        or self._task_tools.get(tool_call.tool_name)
+                        or (
+                            self._use_skill_tool
+                            if self._use_skill_tool
+                            and tool_call.tool_name == self._use_skill_tool.name
+                            else None
+                        )
                     ):
                         if isinstance(tool, AsyncBaseTool):
                             tool_call_result = await tool(tool_call=tool_call)

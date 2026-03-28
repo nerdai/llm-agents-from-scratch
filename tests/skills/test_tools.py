@@ -121,6 +121,10 @@ def test_use_skill_tool_call_returns_skill_content(tmp_path: Path) -> None:
         "---\nname: my-skill\ndescription: Does things.\n---\n\n"
         "## Instructions\n\nDo the thing.\n",
     )
+    (tmp_path / "scripts").mkdir()
+    (tmp_path / "scripts" / "run.py").write_text("print('hi')")
+    (tmp_path / "references").mkdir()
+    (tmp_path / "references" / "guide.md").write_text("# Guide")
     skill = Skill(
         info=SkillInfo(name="my-skill", description="Does things."),
         location=skill_md,
@@ -134,6 +138,9 @@ def test_use_skill_tool_call_returns_skill_content(tmp_path: Path) -> None:
     assert result.error is False
     assert '<skill_content name="my-skill">' in result.content
     assert "## Instructions" in result.content
+    assert "<skill_resources>" in result.content
+    assert "<file>scripts/run.py</file>" in result.content
+    assert "<file>references/guide.md</file>" in result.content
 
 
 def test_use_skill_tool_call_returns_error_on_invalid_name(

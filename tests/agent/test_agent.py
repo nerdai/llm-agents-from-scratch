@@ -13,21 +13,13 @@ from llm_agents_from_scratch.data_structures.agent import (
     TaskStep,
 )
 from llm_agents_from_scratch.errors import LLMAgentError, MaxStepsReachedError
-from llm_agents_from_scratch.tools.default import ReadFileTool
 
 
 def test_init(mock_llm: BaseLLM) -> None:
-    """Tests init of LLMAgent includes default tools by default."""
+    """Tests init of LLMAgent."""
     agent = LLMAgent(llm=mock_llm)
 
     assert agent.llm == mock_llm
-    assert any(isinstance(t, ReadFileTool) for t in agent.tools)
-
-
-def test_init_no_default_tools(mock_llm: BaseLLM) -> None:
-    """Tests init of LLMAgent with include_default_tools=False."""
-    agent = LLMAgent(llm=mock_llm, include_default_tools=False)
-
     assert len(agent.tools) == 0
 
 
@@ -44,7 +36,7 @@ def test_add_tool(mock_llm: BaseLLM) -> None:
     """Tests add tool."""
     # arrange
     tool = MagicMock()
-    agent = LLMAgent(llm=mock_llm, include_default_tools=False)
+    agent = LLMAgent(llm=mock_llm)
 
     # act
     agent.add_tool(tool)

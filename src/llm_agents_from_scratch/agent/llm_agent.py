@@ -27,7 +27,6 @@ from llm_agents_from_scratch.logger import get_logger
 from llm_agents_from_scratch.skills.discovery import discover_skills
 from llm_agents_from_scratch.skills.skill import Skill
 from llm_agents_from_scratch.skills.tools import UseSkillTool
-from llm_agents_from_scratch.tools.default import DEFAULT_TOOLS
 
 from .templates import LLMAgentTemplates, default_templates
 
@@ -44,9 +43,6 @@ class LLMAgent:
         skills_scopes (list[SkillScope]): The skill scopes to scan during
             discovery. An empty list disables skills entirely. Added in
             Chapter 6.
-        include_default_tools (bool): Whether default tools (e.g.
-            ``ReadFileTool``) are registered automatically. Added in
-            Chapter 6.
     """
 
     def __init__(
@@ -56,7 +52,6 @@ class LLMAgent:
         templates: LLMAgentTemplates = default_templates,
         # added in ch06
         skills_scopes: list[SkillScope] | None = None,
-        include_default_tools: bool = True,
     ):
         """Initialize an LLMAgent.
 
@@ -71,15 +66,9 @@ class LLMAgent:
                 None, which enables all scopes in priority order
                 ``[SkillScope.USER, SkillScope.PROJECT]``. Added in
                 Chapter 6.
-            include_default_tools (bool, optional): When ``True``, default
-                tools are registered automatically. Pass ``False`` to opt
-                out. Defaults to ``True``. Added in Chapter 6.
         """
         self.llm = llm
-        self.include_default_tools = include_default_tools
-        # added in ch06: prepend default tools unless opted out
-        default = list(DEFAULT_TOOLS) if include_default_tools else []
-        tools = default + (tools or [])
+        tools = tools or []
         # validate no duplications in tool names
         if len({t.name for t in tools}) < len(tools):
             raise LLMAgentError(

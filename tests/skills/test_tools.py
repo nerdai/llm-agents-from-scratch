@@ -186,7 +186,8 @@ def test_use_skill_tool_call_returns_error_when_skill_missing_from_registry(
         scope=SkillScope.PROJECT,
     )
     tool = UseSkillTool(skills={"my-skill": skill})
-    # simulate divergence: name still in enum (_visible) but removed from registry
+    # simulate divergence: name still in enum (_visible) but removed
+    # from registry
     del tool._skills["my-skill"]
     tool_call = ToolCall(
         tool_name="use_skill",

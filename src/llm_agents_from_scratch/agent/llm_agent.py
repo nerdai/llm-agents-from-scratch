@@ -529,7 +529,7 @@ class LLMAgent:
     def run_with_skill(
         self,
         skill_name: str,
-        prompt: str | None,
+        prompt: str | None = None,
         max_steps: int | None = None,
     ) -> TaskHandler:
         """User-explicit skill activation: the programmatic slash command.

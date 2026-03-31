@@ -407,7 +407,6 @@ async def test_run_step_without_tool_calls() -> None:
 
     llm_agent = LLMAgent(
         llm=mock_llm,
-        include_default_tools=False,
     )
     handler = LLMAgent.TaskHandler(
         llm_agent=llm_agent,

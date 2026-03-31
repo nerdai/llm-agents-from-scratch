@@ -31,11 +31,9 @@ class LLMAgentBuilder:
         skills_scopes (list[SkillScope] | None): Skill scopes to pass to
             the agent. See `LLMAgent` for resolution semantics. Added in
             Chapter 6.
-        include_default_tools (bool): Whether default tools are registered
-            automatically. Added in Chapter 6.
     """
 
-    def __init__(  # noqa: PLR0913
+    def __init__(
         self,
         llm: LLM | None = None,
         tools: list[Tool] | None = None,
@@ -43,7 +41,6 @@ class LLMAgentBuilder:
         mcp_providers: list[MCPToolProvider] | None = None,
         # added in ch06
         skills_scopes: list[SkillScope] | None = None,
-        include_default_tools: bool = True,
     ) -> None:
         """Initialize an LLMAgentBuilder.
 
@@ -82,9 +79,6 @@ class LLMAgentBuilder:
             skills_scopes (list[SkillScope] | None, optional): Skill scopes
                 to pass to the agent. See `LLMAgent` for resolution
                 semantics. Defaults to None. Added in Chapter 6.
-            include_default_tools (bool, optional): When ``True``, default
-                tools are registered automatically. Defaults to ``True``.
-                Added in Chapter 6.
         """
         self.llm = llm
         self.templates = templates
@@ -92,7 +86,6 @@ class LLMAgentBuilder:
         self.tools = tools or []
         # added in ch06
         self.skills_scopes = skills_scopes
-        self.include_default_tools = include_default_tools
 
     def with_llm(self, llm: LLM) -> Self:
         """Set llm of builder."""
@@ -128,12 +121,6 @@ class LLMAgentBuilder:
     def with_skills_scopes(self, scopes: list[SkillScope] | None) -> Self:
         """Set skills scopes of builder."""
         self.skills_scopes = scopes
-        return self
-
-    # added in ch06
-    def with_include_default_tools(self, include: bool) -> Self:
-        """Set include_default_tools of builder."""
-        self.include_default_tools = include
         return self
 
     async def build(self) -> LLMAgent:
@@ -174,5 +161,4 @@ class LLMAgentBuilder:
             templates=self.templates,
             # added in ch06
             skills_scopes=self.skills_scopes,
-            include_default_tools=self.include_default_tools,
         )

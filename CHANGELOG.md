@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- refactor: replace include_default_tools with TOOLS_FOR_SKILL_RESOURCES (#440)
 - feat: add ReadFileTool as default tool with opt-out (#436)
 - feat: implement UseSkillTool and Skill.resources (#434)
 - feat: handle `disable-model-invocation` flag and shadowing warnings (#429)

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- feat: add run _with_skill() for user explicit skill activation (#441)
 - refactor: replace include_default_tools with TOOLS_FOR_SKILL_RESOURCES (#440)
 - feat: add ReadFileTool as default tool with opt-out (#436)
 - feat: implement UseSkillTool and Skill.resources (#434)

@@ -24,6 +24,9 @@ from llm_agents_from_scratch.errors import (
     TaskHandlerError,
 )
 from llm_agents_from_scratch.logger import get_logger
+from llm_agents_from_scratch.skills.constants import (
+    EXPLICIT_SKILL_ACTIVATION_TEMPLATE,
+)
 from llm_agents_from_scratch.skills.discovery import discover_skills
 from llm_agents_from_scratch.skills.skill import Skill
 from llm_agents_from_scratch.skills.tools import UseSkillTool
@@ -521,3 +524,36 @@ class LLMAgent:
         task_handler.background_task = asyncio.create_task(_process_loop())
 
         return task_handler
+
+    def run_with_skill(
+        self,
+        skill_name: str,
+        prompt: str | None,
+        max_steps: int | None = None,
+    ) -> TaskHandler:
+        """User-explicit skill activation: the programmatic slash command.
+
+        Frames the task instruction to direct the model to activate the named
+        skill as its first action, then runs the full agent loop. Relies on
+        the model's tool-use ability to call ``use_skill`` — a fair assumption
+        given the whole system depends on it. Unknown skill names are caught
+        by the guard in ``UseSkillTool.__call__``.
+
+        Args:
+            skill_name (str): Name of the skill to activate.
+            prompt (str | None): Optional instruction to pass alongside the
+                skill activation. Defaults to None.
+            max_steps (int | None): Maximum number of steps to run.
+                Defaults to None.
+
+        Returns:
+            TaskHandler: The handler responsible for task execution.
+        """
+        task = Task(
+            instruction=EXPLICIT_SKILL_ACTIVATION_TEMPLATE.format(
+                name=skill_name,
+                prompt=prompt or "",
+            ),
+        )
+
+        return self.run(task=task, max_steps=max_steps)

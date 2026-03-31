@@ -124,6 +124,17 @@ class UseSkillTool(BaseTool):
 
         # if pass validation then "name" is present in arguments
         skill_name: str = tool_call.arguments["name"]
+        if skill_name not in self._skills:
+            return ToolCallResult(
+                tool_call_id=tool_call.id_,
+                content=json.dumps(
+                    {
+                        "error_type": "ValueError",
+                        "message": f"Skill '{skill_name}' not found.",
+                    },
+                ),
+                error=True,
+            )
         content = self._build_skill_content(skill_name)
 
         return ToolCallResult(

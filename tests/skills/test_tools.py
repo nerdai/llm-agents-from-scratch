@@ -165,3 +165,36 @@ def test_use_skill_tool_call_returns_error_on_invalid_name(
     result = tool(tool_call=tool_call)
 
     assert result.error is True
+
+
+def test_use_skill_tool_call_returns_error_when_skill_missing_from_registry(
+    tmp_path: Path,
+) -> None:
+    """Tests __call__ guard when skill passes enum but is absent from registry.
+
+    Simulates a case where _skills and _visible diverge — the guard in
+    __call__ catches this before _build_skill_content raises a KeyError.
+    run_with_skill() piggybacks on this guard for unknown skill names.
+    """
+    skill_md = tmp_path / "SKILL.md"
+    skill_md.write_text(
+        "---\nname: my-skill\ndescription: Does things.\n---\n\nBody.\n",
+    )
+    skill = Skill(
+        info=SkillInfo(name="my-skill", description="Does things."),
+        location=skill_md,
+        scope=SkillScope.PROJECT,
+    )
+    tool = UseSkillTool(skills={"my-skill": skill})
+    # simulate divergence: name still in enum (_visible) but removed
+    # from registry
+    del tool._skills["my-skill"]
+    tool_call = ToolCall(
+        tool_name="use_skill",
+        arguments={"name": "my-skill"},
+    )
+
+    result = tool(tool_call=tool_call)
+
+    assert result.error is True
+    assert "not found" in result.content

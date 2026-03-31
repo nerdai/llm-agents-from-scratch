@@ -13,6 +13,10 @@ from llm_agents_from_scratch.data_structures.agent import (
     TaskStep,
 )
 from llm_agents_from_scratch.errors import LLMAgentError, MaxStepsReachedError
+from llm_agents_from_scratch.skills.constants import (
+    EXPLICIT_SKILL_ACTIVATION_TEMPLATE,
+    EXPLICIT_SKILL_ACTIVATION_WITH_PROMPT_TEMPLATE,
+)
 
 
 def test_init(mock_llm: BaseLLM) -> None:
@@ -149,3 +153,30 @@ async def test_run_max_steps_reached_error(
     await asyncio.sleep(0.1)  # Let it run
 
     assert isinstance(handler.exception(), MaxStepsReachedError)
+
+
+def test_run_with_skill_no_prompt(mock_llm: BaseLLM) -> None:
+    """Tests run_with_skill builds correct instruction without a prompt."""
+    agent = LLMAgent(llm=mock_llm)
+
+    with patch.object(agent, "run") as mock_run:
+        agent.run_with_skill("summarize")
+
+    task = mock_run.call_args.kwargs["task"]
+    expected = EXPLICIT_SKILL_ACTIVATION_TEMPLATE.format(name="summarize")
+    assert task.instruction == expected
+
+
+def test_run_with_skill_with_prompt(mock_llm: BaseLLM) -> None:
+    """Tests run_with_skill builds correct instruction with a prompt."""
+    agent = LLMAgent(llm=mock_llm)
+
+    with patch.object(agent, "run") as mock_run:
+        agent.run_with_skill("summarize", prompt="Summarize this doc")
+
+    task = mock_run.call_args.kwargs["task"]
+    expected = EXPLICIT_SKILL_ACTIVATION_WITH_PROMPT_TEMPLATE.format(
+        name="summarize",
+        prompt="Summarize this doc",
+    )
+    assert task.instruction == expected

@@ -25,7 +25,7 @@ docs = [
 
 [project]
 name = "llm-agents-from-scratch"
-version = "0.0.14"
+version = "0.0.15"
 description = "Build an LLM agent, equipped with MCP, from scratch."
 license = "Apache-2.0"
 readme = "README.md"

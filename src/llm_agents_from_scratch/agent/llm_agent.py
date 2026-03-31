@@ -26,6 +26,7 @@ from llm_agents_from_scratch.errors import (
 from llm_agents_from_scratch.logger import get_logger
 from llm_agents_from_scratch.skills.constants import (
     EXPLICIT_SKILL_ACTIVATION_TEMPLATE,
+    EXPLICIT_SKILL_ACTIVATION_WITH_PROMPT_TEMPLATE,
 )
 from llm_agents_from_scratch.skills.discovery import discover_skills
 from llm_agents_from_scratch.skills.skill import Skill
@@ -549,11 +550,15 @@ class LLMAgent:
         Returns:
             TaskHandler: The handler responsible for task execution.
         """
-        task = Task(
-            instruction=EXPLICIT_SKILL_ACTIVATION_TEMPLATE.format(
+        if prompt:
+            instruction = EXPLICIT_SKILL_ACTIVATION_WITH_PROMPT_TEMPLATE.format(
                 name=skill_name,
-                prompt=prompt or "",
-            ),
-        )
+                prompt=prompt,
+            )
+        else:
+            instruction = EXPLICIT_SKILL_ACTIVATION_TEMPLATE.format(
+                name=skill_name,
+            )
+        task = Task(instruction=instruction)
 
         return self.run(task=task, max_steps=max_steps)

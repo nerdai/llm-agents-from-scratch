@@ -4237,7 +4237,7 @@ Examples:
 - 3.14149 ✗ (too low)
 - 3.14250 ✗ (too high)
 
-<algorithm>
+&lt;algorithm&gt;
 1. Call generate_random_sample(1000000) to start with 1M points
 2. Call monte_carlo_estimate(sample_id) to get estimate
 3. Check: is the estimate between 3.1415 and 3.1425?
@@ -4252,23 +4252,25 @@ Examples:
 
 Exponential growth ensures faster convergence while demonstrating adaptive
 sampling.
-</algorithm>
-<critical_rules>
+&lt;/algorithm&gt;
+
+&lt;critical_rules&gt;
 - If the task is not complete, your response MUST contain a tool call
 - Do not just describe what you plan to do—actually call the tool
 - Do not stop until the estimate falls within the target range
 - Keep track of your iteration to calculate the correct doubling amount
 - NEVER fabricate tool results-only use actual tool responses
 - NEVER invent a sample_id
-</critical_rules>
-<final_output>
+&lt;/critical_rules&gt;
+
+&lt;final_output&gt;
 When the estimate reaches the target precision, respond with this exact JSON
 structure and nothing else:
 
-{"sample_id": "<the-actual-sample-id-from-tool-response>"}
+{"sample_id": "&lt;the-actual-sample-id-from-tool-response&gt;"}
 
 No explanation, no markdown formatting, no code blocks—just the raw JSON.
-</the-actual-sample-id-from-tool-response></final_output>
+&lt;/final_output&gt;
 
 Begin by calling generate_random_sample(1000000).
 """.strip()</div>
@@ -5217,12 +5219,13 @@ HALLUCINATION MARKER: If you see "💬 assistant: 🔧 tool:" in the trajectory,
 the agent fabricated a tool response instead of waiting for the actual result.
 This is a critical failure—set no_false_completion to False.
 
-<final_response>
+&lt;final_response&gt;
 {result}
-</final_response>
-<trajectory>
+&lt;/final_response&gt;
+
+&lt;trajectory&gt;
 {trajectory}
-</trajectory>
+&lt;/trajectory&gt;
 
 Evaluate and submit your judgment.""".strip()</div>
 </div>

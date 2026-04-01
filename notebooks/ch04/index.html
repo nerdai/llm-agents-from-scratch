@@ -3436,20 +3436,21 @@ sequence given the current number.
 
 Start with the number x={x}.
 
-<rules>
+&lt;rules&gt;
 CALL `next_number` on the current number x
 STOP AND WAIT for the result.
 REPEAT this step-by-step process until the number 1 is reached.
 FINAL RESULT: When you receive the number 1, provide the complete sequence you
 observed from start to finish (including the starting number x and ending number
 1).
-</rules>
-<warnings>
+&lt;/rules&gt;
+
+&lt;warnings&gt;
 NEVER fabricate or simulate tool call results
 NEVER make multiple tool calls in one response
 STOP and WAIT - ALWAYS wait for the actual tool response before deciding next
 steps
-</warnings>
+&lt;/warnings&gt;
 """.strip()</div>
 </div>
 </div>

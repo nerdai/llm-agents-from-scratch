@@ -59,6 +59,7 @@ nav:
     - Data Structures:
       - Agent: api_reference/data_structures/agent.md
       - LLM: api_reference/data_structures/llm.md
+      - Skill: api_reference/data_structures/skill.md
       - Tool: api_reference/data_structures/tool.md
     - LLMs:
       - OllamaLLM: api_reference/llms/ollama.md
@@ -67,6 +68,12 @@ nav:
       - Simple Function: api_reference/tools/simple_function.md
       - Pydantic Function: api_reference/tools/pydantic_function.md
       - MCP: api_reference/tools/mcp.md
+      - Default Tools: api_reference/tools/default.md
+    - Skills:
+      - Skill: api_reference/skills/skill.md
+      - Discovery: api_reference/skills/discovery.md
+      - UseSkillTool: api_reference/skills/tools.md
+      - Constants: api_reference/skills/constants.md
     - Errors: api_reference/errors/index.md
 plugins:
   - search

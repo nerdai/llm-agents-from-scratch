@@ -66,32 +66,32 @@ def validate_skill_dir(
 
     try:
         _, frontmatter_str, body = skill_md.split("---", 2)
-        frontmatter = yaml.safe_load(frontmatter_str)
-        info = SkillFrontmatter.model_validate(frontmatter)
+        frontmatter_data = yaml.safe_load(frontmatter_str)
+        frontmatter = SkillFrontmatter.model_validate(frontmatter_data)
     except (ValueError, ValidationError, yaml.YAMLError) as e:
         raise InvalidFrontmatterError(str(e)) from e
 
     if not body.strip():
         raise EmptySkillBodyError
 
-    if info.name != dir.name:
+    if frontmatter.name != dir.name:
         skill_warnings.append(
             NameMismatchWarning(
-                f"Skill name '{info.name}' does not match "
+                f"Skill name '{frontmatter.name}' does not match "
                 f"directory name '{dir.name}'.",
             ),
         )
 
-    if len(info.name) > MAX_NAME_LENGTH:
+    if len(frontmatter.name) > MAX_NAME_LENGTH:
         skill_warnings.append(
             NameTooLongWarning(
-                f"Skill name '{info.name}' is {len(info.name)} characters"
-                f" long, which exceeds the maximum allowed length of"
+                f"Skill name '{frontmatter.name}' is {len(frontmatter.name)} "
+                f" characters long, which exceeds the maximum allowed length of"
                 f" {MAX_NAME_LENGTH}.",
             ),
         )
 
-    return info, skill_warnings
+    return frontmatter, skill_warnings
 
 
 def discover_skills(scopes: list[SkillScope]) -> dict[str, Skill]:
@@ -120,7 +120,7 @@ def discover_skills(scopes: list[SkillScope]) -> dict[str, Skill]:
 
                 # validate dir is an actual Skill dir
                 try:
-                    info, skill_warnings = validate_skill_dir(skill_dir)
+                    frontmatter, skill_warnings = validate_skill_dir(skill_dir)
                 except SkillValidationError as e:
                     warnings.warn(
                         str(e),
@@ -132,17 +132,17 @@ def discover_skills(scopes: list[SkillScope]) -> dict[str, Skill]:
                 for w in skill_warnings:
                     warnings.warn(str(w), type(w), stacklevel=2)
 
-                if info.name in skills:
-                    shadowed_scope = skills[info.name].scope
+                if frontmatter.name in skills:
+                    shadowed_scope = skills[frontmatter.name].scope
                     warnings.warn(
-                        f"Skill '{info.name}' ({scope.value} scope) shadows"
-                        f" an existing skill of the same name"
+                        f"Skill '{frontmatter.name}' ({scope.value} scope)"
+                        f" shadows an existing skill of the same name"
                         f" ({shadowed_scope.value} scope).",
                         SkillShadowedWarning,
                         stacklevel=2,
                     )
-                skills[info.name] = Skill(
-                    info=info,
+                skills[frontmatter.name] = Skill(
+                    frontmatter=frontmatter,
                     location=(skill_dir / "SKILL.md").resolve(),
                     scope=scope,  # type: ignore[arg-type]
                 )

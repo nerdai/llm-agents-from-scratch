@@ -8,7 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
-### Added
+### Changed
+
+- refactor move disable model invocation from skillinfo to skill (#448)
+- refactor: rename info attr to frontmatter (#450)
 
 ## [0.0.15] - 2026-03-30
 

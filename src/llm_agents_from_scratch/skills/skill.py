@@ -15,7 +15,7 @@ class Skill:
     """A skill that can be discovered and activated by an LLM agent.
 
     Attributes:
-        info: Parsed frontmatter metadata from the skill's SKILL.md file.
+        frontmatter: Parsed frontmatter metadata from the skill's SKILL.md file.
         location: Absolute path to the skill's SKILL.md file on disk.
         scope: The scope of the skill (`SkillScope.PROJECT` or
             `SkillScope.USER`). Used to resolve name collisions via
@@ -31,7 +31,7 @@ class Skill:
 
     def __init__(
         self,
-        info: SkillFrontmatter,
+        frontmatter: SkillFrontmatter,
         location: Path,
         scope: SkillScope,
         disable_model_invocation: bool = False,
@@ -39,14 +39,15 @@ class Skill:
         """Instantiate a Skill.
 
         Args:
-            info: Parsed frontmatter metadata from the skill's SKILL.md file.
+            frontmatter: Parsed frontmatter metadata from the skill's
+                SKILL.md file.
             location: Absolute path to the skill's SKILL.md file on disk.
             scope: The scope of the skill (`SkillScope.PROJECT` or
                 `SkillScope.USER`).
             disable_model_invocation: If True, excluded from the catalog and
                 invisible to the model. Defaults to False.
         """
-        self.info = info
+        self.frontmatter = frontmatter
         self.location = location
         self.scope = scope
         self.disable_model_invocation = disable_model_invocation
@@ -107,7 +108,7 @@ class Skill:
     def catalog(self) -> str:
         """Returns XML structured string for cataloging skill."""
         return CATALOG_SKILL_TEMPLATE.format(
-            name=self.info.name,
-            description=self.info.description,
+            name=self.frontmatter.name,
+            description=self.frontmatter.description,
             location=self.location.as_posix(),
         )

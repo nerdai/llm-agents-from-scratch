@@ -2285,8 +2285,8 @@
             <td>
               <div class="doc-md-description">
                 <p>All discovered skills, keyed by name.
-Includes skills with <code>disable-model-invocation</code> set — those are
-excluded from the enum but remain loadable if called directly.</p>
+Includes skills with <code>disable_model_invocation=True</code> — those
+are excluded from the enum but remain loadable if called directly.</p>
               </div>
             </td>
           </tr>
@@ -2435,8 +2435,8 @@ excluded from the enum but remain loadable if called directly.</p>
 </span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a>
 </span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="sd">    Attributes:</span>
 </span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="sd">        skills (dict[str, Skill]): All discovered skills, keyed by name.</span>
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="sd">            Includes skills with ``disable-model-invocation`` set — those are</span>
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="sd">            excluded from the enum but remain loadable if called directly.</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="sd">            Includes skills with ``disable_model_invocation=True`` — those</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="sd">            are excluded from the enum but remain loadable if called directly.</span>
 </span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a>
 </span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
@@ -2503,7 +2503,7 @@ excluded from the enum but remain loadable if called directly.</p>
 </span><span id="__span-0-84"><a id="__codelineno-0-84" name="__codelineno-0-84"></a>            <span class="k">else</span> <span class="s2">&quot;&quot;</span>
 </span><span id="__span-0-85"><a id="__codelineno-0-85" name="__codelineno-0-85"></a>        <span class="p">)</span>
 </span><span id="__span-0-86"><a id="__codelineno-0-86" name="__codelineno-0-86"></a>        <span class="k">return</span> <span class="n">ACTIVATION_CONTENT_TEMPLATE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-</span><span id="__span-0-87"><a id="__codelineno-0-87" name="__codelineno-0-87"></a>            <span class="n">name</span><span class="o">=</span><span class="n">skill</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+</span><span id="__span-0-87"><a id="__codelineno-0-87" name="__codelineno-0-87"></a>            <span class="n">name</span><span class="o">=</span><span class="n">skill</span><span class="o">.</span><span class="n">frontmatter</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
 </span><span id="__span-0-88"><a id="__codelineno-0-88" name="__codelineno-0-88"></a>            <span class="n">body</span><span class="o">=</span><span class="n">skill</span><span class="o">.</span><span class="n">read_body</span><span class="p">(),</span>
 </span><span id="__span-0-89"><a id="__codelineno-0-89" name="__codelineno-0-89"></a>            <span class="n">skill_dir</span><span class="o">=</span><span class="n">skill</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">as_posix</span><span class="p">(),</span>
 </span><span id="__span-0-90"><a id="__codelineno-0-90" name="__codelineno-0-90"></a>            <span class="n">skill_resources</span><span class="o">=</span><span class="n">skill_resources</span><span class="p">,</span>

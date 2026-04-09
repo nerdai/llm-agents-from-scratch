@@ -142,7 +142,7 @@ def discover_skills(scopes: list[SkillScope]) -> dict[str, Skill]:
                         stacklevel=2,
                     )
                 skills[info.name] = Skill(
-                    info=info,
+                    frontmatter=info,
                     location=(skill_dir / "SKILL.md").resolve(),
                     scope=scope,  # type: ignore[arg-type]
                 )

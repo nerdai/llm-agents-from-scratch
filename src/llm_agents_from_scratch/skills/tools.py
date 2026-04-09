@@ -16,8 +16,8 @@ class UseSkillTool(BaseTool):
 
     Attributes:
         skills (dict[str, Skill]): All discovered skills, keyed by name.
-            Includes skills with ``disable-model-invocation`` set — those are
-            excluded from the enum but remain loadable if called directly.
+            Includes skills with ``disable_model_invocation=True`` — those
+            are excluded from the enum but remain loadable if called directly.
     """
 
     def __init__(
@@ -84,7 +84,7 @@ class UseSkillTool(BaseTool):
             else ""
         )
         return ACTIVATION_CONTENT_TEMPLATE.format(
-            name=skill.info.name,
+            name=skill.frontmatter.name,
             body=skill.read_body(),
             skill_dir=skill.location.parent.as_posix(),
             skill_resources=skill_resources,

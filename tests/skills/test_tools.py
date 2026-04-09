@@ -3,7 +3,10 @@
 from pathlib import Path
 
 from llm_agents_from_scratch.data_structures import ToolCall
-from llm_agents_from_scratch.data_structures.skill import SkillInfo, SkillScope
+from llm_agents_from_scratch.data_structures.skill import (
+    SkillFrontmatter,
+    SkillScope,
+)
 from llm_agents_from_scratch.skills.skill import Skill
 from llm_agents_from_scratch.skills.tools import UseSkillTool
 
@@ -15,12 +18,13 @@ def make_skill(
     location: Path = Path("/fake/skill/SKILL.md"),
     scope: SkillScope = SkillScope.PROJECT,
 ) -> Skill:
-    info = SkillInfo(
-        name=name,
-        description=description,
-        **{"disable-model-invocation": disable_model_invocation},
+    info = SkillFrontmatter(name=name, description=description)
+    return Skill(
+        info=info,
+        location=location,
+        scope=scope,
+        disable_model_invocation=disable_model_invocation,
     )
-    return Skill(info=info, location=location, scope=scope)
 
 
 def test_use_skill_tool_name() -> None:
@@ -71,7 +75,7 @@ def test_use_skill_tool_build_skill_content_without_resources(
         "## Instructions\n\nDo the thing.\n",
     )
     skill = Skill(
-        info=SkillInfo(name="my-skill", description="Does things."),
+        info=SkillFrontmatter(name="my-skill", description="Does things."),
         location=skill_md,
         scope=SkillScope.PROJECT,
     )
@@ -98,7 +102,7 @@ def test_use_skill_tool_build_skill_content_with_resources(
     (tmp_path / "scripts").mkdir()
     (tmp_path / "scripts" / "run.py").write_text("print('hi')")
     skill = Skill(
-        info=SkillInfo(name="my-skill", description="Does things."),
+        info=SkillFrontmatter(name="my-skill", description="Does things."),
         location=skill_md,
         scope=SkillScope.PROJECT,
     )
@@ -126,7 +130,7 @@ def test_use_skill_tool_call_returns_skill_content(tmp_path: Path) -> None:
     (tmp_path / "references").mkdir()
     (tmp_path / "references" / "guide.md").write_text("# Guide")
     skill = Skill(
-        info=SkillInfo(name="my-skill", description="Does things."),
+        info=SkillFrontmatter(name="my-skill", description="Does things."),
         location=skill_md,
         scope=SkillScope.PROJECT,
     )
@@ -152,7 +156,7 @@ def test_use_skill_tool_call_returns_error_on_invalid_name(
         "---\nname: my-skill\ndescription: Does things.\n---\n\nBody.\n",
     )
     skill = Skill(
-        info=SkillInfo(name="my-skill", description="Does things."),
+        info=SkillFrontmatter(name="my-skill", description="Does things."),
         location=skill_md,
         scope=SkillScope.PROJECT,
     )
@@ -181,7 +185,7 @@ def test_use_skill_tool_call_returns_error_when_skill_missing_from_registry(
         "---\nname: my-skill\ndescription: Does things.\n---\n\nBody.\n",
     )
     skill = Skill(
-        info=SkillInfo(name="my-skill", description="Does things."),
+        info=SkillFrontmatter(name="my-skill", description="Does things."),
         location=skill_md,
         scope=SkillScope.PROJECT,
     )

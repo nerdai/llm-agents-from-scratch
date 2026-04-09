@@ -191,7 +191,7 @@ class LLMAgent:
             visible = [
                 skill
                 for skill in self.skills.values()
-                if not skill.info.disable_model_invocation
+                if not skill.disable_model_invocation
             ]
             if not visible:
                 return ""

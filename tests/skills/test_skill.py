@@ -5,7 +5,10 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from llm_agents_from_scratch.data_structures.skill import SkillInfo, SkillScope
+from llm_agents_from_scratch.data_structures.skill import (
+    SkillFrontmatter,
+    SkillScope,
+)
 from llm_agents_from_scratch.errors import (
     EmptySkillBodyError,
     InvalidFrontmatterError,
@@ -45,7 +48,7 @@ def test_skill_read_body_returns_stripped_body(tmp_path: Path) -> None:
         "---\nname: my-skill\ndescription: Does things.\n---\n\n"
         "## Instructions\n\nDo the thing.\n",
     )
-    info = SkillInfo(name="my-skill", description="Does things.")
+    info = SkillFrontmatter(name="my-skill", description="Does things.")
     skill = Skill(info=info, location=skill_md, scope=SkillScope.PROJECT)
 
     assert skill.read_body() == "## Instructions\n\nDo the thing."
@@ -55,7 +58,7 @@ def test_skill_read_body_raises_on_empty_body(tmp_path: Path) -> None:
     """Tests Skill.read_body() raises EmptySkillBodyError for empty body."""
     skill_md = tmp_path / "SKILL.md"
     skill_md.write_text("---\nname: my-skill\ndescription: Does things.\n---\n")
-    info = SkillInfo(name="my-skill", description="Does things.")
+    info = SkillFrontmatter(name="my-skill", description="Does things.")
     skill = Skill(info=info, location=skill_md, scope=SkillScope.PROJECT)
 
     with pytest.raises(EmptySkillBodyError):
@@ -65,7 +68,7 @@ def test_skill_read_body_raises_on_empty_body(tmp_path: Path) -> None:
 def test_skill_read_body_raises_on_unreadable_file(tmp_path: Path) -> None:
     """Tests Skill.read_body() raises SkillValidationError if unreadable."""
     skill_md = tmp_path / "SKILL.md"
-    info = SkillInfo(name="my-skill", description="Does things.")
+    info = SkillFrontmatter(name="my-skill", description="Does things.")
     skill = Skill(info=info, location=skill_md, scope=SkillScope.PROJECT)
 
     with pytest.raises(SkillValidationError):
@@ -76,7 +79,7 @@ def test_skill_read_body_raises_on_missing_delimiters(tmp_path: Path) -> None:
     """Tests Skill.read_body() raises InvalidFrontmatterError if no delims."""
     skill_md = tmp_path / "SKILL.md"
     skill_md.write_text("name: my-skill\ndescription: Does things.\n")
-    info = SkillInfo(name="my-skill", description="Does things.")
+    info = SkillFrontmatter(name="my-skill", description="Does things.")
     skill = Skill(info=info, location=skill_md, scope=SkillScope.PROJECT)
 
     with pytest.raises(InvalidFrontmatterError):
@@ -89,7 +92,7 @@ def test_skill_resources_returns_empty_when_no_subdirs(tmp_path: Path) -> None:
     skill_md.write_text(
         "---\nname: my-skill\ndescription: Does things.\n---\n\nBody.\n",
     )
-    info = SkillInfo(name="my-skill", description="Does things.")
+    info = SkillFrontmatter(name="my-skill", description="Does things.")
     skill = Skill(info=info, location=skill_md, scope=SkillScope.PROJECT)
 
     assert skill.resources == []
@@ -105,7 +108,7 @@ def test_skill_resources_returns_relative_paths(tmp_path: Path) -> None:
     (tmp_path / "scripts" / "run.py").write_text("print('hi')")
     (tmp_path / "references").mkdir()
     (tmp_path / "references" / "guide.md").write_text("# Guide")
-    info = SkillInfo(name="my-skill", description="Does things.")
+    info = SkillFrontmatter(name="my-skill", description="Does things.")
     skill = Skill(info=info, location=skill_md, scope=SkillScope.PROJECT)
 
     resources = skill.resources
@@ -115,7 +118,10 @@ def test_skill_resources_returns_relative_paths(tmp_path: Path) -> None:
 
 def test_skill_catalog_returns_xml_snippet() -> None:
     """Tests Skill.catalog() returns expected XML string."""
-    info = SkillInfo(name="pdf-processing", description="Handle PDF files.")
+    info = SkillFrontmatter(
+        name="pdf-processing",
+        description="Handle PDF files.",
+    )
     location = Path("/home/user/.agents/skills/pdf-processing/SKILL.md")
     skill = Skill(info=info, location=location, scope=SkillScope.PROJECT)
 

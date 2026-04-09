@@ -575,7 +575,7 @@ def test_task_handler_use_skill_tool_set_when_skills_present(
 ) -> None:
     """Tests _use_skill_tool is set when skills are discovered."""
     mock_skill = MagicMock(spec=Skill)
-    mock_skill.info = MagicMock(disable_model_invocation=False)
+    mock_skill.disable_model_invocation = False
 
     llm_agent = LLMAgent(llm=mock_llm)
     with patch(
@@ -622,7 +622,7 @@ def test_skills_catalog_returns_catalog_xml(mock_llm: BaseLLM) -> None:
     """Tests _skills_catalog returns formatted XML when skills present."""
     mock_skill = MagicMock(spec=Skill)
     mock_skill.catalog.return_value = "<skill><name>my-skill</name></skill>"
-    mock_skill.info = MagicMock(disable_model_invocation=False)
+    mock_skill.disable_model_invocation = False
 
     llm_agent = LLMAgent(llm=mock_llm)
     handler = LLMAgent.TaskHandler(
@@ -640,7 +640,7 @@ def test_skills_catalog_returns_catalog_xml(mock_llm: BaseLLM) -> None:
 def test_skills_catalog_excludes_disabled_skills(mock_llm: BaseLLM) -> None:
     """Tests _skills_catalog omits skills with disable_model_invocation=True."""
     mock_skill = MagicMock(spec=Skill)
-    mock_skill.info = MagicMock(disable_model_invocation=True)
+    mock_skill.disable_model_invocation = True
 
     llm_agent = LLMAgent(llm=mock_llm)
     handler = LLMAgent.TaskHandler(
@@ -658,7 +658,7 @@ async def test_run_step_injects_skills_catalog() -> None:
     """Tests run_step appends skills catalog to system message when present."""
     mock_skill = MagicMock(spec=Skill)
     mock_skill.catalog.return_value = "<skill><name>my-skill</name></skill>"
-    mock_skill.info = MagicMock(disable_model_invocation=False)
+    mock_skill.disable_model_invocation = False
 
     mock_llm = AsyncMock()
     mock_llm.chat.return_value = (

@@ -15,12 +15,13 @@ def make_skill(
     location: Path = Path("/fake/skill/SKILL.md"),
     scope: SkillScope = SkillScope.PROJECT,
 ) -> Skill:
-    info = SkillInfo(
-        name=name,
-        description=description,
-        **{"disable-model-invocation": disable_model_invocation},
+    info = SkillInfo(name=name, description=description)
+    return Skill(
+        info=info,
+        location=location,
+        scope=scope,
+        disable_model_invocation=disable_model_invocation,
     )
-    return Skill(info=info, location=location, scope=scope)
 
 
 def test_use_skill_tool_name() -> None:

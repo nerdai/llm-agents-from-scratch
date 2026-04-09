@@ -15,6 +15,8 @@ class SkillScope(str, Enum):
 class SkillInfo(BaseModel):
     """Parsed frontmatter metadata from a skill's SKILL.md file.
 
+    Conforms to the Agent Skills open standard frontmatter specification.
+
     Attributes:
         name: Name of the skill.
         description: Description of what the skill does and when to use it.
@@ -23,8 +25,6 @@ class SkillInfo(BaseModel):
         metadata: Arbitrary key-value pairs for additional metadata.
         allowed_tools: Space-delimited list of pre-approved tools the skill
             may use.
-        disable_model_invocation: If True, the skill is excluded from the
-            catalog and invisible to the model. Defaults to False.
     """
 
     model_config = ConfigDict(populate_by_name=True)
@@ -35,10 +35,6 @@ class SkillInfo(BaseModel):
     compatibility: str | None = None
     metadata: dict[str, str] | None = None
     allowed_tools: str | None = Field(default=None, alias="allowed-tools")
-    disable_model_invocation: bool = Field(
-        default=False,
-        alias="disable-model-invocation",
-    )
 
     @field_validator("name", "description")
     @classmethod

@@ -31,9 +31,7 @@ class UseSkillTool(BaseTool):
         """
         self._skills = skills
         self._visible = [
-            name
-            for name, s in skills.items()
-            if not s.info.disable_model_invocation
+            name for name, s in skills.items() if not s.disable_model_invocation
         ]
 
     @property

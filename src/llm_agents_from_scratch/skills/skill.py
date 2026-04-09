@@ -21,6 +21,9 @@ class Skill:
             `SkillScope.USER`). Used to resolve name collisions via
             deterministic precedence, with `SkillScope.PROJECT` taking
             priority over `SkillScope.USER`.
+        disable_model_invocation: If True, the skill is excluded from the
+            catalog and invisible to the model. Framework extension — not
+            part of the Agent Skills standard. Defaults to False.
         resources: Relative paths of resource files found in the skill's
             optional subdirectories (``assets/``, ``scripts/``,
             ``references/``). Empty list if none of those directories exist.
@@ -31,6 +34,7 @@ class Skill:
         info: SkillInfo,
         location: Path,
         scope: SkillScope,
+        disable_model_invocation: bool = False,
     ):
         """Instantiate a Skill.
 
@@ -39,10 +43,13 @@ class Skill:
             location: Absolute path to the skill's SKILL.md file on disk.
             scope: The scope of the skill (`SkillScope.PROJECT` or
                 `SkillScope.USER`).
+            disable_model_invocation: If True, excluded from the catalog and
+                invisible to the model. Defaults to False.
         """
         self.info = info
         self.location = location
         self.scope = scope
+        self.disable_model_invocation = disable_model_invocation
 
     def read_body(self) -> str:
         """Return body content as string.

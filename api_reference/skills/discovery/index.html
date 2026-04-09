@@ -2212,11 +2212,11 @@ the skill and emit a SkillSkippedWarning.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><span title="tuple">tuple</span>[<a class="autorefs autorefs-internal" title="            SkillInfo (llm_agents_from_scratch.data_structures.skill.SkillInfo)" href="../../data_structures/skill/#llm_agents_from_scratch.data_structures.skill.SkillInfo">SkillInfo</a>, <span title="list">list</span>[<a class="autorefs autorefs-internal" title="            SkillValidationWarning (llm_agents_from_scratch.errors.SkillValidationWarning)" href="../../errors/#llm_agents_from_scratch.errors.SkillValidationWarning">SkillValidationWarning</a>]]</code>
+                  <code><span title="tuple">tuple</span>[<a class="autorefs autorefs-internal" title="            SkillFrontmatter (llm_agents_from_scratch.data_structures.skill.SkillFrontmatter)" href="../../data_structures/skill/#llm_agents_from_scratch.data_structures.skill.SkillFrontmatter">SkillFrontmatter</a>, <span title="list">list</span>[<a class="autorefs autorefs-internal" title="            SkillValidationWarning (llm_agents_from_scratch.errors.SkillValidationWarning)" href="../../errors/#llm_agents_from_scratch.errors.SkillValidationWarning">SkillValidationWarning</a>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Tuple[SkillInfo, list[SkillValidationWarning]]: A pair where
+                <p>Tuple[SkillFrontmatter, list[SkillValidationWarning]]: A pair where
 the first element is the validated skill metadata, and the
 second element is a list of warnings for cosmetic issues.
 An empty list means no issues.</p>
@@ -2323,7 +2323,7 @@ prevents the skill from being loaded.</p>
 <span class="normal"><a href="#__codelineno-0-93">93</a></span>
 <span class="normal"><a href="#__codelineno-0-94">94</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="k">def</span><span class="w"> </span><span class="nf">validate_skill_dir</span><span class="p">(</span>
 </span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a>    <span class="nb">dir</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">SkillInfo</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">SkillValidationWarning</span><span class="p">]]:</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">SkillFrontmatter</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">SkillValidationWarning</span><span class="p">]]:</span>
 </span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate a directory as a skill directory.</span>
 </span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a>
 </span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="sd">    A valid skill directory must contain a SKILL.md file with a valid</span>
@@ -2338,7 +2338,7 @@ prevents the skill from being loaded.</p>
 </span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">        dir: Path to the directory to validate.</span>
 </span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>
 </span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="sd">    Returns:</span>
-</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="sd">        Tuple[SkillInfo, list[SkillValidationWarning]]: A pair where</span>
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="sd">        Tuple[SkillFrontmatter, list[SkillValidationWarning]]: A pair where</span>
 </span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="sd">            the first element is the validated skill metadata, and the</span>
 </span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">            second element is a list of warnings for cosmetic issues.</span>
 </span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="sd">            An empty list means no issues.</span>
@@ -2365,7 +2365,7 @@ prevents the skill from being loaded.</p>
 </span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a>    <span class="k">try</span><span class="p">:</span>
 </span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68"></a>        <span class="n">_</span><span class="p">,</span> <span class="n">frontmatter_str</span><span class="p">,</span> <span class="n">body</span> <span class="o">=</span> <span class="n">skill_md</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;---&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 </span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69"></a>        <span class="n">frontmatter</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">frontmatter_str</span><span class="p">)</span>
-</span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a>        <span class="n">info</span> <span class="o">=</span> <span class="n">SkillInfo</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">frontmatter</span><span class="p">)</span>
+</span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a>        <span class="n">info</span> <span class="o">=</span> <span class="n">SkillFrontmatter</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">frontmatter</span><span class="p">)</span>
 </span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71"></a>    <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">ValidationError</span><span class="p">,</span> <span class="n">yaml</span><span class="o">.</span><span class="n">YAMLError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 </span><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72"></a>        <span class="k">raise</span> <span class="n">InvalidFrontmatterError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 </span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73"></a>

@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from ..data_structures.skill import SkillInfo, SkillScope
+from ..data_structures.skill import SkillFrontmatter, SkillScope
 from ..errors import (
     EmptySkillBodyError,
     InvalidFrontmatterError,
@@ -31,7 +31,7 @@ class Skill:
 
     def __init__(
         self,
-        info: SkillInfo,
+        info: SkillFrontmatter,
         location: Path,
         scope: SkillScope,
         disable_model_invocation: bool = False,

@@ -1,6 +1,6 @@
 from .agent import NextStepDecision, Task, TaskResult, TaskStep, TaskStepResult
 from .llm import ChatMessage, ChatRole, CompleteResult
-from .skill import SkillInfo
+from .skill import SkillFrontmatter
 from .tool import ToolCall, ToolCallResult
 
 __all__ = [
@@ -15,7 +15,7 @@ __all__ = [
     "ChatMessage",
     "CompleteResult",
     # skill
-    "SkillInfo",
+    "SkillFrontmatter",
     # tool
     "ToolCall",
     "ToolCallResult",

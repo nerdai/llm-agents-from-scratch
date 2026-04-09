@@ -12,7 +12,7 @@ class SkillScope(str, Enum):
     USER = "user"
 
 
-class SkillInfo(BaseModel):
+class SkillFrontmatter(BaseModel):
     """Parsed frontmatter metadata from a skill's SKILL.md file.
 
     Conforms to the Agent Skills open standard frontmatter specification.

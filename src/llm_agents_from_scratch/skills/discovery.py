@@ -6,7 +6,7 @@ from pathlib import Path
 import yaml
 from pydantic import ValidationError
 
-from ..data_structures.skill import SkillInfo, SkillScope
+from ..data_structures.skill import SkillFrontmatter, SkillScope
 from ..errors import (
     EmptySkillBodyError,
     InvalidFrontmatterError,
@@ -25,7 +25,7 @@ from .utils import get_skills_paths
 
 def validate_skill_dir(
     dir: Path,
-) -> tuple[SkillInfo, list[SkillValidationWarning]]:
+) -> tuple[SkillFrontmatter, list[SkillValidationWarning]]:
     """Validate a directory as a skill directory.
 
     A valid skill directory must contain a SKILL.md file with a valid
@@ -40,7 +40,7 @@ def validate_skill_dir(
         dir: Path to the directory to validate.
 
     Returns:
-        Tuple[SkillInfo, list[SkillValidationWarning]]: A pair where
+        Tuple[SkillFrontmatter, list[SkillValidationWarning]]: A pair where
             the first element is the validated skill metadata, and the
             second element is a list of warnings for cosmetic issues.
             An empty list means no issues.
@@ -67,7 +67,7 @@ def validate_skill_dir(
     try:
         _, frontmatter_str, body = skill_md.split("---", 2)
         frontmatter = yaml.safe_load(frontmatter_str)
-        info = SkillInfo.model_validate(frontmatter)
+        info = SkillFrontmatter.model_validate(frontmatter)
     except (ValueError, ValidationError, yaml.YAMLError) as e:
         raise InvalidFrontmatterError(str(e)) from e
 

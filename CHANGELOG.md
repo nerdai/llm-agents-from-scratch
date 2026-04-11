@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- refactor: outsource SKILL_SUBDIR to skills/constants (#453)
+- Refactor _SKILL_SUBDIRS to use .agents/skills only (#452)
+- refactor: rename info attr to frontmatter (#450)
 - refactor move disable model invocation from skillinfo to skill (#448)
 - refactor: rename info attr to frontmatter (#450)
 

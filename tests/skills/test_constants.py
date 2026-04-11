@@ -5,38 +5,33 @@ from pathlib import Path
 import pytest
 
 from llm_agents_from_scratch.data_structures.skill import SkillScope
-from llm_agents_from_scratch.skills.utils import get_skills_paths
+from llm_agents_from_scratch.skills.utils import get_skills_path
 
 
-def test_get_skills_paths_project_returns_cwd_relative_paths() -> None:
-    """Tests project scope paths are resolved relative to cwd."""
-    paths = get_skills_paths(SkillScope.PROJECT)
+def test_get_skills_path_project_returns_cwd_relative_paths() -> None:
+    """Tests project scope path is resolved relative to cwd."""
+    path = get_skills_path(SkillScope.PROJECT)
 
-    assert isinstance(paths, list)
-    for path in paths:
-        assert isinstance(path, Path)
-        assert path.is_absolute()
-        assert str(path).startswith(str(Path.cwd()))
+    assert isinstance(path, Path)
+    assert path.is_absolute()
+    assert str(path).startswith(str(Path.cwd()))
 
 
-def test_get_skills_paths_user_returns_home_relative_paths() -> None:
-    """Tests user scope paths are resolved relative to home directory."""
-    paths = get_skills_paths(SkillScope.USER)
+def test_get_skills_path_user_returns_home_relative_paths() -> None:
+    """Tests user scope path is resolved relative to home directory."""
+    path = get_skills_path(SkillScope.USER)
 
-    assert isinstance(paths, list)
-    for path in paths:
-        assert isinstance(path, Path)
-        assert path.is_absolute()
-        assert str(path).startswith(str(Path.home()))
+    assert isinstance(path, Path)
+    assert path.is_absolute()
+    assert str(path).startswith(str(Path.home()))
 
 
-def test_get_skills_paths_project_reflects_cwd_change(
+def test_get_skills_path_project_reflects_cwd_change(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    """Tests project scope paths reflect cwd at call time, not import time."""
+    """Tests project scope path reflects cwd at call time, not import time."""
     monkeypatch.chdir(tmp_path)
-    paths = get_skills_paths(SkillScope.PROJECT)
+    path = get_skills_path(SkillScope.PROJECT)
 
-    for path in paths:
-        assert str(path).startswith(str(tmp_path))
+    assert str(path).startswith(str(tmp_path))

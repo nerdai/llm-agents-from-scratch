@@ -31,18 +31,22 @@ def skills_dir(tmp_path: Path) -> Path:
     return tmp_path
 
 
-def _patch_paths(project: list[Path], user: list[Path] | None = None):
-    """Return a context manager that patches get_skills_paths."""
-    paths = {SkillScope.PROJECT: project, SkillScope.USER: user or []}
+def _patch_paths(
+    project: Path,
+    user: Path | None = None,
+):
+    """Return a context manager that patches get_skills_path."""
+    _user = user or Path("/nonexistent/__user__")
+    paths = {SkillScope.PROJECT: project, SkillScope.USER: _user}
     return patch(
-        "llm_agents_from_scratch.skills.discovery.get_skills_paths",
+        "llm_agents_from_scratch.skills.discovery.get_skills_path",
         side_effect=lambda scope: paths[scope],
     )
 
 
 def test_discover_skills_skips_nonexistent_paths() -> None:
     """Tests discover_skills skips scope paths that do not exist."""
-    with _patch_paths(project=[Path("/nonexistent/path")]):
+    with _patch_paths(project=Path("/nonexistent/path")):
         skills = discover_skills(scopes=[SkillScope.PROJECT])
 
     assert skills == {}
@@ -53,7 +57,7 @@ def test_discover_skills_skips_non_directories(tmp_path: Path) -> None:
     (tmp_path / "not_a_dir.txt").write_text("hello")
 
     with (
-        _patch_paths(project=[tmp_path]),
+        _patch_paths(project=tmp_path),
         patch(
             "llm_agents_from_scratch.skills.discovery.validate_skill_dir",
         ) as mock_validate,
@@ -70,7 +74,7 @@ def test_discover_skills_valid_skill_dir(skills_dir: Path) -> None:
     mock_info.name = "my-skill"
 
     with (
-        _patch_paths(project=[skills_dir]),
+        _patch_paths(project=skills_dir),
         patch(
             "llm_agents_from_scratch.skills.discovery.validate_skill_dir",
             return_value=(mock_info, []),
@@ -94,7 +98,7 @@ def test_discover_skills_emits_cosmetic_warnings(skills_dir: Path) -> None:
     ]
 
     with (
-        _patch_paths(project=[skills_dir]),
+        _patch_paths(project=skills_dir),
         patch(
             "llm_agents_from_scratch.skills.discovery.validate_skill_dir",
             return_value=(mock_info, cosmetic_warnings),
@@ -113,7 +117,7 @@ def test_discover_skills_emits_cosmetic_warnings(skills_dir: Path) -> None:
 def test_discover_skills_skips_on_fatal_error(skills_dir: Path) -> None:
     """Tests discover_skills emits SkillSkippedWarning and skips the skill."""
     with (
-        _patch_paths(project=[skills_dir]),
+        _patch_paths(project=skills_dir),
         patch(
             "llm_agents_from_scratch.skills.discovery.validate_skill_dir",
             side_effect=SkillValidationError("missing SKILL.md"),
@@ -152,7 +156,7 @@ def test_discover_skills_project_overrides_user(tmp_path: Path) -> None:
         return project_info, []
 
     with (
-        _patch_paths(project=[project_dir], user=[user_dir]),
+        _patch_paths(project=project_dir, user=user_dir),
         patch(
             "llm_agents_from_scratch.skills.discovery.validate_skill_dir",
             side_effect=_validate,
@@ -189,7 +193,7 @@ def test_discover_skills_emits_shadowed_warning(tmp_path: Path) -> None:
         return project_info, []
 
     with (
-        _patch_paths(project=[project_dir], user=[user_dir]),
+        _patch_paths(project=project_dir, user=user_dir),
         patch(
             "llm_agents_from_scratch.skills.discovery.validate_skill_dir",
             side_effect=_validate,

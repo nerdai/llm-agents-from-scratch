@@ -20,7 +20,7 @@ from ..errors import (
 )
 from .constants import MAX_NAME_LENGTH
 from .skill import Skill
-from .utils import get_skills_paths
+from .utils import get_skills_path
 
 
 def validate_skill_dir(
@@ -110,41 +110,41 @@ def discover_skills(scopes: list[SkillScope]) -> dict[str, Skill]:
     """
     skills: dict[str, Skill] = {}
     for scope in scopes:
-        for skills_path in get_skills_paths(scope):
-            if not skills_path.exists():
+        skills_path = get_skills_path(scope)
+        if not skills_path.exists():
+            continue
+
+        for skill_dir in sorted(skills_path.iterdir()):
+            if not skill_dir.is_dir():
                 continue
 
-            for skill_dir in sorted(skills_path.iterdir()):
-                if not skill_dir.is_dir():
-                    continue
-
-                # validate dir is an actual Skill dir
-                try:
-                    frontmatter, skill_warnings = validate_skill_dir(skill_dir)
-                except SkillValidationError as e:
-                    warnings.warn(
-                        str(e),
-                        SkillSkippedWarning,
-                        stacklevel=2,
-                    )
-                    continue
-
-                for w in skill_warnings:
-                    warnings.warn(str(w), type(w), stacklevel=2)
-
-                if frontmatter.name in skills:
-                    shadowed_scope = skills[frontmatter.name].scope
-                    warnings.warn(
-                        f"Skill '{frontmatter.name}' ({scope.value} scope)"
-                        f" shadows an existing skill of the same name"
-                        f" ({shadowed_scope.value} scope).",
-                        SkillShadowedWarning,
-                        stacklevel=2,
-                    )
-                skills[frontmatter.name] = Skill(
-                    frontmatter=frontmatter,
-                    location=(skill_dir / "SKILL.md").resolve(),
-                    scope=scope,  # type: ignore[arg-type]
+            # validate dir is an actual Skill dir
+            try:
+                frontmatter, skill_warnings = validate_skill_dir(skill_dir)
+            except SkillValidationError as e:
+                warnings.warn(
+                    str(e),
+                    SkillSkippedWarning,
+                    stacklevel=2,
                 )
+                continue
+
+            for w in skill_warnings:
+                warnings.warn(str(w), type(w), stacklevel=2)
+
+            if frontmatter.name in skills:
+                shadowed_scope = skills[frontmatter.name].scope
+                warnings.warn(
+                    f"Skill '{frontmatter.name}' ({scope.value} scope)"
+                    f" shadows an existing skill of the same name"
+                    f" ({shadowed_scope.value} scope).",
+                    SkillShadowedWarning,
+                    stacklevel=2,
+                )
+            skills[frontmatter.name] = Skill(
+                frontmatter=frontmatter,
+                location=(skill_dir / "SKILL.md").resolve(),
+                scope=scope,  # type: ignore[arg-type]
+            )
 
     return skills

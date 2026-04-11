@@ -24,7 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - feat: handle `disable-model-invocation` flag and shadowing warnings (#429)
 - feat: inject skills catalog into `TaskHandler` system prompt (#423)
 - feat: add `skills_scopes` to `LLMAgent` and skill discovery to `TaskHandler` (#424)
-- refactor: introduce `SkillScope` enum and `get_skills_paths()` utility (#422)
+- refactor: introduce `SkillScope` enum and `get_skills_path()` utility (#422)
 - feat: implement `Skill.read_body()` (#419)
 - feat: implement `Skill.catalog()` (#418)
 - feat: implement validate_skill_dir() (#417)

@@ -2,6 +2,8 @@
 
 MAX_NAME_LENGTH = 64
 
+SKILL_SUBDIR = ".agents/skills"
+
 CATALOG_SKILL_TEMPLATE = """
   <skill>
     <name>{name}</name>

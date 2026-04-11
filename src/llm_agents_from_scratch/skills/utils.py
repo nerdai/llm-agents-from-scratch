@@ -3,12 +3,11 @@
 from pathlib import Path
 
 from ..data_structures.skill import SkillScope
-
-_SKILL_SUBDIR = ".agents/skills"
+from .constants import SKILL_SUBDIR
 
 
 def get_skills_path(scope: SkillScope) -> Path:
-    """Return skill directories to scan for a given scope.
+    """Return the skill directory to scan for a given scope.
 
     Paths are resolved at call time so that changes to the working directory
     between import and discovery are correctly reflected.
@@ -17,7 +16,7 @@ def get_skills_path(scope: SkillScope) -> Path:
         scope: The skill scope to resolve paths for.
 
     Returns:
-        List of paths to scan for skills.
+        Path to scan for skills.
     """
     base = Path.cwd() if scope == SkillScope.PROJECT else Path.home()
-    return base / _SKILL_SUBDIR
+    return base / SKILL_SUBDIR

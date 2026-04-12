@@ -16,22 +16,27 @@ class UseSkillTool(BaseTool):
 
     Attributes:
         skills (dict[str, Skill]): All discovered skills, keyed by name.
-            Includes skills with ``disable_model_invocation=True`` — those
-            are excluded from the enum but remain loadable if called directly.
+            Skills in ``explicit_only_skills`` are excluded from the enum
+            but remain loadable if called directly via ``run_with_skill()``.
     """
 
     def __init__(
         self,
         skills: dict[str, Skill],
+        explicit_only_skills: set[str] | None = None,
     ) -> None:
         """Initialize a UseSkillTool.
 
         Args:
             skills (dict[str, Skill]): All discovered skills, keyed by name.
+            explicit_only_skills (set[str] | None): Skill names excluded from
+                the model-visible catalog. They remain loadable via
+                ``run_with_skill()``. Defaults to None.
         """
         self._skills = skills
+        self._explicit_only_skills = explicit_only_skills or set()
         self._visible = [
-            name for name, s in skills.items() if not s.disable_model_invocation
+            name for name in skills if name not in self._explicit_only_skills
         ]
 
     @property

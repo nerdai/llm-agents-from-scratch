@@ -11,7 +11,6 @@ from llm_agents_from_scratch.agent.templates import (
 )
 from llm_agents_from_scratch.base import LLM
 from llm_agents_from_scratch.base.tool import Tool
-from llm_agents_from_scratch.data_structures.skill import SkillScope
 from llm_agents_from_scratch.errors import LLMAgentBuilderError
 from llm_agents_from_scratch.tools import MCPTool
 from llm_agents_from_scratch.tools.mcp import MCPToolProvider
@@ -28,9 +27,6 @@ class LLMAgentBuilder:
         templates (LLMAgentTemplates): Prompt templates for the agent.
         mcp_providers (list[MCPToolProvider]): MCP providers for tool
             discovery.
-        skills_scopes (list[SkillScope] | None): Skill scopes to pass to
-            the agent. See `LLMAgent` for resolution semantics. Added in
-            Chapter 6.
     """
 
     def __init__(
@@ -39,8 +35,6 @@ class LLMAgentBuilder:
         tools: list[Tool] | None = None,
         templates: LLMAgentTemplates = default_templates,
         mcp_providers: list[MCPToolProvider] | None = None,
-        # added in ch06
-        skills_scopes: list[SkillScope] | None = None,
     ) -> None:
         """Initialize an LLMAgentBuilder.
 
@@ -76,16 +70,11 @@ class LLMAgentBuilder:
             mcp_providers (list[MCPToolProvider] | None, optional): MCP
                 providers for tool discovery. Tools are fetched during
                 `build()`. Defaults to None.
-            skills_scopes (list[SkillScope] | None, optional): Skill scopes
-                to pass to the agent. See `LLMAgent` for resolution
-                semantics. Defaults to None. Added in Chapter 6.
         """
         self.llm = llm
         self.templates = templates
         self.mcp_providers = mcp_providers or []
         self.tools = tools or []
-        # added in ch06
-        self.skills_scopes = skills_scopes
 
     def with_llm(self, llm: LLM) -> Self:
         """Set llm of builder."""
@@ -115,12 +104,6 @@ class LLMAgentBuilder:
     def with_mcp_providers(self, providers: list[MCPToolProvider]) -> Self:
         """Add mcp providers to builder."""
         self.mcp_providers.extend(providers)
-        return self
-
-    # added in ch06
-    def with_skills_scopes(self, scopes: list[SkillScope] | None) -> Self:
-        """Set skills scopes of builder."""
-        self.skills_scopes = scopes
         return self
 
     async def build(self) -> LLMAgent:
@@ -159,6 +142,4 @@ class LLMAgentBuilder:
             llm=self.llm,
             tools=self.tools + mcp_tools,
             templates=self.templates,
-            # added in ch06
-            skills_scopes=self.skills_scopes,
         )

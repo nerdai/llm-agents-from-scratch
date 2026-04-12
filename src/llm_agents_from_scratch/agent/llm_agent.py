@@ -44,9 +44,6 @@ class LLMAgent:
             the LLM with, represented as a dict.
         templates (LLMAgentTemplates): Prompt templates for LLM Agent.
         logger (logging.Logger): LLMAgent logger.
-        skills_scopes (list[SkillScope]): The skill scopes to scan during
-            discovery. An empty list disables skills entirely. Added in
-            Chapter 6.
     """
 
     def __init__(
@@ -54,8 +51,6 @@ class LLMAgent:
         llm: LLM,
         tools: list[Tool] | None = None,
         templates: LLMAgentTemplates = default_templates,
-        # added in ch06
-        skills_scopes: list[SkillScope] | None = None,
     ):
         """Initialize an LLMAgent.
 
@@ -64,12 +59,6 @@ class LLMAgent:
             tools (list[Tool], optional): The set of tools with which the
                 LLM can be equipped. Defaults to None.
             templates (LLMAgentTemplates): Prompt templates for LLM Agent.
-            skills_scopes (list[SkillScope], optional): The skill scopes to
-                scan during discovery, in processing order (last wins on
-                name collision). Pass `[]` to disable skills. Defaults to
-                None, which enables all scopes in priority order
-                ``[SkillScope.USER, SkillScope.PROJECT]``. Added in
-                Chapter 6.
         """
         self.llm = llm
         tools = tools or []
@@ -81,12 +70,6 @@ class LLMAgent:
         self.tools_registry = {t.name: t for t in tools}
         self.templates = templates
         self.logger = get_logger(self.__class__.__name__)
-        # added in ch06
-        self.skills_scopes = (
-            skills_scopes
-            if skills_scopes is not None
-            else [SkillScope.USER, SkillScope.PROJECT]
-        )
 
     @property
     def tools(self) -> list[Tool]:
@@ -117,10 +100,10 @@ class LLMAgent:
             step_counter: The number of TaskSteps executed.
             logger: TaskHandler logger.
             skills (dict[str, Skill]): Skills discovered at the start of
-                each run, keyed by name. Includes all discovered skills
-                regardless of ``disable-model-invocation`` — that flag
-                only controls catalog visibility, not registry membership.
-                Added in Chapter 6.
+                each run, keyed by name. Added in Chapter 6.
+            _explicit_only_skills (set[str]): Skill names excluded from the
+                model-visible catalog for this run. They remain loadable via
+                ``run_with_skill()``. Added in Chapter 6.
             _activated_skills (set[str]): Names of skills already activated
                 in this task run. Added in Chapter 6.
             _use_skill_tool (UseSkillTool | None): Task-scoped skill
@@ -132,6 +115,9 @@ class LLMAgent:
             self,
             llm_agent: "LLMAgent",
             task: Task,
+            # added in ch06
+            skills_scopes: list[SkillScope] | None = None,
+            explicit_only_skills: set[str] | None = None,
             *args: Any,
             **kwargs: Any,
         ) -> None:
@@ -140,6 +126,12 @@ class LLMAgent:
             Args:
                 llm_agent (LLMAgent): The LLM agent.
                 task (Task): The task to process.
+                skills_scopes (list[SkillScope] | None): Scopes to scan for
+                    skills. Defaults to ``[USER, PROJECT]``. Added in
+                    Chapter 6.
+                explicit_only_skills (set[str] | None): Skill names to
+                    exclude from the model catalog. Defaults to None.
+                    Added in Chapter 6.
                 *args: Additional positional arguments.
                 **kwargs: Additional keyword arguments.
             """
@@ -151,12 +143,21 @@ class LLMAgent:
             self._background_task: asyncio.Task | None = None
             self.logger = get_logger(self.__class__.__name__)
             # added in ch06
-            self.skills: dict[str, Skill] = discover_skills(
-                llm_agent.skills_scopes,
+            _scopes = (
+                skills_scopes
+                if skills_scopes is not None
+                else [SkillScope.USER, SkillScope.PROJECT]
             )
+            self.skills: dict[str, Skill] = discover_skills(_scopes)
+            self._explicit_only_skills: set[str] = explicit_only_skills or set()
             self._activated_skills: set[str] = set()
             self._use_skill_tool: UseSkillTool | None = (
-                UseSkillTool(skills=self.skills) if self.skills else None
+                UseSkillTool(
+                    skills=self.skills,
+                    explicit_only_skills=self._explicit_only_skills,
+                )
+                if self.skills
+                else None
             )
 
         @property
@@ -190,8 +191,8 @@ class LLMAgent:
             """
             visible = [
                 skill
-                for skill in self.skills.values()
-                if not skill.disable_model_invocation
+                for name, skill in self.skills.items()
+                if name not in self._explicit_only_skills
             ]
             if not visible:
                 return ""
@@ -476,6 +477,9 @@ class LLMAgent:
         self,
         task: Task,
         max_steps: int | None = None,
+        # added in ch06
+        skills_scopes: list[SkillScope] | None = None,
+        explicit_only_skills: set[str] | None = None,
     ) -> TaskHandler:
         """Agent's processing loop for executing tasks.
 
@@ -483,6 +487,13 @@ class LLMAgent:
             task (Task): the Task to perform.
             max_steps (int | None): Maximum number of steps to run for task.
                 Defaults to None.
+            skills_scopes (list[SkillScope] | None): Scopes to scan for
+                skills, in processing order (last wins on name collision).
+                Defaults to ``[USER, PROJECT]``. Added in Chapter 6.
+            explicit_only_skills (set[str] | None): Skill names to exclude
+                from the model catalog for this run. They remain activatable
+                via ``run_with_skill()``. Defaults to None. Added in
+                Chapter 6.
 
         Returns:
             TaskHandler: the TaskHandler object responsible for task execution.
@@ -490,6 +501,8 @@ class LLMAgent:
         task_handler = self.TaskHandler(
             llm_agent=self,
             task=task,
+            skills_scopes=skills_scopes,
+            explicit_only_skills=explicit_only_skills,
         )
 
         async def _process_loop() -> None:

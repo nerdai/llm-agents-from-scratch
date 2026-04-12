@@ -14,7 +14,6 @@ from llm_agents_from_scratch.skills.tools import UseSkillTool
 def make_skill(
     name: str = "my-skill",
     description: str = "Does things.",
-    disable_model_invocation: bool = False,
     location: Path = Path("/fake/skill/SKILL.md"),
     scope: SkillScope = SkillScope.PROJECT,
 ) -> Skill:
@@ -23,7 +22,6 @@ def make_skill(
         frontmatter=info,
         location=location,
         scope=scope,
-        disable_model_invocation=disable_model_invocation,
     )
 
 
@@ -52,13 +50,13 @@ def test_use_skill_tool_parameters_json_schema_enum() -> None:
     assert "skill-b" in enum
 
 
-def test_use_skill_tool_parameters_json_schema_excludes_disabled() -> None:
-    """Tests parameters_json_schema enum excludes disable-model-invocation."""
+def test_use_skill_tool_parameters_json_schema_excludes_explicit_only() -> None:
+    """Tests parameters_json_schema enum excludes explicit_only_skills."""
     skills = {
         "visible": make_skill(name="visible"),
-        "hidden": make_skill(name="hidden", disable_model_invocation=True),
+        "hidden": make_skill(name="hidden"),
     }
-    tool = UseSkillTool(skills=skills)
+    tool = UseSkillTool(skills=skills, explicit_only_skills={"hidden"})
 
     enum = tool.parameters_json_schema["properties"]["name"]["enum"]
     assert "visible" in enum

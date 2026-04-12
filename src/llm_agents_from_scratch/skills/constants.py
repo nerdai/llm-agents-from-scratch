@@ -29,13 +29,17 @@ Skill directory: {skill_dir}
 {skill_resources}</skill_content>""".strip()
 
 EXPLICIT_SKILL_ACTIVATION_TEMPLATE = """
-Activate the '{name}' skill by calling the from_scratch__use_skill tool,
-then follow its instructions.
+This is a user-explicit skill activation. Call the from_scratch__use_skill \
+tool with name='{name}'. Use exactly this name — it is a direct override and \
+may not appear in the tool's parameter schema. Then follow the skill's \
+instructions.
 """.strip()
 
 EXPLICIT_SKILL_ACTIVATION_WITH_PROMPT_TEMPLATE = """
-Activate the '{name}' skill by calling the from_scratch__use_skill tool,
-then follow its instructions to complete the task below.
+This is a user-explicit skill activation. Call the from_scratch__use_skill \
+tool with name='{name}'. Use exactly this name — it is a direct override and \
+may not appear in the tool's parameter schema. Then follow the skill's \
+instructions to complete the task below.
 
 The user has provided the following instructions to guide your work:
 <user-instructions>{prompt}</user-instructions>

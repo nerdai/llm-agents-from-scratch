@@ -9,20 +9,14 @@ class SkillsWarning(LLMAgentsFromScratchWarning):
     pass
 
 
-class SkillValidationWarning(SkillsWarning):
-    """Emitted when a skill has cosmetic issues but is still loaded."""
-
-    pass
-
-
-class SkillSkippedWarning(SkillsWarning):
-    """Emitted when a skill is skipped due to a fatal validation error."""
-
-    pass
-
-
 class SkillsError(LLMAgentsFromScratchError):
     """Base error for all skill-related exceptions."""
+
+    pass
+
+
+class SkillValidationWarning(SkillsWarning):
+    """Emitted when a skill has cosmetic issues but is still loaded."""
 
     pass
 
@@ -33,6 +27,13 @@ class SkillValidationError(SkillsError):
     pass
 
 
+class SkillSkippedWarning(SkillsWarning):
+    """Emitted when a skill is skipped due to a fatal validation error."""
+
+    pass
+
+
+# fatal issues
 class MissingSkillMdError(SkillValidationError):
     """Raised when a skill directory does not contain a SKILL.md file."""
 
@@ -51,6 +52,7 @@ class EmptySkillBodyError(SkillValidationError):
     pass
 
 
+# cosmetic issues
 class NameMismatchWarning(SkillValidationWarning):
     """Emitted when the skill name does not match its parent directory name."""
 

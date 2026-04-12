@@ -3,8 +3,6 @@
 import json
 from typing import Any
 
-from jsonschema import SchemaError, ValidationError, validate
-
 from ..base.tool import BaseTool
 from ..data_structures import ToolCall, ToolCallResult
 from .constants import ACTIVATION_CONTENT_TEMPLATE, SKILL_RESOURCES_TEMPLATE
@@ -111,22 +109,22 @@ class UseSkillTool(BaseTool):
         Returns:
             ToolCallResult: The activated skill's full content.
         """
-        try:
-            # validate the arguments
-            validate(tool_call.arguments, schema=self.parameters_json_schema)
-        except (SchemaError, ValidationError) as e:
-            error_details = {
-                "error_type": e.__class__.__name__,
-                "message": e.message,
-            }
+        # Validate only that "name" is a present string, not the enum.
+        # parameters_json_schema is narrower — it only enumerates visible
+        # (non-explicit-only) skills as a hint to the model. Explicit-only
+        # skills are absent from that enum but must still be activatable here.
+        skill_name = tool_call.arguments.get("name")
+        if not isinstance(skill_name, str):
             return ToolCallResult(
                 tool_call_id=tool_call.id_,
-                content=json.dumps(error_details),
+                content=json.dumps(
+                    {
+                        "error_type": "ValueError",
+                        "message": "'name' argument must be a string.",
+                    },
+                ),
                 error=True,
             )
-
-        # if pass validation then "name" is present in arguments
-        skill_name: str = tool_call.arguments["name"]
         if skill_name not in self._skills:
             return ToolCallResult(
                 tool_call_id=tool_call.id_,

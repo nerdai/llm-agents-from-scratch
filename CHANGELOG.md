@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- refactor: rip out disable_model_invocation from LLMAgent (#456)
 - refactor: outsource SKILL_SUBDIR to skills/constants (#453)
 - Refactor _SKILL_SUBDIRS to use .agents/skills only (#452)
 - refactor: rename info attr to frontmatter (#450)

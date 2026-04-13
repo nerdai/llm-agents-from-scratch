@@ -1,3 +1,9 @@
+# macOS
+.DS_Store
+
+# Talk slides (hosted on CloudFront)
+talks/**/slides/
+
 # Python-generated files
 __pycache__/
 *.py[oc]

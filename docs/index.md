@@ -99,7 +99,7 @@ from core concepts to full multi-agent systems:
 | Ch | Title | Notebook |
 | -- | ----- | -------- |
 | 5 | MCP Tools | [Ch 5](notebooks/ch05.ipynb) |
-| 6 | Skills | — |
+| 6 | Skills | [Ch 6](notebooks/ch06.ipynb) |
 | 7 | Memory | — |
 | 8 | Human in the Loop | — |
 

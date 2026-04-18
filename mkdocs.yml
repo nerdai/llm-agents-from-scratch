@@ -38,6 +38,7 @@ nav:
     - Chapter 3: notebooks/ch03.ipynb
     - Chapter 4: notebooks/ch04.ipynb
     - Chapter 5: notebooks/ch05.ipynb
+    - Chapter 6: notebooks/ch06.ipynb
   - More Examples:
     # Symlinked from more-examples/ — do not copy directly.
     - Chapter 5:

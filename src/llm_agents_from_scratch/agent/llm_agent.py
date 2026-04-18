@@ -104,8 +104,6 @@ class LLMAgent:
             _explicit_only_skills (set[str]): Skill names excluded from the
                 model-visible catalog for this run. They remain loadable via
                 ``run_with_skill()``. Added in Chapter 6.
-            _activated_skills (set[str]): Names of skills already activated
-                in this task run. Added in Chapter 6.
             _use_skill_tool (UseSkillTool | None): Task-scoped skill
                 activation tool. Set when skills are discovered; ``None``
                 otherwise. Added in Chapter 6.
@@ -150,7 +148,6 @@ class LLMAgent:
             )
             self.skills: dict[str, Skill] = discover_skills(_scopes)
             self._explicit_only_skills: set[str] = explicit_only_skills or set()
-            self._activated_skills: set[str] = set()
             self._use_skill_tool: UseSkillTool | None = (
                 UseSkillTool(
                     skills=self.skills,

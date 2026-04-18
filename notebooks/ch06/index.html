@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://masfromscratch.com/notebooks/ch03/">
+        <link rel="canonical" href="https://masfromscratch.com/notebooks/ch06/">
       
       
-        <link rel="prev" href="../ch02/">
+        <link rel="prev" href="../ch05/">
       
       
-        <link rel="next" href="../ch04/">
+        <link rel="next" href="../../more-examples/ch05/github_mcp/">
       
       
         
@@ -25,7 +25,7 @@
     
     
       
-        <title>Chapter 3 — Working with LLMs - LLM Agents From Scratch</title>
+        <title>Chapter 6 — Agent Skills - LLM Agents From Scratch</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#chapter-3-working-with-llms" class="md-skip">
+        <a href="#chapter-6-agent-skills" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Chapter 3 — Working with LLMs
+              Chapter 6 — Agent Skills
             
           </span>
         </div>
@@ -531,37 +531,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Chapter 3 — Working with LLMs
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../ch03/" class="md-nav__link">
         
   
   
@@ -577,159 +550,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#setup-instructions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Setup Instructions
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#running-an-ollama-service" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Running an Ollama service
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Examples
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Examples">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#example-1-joke-model-for" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 1: Joke model for
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-2-instantiating-an" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 2: Instantiating an
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-3-using-to-have-an-tell-a-joke" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 3: Using to have an tell a joke
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-4-using-to-have-an-tell-a-structured-joke" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 4: Using to have an tell a (structured) joke
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-5-hailstone-tool-call-with" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 5: Hailstone tool call with
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Example 5: Hailstone tool call with">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#eliciting-a-tool-call-request" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Eliciting a tool call request
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#executing-the-tool" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Executing the tool
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#sending-tool-results-back-to-llm" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Sending tool results back to LLM
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -795,10 +615,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../ch06/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 6 — Agent Skills
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -814,6 +661,109 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#setup-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup Instructions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-an-ollama-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running an Ollama service
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-hailstone-skill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Hailstone Skill
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-skill-discovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 1: Skill Discovery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-useskilltool-activation-result" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 2: UseSkillTool Activation Result
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3-model-driven-skill-activation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3: Model-driven Skill Activation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2234,6 +2184,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#the-hailstone-skill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Hailstone Skill
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#examples" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2246,10 +2207,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#example-1-joke-model-for" class="md-nav__link">
+  <a href="#example-1-skill-discovery" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example 1: Joke model for
+        Example 1: Skill Discovery
       
     </span>
   </a>
@@ -2257,10 +2218,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#example-2-instantiating-an" class="md-nav__link">
+  <a href="#example-2-useskilltool-activation-result" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example 2: Instantiating an
+        Example 2: UseSkillTool Activation Result
       
     </span>
   </a>
@@ -2268,74 +2229,13 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#example-3-using-to-have-an-tell-a-joke" class="md-nav__link">
+  <a href="#example-3-model-driven-skill-activation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example 3: Using to have an tell a joke
+        Example 3: Model-driven Skill Activation
       
     </span>
   </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-4-using-to-have-an-tell-a-structured-joke" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 4: Using to have an tell a (structured) joke
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-5-hailstone-tool-call-with" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 5: Hailstone tool call with
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Example 5: Hailstone tool call with">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#eliciting-a-tool-call-request" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Eliciting a tool call request
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#executing-the-tool" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Executing the tool
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#sending-tool-results-back-to-llm" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Sending tool results back to LLM
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -3085,18 +2985,18 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </style>
 <!-- End of mermaid configuration --><div class="jupyter-wrapper">
 <div class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=77fd63b8-688a-49c8-8e40-a2287db46be9">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0001-0000-0000-000000000001">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="chapter-3-working-with-llms">Chapter 3 — Working with LLMs<a class="anchor-link" href="#chapter-3-working-with-llms">¶</a></h1>
+<h1 id="chapter-6-agent-skills">Chapter 6 — Agent Skills<a class="anchor-link" href="#chapter-6-agent-skills">¶</a></h1>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ff7d77e6-4704-48c5-87a3-930a6dddc60d">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0001-0000-0000-000000000002">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -3110,12 +3010,12 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=f5eaefa5-2c00-43e8-99fe-31e0322739ec">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=a1b2c3d4-0001-0000-0000-000000000003">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-1">
@@ -3139,18 +3039,44 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=aebcb08d-3576-4e1b-8815-ee7d10815e3e">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0001-0000-0000-000000000004">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="running-an-ollama-service">Running an Ollama service<a class="anchor-link" href="#running-an-ollama-service">¶</a></h2><p>To execute the code provided in this section, you’ll need to have Ollama installed on your local machine and have its LLM hosting service running. To download Ollama, follow the instructions found on this page: <a href="https://ollama.com/download">https://ollama.com/download</a>. After downloading and installing Ollama, you can start a service by opening a terminal and running the command <code>ollama serve</code>.</p>
+<h2 id="running-an-ollama-service">Running an Ollama service<a class="anchor-link" href="#running-an-ollama-service">¶</a></h2><p>To execute the code provided in this notebook, you'll need to have Ollama installed on your local machine and have its LLM hosting service running. To download Ollama, follow the instructions found on this page: <a href="https://ollama.com/download">https://ollama.com/download</a>. After downloading and installing Ollama, you can start a service by opening a terminal and running the command <code>ollama serve</code>.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=db0630f5-6625-49e6-8b3e-880ced011218">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0001-0000-0000-000000000005">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="the-hailstone-skill">The Hailstone Skill<a class="anchor-link" href="#the-hailstone-skill">¶</a></h2><p>The examples in this notebook use a <code>hailstone-sequence</code> skill that instructs the agent to compute a full Hailstone (Collatz) sequence using a <code>next_number</code> tool.</p>
+<p><strong>Important:</strong> Run this notebook from within the <code>examples/</code> directory so the skill is discovered as a project-scoped skill.</p>
+<p>The skill is located at: <code>examples/.agents/skills/stop-at-one/SKILL.md</code></p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=54ce10ef-7af3-4d98-ad55-ae05d66bf61e">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<blockquote>
+<p><strong>Note on obfuscation:</strong> The skill is intentionally named <code>stop-at-one</code> and contains no mention of "Hailstone" or "Collatz". This prevents the LLM from relying on its parametric knowledge of the Collatz conjecture to simulate the sequence internally — forcing it to actually call the <code>next_number</code> tool at each step as the skill instructs.</p>
+</blockquote>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0001-0000-0000-000000000007">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -3161,23 +3087,23 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=394d2302-3dde-4a1d-9312-e8d24129edf2">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0001-0000-0000-000000000008">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>The code in the book uses <code>asyncio.run()</code> to execute coroutines. To align the book code with this Jupyter notebook, we'll use the <code>nest_asyncio</code> library, which allows for nested async event loops.</p>
+<h3 id="example-1-skill-discovery">Example 1: Skill Discovery<a class="anchor-link" href="#example-1-skill-discovery">¶</a></h3>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=f83338bf-7a71-4143-8a9c-049ba1b9aac7">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0001-0000-0000-000000000009">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-2">
@@ -3190,36 +3116,71 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># This will allow us to execute `asyncio.run()` calls</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">nest_asyncio</span>
-<span class="n">nest_asyncio</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMAgent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">Task</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
+
+<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">)</span>
+<span class="n">agent</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">)</span>
+
+<span class="n">task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span><span class="n">instruction</span><span class="o">=</span><span class="s2">"Compute the stop-at-one sequence for 8."</span><span class="p">)</span>
+<span class="n">handler</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="o">.</span><span class="n">TaskHandler</span><span class="p">(</span><span class="n">llm_agent</span><span class="o">=</span><span class="n">agent</span><span class="p">,</span> <span class="n">task</span><span class="o">=</span><span class="n">task</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">handler</span><span class="o">.</span><span class="n">skills</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">handler</span><span class="o">.</span><span class="n">skills</span><span class="p">[</span><span class="s2">"stop-at-one"</span><span class="p">]</span><span class="o">.</span><span class="n">frontmatter</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">handler</span><span class="o">.</span><span class="n">skills</span><span class="p">[</span><span class="s2">"stop-at-one"</span><span class="p">]</span><span class="o">.</span><span class="n">scope</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-2"># This will allow us to execute `asyncio.run()` calls
-import nest_asyncio
-nest_asyncio.apply()</div>
+<div class="clipboard-copy-txt" id="cell-2">from llm_agents_from_scratch import LLMAgent
+from llm_agents_from_scratch.data_structures import Task
+from llm_agents_from_scratch.llms import OllamaLLM
+
+llm = OllamaLLM(model="qwen3:14b")
+agent = LLMAgent(llm=llm)
+
+task = Task(instruction="Compute the stop-at-one sequence for 8.")
+handler = LLMAgent.TaskHandler(llm_agent=agent, task=task)
+
+print(handler.skills)
+print(handler.skills["stop-at-one"].frontmatter)
+print(handler.skills["stop-at-one"].scope)</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>{'stop-at-one': &lt;llm_agents_from_scratch.skills.skill.Skill object at 0x79dcb4eaaa50&gt;}
+name='stop-at-one' description='Compute a sequence for a given starting number by repeatedly calling the next_number tool until the value 1 is reached.' license=None compatibility=None metadata=None allowed_tools=None
+SkillScope.PROJECT
+</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=186c1cf3-85d6-4cc6-a29c-f71f5a8790bf">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0001-0000-0000-000000000010">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="example-1-joke-model-for-structured_output">Example 1: Joke model for <code>structured_output()</code><a class="anchor-link" href="#example-1-joke-model-for-structured_output">¶</a></h3>
+<h3 id="example-2-useskilltool-activation-result">Example 2: UseSkillTool Activation Result<a class="anchor-link" href="#example-2-useskilltool-activation-result">¶</a></h3>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=fb422999-9dbd-43bc-87bd-bfc3b57811dd">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0001-0000-0000-000000000011">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-3">
@@ -3232,57 +3193,123 @@ nest_asyncio.apply()</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Literal</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolCall</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.skills.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">UseSkillTool</span>
 
-<span class="k">class</span><span class="w"> </span><span class="nc">Joke</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""A structured output model for Jokes."""</span>
-
-    <span class="n">subject</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"math"</span><span class="p">,</span> <span class="s2">"physics"</span><span class="p">,</span> <span class="s2">"biology"</span><span class="p">]</span>
-    <span class="n">joke</span><span class="p">:</span> <span class="nb">str</span>
+<span class="n">tool</span> <span class="o">=</span> <span class="n">UseSkillTool</span><span class="p">(</span><span class="n">skills</span><span class="o">=</span><span class="n">handler</span><span class="o">.</span><span class="n">skills</span><span class="p">)</span>
+<span class="n">tool_call</span> <span class="o">=</span> <span class="n">ToolCall</span><span class="p">(</span>
+    <span class="n">tool_name</span><span class="o">=</span><span class="s2">"from_scratch__use_skill"</span><span class="p">,</span>
+    <span class="n">arguments</span><span class="o">=</span><span class="p">{</span><span class="s2">"name"</span><span class="p">:</span> <span class="s2">"stop-at-one"</span><span class="p">},</span>
+<span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">tool</span><span class="p">(</span><span class="n">tool_call</span><span class="o">=</span><span class="n">tool_call</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-3">from typing import Literal
-from pydantic import BaseModel
+<div class="clipboard-copy-txt" id="cell-3">from llm_agents_from_scratch.data_structures import ToolCall
+from llm_agents_from_scratch.skills.tools import UseSkillTool
 
-class Joke(BaseModel):
-    """A structured output model for Jokes."""
+tool = UseSkillTool(skills=handler.skills)
+tool_call = ToolCall(
+    tool_name="from_scratch__use_skill",
+    arguments={"name": "stop-at-one"},
+)
+result = tool(tool_call=tool_call)
+print(result.content)</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>&lt;skill_content name="stop-at-one"&gt;
+# Stop At One
 
-    subject: Literal["math", "physics", "biology"]
-    joke: str</div>
+Compute a full sequence from a starting number down to 1
+using the `next_number` tool.
+
+## Arguments
+
+The user must provide a **starting number** (a positive integer greater than 1).
+
+If no starting number is given, ask the user before proceeding.
+
+## Steps
+
+### 1. Initialize
+
+Set the current number `x` to the starting number provided by the user.
+
+Begin tracking the sequence as a list: `[x]`.
+
+### 2. Call the tool
+
+Call `next_number` with the current value of `x`.
+
+```
+next_number(x=&lt;current_number&gt;)
+```
+
+**STOP and WAIT** for the tool result before continuing.
+
+### 3. Record the result
+
+Append the returned value to the sequence list.
+
+Set `x` to the returned value.
+
+### 4. Check termination
+
+- If `x == 1`, proceed to Step 5.
+- Otherwise, go back to Step 2.
+
+**Important rules:**
+- NEVER fabricate or simulate tool call results.
+- NEVER make multiple tool calls in a single response.
+- ALWAYS wait for the actual tool response before deciding next steps.
+
+### 5. Report the result
+
+Print the complete sequence from start to finish, for example:
+
+```
+6 → 3 → 10 → 5 → 16 → 8 → 4 → 2 → 1
+```
+
+Also report:
+- **Starting number**
+- **Total steps taken** (number of tool calls made)
+- **Maximum value reached** in the sequence
+
+Skill directory: /home/nerdai/Projects/llm-agents-from-scratch/examples/.agents/skills/stop-at-one
+&lt;/skill_content&gt;
+</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=df5e2c4c-d8f3-450b-af8f-cdb1e257002d">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0001-0000-0000-000000000012">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="example-2-instantiating-an-ollamallm">Example 2: Instantiating an <code>OllamaLLM</code><a class="anchor-link" href="#example-2-instantiating-an-ollamallm">¶</a></h3>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=86de1ad6-ea64-4ef6-91c7-721a1878141e">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Note: the below command requies the <code>qwen2.5:3b</code> model to have been pulled. To do so, in terminal run: <code>ollama pull qwen2.5:3b</code>.</p>
+<h3 id="example-3-model-driven-skill-activation">Example 3: Model-driven Skill Activation<a class="anchor-link" href="#example-3-model-driven-skill-activation">¶</a></h3>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=aaf19a60-8501-454a-8159-0af1dd8d7d19">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=a1b2c3d4-0001-0000-0000-000000000013">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-4">
@@ -3295,36 +3322,27 @@ class Joke(BaseModel):
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms.ollama</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_console_logging</span>
 
-<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen2.5:3b"</span><span class="p">)</span>
+<span class="n">enable_console_logging</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-4">from llm_agents_from_scratch.llms.ollama import OllamaLLM
+<div class="clipboard-copy-txt" id="cell-4">import logging
+from llm_agents_from_scratch.logger import enable_console_logging
 
-llm = OllamaLLM(model="qwen2.5:3b")</div>
+enable_console_logging(logging.INFO)</div>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=476060f4-86da-4847-924b-5afc5d78ada6">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="example-3-using-complete-to-have-an-ollamallm-tell-a-joke">Example 3: Using <code>complete()</code> to have an <code>OllamaLLM</code> tell a joke<a class="anchor-link" href="#example-3-using-complete-to-have-an-ollamallm-tell-a-joke">¶</a></h3>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=fce2224a-356c-49fd-8452-d6904d7db2ed">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0001-0000-0000-000000000014">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-5">
@@ -3337,25 +3355,43 @@ llm = OllamaLLM(model="qwen2.5:3b")</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms.ollama</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMAgent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">Task</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.tools.simple_function</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleFunctionTool</span>
 
-<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
-    <span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen2.5:3b"</span><span class="p">)</span>
-    <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">llm</span><span class="o">.</span><span class="n">complete</span><span class="p">(</span><span class="s2">"Tell me a joke."</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
 
-<span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">next_number</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+
+
+<span class="n">next_number_tool</span> <span class="o">=</span> <span class="n">SimpleFunctionTool</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">next_number</span><span class="p">)</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">,</span> <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">agent</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">next_number_tool</span><span class="p">])</span>
+
+<span class="n">task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span><span class="n">instruction</span><span class="o">=</span><span class="s2">"Compute the stop-at-one sequence for 8."</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">agent</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-5">import asyncio
-from llm_agents_from_scratch.llms.ollama import OllamaLLM
+<div class="clipboard-copy-txt" id="cell-5">from llm_agents_from_scratch import LLMAgent
+from llm_agents_from_scratch.data_structures import Task
+from llm_agents_from_scratch.llms import OllamaLLM
+from llm_agents_from_scratch.tools.simple_function import SimpleFunctionTool
 
-async def main():
-    llm = OllamaLLM(model="qwen2.5:3b")
-    response = await llm.complete("Tell me a joke.")
-    print(response)
 
-asyncio.run(main())</div>
+def next_number(x: int) -&gt; int:
+    if x % 2 == 0:
+        return x // 2
+    return 3 * x + 1
+
+
+next_number_tool = SimpleFunctionTool(func=next_number)
+llm = OllamaLLM(model="qwen3:14b", think=False)
+agent = LLMAgent(llm=llm, tools=[next_number_tool])
+
+task = Task(instruction="Compute the stop-at-one sequence for 8.")
+result = await agent.run(task)</div>
 </div>
 </div>
 </div>
@@ -3367,31 +3403,48 @@ asyncio.run(main())</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>response='Sure! Here\'s one for you:\n\nWhy don\'t scientists trust atoms?\n\nBecause they make up everything!\n\nThis is a play on the phrase "they make up matter," and in this case, it makes no sense because we can\'t blame or rely on atoms to do things as humans would.' prompt='Tell me a joke.'
+<pre>INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: Compute the stop-at-one sequence for 8.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Compute the stop-at-one sequence for 8.
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to call the stop-at-one skill with the starting number 8.
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the stop-at-one skill with the starting number 8.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the stop-at-one skill with the starting number 8.
+INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: from_scratch__use_skill
+INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: &lt;skill_content name="stop-at-one"&gt;
+# Stop At One
+
+Compute a full sequence from a starting number down to 1
+using the `next_num...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to call the next_number tool with the starting number 8.
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the next_number tool with the starting number 8.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the next_number tool with the starting number 8.
+INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
+INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 4
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The next number in the sequence after 8 is 4. I will continue the process by calling the next_number tool with the current number 4.
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the next_number tool with the current number 4.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the next_number tool with the current number 4.
+INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
+INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 2
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The next number in the sequence after 4 is 2. I will continue the process by calling the next_number tool with the current number 2.
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the next_number tool with the current number 2.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the next_number tool with the current number 2.
+INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
+INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 1
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The next number in the sequence after 2 is 1. Now that we have reached 1, the sequence is complete. Here is the full sequence from the ...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      No new step required.
+INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The next number in the sequence after 2 is 1. Now that we have reached 1, the sequence is complete. Here is the full sequence from t...[TRUNCATED]
 </pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=716a2b88-e862-41f2-865d-6d5651e3b119">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="example-4-using-structured_output-to-have-an-ollamallm-tell-a-structured-joke">Example 4: Using <code>structured_output()</code> to have an <code>OllamaLLM</code> tell a (structured) joke<a class="anchor-link" href="#example-4-using-structured_output-to-have-an-ollamallm-tell-a-structured-joke">¶</a></h3>
-</div>
-</div>
-</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=b222ee3d-c346-4cfa-ac90-896a46ae06f6">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0001-0000-0000-000000000015">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
@@ -3404,23 +3457,9 @@ asyncio.run(main())</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
-    <span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen2.5:3b"</span><span class="p">)</span>
-    <span class="n">prompt</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"Tell me a joke."</span><span class="p">)</span>
-    <span class="n">joke</span> <span class="o">=</span> <span class="k">await</span> <span class="n">llm</span><span class="o">.</span><span class="n">structured_output</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span> <span class="n">mdl</span><span class="o">=</span><span class="n">Joke</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">joke</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">joke</span><span class="p">)</span>
-
-<span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-6">async def main():
-    llm = OllamaLLM(model="qwen2.5:3b")
-    prompt = ("Tell me a joke.")
-    joke = await llm.structured_output(prompt=prompt, mdl=Joke)
-    print(joke.__class__.__name__)
-    print(joke)
-
-asyncio.run(main())</div>
+<div class="clipboard-copy-txt" id="cell-6">print(result)</div>
 </div>
 </div>
 </div>
@@ -3432,265 +3471,12 @@ asyncio.run(main())</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Joke
-subject='math' joke='Why was the math book sad? Because it had too many problems.'
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f1ded84f-7238-48b9-9969-06fb0d7be882">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="example-5-hailstone-tool-call-with-ollamallm">Example 5: Hailstone tool call with <code>OllamaLLM</code><a class="anchor-link" href="#example-5-hailstone-tool-call-with-ollamallm">¶</a></h3>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=110df095-04a3-4d97-a1ff-1a8f19e18be9">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-7">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">hailstone_step_func</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Performs a single step of the Hailstone sequence."""</span>
-    <span class="k">if</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">x</span> <span class="o">//</span> <span class="mi">2</span>
-    <span class="k">return</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-7">def hailstone_step_func(x: int) -&gt; int:
-    """Performs a single step of the Hailstone sequence."""
-    if x % 2 == 0:
-        return x // 2
-    return 3 * x + 1</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=dca97cc9-7002-484d-bfc4-59619c1247ee">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="eliciting-a-tool-call-request">Eliciting a tool call request<a class="anchor-link" href="#eliciting-a-tool-call-request">¶</a></h4>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=97fe7930-1369-4871-9f90-18e464fc13ac">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-8">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms.ollama</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures.llm</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatMessage</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleFunctionTool</span>
+<pre>The next number in the sequence after 2 is 1. Now that we have reached 1, the sequence is complete. Here is the full sequence from the starting number 8:
 
-<span class="n">hailstone_tool</span> <span class="o">=</span> <span class="n">SimpleFunctionTool</span><span class="p">(</span><span class="n">hailstone_step_func</span><span class="p">)</span>
-<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen2.5:3b"</span><span class="p">)</span>
-
-<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
-    <span class="n">user_input</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="s2">"What is the result of taking the next step of the "</span>
-        <span class="s2">"Hailstone sequence on the number 3?</span><span class="se">\n\n</span><span class="s2">"</span>
-        <span class="s2">"Be very succinct in your response."</span>
-    <span class="p">)</span>
-    <span class="k">return</span> <span class="k">await</span> <span class="n">llm</span><span class="o">.</span><span class="n">chat</span><span class="p">(</span>
-        <span class="n">user_input</span><span class="p">,</span>
-        <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">hailstone_tool</span><span class="p">],</span>
-    <span class="p">)</span>
-
-<span class="n">user_msg</span><span class="p">,</span> <span class="n">response_msg</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">response_msg</span><span class="o">.</span><span class="n">tool_calls</span><span class="p">)</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-8">import asyncio
-from llm_agents_from_scratch.llms.ollama import OllamaLLM
-from llm_agents_from_scratch.data_structures.llm import ChatMessage
-from llm_agents_from_scratch.tools import SimpleFunctionTool
-
-hailstone_tool = SimpleFunctionTool(hailstone_step_func)
-llm = OllamaLLM(model="qwen2.5:3b")
-
-async def main():
-    user_input = (
-        "What is the result of taking the next step of the "
-        "Hailstone sequence on the number 3?\n\n"
-        "Be very succinct in your response."
-    )
-    return await llm.chat(
-        user_input,
-        tools=[hailstone_tool],
-    )
-
-user_msg, response_msg = asyncio.run(main())
-print(response_msg.tool_calls)</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[ToolCall(id_='96efe041-50ff-45f0-867b-8e493901a28f', tool_name='hailstone_step_func', arguments={'x': 3})]
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d700664f-8725-4e73-ba91-c55b6f1c0aaf">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="executing-the-tool">Executing the tool<a class="anchor-link" href="#executing-the-tool">¶</a></h4>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=fcf129e2-119d-42ca-a9d5-72ae00607c61">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-9">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">tool_call</span> <span class="o">=</span> <span class="n">response_msg</span><span class="o">.</span><span class="n">tool_calls</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">tool_call_result</span> <span class="o">=</span> <span class="n">hailstone_tool</span><span class="p">(</span><span class="n">tool_call</span><span class="p">)</span> <span class="c1"># a ToolCallResult</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">tool_call_result</span><span class="p">)</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-9">tool_call = response_msg.tool_calls[0]
-tool_call_result = hailstone_tool(tool_call) # a ToolCallResult
-print(tool_call_result)</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>tool_call_id='96efe041-50ff-45f0-867b-8e493901a28f' content='10' error=False
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7581dfdc-99a3-43e3-91d8-5741d1e5b475">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="sending-tool-results-back-to-llm">Sending tool results back to LLM<a class="anchor-link" href="#sending-tool-results-back-to-llm">¶</a></h4>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=d29ab3da-bb88-446d-946d-39132ce2131c">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-10">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
-    <span class="k">return</span> <span class="k">await</span> <span class="n">llm</span><span class="o">.</span><span class="n">continue_chat_with_tool_results</span><span class="p">(</span>
-        <span class="n">tool_call_results</span><span class="o">=</span><span class="p">[</span><span class="n">tool_call_result</span><span class="p">],</span>
-        <span class="n">chat_history</span><span class="o">=</span><span class="p">[</span><span class="n">user_msg</span><span class="p">,</span> <span class="n">response_msg</span><span class="p">],</span>
-    <span class="p">)</span>
-    
-<span class="n">tools_msg</span><span class="p">,</span> <span class="n">final_response</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">final_response</span><span class="p">)</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-10">async def main():
-    return await llm.continue_chat_with_tool_results(
-        tool_call_results=[tool_call_result],
-        chat_history=[user_msg, response_msg],
-    )
-    
-tools_msg, final_response = asyncio.run(main())
-print(final_response)</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>role=&lt;ChatRole.ASSISTANT: 'assistant'&gt; content='The result of taking the next step in the Hailstone sequence on the number 3 is 10.' tool_calls=None
+**Sequence:** 8 → 4 → 2 → 1  
+**Starting number:** 8  
+**Total steps taken:** 3  
+**Maximum value reached:** 8
 </pre>
 </div>
 </div>
@@ -3742,7 +3528,7 @@ print(final_response)</div>
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../ch02/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Chapter 2 — Working with Tools">
+          <a href="../ch05/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Chapter 5 — MCP Tools">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -3752,20 +3538,20 @@ print(final_response)</div>
                 Previous
               </span>
               <div class="md-ellipsis">
-                Chapter 2 — Working with Tools
+                Chapter 5 — MCP Tools
               </div>
             </div>
           </a>
         
         
           
-          <a href="../ch04/" class="md-footer__link md-footer__link--next" aria-label="Next: Chapter 4 — The LLMAgent class">
+          <a href="../../more-examples/ch05/github_mcp/" class="md-footer__link md-footer__link--next" aria-label="Next: GitHub MCP Example">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Chapter 4 — The LLMAgent class
+                GitHub MCP Example
               </div>
             </div>
             <div class="md-footer__button md-icon">

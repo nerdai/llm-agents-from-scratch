@@ -1,11 +1,11 @@
 ---
-name: hailstone-sequence
-description: Compute the complete Hailstone sequence for a given starting number by repeatedly calling the next_number tool until the value 1 is reached.
+name: stop-at-one
+description: Compute a sequence for a given starting number by repeatedly calling the next_number tool until the value 1 is reached.
 ---
 
-# Hailstone Sequence
+# Stop At One
 
-Compute the full Hailstone (Collatz) sequence from a starting number down to 1
+Compute a full sequence from a starting number down to 1
 using the `next_number` tool.
 
 ## Arguments

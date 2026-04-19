@@ -38,7 +38,7 @@ package "llm_agents_from_scratch.skills.skill" <<Folder>> {
 
 ' Relations
 BaseModel <|-- SkillFrontmatter : " inherits"
-Skill --> SkillFrontmatter : " has"
-Skill --> SkillScope : " has"
+Skill *-- SkillFrontmatter : " has"
+Skill *-- SkillScope : " has"
 
 @enduml

@@ -1,0 +1,44 @@
+@startuml skill_types
+!include ../common/book-clean.puml
+
+' External dependencies
+package "external_dependencies" <<Folder>> {
+  class "pydantic.BaseModel" as BaseModel
+}
+
+package "llm_agents_from_scratch.data_structures.skill" <<Folder>> {
+
+  enum SkillScope {
+    PROJECT = 'project'
+    USER = 'user'
+  }
+
+  class SkillFrontmatter {
+    +name: str
+    +description: str
+    +license: str | None
+    +compatibility: str | None
+    +metadata: dict[str, str] | None
+    +allowed_tools: str | None
+  }
+}
+
+package "llm_agents_from_scratch.skills.skill" <<Folder>> {
+
+  class Skill {
+    +frontmatter: SkillFrontmatter
+    +location: Path
+    +scope: SkillScope
+    +resources: list[Path]
+    --
+    +read_body(): str
+    +catalog(): str
+  }
+}
+
+' Relations
+BaseModel <|-- SkillFrontmatter : " inherits"
+Skill *-- SkillFrontmatter : " has"
+Skill *-- SkillScope : " has"
+
+@enduml

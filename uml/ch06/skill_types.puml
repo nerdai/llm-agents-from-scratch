@@ -31,6 +31,7 @@ package "llm_agents_from_scratch.skills.skill" <<Folder>> {
     +scope: SkillScope
     +resources: list[Path]
     --
+    +<<constructor>> __init__(\n\tfrontmatter: SkillFrontmatter,\n\tlocation: Path,\n\tscope: SkillScope\n):
     +read_body(): str
     +catalog(): str
   }

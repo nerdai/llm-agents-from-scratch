@@ -1,0 +1,31 @@
+@startuml uml-taskhandler-ch6
+!include ../common/book-clean.puml
+
+' External dependencies
+package "external_dependencies" <<Folder>> {
+  class "asyncio.Future" as Future
+}
+
+package "llm_agents_from_scratch.agent" <<Folder>> {
+  class "LLMAgent.TaskHandler" as TaskHandler {
+    <color:#aaaaaa>+llm_agent: LLMAgent</color>
+    <color:#aaaaaa>+task: Task</color>
+    <color:#aaaaaa>+rollout: str</color>
+    <color:#aaaaaa>+step_counter: int</color>
+    <color:#aaaaaa>-_background_task: ~asyncio.Task</color>
+    +skills: dict[str, Skill]
+    -_skills_catalog: str
+    -_use_skill_tool: UseSkillTool | None
+    -_explicit_only_skills: set[str]
+    --
+    +<<constructor>> __init__(\n\tllm_agent: LLMAgent,\n\ttask: Task,\n\tskills_scopes: list[SkillScope],\n\texplicit_only_skills: set[str],\n\t*args, **kwargs\n):
+    <color:#aaaaaa>+<<async>> get_next_step(): TaskStep | TaskResult</color>
+    <color:#aaaaaa>+<<async>> run_step(step: TaskStep): TaskStepResult</color>
+    <color:#aaaaaa>-_rollout_contribution_from_single_run_step()</color>
+  }
+}
+
+' Relations
+Future <|.. TaskHandler : " inherits"
+
+@enduml

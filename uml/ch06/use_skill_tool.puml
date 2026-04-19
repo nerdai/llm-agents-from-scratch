@@ -1,0 +1,29 @@
+@startuml uml_use_skill_tool
+!include ../common/book-clean.puml
+
+package "llm_agents_from_scratch.base.tool" <<Folder>> {
+  abstract class BaseTool {
+    +name: str
+    +description: str
+    +parameters_json_schema: dict[str, Any]
+    --
+    +__call__(tool_call: ToolCall): ToolCallResult
+  }
+}
+
+package "llm_agents_from_scratch.skills.tools" <<Folder>> {
+  class UseSkillTool {
+    -_skills: dict[str, Skill]
+    -_explicit_only_skills: set[str]
+    -_visible: list[str]
+    --
+    +<<constructor>> __init__(\n\tskills: dict[str, Skill],\n\texplicit_only_skills: set[str]\n):
+    -_build_skill_content(name: str): str
+    +__call__(tool_call: ToolCall, ...): ToolCallResult
+  }
+}
+
+' Relations
+BaseTool <|-- UseSkillTool : " inherits"
+
+@enduml

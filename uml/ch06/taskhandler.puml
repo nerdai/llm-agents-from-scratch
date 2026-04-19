@@ -1,4 +1,4 @@
-@startuml uml-taskhandler-ch6
+@startuml uml_taskhandler_updates
 !include ../common/book-clean.puml
 
 ' External dependencies

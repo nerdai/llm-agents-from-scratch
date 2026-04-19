@@ -1,6 +1,11 @@
 @startuml skill_types
 !include ../common/book-clean.puml
 
+' External dependencies
+package "external_dependencies" <<Folder>> {
+  class "pydantic.BaseModel" as BaseModel
+}
+
 package "llm_agents_from_scratch.data_structures.skill" <<Folder>> {
 
   enum SkillScope {
@@ -8,7 +13,7 @@ package "llm_agents_from_scratch.data_structures.skill" <<Folder>> {
     USER = 'user'
   }
 
-  class SkillFrontmatter <<Pydantic BaseModel>> {
+  class SkillFrontmatter {
     +name: str
     +description: str
     +license: str | None
@@ -32,6 +37,7 @@ package "llm_agents_from_scratch.skills.skill" <<Folder>> {
 }
 
 ' Relations
+BaseModel <|-- SkillFrontmatter : " inherits"
 Skill --> SkillFrontmatter : " has"
 Skill --> SkillScope : " has"
 

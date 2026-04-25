@@ -21,7 +21,10 @@ class PythonInterpreterTool(BaseTool):
     @property
     def description(self) -> str:
         """Description of the Python interpreter tool."""
-        return "Execute a local Python script and return its stdout output."
+        return (
+            "Execute a local Python script and return its stdout output. "
+            "Optionally pipe text to the script via stdin."
+        )
 
     @property
     def parameters_json_schema(self) -> dict[str, Any]:
@@ -32,6 +35,12 @@ class PythonInterpreterTool(BaseTool):
                 "path": {
                     "type": "string",
                     "description": "Path to the Python script to execute.",
+                },
+                "stdin": {
+                    "type": "string",
+                    "description": (
+                        "Optional text to pass to the script via stdin."
+                    ),
                 },
             },
             "required": ["path"],
@@ -75,11 +84,13 @@ class PythonInterpreterTool(BaseTool):
                 error=True,
             )
 
+        stdin_text = tool_call.arguments.get("stdin")
         result = subprocess.run(
             [sys.executable, raw_path],
             check=False,
             capture_output=True,
             text=True,
+            input=stdin_text,
         )
 
         if result.returncode != 0:

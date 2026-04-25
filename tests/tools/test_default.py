@@ -119,11 +119,12 @@ def test_python_interpreter_tool_description() -> None:
 
 
 def test_python_interpreter_tool_parameters_json_schema() -> None:
-    """Tests PythonInterpreterTool schema has required path field."""
+    """Tests PythonInterpreterTool schema has path (required) and stdin."""
     tool = PythonInterpreterTool()
     schema = tool.parameters_json_schema
     assert schema["type"] == "object"
     assert "path" in schema["properties"]
+    assert "stdin" in schema["properties"]
     assert schema["required"] == ["path"]
 
 
@@ -189,6 +190,22 @@ def test_python_interpreter_tool_error_on_script_failure(
 
     assert result.error is True
     assert "RuntimeError" in result.content
+
+
+def test_python_interpreter_tool_passes_stdin(tmp_path: Path) -> None:
+    """Tests PythonInterpreterTool pipes stdin text into the script."""
+    script = tmp_path / "echo_stdin.py"
+    script.write_text("import sys\nprint(sys.stdin.read().strip())")
+    tool = PythonInterpreterTool()
+    tool_call = ToolCall(
+        tool_name="from_scratch__python_interpreter",
+        arguments={"path": str(script), "stdin": "hello stdin"},
+    )
+
+    result = tool(tool_call=tool_call)
+
+    assert result.error is False
+    assert "hello stdin" in result.content
 
 
 def test_default_tools_contains_python_interpreter_tool() -> None:

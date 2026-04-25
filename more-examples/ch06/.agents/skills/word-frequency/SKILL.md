@@ -9,17 +9,7 @@ This skill counts word frequencies in a text passage provided by the user and re
 
 ## Steps
 
-### 1. Read the script
-
-Inspect the bundled script before running it:
-
-```
-from_scratch__read_file(path="<skill_dir>/scripts/word_freq.py")
-```
-
-Replace `<skill_dir>` with the value of **Skill directory** shown at the bottom of this skill content.
-
-### 2. Execute the script
+### 1. Execute the script
 
 Run the script and pass the user's text passage as the `stdin` argument. The script reads from stdin, so the `stdin` argument **must** contain the full text provided by the user:
 
@@ -27,8 +17,8 @@ Run the script and pass the user's text passage as the `stdin` argument. The scr
 from_scratch__python_interpreter(path="<skill_dir>/scripts/word_freq.py", stdin="<user_text>")
 ```
 
-Replace `<user_text>` with the **complete, verbatim** text passage supplied by the user in their request.
+Replace `<skill_dir>` with the value of **Skill directory** shown at the bottom of this skill content, and `<user_text>` with the **complete, verbatim** text passage supplied by the user.
 
-### 3. Report the result
+### 2. Report the result
 
 Report the markdown table printed by the script exactly as-is.

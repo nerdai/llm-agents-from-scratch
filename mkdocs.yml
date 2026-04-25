@@ -44,6 +44,12 @@ nav:
     - Chapter 5:
       - GitHub MCP: more-examples/ch05/github_mcp.ipynb
       - GoodNews MCP: more-examples/ch05/goodnews_mcp.ipynb
+    - Chapter 6:
+      - Skill with Python Resource: more-examples/ch06/additional_resource_python.ipynb
+      - With and Without Skills: more-examples/ch06/with_and_without_skills.ipynb
+      - Skill Validation Errors: more-examples/ch06/skill_validation_errors.ipynb
+      - User Explicit Skill (Hailstone): more-examples/ch06/user_explicit_hailstone.ipynb
+      - Skills Marketplace: more-examples/ch06/skills_marketplace.ipynb
   - Capstones:
     # Symlinked from capstones/ — do not copy directly.
     - Capstone 1:

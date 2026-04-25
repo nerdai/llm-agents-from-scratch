@@ -138,9 +138,28 @@ LLM agent.
 [Open Notebook](more-examples/ch05/goodnews_mcp.ipynb){ .md-button .md-button--primary }
 </div>
 
+<div class="landing-card landing-card--example" markdown>
+### :material-swap-horizontal: With and Without Skills
+
+See exactly what skills buy you: the same word-frequency task run with and
+without a skill, showing the difference in reusability and caller effort.
+
+[Open Notebook](more-examples/ch06/with_and_without_skills.ipynb){ .md-button .md-button--primary }
 </div>
 
-[Browse all examples :octicons-arrow-right-24:](more-examples/ch05/github_mcp.ipynb){ .md-button }
+<div class="landing-card landing-card--example" markdown>
+### :material-store-search-outline: Skills Marketplace
+
+Discover a third-party skill on the SkillsMP marketplace, install it in one
+cell, and have the agent generate an animated Slack GIF — no manual prompt
+engineering required.
+
+[Open Notebook](more-examples/ch06/skills_marketplace.ipynb){ .md-button .md-button--primary }
+</div>
+
+</div>
+
+[Browse all examples :octicons-arrow-right-24:](more-examples/ch06/skills_marketplace.ipynb){ .md-button }
 
 ---
 

@@ -8,31 +8,31 @@
       
       
       
-        <link rel="canonical" href="https://masfromscratch.com/notebooks/ch05/">
+        <link rel="canonical" href="https://masfromscratch.com/more-examples/ch06/skills_marketplace/">
       
       
-        <link rel="prev" href="../ch04/">
+        <link rel="prev" href="../user_explicit_hailstone/">
       
       
-        <link rel="next" href="../ch06/">
+        <link rel="next" href="../../../capstones/one/">
       
       
         
       
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
-        <title>Chapter 5 — MCP Tools - LLM Agents From Scratch</title>
+        <title>Skills Marketplace - LLM Agents From Scratch</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -51,11 +51,11 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="../../stylesheets/extra.css">
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#chapter-5-mcp-tools" class="md-skip">
+        <a href="#skills-marketplace" class="md-skip">
           Skip to content
         </a>
       
@@ -94,7 +94,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="LLM Agents From Scratch" class="md-header__button md-logo" aria-label="LLM Agents From Scratch" data-md-component="logo">
+    <a href="../../.." title="LLM Agents From Scratch" class="md-header__button md-logo" aria-label="LLM Agents From Scratch" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5 2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5 2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5 2.5 2.5 0 0 0-2.5-2.5"/></svg>
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Chapter 5 — MCP Tools
+              Skills Marketplace
             
           </span>
         </div>
@@ -227,7 +227,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../.." class="md-tabs__link">
+      <a href="../../.." class="md-tabs__link">
         
   
   
@@ -244,13 +244,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../ch02/" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../../notebooks/ch02/" class="md-tabs__link">
           
   
   
@@ -268,6 +266,8 @@
   
   
   
+    
+  
   
     
     
@@ -275,11 +275,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../more-examples/ch05/github_mcp/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../ch05/github_mcp/" class="md-tabs__link">
           
   
   
@@ -311,7 +313,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../capstones/one/" class="md-tabs__link">
+        <a href="../../../capstones/one/" class="md-tabs__link">
           
   
   
@@ -343,7 +345,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../api_reference/base/llm/" class="md-tabs__link">
+        <a href="../../../api_reference/base/llm/" class="md-tabs__link">
           
   
   
@@ -382,7 +384,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="LLM Agents From Scratch" class="md-nav__button md-logo" aria-label="LLM Agents From Scratch" data-md-component="logo">
+    <a href="../../.." title="LLM Agents From Scratch" class="md-nav__button md-logo" aria-label="LLM Agents From Scratch" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5 2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5 2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5 2.5 2.5 0 0 0-2.5-2.5"/></svg>
@@ -412,7 +414,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   
@@ -436,10 +438,8 @@
       
   
   
-    
   
   
-  
     
     
       
@@ -457,20 +457,17 @@
     
     
       
-        
-        
-      
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
             
   
   
@@ -488,7 +485,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -506,7 +503,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ch02/" class="md-nav__link">
+      <a href="../../../notebooks/ch02/" class="md-nav__link">
         
   
   
@@ -534,7 +531,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ch03/" class="md-nav__link">
+      <a href="../../../notebooks/ch03/" class="md-nav__link">
         
   
   
@@ -562,7 +559,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ch04/" class="md-nav__link">
+      <a href="../../../notebooks/ch04/" class="md-nav__link">
         
   
   
@@ -587,37 +584,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Chapter 5 — MCP Tools
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../../notebooks/ch05/" class="md-nav__link">
         
   
   
@@ -633,186 +603,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#setup-instructions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Setup Instructions
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#running-an-ollama-service" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Running an Ollama service
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#the-hailstone-mcp-server" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The Hailstone MCP server
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Examples
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Examples">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#example-1-creating-an" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 1: Creating an
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-2-establishing-a-session-connection-to-hailstone-mcp-server" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 2: Establishing a session (connection) to Hailstone MCP server
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-3-discovering-tools-and-creating-representations" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 3: Discovering tools and creating representations
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-4-tearing-down-the-session" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 4: Tearing down the session
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-5-printing-the-mcp-hailstone-tools-attributes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 5: Printing the MCP Hailstone tool's attributes
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-6-mcp-hailstone-tool-execution" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 6: MCP Hailstone tool execution
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-7-manual-discovery-of-mcp-tools-to-construct-an-llm-agent" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 7: Manual discovery of MCP tools to construct an LLM agent
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-8-different-ways-to-construct-an-llmagentbuilder-with-the-same-attributes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 8: Different ways to construct an LLMAgentBuilder with the same attributes
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-9-using-an-llmagentbuilder-to-create-the-same-llmagent-from-example-7" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 9: Using an LLMAgentBuilder to create the same LLMAgent from example 7
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-10-performing-a-hailstone-step-with-our-llm-agent" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 10: Performing a hailstone step with our LLM agent
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -825,7 +615,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ch06/" class="md-nav__link">
+      <a href="../../../notebooks/ch06/" class="md-nav__link">
         
   
   
@@ -857,8 +647,10 @@
       
   
   
+    
   
   
+  
     
     
       
@@ -870,17 +662,20 @@
     
     
       
+        
+        
+      
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   
@@ -898,7 +693,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -972,7 +767,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../more-examples/ch05/github_mcp/" class="md-nav__link">
+      <a href="../../ch05/github_mcp/" class="md-nav__link">
         
   
   
@@ -1000,7 +795,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../more-examples/ch05/goodnews_mcp/" class="md-nav__link">
+      <a href="../../ch05/goodnews_mcp/" class="md-nav__link">
         
   
   
@@ -1033,8 +828,10 @@
                 
   
   
+    
   
   
+  
     
     
       
@@ -1055,11 +852,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" checked>
         
           
           <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
@@ -1080,7 +877,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1098,7 +895,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../more-examples/ch06/additional_resource_python/" class="md-nav__link">
+      <a href="../additional_resource_python/" class="md-nav__link">
         
   
   
@@ -1126,7 +923,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../more-examples/ch06/with_and_without_skills/" class="md-nav__link">
+      <a href="../with_and_without_skills/" class="md-nav__link">
         
   
   
@@ -1154,7 +951,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../more-examples/ch06/skill_validation_errors/" class="md-nav__link">
+      <a href="../skill_validation_errors/" class="md-nav__link">
         
   
   
@@ -1182,7 +979,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../more-examples/ch06/user_explicit_hailstone/" class="md-nav__link">
+      <a href="../user_explicit_hailstone/" class="md-nav__link">
         
   
   
@@ -1207,10 +1004,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../more-examples/ch06/skills_marketplace/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Skills Marketplace
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1226,6 +1050,142 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#setup-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup Instructions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-an-ollama-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running an Ollama service
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#skill-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Skill Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-skill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Skill
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Skill">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#searching-the-marketplace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Searching the Marketplace
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-the-skill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installing the Skill
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inspecting-the-skill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inspecting the Skill
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generating-a-gif" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generating a GIF
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#result" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#note-on-third-party-skills" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Note on Third-Party Skills
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1332,7 +1292,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../capstones/one/" class="md-nav__link ">
+            <a href="../../../capstones/one/" class="md-nav__link ">
               
   
   
@@ -1376,7 +1336,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../capstones/one/capstone_1/" class="md-nav__link">
+      <a href="../../../capstones/one/capstone_1/" class="md-nav__link">
         
   
   
@@ -1404,7 +1364,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../capstones/one/runpod_instructions/" class="md-nav__link">
+      <a href="../../../capstones/one/runpod_instructions/" class="md-nav__link">
         
   
   
@@ -1480,7 +1440,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../api_reference/errors/" class="md-nav__link ">
+            <a href="../../../api_reference/errors/" class="md-nav__link ">
               
   
   
@@ -1578,7 +1538,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/base/llm/" class="md-nav__link">
+      <a href="../../../api_reference/base/llm/" class="md-nav__link">
         
   
   
@@ -1606,7 +1566,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/base/tool/" class="md-nav__link">
+      <a href="../../../api_reference/base/tool/" class="md-nav__link">
         
   
   
@@ -1698,7 +1658,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/agent/llm_agent/" class="md-nav__link">
+      <a href="../../../api_reference/agent/llm_agent/" class="md-nav__link">
         
   
   
@@ -1726,7 +1686,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/agent/builder/" class="md-nav__link">
+      <a href="../../../api_reference/agent/builder/" class="md-nav__link">
         
   
   
@@ -1822,7 +1782,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/data_structures/agent/" class="md-nav__link">
+      <a href="../../../api_reference/data_structures/agent/" class="md-nav__link">
         
   
   
@@ -1850,7 +1810,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/data_structures/llm/" class="md-nav__link">
+      <a href="../../../api_reference/data_structures/llm/" class="md-nav__link">
         
   
   
@@ -1878,7 +1838,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/data_structures/skill/" class="md-nav__link">
+      <a href="../../../api_reference/data_structures/skill/" class="md-nav__link">
         
   
   
@@ -1906,7 +1866,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/data_structures/tool/" class="md-nav__link">
+      <a href="../../../api_reference/data_structures/tool/" class="md-nav__link">
         
   
   
@@ -1998,7 +1958,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/llms/ollama/" class="md-nav__link">
+      <a href="../../../api_reference/llms/ollama/" class="md-nav__link">
         
   
   
@@ -2026,7 +1986,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/llms/openai/" class="md-nav__link">
+      <a href="../../../api_reference/llms/openai/" class="md-nav__link">
         
   
   
@@ -2122,7 +2082,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/tools/simple_function/" class="md-nav__link">
+      <a href="../../../api_reference/tools/simple_function/" class="md-nav__link">
         
   
   
@@ -2150,7 +2110,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/tools/pydantic_function/" class="md-nav__link">
+      <a href="../../../api_reference/tools/pydantic_function/" class="md-nav__link">
         
   
   
@@ -2178,7 +2138,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/tools/mcp/" class="md-nav__link">
+      <a href="../../../api_reference/tools/mcp/" class="md-nav__link">
         
   
   
@@ -2206,7 +2166,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/tools/default/" class="md-nav__link">
+      <a href="../../../api_reference/tools/default/" class="md-nav__link">
         
   
   
@@ -2302,7 +2262,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/skills/skill/" class="md-nav__link">
+      <a href="../../../api_reference/skills/skill/" class="md-nav__link">
         
   
   
@@ -2330,7 +2290,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/skills/discovery/" class="md-nav__link">
+      <a href="../../../api_reference/skills/discovery/" class="md-nav__link">
         
   
   
@@ -2358,7 +2318,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/skills/tools/" class="md-nav__link">
+      <a href="../../../api_reference/skills/tools/" class="md-nav__link">
         
   
   
@@ -2386,7 +2346,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/skills/constants/" class="md-nav__link">
+      <a href="../../../api_reference/skills/constants/" class="md-nav__link">
         
   
   
@@ -2473,10 +2433,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-hailstone-mcp-server" class="md-nav__link">
+  <a href="#skill-dependencies" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The Hailstone MCP server
+        Skill Dependencies
       
     </span>
   </a>
@@ -2484,121 +2444,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
+  <a href="#the-skill" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Examples
+        The Skill
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Examples">
+    <nav class="md-nav" aria-label="The Skill">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#example-1-creating-an" class="md-nav__link">
+  <a href="#searching-the-marketplace" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example 1: Creating an
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-2-establishing-a-session-connection-to-hailstone-mcp-server" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 2: Establishing a session (connection) to Hailstone MCP server
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-3-discovering-tools-and-creating-representations" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 3: Discovering tools and creating representations
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-4-tearing-down-the-session" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 4: Tearing down the session
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-5-printing-the-mcp-hailstone-tools-attributes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 5: Printing the MCP Hailstone tool's attributes
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-6-mcp-hailstone-tool-execution" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 6: MCP Hailstone tool execution
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-7-manual-discovery-of-mcp-tools-to-construct-an-llm-agent" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 7: Manual discovery of MCP tools to construct an LLM agent
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-8-different-ways-to-construct-an-llmagentbuilder-with-the-same-attributes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 8: Different ways to construct an LLMAgentBuilder with the same attributes
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-9-using-an-llmagentbuilder-to-create-the-same-llmagent-from-example-7" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 9: Using an LLMAgentBuilder to create the same LLMAgent from example 7
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-10-performing-a-hailstone-step-with-our-llm-agent" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 10: Performing a hailstone step with our LLM agent
+        Searching the Marketplace
       
     </span>
   </a>
@@ -2607,6 +2468,61 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-the-skill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installing the Skill
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inspecting-the-skill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inspecting the Skill
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generating-a-gif" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generating a GIF
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#result" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#note-on-third-party-skills" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Note on Third-Party Skills
+      
+    </span>
+  </a>
   
 </li>
       
@@ -3351,32 +3267,31 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </style>
 <!-- End of mermaid configuration --><div class="jupyter-wrapper">
 <div class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=60405002-e4c4-4ee2-8aae-53e704cdba1c">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3a6fb950-52c5-4927-9072-09be61407154">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="chapter-5-mcp-tools">Chapter 5 — MCP Tools<a class="anchor-link" href="#chapter-5-mcp-tools">¶</a></h1>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=fbb4d8c3-8137-4fd3-bf37-c5359018538e">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h1 id="skills-marketplace">Skills Marketplace<a class="anchor-link" href="#skills-marketplace">¶</a></h1><p>This notebook demonstrates discovering and using a third-party skill from the <a href="https://skillsmp.com">Skills Marketplace</a>, a community-curated catalog of reusable agent skills.</p>
+<p>We will:</p>
+<ol>
+<li><strong>Install</strong> the <code>slack-gif-creator</code> skill from its <a href="https://github.com/anthropics/skills/tree/main/skills/slack-gif-creator">GitHub source</a> into <code>.agents/skills/</code></li>
+<li><strong>Run</strong> an <code>LLMAgent</code> that activates the skill to generate an animated GIF</li>
+</ol>
+<p>The skill bundles PIL animation utilities and Slack-specific knowledge for creating optimised GIFs. It is sourced from Anthropic's public skills repository and illustrates the core value of a marketplace: a skill authored once by anyone is instantly usable by any agent, anywhere.</p>
+<blockquote>
+<p><strong>Note:</strong> Run this notebook from within <code>more-examples/ch06/</code> so the installed skill is discovered automatically as a project-scoped skill.</p>
+</blockquote>
 <h2 id="setup-instructions">Setup Instructions<a class="anchor-link" href="#setup-instructions">¶</a></h2><p>To ensure you have the required dependencies to run this notebook, you'll need to have our <code>llm-agents-from-scratch</code> framework installed on the running Jupyter kernel. To do this, you can launch this notebook with the following command while within the project's root directory:</p>
 <div class="highlight"><pre><span></span>uv<span class="w"> </span>run<span class="w"> </span>--with<span class="w"> </span>jupyter<span class="w"> </span>jupyter<span class="w"> </span>lab
 </pre></div>
-<p>Alternatively, if you just want to use the published version of <code>llm-agents-from-scratch</code> without local development, you can install it from PyPi by uncommenting the cell below.</p>
+<p>Alternatively, if you just want to use the published version of <code>llm-agents-from-scratch</code> without local development, you can install it from PyPI by uncommenting the cell below.</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=bfd15ba8-e106-486e-afb5-8deef2dee2a0">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=de460284-3960-46ca-9e85-166a2ef8749c">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -3394,10 +3309,10 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Uncomment the line below to install `llm-agents-from-scratch` from PyPi</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Uncomment the line below to install `llm-agents-from-scratch` from PyPI</span>
 <span class="c1"># !pip install llm-agents-from-scratch</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-1"># Uncomment the line below to install `llm-agents-from-scratch` from PyPi
+<div class="clipboard-copy-txt" id="cell-1"># Uncomment the line below to install `llm-agents-from-scratch` from PyPI
 # !pip install llm-agents-from-scratch</div>
 </div>
 </div>
@@ -3405,53 +3320,29 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=bf43a249-cbd0-4e70-b8d0-3fd14b4b32ac">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ea5acca4-411d-48b3-a238-81247d0b2e10">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="running-an-ollama-service">Running an Ollama service<a class="anchor-link" href="#running-an-ollama-service">¶</a></h2><p>To execute the code provided in this notebook, you’ll need to have Ollama installed on your local machine and have its LLM hosting service running. To download Ollama, follow the instructions found on this page: <a href="https://ollama.com/download">https://ollama.com/download</a>. After downloading and installing Ollama, you can start a service by opening a terminal and running the command <code>ollama serve</code>.</p>
+<h2 id="running-an-ollama-service">Running an Ollama service<a class="anchor-link" href="#running-an-ollama-service">¶</a></h2><p>To execute the code provided in this notebook, you'll need to have Ollama installed on your local machine and have its LLM hosting service running. To download Ollama, follow the instructions found on this page: <a href="https://ollama.com/download">https://ollama.com/download</a>. After downloading and installing Ollama, you can start a service by opening a terminal and running the command <code>ollama serve</code>.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e6a94c6c-a08f-4850-8c15-dd68fb6ee4c4">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=76975992-a0c2-4924-98a2-e61a20a749e9">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="the-hailstone-mcp-server">The Hailstone MCP server<a class="anchor-link" href="#the-hailstone-mcp-server">¶</a></h2><p>The examples in this notebook demonstrate how to use the framework's MCP integration using a toy MCP server that exposes the familiar Hailstone tool.</p>
-<p><strong>Important:</strong> Run this notebook from within the project's root directory.</p>
-<p>The code for the MCP server is located at: <a href="https://github.com/nerdai/llm-agents-from-scratch/tree/main/extra/mcp-hailstone">https://github.com/nerdai/llm-agents-from-scratch/tree/main/extra/mcp-hailstone</a></p>
+<h2 id="skill-dependencies">Skill Dependencies<a class="anchor-link" href="#skill-dependencies">¶</a></h2><p>The <code>slack-gif-creator</code> skill uses Python's PIL library and a few imaging helpers to generate animated GIFs. Install them into the running Jupyter kernel before executing the agent cells.</p>
 </div>
 </div>
 </div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d0f8ec9a-28e2-4e5e-942f-091e789ed14b">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="examples">Examples<a class="anchor-link" href="#examples">¶</a></h2>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e6281fc2-5412-446c-8c80-3226eaeabe5a">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="example-1-creating-an-mcptoolprovider">Example 1: Creating an <code>MCPToolProvider</code><a class="anchor-link" href="#example-1-creating-an-mcptoolprovider">¶</a></h3>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=7b1850b6-7b43-4f80-9b10-216ffb7a93d8">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=82c51967">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -3469,42 +3360,51 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.tools.mcp</span><span class="w"> </span><span class="kn">import</span> <span class="n">MCPToolProvider</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">mcp</span><span class="w"> </span><span class="kn">import</span> <span class="n">StdioServerParameters</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
-
-<span class="n">server_path</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">"extra/mcp-hailstone"</span>
-<span class="n">server_params</span> <span class="o">=</span> <span class="n">StdioServerParameters</span><span class="p">(</span>
-    <span class="n">command</span><span class="o">=</span><span class="s2">"uv"</span><span class="p">,</span>
-    <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="s2">"run"</span><span class="p">,</span> <span class="s2">"--with"</span><span class="p">,</span> <span class="s2">"mcp"</span><span class="p">,</span> <span class="s2">"mcp"</span><span class="p">,</span> <span class="s2">"run"</span><span class="p">,</span> <span class="s2">"main.py"</span><span class="p">],</span>
-    <span class="n">cwd</span><span class="o">=</span><span class="n">server_path</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">provider</span> <span class="o">=</span> <span class="n">MCPToolProvider</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">"hailstone"</span><span class="p">,</span>
-    <span class="n">stdio_params</span><span class="o">=</span><span class="n">server_params</span><span class="p">,</span>
-<span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="err">!</span><span class="n">uv</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">pillow</span> <span class="n">imageio</span> <span class="n">imageio</span><span class="o">-</span><span class="n">ffmpeg</span> <span class="n">numpy</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-2">from llm_agents_from_scratch.tools.mcp import MCPToolProvider
-from mcp import StdioServerParameters
-from pathlib import Path
-
-server_path = Path.cwd().parent / "extra/mcp-hailstone"
-server_params = StdioServerParameters(
-    command="uv",
-    args=["run", "--with", "mcp", "mcp", "run", "main.py"],
-    cwd=server_path,
-)
-provider = MCPToolProvider(
-    name="hailstone",
-    stdio_params=server_params,
-)</div>
+<div class="clipboard-copy-txt" id="cell-2">!uv pip install pillow imageio imageio-ffmpeg numpy</div>
 </div>
 </div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Resolved <span class="ansi-bold">4 packages</span> in 40ms                                          
+Installed <span class="ansi-bold">4 packages</span> in 14ms                                
+ <span class="ansi-green-fg">+</span> <span class="ansi-bold">imageio</span>==2.37.3
+ <span class="ansi-green-fg">+</span> <span class="ansi-bold">imageio-ffmpeg</span>==0.6.0
+ <span class="ansi-green-fg">+</span> <span class="ansi-bold">numpy</span>==2.4.4
+ <span class="ansi-green-fg">+</span> <span class="ansi-bold">pillow</span>==12.2.0
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=79e6a488">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="the-skill">The Skill<a class="anchor-link" href="#the-skill">¶</a></h2><p>The <code>slack-gif-creator</code> skill is <a href="https://skillsmp.com/skills/berriai-litellm-tests-llm-translation-test-skills-data-slack-gif-creator-skill-md">listed on the Skills Marketplace</a>. It originates from <a href="https://github.com/anthropics/skills/tree/main/skills/slack-gif-creator">Anthropic's skills repository</a> and has been widely forked across the community. We will install whichever copy is currently ranked highest by stars.</p>
+<p>The skill bundles:</p>
+<ul>
+<li><code>SKILL.md</code> — instructions and animation knowledge for the agent</li>
+<li><code>core/</code> — Python modules (<code>GIFBuilder</code>, easing functions, validators, frame helpers)</li>
+</ul>
+<h3 id="searching-the-marketplace">Searching the Marketplace<a class="anchor-link" href="#searching-the-marketplace">¶</a></h3><p>The SkillsMP REST API lets you search the catalog programmatically. The query below shows how widely a single skill can spread across the community — dozens of repos have forked or mirrored <code>slack-gif-creator</code>.</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=0a895652-6d4a-4474-ba07-4e898d454cd7">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=2ce2a901">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -3522,9 +3422,37 @@ provider = MCPToolProvider(
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">provider</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">urllib.request</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlparse</span>
+
+<span class="n">SKILLSMP_API</span> <span class="o">=</span> <span class="s2">"https://skillsmp.com/api/v1"</span>
+
+<span class="k">with</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">SKILLSMP_API</span><span class="si">}</span><span class="s2">/skills/search?q=slack-gif-creator&amp;limit=5&amp;sortBy=stars"</span><span class="p">,</span>
+<span class="p">)</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+<span class="n">total</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">"data"</span><span class="p">][</span><span class="s2">"pagination"</span><span class="p">][</span><span class="s2">"total"</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Found </span><span class="si">{</span><span class="n">total</span><span class="si">}</span><span class="s2"> results for 'slack-gif-creator'. Top 5:</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">"data"</span><span class="p">][</span><span class="s2">"skills"</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">s</span><span class="p">[</span><span class="s1">'name'</span><span class="p">]</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">s</span><span class="p">[</span><span class="s1">'stars'</span><span class="p">]</span><span class="si">}</span><span class="s2"> ⭐️) — </span><span class="si">{</span><span class="n">s</span><span class="p">[</span><span class="s1">'githubUrl'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-3">provider</div>
+<div class="clipboard-copy-txt" id="cell-3">import json
+import urllib.request
+from urllib.parse import urlparse
+
+SKILLSMP_API = "https://skillsmp.com/api/v1"
+
+with urllib.request.urlopen(
+    f"{SKILLSMP_API}/skills/search?q=slack-gif-creator&amp;limit=5&amp;sortBy=stars",
+) as resp:
+    data = json.loads(resp.read())
+
+total = data["data"]["pagination"]["total"]
+print(f"Found {total} results for 'slack-gif-creator'. Top 5:\n")
+for s in data["data"]["skills"]:
+    print(f"  {s['name']} ({s['stars']} ⭐️) — {s['githubUrl']}")</div>
 </div>
 </div>
 </div>
@@ -3533,28 +3461,24 @@ provider = MCPToolProvider(
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[2]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>&lt;llm_agents_from_scratch.tools.mcp.provider.MCPToolProvider at 0x7b13dabbc590&gt;</pre>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Found 1000 results for 'slack-gif-creator'. Top 5:
+
+  slack-gif-creator (44528 ⭐️) — https://github.com/BerriAI/litellm/tree/litellm_internal_staging/tests/llm_translation/test_skills_data/slack-gif-creator
+  slack-gif-creator (34867 ⭐️) — https://github.com/sickn33/antigravity-awesome-skills/tree/main/skills/slack-gif-creator
+  slack-gif-creator (2796 ⭐️) — https://github.com/davepoon/buildwithclaude/tree/main/plugins/all-skills/skills/slack-gif-creator
+  slack-gif-creator (2236 ⭐️) — https://github.com/snyk/agent-scan/tree/main/tests/skills/slack-gif-creator
+  slack-gif-creator (427 ⭐️) — https://github.com/Dokhacgiakhoa/antigravity-ide/tree/main/.agent/skills/slack-gif-creator
+</pre>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6f0f8460-0263-4cf4-9a1c-88f51f1ac0f8">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="example-2-establishing-a-session-connection-to-hailstone-mcp-server">Example 2: Establishing a session (connection) to Hailstone MCP server<a class="anchor-link" href="#example-2-establishing-a-session-connection-to-hailstone-mcp-server">¶</a></h3>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=0c9f951a-d4b8-4912-b533-801eda7fbac9">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=21ccab46-bac1-4369-80da-e9444ee11d6a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -3572,35 +3496,23 @@ provider = MCPToolProvider(
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
-
-<span class="n">provider</span> <span class="o">=</span> <span class="n">MCPToolProvider</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">"hailstone"</span><span class="p">,</span>
-    <span class="n">stdio_params</span><span class="o">=</span><span class="n">server_params</span><span class="p">,</span>
-<span class="p">)</span>
-
-<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-<span class="k">await</span> <span class="n">provider</span><span class="o">.</span><span class="n">session</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"First call (establish): </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">s"</span><span class="p">)</span>
-
-<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-<span class="k">await</span> <span class="n">provider</span><span class="o">.</span><span class="n">session</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Second call (cached): </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">s"</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Use the top-starred result as the install source</span>
+<span class="n">top_skill</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">"data"</span><span class="p">][</span><span class="s2">"skills"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">parts</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">top_skill</span><span class="p">[</span><span class="s2">"githubUrl"</span><span class="p">])</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span>
+<span class="c1"># path format: {owner}/{repo}/tree/{branch}/{skill/path...}</span>
+<span class="n">REPO</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
+<span class="n">BRANCH</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">SKILL_PATH</span> <span class="o">=</span> <span class="s2">"/"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">4</span><span class="p">:])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Installing from: </span><span class="si">{</span><span class="n">top_skill</span><span class="p">[</span><span class="s1">'githubUrl'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-4">import time
-
-provider = MCPToolProvider(
-    name="hailstone",
-    stdio_params=server_params,
-)
-
-start = time.perf_counter()
-await provider.session()
-print(f"First call (establish): {time.perf_counter() - start:.6f}s")
-
-start = time.perf_counter()
-await provider.session()
-print(f"Second call (cached): {time.perf_counter() - start:.6f}s")</div>
+<div class="clipboard-copy-txt" id="cell-4"># Use the top-starred result as the install source
+top_skill = data["data"]["skills"][0]
+parts = urlparse(top_skill["githubUrl"]).path.lstrip("/").split("/")
+# path format: {owner}/{repo}/tree/{branch}/{skill/path...}
+REPO = f"{parts[0]}/{parts[1]}"
+BRANCH = parts[3]
+SKILL_PATH = "/".join(parts[4:])
+print(f"\nInstalling from: {top_skill['githubUrl']}")</div>
 </div>
 </div>
 </div>
@@ -3612,8 +3524,8 @@ print(f"Second call (cached): {time.perf_counter() - start:.6f}s")</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>First call (establish): 0.289514s
-Second call (cached): 0.000057s
+<pre>
+Installing from: https://github.com/BerriAI/litellm/tree/litellm_internal_staging/tests/llm_translation/test_skills_data/slack-gif-creator
 </pre>
 </div>
 </div>
@@ -3621,18 +3533,18 @@ Second call (cached): 0.000057s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=04d9b5f4-efb1-43b0-9197-51d914334546">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4c54fada">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="example-3-discovering-tools-and-creating-mcptool-representations">Example 3: Discovering tools and creating <code>MCPTool</code> representations<a class="anchor-link" href="#example-3-discovering-tools-and-creating-mcptool-representations">¶</a></h3>
+<h2 id="installing-the-skill">Installing the Skill<a class="anchor-link" href="#installing-the-skill">¶</a></h2><p>We use the GitHub contents API to fetch only the skill's subdirectory i.e. no need to download the entire repository. The files will land in <code>.agents/skills/slack-gif-creator/</code>, which <code>LLMAgent</code> discovers automatically as a project-scoped skill.</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=9e8be908-7430-4762-b092-36c07d241083">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=053e0a12">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -3650,21 +3562,57 @@ Second call (cached): 0.000057s
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">provider</span> <span class="o">=</span> <span class="n">MCPToolProvider</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">"hailstone"</span><span class="p">,</span>
-    <span class="n">stdio_params</span><span class="o">=</span><span class="n">server_params</span><span class="p">,</span>
-<span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
-<span class="n">tools</span> <span class="o">=</span> <span class="k">await</span> <span class="n">provider</span><span class="o">.</span><span class="n">get_tools</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Number of tools discovered: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">tools</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">skill_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">".agents/skills/slack-gif-creator"</span><span class="p">)</span>
+<span class="n">skill_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_install</span><span class="p">(</span><span class="n">api_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">local_dest</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s2">"https://api.github.com/repos/</span><span class="si">{</span><span class="n">REPO</span><span class="si">}</span><span class="s2">/contents/</span><span class="si">{</span><span class="n">api_path</span><span class="si">}</span><span class="s2">?ref=</span><span class="si">{</span><span class="n">BRANCH</span><span class="si">}</span><span class="s2">"</span>
+    <span class="p">)</span>
+    <span class="k">with</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+        <span class="n">dest</span> <span class="o">=</span> <span class="n">local_dest</span> <span class="o">/</span> <span class="n">item</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="s2">"type"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"file"</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">"download_url"</span><span class="p">])</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
+                <span class="n">dest</span><span class="o">.</span><span class="n">write_bytes</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">dest</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">skill_dir</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">item</span><span class="p">[</span><span class="s2">"type"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"dir"</span><span class="p">:</span>
+            <span class="n">dest</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">_install</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">"path"</span><span class="p">],</span> <span class="n">dest</span><span class="p">)</span>
+
+
+<span class="n">_install</span><span class="p">(</span><span class="n">SKILL_PATH</span><span class="p">,</span> <span class="n">skill_dir</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Installed to: </span><span class="si">{</span><span class="n">skill_dir</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-5">provider = MCPToolProvider(
-    name="hailstone",
-    stdio_params=server_params,
-)
+<div class="clipboard-copy-txt" id="cell-5">from pathlib import Path
 
-tools = await provider.get_tools()
-print(f"Number of tools discovered: {len(tools)}")</div>
+skill_dir = Path(".agents/skills/slack-gif-creator")
+skill_dir.mkdir(parents=True, exist_ok=True)
+
+
+def _install(api_path: str, local_dest: Path) -&gt; None:
+    url = (
+        f"https://api.github.com/repos/{REPO}/contents/{api_path}?ref={BRANCH}"
+    )
+    with urllib.request.urlopen(url) as resp:
+        items = json.loads(resp.read())
+    for item in items:
+        dest = local_dest / item["name"]
+        if item["type"] == "file":
+            with urllib.request.urlopen(item["download_url"]) as resp:
+                dest.write_bytes(resp.read())
+            print(f"  {dest.relative_to(skill_dir)}")
+        elif item["type"] == "dir":
+            dest.mkdir(exist_ok=True)
+            _install(item["path"], dest)
+
+
+_install(SKILL_PATH, skill_dir)
+print(f"\nInstalled to: {skill_dir.resolve()}")</div>
 </div>
 </div>
 </div>
@@ -3676,7 +3624,15 @@ print(f"Number of tools discovered: {len(tools)}")</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Number of tools discovered: 1
+<pre>  SKILL.md
+  core/__init__.py
+  core/easing.py
+  core/frame_composer.py
+  core/gif_builder.py
+  core/validators.py
+  requirements.txt
+
+Installed to: /home/nerdai/Projects/llm-agents-from-scratch/more-examples/ch06/.agents/skills/slack-gif-creator
 </pre>
 </div>
 </div>
@@ -3684,18 +3640,18 @@ print(f"Number of tools discovered: {len(tools)}")</div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3436e43b-2a5a-4e52-94d3-dc2f8955908b">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=536498dd">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="example-4-tearing-down-the-session">Example 4: Tearing down the session<a class="anchor-link" href="#example-4-tearing-down-the-session">¶</a></h3>
+<h2 id="inspecting-the-skill">Inspecting the Skill<a class="anchor-link" href="#inspecting-the-skill">¶</a></h2><p>Before running the agent, let's confirm the skill was discovered and take a look at its <code>SKILL.md</code>.</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=0094d236-aff8-4aec-b460-cf5669e47ad8">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c3b0a52a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -3713,35 +3669,59 @@ print(f"Number of tools discovered: {len(tools)}")</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">provider</span> <span class="o">=</span> <span class="n">MCPToolProvider</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">"hailstone"</span><span class="p">,</span>
-    <span class="n">stdio_params</span><span class="o">=</span><span class="n">server_params</span><span class="p">,</span>
-<span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
-<span class="k">await</span> <span class="n">provider</span><span class="o">.</span><span class="n">session</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Session is None: </span><span class="si">{</span><span class="n">provider</span><span class="o">.</span><span class="n">_session</span><span class="w"> </span><span class="ow">is</span><span class="w"> </span><span class="kc">None</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Session is ready: </span><span class="si">{</span><span class="n">provider</span><span class="o">.</span><span class="n">_session_ready</span><span class="o">.</span><span class="n">is_set</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch</span><span class="w"> </span><span class="kn">import</span> <span class="n">TOOLS_FOR_SKILL_RESOURCES</span><span class="p">,</span> <span class="n">LLMAgent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">Task</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_console_logging</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"-------------"</span><span class="p">)</span>
+<span class="n">enable_console_logging</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
 
-<span class="k">await</span> <span class="n">provider</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Session is None: </span><span class="si">{</span><span class="n">provider</span><span class="o">.</span><span class="n">_session</span><span class="w"> </span><span class="ow">is</span><span class="w"> </span><span class="kc">None</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Session is ready: </span><span class="si">{</span><span class="n">provider</span><span class="o">.</span><span class="n">_session_ready</span><span class="o">.</span><span class="n">is_set</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">,</span> <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">agent</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="n">TOOLS_FOR_SKILL_RESOURCES</span><span class="p">)</span>
+
+<span class="n">task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span><span class="n">instruction</span><span class="o">=</span><span class="s2">"placeholder"</span><span class="p">)</span>
+<span class="n">handler</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="o">.</span><span class="n">TaskHandler</span><span class="p">(</span><span class="n">llm_agent</span><span class="o">=</span><span class="n">agent</span><span class="p">,</span> <span class="n">task</span><span class="o">=</span><span class="n">task</span><span class="p">)</span>
+<span class="n">skill</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">skills</span><span class="p">[</span><span class="s2">"slack-gif-creator"</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Name:      </span><span class="si">{</span><span class="n">skill</span><span class="o">.</span><span class="n">frontmatter</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Scope:     </span><span class="si">{</span><span class="n">skill</span><span class="o">.</span><span class="n">scope</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Skill dir: </span><span class="si">{</span><span class="n">skill_dir</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Resources:"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">skill</span><span class="o">.</span><span class="n">resources</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  - </span><span class="si">{</span><span class="n">r</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"--- Body ---"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">skill</span><span class="o">.</span><span class="n">read_body</span><span class="p">()[:</span><span class="mi">500</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"--- TRUNCATED ---"</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-6">provider = MCPToolProvider(
-    name="hailstone",
-    stdio_params=server_params,
-)
+<div class="clipboard-copy-txt" id="cell-6">import logging
 
-await provider.session()
-print(f"Session is None: {provider._session is None}")
-print(f"Session is ready: {provider._session_ready.is_set()}")
+from llm_agents_from_scratch import TOOLS_FOR_SKILL_RESOURCES, LLMAgent
+from llm_agents_from_scratch.data_structures import Task
+from llm_agents_from_scratch.llms import OllamaLLM
+from llm_agents_from_scratch.logger import enable_console_logging
 
-print("-------------")
+enable_console_logging(logging.INFO)
 
-await provider.close()
-print(f"Session is None: {provider._session is None}")
-print(f"Session is ready: {provider._session_ready.is_set()}")</div>
+llm = OllamaLLM(model="qwen3:14b", think=False)
+agent = LLMAgent(llm=llm, tools=TOOLS_FOR_SKILL_RESOURCES)
+
+task = Task(instruction="placeholder")
+handler = LLMAgent.TaskHandler(llm_agent=agent, task=task)
+skill = handler.skills["slack-gif-creator"]
+
+print(f"Name:      {skill.frontmatter.name}")
+print(f"Scope:     {skill.scope}")
+print(f"Skill dir: {skill_dir.resolve()}")
+print("\nResources:")
+for r in skill.resources:
+    print(f"  - {r}")
+print()
+print("--- Body ---")
+print(skill.read_body()[:500])
+print("--- TRUNCATED ---")</div>
 </div>
 </div>
 </div>
@@ -3753,11 +3733,37 @@ print(f"Session is ready: {provider._session_ready.is_set()}")</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Session is None: False
-Session is ready: True
--------------
-Session is None: True
-Session is ready: False
+<pre>Name:      slack-gif-creator
+Scope:     SkillScope.PROJECT
+Skill dir: /home/nerdai/Projects/llm-agents-from-scratch/more-examples/ch06/.agents/skills/slack-gif-creator
+
+Resources:
+
+--- Body ---
+# Slack GIF Creator
+
+A toolkit providing utilities and knowledge for creating animated GIFs optimized for Slack.
+
+## Slack Requirements
+
+**Dimensions:**
+- Emoji GIFs: 128x128 (recommended)
+- Message GIFs: 480x480
+
+**Parameters:**
+- FPS: 10-30 (lower is smaller file size)
+- Colors: 48-128 (fewer = smaller file size)
+- Duration: Keep under 3 seconds for emoji GIFs
+
+## Core Workflow
+
+```python
+from core.gif_builder import GIFBuilder
+from PIL import Image, ImageDraw
+
+# 1. Create builder
+builder = GI
+--- TRUNCATED ---
 </pre>
 </div>
 </div>
@@ -3765,23 +3771,29 @@ Session is ready: False
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=02fc73fd-f64b-41da-ab31-da05392a2196">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4b45e695">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="example-5-printing-the-mcp-hailstone-tools-attributes">Example 5: Printing the MCP Hailstone tool's attributes<a class="anchor-link" href="#example-5-printing-the-mcp-hailstone-tools-attributes">¶</a></h3>
+<h2 id="generating-a-gif">Generating a GIF<a class="anchor-link" href="#generating-a-gif">¶</a></h2><p>Now we run the agent with the <code>slack-gif-creator</code> skill. The agent will:</p>
+<ol>
+<li>Activate the skill via <code>UseSkillTool</code> to read its instructions</li>
+<li>Write PIL animation code based on the prompt</li>
+<li>Execute it with <code>PythonInterpreterTool</code> using <code>code=</code> and <code>cwd=skill_dir</code> so the bundled <code>core/</code> modules are importable</li>
+<li>Save the result as <code>output.gif</code> inside the skill directory</li>
+</ol>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=90c42765-4e7b-4b9f-818d-f0c43151859a">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=f55dff99">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-7">
@@ -3794,31 +3806,37 @@ Session is ready: False
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">provider</span> <span class="o">=</span> <span class="n">MCPToolProvider</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">"hailstone"</span><span class="p">,</span>
-    <span class="n">stdio_params</span><span class="o">=</span><span class="n">server_params</span><span class="p">,</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">OUTPUT_GIF</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span> <span class="o">/</span> <span class="s2">"output.gif"</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">agent</span><span class="o">.</span><span class="n">run_with_skill</span><span class="p">(</span>
+    <span class="s2">"slack-gif-creator"</span><span class="p">,</span>
+    <span class="n">prompt</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">"Create a spinning star emoji GIF (128x128 px, optimized for Slack)."</span>
+        <span class="sa">f</span><span class="s2">" Save the output to </span><span class="si">{</span><span class="n">OUTPUT_GIF</span><span class="si">}</span><span class="s2">."</span>
+        <span class="s2">" After reading the skill instructions, write the animation code and"</span>
+        <span class="s2">" execute it immediately using the from_scratch__python_interpreter"</span>
+        <span class="s2">" tool with your code as the 'code' parameter and"</span>
+        <span class="sa">f</span><span class="s2">" cwd='</span><span class="si">{</span><span class="n">skill_dir</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="si">}</span><span class="s2">'."</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">max_steps</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
 <span class="p">)</span>
-
-<span class="n">tools</span> <span class="o">=</span> <span class="k">await</span> <span class="n">provider</span><span class="o">.</span><span class="n">get_tools</span><span class="p">()</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Tool name: </span><span class="si">{</span><span class="n">tools</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Tool description: </span><span class="si">{</span><span class="n">tools</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">description</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Tool parameters: </span><span class="si">{</span><span class="n">tools</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">parameters_json_schema</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Provider reference: </span><span class="si">{</span><span class="n">tools</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">provider</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Additional annotations: </span><span class="si">{</span><span class="n">tools</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">additional_annotations</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-7">provider = MCPToolProvider(
-    name="hailstone",
-    stdio_params=server_params,
+<div class="clipboard-copy-txt" id="cell-7">OUTPUT_GIF = Path.cwd().resolve() / "output.gif"
+
+result = await agent.run_with_skill(
+    "slack-gif-creator",
+    prompt=(
+        "Create a spinning star emoji GIF (128x128 px, optimized for Slack)."
+        f" Save the output to {OUTPUT_GIF}."
+        " After reading the skill instructions, write the animation code and"
+        " execute it immediately using the from_scratch__python_interpreter"
+        " tool with your code as the 'code' parameter and"
+        f" cwd='{skill_dir.resolve()}'.",
+    ),
+    max_steps=10,
 )
-
-tools = await provider.get_tools()
-
-print(f"Tool name: {tools[0].name}")
-print(f"Tool description: {tools[0].description}")
-print(f"Tool parameters: {tools[0].parameters_json_schema}")
-print(f"Provider reference: {tools[0].provider}")
-print(f"Additional annotations: {tools[0].additional_annotations}")</div>
+print(result)</div>
 </div>
 </div>
 </div>
@@ -3830,11 +3848,34 @@ print(f"Additional annotations: {tools[0].additional_annotations}")</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Tool name: mcp__hailstone__hailstone_step_fn
-Tool description: Performs a single step of the Hailstone sequence.
-Tool parameters: {'properties': {'x': {'title': 'X', 'type': 'integer'}}, 'required': ['x'], 'title': 'hailstone_step_fnArguments', 'type': 'object'}
-Provider reference: &lt;llm_agents_from_scratch.tools.mcp.provider.MCPToolProvider object at 0x7b13dacde190&gt;
-Additional annotations: None
+<pre>INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: This is a user-explicit skill activation. Call the from_scratch__use_skill tool with name='slack-gif-creator'. Use exactly this name ...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: This is a user-explicit skill activation. Call the from_scratch__use_skill tool with name='slack-gif-creator'. Use exactly this na...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: from_scratch__use_skill
+INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: &lt;skill_content name="slack-gif-creator"&gt;
+# Slack GIF Creator
+
+A toolkit providing utilities and knowledge for creating animate...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to create a spinning star emoji GIF (128x128 px, optimized for Slack) and save it to the specified location. I will use the `fro...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Execute the provided code using the from_scratch__python_interpreter tool with the code as the 'code' parameter and cwd='/home/nerdai/Proj...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Execute the provided code using the from_scratch__python_interpreter tool with the code as the 'code' parameter and cwd='/home/ner...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: from_scratch__python_interpreter
+INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 
+✓ GIF created successfully!
+  Path: /home/nerdai/Projects/llm-agents-from-scratch/more-examples/ch06/output.gif
+  Size: 27.7 ...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The spinning star emoji GIF has been successfully created and saved to the specified location: `/home/nerdai/Projects/llm-agents-from-s...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      No new step required.
+INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The spinning star emoji GIF has been successfully created and saved to the specified location: `/home/nerdai/Projects/llm-agents-fro...[TRUNCATED]
+The spinning star emoji GIF has been successfully created and saved to the specified location: `/home/nerdai/Projects/llm-agents-from-scratch/more-examples/ch06/output.gif`. The GIF is optimized for Slack with the following details:
+
+- **Size**: 27.7 KB (0.03 MB)
+- **Dimensions**: 128x128
+- **Frames**: 12 @ 10 fps
+- **Duration**: 1.2 seconds
+- **Colors**: 48
+- **Optimized for emoji**: Yes (128x128, reduced colors)
+
+Let me know if you need further assistance! 🌟
 </pre>
 </div>
 </div>
@@ -3842,18 +3883,18 @@ Additional annotations: None
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6c3a76fd-71e7-4076-8e4d-7bd5428134ff">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=254ea035">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="example-6-mcp-hailstone-tool-execution">Example 6: MCP Hailstone tool execution<a class="anchor-link" href="#example-6-mcp-hailstone-tool-execution">¶</a></h3>
+<h2 id="result">Result<a class="anchor-link" href="#result">¶</a></h2>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c898fae4-41a9-4ccf-9c36-d15b42543d6b">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=23d2368f">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -3871,35 +3912,23 @@ Additional annotations: None
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolCall</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">base64</span>
 
-<span class="n">provider</span> <span class="o">=</span> <span class="n">MCPToolProvider</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">"hailstone"</span><span class="p">,</span>
-    <span class="n">stdio_params</span><span class="o">=</span><span class="n">server_params</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">tools</span> <span class="o">=</span> <span class="k">await</span> <span class="n">provider</span><span class="o">.</span><span class="n">get_tools</span><span class="p">()</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTML</span>
 
-<span class="n">tool_call</span> <span class="o">=</span> <span class="n">ToolCall</span><span class="p">(</span>
-    <span class="n">tool_name</span><span class="o">=</span><span class="n">tools</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-    <span class="n">arguments</span><span class="o">=</span><span class="p">{</span><span class="s2">"x"</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span>
-<span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">tools</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="n">tool_call</span><span class="p">)</span>
-<span class="n">result</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">OUTPUT_GIF</span><span class="p">,</span> <span class="s2">"rb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+
+<span class="n">HTML</span><span class="p">(</span><span class="sa">f</span><span class="s1">'&lt;img src="data:image/gif;base64,</span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s1">"&gt;'</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-8">from llm_agents_from_scratch.data_structures import ToolCall
+<div class="clipboard-copy-txt" id="cell-8">import base64
 
-provider = MCPToolProvider(
-    name="hailstone",
-    stdio_params=server_params,
-)
-tools = await provider.get_tools()
+from IPython.display import HTML
 
-tool_call = ToolCall(
-    tool_name=tools[0].name,
-    arguments={"x": 5},
-)
-result = await tools[0](tool_call)
-result</div>
+with open(OUTPUT_GIF, "rb") as f:
+    data = base64.b64encode(f.read()).decode()
+
+HTML(f'&lt;img src="data:image/gif;base64,{data}"&gt;')</div>
 </div>
 </div>
 </div>
@@ -3910,405 +3939,22 @@ result</div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[7]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>ToolCallResult(tool_call_id='ad639f7b-8116-4bcf-9dbf-9941d01bdbb3', content=[{'type': 'text', 'text': '16', 'annotations': None}], error=False)</pre>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<img alt="No description has been provided for this image" src="data:image/gif;base64,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"/>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=42cdbedf-00bd-4ae7-a617-9d13661d9085">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1b2c3d4">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="example-7-manual-discovery-of-mcp-tools-to-construct-an-llm-agent">Example 7: Manual discovery of MCP tools to construct an LLM agent<a class="anchor-link" href="#example-7-manual-discovery-of-mcp-tools-to-construct-an-llm-agent">¶</a></h3>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=11b19865-a2c4-41c8-9476-01776a0e1340">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-9">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMAgent</span>
-
-<span class="n">provider</span> <span class="o">=</span> <span class="n">MCPToolProvider</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">"hailstone"</span><span class="p">,</span>
-    <span class="n">stdio_params</span><span class="o">=</span><span class="n">server_params</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">tools</span> <span class="o">=</span> <span class="k">await</span> <span class="n">provider</span><span class="o">.</span><span class="n">get_tools</span><span class="p">()</span>
-<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen2.5:3b"</span><span class="p">)</span>
-<span class="n">llm_agent</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="p">(</span>
-    <span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span>
-    <span class="n">tools</span><span class="o">=</span><span class="n">tools</span><span class="p">,</span>
-<span class="p">)</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-9">from llm_agents_from_scratch.llms import OllamaLLM
-from llm_agents_from_scratch import LLMAgent
-
-provider = MCPToolProvider(
-    name="hailstone",
-    stdio_params=server_params,
-)
-tools = await provider.get_tools()
-llm = OllamaLLM(model="qwen2.5:3b")
-llm_agent = LLMAgent(
-    llm=llm,
-    tools=tools,
-)</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=d2dc7246-5f8c-4740-b50d-3ed47124acd0">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-10">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">llm_agent</span><span class="o">.</span><span class="n">tools</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-10">llm_agent.tools</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[9]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>[&lt;llm_agents_from_scratch.tools.mcp.tool.MCPTool at 0x7b13d892eea0&gt;]</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c5c614d7-84b4-4406-80e3-90dae323178c">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="example-8-different-ways-to-construct-an-llmagentbuilder-with-the-same-attributes">Example 8: Different ways to construct an LLMAgentBuilder with the same attributes<a class="anchor-link" href="#example-8-different-ways-to-construct-an-llmagentbuilder-with-the-same-attributes">¶</a></h3>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=f18fe5a7-dd2d-483f-8084-50a172cd0082">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-11">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.agent.builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMAgentBuilder</span>
-
-<span class="n">provider</span> <span class="o">=</span> <span class="n">MCPToolProvider</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">"hailstone"</span><span class="p">,</span>
-    <span class="n">stdio_params</span><span class="o">=</span><span class="n">server_params</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen2.5:3b"</span><span class="p">)</span>
-
-<span class="c1"># directly passing attributes at construction</span>
-<span class="n">builder</span> <span class="o">=</span> <span class="n">LLMAgentBuilder</span><span class="p">(</span>
-    <span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span>
-    <span class="n">mcp_providers</span><span class="o">=</span><span class="p">[</span><span class="n">provider</span><span class="p">],</span>
-<span class="p">)</span>
-
-<span class="c1"># fluent style with builder methods</span>
-<span class="n">builder</span> <span class="o">=</span> <span class="n">LLMAgentBuilder</span><span class="p">()</span>\
-    <span class="o">.</span><span class="n">with_llm</span><span class="p">(</span><span class="n">llm</span><span class="p">)</span>\
-    <span class="o">.</span><span class="n">with_mcp_provider</span><span class="p">(</span><span class="n">provider</span><span class="p">)</span>
-
-<span class="c1"># another fluent style</span>
-<span class="n">builder</span> <span class="o">=</span> <span class="n">LLMAgentBuilder</span><span class="p">()</span>\
-    <span class="o">.</span><span class="n">with_mcp_providers</span><span class="p">([</span><span class="n">provider</span><span class="p">])</span>\
-    <span class="o">.</span><span class="n">with_llm</span><span class="p">(</span><span class="n">llm</span><span class="p">)</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-11">from llm_agents_from_scratch.llms import OllamaLLM
-from llm_agents_from_scratch.agent.builder import LLMAgentBuilder
-
-provider = MCPToolProvider(
-    name="hailstone",
-    stdio_params=server_params,
-)
-llm = OllamaLLM(model="qwen2.5:3b")
-
-# directly passing attributes at construction
-builder = LLMAgentBuilder(
-    llm=llm,
-    mcp_providers=[provider],
-)
-
-# fluent style with builder methods
-builder = LLMAgentBuilder()\
-    .with_llm(llm)\
-    .with_mcp_provider(provider)
-
-# another fluent style
-builder = LLMAgentBuilder()\
-    .with_mcp_providers([provider])\
-    .with_llm(llm)</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=911813be-20c5-4d03-a17f-610c04f55f8e">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="example-9-using-an-llmagentbuilder-to-create-the-same-llmagent-from-example-7">Example 9: Using an LLMAgentBuilder to create the same LLMAgent from example 7<a class="anchor-link" href="#example-9-using-an-llmagentbuilder-to-create-the-same-llmagent-from-example-7">¶</a></h3>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=43dbee5f-d18d-4fc8-96b3-a2ba2eabef9c">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-12">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.agent.builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMAgentBuilder</span>
-
-<span class="n">provider</span> <span class="o">=</span> <span class="n">MCPToolProvider</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">"hailstone"</span><span class="p">,</span>
-    <span class="n">stdio_params</span><span class="o">=</span><span class="n">server_params</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:4b"</span><span class="p">)</span>
-
-<span class="n">llm_agent</span> <span class="o">=</span> <span class="k">await</span> <span class="n">LLMAgentBuilder</span><span class="p">()</span>\
-    <span class="o">.</span><span class="n">with_llm</span><span class="p">(</span><span class="n">llm</span><span class="p">)</span>\
-    <span class="o">.</span><span class="n">with_mcp_provider</span><span class="p">(</span><span class="n">provider</span><span class="p">)</span>\
-    <span class="o">.</span><span class="n">build</span><span class="p">()</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-12">from llm_agents_from_scratch.llms import OllamaLLM
-from llm_agents_from_scratch.agent.builder import LLMAgentBuilder
-
-provider = MCPToolProvider(
-    name="hailstone",
-    stdio_params=server_params,
-)
-llm = OllamaLLM(model="qwen3:4b")
-
-llm_agent = await LLMAgentBuilder()\
-    .with_llm(llm)\
-    .with_mcp_provider(provider)\
-    .build()</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2022752d-1e2a-4b63-9e9f-1b35ed2f0411">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="example-10-performing-a-hailstone-step-with-our-llm-agent">Example 10: Performing a hailstone step with our LLM agent<a class="anchor-link" href="#example-10-performing-a-hailstone-step-with-our-llm-agent">¶</a></h3>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=dddb93ee-e922-49b7-bdcd-cb0eb53044cc">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-13">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_console_logging</span>
-
-<span class="n">enable_console_logging</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-13">import logging
-from llm_agents_from_scratch.logger import enable_console_logging
-
-enable_console_logging(logging.INFO)</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=8344c6d1-9808-4f31-9a5e-d3ccc5be7c58">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-14">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures.agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">Task</span>
-
-<span class="n">instruction</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="s2">"What is hailstone_step_fn(5)? "</span>
-    <span class="s2">"You must call the tool to get the answer."</span>
-<span class="p">)</span>
-<span class="n">task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span><span class="n">instruction</span><span class="o">=</span><span class="n">instruction</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">llm_agent</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-14">from llm_agents_from_scratch.data_structures.agent import Task
-
-instruction = (
-    "What is hailstone_step_fn(5)? "
-    "You must call the tool to get the answer."
-)
-task = Task(instruction=instruction)
-result = await llm_agent.run(task)</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: What is hailstone_step_fn(5)? You must call the tool to get the answer.
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: What is hailstone_step_fn(5)? You must call the tool to get the answer.
-INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: mcp__hailstone__hailstone_step_fn
-INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: [{'type': 'text', 'text': '16', 'annotations': None}]
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: Okay, let's see. The user asked for hailstone_step_fn(5). I called the tool with x=5 and got the response 16.
-
-So the Hailstone sequenc...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: The assistant has already completed the tool call and received the result. The final answer is 16.
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: The assistant has already completed the tool call and received the result. The final answer is 16.
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: Okay, let me check what's going on here. The user asked for hailstone_step_fn(5). The assistant already called the tool with x=5 and go...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      No new step required.
-INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The answer to hailstone_step_fn(5) is **16**. This follows the Hailstone sequence rule where odd numbers $ x $ are transformed to $ ...[TRUNCATED]
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=1c15a1d4-1ac9-4d6e-9512-7052bd71a999">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-15">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">result</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-15">result</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[14]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>TaskResult(task_id='cc267218-2e01-430f-b740-7bb1f9b50970', content='The answer to hailstone_step_fn(5) is **16**. This follows the Hailstone sequence rule where odd numbers $ x $ are transformed to $ 3x + 1 $. For $ x = 5 $: $ 3 \\times 5 + 1 = 16 $. No further tool calls are needed. Final answer: **16**.')</pre>
-</div>
-</div>
+<h2 id="note-on-third-party-skills">Note on Third-Party Skills<a class="anchor-link" href="#note-on-third-party-skills">¶</a></h2><p>The <code>slack-gif-creator</code> skill was authored for Claude Code, which has native file-write and execution tools. Our framework's execution model is different — the agent uses <code>PythonInterpreterTool</code> with an inline <code>code</code> parameter — so we had to augment the prompt with explicit instructions about which tool to use and how.</p>
+<p>This is expected when pulling skills from a marketplace: the skill encodes domain knowledge and logic, but the execution conventions may differ across agent frameworks. A small prompt addition is usually enough to bridge the gap.</p>
 </div>
 </div>
 </div>
@@ -4357,7 +4003,7 @@ INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The answer to hailston
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../ch04/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Chapter 4 — The LLMAgent class">
+          <a href="../user_explicit_hailstone/" class="md-footer__link md-footer__link--prev" aria-label="Previous: User-Explicit Skill Activation — Hailstone">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -4367,20 +4013,20 @@ INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The answer to hailston
                 Previous
               </span>
               <div class="md-ellipsis">
-                Chapter 4 — The LLMAgent class
+                User-Explicit Skill Activation — Hailstone
               </div>
             </div>
           </a>
         
         
           
-          <a href="../ch06/" class="md-footer__link md-footer__link--next" aria-label="Next: Chapter 6 — Agent Skills">
+          <a href="../../../capstones/one/" class="md-footer__link md-footer__link--next" aria-label="Next: Capstone I: Monte Carlo Estimation of Pi">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Chapter 6 — Agent Skills
+                Capstone I: Monte Carlo Estimation of Pi
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -4449,10 +4095,10 @@ INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The answer to hailston
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.annotate", "content.code.copy", "content.tabs.link", "navigation.footer", "navigation.indexes", "navigation.instant", "navigation.tabs", "navigation.top", "search.suggest", "search.highlight", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["content.code.annotate", "content.code.copy", "content.tabs.link", "navigation.footer", "navigation.indexes", "navigation.instant", "navigation.tabs", "navigation.top", "search.suggest", "search.highlight", "toc.follow"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>

@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+### Added
+
+- feat: add `code` and `cwd` parameters to `PythonInterpreterTool` (#490)
+
 ### Changed
 
 - refactor: rip out disable_model_invocation from LLMAgent (#456)

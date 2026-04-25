@@ -98,7 +98,7 @@ async def test_tool_call(
         ToolCall(tool_name=tool.name, arguments={"param1": 2}),
     )
     assert tool_result.content == [
-        {"annotations": None, "text": "42", "type": "text"},
+        {"annotations": None, "meta": None, "text": "42", "type": "text"},
     ]
     assert tool_result.error is False
 
@@ -107,6 +107,11 @@ async def test_tool_call(
         ToolCall(tool_name=tool.name, arguments={"param1": -2}),
     )
     assert tool_result.content == [
-        {"annotations": None, "text": "this is an error", "type": "text"},
+        {
+            "annotations": None,
+            "meta": None,
+            "text": "this is an error",
+            "type": "text",
+        },
     ]
     assert tool_result.error is True

@@ -1,11 +1,11 @@
 ---
 name: word-frequency
-description: Compute the top-10 most frequent words in a bundled text passage using a Python script.
+description: Compute the top-10 most frequent words in a public-domain text fetched from the web using a Python script.
 ---
 
 # Word Frequency
 
-This skill counts word frequencies in a bundled text passage and reports the top-10 results. The computation is performed by a Python script to ensure deterministic, accurate counts.
+This skill counts word frequencies in a popular public-domain text and reports the top-10 results. The text is fetched from the web at runtime and the computation is performed by a Python script to ensure deterministic, accurate counts.
 
 ## Steps
 

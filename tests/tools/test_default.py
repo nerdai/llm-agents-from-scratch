@@ -119,13 +119,15 @@ def test_python_interpreter_tool_description() -> None:
 
 
 def test_python_interpreter_tool_parameters_json_schema() -> None:
-    """Tests PythonInterpreterTool schema has path (required) and stdin."""
+    """Tests PythonInterpreterTool schema has path, code, stdin, cwd."""
     tool = PythonInterpreterTool()
     schema = tool.parameters_json_schema
     assert schema["type"] == "object"
     assert "path" in schema["properties"]
+    assert "code" in schema["properties"]
     assert "stdin" in schema["properties"]
-    assert schema["required"] == ["path"]
+    assert "cwd" in schema["properties"]
+    assert "required" not in schema
 
 
 def test_python_interpreter_tool_runs_script(tmp_path: Path) -> None:
@@ -160,8 +162,8 @@ def test_python_interpreter_tool_error_on_missing_script(
     assert "FileNotFoundError" in result.content
 
 
-def test_python_interpreter_tool_error_on_missing_path_argument() -> None:
-    """Tests PythonInterpreterTool returns error when path is absent."""
+def test_python_interpreter_tool_error_on_missing_path_and_code() -> None:
+    """Tests PythonInterpreterTool returns error when neither path nor code."""
     tool = PythonInterpreterTool()
     tool_call = ToolCall(
         tool_name="from_scratch__python_interpreter",
@@ -172,6 +174,54 @@ def test_python_interpreter_tool_error_on_missing_path_argument() -> None:
 
     assert result.error is True
     assert "Missing" in result.content
+
+
+def test_python_interpreter_tool_runs_inline_code() -> None:
+    """Tests PythonInterpreterTool executes inline code via 'code' param."""
+    tool = PythonInterpreterTool()
+    tool_call = ToolCall(
+        tool_name="from_scratch__python_interpreter",
+        arguments={"code": 'print("hello from inline")'},
+    )
+
+    result = tool(tool_call=tool_call)
+
+    assert result.error is False
+    assert "hello from inline" in result.content
+
+
+def test_python_interpreter_tool_inline_code_imports_from_cwd(
+    tmp_path: Path,
+) -> None:
+    """Tests inline code can import modules from cwd."""
+    (tmp_path / "mymod.py").write_text("VALUE = 42\n")
+    tool = PythonInterpreterTool()
+    tool_call = ToolCall(
+        tool_name="from_scratch__python_interpreter",
+        arguments={
+            "code": "import mymod; print(mymod.VALUE)",
+            "cwd": str(tmp_path),
+        },
+    )
+
+    result = tool(tool_call=tool_call)
+
+    assert result.error is False
+    assert "42" in result.content
+
+
+def test_python_interpreter_tool_inline_code_error() -> None:
+    """Tests inline code that raises returns a RuntimeError result."""
+    tool = PythonInterpreterTool()
+    tool_call = ToolCall(
+        tool_name="from_scratch__python_interpreter",
+        arguments={"code": "raise ValueError('boom')"},
+    )
+
+    result = tool(tool_call=tool_call)
+
+    assert result.error is True
+    assert "RuntimeError" in result.content
 
 
 def test_python_interpreter_tool_error_on_script_failure(

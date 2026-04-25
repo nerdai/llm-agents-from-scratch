@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Added
 
 - feat: add `code` and `cwd` parameters to `PythonInterpreterTool` (#490)
+- feat: add `stdin` parameter to `PythonInterpreterTool` (#487)
 
 ### Changed
 

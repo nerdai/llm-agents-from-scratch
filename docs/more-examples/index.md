@@ -1,9 +1,9 @@
 # Running the Notebooks
 
-The chapter notebooks use **Qwen3:14B** as the default model via Ollama.
-Minimum hardware: ~16 GB RAM with a dedicated GPU. You can swap in a smaller
-model (e.g. `qwen3:4b`), but smaller models may not follow tool-use
-instructions reliably — especially in later chapters.
+These additional example notebooks use **Qwen3:14B** as the default model
+via Ollama. Minimum hardware: ~16 GB RAM with a dedicated GPU. You can swap
+in a smaller model (e.g. `qwen3:4b`), but smaller models may not follow
+tool-use instructions reliably.
 
 ## Option A — Run Locally
 

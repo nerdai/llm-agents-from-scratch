@@ -41,6 +41,7 @@ nav:
     - Chapter 5: notebooks/ch05.ipynb
     - Chapter 6: notebooks/ch06.ipynb
   - More Examples:
+    - more-examples/index.md
     # Symlinked from more-examples/ — do not copy directly.
     - Chapter 5:
       - GitHub MCP: more-examples/ch05/github_mcp.ipynb

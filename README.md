@@ -6,6 +6,7 @@
 [![DOI](https://zenodo.org/badge/1002134625.svg)](https://doi.org/10.5281/zenodo.15857308)
 [![GitHub License](https://img.shields.io/github/license/nerdai/llm-agents-from-scratch)](https://github.com/nerdai/llm-agents-from-scratch/blob/main/LICENSE)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/nerdai/llm-agents-from-scratch)
+<a href="https://lightning.ai/nerdai/templates/build-a-multi-agent-system-from-scratch"><img src="https://pl-bolts-doc-images.s3.us-east-2.amazonaws.com/app-2/studio-badge.svg" alt="Open In Studio" height="20"/></a>
 
 The companion library for *Build a Multi-Agent System — With MCP and A2A*
 (Manning). Learn how LLM agents work by building one yourself, from first

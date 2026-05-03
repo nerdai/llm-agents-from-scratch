@@ -32,6 +32,7 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Chapter Notebooks:
+    - notebooks/index.md
     # Symlinked from examples/ — do not copy directly.
     # To add a new chapter: ln -s ../../examples/chXX.ipynb docs/notebooks/chXX.ipynb
     - Chapter 2: notebooks/ch02.ipynb

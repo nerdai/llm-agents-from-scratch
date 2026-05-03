@@ -101,12 +101,13 @@ uv run --with jupyter jupyter lab
 [Lightning AI](https://lightning.ai) offers a free tier with ~22 GPU
 compute hours/month — enough for several sessions on an L4 GPU.
 
-1. Visit the book template:
+1. [Create a free Lightning AI account](https://lightning.ai) if you don't have one
+2. Visit the book template:
    [lightning.ai/nerdai/templates/build-a-multi-agent-system-from-scratch](https://lightning.ai/nerdai/templates/build-a-multi-agent-system-from-scratch)
-2. Click **Clone** to copy it to your account
-3. Make sure you have the latest version of the template
-4. Launch the Studio with an **L4 GPU**
-5. Open the chapter notebook you want to run and execute the cells —
+3. Click **Clone** to copy it to your account
+4. Make sure you have the latest version of the template
+5. Launch the Studio with an **L4 GPU**
+6. Open the chapter notebook you want to run and execute the cells —
    Ollama and the required model are already set up in the template
 
 ---

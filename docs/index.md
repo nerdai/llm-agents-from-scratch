@@ -134,6 +134,7 @@ Then launch Jupyter from the project root:
 ```sh
 uv run --with jupyter jupyter lab
 ```
+
 </div>
 
 <div class="landing-card" markdown>
@@ -142,10 +143,13 @@ uv run --with jupyter jupyter lab
 No GPU? [Lightning AI](https://lightning.ai) offers ~22 free GPU compute
 hours/month — enough for several sessions on an L4.
 
-1. Open the [book template](https://lightning.ai/nerdai/templates/build-a-multi-agent-system-from-scratch)
-2. Click **Clone** and ensure it's the latest version
-3. Launch the Studio with an **L4 GPU**
-4. Open any chapter notebook — Ollama and the model are pre-configured
+
+1. [Create a free account](https://lightning.ai) if you don't have one
+2. Open the [book template](https://lightning.ai/nerdai/templates/build-a-multi-agent-system-from-scratch)
+3. Click **Clone** and ensure it's the latest version
+4. Launch the Studio with an **L4 GPU**
+5. Open any chapter notebook — Ollama and the model are pre-configured
+
 </div>
 
 </div>

@@ -3432,7 +3432,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=0946aa8b">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=d1e908d1">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -4096,7 +4096,7 @@ result</div>
     <span class="n">stdio_params</span><span class="o">=</span><span class="n">server_params</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">tools</span> <span class="o">=</span> <span class="k">await</span> <span class="n">provider</span><span class="o">.</span><span class="n">get_tools</span><span class="p">()</span>
-<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen2.5:3b"</span><span class="p">)</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">)</span>
 <span class="n">llm_agent</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="p">(</span>
     <span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span>
     <span class="n">tools</span><span class="o">=</span><span class="n">tools</span><span class="p">,</span>
@@ -4110,7 +4110,7 @@ provider = MCPToolProvider(
     stdio_params=server_params,
 )
 tools = await provider.get_tools()
-llm = OllamaLLM(model="qwen2.5:3b")
+llm = OllamaLLM(model="qwen3:14b")
 llm_agent = LLMAgent(
     llm=llm,
     tools=tools,
@@ -4196,7 +4196,7 @@ llm_agent = LLMAgent(
     <span class="n">name</span><span class="o">=</span><span class="s2">"hailstone"</span><span class="p">,</span>
     <span class="n">stdio_params</span><span class="o">=</span><span class="n">server_params</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen2.5:3b"</span><span class="p">)</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">)</span>
 
 <span class="c1"># directly passing attributes at construction</span>
 <span class="n">builder</span> <span class="o">=</span> <span class="n">LLMAgentBuilder</span><span class="p">(</span>
@@ -4221,7 +4221,7 @@ provider = MCPToolProvider(
     name="hailstone",
     stdio_params=server_params,
 )
-llm = OllamaLLM(model="qwen2.5:3b")
+llm = OllamaLLM(model="qwen3:14b")
 
 # directly passing attributes at construction
 builder = LLMAgentBuilder(
@@ -4280,7 +4280,7 @@ builder = LLMAgentBuilder()\
     <span class="n">name</span><span class="o">=</span><span class="s2">"hailstone"</span><span class="p">,</span>
     <span class="n">stdio_params</span><span class="o">=</span><span class="n">server_params</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:4b"</span><span class="p">)</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">)</span>
 
 <span class="n">llm_agent</span> <span class="o">=</span> <span class="k">await</span> <span class="n">LLMAgentBuilder</span><span class="p">()</span>\
     <span class="o">.</span><span class="n">with_llm</span><span class="p">(</span><span class="n">llm</span><span class="p">)</span>\
@@ -4294,7 +4294,7 @@ provider = MCPToolProvider(
     name="hailstone",
     stdio_params=server_params,
 )
-llm = OllamaLLM(model="qwen3:4b")
+llm = OllamaLLM(model="qwen3:14b")
 
 llm_agent = await LLMAgentBuilder()\
     .with_llm(llm)\

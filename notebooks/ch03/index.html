@@ -3378,7 +3378,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=4e90216d">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=acf39b6a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -3650,11 +3650,11 @@ class Joke(BaseModel):
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms.ollama</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
 
-<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen2.5:3b"</span><span class="p">)</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-5">from llm_agents_from_scratch.llms.ollama import OllamaLLM
 
-llm = OllamaLLM(model="qwen2.5:3b")</div>
+llm = OllamaLLM(model="qwen3:14b")</div>
 </div>
 </div>
 </div>
@@ -3694,7 +3694,7 @@ llm = OllamaLLM(model="qwen2.5:3b")</div>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms.ollama</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
 
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
-    <span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen2.5:3b"</span><span class="p">)</span>
+    <span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">)</span>
     <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">llm</span><span class="o">.</span><span class="n">complete</span><span class="p">(</span><span class="s2">"Tell me a joke."</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
 
@@ -3704,7 +3704,7 @@ llm = OllamaLLM(model="qwen2.5:3b")</div>
 from llm_agents_from_scratch.llms.ollama import OllamaLLM
 
 async def main():
-    llm = OllamaLLM(model="qwen2.5:3b")
+    llm = OllamaLLM(model="qwen3:14b")
     response = await llm.complete("Tell me a joke.")
     print(response)
 
@@ -3758,7 +3758,7 @@ asyncio.run(main())</div>
 </clipboard-copy>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
-    <span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen2.5:3b"</span><span class="p">)</span>
+    <span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">)</span>
     <span class="n">prompt</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"Tell me a joke."</span><span class="p">)</span>
     <span class="n">joke</span> <span class="o">=</span> <span class="k">await</span> <span class="n">llm</span><span class="o">.</span><span class="n">structured_output</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span> <span class="n">mdl</span><span class="o">=</span><span class="n">Joke</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">joke</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
@@ -3767,7 +3767,7 @@ asyncio.run(main())</div>
 <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-7">async def main():
-    llm = OllamaLLM(model="qwen2.5:3b")
+    llm = OllamaLLM(model="qwen3:14b")
     prompt = ("Tell me a joke.")
     joke = await llm.structured_output(prompt=prompt, mdl=Joke)
     print(joke.__class__.__name__)
@@ -3875,7 +3875,7 @@ subject='math' joke='Why was the math book sad? Because it had too many problems
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleFunctionTool</span>
 
 <span class="n">hailstone_tool</span> <span class="o">=</span> <span class="n">SimpleFunctionTool</span><span class="p">(</span><span class="n">hailstone_step_func</span><span class="p">)</span>
-<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen2.5:3b"</span><span class="p">)</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">)</span>
 
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
     <span class="n">user_input</span> <span class="o">=</span> <span class="p">(</span>
@@ -3897,7 +3897,7 @@ from llm_agents_from_scratch.data_structures.llm import ChatMessage
 from llm_agents_from_scratch.tools import SimpleFunctionTool
 
 hailstone_tool = SimpleFunctionTool(hailstone_step_func)
-llm = OllamaLLM(model="qwen2.5:3b")
+llm = OllamaLLM(model="qwen3:14b")
 
 async def main():
     user_input = (

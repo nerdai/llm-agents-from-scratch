@@ -74,6 +74,44 @@ in the book and apply it to something closer to a real-world system.
 
 ---
 
+## Running the Notebooks
+
+The chapter notebooks use **Qwen3:14B** as the default model via Ollama.
+Minimum hardware: ~16 GB RAM with a discrete GPU, or any machine with a
+dedicated GPU that can comfortably run a 14B model. You can swap in a
+smaller model (e.g. `qwen3:4b`), but note that smaller models may not
+follow tool-use instructions reliably — especially in later chapters.
+
+### Option A — Run locally
+
+Install [Ollama](https://ollama.com/) and pull the model:
+
+```sh
+ollama pull qwen3:14b
+```
+
+Then launch Jupyter from the project root:
+
+```sh
+uv run --with jupyter jupyter lab
+```
+
+### Option B — Lightning AI (recommended if you don't have a GPU)
+
+[Lightning AI](https://lightning.ai) offers a free tier with ~22 GPU
+compute hours/month — enough for several sessions on an L4 GPU.
+
+1. [Create a free Lightning AI account](https://lightning.ai) if you don't have one
+2. Visit the book template:
+   [lightning.ai/nerdai/templates/build-a-multi-agent-system-from-scratch](https://lightning.ai/nerdai/templates/build-a-multi-agent-system-from-scratch)
+3. Click **Clone** to copy it to your account
+4. Make sure you have the latest version of the template
+5. Launch the Studio with an **L4 GPU**
+6. Open the chapter notebook you want to run and execute the cells —
+   Ollama and the required model are already set up in the template
+
+---
+
 ## Getting Started
 
 ### Prerequisites

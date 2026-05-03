@@ -111,6 +111,47 @@ from core concepts to full multi-agent systems:
 
 ---
 
+## Running the Notebooks
+
+The chapter notebooks use **Qwen3:14B** as the default model via Ollama.
+Minimum hardware: ~16 GB RAM with a dedicated GPU. You can swap in a smaller
+model (e.g. `qwen3:4b`), but smaller models may not follow tool-use
+instructions reliably — especially in later chapters.
+
+<div class="landing-grid landing-grid--2" markdown>
+
+<div class="landing-card" markdown>
+### :material-laptop: Run Locally
+
+Install [Ollama](https://ollama.com/) and pull the model:
+
+```sh
+ollama pull qwen3:14b
+```
+
+Then launch Jupyter from the project root:
+
+```sh
+uv run --with jupyter jupyter lab
+```
+</div>
+
+<div class="landing-card" markdown>
+### :material-lightning-bolt: Lightning AI (Free)
+
+No GPU? [Lightning AI](https://lightning.ai) offers ~22 free GPU compute
+hours/month — enough for several sessions on an L4.
+
+1. Open the [book template](https://lightning.ai/nerdai/templates/build-a-multi-agent-system-from-scratch)
+2. Click **Clone** and ensure it's the latest version
+3. Launch the Studio with an **L4 GPU**
+4. Open any chapter notebook — Ollama and the model are pre-configured
+</div>
+
+</div>
+
+---
+
 ## More Examples
 
 A selection of additional worked examples showing the framework applied to real

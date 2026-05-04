@@ -43,6 +43,9 @@ nav:
   - More Examples:
     - more-examples/index.md
     # Symlinked from more-examples/ — do not copy directly.
+    - Chapter 4:
+      - Handling Tool Errors (PokéAPI): more-examples/ch04/pokemon_error_handling.ipynb
+      - Multi-Step Chained Calls (PokéAPI): more-examples/ch04/pokemon_comparison.ipynb
     - Chapter 5:
       - GitHub MCP: more-examples/ch05/github_mcp.ipynb
       - GoodNews MCP: more-examples/ch05/goodnews_mcp.ipynb

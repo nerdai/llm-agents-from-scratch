@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- refactor: rename rollout contribution method, templates, and local vars (#502)
 - refactor: rip out disable_model_invocation from LLMAgent (#456)
 - refactor: outsource SKILL_SUBDIR to skills/constants (#453)
 - Refactor _SKILL_SUBDIRS to use .agents/skills only (#452)

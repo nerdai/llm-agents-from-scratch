@@ -44,13 +44,13 @@ What is your decision?
 
 DEFAULT_RUN_STEP_USER_MESSAGE = "{instruction}"
 
-DEFAULT_ROLLOUT_CONTRIBUTION_FROM_CHAT_MESSAGE = "{actor}: {content}"
+DEFAULT_STEP_ROLLOUT_CHAT_MESSAGE = "{actor}: {content}"
 
-DEFAULT_ROLLOUT_CONTRIBUTION_CONTENT_INSTRUCTION = (
+DEFAULT_STEP_ROLLOUT_CONTENT_INSTRUCTION = (
     "My current instruction is '{instruction}'"
 )
 
-DEFAULT_ROLLOUT_CONTRIBUTION_CONTENT_TOOL_CALL_REQUEST = (
+DEFAULT_STEP_ROLLOUT_CONTENT_TOOL_CALL_REQUEST = (
     "I need to make the following tool call(s):\n\n{called_tools}."
 )
 

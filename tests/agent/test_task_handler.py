@@ -218,7 +218,7 @@ async def test_get_next_step_raises_error_from_structured_output_call(
     assert initial_step.instruction == "mock instruction"
 
 
-def test_private_rollout_contribution_from_single_run_step(
+def test_private_format_step_for_rollout(
     mock_llm: BaseLLM,
 ) -> None:
     """Tests helper method to get rollout contribution from run step."""
@@ -261,7 +261,7 @@ def test_private_rollout_contribution_from_single_run_step(
     ]
 
     # act
-    rollout_contribution = handler._rollout_contribution_from_single_run_step(
+    rollout_contribution = handler._format_step_for_rollout(
         chat_history=chat_history,
     )
 

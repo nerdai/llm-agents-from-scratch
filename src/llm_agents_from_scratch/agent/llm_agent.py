@@ -198,11 +198,11 @@ class LLMAgent:
                 skills=entries,
             )
 
-        def _rollout_contribution_from_single_run_step(
+        def _format_step_for_rollout(
             self,
             chat_history: list[ChatMessage],
         ) -> str:
-            """Update rollout after a run_step execution."""
+            """Format a run_step's chat history as a rollout entry."""
             rollout_contributions = ["=== Task Step Start ==="]
             for msg in chat_history:
                 # don't include system messages in rollout
@@ -217,7 +217,7 @@ class LLMAgent:
                     # we'll simplify to just LLM agent having a monologue
                     role = ChatRole.ASSISTANT
                     content = self.llm_agent.templates[
-                        "rollout_contribution_content_instruction"
+                        "step_rollout_content_instruction"
                     ].format(
                         instruction=content,
                     )
@@ -230,14 +230,14 @@ class LLMAgent:
                         ],
                     )
                     content = self.llm_agent.templates[
-                        "rollout_contribution_content_tool_call_request"
+                        "step_rollout_content_tool_call_request"
                     ].format(
                         called_tools=called_tools,
                     )
 
                 rollout_contributions.append(
                     self.llm_agent.templates[
-                        "rollout_contribution_from_chat_message"
+                        "step_rollout_chat_message"
                     ].format(
                         actor=("🔧 " if role == ChatRole.TOOL else "💬 ")
                         + role.value,
@@ -451,10 +451,8 @@ class LLMAgent:
                 ]
 
             # augment rollout from this turn
-            rollout_contribution = (
-                self._rollout_contribution_from_single_run_step(
-                    chat_history=chat_history,
-                )
+            rollout_contribution = self._format_step_for_rollout(
+                chat_history=chat_history,
             )
             if self.rollout:
                 self.rollout += "\n\n" + rollout_contribution

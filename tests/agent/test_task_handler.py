@@ -218,7 +218,7 @@ async def test_get_next_step_raises_error_from_structured_output_call(
     assert initial_step.instruction == "mock instruction"
 
 
-def test_private_rollout_contribution_from_single_run_step(
+def test_private_format_step_for_rollout(
     mock_llm: BaseLLM,
 ) -> None:
     """Tests helper method to get rollout contribution from run step."""
@@ -261,11 +261,11 @@ def test_private_rollout_contribution_from_single_run_step(
     ]
 
     # act
-    rollout_contribution = handler._rollout_contribution_from_single_run_step(
+    formatted_step = handler._format_step_for_rollout(
         chat_history=chat_history,
     )
 
-    expected_rollout_contribution = (
+    expected_formatted_step = (
         "=== Task Step Start ===\n\n"
         "💬 assistant: My current instruction is 'a user message'\n\n"
         "💬 assistant: I need to make the following tool call(s):"
@@ -275,7 +275,7 @@ def test_private_rollout_contribution_from_single_run_step(
         "=== Task Step End ==="
     )
 
-    assert rollout_contribution == expected_rollout_contribution
+    assert formatted_step == expected_formatted_step
 
 
 @pytest.mark.asyncio

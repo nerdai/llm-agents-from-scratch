@@ -198,12 +198,12 @@ class LLMAgent:
                 skills=entries,
             )
 
-        def _rollout_contribution_from_single_run_step(
+        def _format_step_for_rollout(
             self,
             chat_history: list[ChatMessage],
         ) -> str:
-            """Update rollout after a run_step execution."""
-            rollout_contributions = ["=== Task Step Start ==="]
+            """Format a run_step's chat history as a rollout entry."""
+            rollout_lines = ["=== Task Step Start ==="]
             for msg in chat_history:
                 # don't include system messages in rollout
                 content = msg.content
@@ -217,7 +217,7 @@ class LLMAgent:
                     # we'll simplify to just LLM agent having a monologue
                     role = ChatRole.ASSISTANT
                     content = self.llm_agent.templates[
-                        "rollout_contribution_content_instruction"
+                        "step_rollout_content_instruction"
                     ].format(
                         instruction=content,
                     )
@@ -230,14 +230,14 @@ class LLMAgent:
                         ],
                     )
                     content = self.llm_agent.templates[
-                        "rollout_contribution_content_tool_call_request"
+                        "step_rollout_content_tool_call_request"
                     ].format(
                         called_tools=called_tools,
                     )
 
-                rollout_contributions.append(
+                rollout_lines.append(
                     self.llm_agent.templates[
-                        "rollout_contribution_from_chat_message"
+                        "step_rollout_chat_message"
                     ].format(
                         actor=("🔧 " if role == ChatRole.TOOL else "💬 ")
                         + role.value,
@@ -245,11 +245,11 @@ class LLMAgent:
                     ),
                 )
 
-            rollout_contributions.append(
+            rollout_lines.append(
                 "=== Task Step End ===",
             )
 
-            return "\n\n".join(rollout_contributions)
+            return "\n\n".join(rollout_lines)
 
         async def get_next_step(
             self,
@@ -451,16 +451,14 @@ class LLMAgent:
                 ]
 
             # augment rollout from this turn
-            rollout_contribution = (
-                self._rollout_contribution_from_single_run_step(
-                    chat_history=chat_history,
-                )
+            formatted_step = self._format_step_for_rollout(
+                chat_history=chat_history,
             )
             if self.rollout:
-                self.rollout += "\n\n" + rollout_contribution
+                self.rollout += "\n\n" + formatted_step
 
             else:
-                self.rollout = rollout_contribution
+                self.rollout = formatted_step
 
             self.logger.info(
                 f"✅ Step Result: {final_content}",

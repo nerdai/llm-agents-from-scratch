@@ -261,11 +261,11 @@ def test_private_format_step_for_rollout(
     ]
 
     # act
-    rollout_contribution = handler._format_step_for_rollout(
+    formatted_step = handler._format_step_for_rollout(
         chat_history=chat_history,
     )
 
-    expected_rollout_contribution = (
+    expected_formatted_step = (
         "=== Task Step Start ===\n\n"
         "💬 assistant: My current instruction is 'a user message'\n\n"
         "💬 assistant: I need to make the following tool call(s):"
@@ -275,7 +275,7 @@ def test_private_format_step_for_rollout(
         "=== Task Step End ==="
     )
 
-    assert rollout_contribution == expected_rollout_contribution
+    assert formatted_step == expected_formatted_step
 
 
 @pytest.mark.asyncio

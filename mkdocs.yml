@@ -46,6 +46,7 @@ nav:
     - Chapter 3:
       - Multi-Turn Trivia Chat: more-examples/ch03/multi_turn_chat.ipynb
       - Structured Extraction from a PDF: more-examples/ch03/pdf_extraction.ipynb
+      - Parallel Tool Calls: more-examples/ch03/parallel_tool_calls.ipynb
     - Chapter 4:
       - Handling Tool Errors (PokéAPI): more-examples/ch04/pokemon_error_handling.ipynb
       - Multi-Step Chained Calls (PokéAPI): more-examples/ch04/pokemon_comparison.ipynb

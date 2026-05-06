@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://masfromscratch.com/more-examples/ch04/pokemon_comparison/">
+        <link rel="canonical" href="https://masfromscratch.com/more-examples/ch03/pdf_extraction/">
       
       
-        <link rel="prev" href="../pokemon_error_handling/">
+        <link rel="prev" href="../multi_turn_chat/">
       
       
-        <link rel="next" href="../../ch05/github_mcp/">
+        <link rel="next" href="../../ch04/pokemon_error_handling/">
       
       
         
@@ -25,7 +25,7 @@
     
     
       
-        <title>Multi-Step Reasoning with Chained Tool Calls — PokéAPI - LLM Agents From Scratch</title>
+        <title>Structured Extraction from a PDF - LLM Agents From Scratch</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#multi-step-reasoning-with-chained-tool-calls-pokeapi" class="md-skip">
+        <a href="#structured-extraction-from-a-pdf" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Multi-Step Reasoning with Chained Tool Calls — PokéAPI
+              Structured Extraction from a PDF
             
           </span>
         </div>
@@ -726,126 +726,6 @@
                 
   
   
-  
-  
-    
-    
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
-        
-          
-          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Chapter 3
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_2">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Chapter 3
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../ch03/multi_turn_chat/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Multi-Turn Trivia Chat
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../ch03/pdf_extraction/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Structured Extraction from a PDF
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
     
   
   
@@ -868,17 +748,17 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" checked>
         
           
-          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
             
   
   
   <span class="md-ellipsis">
     
   
-    Chapter 4
+    Chapter 3
   
 
     
@@ -889,12 +769,12 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3_3">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_2">
             <span class="md-nav__icon md-icon"></span>
             
   
-    Chapter 4
+    Chapter 3
   
 
           </label>
@@ -907,14 +787,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../pokemon_error_handling/" class="md-nav__link">
+      <a href="../multi_turn_chat/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Handling Tool Errors Gracefully — PokéAPI
+    Multi-Turn Trivia Chat
   
 
     
@@ -951,7 +831,7 @@
   <span class="md-ellipsis">
     
   
-    Multi-Step Reasoning with Chained Tool Calls — PokéAPI
+    Structured Extraction from a PDF
   
 
     
@@ -969,7 +849,7 @@
   <span class="md-ellipsis">
     
   
-    Multi-Step Reasoning with Chained Tool Calls — PokéAPI
+    Structured Extraction from a PDF
   
 
     
@@ -1006,10 +886,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#defining-the-tool" class="md-nav__link">
+  <a href="#installing-the-pdf-parser" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Defining the Tool
+        Installing the PDF Parser
       
     </span>
   </a>
@@ -1017,10 +897,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#example-1-comparing-speed" class="md-nav__link">
+  <a href="#fetching-the-paper" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example 1 — Comparing Speed
+        Fetching the Paper
       
     </span>
   </a>
@@ -1028,10 +908,43 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#example-2-comparing-attack-and-defense" class="md-nav__link">
+  <a href="#parsing-pdf-to-markdown" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example 2 — Comparing Attack and Defense
+        Parsing PDF to Markdown
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#defining-the-extraction-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Defining the Extraction Model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extracting-structured-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extracting Structured Data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#result" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
       
     </span>
   </a>
@@ -1042,6 +955,126 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 4
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Chapter 4
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch04/pokemon_error_handling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Handling Tool Errors Gracefully — PokéAPI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch04/pokemon_comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Step Reasoning with Chained Tool Calls — PokéAPI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -2608,10 +2641,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#defining-the-tool" class="md-nav__link">
+  <a href="#installing-the-pdf-parser" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Defining the Tool
+        Installing the PDF Parser
       
     </span>
   </a>
@@ -2619,10 +2652,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#example-1-comparing-speed" class="md-nav__link">
+  <a href="#fetching-the-paper" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example 1 — Comparing Speed
+        Fetching the Paper
       
     </span>
   </a>
@@ -2630,10 +2663,43 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#example-2-comparing-attack-and-defense" class="md-nav__link">
+  <a href="#parsing-pdf-to-markdown" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example 2 — Comparing Attack and Defense
+        Parsing PDF to Markdown
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#defining-the-extraction-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Defining the Extraction Model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extracting-structured-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extracting Structured Data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#result" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
       
     </span>
   </a>
@@ -3381,24 +3447,35 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </style>
 <!-- End of mermaid configuration --><div class="jupyter-wrapper">
 <div class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7fb27b941602401d91542211134fc71a">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="multi-step-reasoning-with-chained-tool-calls-pokeapi">Multi-Step Reasoning with Chained Tool Calls — PokéAPI<a class="anchor-link" href="#multi-step-reasoning-with-chained-tool-calls-pokeapi">¶</a></h1><p>This notebook demonstrates the <code>LLMAgent</code> performing multi-step reasoning by chaining sequential tool calls.</p>
-<p>We ask the agent to compare two Pokémon across a specific stat. To answer, it must call <code>get_pokemon</code> twice — once per Pokémon — then synthesise both results into a final answer.</p>
+<h1 id="structured-extraction-from-a-pdf">Structured Extraction from a PDF<a class="anchor-link" href="#structured-extraction-from-a-pdf">¶</a></h1><p>This notebook demonstrates <code>structured_output()</code> applied to a real-world task:
+extracting structured metadata from a research paper that has been converted
+to markdown.</p>
+<p>We fetch the <a href="https://arxiv.org/abs/2210.03629">ReAct: Synergizing Reasoning and Acting in Language Models</a>
+paper (Yao et al., 2022), parse its first three pages to markdown using
+<code>pymupdf4llm</code>, then ask the LLM to fill in a Pydantic model with the paper's
+key fields.</p>
+<blockquote>
+<p><strong>Chapter 3 concept:</strong> <code>structured_output()</code> accepts any text prompt and a
+Pydantic model class, and returns a validated instance of that model. Here
+we use it to turn unstructured PDF text into a typed Python object in a
+single call.</p>
+</blockquote>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=acae54e37e7d407bbb7b55eff062a284">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-1">
@@ -3422,23 +3499,28 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=9a63283cbaf04dbcab1f6479b197f3a8">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="running-an-ollama-service">Running an Ollama service<a class="anchor-link" href="#running-an-ollama-service">¶</a></h2><p>To execute the code provided in this notebook, you'll need to have Ollama installed on your local machine and have its LLM hosting service running. To download Ollama, follow the instructions found on this page: <a href="https://ollama.com/download">https://ollama.com/download</a>. After downloading and installing Ollama, you can start a service by opening a terminal and running the command <code>ollama serve</code>.</p>
+<h2 id="running-an-ollama-service">Running an Ollama service<a class="anchor-link" href="#running-an-ollama-service">¶</a></h2><p>To execute the code provided in this notebook, you'll need to have Ollama
+installed on your local machine and have its LLM hosting service running.
+To download Ollama, follow the instructions found on this page:
+<a href="https://ollama.com/download">https://ollama.com/download</a>. After downloading and installing Ollama, you
+can start a service by opening a terminal and running the command
+<code>ollama serve</code>.</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=8dd0d8092fe74a7c96281538738b07e2">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-2">
@@ -3581,23 +3663,25 @@ ensure_ollama()</div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=72eea5119410473aa328ad9291626812">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="defining-the-tool">Defining the Tool<a class="anchor-link" href="#defining-the-tool">¶</a></h2>
+<h2 id="installing-the-pdf-parser">Installing the PDF Parser<a class="anchor-link" href="#installing-the-pdf-parser">¶</a></h2><p>We use <a href="https://pymupdf.readthedocs.io/en/latest/pymupdf4llm/"><code>pymupdf4llm</code></a>
+to convert PDF pages to markdown. It is not part of the core
+<code>llm-agents-from-scratch</code> dependencies, so we install it here.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=8edb47106e1a46a883d545849b8ab81b">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-3">
@@ -3610,90 +3694,47 @@ ensure_ollama()</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">urllib.error</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">urllib.request</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.tools.simple_function</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleFunctionTool</span>
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">get_pokemon</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Look up a Pokémon by name and return its types and base stats."""</span>
-    <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"https://pokeapi.co/api/v2/pokemon/</span><span class="si">{</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span>
-    <span class="n">req</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span>
-        <span class="n">url</span><span class="p">,</span>
-        <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">"User-Agent"</span><span class="p">:</span> <span class="s2">"llm-agents-from-scratch/1.0"</span><span class="p">},</span>
-    <span class="p">)</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">with</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">req</span><span class="p">)</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
-            <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
-    <span class="k">except</span> <span class="n">urllib</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">HTTPError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">code</span> <span class="o">==</span> <span class="mi">404</span><span class="p">:</span>  <span class="c1"># noqa: PLR2004</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"Pokémon '</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">' not found. "</span>
-                <span class="s2">"Check the spelling and try again."</span><span class="p">,</span>
-            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
-        <span class="k">raise</span>
-    <span class="n">types</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="p">[</span><span class="s2">"type"</span><span class="p">][</span><span class="s2">"name"</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">"types"</span><span class="p">]]</span>
-    <span class="n">stats</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span><span class="p">[</span><span class="s2">"stat"</span><span class="p">][</span><span class="s2">"name"</span><span class="p">]:</span> <span class="n">s</span><span class="p">[</span><span class="s2">"base_stat"</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">"stats"</span><span class="p">]}</span>
-    <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">"name"</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s2">"name"</span><span class="p">],</span> <span class="s2">"types"</span><span class="p">:</span> <span class="n">types</span><span class="p">,</span> <span class="s2">"stats"</span><span class="p">:</span> <span class="n">stats</span><span class="p">})</span>
-
-
-<span class="n">get_pokemon_tool</span> <span class="o">=</span> <span class="n">SimpleFunctionTool</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">get_pokemon</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="err">!</span><span class="n">uv</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">pymupdf4llm</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-3">import json
-import urllib.error
-import urllib.request
-
-from llm_agents_from_scratch.tools.simple_function import SimpleFunctionTool
-
-
-def get_pokemon(name: str) -&gt; str:
-    """Look up a Pokémon by name and return its types and base stats."""
-    url = f"https://pokeapi.co/api/v2/pokemon/{name.lower().strip()}"
-    req = urllib.request.Request(
-        url,
-        headers={"User-Agent": "llm-agents-from-scratch/1.0"},
-    )
-    try:
-        with urllib.request.urlopen(req) as resp:
-            data = json.loads(resp.read())
-    except urllib.error.HTTPError as e:
-        if e.code == 404:  # noqa: PLR2004
-            raise ValueError(
-                f"Pokémon '{name}' not found. "
-                "Check the spelling and try again.",
-            ) from e
-        raise
-    types = [t["type"]["name"] for t in data["types"]]
-    stats = {s["stat"]["name"]: s["base_stat"] for s in data["stats"]}
-    return json.dumps({"name": data["name"], "types": types, "stats": stats})
-
-
-get_pokemon_tool = SimpleFunctionTool(func=get_pokemon)</div>
+<div class="clipboard-copy-txt" id="cell-3">!uv pip install pymupdf4llm</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Audited <span class="ansi-bold">1 package</span> in 0.66ms
+</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=10185d26023b46108eb7d9f57d49d2b3">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="example-1-comparing-speed">Example 1 — Comparing Speed<a class="anchor-link" href="#example-1-comparing-speed">¶</a></h2><p>The agent needs to look up both Pokémon before it can answer, making two sequential tool calls.</p>
+<h2 id="fetching-the-paper">Fetching the Paper<a class="anchor-link" href="#fetching-the-paper">¶</a></h2><p>We download the first three pages of the ReAct paper directly from arXiv.
+These pages cover the title, authors, abstract, and opening sections —
+enough context for the LLM to fill in all extraction fields.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=40cbc200-f4ba-48c7-88e3-35a398fa29cb">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-4">
@@ -3706,29 +3747,75 @@ get_pokemon_tool = SimpleFunctionTool(func=get_pokemon)</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_console_logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pymupdf4llm</span>
 
-<span class="n">enable_console_logging</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+<span class="n">PDF_URL</span> <span class="o">=</span> <span class="s2">"https://arxiv.org/pdf/2210.03629"</span>
+<span class="n">PDF_PAGES</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>  <span class="c1"># title, abstract, intro</span>
+
+<span class="n">req</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span>
+    <span class="n">PDF_URL</span><span class="p">,</span>
+    <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">"User-Agent"</span><span class="p">:</span> <span class="s2">"llm-agents-from-scratch/1.0"</span><span class="p">},</span>
+<span class="p">)</span>
+<span class="k">with</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">req</span><span class="p">)</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
+    <span class="n">pdf_bytes</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Downloaded </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">pdf_bytes</span><span class="p">)</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> bytes"</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-4">import logging
+<div class="clipboard-copy-txt" id="cell-4">import tempfile
+from pathlib import Path
 
-from llm_agents_from_scratch.logger import enable_console_logging
+import pymupdf4llm
 
-enable_console_logging(logging.INFO)</div>
+PDF_URL = "https://arxiv.org/pdf/2210.03629"
+PDF_PAGES = [0, 1, 2]  # title, abstract, intro
+
+req = urllib.request.Request(
+    PDF_URL,
+    headers={"User-Agent": "llm-agents-from-scratch/1.0"},
+)
+with urllib.request.urlopen(req) as resp:
+    pdf_bytes = resp.read()
+
+print(f"Downloaded {len(pdf_bytes):,} bytes")</div>
 </div>
 </div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Downloaded 633,805 bytes
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="parsing-pdf-to-markdown">Parsing PDF to Markdown<a class="anchor-link" href="#parsing-pdf-to-markdown">¶</a></h2>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=8763a12b2bbd4a93a75aff182afb95dc">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-5">
@@ -3741,35 +3828,37 @@ enable_console_logging(logging.INFO)</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMAgent</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">Task</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span>
+    <span class="n">suffix</span><span class="o">=</span><span class="s2">".pdf"</span><span class="p">,</span>
+    <span class="n">delete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="k">as</span> <span class="n">tmp</span><span class="p">:</span>
+    <span class="n">tmp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">pdf_bytes</span><span class="p">)</span>
+    <span class="n">tmp_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
-<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">,</span> <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">agent</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">get_pokemon_tool</span><span class="p">])</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">md_text</span> <span class="o">=</span> <span class="n">pymupdf4llm</span><span class="o">.</span><span class="n">to_markdown</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">tmp_path</span><span class="p">),</span> <span class="n">pages</span><span class="o">=</span><span class="n">PDF_PAGES</span><span class="p">)</span>
+<span class="k">finally</span><span class="p">:</span>
+    <span class="n">tmp_path</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">missing_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="n">task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span>
-    <span class="n">instruction</span><span class="o">=</span><span class="p">(</span>
-        <span class="s2">"Which Pokémon has higher base speed: Pikachu or Gengar? "</span>
-        <span class="s2">"Use the get_pokemon tool for each — do not rely on prior knowledge."</span>
-    <span class="p">),</span>
-<span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">agent</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Extracted </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">md_text</span><span class="p">)</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> characters of markdown"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"--- preview (first 500 chars) ---"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">md_text</span><span class="p">[:</span><span class="mi">500</span><span class="p">])</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-5">from llm_agents_from_scratch import LLMAgent
-from llm_agents_from_scratch.data_structures import Task
-from llm_agents_from_scratch.llms import OllamaLLM
+<div class="clipboard-copy-txt" id="cell-5">with tempfile.NamedTemporaryFile(
+    suffix=".pdf",
+    delete=False,
+) as tmp:
+    tmp.write(pdf_bytes)
+    tmp_path = Path(tmp.name)
 
-llm = OllamaLLM(model="qwen3:14b", think=False)
-agent = LLMAgent(llm=llm, tools=[get_pokemon_tool])
+try:
+    md_text = pymupdf4llm.to_markdown(str(tmp_path), pages=PDF_PAGES)
+finally:
+    tmp_path.unlink(missing_ok=True)
 
-task = Task(
-    instruction=(
-        "Which Pokémon has higher base speed: Pikachu or Gengar? "
-        "Use the get_pokemon tool for each — do not rely on prior knowledge."
-    ),
-)
-result = await agent.run(task)</div>
+print(f"Extracted {len(md_text):,} characters of markdown")
+print("--- preview (first 500 chars) ---")
+print(md_text[:500])</div>
 </div>
 </div>
 </div>
@@ -3781,31 +3870,51 @@ result = await agent.run(task)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: Which Pokémon has higher base speed: Pikachu or Gengar? Use the get_pokemon tool for each — do not rely on prior knowledge.
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Which Pokémon has higher base speed: Pikachu or Gengar? Use the get_pokemon tool for each — do not rely on prior knowledge.
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to call the get_pokemon tool for Pikachu and Gengar to retrieve their base speed stats.
-INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the get_pokemon tool for Pikachu and Gengar to retrieve their base speed stats.
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the get_pokemon tool for Pikachu and Gengar to retrieve their base speed stats.
-INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: get_pokemon
-INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: {"name": "pikachu", "types": ["electric"], "stats": {"hp": 35, "attack": 55, "defense": 40, "special-attack": 50, "special-def...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: get_pokemon
-INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: {"name": "gengar", "types": ["ghost", "poison"], "stats": {"hp": 60, "attack": 65, "defense": 60, "special-attack": 130, "spec...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: Pikachu has a base speed of 90, while Gengar has a base speed of 110. Therefore, Gengar has a higher base speed.
-INFO (llm_agents_fs.TaskHandler) :      No new step required.
-INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: Pikachu has a base speed of 90, while Gengar has a base speed of 110. Therefore, Gengar has a higher base speed.
+<pre>Extracted 14,957 characters of markdown
+--- preview (first 500 chars) ---
+Published as a conference paper at ICLR 2023 
+
+# REACT: SYNERGIZING REASONING AND ACTING IN LANGUAGE MODELS 
+
+Shunyu Yao _[∗]_[*,1] , Jeffrey Zhao[2] , Dian Yu[2] , Nan Du[2] , Izhak Shafran[2] , Karthik Narasimhan[1] , Yuan Cao[2] 
+
+1Department of Computer Science, Princeton University 
+
+2Google Research, Brain team 
+
+1{shunyuy,karthikn}@princeton.edu 
+
+2{jeffreyzhao,dianyu,dunan,izhak,yuancao}@google.com 
+
+## ABSTRACT 
+
+While large language models (LLMs) have demonstrated impressive performanc
 </pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=7623eae2785240b9bd12b16a66d81610">
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="defining-the-extraction-model">Defining the Extraction Model<a class="anchor-link" href="#defining-the-extraction-model">¶</a></h2><p>We define a Pydantic model that captures the key metadata fields we want
+to pull from the paper. The LLM will populate every field from the markdown
+text in a single <code>structured_output()</code> call.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
@@ -3818,45 +3927,88 @@ INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: Pikachu has a base spe
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">PaperSummary</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Structured metadata extracted from a research paper."""</span>
+
+    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">"Full title of the paper."</span><span class="p">)</span>
+    <span class="n">authors</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"List of author names as they appear on the paper."</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">year</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"Year the paper was published or submitted."</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">abstract</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"The paper's abstract, faithfully reproduced."</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">key_contributions</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">"Three to five concise bullet points summarising "</span>
+            <span class="s2">"the paper's main contributions."</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">primary_topic</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">"One short phrase describing the paper's primary research topic "</span>
+            <span class="s2">"(e.g. 'LLM reasoning', 'tool use', 'multi-agent systems')."</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-6">print(result)</div>
+<div class="clipboard-copy-txt" id="cell-6">from pydantic import BaseModel, Field
+
+
+class PaperSummary(BaseModel):
+    """Structured metadata extracted from a research paper."""
+
+    title: str = Field(description="Full title of the paper.")
+    authors: list[str] = Field(
+        description="List of author names as they appear on the paper.",
+    )
+    year: int = Field(
+        description="Year the paper was published or submitted.",
+    )
+    abstract: str = Field(
+        description="The paper's abstract, faithfully reproduced.",
+    )
+    key_contributions: list[str] = Field(
+        description=(
+            "Three to five concise bullet points summarising "
+            "the paper's main contributions."
+        ),
+    )
+    primary_topic: str = Field(
+        description=(
+            "One short phrase describing the paper's primary research topic "
+            "(e.g. 'LLM reasoning', 'tool use', 'multi-agent systems')."
+        ),
+    )</div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Pikachu has a base speed of 90, while Gengar has a base speed of 110. Therefore, Gengar has a higher base speed.
-</pre>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7cdc8c89c7104fffa095e18ddfef8986">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="example-2-comparing-attack-and-defense">Example 2 — Comparing Attack and Defense<a class="anchor-link" href="#example-2-comparing-attack-and-defense">¶</a></h2><p>A second comparison task to reinforce the chaining pattern — this time across two different stats.</p>
+<h2 id="extracting-structured-data">Extracting Structured Data<a class="anchor-link" href="#extracting-structured-data">¶</a></h2><p>We pass the markdown text as the prompt and <code>PaperSummary</code> as the target
+model. <code>structured_output()</code> returns a fully validated <code>PaperSummary</code>
+instance — no parsing or post-processing needed.</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=b118ea5561624da68c537baed56e602f">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-7">
@@ -3869,29 +4021,31 @@ INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: Pikachu has a base spe
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">,</span> <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">agent</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">get_pokemon_tool</span><span class="p">])</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms.ollama</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
 
-<span class="n">task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span>
-    <span class="n">instruction</span><span class="o">=</span><span class="p">(</span>
-        <span class="s2">"Compare Bulbasaur and Charmander. "</span>
-        <span class="s2">"Which has higher attack and which has higher defense? "</span>
-        <span class="s2">"Use the get_pokemon tool for each — do not rely on prior knowledge."</span>
-    <span class="p">),</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">,</span> <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">prompt</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">"Extract structured metadata from the following research paper.</span><span class="se">\n\n</span><span class="s2">"</span>
+    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">md_text</span><span class="si">}</span><span class="s2">"</span>
 <span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">agent</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-7">llm = OllamaLLM(model="qwen3:14b", think=False)
-agent = LLMAgent(llm=llm, tools=[get_pokemon_tool])
 
-task = Task(
-    instruction=(
-        "Compare Bulbasaur and Charmander. "
-        "Which has higher attack and which has higher defense? "
-        "Use the get_pokemon tool for each — do not rely on prior knowledge."
-    ),
+<span class="n">summary</span> <span class="o">=</span> <span class="k">await</span> <span class="n">llm</span><span class="o">.</span><span class="n">structured_output</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span> <span class="n">mdl</span><span class="o">=</span><span class="n">PaperSummary</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">summary</span><span class="p">),</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">summary</span><span class="o">.</span><span class="n">model_dump</span><span class="p">())</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-7">from llm_agents_from_scratch.llms.ollama import OllamaLLM
+
+llm = OllamaLLM(model="qwen3:14b", think=False)
+
+prompt = (
+    "Extract structured metadata from the following research paper.\n\n"
+    f"{md_text}"
 )
-result = await agent.run(task)</div>
+
+summary = await llm.structured_output(prompt=prompt, mdl=PaperSummary)
+print(type(summary), "\n")
+print(summary.model_dump())</div>
 </div>
 </div>
 </div>
@@ -3903,35 +4057,33 @@ result = await agent.run(task)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: Compare Bulbasaur and Charmander. Which has higher attack and which has higher defense? Use the get_pokemon tool for each — do not re...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Compare Bulbasaur and Charmander. Which has higher attack and which has higher defense? Use the get_pokemon tool for each — do not...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to call the get_pokemon tool for Bulbasaur and Charmander to retrieve their base stats.
-INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the get_pokemon tool for Bulbasaur and Charmander to retrieve their base stats.
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the get_pokemon tool for Bulbasaur and Charmander to retrieve their base stats.
-INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: get_pokemon
-INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: {"name": "bulbasaur", "types": ["grass", "poison"], "stats": {"hp": 45, "attack": 49, "defense": 49, "special-attack": 65, "sp...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: get_pokemon
-INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: {"name": "charmander", "types": ["fire"], "stats": {"hp": 39, "attack": 52, "defense": 43, "special-attack": 60, "special-defe...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I have retrieved the base stats for both Bulbasaur and Charmander. Let me compare their attack and defense stats.
+<pre>&lt;class '__main__.PaperSummary'&gt; 
 
-- Bulbasaur's attack...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      No new step required.
-INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: I have retrieved the base stats for both Bulbasaur and Charmander. Let me compare their attack and defense stats.
-
-- Bulbasaur's att...[TRUNCATED]
+{'title': 'REACT: SYNERGIZING REASONING AND ACTING IN LANGUAGE MODELS', 'authors': ['Shunyu Yao', 'Jeffrey Zhao', 'Dian Yu', 'Nan Du', 'Izhak Shafran', 'Karthik Narasimhan', 'Yuan Cao'], 'year': 2023, 'abstract': 'While large language models (LLMs) have demonstrated impressive performance across tasks in language understanding and interactive decision making, their abilities for reasoning (e.g. chain-of-thought prompting) and acting (e.g. action plan generation) have primarily been studied as separate topics. In this paper, we explore the use of LLMs to generate both verbal reasoning traces and actions pertaining to a task in an interleaved manner, which allows the model to perform dynamic reasoning to create, maintain, and adjust high-level plans for acting while also interacting with external environments to incorporate additional information into reasoning. We conduct empirical evaluations of ReAct and state-of-the-art baselines on four diverse benchmarks: HotPotQA, Fever, ALFWorld, and WebShop. ReAct outperforms existing methods in few-shot learning setups and demonstrates benefits in interpretability, trustworthiness, and diagnosability.', 'key_contributions': ['Introduce ReAct, a novel prompt-based paradigm to synergize reasoning and acting in language models for general task solving.', 'Perform extensive experiments across diverse benchmarks to showcase the advantage of ReAct in a few-shot learning setup over prior approaches that perform either reasoning or action generation in isolation.', 'Present systematic ablations and analysis to understand the importance of acting in reasoning tasks, and reasoning in interactive tasks.', 'Analyze the limitations of ReAct under the prompting setup and perform initial finetuning experiments showing the potential of ReAct to improve with additional training data.'], 'primary_topic': 'Synergizing reasoning and acting in language models for general task solving using the ReAct paradigm.'}
 </pre>
 </div>
 </div>
 </div>
 </div>
 </div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="result">Result<a class="anchor-link" href="#result">¶</a></h2>
+</div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=938c804e27f84196a10c8828c723f798">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-8">
@@ -3944,9 +4096,29 @@ INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: I have retrieved the b
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Title:          </span><span class="si">{</span><span class="n">summary</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Year:           </span><span class="si">{</span><span class="n">summary</span><span class="o">.</span><span class="n">year</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Authors:        </span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">summary</span><span class="o">.</span><span class="n">authors</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Primary topic:  </span><span class="si">{</span><span class="n">summary</span><span class="o">.</span><span class="n">primary_topic</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Abstract:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">summary</span><span class="o">.</span><span class="n">abstract</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Key contributions:"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">summary</span><span class="o">.</span><span class="n">key_contributions</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  • </span><span class="si">{</span><span class="n">point</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-8">print(result)</div>
+<div class="clipboard-copy-txt" id="cell-8">print(f"Title:          {summary.title}")
+print(f"Year:           {summary.year}")
+print(f"Authors:        {', '.join(summary.authors)}")
+print(f"Primary topic:  {summary.primary_topic}")
+print()
+print("Abstract:")
+print(summary.abstract)
+print()
+print("Key contributions:")
+for point in summary.key_contributions:
+    print(f"  • {point}")</div>
 </div>
 </div>
 </div>
@@ -3958,12 +4130,19 @@ INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: I have retrieved the b
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>I have retrieved the base stats for both Bulbasaur and Charmander. Let me compare their attack and defense stats.
+<pre>Title:          REACT: SYNERGIZING REASONING AND ACTING IN LANGUAGE MODELS
+Year:           2023
+Authors:        Shunyu Yao, Jeffrey Zhao, Dian Yu, Nan Du, Izhak Shafran, Karthik Narasimhan, Yuan Cao
+Primary topic:  Synergizing reasoning and acting in language models for general task solving using the ReAct paradigm.
 
-- Bulbasaur's attack is 49 and defense is 49.
-- Charmander's attack is 52 and defense is 43.
+Abstract:
+While large language models (LLMs) have demonstrated impressive performance across tasks in language understanding and interactive decision making, their abilities for reasoning (e.g. chain-of-thought prompting) and acting (e.g. action plan generation) have primarily been studied as separate topics. In this paper, we explore the use of LLMs to generate both verbal reasoning traces and actions pertaining to a task in an interleaved manner, which allows the model to perform dynamic reasoning to create, maintain, and adjust high-level plans for acting while also interacting with external environments to incorporate additional information into reasoning. We conduct empirical evaluations of ReAct and state-of-the-art baselines on four diverse benchmarks: HotPotQA, Fever, ALFWorld, and WebShop. ReAct outperforms existing methods in few-shot learning setups and demonstrates benefits in interpretability, trustworthiness, and diagnosability.
 
-From this, I can conclude that Charmander has a higher attack, while Bulbasaur has a higher defense.
+Key contributions:
+  • Introduce ReAct, a novel prompt-based paradigm to synergize reasoning and acting in language models for general task solving.
+  • Perform extensive experiments across diverse benchmarks to showcase the advantage of ReAct in a few-shot learning setup over prior approaches that perform either reasoning or action generation in isolation.
+  • Present systematic ablations and analysis to understand the importance of acting in reasoning tasks, and reasoning in interactive tasks.
+  • Analyze the limitations of ReAct under the prompting setup and perform initial finetuning experiments showing the potential of ReAct to improve with additional training data.
 </pre>
 </div>
 </div>
@@ -4015,7 +4194,7 @@ From this, I can conclude that Charmander has a higher attack, while Bulbasaur h
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../pokemon_error_handling/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Handling Tool Errors Gracefully — PokéAPI">
+          <a href="../multi_turn_chat/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Multi-Turn Trivia Chat">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -4025,20 +4204,20 @@ From this, I can conclude that Charmander has a higher attack, while Bulbasaur h
                 Previous
               </span>
               <div class="md-ellipsis">
-                Handling Tool Errors Gracefully — PokéAPI
+                Multi-Turn Trivia Chat
               </div>
             </div>
           </a>
         
         
           
-          <a href="../../ch05/github_mcp/" class="md-footer__link md-footer__link--next" aria-label="Next: GitHub MCP Example">
+          <a href="../../ch04/pokemon_error_handling/" class="md-footer__link md-footer__link--next" aria-label="Next: Handling Tool Errors Gracefully — PokéAPI">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                GitHub MCP Example
+                Handling Tool Errors Gracefully — PokéAPI
               </div>
             </div>
             <div class="md-footer__button md-icon">

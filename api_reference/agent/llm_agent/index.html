@@ -3368,9 +3368,7 @@ the LLM with, represented as a dict.</p>
 <span class="normal"><a href="#__codelineno-0-569">569</a></span>
 <span class="normal"><a href="#__codelineno-0-570">570</a></span>
 <span class="normal"><a href="#__codelineno-0-571">571</a></span>
-<span class="normal"><a href="#__codelineno-0-572">572</a></span>
-<span class="normal"><a href="#__codelineno-0-573">573</a></span>
-<span class="normal"><a href="#__codelineno-0-574">574</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="k">class</span><span class="w"> </span><span class="nc">LLMAgent</span><span class="p">:</span>
+<span class="normal"><a href="#__codelineno-0-572">572</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="k">class</span><span class="w"> </span><span class="nc">LLMAgent</span><span class="p">:</span>
 </span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;A simple LLM Agent Class.</span>
 </span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a>
 </span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="sd">    Attributes:</span>
@@ -3533,12 +3531,12 @@ the LLM with, represented as a dict.</p>
 </span><span id="__span-0-198"><a id="__codelineno-0-198" name="__codelineno-0-198"></a>                <span class="n">skills</span><span class="o">=</span><span class="n">entries</span><span class="p">,</span>
 </span><span id="__span-0-199"><a id="__codelineno-0-199" name="__codelineno-0-199"></a>            <span class="p">)</span>
 </span><span id="__span-0-200"><a id="__codelineno-0-200" name="__codelineno-0-200"></a>
-</span><span id="__span-0-201"><a id="__codelineno-0-201" name="__codelineno-0-201"></a>        <span class="k">def</span><span class="w"> </span><span class="nf">_rollout_contribution_from_single_run_step</span><span class="p">(</span>
+</span><span id="__span-0-201"><a id="__codelineno-0-201" name="__codelineno-0-201"></a>        <span class="k">def</span><span class="w"> </span><span class="nf">_format_step_for_rollout</span><span class="p">(</span>
 </span><span id="__span-0-202"><a id="__codelineno-0-202" name="__codelineno-0-202"></a>            <span class="bp">self</span><span class="p">,</span>
 </span><span id="__span-0-203"><a id="__codelineno-0-203" name="__codelineno-0-203"></a>            <span class="n">chat_history</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">ChatMessage</span><span class="p">],</span>
 </span><span id="__span-0-204"><a id="__codelineno-0-204" name="__codelineno-0-204"></a>        <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="__span-0-205"><a id="__codelineno-0-205" name="__codelineno-0-205"></a><span class="w">            </span><span class="sd">&quot;&quot;&quot;Update rollout after a run_step execution.&quot;&quot;&quot;</span>
-</span><span id="__span-0-206"><a id="__codelineno-0-206" name="__codelineno-0-206"></a>            <span class="n">rollout_contributions</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;=== Task Step Start ===&quot;</span><span class="p">]</span>
+</span><span id="__span-0-205"><a id="__codelineno-0-205" name="__codelineno-0-205"></a><span class="w">            </span><span class="sd">&quot;&quot;&quot;Format a run_step&#39;s chat history as a rollout entry.&quot;&quot;&quot;</span>
+</span><span id="__span-0-206"><a id="__codelineno-0-206" name="__codelineno-0-206"></a>            <span class="n">rollout_lines</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;=== Task Step Start ===&quot;</span><span class="p">]</span>
 </span><span id="__span-0-207"><a id="__codelineno-0-207" name="__codelineno-0-207"></a>            <span class="k">for</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">chat_history</span><span class="p">:</span>
 </span><span id="__span-0-208"><a id="__codelineno-0-208" name="__codelineno-0-208"></a>                <span class="c1"># don&#39;t include system messages in rollout</span>
 </span><span id="__span-0-209"><a id="__codelineno-0-209" name="__codelineno-0-209"></a>                <span class="n">content</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">content</span>
@@ -3552,7 +3550,7 @@ the LLM with, represented as a dict.</p>
 </span><span id="__span-0-217"><a id="__codelineno-0-217" name="__codelineno-0-217"></a>                    <span class="c1"># we&#39;ll simplify to just LLM agent having a monologue</span>
 </span><span id="__span-0-218"><a id="__codelineno-0-218" name="__codelineno-0-218"></a>                    <span class="n">role</span> <span class="o">=</span> <span class="n">ChatRole</span><span class="o">.</span><span class="n">ASSISTANT</span>
 </span><span id="__span-0-219"><a id="__codelineno-0-219" name="__codelineno-0-219"></a>                    <span class="n">content</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm_agent</span><span class="o">.</span><span class="n">templates</span><span class="p">[</span>
-</span><span id="__span-0-220"><a id="__codelineno-0-220" name="__codelineno-0-220"></a>                        <span class="s2">&quot;rollout_contribution_content_instruction&quot;</span>
+</span><span id="__span-0-220"><a id="__codelineno-0-220" name="__codelineno-0-220"></a>                        <span class="s2">&quot;step_rollout_content_instruction&quot;</span>
 </span><span id="__span-0-221"><a id="__codelineno-0-221" name="__codelineno-0-221"></a>                    <span class="p">]</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
 </span><span id="__span-0-222"><a id="__codelineno-0-222" name="__codelineno-0-222"></a>                        <span class="n">instruction</span><span class="o">=</span><span class="n">content</span><span class="p">,</span>
 </span><span id="__span-0-223"><a id="__codelineno-0-223" name="__codelineno-0-223"></a>                    <span class="p">)</span>
@@ -3565,14 +3563,14 @@ the LLM with, represented as a dict.</p>
 </span><span id="__span-0-230"><a id="__codelineno-0-230" name="__codelineno-0-230"></a>                        <span class="p">],</span>
 </span><span id="__span-0-231"><a id="__codelineno-0-231" name="__codelineno-0-231"></a>                    <span class="p">)</span>
 </span><span id="__span-0-232"><a id="__codelineno-0-232" name="__codelineno-0-232"></a>                    <span class="n">content</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm_agent</span><span class="o">.</span><span class="n">templates</span><span class="p">[</span>
-</span><span id="__span-0-233"><a id="__codelineno-0-233" name="__codelineno-0-233"></a>                        <span class="s2">&quot;rollout_contribution_content_tool_call_request&quot;</span>
+</span><span id="__span-0-233"><a id="__codelineno-0-233" name="__codelineno-0-233"></a>                        <span class="s2">&quot;step_rollout_content_tool_call_request&quot;</span>
 </span><span id="__span-0-234"><a id="__codelineno-0-234" name="__codelineno-0-234"></a>                    <span class="p">]</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
 </span><span id="__span-0-235"><a id="__codelineno-0-235" name="__codelineno-0-235"></a>                        <span class="n">called_tools</span><span class="o">=</span><span class="n">called_tools</span><span class="p">,</span>
 </span><span id="__span-0-236"><a id="__codelineno-0-236" name="__codelineno-0-236"></a>                    <span class="p">)</span>
 </span><span id="__span-0-237"><a id="__codelineno-0-237" name="__codelineno-0-237"></a>
-</span><span id="__span-0-238"><a id="__codelineno-0-238" name="__codelineno-0-238"></a>                <span class="n">rollout_contributions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+</span><span id="__span-0-238"><a id="__codelineno-0-238" name="__codelineno-0-238"></a>                <span class="n">rollout_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
 </span><span id="__span-0-239"><a id="__codelineno-0-239" name="__codelineno-0-239"></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">llm_agent</span><span class="o">.</span><span class="n">templates</span><span class="p">[</span>
-</span><span id="__span-0-240"><a id="__codelineno-0-240" name="__codelineno-0-240"></a>                        <span class="s2">&quot;rollout_contribution_from_chat_message&quot;</span>
+</span><span id="__span-0-240"><a id="__codelineno-0-240" name="__codelineno-0-240"></a>                        <span class="s2">&quot;step_rollout_chat_message&quot;</span>
 </span><span id="__span-0-241"><a id="__codelineno-0-241" name="__codelineno-0-241"></a>                    <span class="p">]</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
 </span><span id="__span-0-242"><a id="__codelineno-0-242" name="__codelineno-0-242"></a>                        <span class="n">actor</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;🔧 &quot;</span> <span class="k">if</span> <span class="n">role</span> <span class="o">==</span> <span class="n">ChatRole</span><span class="o">.</span><span class="n">TOOL</span> <span class="k">else</span> <span class="s2">&quot;💬 &quot;</span><span class="p">)</span>
 </span><span id="__span-0-243"><a id="__codelineno-0-243" name="__codelineno-0-243"></a>                        <span class="o">+</span> <span class="n">role</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
@@ -3580,11 +3578,11 @@ the LLM with, represented as a dict.</p>
 </span><span id="__span-0-245"><a id="__codelineno-0-245" name="__codelineno-0-245"></a>                    <span class="p">),</span>
 </span><span id="__span-0-246"><a id="__codelineno-0-246" name="__codelineno-0-246"></a>                <span class="p">)</span>
 </span><span id="__span-0-247"><a id="__codelineno-0-247" name="__codelineno-0-247"></a>
-</span><span id="__span-0-248"><a id="__codelineno-0-248" name="__codelineno-0-248"></a>            <span class="n">rollout_contributions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+</span><span id="__span-0-248"><a id="__codelineno-0-248" name="__codelineno-0-248"></a>            <span class="n">rollout_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
 </span><span id="__span-0-249"><a id="__codelineno-0-249" name="__codelineno-0-249"></a>                <span class="s2">&quot;=== Task Step End ===&quot;</span><span class="p">,</span>
 </span><span id="__span-0-250"><a id="__codelineno-0-250" name="__codelineno-0-250"></a>            <span class="p">)</span>
 </span><span id="__span-0-251"><a id="__codelineno-0-251" name="__codelineno-0-251"></a>
-</span><span id="__span-0-252"><a id="__codelineno-0-252" name="__codelineno-0-252"></a>            <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rollout_contributions</span><span class="p">)</span>
+</span><span id="__span-0-252"><a id="__codelineno-0-252" name="__codelineno-0-252"></a>            <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rollout_lines</span><span class="p">)</span>
 </span><span id="__span-0-253"><a id="__codelineno-0-253" name="__codelineno-0-253"></a>
 </span><span id="__span-0-254"><a id="__codelineno-0-254" name="__codelineno-0-254"></a>        <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_next_step</span><span class="p">(</span>
 </span><span id="__span-0-255"><a id="__codelineno-0-255" name="__codelineno-0-255"></a>            <span class="bp">self</span><span class="p">,</span>
@@ -3786,127 +3784,125 @@ the LLM with, represented as a dict.</p>
 </span><span id="__span-0-451"><a id="__codelineno-0-451" name="__codelineno-0-451"></a>                <span class="p">]</span>
 </span><span id="__span-0-452"><a id="__codelineno-0-452" name="__codelineno-0-452"></a>
 </span><span id="__span-0-453"><a id="__codelineno-0-453" name="__codelineno-0-453"></a>            <span class="c1"># augment rollout from this turn</span>
-</span><span id="__span-0-454"><a id="__codelineno-0-454" name="__codelineno-0-454"></a>            <span class="n">rollout_contribution</span> <span class="o">=</span> <span class="p">(</span>
-</span><span id="__span-0-455"><a id="__codelineno-0-455" name="__codelineno-0-455"></a>                <span class="bp">self</span><span class="o">.</span><span class="n">_rollout_contribution_from_single_run_step</span><span class="p">(</span>
-</span><span id="__span-0-456"><a id="__codelineno-0-456" name="__codelineno-0-456"></a>                    <span class="n">chat_history</span><span class="o">=</span><span class="n">chat_history</span><span class="p">,</span>
-</span><span id="__span-0-457"><a id="__codelineno-0-457" name="__codelineno-0-457"></a>                <span class="p">)</span>
-</span><span id="__span-0-458"><a id="__codelineno-0-458" name="__codelineno-0-458"></a>            <span class="p">)</span>
-</span><span id="__span-0-459"><a id="__codelineno-0-459" name="__codelineno-0-459"></a>            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rollout</span><span class="p">:</span>
-</span><span id="__span-0-460"><a id="__codelineno-0-460" name="__codelineno-0-460"></a>                <span class="bp">self</span><span class="o">.</span><span class="n">rollout</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">rollout_contribution</span>
-</span><span id="__span-0-461"><a id="__codelineno-0-461" name="__codelineno-0-461"></a>
-</span><span id="__span-0-462"><a id="__codelineno-0-462" name="__codelineno-0-462"></a>            <span class="k">else</span><span class="p">:</span>
-</span><span id="__span-0-463"><a id="__codelineno-0-463" name="__codelineno-0-463"></a>                <span class="bp">self</span><span class="o">.</span><span class="n">rollout</span> <span class="o">=</span> <span class="n">rollout_contribution</span>
-</span><span id="__span-0-464"><a id="__codelineno-0-464" name="__codelineno-0-464"></a>
-</span><span id="__span-0-465"><a id="__codelineno-0-465" name="__codelineno-0-465"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-</span><span id="__span-0-466"><a id="__codelineno-0-466" name="__codelineno-0-466"></a>                <span class="sa">f</span><span class="s2">&quot;✅ Step Result: </span><span class="si">{</span><span class="n">final_content</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-</span><span id="__span-0-467"><a id="__codelineno-0-467" name="__codelineno-0-467"></a>            <span class="p">)</span>
-</span><span id="__span-0-468"><a id="__codelineno-0-468" name="__codelineno-0-468"></a>            <span class="k">return</span> <span class="n">TaskStepResult</span><span class="p">(</span>
-</span><span id="__span-0-469"><a id="__codelineno-0-469" name="__codelineno-0-469"></a>                <span class="n">task_step_id</span><span class="o">=</span><span class="n">step</span><span class="o">.</span><span class="n">id_</span><span class="p">,</span>
-</span><span id="__span-0-470"><a id="__codelineno-0-470" name="__codelineno-0-470"></a>                <span class="n">content</span><span class="o">=</span><span class="n">final_content</span><span class="p">,</span>
-</span><span id="__span-0-471"><a id="__codelineno-0-471" name="__codelineno-0-471"></a>            <span class="p">)</span>
-</span><span id="__span-0-472"><a id="__codelineno-0-472" name="__codelineno-0-472"></a>
-</span><span id="__span-0-473"><a id="__codelineno-0-473" name="__codelineno-0-473"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span>
-</span><span id="__span-0-474"><a id="__codelineno-0-474" name="__codelineno-0-474"></a>        <span class="bp">self</span><span class="p">,</span>
-</span><span id="__span-0-475"><a id="__codelineno-0-475" name="__codelineno-0-475"></a>        <span class="n">task</span><span class="p">:</span> <span class="n">Task</span><span class="p">,</span>
-</span><span id="__span-0-476"><a id="__codelineno-0-476" name="__codelineno-0-476"></a>        <span class="n">max_steps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-477"><a id="__codelineno-0-477" name="__codelineno-0-477"></a>        <span class="c1"># added in ch06</span>
-</span><span id="__span-0-478"><a id="__codelineno-0-478" name="__codelineno-0-478"></a>        <span class="n">skills_scopes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">SkillScope</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-479"><a id="__codelineno-0-479" name="__codelineno-0-479"></a>        <span class="n">explicit_only_skills</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-480"><a id="__codelineno-0-480" name="__codelineno-0-480"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TaskHandler</span><span class="p">:</span>
-</span><span id="__span-0-481"><a id="__codelineno-0-481" name="__codelineno-0-481"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Agent&#39;s processing loop for executing tasks.</span>
-</span><span id="__span-0-482"><a id="__codelineno-0-482" name="__codelineno-0-482"></a>
-</span><span id="__span-0-483"><a id="__codelineno-0-483" name="__codelineno-0-483"></a><span class="sd">        Args:</span>
-</span><span id="__span-0-484"><a id="__codelineno-0-484" name="__codelineno-0-484"></a><span class="sd">            task (Task): the Task to perform.</span>
-</span><span id="__span-0-485"><a id="__codelineno-0-485" name="__codelineno-0-485"></a><span class="sd">            max_steps (int | None): Maximum number of steps to run for task.</span>
-</span><span id="__span-0-486"><a id="__codelineno-0-486" name="__codelineno-0-486"></a><span class="sd">                Defaults to None.</span>
-</span><span id="__span-0-487"><a id="__codelineno-0-487" name="__codelineno-0-487"></a><span class="sd">            skills_scopes (list[SkillScope] | None): Scopes to scan for</span>
-</span><span id="__span-0-488"><a id="__codelineno-0-488" name="__codelineno-0-488"></a><span class="sd">                skills, in processing order (last wins on name collision).</span>
-</span><span id="__span-0-489"><a id="__codelineno-0-489" name="__codelineno-0-489"></a><span class="sd">                Defaults to ``[USER, PROJECT]``. Added in Chapter 6.</span>
-</span><span id="__span-0-490"><a id="__codelineno-0-490" name="__codelineno-0-490"></a><span class="sd">            explicit_only_skills (set[str] | None): Skill names to exclude</span>
-</span><span id="__span-0-491"><a id="__codelineno-0-491" name="__codelineno-0-491"></a><span class="sd">                from the model catalog for this run. They remain activatable</span>
-</span><span id="__span-0-492"><a id="__codelineno-0-492" name="__codelineno-0-492"></a><span class="sd">                via ``run_with_skill()``. Defaults to None. Added in</span>
-</span><span id="__span-0-493"><a id="__codelineno-0-493" name="__codelineno-0-493"></a><span class="sd">                Chapter 6.</span>
-</span><span id="__span-0-494"><a id="__codelineno-0-494" name="__codelineno-0-494"></a>
-</span><span id="__span-0-495"><a id="__codelineno-0-495" name="__codelineno-0-495"></a><span class="sd">        Returns:</span>
-</span><span id="__span-0-496"><a id="__codelineno-0-496" name="__codelineno-0-496"></a><span class="sd">            TaskHandler: the TaskHandler object responsible for task execution.</span>
-</span><span id="__span-0-497"><a id="__codelineno-0-497" name="__codelineno-0-497"></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="__span-0-498"><a id="__codelineno-0-498" name="__codelineno-0-498"></a>        <span class="n">task_handler</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">TaskHandler</span><span class="p">(</span>
-</span><span id="__span-0-499"><a id="__codelineno-0-499" name="__codelineno-0-499"></a>            <span class="n">llm_agent</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
-</span><span id="__span-0-500"><a id="__codelineno-0-500" name="__codelineno-0-500"></a>            <span class="n">task</span><span class="o">=</span><span class="n">task</span><span class="p">,</span>
-</span><span id="__span-0-501"><a id="__codelineno-0-501" name="__codelineno-0-501"></a>            <span class="n">skills_scopes</span><span class="o">=</span><span class="n">skills_scopes</span><span class="p">,</span>
-</span><span id="__span-0-502"><a id="__codelineno-0-502" name="__codelineno-0-502"></a>            <span class="n">explicit_only_skills</span><span class="o">=</span><span class="n">explicit_only_skills</span><span class="p">,</span>
-</span><span id="__span-0-503"><a id="__codelineno-0-503" name="__codelineno-0-503"></a>        <span class="p">)</span>
-</span><span id="__span-0-504"><a id="__codelineno-0-504" name="__codelineno-0-504"></a>
-</span><span id="__span-0-505"><a id="__codelineno-0-505" name="__codelineno-0-505"></a>        <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_process_loop</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-506"><a id="__codelineno-0-506" name="__codelineno-0-506"></a><span class="w">            </span><span class="sd">&quot;&quot;&quot;The processing loop for the task handler execute its task.</span>
-</span><span id="__span-0-507"><a id="__codelineno-0-507" name="__codelineno-0-507"></a>
-</span><span id="__span-0-508"><a id="__codelineno-0-508" name="__codelineno-0-508"></a><span class="sd">            Cycle between get_next_step and run_step, until the task_handler</span>
-</span><span id="__span-0-509"><a id="__codelineno-0-509" name="__codelineno-0-509"></a><span class="sd">            is marked as done, either through a set result or an exception being</span>
-</span><span id="__span-0-510"><a id="__codelineno-0-510" name="__codelineno-0-510"></a><span class="sd">            set.</span>
-</span><span id="__span-0-511"><a id="__codelineno-0-511" name="__codelineno-0-511"></a><span class="sd">            &quot;&quot;&quot;</span>
-</span><span id="__span-0-512"><a id="__codelineno-0-512" name="__codelineno-0-512"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🚀 Starting task: </span><span class="si">{</span><span class="n">task</span><span class="o">.</span><span class="n">instruction</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="__span-0-513"><a id="__codelineno-0-513" name="__codelineno-0-513"></a>            <span class="n">step_result</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="__span-0-514"><a id="__codelineno-0-514" name="__codelineno-0-514"></a>            <span class="k">while</span> <span class="ow">not</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">done</span><span class="p">():</span>
-</span><span id="__span-0-515"><a id="__codelineno-0-515" name="__codelineno-0-515"></a>                <span class="k">try</span><span class="p">:</span>
-</span><span id="__span-0-516"><a id="__codelineno-0-516" name="__codelineno-0-516"></a>                    <span class="k">if</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">step_counter</span> <span class="o">==</span> <span class="n">max_steps</span><span class="p">:</span>
-</span><span id="__span-0-517"><a id="__codelineno-0-517" name="__codelineno-0-517"></a>                        <span class="k">raise</span> <span class="n">MaxStepsReachedError</span><span class="p">(</span><span class="s2">&quot;Max steps reached.&quot;</span><span class="p">)</span>
+</span><span id="__span-0-454"><a id="__codelineno-0-454" name="__codelineno-0-454"></a>            <span class="n">formatted_step</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_step_for_rollout</span><span class="p">(</span>
+</span><span id="__span-0-455"><a id="__codelineno-0-455" name="__codelineno-0-455"></a>                <span class="n">chat_history</span><span class="o">=</span><span class="n">chat_history</span><span class="p">,</span>
+</span><span id="__span-0-456"><a id="__codelineno-0-456" name="__codelineno-0-456"></a>            <span class="p">)</span>
+</span><span id="__span-0-457"><a id="__codelineno-0-457" name="__codelineno-0-457"></a>            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rollout</span><span class="p">:</span>
+</span><span id="__span-0-458"><a id="__codelineno-0-458" name="__codelineno-0-458"></a>                <span class="bp">self</span><span class="o">.</span><span class="n">rollout</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">formatted_step</span>
+</span><span id="__span-0-459"><a id="__codelineno-0-459" name="__codelineno-0-459"></a>
+</span><span id="__span-0-460"><a id="__codelineno-0-460" name="__codelineno-0-460"></a>            <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-0-461"><a id="__codelineno-0-461" name="__codelineno-0-461"></a>                <span class="bp">self</span><span class="o">.</span><span class="n">rollout</span> <span class="o">=</span> <span class="n">formatted_step</span>
+</span><span id="__span-0-462"><a id="__codelineno-0-462" name="__codelineno-0-462"></a>
+</span><span id="__span-0-463"><a id="__codelineno-0-463" name="__codelineno-0-463"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+</span><span id="__span-0-464"><a id="__codelineno-0-464" name="__codelineno-0-464"></a>                <span class="sa">f</span><span class="s2">&quot;✅ Step Result: </span><span class="si">{</span><span class="n">final_content</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span id="__span-0-465"><a id="__codelineno-0-465" name="__codelineno-0-465"></a>            <span class="p">)</span>
+</span><span id="__span-0-466"><a id="__codelineno-0-466" name="__codelineno-0-466"></a>            <span class="k">return</span> <span class="n">TaskStepResult</span><span class="p">(</span>
+</span><span id="__span-0-467"><a id="__codelineno-0-467" name="__codelineno-0-467"></a>                <span class="n">task_step_id</span><span class="o">=</span><span class="n">step</span><span class="o">.</span><span class="n">id_</span><span class="p">,</span>
+</span><span id="__span-0-468"><a id="__codelineno-0-468" name="__codelineno-0-468"></a>                <span class="n">content</span><span class="o">=</span><span class="n">final_content</span><span class="p">,</span>
+</span><span id="__span-0-469"><a id="__codelineno-0-469" name="__codelineno-0-469"></a>            <span class="p">)</span>
+</span><span id="__span-0-470"><a id="__codelineno-0-470" name="__codelineno-0-470"></a>
+</span><span id="__span-0-471"><a id="__codelineno-0-471" name="__codelineno-0-471"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span>
+</span><span id="__span-0-472"><a id="__codelineno-0-472" name="__codelineno-0-472"></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-0-473"><a id="__codelineno-0-473" name="__codelineno-0-473"></a>        <span class="n">task</span><span class="p">:</span> <span class="n">Task</span><span class="p">,</span>
+</span><span id="__span-0-474"><a id="__codelineno-0-474" name="__codelineno-0-474"></a>        <span class="n">max_steps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-475"><a id="__codelineno-0-475" name="__codelineno-0-475"></a>        <span class="c1"># added in ch06</span>
+</span><span id="__span-0-476"><a id="__codelineno-0-476" name="__codelineno-0-476"></a>        <span class="n">skills_scopes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">SkillScope</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-477"><a id="__codelineno-0-477" name="__codelineno-0-477"></a>        <span class="n">explicit_only_skills</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-478"><a id="__codelineno-0-478" name="__codelineno-0-478"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TaskHandler</span><span class="p">:</span>
+</span><span id="__span-0-479"><a id="__codelineno-0-479" name="__codelineno-0-479"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Agent&#39;s processing loop for executing tasks.</span>
+</span><span id="__span-0-480"><a id="__codelineno-0-480" name="__codelineno-0-480"></a>
+</span><span id="__span-0-481"><a id="__codelineno-0-481" name="__codelineno-0-481"></a><span class="sd">        Args:</span>
+</span><span id="__span-0-482"><a id="__codelineno-0-482" name="__codelineno-0-482"></a><span class="sd">            task (Task): the Task to perform.</span>
+</span><span id="__span-0-483"><a id="__codelineno-0-483" name="__codelineno-0-483"></a><span class="sd">            max_steps (int | None): Maximum number of steps to run for task.</span>
+</span><span id="__span-0-484"><a id="__codelineno-0-484" name="__codelineno-0-484"></a><span class="sd">                Defaults to None.</span>
+</span><span id="__span-0-485"><a id="__codelineno-0-485" name="__codelineno-0-485"></a><span class="sd">            skills_scopes (list[SkillScope] | None): Scopes to scan for</span>
+</span><span id="__span-0-486"><a id="__codelineno-0-486" name="__codelineno-0-486"></a><span class="sd">                skills, in processing order (last wins on name collision).</span>
+</span><span id="__span-0-487"><a id="__codelineno-0-487" name="__codelineno-0-487"></a><span class="sd">                Defaults to ``[USER, PROJECT]``. Added in Chapter 6.</span>
+</span><span id="__span-0-488"><a id="__codelineno-0-488" name="__codelineno-0-488"></a><span class="sd">            explicit_only_skills (set[str] | None): Skill names to exclude</span>
+</span><span id="__span-0-489"><a id="__codelineno-0-489" name="__codelineno-0-489"></a><span class="sd">                from the model catalog for this run. They remain activatable</span>
+</span><span id="__span-0-490"><a id="__codelineno-0-490" name="__codelineno-0-490"></a><span class="sd">                via ``run_with_skill()``. Defaults to None. Added in</span>
+</span><span id="__span-0-491"><a id="__codelineno-0-491" name="__codelineno-0-491"></a><span class="sd">                Chapter 6.</span>
+</span><span id="__span-0-492"><a id="__codelineno-0-492" name="__codelineno-0-492"></a>
+</span><span id="__span-0-493"><a id="__codelineno-0-493" name="__codelineno-0-493"></a><span class="sd">        Returns:</span>
+</span><span id="__span-0-494"><a id="__codelineno-0-494" name="__codelineno-0-494"></a><span class="sd">            TaskHandler: the TaskHandler object responsible for task execution.</span>
+</span><span id="__span-0-495"><a id="__codelineno-0-495" name="__codelineno-0-495"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-496"><a id="__codelineno-0-496" name="__codelineno-0-496"></a>        <span class="n">task_handler</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">TaskHandler</span><span class="p">(</span>
+</span><span id="__span-0-497"><a id="__codelineno-0-497" name="__codelineno-0-497"></a>            <span class="n">llm_agent</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-0-498"><a id="__codelineno-0-498" name="__codelineno-0-498"></a>            <span class="n">task</span><span class="o">=</span><span class="n">task</span><span class="p">,</span>
+</span><span id="__span-0-499"><a id="__codelineno-0-499" name="__codelineno-0-499"></a>            <span class="n">skills_scopes</span><span class="o">=</span><span class="n">skills_scopes</span><span class="p">,</span>
+</span><span id="__span-0-500"><a id="__codelineno-0-500" name="__codelineno-0-500"></a>            <span class="n">explicit_only_skills</span><span class="o">=</span><span class="n">explicit_only_skills</span><span class="p">,</span>
+</span><span id="__span-0-501"><a id="__codelineno-0-501" name="__codelineno-0-501"></a>        <span class="p">)</span>
+</span><span id="__span-0-502"><a id="__codelineno-0-502" name="__codelineno-0-502"></a>
+</span><span id="__span-0-503"><a id="__codelineno-0-503" name="__codelineno-0-503"></a>        <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_process_loop</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-504"><a id="__codelineno-0-504" name="__codelineno-0-504"></a><span class="w">            </span><span class="sd">&quot;&quot;&quot;The processing loop for the task handler execute its task.</span>
+</span><span id="__span-0-505"><a id="__codelineno-0-505" name="__codelineno-0-505"></a>
+</span><span id="__span-0-506"><a id="__codelineno-0-506" name="__codelineno-0-506"></a><span class="sd">            Cycle between get_next_step and run_step, until the task_handler</span>
+</span><span id="__span-0-507"><a id="__codelineno-0-507" name="__codelineno-0-507"></a><span class="sd">            is marked as done, either through a set result or an exception being</span>
+</span><span id="__span-0-508"><a id="__codelineno-0-508" name="__codelineno-0-508"></a><span class="sd">            set.</span>
+</span><span id="__span-0-509"><a id="__codelineno-0-509" name="__codelineno-0-509"></a><span class="sd">            &quot;&quot;&quot;</span>
+</span><span id="__span-0-510"><a id="__codelineno-0-510" name="__codelineno-0-510"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🚀 Starting task: </span><span class="si">{</span><span class="n">task</span><span class="o">.</span><span class="n">instruction</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-0-511"><a id="__codelineno-0-511" name="__codelineno-0-511"></a>            <span class="n">step_result</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="__span-0-512"><a id="__codelineno-0-512" name="__codelineno-0-512"></a>            <span class="k">while</span> <span class="ow">not</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">done</span><span class="p">():</span>
+</span><span id="__span-0-513"><a id="__codelineno-0-513" name="__codelineno-0-513"></a>                <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-0-514"><a id="__codelineno-0-514" name="__codelineno-0-514"></a>                    <span class="k">if</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">step_counter</span> <span class="o">==</span> <span class="n">max_steps</span><span class="p">:</span>
+</span><span id="__span-0-515"><a id="__codelineno-0-515" name="__codelineno-0-515"></a>                        <span class="k">raise</span> <span class="n">MaxStepsReachedError</span><span class="p">(</span><span class="s2">&quot;Max steps reached.&quot;</span><span class="p">)</span>
+</span><span id="__span-0-516"><a id="__codelineno-0-516" name="__codelineno-0-516"></a>
+</span><span id="__span-0-517"><a id="__codelineno-0-517" name="__codelineno-0-517"></a>                    <span class="n">next_step</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">get_next_step</span><span class="p">(</span><span class="n">step_result</span><span class="p">)</span>
 </span><span id="__span-0-518"><a id="__codelineno-0-518" name="__codelineno-0-518"></a>
-</span><span id="__span-0-519"><a id="__codelineno-0-519" name="__codelineno-0-519"></a>                    <span class="n">next_step</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">get_next_step</span><span class="p">(</span><span class="n">step_result</span><span class="p">)</span>
-</span><span id="__span-0-520"><a id="__codelineno-0-520" name="__codelineno-0-520"></a>
-</span><span id="__span-0-521"><a id="__codelineno-0-521" name="__codelineno-0-521"></a>                    <span class="k">match</span> <span class="n">next_step</span><span class="p">:</span>
-</span><span id="__span-0-522"><a id="__codelineno-0-522" name="__codelineno-0-522"></a>                        <span class="k">case</span> <span class="n">TaskStep</span><span class="p">():</span>
-</span><span id="__span-0-523"><a id="__codelineno-0-523" name="__codelineno-0-523"></a>                            <span class="n">step_result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">run_step</span><span class="p">(</span>
-</span><span id="__span-0-524"><a id="__codelineno-0-524" name="__codelineno-0-524"></a>                                <span class="n">next_step</span><span class="p">,</span>
-</span><span id="__span-0-525"><a id="__codelineno-0-525" name="__codelineno-0-525"></a>                            <span class="p">)</span>
-</span><span id="__span-0-526"><a id="__codelineno-0-526" name="__codelineno-0-526"></a>                        <span class="k">case</span> <span class="n">TaskResult</span><span class="p">():</span>
-</span><span id="__span-0-527"><a id="__codelineno-0-527" name="__codelineno-0-527"></a>                            <span class="n">task_handler</span><span class="o">.</span><span class="n">set_result</span><span class="p">(</span><span class="n">next_step</span><span class="p">)</span>
-</span><span id="__span-0-528"><a id="__codelineno-0-528" name="__codelineno-0-528"></a>                            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-</span><span id="__span-0-529"><a id="__codelineno-0-529" name="__codelineno-0-529"></a>                                <span class="sa">f</span><span class="s2">&quot;🏁 Task completed: </span><span class="si">{</span><span class="n">next_step</span><span class="o">.</span><span class="n">content</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-</span><span id="__span-0-530"><a id="__codelineno-0-530" name="__codelineno-0-530"></a>                            <span class="p">)</span>
-</span><span id="__span-0-531"><a id="__codelineno-0-531" name="__codelineno-0-531"></a>
-</span><span id="__span-0-532"><a id="__codelineno-0-532" name="__codelineno-0-532"></a>                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span id="__span-0-533"><a id="__codelineno-0-533" name="__codelineno-0-533"></a>                    <span class="n">task_handler</span><span class="o">.</span><span class="n">set_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</span><span id="__span-0-519"><a id="__codelineno-0-519" name="__codelineno-0-519"></a>                    <span class="k">match</span> <span class="n">next_step</span><span class="p">:</span>
+</span><span id="__span-0-520"><a id="__codelineno-0-520" name="__codelineno-0-520"></a>                        <span class="k">case</span> <span class="n">TaskStep</span><span class="p">():</span>
+</span><span id="__span-0-521"><a id="__codelineno-0-521" name="__codelineno-0-521"></a>                            <span class="n">step_result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">run_step</span><span class="p">(</span>
+</span><span id="__span-0-522"><a id="__codelineno-0-522" name="__codelineno-0-522"></a>                                <span class="n">next_step</span><span class="p">,</span>
+</span><span id="__span-0-523"><a id="__codelineno-0-523" name="__codelineno-0-523"></a>                            <span class="p">)</span>
+</span><span id="__span-0-524"><a id="__codelineno-0-524" name="__codelineno-0-524"></a>                        <span class="k">case</span> <span class="n">TaskResult</span><span class="p">():</span>
+</span><span id="__span-0-525"><a id="__codelineno-0-525" name="__codelineno-0-525"></a>                            <span class="n">task_handler</span><span class="o">.</span><span class="n">set_result</span><span class="p">(</span><span class="n">next_step</span><span class="p">)</span>
+</span><span id="__span-0-526"><a id="__codelineno-0-526" name="__codelineno-0-526"></a>                            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+</span><span id="__span-0-527"><a id="__codelineno-0-527" name="__codelineno-0-527"></a>                                <span class="sa">f</span><span class="s2">&quot;🏁 Task completed: </span><span class="si">{</span><span class="n">next_step</span><span class="o">.</span><span class="n">content</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span id="__span-0-528"><a id="__codelineno-0-528" name="__codelineno-0-528"></a>                            <span class="p">)</span>
+</span><span id="__span-0-529"><a id="__codelineno-0-529" name="__codelineno-0-529"></a>
+</span><span id="__span-0-530"><a id="__codelineno-0-530" name="__codelineno-0-530"></a>                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="__span-0-531"><a id="__codelineno-0-531" name="__codelineno-0-531"></a>                    <span class="n">task_handler</span><span class="o">.</span><span class="n">set_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</span><span id="__span-0-532"><a id="__codelineno-0-532" name="__codelineno-0-532"></a>
+</span><span id="__span-0-533"><a id="__codelineno-0-533" name="__codelineno-0-533"></a>        <span class="n">task_handler</span><span class="o">.</span><span class="n">background_task</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">_process_loop</span><span class="p">())</span>
 </span><span id="__span-0-534"><a id="__codelineno-0-534" name="__codelineno-0-534"></a>
-</span><span id="__span-0-535"><a id="__codelineno-0-535" name="__codelineno-0-535"></a>        <span class="n">task_handler</span><span class="o">.</span><span class="n">background_task</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">_process_loop</span><span class="p">())</span>
+</span><span id="__span-0-535"><a id="__codelineno-0-535" name="__codelineno-0-535"></a>        <span class="k">return</span> <span class="n">task_handler</span>
 </span><span id="__span-0-536"><a id="__codelineno-0-536" name="__codelineno-0-536"></a>
-</span><span id="__span-0-537"><a id="__codelineno-0-537" name="__codelineno-0-537"></a>        <span class="k">return</span> <span class="n">task_handler</span>
-</span><span id="__span-0-538"><a id="__codelineno-0-538" name="__codelineno-0-538"></a>
-</span><span id="__span-0-539"><a id="__codelineno-0-539" name="__codelineno-0-539"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">run_with_skill</span><span class="p">(</span>
-</span><span id="__span-0-540"><a id="__codelineno-0-540" name="__codelineno-0-540"></a>        <span class="bp">self</span><span class="p">,</span>
-</span><span id="__span-0-541"><a id="__codelineno-0-541" name="__codelineno-0-541"></a>        <span class="n">skill_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-</span><span id="__span-0-542"><a id="__codelineno-0-542" name="__codelineno-0-542"></a>        <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-543"><a id="__codelineno-0-543" name="__codelineno-0-543"></a>        <span class="n">max_steps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-544"><a id="__codelineno-0-544" name="__codelineno-0-544"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TaskHandler</span><span class="p">:</span>
-</span><span id="__span-0-545"><a id="__codelineno-0-545" name="__codelineno-0-545"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;User-explicit skill activation: the programmatic slash command.</span>
-</span><span id="__span-0-546"><a id="__codelineno-0-546" name="__codelineno-0-546"></a>
-</span><span id="__span-0-547"><a id="__codelineno-0-547" name="__codelineno-0-547"></a><span class="sd">        Frames the task instruction to direct the model to activate the named</span>
-</span><span id="__span-0-548"><a id="__codelineno-0-548" name="__codelineno-0-548"></a><span class="sd">        skill as its first action, then runs the full agent loop. Relies on</span>
-</span><span id="__span-0-549"><a id="__codelineno-0-549" name="__codelineno-0-549"></a><span class="sd">        the model&#39;s tool-use ability to call ``use_skill`` — a fair assumption</span>
-</span><span id="__span-0-550"><a id="__codelineno-0-550" name="__codelineno-0-550"></a><span class="sd">        given the whole system depends on it. Unknown skill names are caught</span>
-</span><span id="__span-0-551"><a id="__codelineno-0-551" name="__codelineno-0-551"></a><span class="sd">        by the guard in ``UseSkillTool.__call__``.</span>
-</span><span id="__span-0-552"><a id="__codelineno-0-552" name="__codelineno-0-552"></a>
-</span><span id="__span-0-553"><a id="__codelineno-0-553" name="__codelineno-0-553"></a><span class="sd">        Args:</span>
-</span><span id="__span-0-554"><a id="__codelineno-0-554" name="__codelineno-0-554"></a><span class="sd">            skill_name (str): Name of the skill to activate.</span>
-</span><span id="__span-0-555"><a id="__codelineno-0-555" name="__codelineno-0-555"></a><span class="sd">            prompt (str | None): Optional instruction to pass alongside the</span>
-</span><span id="__span-0-556"><a id="__codelineno-0-556" name="__codelineno-0-556"></a><span class="sd">                skill activation. Defaults to None.</span>
-</span><span id="__span-0-557"><a id="__codelineno-0-557" name="__codelineno-0-557"></a><span class="sd">            max_steps (int | None): Maximum number of steps to run.</span>
-</span><span id="__span-0-558"><a id="__codelineno-0-558" name="__codelineno-0-558"></a><span class="sd">                Defaults to None.</span>
-</span><span id="__span-0-559"><a id="__codelineno-0-559" name="__codelineno-0-559"></a>
-</span><span id="__span-0-560"><a id="__codelineno-0-560" name="__codelineno-0-560"></a><span class="sd">        Returns:</span>
-</span><span id="__span-0-561"><a id="__codelineno-0-561" name="__codelineno-0-561"></a><span class="sd">            TaskHandler: The handler responsible for task execution.</span>
-</span><span id="__span-0-562"><a id="__codelineno-0-562" name="__codelineno-0-562"></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="__span-0-563"><a id="__codelineno-0-563" name="__codelineno-0-563"></a>        <span class="k">if</span> <span class="n">prompt</span><span class="p">:</span>
-</span><span id="__span-0-564"><a id="__codelineno-0-564" name="__codelineno-0-564"></a>            <span class="n">instruction</span> <span class="o">=</span> <span class="n">EXPLICIT_SKILL_ACTIVATION_WITH_PROMPT_TEMPLATE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-</span><span id="__span-0-565"><a id="__codelineno-0-565" name="__codelineno-0-565"></a>                <span class="n">name</span><span class="o">=</span><span class="n">skill_name</span><span class="p">,</span>
-</span><span id="__span-0-566"><a id="__codelineno-0-566" name="__codelineno-0-566"></a>                <span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span>
-</span><span id="__span-0-567"><a id="__codelineno-0-567" name="__codelineno-0-567"></a>            <span class="p">)</span>
-</span><span id="__span-0-568"><a id="__codelineno-0-568" name="__codelineno-0-568"></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="__span-0-569"><a id="__codelineno-0-569" name="__codelineno-0-569"></a>            <span class="n">instruction</span> <span class="o">=</span> <span class="n">EXPLICIT_SKILL_ACTIVATION_TEMPLATE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-</span><span id="__span-0-570"><a id="__codelineno-0-570" name="__codelineno-0-570"></a>                <span class="n">name</span><span class="o">=</span><span class="n">skill_name</span><span class="p">,</span>
-</span><span id="__span-0-571"><a id="__codelineno-0-571" name="__codelineno-0-571"></a>            <span class="p">)</span>
-</span><span id="__span-0-572"><a id="__codelineno-0-572" name="__codelineno-0-572"></a>        <span class="n">task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span><span class="n">instruction</span><span class="o">=</span><span class="n">instruction</span><span class="p">)</span>
-</span><span id="__span-0-573"><a id="__codelineno-0-573" name="__codelineno-0-573"></a>
-</span><span id="__span-0-574"><a id="__codelineno-0-574" name="__codelineno-0-574"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task</span><span class="o">=</span><span class="n">task</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="n">max_steps</span><span class="p">)</span>
+</span><span id="__span-0-537"><a id="__codelineno-0-537" name="__codelineno-0-537"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">run_with_skill</span><span class="p">(</span>
+</span><span id="__span-0-538"><a id="__codelineno-0-538" name="__codelineno-0-538"></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-0-539"><a id="__codelineno-0-539" name="__codelineno-0-539"></a>        <span class="n">skill_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span id="__span-0-540"><a id="__codelineno-0-540" name="__codelineno-0-540"></a>        <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-541"><a id="__codelineno-0-541" name="__codelineno-0-541"></a>        <span class="n">max_steps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-542"><a id="__codelineno-0-542" name="__codelineno-0-542"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TaskHandler</span><span class="p">:</span>
+</span><span id="__span-0-543"><a id="__codelineno-0-543" name="__codelineno-0-543"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;User-explicit skill activation: the programmatic slash command.</span>
+</span><span id="__span-0-544"><a id="__codelineno-0-544" name="__codelineno-0-544"></a>
+</span><span id="__span-0-545"><a id="__codelineno-0-545" name="__codelineno-0-545"></a><span class="sd">        Frames the task instruction to direct the model to activate the named</span>
+</span><span id="__span-0-546"><a id="__codelineno-0-546" name="__codelineno-0-546"></a><span class="sd">        skill as its first action, then runs the full agent loop. Relies on</span>
+</span><span id="__span-0-547"><a id="__codelineno-0-547" name="__codelineno-0-547"></a><span class="sd">        the model&#39;s tool-use ability to call ``use_skill`` — a fair assumption</span>
+</span><span id="__span-0-548"><a id="__codelineno-0-548" name="__codelineno-0-548"></a><span class="sd">        given the whole system depends on it. Unknown skill names are caught</span>
+</span><span id="__span-0-549"><a id="__codelineno-0-549" name="__codelineno-0-549"></a><span class="sd">        by the guard in ``UseSkillTool.__call__``.</span>
+</span><span id="__span-0-550"><a id="__codelineno-0-550" name="__codelineno-0-550"></a>
+</span><span id="__span-0-551"><a id="__codelineno-0-551" name="__codelineno-0-551"></a><span class="sd">        Args:</span>
+</span><span id="__span-0-552"><a id="__codelineno-0-552" name="__codelineno-0-552"></a><span class="sd">            skill_name (str): Name of the skill to activate.</span>
+</span><span id="__span-0-553"><a id="__codelineno-0-553" name="__codelineno-0-553"></a><span class="sd">            prompt (str | None): Optional instruction to pass alongside the</span>
+</span><span id="__span-0-554"><a id="__codelineno-0-554" name="__codelineno-0-554"></a><span class="sd">                skill activation. Defaults to None.</span>
+</span><span id="__span-0-555"><a id="__codelineno-0-555" name="__codelineno-0-555"></a><span class="sd">            max_steps (int | None): Maximum number of steps to run.</span>
+</span><span id="__span-0-556"><a id="__codelineno-0-556" name="__codelineno-0-556"></a><span class="sd">                Defaults to None.</span>
+</span><span id="__span-0-557"><a id="__codelineno-0-557" name="__codelineno-0-557"></a>
+</span><span id="__span-0-558"><a id="__codelineno-0-558" name="__codelineno-0-558"></a><span class="sd">        Returns:</span>
+</span><span id="__span-0-559"><a id="__codelineno-0-559" name="__codelineno-0-559"></a><span class="sd">            TaskHandler: The handler responsible for task execution.</span>
+</span><span id="__span-0-560"><a id="__codelineno-0-560" name="__codelineno-0-560"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-561"><a id="__codelineno-0-561" name="__codelineno-0-561"></a>        <span class="k">if</span> <span class="n">prompt</span><span class="p">:</span>
+</span><span id="__span-0-562"><a id="__codelineno-0-562" name="__codelineno-0-562"></a>            <span class="n">instruction</span> <span class="o">=</span> <span class="n">EXPLICIT_SKILL_ACTIVATION_WITH_PROMPT_TEMPLATE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+</span><span id="__span-0-563"><a id="__codelineno-0-563" name="__codelineno-0-563"></a>                <span class="n">name</span><span class="o">=</span><span class="n">skill_name</span><span class="p">,</span>
+</span><span id="__span-0-564"><a id="__codelineno-0-564" name="__codelineno-0-564"></a>                <span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span>
+</span><span id="__span-0-565"><a id="__codelineno-0-565" name="__codelineno-0-565"></a>            <span class="p">)</span>
+</span><span id="__span-0-566"><a id="__codelineno-0-566" name="__codelineno-0-566"></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-0-567"><a id="__codelineno-0-567" name="__codelineno-0-567"></a>            <span class="n">instruction</span> <span class="o">=</span> <span class="n">EXPLICIT_SKILL_ACTIVATION_TEMPLATE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+</span><span id="__span-0-568"><a id="__codelineno-0-568" name="__codelineno-0-568"></a>                <span class="n">name</span><span class="o">=</span><span class="n">skill_name</span><span class="p">,</span>
+</span><span id="__span-0-569"><a id="__codelineno-0-569" name="__codelineno-0-569"></a>            <span class="p">)</span>
+</span><span id="__span-0-570"><a id="__codelineno-0-570" name="__codelineno-0-570"></a>        <span class="n">task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span><span class="n">instruction</span><span class="o">=</span><span class="n">instruction</span><span class="p">)</span>
+</span><span id="__span-0-571"><a id="__codelineno-0-571" name="__codelineno-0-571"></a>
+</span><span id="__span-0-572"><a id="__codelineno-0-572" name="__codelineno-0-572"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task</span><span class="o">=</span><span class="n">task</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="n">max_steps</span><span class="p">)</span>
 </span></code></pre></div></td></tr></table></div>
               </details>
 
@@ -4453,9 +4449,7 @@ otherwise. Added in Chapter 6.</p>
 <span class="normal"><a href="#__codelineno-0-466">466</a></span>
 <span class="normal"><a href="#__codelineno-0-467">467</a></span>
 <span class="normal"><a href="#__codelineno-0-468">468</a></span>
-<span class="normal"><a href="#__codelineno-0-469">469</a></span>
-<span class="normal"><a href="#__codelineno-0-470">470</a></span>
-<span class="normal"><a href="#__codelineno-0-471">471</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-93"><a id="__codelineno-0-93" name="__codelineno-0-93"></a><span class="k">class</span><span class="w"> </span><span class="nc">TaskHandler</span><span class="p">(</span><span class="n">asyncio</span><span class="o">.</span><span class="n">Future</span><span class="p">):</span>
+<span class="normal"><a href="#__codelineno-0-469">469</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-93"><a id="__codelineno-0-93" name="__codelineno-0-93"></a><span class="k">class</span><span class="w"> </span><span class="nc">TaskHandler</span><span class="p">(</span><span class="n">asyncio</span><span class="o">.</span><span class="n">Future</span><span class="p">):</span>
 </span><span id="__span-0-94"><a id="__codelineno-0-94" name="__codelineno-0-94"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Handler for processing tasks.</span>
 </span><span id="__span-0-95"><a id="__codelineno-0-95" name="__codelineno-0-95"></a>
 </span><span id="__span-0-96"><a id="__codelineno-0-96" name="__codelineno-0-96"></a><span class="sd">    Attributes:</span>
@@ -4563,12 +4557,12 @@ otherwise. Added in Chapter 6.</p>
 </span><span id="__span-0-198"><a id="__codelineno-0-198" name="__codelineno-0-198"></a>            <span class="n">skills</span><span class="o">=</span><span class="n">entries</span><span class="p">,</span>
 </span><span id="__span-0-199"><a id="__codelineno-0-199" name="__codelineno-0-199"></a>        <span class="p">)</span>
 </span><span id="__span-0-200"><a id="__codelineno-0-200" name="__codelineno-0-200"></a>
-</span><span id="__span-0-201"><a id="__codelineno-0-201" name="__codelineno-0-201"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_rollout_contribution_from_single_run_step</span><span class="p">(</span>
+</span><span id="__span-0-201"><a id="__codelineno-0-201" name="__codelineno-0-201"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_format_step_for_rollout</span><span class="p">(</span>
 </span><span id="__span-0-202"><a id="__codelineno-0-202" name="__codelineno-0-202"></a>        <span class="bp">self</span><span class="p">,</span>
 </span><span id="__span-0-203"><a id="__codelineno-0-203" name="__codelineno-0-203"></a>        <span class="n">chat_history</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">ChatMessage</span><span class="p">],</span>
 </span><span id="__span-0-204"><a id="__codelineno-0-204" name="__codelineno-0-204"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="__span-0-205"><a id="__codelineno-0-205" name="__codelineno-0-205"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Update rollout after a run_step execution.&quot;&quot;&quot;</span>
-</span><span id="__span-0-206"><a id="__codelineno-0-206" name="__codelineno-0-206"></a>        <span class="n">rollout_contributions</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;=== Task Step Start ===&quot;</span><span class="p">]</span>
+</span><span id="__span-0-205"><a id="__codelineno-0-205" name="__codelineno-0-205"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Format a run_step&#39;s chat history as a rollout entry.&quot;&quot;&quot;</span>
+</span><span id="__span-0-206"><a id="__codelineno-0-206" name="__codelineno-0-206"></a>        <span class="n">rollout_lines</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;=== Task Step Start ===&quot;</span><span class="p">]</span>
 </span><span id="__span-0-207"><a id="__codelineno-0-207" name="__codelineno-0-207"></a>        <span class="k">for</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">chat_history</span><span class="p">:</span>
 </span><span id="__span-0-208"><a id="__codelineno-0-208" name="__codelineno-0-208"></a>            <span class="c1"># don&#39;t include system messages in rollout</span>
 </span><span id="__span-0-209"><a id="__codelineno-0-209" name="__codelineno-0-209"></a>            <span class="n">content</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">content</span>
@@ -4582,7 +4576,7 @@ otherwise. Added in Chapter 6.</p>
 </span><span id="__span-0-217"><a id="__codelineno-0-217" name="__codelineno-0-217"></a>                <span class="c1"># we&#39;ll simplify to just LLM agent having a monologue</span>
 </span><span id="__span-0-218"><a id="__codelineno-0-218" name="__codelineno-0-218"></a>                <span class="n">role</span> <span class="o">=</span> <span class="n">ChatRole</span><span class="o">.</span><span class="n">ASSISTANT</span>
 </span><span id="__span-0-219"><a id="__codelineno-0-219" name="__codelineno-0-219"></a>                <span class="n">content</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm_agent</span><span class="o">.</span><span class="n">templates</span><span class="p">[</span>
-</span><span id="__span-0-220"><a id="__codelineno-0-220" name="__codelineno-0-220"></a>                    <span class="s2">&quot;rollout_contribution_content_instruction&quot;</span>
+</span><span id="__span-0-220"><a id="__codelineno-0-220" name="__codelineno-0-220"></a>                    <span class="s2">&quot;step_rollout_content_instruction&quot;</span>
 </span><span id="__span-0-221"><a id="__codelineno-0-221" name="__codelineno-0-221"></a>                <span class="p">]</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
 </span><span id="__span-0-222"><a id="__codelineno-0-222" name="__codelineno-0-222"></a>                    <span class="n">instruction</span><span class="o">=</span><span class="n">content</span><span class="p">,</span>
 </span><span id="__span-0-223"><a id="__codelineno-0-223" name="__codelineno-0-223"></a>                <span class="p">)</span>
@@ -4595,14 +4589,14 @@ otherwise. Added in Chapter 6.</p>
 </span><span id="__span-0-230"><a id="__codelineno-0-230" name="__codelineno-0-230"></a>                    <span class="p">],</span>
 </span><span id="__span-0-231"><a id="__codelineno-0-231" name="__codelineno-0-231"></a>                <span class="p">)</span>
 </span><span id="__span-0-232"><a id="__codelineno-0-232" name="__codelineno-0-232"></a>                <span class="n">content</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm_agent</span><span class="o">.</span><span class="n">templates</span><span class="p">[</span>
-</span><span id="__span-0-233"><a id="__codelineno-0-233" name="__codelineno-0-233"></a>                    <span class="s2">&quot;rollout_contribution_content_tool_call_request&quot;</span>
+</span><span id="__span-0-233"><a id="__codelineno-0-233" name="__codelineno-0-233"></a>                    <span class="s2">&quot;step_rollout_content_tool_call_request&quot;</span>
 </span><span id="__span-0-234"><a id="__codelineno-0-234" name="__codelineno-0-234"></a>                <span class="p">]</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
 </span><span id="__span-0-235"><a id="__codelineno-0-235" name="__codelineno-0-235"></a>                    <span class="n">called_tools</span><span class="o">=</span><span class="n">called_tools</span><span class="p">,</span>
 </span><span id="__span-0-236"><a id="__codelineno-0-236" name="__codelineno-0-236"></a>                <span class="p">)</span>
 </span><span id="__span-0-237"><a id="__codelineno-0-237" name="__codelineno-0-237"></a>
-</span><span id="__span-0-238"><a id="__codelineno-0-238" name="__codelineno-0-238"></a>            <span class="n">rollout_contributions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+</span><span id="__span-0-238"><a id="__codelineno-0-238" name="__codelineno-0-238"></a>            <span class="n">rollout_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
 </span><span id="__span-0-239"><a id="__codelineno-0-239" name="__codelineno-0-239"></a>                <span class="bp">self</span><span class="o">.</span><span class="n">llm_agent</span><span class="o">.</span><span class="n">templates</span><span class="p">[</span>
-</span><span id="__span-0-240"><a id="__codelineno-0-240" name="__codelineno-0-240"></a>                    <span class="s2">&quot;rollout_contribution_from_chat_message&quot;</span>
+</span><span id="__span-0-240"><a id="__codelineno-0-240" name="__codelineno-0-240"></a>                    <span class="s2">&quot;step_rollout_chat_message&quot;</span>
 </span><span id="__span-0-241"><a id="__codelineno-0-241" name="__codelineno-0-241"></a>                <span class="p">]</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
 </span><span id="__span-0-242"><a id="__codelineno-0-242" name="__codelineno-0-242"></a>                    <span class="n">actor</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;🔧 &quot;</span> <span class="k">if</span> <span class="n">role</span> <span class="o">==</span> <span class="n">ChatRole</span><span class="o">.</span><span class="n">TOOL</span> <span class="k">else</span> <span class="s2">&quot;💬 &quot;</span><span class="p">)</span>
 </span><span id="__span-0-243"><a id="__codelineno-0-243" name="__codelineno-0-243"></a>                    <span class="o">+</span> <span class="n">role</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
@@ -4610,11 +4604,11 @@ otherwise. Added in Chapter 6.</p>
 </span><span id="__span-0-245"><a id="__codelineno-0-245" name="__codelineno-0-245"></a>                <span class="p">),</span>
 </span><span id="__span-0-246"><a id="__codelineno-0-246" name="__codelineno-0-246"></a>            <span class="p">)</span>
 </span><span id="__span-0-247"><a id="__codelineno-0-247" name="__codelineno-0-247"></a>
-</span><span id="__span-0-248"><a id="__codelineno-0-248" name="__codelineno-0-248"></a>        <span class="n">rollout_contributions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+</span><span id="__span-0-248"><a id="__codelineno-0-248" name="__codelineno-0-248"></a>        <span class="n">rollout_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
 </span><span id="__span-0-249"><a id="__codelineno-0-249" name="__codelineno-0-249"></a>            <span class="s2">&quot;=== Task Step End ===&quot;</span><span class="p">,</span>
 </span><span id="__span-0-250"><a id="__codelineno-0-250" name="__codelineno-0-250"></a>        <span class="p">)</span>
 </span><span id="__span-0-251"><a id="__codelineno-0-251" name="__codelineno-0-251"></a>
-</span><span id="__span-0-252"><a id="__codelineno-0-252" name="__codelineno-0-252"></a>        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rollout_contributions</span><span class="p">)</span>
+</span><span id="__span-0-252"><a id="__codelineno-0-252" name="__codelineno-0-252"></a>        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rollout_lines</span><span class="p">)</span>
 </span><span id="__span-0-253"><a id="__codelineno-0-253" name="__codelineno-0-253"></a>
 </span><span id="__span-0-254"><a id="__codelineno-0-254" name="__codelineno-0-254"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_next_step</span><span class="p">(</span>
 </span><span id="__span-0-255"><a id="__codelineno-0-255" name="__codelineno-0-255"></a>        <span class="bp">self</span><span class="p">,</span>
@@ -4816,24 +4810,22 @@ otherwise. Added in Chapter 6.</p>
 </span><span id="__span-0-451"><a id="__codelineno-0-451" name="__codelineno-0-451"></a>            <span class="p">]</span>
 </span><span id="__span-0-452"><a id="__codelineno-0-452" name="__codelineno-0-452"></a>
 </span><span id="__span-0-453"><a id="__codelineno-0-453" name="__codelineno-0-453"></a>        <span class="c1"># augment rollout from this turn</span>
-</span><span id="__span-0-454"><a id="__codelineno-0-454" name="__codelineno-0-454"></a>        <span class="n">rollout_contribution</span> <span class="o">=</span> <span class="p">(</span>
-</span><span id="__span-0-455"><a id="__codelineno-0-455" name="__codelineno-0-455"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_rollout_contribution_from_single_run_step</span><span class="p">(</span>
-</span><span id="__span-0-456"><a id="__codelineno-0-456" name="__codelineno-0-456"></a>                <span class="n">chat_history</span><span class="o">=</span><span class="n">chat_history</span><span class="p">,</span>
-</span><span id="__span-0-457"><a id="__codelineno-0-457" name="__codelineno-0-457"></a>            <span class="p">)</span>
-</span><span id="__span-0-458"><a id="__codelineno-0-458" name="__codelineno-0-458"></a>        <span class="p">)</span>
-</span><span id="__span-0-459"><a id="__codelineno-0-459" name="__codelineno-0-459"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rollout</span><span class="p">:</span>
-</span><span id="__span-0-460"><a id="__codelineno-0-460" name="__codelineno-0-460"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">rollout</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">rollout_contribution</span>
-</span><span id="__span-0-461"><a id="__codelineno-0-461" name="__codelineno-0-461"></a>
-</span><span id="__span-0-462"><a id="__codelineno-0-462" name="__codelineno-0-462"></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="__span-0-463"><a id="__codelineno-0-463" name="__codelineno-0-463"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">rollout</span> <span class="o">=</span> <span class="n">rollout_contribution</span>
-</span><span id="__span-0-464"><a id="__codelineno-0-464" name="__codelineno-0-464"></a>
-</span><span id="__span-0-465"><a id="__codelineno-0-465" name="__codelineno-0-465"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-</span><span id="__span-0-466"><a id="__codelineno-0-466" name="__codelineno-0-466"></a>            <span class="sa">f</span><span class="s2">&quot;✅ Step Result: </span><span class="si">{</span><span class="n">final_content</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-</span><span id="__span-0-467"><a id="__codelineno-0-467" name="__codelineno-0-467"></a>        <span class="p">)</span>
-</span><span id="__span-0-468"><a id="__codelineno-0-468" name="__codelineno-0-468"></a>        <span class="k">return</span> <span class="n">TaskStepResult</span><span class="p">(</span>
-</span><span id="__span-0-469"><a id="__codelineno-0-469" name="__codelineno-0-469"></a>            <span class="n">task_step_id</span><span class="o">=</span><span class="n">step</span><span class="o">.</span><span class="n">id_</span><span class="p">,</span>
-</span><span id="__span-0-470"><a id="__codelineno-0-470" name="__codelineno-0-470"></a>            <span class="n">content</span><span class="o">=</span><span class="n">final_content</span><span class="p">,</span>
-</span><span id="__span-0-471"><a id="__codelineno-0-471" name="__codelineno-0-471"></a>        <span class="p">)</span>
+</span><span id="__span-0-454"><a id="__codelineno-0-454" name="__codelineno-0-454"></a>        <span class="n">formatted_step</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_step_for_rollout</span><span class="p">(</span>
+</span><span id="__span-0-455"><a id="__codelineno-0-455" name="__codelineno-0-455"></a>            <span class="n">chat_history</span><span class="o">=</span><span class="n">chat_history</span><span class="p">,</span>
+</span><span id="__span-0-456"><a id="__codelineno-0-456" name="__codelineno-0-456"></a>        <span class="p">)</span>
+</span><span id="__span-0-457"><a id="__codelineno-0-457" name="__codelineno-0-457"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rollout</span><span class="p">:</span>
+</span><span id="__span-0-458"><a id="__codelineno-0-458" name="__codelineno-0-458"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">rollout</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">formatted_step</span>
+</span><span id="__span-0-459"><a id="__codelineno-0-459" name="__codelineno-0-459"></a>
+</span><span id="__span-0-460"><a id="__codelineno-0-460" name="__codelineno-0-460"></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-0-461"><a id="__codelineno-0-461" name="__codelineno-0-461"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">rollout</span> <span class="o">=</span> <span class="n">formatted_step</span>
+</span><span id="__span-0-462"><a id="__codelineno-0-462" name="__codelineno-0-462"></a>
+</span><span id="__span-0-463"><a id="__codelineno-0-463" name="__codelineno-0-463"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+</span><span id="__span-0-464"><a id="__codelineno-0-464" name="__codelineno-0-464"></a>            <span class="sa">f</span><span class="s2">&quot;✅ Step Result: </span><span class="si">{</span><span class="n">final_content</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span id="__span-0-465"><a id="__codelineno-0-465" name="__codelineno-0-465"></a>        <span class="p">)</span>
+</span><span id="__span-0-466"><a id="__codelineno-0-466" name="__codelineno-0-466"></a>        <span class="k">return</span> <span class="n">TaskStepResult</span><span class="p">(</span>
+</span><span id="__span-0-467"><a id="__codelineno-0-467" name="__codelineno-0-467"></a>            <span class="n">task_step_id</span><span class="o">=</span><span class="n">step</span><span class="o">.</span><span class="n">id_</span><span class="p">,</span>
+</span><span id="__span-0-468"><a id="__codelineno-0-468" name="__codelineno-0-468"></a>            <span class="n">content</span><span class="o">=</span><span class="n">final_content</span><span class="p">,</span>
+</span><span id="__span-0-469"><a id="__codelineno-0-469" name="__codelineno-0-469"></a>        <span class="p">)</span>
 </span></code></pre></div></td></tr></table></div>
               </details>
 
@@ -5509,9 +5501,7 @@ providing the instruction (from <code>get_next_step</code>) as well as the
 <span class="normal"><a href="#__codelineno-0-466">466</a></span>
 <span class="normal"><a href="#__codelineno-0-467">467</a></span>
 <span class="normal"><a href="#__codelineno-0-468">468</a></span>
-<span class="normal"><a href="#__codelineno-0-469">469</a></span>
-<span class="normal"><a href="#__codelineno-0-470">470</a></span>
-<span class="normal"><a href="#__codelineno-0-471">471</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-305"><a id="__codelineno-0-305" name="__codelineno-0-305"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">run_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="n">TaskStep</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TaskStepResult</span><span class="p">:</span>
+<span class="normal"><a href="#__codelineno-0-469">469</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-305"><a id="__codelineno-0-305" name="__codelineno-0-305"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">run_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="n">TaskStep</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TaskStepResult</span><span class="p">:</span>
 </span><span id="__span-0-306"><a id="__codelineno-0-306" name="__codelineno-0-306"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Run next step of a given task.</span>
 </span><span id="__span-0-307"><a id="__codelineno-0-307" name="__codelineno-0-307"></a>
 </span><span id="__span-0-308"><a id="__codelineno-0-308" name="__codelineno-0-308"></a><span class="sd">    A single step is executed through a single-turn conversation that</span>
@@ -5660,24 +5650,22 @@ providing the instruction (from <code>get_next_step</code>) as well as the
 </span><span id="__span-0-451"><a id="__codelineno-0-451" name="__codelineno-0-451"></a>        <span class="p">]</span>
 </span><span id="__span-0-452"><a id="__codelineno-0-452" name="__codelineno-0-452"></a>
 </span><span id="__span-0-453"><a id="__codelineno-0-453" name="__codelineno-0-453"></a>    <span class="c1"># augment rollout from this turn</span>
-</span><span id="__span-0-454"><a id="__codelineno-0-454" name="__codelineno-0-454"></a>    <span class="n">rollout_contribution</span> <span class="o">=</span> <span class="p">(</span>
-</span><span id="__span-0-455"><a id="__codelineno-0-455" name="__codelineno-0-455"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_rollout_contribution_from_single_run_step</span><span class="p">(</span>
-</span><span id="__span-0-456"><a id="__codelineno-0-456" name="__codelineno-0-456"></a>            <span class="n">chat_history</span><span class="o">=</span><span class="n">chat_history</span><span class="p">,</span>
-</span><span id="__span-0-457"><a id="__codelineno-0-457" name="__codelineno-0-457"></a>        <span class="p">)</span>
-</span><span id="__span-0-458"><a id="__codelineno-0-458" name="__codelineno-0-458"></a>    <span class="p">)</span>
-</span><span id="__span-0-459"><a id="__codelineno-0-459" name="__codelineno-0-459"></a>    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rollout</span><span class="p">:</span>
-</span><span id="__span-0-460"><a id="__codelineno-0-460" name="__codelineno-0-460"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">rollout</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">rollout_contribution</span>
-</span><span id="__span-0-461"><a id="__codelineno-0-461" name="__codelineno-0-461"></a>
-</span><span id="__span-0-462"><a id="__codelineno-0-462" name="__codelineno-0-462"></a>    <span class="k">else</span><span class="p">:</span>
-</span><span id="__span-0-463"><a id="__codelineno-0-463" name="__codelineno-0-463"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">rollout</span> <span class="o">=</span> <span class="n">rollout_contribution</span>
-</span><span id="__span-0-464"><a id="__codelineno-0-464" name="__codelineno-0-464"></a>
-</span><span id="__span-0-465"><a id="__codelineno-0-465" name="__codelineno-0-465"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-</span><span id="__span-0-466"><a id="__codelineno-0-466" name="__codelineno-0-466"></a>        <span class="sa">f</span><span class="s2">&quot;✅ Step Result: </span><span class="si">{</span><span class="n">final_content</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-</span><span id="__span-0-467"><a id="__codelineno-0-467" name="__codelineno-0-467"></a>    <span class="p">)</span>
-</span><span id="__span-0-468"><a id="__codelineno-0-468" name="__codelineno-0-468"></a>    <span class="k">return</span> <span class="n">TaskStepResult</span><span class="p">(</span>
-</span><span id="__span-0-469"><a id="__codelineno-0-469" name="__codelineno-0-469"></a>        <span class="n">task_step_id</span><span class="o">=</span><span class="n">step</span><span class="o">.</span><span class="n">id_</span><span class="p">,</span>
-</span><span id="__span-0-470"><a id="__codelineno-0-470" name="__codelineno-0-470"></a>        <span class="n">content</span><span class="o">=</span><span class="n">final_content</span><span class="p">,</span>
-</span><span id="__span-0-471"><a id="__codelineno-0-471" name="__codelineno-0-471"></a>    <span class="p">)</span>
+</span><span id="__span-0-454"><a id="__codelineno-0-454" name="__codelineno-0-454"></a>    <span class="n">formatted_step</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_step_for_rollout</span><span class="p">(</span>
+</span><span id="__span-0-455"><a id="__codelineno-0-455" name="__codelineno-0-455"></a>        <span class="n">chat_history</span><span class="o">=</span><span class="n">chat_history</span><span class="p">,</span>
+</span><span id="__span-0-456"><a id="__codelineno-0-456" name="__codelineno-0-456"></a>    <span class="p">)</span>
+</span><span id="__span-0-457"><a id="__codelineno-0-457" name="__codelineno-0-457"></a>    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rollout</span><span class="p">:</span>
+</span><span id="__span-0-458"><a id="__codelineno-0-458" name="__codelineno-0-458"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">rollout</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">formatted_step</span>
+</span><span id="__span-0-459"><a id="__codelineno-0-459" name="__codelineno-0-459"></a>
+</span><span id="__span-0-460"><a id="__codelineno-0-460" name="__codelineno-0-460"></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-0-461"><a id="__codelineno-0-461" name="__codelineno-0-461"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">rollout</span> <span class="o">=</span> <span class="n">formatted_step</span>
+</span><span id="__span-0-462"><a id="__codelineno-0-462" name="__codelineno-0-462"></a>
+</span><span id="__span-0-463"><a id="__codelineno-0-463" name="__codelineno-0-463"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+</span><span id="__span-0-464"><a id="__codelineno-0-464" name="__codelineno-0-464"></a>        <span class="sa">f</span><span class="s2">&quot;✅ Step Result: </span><span class="si">{</span><span class="n">final_content</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span id="__span-0-465"><a id="__codelineno-0-465" name="__codelineno-0-465"></a>    <span class="p">)</span>
+</span><span id="__span-0-466"><a id="__codelineno-0-466" name="__codelineno-0-466"></a>    <span class="k">return</span> <span class="n">TaskStepResult</span><span class="p">(</span>
+</span><span id="__span-0-467"><a id="__codelineno-0-467" name="__codelineno-0-467"></a>        <span class="n">task_step_id</span><span class="o">=</span><span class="n">step</span><span class="o">.</span><span class="n">id_</span><span class="p">,</span>
+</span><span id="__span-0-468"><a id="__codelineno-0-468" name="__codelineno-0-468"></a>        <span class="n">content</span><span class="o">=</span><span class="n">final_content</span><span class="p">,</span>
+</span><span id="__span-0-469"><a id="__codelineno-0-469" name="__codelineno-0-469"></a>    <span class="p">)</span>
 </span></code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -6040,7 +6028,9 @@ Chapter 6.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/llm_agents_from_scratch/agent/llm_agent.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-473">473</a></span>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-471">471</a></span>
+<span class="normal"><a href="#__codelineno-0-472">472</a></span>
+<span class="normal"><a href="#__codelineno-0-473">473</a></span>
 <span class="normal"><a href="#__codelineno-0-474">474</a></span>
 <span class="normal"><a href="#__codelineno-0-475">475</a></span>
 <span class="normal"><a href="#__codelineno-0-476">476</a></span>
@@ -6102,73 +6092,71 @@ Chapter 6.</p>
 <span class="normal"><a href="#__codelineno-0-532">532</a></span>
 <span class="normal"><a href="#__codelineno-0-533">533</a></span>
 <span class="normal"><a href="#__codelineno-0-534">534</a></span>
-<span class="normal"><a href="#__codelineno-0-535">535</a></span>
-<span class="normal"><a href="#__codelineno-0-536">536</a></span>
-<span class="normal"><a href="#__codelineno-0-537">537</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-473"><a id="__codelineno-0-473" name="__codelineno-0-473"></a><span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span>
-</span><span id="__span-0-474"><a id="__codelineno-0-474" name="__codelineno-0-474"></a>    <span class="bp">self</span><span class="p">,</span>
-</span><span id="__span-0-475"><a id="__codelineno-0-475" name="__codelineno-0-475"></a>    <span class="n">task</span><span class="p">:</span> <span class="n">Task</span><span class="p">,</span>
-</span><span id="__span-0-476"><a id="__codelineno-0-476" name="__codelineno-0-476"></a>    <span class="n">max_steps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-477"><a id="__codelineno-0-477" name="__codelineno-0-477"></a>    <span class="c1"># added in ch06</span>
-</span><span id="__span-0-478"><a id="__codelineno-0-478" name="__codelineno-0-478"></a>    <span class="n">skills_scopes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">SkillScope</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-479"><a id="__codelineno-0-479" name="__codelineno-0-479"></a>    <span class="n">explicit_only_skills</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-480"><a id="__codelineno-0-480" name="__codelineno-0-480"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TaskHandler</span><span class="p">:</span>
-</span><span id="__span-0-481"><a id="__codelineno-0-481" name="__codelineno-0-481"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Agent&#39;s processing loop for executing tasks.</span>
-</span><span id="__span-0-482"><a id="__codelineno-0-482" name="__codelineno-0-482"></a>
-</span><span id="__span-0-483"><a id="__codelineno-0-483" name="__codelineno-0-483"></a><span class="sd">    Args:</span>
-</span><span id="__span-0-484"><a id="__codelineno-0-484" name="__codelineno-0-484"></a><span class="sd">        task (Task): the Task to perform.</span>
-</span><span id="__span-0-485"><a id="__codelineno-0-485" name="__codelineno-0-485"></a><span class="sd">        max_steps (int | None): Maximum number of steps to run for task.</span>
-</span><span id="__span-0-486"><a id="__codelineno-0-486" name="__codelineno-0-486"></a><span class="sd">            Defaults to None.</span>
-</span><span id="__span-0-487"><a id="__codelineno-0-487" name="__codelineno-0-487"></a><span class="sd">        skills_scopes (list[SkillScope] | None): Scopes to scan for</span>
-</span><span id="__span-0-488"><a id="__codelineno-0-488" name="__codelineno-0-488"></a><span class="sd">            skills, in processing order (last wins on name collision).</span>
-</span><span id="__span-0-489"><a id="__codelineno-0-489" name="__codelineno-0-489"></a><span class="sd">            Defaults to ``[USER, PROJECT]``. Added in Chapter 6.</span>
-</span><span id="__span-0-490"><a id="__codelineno-0-490" name="__codelineno-0-490"></a><span class="sd">        explicit_only_skills (set[str] | None): Skill names to exclude</span>
-</span><span id="__span-0-491"><a id="__codelineno-0-491" name="__codelineno-0-491"></a><span class="sd">            from the model catalog for this run. They remain activatable</span>
-</span><span id="__span-0-492"><a id="__codelineno-0-492" name="__codelineno-0-492"></a><span class="sd">            via ``run_with_skill()``. Defaults to None. Added in</span>
-</span><span id="__span-0-493"><a id="__codelineno-0-493" name="__codelineno-0-493"></a><span class="sd">            Chapter 6.</span>
-</span><span id="__span-0-494"><a id="__codelineno-0-494" name="__codelineno-0-494"></a>
-</span><span id="__span-0-495"><a id="__codelineno-0-495" name="__codelineno-0-495"></a><span class="sd">    Returns:</span>
-</span><span id="__span-0-496"><a id="__codelineno-0-496" name="__codelineno-0-496"></a><span class="sd">        TaskHandler: the TaskHandler object responsible for task execution.</span>
-</span><span id="__span-0-497"><a id="__codelineno-0-497" name="__codelineno-0-497"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-498"><a id="__codelineno-0-498" name="__codelineno-0-498"></a>    <span class="n">task_handler</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">TaskHandler</span><span class="p">(</span>
-</span><span id="__span-0-499"><a id="__codelineno-0-499" name="__codelineno-0-499"></a>        <span class="n">llm_agent</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
-</span><span id="__span-0-500"><a id="__codelineno-0-500" name="__codelineno-0-500"></a>        <span class="n">task</span><span class="o">=</span><span class="n">task</span><span class="p">,</span>
-</span><span id="__span-0-501"><a id="__codelineno-0-501" name="__codelineno-0-501"></a>        <span class="n">skills_scopes</span><span class="o">=</span><span class="n">skills_scopes</span><span class="p">,</span>
-</span><span id="__span-0-502"><a id="__codelineno-0-502" name="__codelineno-0-502"></a>        <span class="n">explicit_only_skills</span><span class="o">=</span><span class="n">explicit_only_skills</span><span class="p">,</span>
-</span><span id="__span-0-503"><a id="__codelineno-0-503" name="__codelineno-0-503"></a>    <span class="p">)</span>
-</span><span id="__span-0-504"><a id="__codelineno-0-504" name="__codelineno-0-504"></a>
-</span><span id="__span-0-505"><a id="__codelineno-0-505" name="__codelineno-0-505"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_process_loop</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-506"><a id="__codelineno-0-506" name="__codelineno-0-506"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;The processing loop for the task handler execute its task.</span>
-</span><span id="__span-0-507"><a id="__codelineno-0-507" name="__codelineno-0-507"></a>
-</span><span id="__span-0-508"><a id="__codelineno-0-508" name="__codelineno-0-508"></a><span class="sd">        Cycle between get_next_step and run_step, until the task_handler</span>
-</span><span id="__span-0-509"><a id="__codelineno-0-509" name="__codelineno-0-509"></a><span class="sd">        is marked as done, either through a set result or an exception being</span>
-</span><span id="__span-0-510"><a id="__codelineno-0-510" name="__codelineno-0-510"></a><span class="sd">        set.</span>
-</span><span id="__span-0-511"><a id="__codelineno-0-511" name="__codelineno-0-511"></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="__span-0-512"><a id="__codelineno-0-512" name="__codelineno-0-512"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🚀 Starting task: </span><span class="si">{</span><span class="n">task</span><span class="o">.</span><span class="n">instruction</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="__span-0-513"><a id="__codelineno-0-513" name="__codelineno-0-513"></a>        <span class="n">step_result</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="__span-0-514"><a id="__codelineno-0-514" name="__codelineno-0-514"></a>        <span class="k">while</span> <span class="ow">not</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">done</span><span class="p">():</span>
-</span><span id="__span-0-515"><a id="__codelineno-0-515" name="__codelineno-0-515"></a>            <span class="k">try</span><span class="p">:</span>
-</span><span id="__span-0-516"><a id="__codelineno-0-516" name="__codelineno-0-516"></a>                <span class="k">if</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">step_counter</span> <span class="o">==</span> <span class="n">max_steps</span><span class="p">:</span>
-</span><span id="__span-0-517"><a id="__codelineno-0-517" name="__codelineno-0-517"></a>                    <span class="k">raise</span> <span class="n">MaxStepsReachedError</span><span class="p">(</span><span class="s2">&quot;Max steps reached.&quot;</span><span class="p">)</span>
+<span class="normal"><a href="#__codelineno-0-535">535</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-471"><a id="__codelineno-0-471" name="__codelineno-0-471"></a><span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span>
+</span><span id="__span-0-472"><a id="__codelineno-0-472" name="__codelineno-0-472"></a>    <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-0-473"><a id="__codelineno-0-473" name="__codelineno-0-473"></a>    <span class="n">task</span><span class="p">:</span> <span class="n">Task</span><span class="p">,</span>
+</span><span id="__span-0-474"><a id="__codelineno-0-474" name="__codelineno-0-474"></a>    <span class="n">max_steps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-475"><a id="__codelineno-0-475" name="__codelineno-0-475"></a>    <span class="c1"># added in ch06</span>
+</span><span id="__span-0-476"><a id="__codelineno-0-476" name="__codelineno-0-476"></a>    <span class="n">skills_scopes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">SkillScope</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-477"><a id="__codelineno-0-477" name="__codelineno-0-477"></a>    <span class="n">explicit_only_skills</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-478"><a id="__codelineno-0-478" name="__codelineno-0-478"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TaskHandler</span><span class="p">:</span>
+</span><span id="__span-0-479"><a id="__codelineno-0-479" name="__codelineno-0-479"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Agent&#39;s processing loop for executing tasks.</span>
+</span><span id="__span-0-480"><a id="__codelineno-0-480" name="__codelineno-0-480"></a>
+</span><span id="__span-0-481"><a id="__codelineno-0-481" name="__codelineno-0-481"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-482"><a id="__codelineno-0-482" name="__codelineno-0-482"></a><span class="sd">        task (Task): the Task to perform.</span>
+</span><span id="__span-0-483"><a id="__codelineno-0-483" name="__codelineno-0-483"></a><span class="sd">        max_steps (int | None): Maximum number of steps to run for task.</span>
+</span><span id="__span-0-484"><a id="__codelineno-0-484" name="__codelineno-0-484"></a><span class="sd">            Defaults to None.</span>
+</span><span id="__span-0-485"><a id="__codelineno-0-485" name="__codelineno-0-485"></a><span class="sd">        skills_scopes (list[SkillScope] | None): Scopes to scan for</span>
+</span><span id="__span-0-486"><a id="__codelineno-0-486" name="__codelineno-0-486"></a><span class="sd">            skills, in processing order (last wins on name collision).</span>
+</span><span id="__span-0-487"><a id="__codelineno-0-487" name="__codelineno-0-487"></a><span class="sd">            Defaults to ``[USER, PROJECT]``. Added in Chapter 6.</span>
+</span><span id="__span-0-488"><a id="__codelineno-0-488" name="__codelineno-0-488"></a><span class="sd">        explicit_only_skills (set[str] | None): Skill names to exclude</span>
+</span><span id="__span-0-489"><a id="__codelineno-0-489" name="__codelineno-0-489"></a><span class="sd">            from the model catalog for this run. They remain activatable</span>
+</span><span id="__span-0-490"><a id="__codelineno-0-490" name="__codelineno-0-490"></a><span class="sd">            via ``run_with_skill()``. Defaults to None. Added in</span>
+</span><span id="__span-0-491"><a id="__codelineno-0-491" name="__codelineno-0-491"></a><span class="sd">            Chapter 6.</span>
+</span><span id="__span-0-492"><a id="__codelineno-0-492" name="__codelineno-0-492"></a>
+</span><span id="__span-0-493"><a id="__codelineno-0-493" name="__codelineno-0-493"></a><span class="sd">    Returns:</span>
+</span><span id="__span-0-494"><a id="__codelineno-0-494" name="__codelineno-0-494"></a><span class="sd">        TaskHandler: the TaskHandler object responsible for task execution.</span>
+</span><span id="__span-0-495"><a id="__codelineno-0-495" name="__codelineno-0-495"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-496"><a id="__codelineno-0-496" name="__codelineno-0-496"></a>    <span class="n">task_handler</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">TaskHandler</span><span class="p">(</span>
+</span><span id="__span-0-497"><a id="__codelineno-0-497" name="__codelineno-0-497"></a>        <span class="n">llm_agent</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-0-498"><a id="__codelineno-0-498" name="__codelineno-0-498"></a>        <span class="n">task</span><span class="o">=</span><span class="n">task</span><span class="p">,</span>
+</span><span id="__span-0-499"><a id="__codelineno-0-499" name="__codelineno-0-499"></a>        <span class="n">skills_scopes</span><span class="o">=</span><span class="n">skills_scopes</span><span class="p">,</span>
+</span><span id="__span-0-500"><a id="__codelineno-0-500" name="__codelineno-0-500"></a>        <span class="n">explicit_only_skills</span><span class="o">=</span><span class="n">explicit_only_skills</span><span class="p">,</span>
+</span><span id="__span-0-501"><a id="__codelineno-0-501" name="__codelineno-0-501"></a>    <span class="p">)</span>
+</span><span id="__span-0-502"><a id="__codelineno-0-502" name="__codelineno-0-502"></a>
+</span><span id="__span-0-503"><a id="__codelineno-0-503" name="__codelineno-0-503"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_process_loop</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-504"><a id="__codelineno-0-504" name="__codelineno-0-504"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;The processing loop for the task handler execute its task.</span>
+</span><span id="__span-0-505"><a id="__codelineno-0-505" name="__codelineno-0-505"></a>
+</span><span id="__span-0-506"><a id="__codelineno-0-506" name="__codelineno-0-506"></a><span class="sd">        Cycle between get_next_step and run_step, until the task_handler</span>
+</span><span id="__span-0-507"><a id="__codelineno-0-507" name="__codelineno-0-507"></a><span class="sd">        is marked as done, either through a set result or an exception being</span>
+</span><span id="__span-0-508"><a id="__codelineno-0-508" name="__codelineno-0-508"></a><span class="sd">        set.</span>
+</span><span id="__span-0-509"><a id="__codelineno-0-509" name="__codelineno-0-509"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-510"><a id="__codelineno-0-510" name="__codelineno-0-510"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🚀 Starting task: </span><span class="si">{</span><span class="n">task</span><span class="o">.</span><span class="n">instruction</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-0-511"><a id="__codelineno-0-511" name="__codelineno-0-511"></a>        <span class="n">step_result</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="__span-0-512"><a id="__codelineno-0-512" name="__codelineno-0-512"></a>        <span class="k">while</span> <span class="ow">not</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">done</span><span class="p">():</span>
+</span><span id="__span-0-513"><a id="__codelineno-0-513" name="__codelineno-0-513"></a>            <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-0-514"><a id="__codelineno-0-514" name="__codelineno-0-514"></a>                <span class="k">if</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">step_counter</span> <span class="o">==</span> <span class="n">max_steps</span><span class="p">:</span>
+</span><span id="__span-0-515"><a id="__codelineno-0-515" name="__codelineno-0-515"></a>                    <span class="k">raise</span> <span class="n">MaxStepsReachedError</span><span class="p">(</span><span class="s2">&quot;Max steps reached.&quot;</span><span class="p">)</span>
+</span><span id="__span-0-516"><a id="__codelineno-0-516" name="__codelineno-0-516"></a>
+</span><span id="__span-0-517"><a id="__codelineno-0-517" name="__codelineno-0-517"></a>                <span class="n">next_step</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">get_next_step</span><span class="p">(</span><span class="n">step_result</span><span class="p">)</span>
 </span><span id="__span-0-518"><a id="__codelineno-0-518" name="__codelineno-0-518"></a>
-</span><span id="__span-0-519"><a id="__codelineno-0-519" name="__codelineno-0-519"></a>                <span class="n">next_step</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">get_next_step</span><span class="p">(</span><span class="n">step_result</span><span class="p">)</span>
-</span><span id="__span-0-520"><a id="__codelineno-0-520" name="__codelineno-0-520"></a>
-</span><span id="__span-0-521"><a id="__codelineno-0-521" name="__codelineno-0-521"></a>                <span class="k">match</span> <span class="n">next_step</span><span class="p">:</span>
-</span><span id="__span-0-522"><a id="__codelineno-0-522" name="__codelineno-0-522"></a>                    <span class="k">case</span> <span class="n">TaskStep</span><span class="p">():</span>
-</span><span id="__span-0-523"><a id="__codelineno-0-523" name="__codelineno-0-523"></a>                        <span class="n">step_result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">run_step</span><span class="p">(</span>
-</span><span id="__span-0-524"><a id="__codelineno-0-524" name="__codelineno-0-524"></a>                            <span class="n">next_step</span><span class="p">,</span>
-</span><span id="__span-0-525"><a id="__codelineno-0-525" name="__codelineno-0-525"></a>                        <span class="p">)</span>
-</span><span id="__span-0-526"><a id="__codelineno-0-526" name="__codelineno-0-526"></a>                    <span class="k">case</span> <span class="n">TaskResult</span><span class="p">():</span>
-</span><span id="__span-0-527"><a id="__codelineno-0-527" name="__codelineno-0-527"></a>                        <span class="n">task_handler</span><span class="o">.</span><span class="n">set_result</span><span class="p">(</span><span class="n">next_step</span><span class="p">)</span>
-</span><span id="__span-0-528"><a id="__codelineno-0-528" name="__codelineno-0-528"></a>                        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-</span><span id="__span-0-529"><a id="__codelineno-0-529" name="__codelineno-0-529"></a>                            <span class="sa">f</span><span class="s2">&quot;🏁 Task completed: </span><span class="si">{</span><span class="n">next_step</span><span class="o">.</span><span class="n">content</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-</span><span id="__span-0-530"><a id="__codelineno-0-530" name="__codelineno-0-530"></a>                        <span class="p">)</span>
-</span><span id="__span-0-531"><a id="__codelineno-0-531" name="__codelineno-0-531"></a>
-</span><span id="__span-0-532"><a id="__codelineno-0-532" name="__codelineno-0-532"></a>            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span id="__span-0-533"><a id="__codelineno-0-533" name="__codelineno-0-533"></a>                <span class="n">task_handler</span><span class="o">.</span><span class="n">set_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</span><span id="__span-0-519"><a id="__codelineno-0-519" name="__codelineno-0-519"></a>                <span class="k">match</span> <span class="n">next_step</span><span class="p">:</span>
+</span><span id="__span-0-520"><a id="__codelineno-0-520" name="__codelineno-0-520"></a>                    <span class="k">case</span> <span class="n">TaskStep</span><span class="p">():</span>
+</span><span id="__span-0-521"><a id="__codelineno-0-521" name="__codelineno-0-521"></a>                        <span class="n">step_result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">run_step</span><span class="p">(</span>
+</span><span id="__span-0-522"><a id="__codelineno-0-522" name="__codelineno-0-522"></a>                            <span class="n">next_step</span><span class="p">,</span>
+</span><span id="__span-0-523"><a id="__codelineno-0-523" name="__codelineno-0-523"></a>                        <span class="p">)</span>
+</span><span id="__span-0-524"><a id="__codelineno-0-524" name="__codelineno-0-524"></a>                    <span class="k">case</span> <span class="n">TaskResult</span><span class="p">():</span>
+</span><span id="__span-0-525"><a id="__codelineno-0-525" name="__codelineno-0-525"></a>                        <span class="n">task_handler</span><span class="o">.</span><span class="n">set_result</span><span class="p">(</span><span class="n">next_step</span><span class="p">)</span>
+</span><span id="__span-0-526"><a id="__codelineno-0-526" name="__codelineno-0-526"></a>                        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+</span><span id="__span-0-527"><a id="__codelineno-0-527" name="__codelineno-0-527"></a>                            <span class="sa">f</span><span class="s2">&quot;🏁 Task completed: </span><span class="si">{</span><span class="n">next_step</span><span class="o">.</span><span class="n">content</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span id="__span-0-528"><a id="__codelineno-0-528" name="__codelineno-0-528"></a>                        <span class="p">)</span>
+</span><span id="__span-0-529"><a id="__codelineno-0-529" name="__codelineno-0-529"></a>
+</span><span id="__span-0-530"><a id="__codelineno-0-530" name="__codelineno-0-530"></a>            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="__span-0-531"><a id="__codelineno-0-531" name="__codelineno-0-531"></a>                <span class="n">task_handler</span><span class="o">.</span><span class="n">set_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</span><span id="__span-0-532"><a id="__codelineno-0-532" name="__codelineno-0-532"></a>
+</span><span id="__span-0-533"><a id="__codelineno-0-533" name="__codelineno-0-533"></a>    <span class="n">task_handler</span><span class="o">.</span><span class="n">background_task</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">_process_loop</span><span class="p">())</span>
 </span><span id="__span-0-534"><a id="__codelineno-0-534" name="__codelineno-0-534"></a>
-</span><span id="__span-0-535"><a id="__codelineno-0-535" name="__codelineno-0-535"></a>    <span class="n">task_handler</span><span class="o">.</span><span class="n">background_task</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">_process_loop</span><span class="p">())</span>
-</span><span id="__span-0-536"><a id="__codelineno-0-536" name="__codelineno-0-536"></a>
-</span><span id="__span-0-537"><a id="__codelineno-0-537" name="__codelineno-0-537"></a>    <span class="k">return</span> <span class="n">task_handler</span>
+</span><span id="__span-0-535"><a id="__codelineno-0-535" name="__codelineno-0-535"></a>    <span class="k">return</span> <span class="n">task_handler</span>
 </span></code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -6286,7 +6274,9 @@ Defaults to None.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/llm_agents_from_scratch/agent/llm_agent.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-539">539</a></span>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-537">537</a></span>
+<span class="normal"><a href="#__codelineno-0-538">538</a></span>
+<span class="normal"><a href="#__codelineno-0-539">539</a></span>
 <span class="normal"><a href="#__codelineno-0-540">540</a></span>
 <span class="normal"><a href="#__codelineno-0-541">541</a></span>
 <span class="normal"><a href="#__codelineno-0-542">542</a></span>
@@ -6319,44 +6309,42 @@ Defaults to None.</p>
 <span class="normal"><a href="#__codelineno-0-569">569</a></span>
 <span class="normal"><a href="#__codelineno-0-570">570</a></span>
 <span class="normal"><a href="#__codelineno-0-571">571</a></span>
-<span class="normal"><a href="#__codelineno-0-572">572</a></span>
-<span class="normal"><a href="#__codelineno-0-573">573</a></span>
-<span class="normal"><a href="#__codelineno-0-574">574</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-539"><a id="__codelineno-0-539" name="__codelineno-0-539"></a><span class="k">def</span><span class="w"> </span><span class="nf">run_with_skill</span><span class="p">(</span>
-</span><span id="__span-0-540"><a id="__codelineno-0-540" name="__codelineno-0-540"></a>    <span class="bp">self</span><span class="p">,</span>
-</span><span id="__span-0-541"><a id="__codelineno-0-541" name="__codelineno-0-541"></a>    <span class="n">skill_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-</span><span id="__span-0-542"><a id="__codelineno-0-542" name="__codelineno-0-542"></a>    <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-543"><a id="__codelineno-0-543" name="__codelineno-0-543"></a>    <span class="n">max_steps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-544"><a id="__codelineno-0-544" name="__codelineno-0-544"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TaskHandler</span><span class="p">:</span>
-</span><span id="__span-0-545"><a id="__codelineno-0-545" name="__codelineno-0-545"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;User-explicit skill activation: the programmatic slash command.</span>
-</span><span id="__span-0-546"><a id="__codelineno-0-546" name="__codelineno-0-546"></a>
-</span><span id="__span-0-547"><a id="__codelineno-0-547" name="__codelineno-0-547"></a><span class="sd">    Frames the task instruction to direct the model to activate the named</span>
-</span><span id="__span-0-548"><a id="__codelineno-0-548" name="__codelineno-0-548"></a><span class="sd">    skill as its first action, then runs the full agent loop. Relies on</span>
-</span><span id="__span-0-549"><a id="__codelineno-0-549" name="__codelineno-0-549"></a><span class="sd">    the model&#39;s tool-use ability to call ``use_skill`` — a fair assumption</span>
-</span><span id="__span-0-550"><a id="__codelineno-0-550" name="__codelineno-0-550"></a><span class="sd">    given the whole system depends on it. Unknown skill names are caught</span>
-</span><span id="__span-0-551"><a id="__codelineno-0-551" name="__codelineno-0-551"></a><span class="sd">    by the guard in ``UseSkillTool.__call__``.</span>
-</span><span id="__span-0-552"><a id="__codelineno-0-552" name="__codelineno-0-552"></a>
-</span><span id="__span-0-553"><a id="__codelineno-0-553" name="__codelineno-0-553"></a><span class="sd">    Args:</span>
-</span><span id="__span-0-554"><a id="__codelineno-0-554" name="__codelineno-0-554"></a><span class="sd">        skill_name (str): Name of the skill to activate.</span>
-</span><span id="__span-0-555"><a id="__codelineno-0-555" name="__codelineno-0-555"></a><span class="sd">        prompt (str | None): Optional instruction to pass alongside the</span>
-</span><span id="__span-0-556"><a id="__codelineno-0-556" name="__codelineno-0-556"></a><span class="sd">            skill activation. Defaults to None.</span>
-</span><span id="__span-0-557"><a id="__codelineno-0-557" name="__codelineno-0-557"></a><span class="sd">        max_steps (int | None): Maximum number of steps to run.</span>
-</span><span id="__span-0-558"><a id="__codelineno-0-558" name="__codelineno-0-558"></a><span class="sd">            Defaults to None.</span>
-</span><span id="__span-0-559"><a id="__codelineno-0-559" name="__codelineno-0-559"></a>
-</span><span id="__span-0-560"><a id="__codelineno-0-560" name="__codelineno-0-560"></a><span class="sd">    Returns:</span>
-</span><span id="__span-0-561"><a id="__codelineno-0-561" name="__codelineno-0-561"></a><span class="sd">        TaskHandler: The handler responsible for task execution.</span>
-</span><span id="__span-0-562"><a id="__codelineno-0-562" name="__codelineno-0-562"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-563"><a id="__codelineno-0-563" name="__codelineno-0-563"></a>    <span class="k">if</span> <span class="n">prompt</span><span class="p">:</span>
-</span><span id="__span-0-564"><a id="__codelineno-0-564" name="__codelineno-0-564"></a>        <span class="n">instruction</span> <span class="o">=</span> <span class="n">EXPLICIT_SKILL_ACTIVATION_WITH_PROMPT_TEMPLATE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-</span><span id="__span-0-565"><a id="__codelineno-0-565" name="__codelineno-0-565"></a>            <span class="n">name</span><span class="o">=</span><span class="n">skill_name</span><span class="p">,</span>
-</span><span id="__span-0-566"><a id="__codelineno-0-566" name="__codelineno-0-566"></a>            <span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span>
-</span><span id="__span-0-567"><a id="__codelineno-0-567" name="__codelineno-0-567"></a>        <span class="p">)</span>
-</span><span id="__span-0-568"><a id="__codelineno-0-568" name="__codelineno-0-568"></a>    <span class="k">else</span><span class="p">:</span>
-</span><span id="__span-0-569"><a id="__codelineno-0-569" name="__codelineno-0-569"></a>        <span class="n">instruction</span> <span class="o">=</span> <span class="n">EXPLICIT_SKILL_ACTIVATION_TEMPLATE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-</span><span id="__span-0-570"><a id="__codelineno-0-570" name="__codelineno-0-570"></a>            <span class="n">name</span><span class="o">=</span><span class="n">skill_name</span><span class="p">,</span>
-</span><span id="__span-0-571"><a id="__codelineno-0-571" name="__codelineno-0-571"></a>        <span class="p">)</span>
-</span><span id="__span-0-572"><a id="__codelineno-0-572" name="__codelineno-0-572"></a>    <span class="n">task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span><span class="n">instruction</span><span class="o">=</span><span class="n">instruction</span><span class="p">)</span>
-</span><span id="__span-0-573"><a id="__codelineno-0-573" name="__codelineno-0-573"></a>
-</span><span id="__span-0-574"><a id="__codelineno-0-574" name="__codelineno-0-574"></a>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task</span><span class="o">=</span><span class="n">task</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="n">max_steps</span><span class="p">)</span>
+<span class="normal"><a href="#__codelineno-0-572">572</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-537"><a id="__codelineno-0-537" name="__codelineno-0-537"></a><span class="k">def</span><span class="w"> </span><span class="nf">run_with_skill</span><span class="p">(</span>
+</span><span id="__span-0-538"><a id="__codelineno-0-538" name="__codelineno-0-538"></a>    <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-0-539"><a id="__codelineno-0-539" name="__codelineno-0-539"></a>    <span class="n">skill_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span id="__span-0-540"><a id="__codelineno-0-540" name="__codelineno-0-540"></a>    <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-541"><a id="__codelineno-0-541" name="__codelineno-0-541"></a>    <span class="n">max_steps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-542"><a id="__codelineno-0-542" name="__codelineno-0-542"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TaskHandler</span><span class="p">:</span>
+</span><span id="__span-0-543"><a id="__codelineno-0-543" name="__codelineno-0-543"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;User-explicit skill activation: the programmatic slash command.</span>
+</span><span id="__span-0-544"><a id="__codelineno-0-544" name="__codelineno-0-544"></a>
+</span><span id="__span-0-545"><a id="__codelineno-0-545" name="__codelineno-0-545"></a><span class="sd">    Frames the task instruction to direct the model to activate the named</span>
+</span><span id="__span-0-546"><a id="__codelineno-0-546" name="__codelineno-0-546"></a><span class="sd">    skill as its first action, then runs the full agent loop. Relies on</span>
+</span><span id="__span-0-547"><a id="__codelineno-0-547" name="__codelineno-0-547"></a><span class="sd">    the model&#39;s tool-use ability to call ``use_skill`` — a fair assumption</span>
+</span><span id="__span-0-548"><a id="__codelineno-0-548" name="__codelineno-0-548"></a><span class="sd">    given the whole system depends on it. Unknown skill names are caught</span>
+</span><span id="__span-0-549"><a id="__codelineno-0-549" name="__codelineno-0-549"></a><span class="sd">    by the guard in ``UseSkillTool.__call__``.</span>
+</span><span id="__span-0-550"><a id="__codelineno-0-550" name="__codelineno-0-550"></a>
+</span><span id="__span-0-551"><a id="__codelineno-0-551" name="__codelineno-0-551"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-552"><a id="__codelineno-0-552" name="__codelineno-0-552"></a><span class="sd">        skill_name (str): Name of the skill to activate.</span>
+</span><span id="__span-0-553"><a id="__codelineno-0-553" name="__codelineno-0-553"></a><span class="sd">        prompt (str | None): Optional instruction to pass alongside the</span>
+</span><span id="__span-0-554"><a id="__codelineno-0-554" name="__codelineno-0-554"></a><span class="sd">            skill activation. Defaults to None.</span>
+</span><span id="__span-0-555"><a id="__codelineno-0-555" name="__codelineno-0-555"></a><span class="sd">        max_steps (int | None): Maximum number of steps to run.</span>
+</span><span id="__span-0-556"><a id="__codelineno-0-556" name="__codelineno-0-556"></a><span class="sd">            Defaults to None.</span>
+</span><span id="__span-0-557"><a id="__codelineno-0-557" name="__codelineno-0-557"></a>
+</span><span id="__span-0-558"><a id="__codelineno-0-558" name="__codelineno-0-558"></a><span class="sd">    Returns:</span>
+</span><span id="__span-0-559"><a id="__codelineno-0-559" name="__codelineno-0-559"></a><span class="sd">        TaskHandler: The handler responsible for task execution.</span>
+</span><span id="__span-0-560"><a id="__codelineno-0-560" name="__codelineno-0-560"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-561"><a id="__codelineno-0-561" name="__codelineno-0-561"></a>    <span class="k">if</span> <span class="n">prompt</span><span class="p">:</span>
+</span><span id="__span-0-562"><a id="__codelineno-0-562" name="__codelineno-0-562"></a>        <span class="n">instruction</span> <span class="o">=</span> <span class="n">EXPLICIT_SKILL_ACTIVATION_WITH_PROMPT_TEMPLATE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+</span><span id="__span-0-563"><a id="__codelineno-0-563" name="__codelineno-0-563"></a>            <span class="n">name</span><span class="o">=</span><span class="n">skill_name</span><span class="p">,</span>
+</span><span id="__span-0-564"><a id="__codelineno-0-564" name="__codelineno-0-564"></a>            <span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span>
+</span><span id="__span-0-565"><a id="__codelineno-0-565" name="__codelineno-0-565"></a>        <span class="p">)</span>
+</span><span id="__span-0-566"><a id="__codelineno-0-566" name="__codelineno-0-566"></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-0-567"><a id="__codelineno-0-567" name="__codelineno-0-567"></a>        <span class="n">instruction</span> <span class="o">=</span> <span class="n">EXPLICIT_SKILL_ACTIVATION_TEMPLATE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+</span><span id="__span-0-568"><a id="__codelineno-0-568" name="__codelineno-0-568"></a>            <span class="n">name</span><span class="o">=</span><span class="n">skill_name</span><span class="p">,</span>
+</span><span id="__span-0-569"><a id="__codelineno-0-569" name="__codelineno-0-569"></a>        <span class="p">)</span>
+</span><span id="__span-0-570"><a id="__codelineno-0-570" name="__codelineno-0-570"></a>    <span class="n">task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span><span class="n">instruction</span><span class="o">=</span><span class="n">instruction</span><span class="p">)</span>
+</span><span id="__span-0-571"><a id="__codelineno-0-571" name="__codelineno-0-571"></a>
+</span><span id="__span-0-572"><a id="__codelineno-0-572" name="__codelineno-0-572"></a>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task</span><span class="o">=</span><span class="n">task</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="n">max_steps</span><span class="p">)</span>
 </span></code></pre></div></td></tr></table></div>
             </details>
     </div>

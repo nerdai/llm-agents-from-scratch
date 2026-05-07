@@ -45,7 +45,7 @@ class CompleteResult(BaseModel):
 
     Attributes:
         response: The completion response provided by the LLM.
-        full_response: Input prompt and completion text.
+        prompt: The input prompt.
     """
 
     response: str

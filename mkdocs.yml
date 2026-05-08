@@ -45,6 +45,7 @@ nav:
     # Symlinked from more-examples/ — do not copy directly.
     - Chapter 2:
       - Async Tools: more-examples/ch02/async_tools.ipynb
+      - Multi-Tool Registry: more-examples/ch02/multi_tool_registry.ipynb
     - Chapter 3:
       - Multi-Turn Trivia Chat: more-examples/ch03/multi_turn_chat.ipynb
       - Structured Extraction from a PDF: more-examples/ch03/pdf_extraction.ipynb

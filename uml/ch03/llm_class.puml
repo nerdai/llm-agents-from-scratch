@@ -49,9 +49,7 @@ BaseModel <|-- CompleteResult : " inherits"
 BaseModel <|-- ChatMessage : " inherits"
 ChatMessage *-left- ChatRole
 
-ChatMessage -up-> BaseLLM::chat : " optional input"
-ChatMessage <-down- BaseLLM::chat : " returns"
-
-CompleteResult <-- BaseLLM::complete : " returns"
+BaseLLM ..> ChatMessage : " uses"
+BaseLLM ..> CompleteResult : " uses"
 
 @enduml

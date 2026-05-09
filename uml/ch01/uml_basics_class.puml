@@ -25,9 +25,4 @@ package "llm_agents_from_scratch.data_structures" <<Folder>> {
   end note
 }
 
-' Relations
-BaseTool ..> ToolCallResult : " uses"
-note right on link
-  this describes a relation between classes
-end note
 @enduml

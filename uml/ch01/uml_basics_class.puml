@@ -1,6 +1,18 @@
 ' UML basics — class diagram
 @startuml uml_basics_class
 !include ../common/book-clean.puml
+package "llm_agents_from_scratch.data_structures" <<Folder>> {
+
+  class ToolCallResult {
+    +tool_call_id: str
+    +content: Any | None
+    +error: bool
+  }
+  note left of ToolCallResult::tool_call_id
+    attributes of the class are listed in the top section
+  end note
+}
+
 package "llm_agents_from_scratch.base" <<Folder>> {
 
   class BaseTool {
@@ -13,16 +25,6 @@ package "llm_agents_from_scratch.base" <<Folder>> {
   end note
 }
 
-package "llm_agents_from_scratch.data_structures" <<Folder>> {
-
-  class ToolCallResult {
-    +tool_call_id: str
-    +content: Any | None
-    +error: bool
-  }
-  note left of ToolCallResult::tool_call_id
-    attributes of the class are listed in the top section
-  end note
-}
+llm_agents_from_scratch.data_structures -[hidden]down- llm_agents_from_scratch.base
 
 @enduml

@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- ...
+
+## [0.0.16] - 2026-05-10
+
 ### Added
 
 - feat: add `code` and `cwd` parameters to `PythonInterpreterTool` (#490)

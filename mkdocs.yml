@@ -79,6 +79,7 @@ nav:
     - Data Structures:
       - Agent: api_reference/data_structures/agent.md
       - LLM: api_reference/data_structures/llm.md
+      - Memory: api_reference/data_structures/memory.md
       - Skill: api_reference/data_structures/skill.md
       - Tool: api_reference/data_structures/tool.md
     - LLMs:

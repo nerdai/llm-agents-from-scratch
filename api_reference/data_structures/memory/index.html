@@ -8,31 +8,31 @@
       
       
       
-        <link rel="canonical" href="https://masfromscratch.com/notebooks/">
+        <link rel="canonical" href="https://masfromscratch.com/api_reference/data_structures/memory/">
       
       
-        <link rel="prev" href="..">
+        <link rel="prev" href="../llm/">
       
       
-        <link rel="next" href="ch02/">
+        <link rel="next" href="../skill/">
       
       
         
       
       
-      <link rel="icon" href="../assets/images/favicon.png">
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
-        <title>Running the Notebooks - LLM Agents From Scratch</title>
+        <title>Memory - LLM Agents From Scratch</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -51,11 +51,11 @@
       
     
     
-      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="../stylesheets/extra.css">
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#running-the-notebooks" class="md-skip">
+        <a href="#memory" class="md-skip">
           Skip to content
         </a>
       
@@ -94,7 +94,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="LLM Agents From Scratch" class="md-header__button md-logo" aria-label="LLM Agents From Scratch" data-md-component="logo">
+    <a href="../../.." title="LLM Agents From Scratch" class="md-header__button md-logo" aria-label="LLM Agents From Scratch" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5 2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5 2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5 2.5 2.5 0 0 0-2.5-2.5"/></svg>
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Running the Notebooks
+              Memory
             
           </span>
         </div>
@@ -227,7 +227,7 @@
   
   
     <li class="md-tabs__item">
-      <a href=".." class="md-tabs__link">
+      <a href="../../.." class="md-tabs__link">
         
   
   
@@ -244,13 +244,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../../notebooks/" class="md-tabs__link">
           
   
   
@@ -272,7 +270,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../more-examples/" class="md-tabs__link">
+        <a href="../../../more-examples/" class="md-tabs__link">
           
   
   
@@ -301,7 +299,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../capstones/one/" class="md-tabs__link">
+        <a href="../../../capstones/one/" class="md-tabs__link">
           
   
   
@@ -322,6 +320,8 @@
   
   
   
+    
+  
   
     
     
@@ -329,11 +329,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../api_reference/base/llm/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../base/llm/" class="md-tabs__link">
           
   
   
@@ -372,7 +374,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="LLM Agents From Scratch" class="md-nav__button md-logo" aria-label="LLM Agents From Scratch" data-md-component="logo">
+    <a href="../../.." title="LLM Agents From Scratch" class="md-nav__button md-logo" aria-label="LLM Agents From Scratch" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5 2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5 2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5 2.5 2.5 0 0 0-2.5-2.5"/></svg>
@@ -402,7 +404,7 @@
   
   
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   
@@ -426,8 +428,6 @@
       
   
   
-    
-  
   
   
     
@@ -451,21 +451,18 @@
     
     
       
-        
-        
-      
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="./" class="md-nav__link md-nav__link--active">
+            <a href="../../../notebooks/" class="md-nav__link ">
               
   
   
@@ -483,13 +480,13 @@
             </a>
             
               
-              <label class="md-nav__link md-nav__link--active" for="__nav_2" id="__nav_2_label" tabindex="">
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -509,7 +506,7 @@
   
   
     <li class="md-nav__item">
-      <a href="ch02/" class="md-nav__link">
+      <a href="../../../notebooks/ch02/" class="md-nav__link">
         
   
   
@@ -537,7 +534,7 @@
   
   
     <li class="md-nav__item">
-      <a href="ch03/" class="md-nav__link">
+      <a href="../../../notebooks/ch03/" class="md-nav__link">
         
   
   
@@ -565,7 +562,7 @@
   
   
     <li class="md-nav__item">
-      <a href="ch04/" class="md-nav__link">
+      <a href="../../../notebooks/ch04/" class="md-nav__link">
         
   
   
@@ -593,7 +590,7 @@
   
   
     <li class="md-nav__item">
-      <a href="ch05/" class="md-nav__link">
+      <a href="../../../notebooks/ch05/" class="md-nav__link">
         
   
   
@@ -621,7 +618,7 @@
   
   
     <li class="md-nav__item">
-      <a href="ch06/" class="md-nav__link">
+      <a href="../../../notebooks/ch06/" class="md-nav__link">
         
   
   
@@ -687,7 +684,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../more-examples/" class="md-nav__link ">
+            <a href="../../../more-examples/" class="md-nav__link ">
               
   
   
@@ -789,7 +786,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../more-examples/ch02/async_tools/" class="md-nav__link">
+      <a href="../../../more-examples/ch02/async_tools/" class="md-nav__link">
         
   
   
@@ -817,7 +814,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../more-examples/ch02/multi_tool_registry/" class="md-nav__link">
+      <a href="../../../more-examples/ch02/multi_tool_registry/" class="md-nav__link">
         
   
   
@@ -845,7 +842,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../more-examples/ch02/pydantic_tool_validation/" class="md-nav__link">
+      <a href="../../../more-examples/ch02/pydantic_tool_validation/" class="md-nav__link">
         
   
   
@@ -939,7 +936,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../more-examples/ch03/multi_turn_chat/" class="md-nav__link">
+      <a href="../../../more-examples/ch03/multi_turn_chat/" class="md-nav__link">
         
   
   
@@ -967,7 +964,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../more-examples/ch03/pdf_extraction/" class="md-nav__link">
+      <a href="../../../more-examples/ch03/pdf_extraction/" class="md-nav__link">
         
   
   
@@ -995,7 +992,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../more-examples/ch03/parallel_tool_calls/" class="md-nav__link">
+      <a href="../../../more-examples/ch03/parallel_tool_calls/" class="md-nav__link">
         
   
   
@@ -1087,7 +1084,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../more-examples/ch04/pokemon_error_handling/" class="md-nav__link">
+      <a href="../../../more-examples/ch04/pokemon_error_handling/" class="md-nav__link">
         
   
   
@@ -1115,7 +1112,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../more-examples/ch04/pokemon_comparison/" class="md-nav__link">
+      <a href="../../../more-examples/ch04/pokemon_comparison/" class="md-nav__link">
         
   
   
@@ -1207,7 +1204,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../more-examples/ch05/github_mcp/" class="md-nav__link">
+      <a href="../../../more-examples/ch05/github_mcp/" class="md-nav__link">
         
   
   
@@ -1235,7 +1232,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../more-examples/ch05/goodnews_mcp/" class="md-nav__link">
+      <a href="../../../more-examples/ch05/goodnews_mcp/" class="md-nav__link">
         
   
   
@@ -1333,7 +1330,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../more-examples/ch06/additional_resource_python/" class="md-nav__link">
+      <a href="../../../more-examples/ch06/additional_resource_python/" class="md-nav__link">
         
   
   
@@ -1361,7 +1358,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../more-examples/ch06/with_and_without_skills/" class="md-nav__link">
+      <a href="../../../more-examples/ch06/with_and_without_skills/" class="md-nav__link">
         
   
   
@@ -1389,7 +1386,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../more-examples/ch06/skill_validation_errors/" class="md-nav__link">
+      <a href="../../../more-examples/ch06/skill_validation_errors/" class="md-nav__link">
         
   
   
@@ -1417,7 +1414,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../more-examples/ch06/user_explicit_hailstone/" class="md-nav__link">
+      <a href="../../../more-examples/ch06/user_explicit_hailstone/" class="md-nav__link">
         
   
   
@@ -1445,7 +1442,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../more-examples/ch06/skills_marketplace/" class="md-nav__link">
+      <a href="../../../more-examples/ch06/skills_marketplace/" class="md-nav__link">
         
   
   
@@ -1567,7 +1564,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../capstones/one/" class="md-nav__link ">
+            <a href="../../../capstones/one/" class="md-nav__link ">
               
   
   
@@ -1611,7 +1608,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../capstones/one/capstone_1/" class="md-nav__link">
+      <a href="../../../capstones/one/capstone_1/" class="md-nav__link">
         
   
   
@@ -1639,7 +1636,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../capstones/one/runpod_instructions/" class="md-nav__link">
+      <a href="../../../capstones/one/runpod_instructions/" class="md-nav__link">
         
   
   
@@ -1679,6 +1676,8 @@
       
   
   
+    
+  
   
   
     
@@ -1704,18 +1703,21 @@
     
     
       
+        
+        
+      
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../api_reference/errors/" class="md-nav__link ">
+            <a href="../../errors/" class="md-nav__link ">
               
   
   
@@ -1733,13 +1735,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1813,7 +1815,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api_reference/base/llm/" class="md-nav__link">
+      <a href="../../base/llm/" class="md-nav__link">
         
   
   
@@ -1841,7 +1843,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api_reference/base/tool/" class="md-nav__link">
+      <a href="../../base/tool/" class="md-nav__link">
         
   
   
@@ -1933,7 +1935,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api_reference/agent/llm_agent/" class="md-nav__link">
+      <a href="../../agent/llm_agent/" class="md-nav__link">
         
   
   
@@ -1961,7 +1963,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api_reference/agent/builder/" class="md-nav__link">
+      <a href="../../agent/builder/" class="md-nav__link">
         
   
   
@@ -1994,8 +1996,10 @@
                 
   
   
+    
   
   
+  
     
     
       
@@ -2016,11 +2020,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" checked>
         
           
           <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
@@ -2041,7 +2045,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -2059,7 +2063,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api_reference/data_structures/agent/" class="md-nav__link">
+      <a href="../agent/" class="md-nav__link">
         
   
   
@@ -2087,7 +2091,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api_reference/data_structures/llm/" class="md-nav__link">
+      <a href="../llm/" class="md-nav__link">
         
   
   
@@ -2112,10 +2116,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../api_reference/data_structures/memory/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Memory
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -2131,6 +2162,37 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#llm_agents_from_scratch.data_structures.memory.Episode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;Episode
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2143,7 +2205,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api_reference/data_structures/skill/" class="md-nav__link">
+      <a href="../skill/" class="md-nav__link">
         
   
   
@@ -2171,7 +2233,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api_reference/data_structures/tool/" class="md-nav__link">
+      <a href="../tool/" class="md-nav__link">
         
   
   
@@ -2263,7 +2325,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api_reference/llms/ollama/" class="md-nav__link">
+      <a href="../../llms/ollama/" class="md-nav__link">
         
   
   
@@ -2291,7 +2353,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api_reference/llms/openai/" class="md-nav__link">
+      <a href="../../llms/openai/" class="md-nav__link">
         
   
   
@@ -2387,7 +2449,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api_reference/tools/simple_function/" class="md-nav__link">
+      <a href="../../tools/simple_function/" class="md-nav__link">
         
   
   
@@ -2415,7 +2477,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api_reference/tools/pydantic_function/" class="md-nav__link">
+      <a href="../../tools/pydantic_function/" class="md-nav__link">
         
   
   
@@ -2443,7 +2505,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api_reference/tools/mcp/" class="md-nav__link">
+      <a href="../../tools/mcp/" class="md-nav__link">
         
   
   
@@ -2471,7 +2533,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api_reference/tools/default/" class="md-nav__link">
+      <a href="../../tools/default/" class="md-nav__link">
         
   
   
@@ -2567,7 +2629,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api_reference/skills/skill/" class="md-nav__link">
+      <a href="../../skills/skill/" class="md-nav__link">
         
   
   
@@ -2595,7 +2657,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api_reference/skills/discovery/" class="md-nav__link">
+      <a href="../../skills/discovery/" class="md-nav__link">
         
   
   
@@ -2623,7 +2685,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api_reference/skills/tools/" class="md-nav__link">
+      <a href="../../skills/tools/" class="md-nav__link">
         
   
   
@@ -2651,7 +2713,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api_reference/skills/constants/" class="md-nav__link">
+      <a href="../../skills/constants/" class="md-nav__link">
         
   
   
@@ -2716,21 +2778,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#option-a-run-locally" class="md-nav__link">
+  <a href="#llm_agents_from_scratch.data_structures.memory.Episode" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Option A — Run Locally
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#option-b-lightning-ai-free" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Option B — Lightning AI (Free)
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;Episode
       
     </span>
   </a>
@@ -2757,28 +2808,110 @@
   
 
 
-<h1 id="running-the-notebooks">Running the Notebooks<a class="headerlink" href="#running-the-notebooks" title="Permanent link">&para;</a></h1>
-<p>The chapter notebooks use <strong>Qwen3:14B</strong> as the default model via Ollama.
-Minimum hardware: ~16 GB RAM with a dedicated GPU. You can swap in a smaller
-model (e.g. <code>qwen3:4b</code>), but smaller models may not follow tool-use
-instructions reliably — especially in later chapters.</p>
-<h2 id="option-a-run-locally">Option A — Run Locally<a class="headerlink" href="#option-a-run-locally" title="Permanent link">&para;</a></h2>
-<p>Install <a href="https://ollama.com/">Ollama</a> and pull the model:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ollama<span class="w"> </span>pull<span class="w"> </span>qwen3:14b
-</span></code></pre></div>
-<p>Then launch Jupyter from the project root:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>uv<span class="w"> </span>run<span class="w"> </span>--with<span class="w"> </span>jupyter<span class="w"> </span>jupyter<span class="w"> </span>lab
-</span></code></pre></div>
-<h2 id="option-b-lightning-ai-free">Option B — Lightning AI (Free)<a class="headerlink" href="#option-b-lightning-ai-free" title="Permanent link">&para;</a></h2>
-<p>No GPU? <a href="https://lightning.ai">Lightning AI</a> offers ~22 free GPU compute
-hours/month — enough for several sessions on an L4.</p>
-<ol>
-<li><a href="https://lightning.ai">Create a free account</a> if you don't have one</li>
-<li>Open the <a href="https://lightning.ai/nerdai/templates/build-a-multi-agent-system-from-scratch">book template</a></li>
-<li>Click <strong>Clone</strong> and ensure it's the latest version</li>
-<li>Launch the Studio with an <strong>L4 GPU</strong></li>
-<li>Open any chapter notebook — Ollama and the model are pre-configured</li>
-</ol>
+<h1 id="memory">Memory<a class="headerlink" href="#memory" title="Permanent link">&para;</a></h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+
+    <div class="doc doc-contents first">
+
+        <p>Data structures for episodic memory.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="llm_agents_from_scratch.data_structures.memory.Episode" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">Episode</span>
+
+
+<a href="#llm_agents_from_scratch.data_structures.memory.Episode" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="pydantic.BaseModel">BaseModel</span></code></p>
+
+
+
+        <p>A completed task to be stored in memory.</p>
+
+
+
+
+
+
+
+
+              <details class="mkdocstrings-source">
+                <summary>Source code in <code>src/llm_agents_from_scratch/data_structures/memory.py</code></summary>
+                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-11">11</a></span>
+<span class="normal"><a href="#__codelineno-0-12">12</a></span>
+<span class="normal"><a href="#__codelineno-0-13">13</a></span>
+<span class="normal"><a href="#__codelineno-0-14">14</a></span>
+<span class="normal"><a href="#__codelineno-0-15">15</a></span>
+<span class="normal"><a href="#__codelineno-0-16">16</a></span>
+<span class="normal"><a href="#__codelineno-0-17">17</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="k">class</span><span class="w"> </span><span class="nc">Episode</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;A completed task to be stored in memory.&quot;&quot;&quot;</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a>    <span class="n">task</span><span class="p">:</span> <span class="n">Task</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a>    <span class="n">rollout</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">ChatMessage</span><span class="p">]</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a>    <span class="n">result</span><span class="p">:</span> <span class="n">TaskResult</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a>    <span class="n">completed_at</span><span class="p">:</span> <span class="n">datetime</span>
+</span></code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
 
 
 
@@ -2816,7 +2949,7 @@ hours/month — enough for several sessions on an L4.</p>
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href=".." class="md-footer__link md-footer__link--prev" aria-label="Previous: Home">
+          <a href="../llm/" class="md-footer__link md-footer__link--prev" aria-label="Previous: LLM">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -2826,20 +2959,20 @@ hours/month — enough for several sessions on an L4.</p>
                 Previous
               </span>
               <div class="md-ellipsis">
-                Home
+                LLM
               </div>
             </div>
           </a>
         
         
           
-          <a href="ch02/" class="md-footer__link md-footer__link--next" aria-label="Next: Chapter 2 — Working with Tools">
+          <a href="../skill/" class="md-footer__link md-footer__link--next" aria-label="Next: Skill">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Chapter 2 — Working with Tools
+                Skill
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -2908,10 +3041,10 @@ hours/month — enough for several sessions on an L4.</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.annotate", "content.code.copy", "content.tabs.link", "navigation.footer", "navigation.indexes", "navigation.instant", "navigation.tabs", "navigation.top", "search.suggest", "search.highlight", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["content.code.annotate", "content.code.copy", "content.tabs.link", "navigation.footer", "navigation.indexes", "navigation.instant", "navigation.tabs", "navigation.top", "search.suggest", "search.highlight", "toc.follow"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>

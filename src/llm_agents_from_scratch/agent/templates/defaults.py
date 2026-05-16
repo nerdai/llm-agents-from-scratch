@@ -76,3 +76,10 @@ one, call the `from_scratch__use_skill` tool with the skill name.
 <available_skills>
 {skills}
 </available_skills>""".strip()
+
+DEFAULT_MEMORIES_BLOCK = """The following are memories from past episodes or
+task executions.
+
+<memories>
+{memories}
+</memories>""".strip()

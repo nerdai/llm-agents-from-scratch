@@ -17,6 +17,10 @@
          <lastmod>2026-05-17</lastmod>
     </url>
     <url>
+         <loc>https://masfromscratch.com/api_reference/base/memory/</loc>
+         <lastmod>2026-05-17</lastmod>
+    </url>
+    <url>
          <loc>https://masfromscratch.com/api_reference/base/tool/</loc>
          <lastmod>2026-05-17</lastmod>
     </url>
@@ -50,6 +54,10 @@
     </url>
     <url>
          <loc>https://masfromscratch.com/api_reference/llms/openai/</loc>
+         <lastmod>2026-05-17</lastmod>
+    </url>
+    <url>
+         <loc>https://masfromscratch.com/api_reference/memory/json_store/</loc>
          <lastmod>2026-05-17</lastmod>
     </url>
     <url>

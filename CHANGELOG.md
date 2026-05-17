@@ -8,7 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
-- ...
+### Added
+
+- feat: wire memory recall and record into `LLMAgent` and `TaskHandler`
+- feat: add `BaseMemory` and `BaseMemoryStore` abstract base classes (#539)
+- feat: add `Episode` data structure to `data_structures.memory` (#535)
 
 ## [0.0.16] - 2026-05-10
 

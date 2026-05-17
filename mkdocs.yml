@@ -90,6 +90,8 @@ nav:
       - Pydantic Function: api_reference/tools/pydantic_function.md
       - MCP: api_reference/tools/mcp.md
       - Default Tools: api_reference/tools/default.md
+    - Memory:
+      - JSONMemoryStore: api_reference/memory/json_store.md
     - Skills:
       - Skill: api_reference/skills/skill.md
       - Discovery: api_reference/skills/discovery.md

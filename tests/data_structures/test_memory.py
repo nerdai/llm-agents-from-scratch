@@ -2,7 +2,6 @@ from datetime import datetime
 from unittest.mock import MagicMock
 
 from llm_agents_from_scratch.data_structures import (
-    ChatMessage,
     Task,
     TaskResult,
 )
@@ -13,7 +12,7 @@ def test_episode_init() -> None:
     """Tests construction of Episode."""
     mock_task = MagicMock(spec=Task)
     mock_task_result = MagicMock(spec=TaskResult)
-    mock_rollout = [MagicMock(spec=ChatMessage)]
+    mock_rollout = ""
     now = datetime.now()
 
     episode = Episode(

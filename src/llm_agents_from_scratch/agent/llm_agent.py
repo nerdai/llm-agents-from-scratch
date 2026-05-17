@@ -18,6 +18,7 @@ from llm_agents_from_scratch.data_structures import (
     TaskStepResult,
     ToolCallResult,
 )
+from llm_agents_from_scratch.data_structures.memory import Episode
 from llm_agents_from_scratch.data_structures.skill import SkillScope
 from llm_agents_from_scratch.errors import (
     LLMAgentError,
@@ -578,6 +579,21 @@ class LLMAgent:
 
                 except Exception as e:
                     task_handler.set_exception(e)
+
+            # added in ch07
+            exc = task_handler.exception()
+            task_result = (
+                TaskResult(task_id=task.id_, content=str(exc))
+                if exc is not None
+                else task_handler.result()
+            )
+            ep = Episode(
+                task=task,
+                rollout=task_handler.rollout,
+                result=task_result,
+            )
+            for memory in self.memories:
+                await memory.record(ep)
 
         task_handler.background_task = asyncio.create_task(_process_loop())
 

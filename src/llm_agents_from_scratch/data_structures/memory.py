@@ -14,3 +14,11 @@ class Episode(BaseModel):
     rollout: str
     result: TaskResult
     completed_at: datetime = Field(default_factory=datetime.now)
+
+    def __str__(self) -> str:
+        """Return a prompt-ready string representation of the episode."""
+        ts = self.completed_at.strftime("%Y-%m-%d %H:%M:%S")
+        return (
+            f"[{ts}] Task: {self.task.instruction} | "
+            f"Result: {self.result.content}"
+        )

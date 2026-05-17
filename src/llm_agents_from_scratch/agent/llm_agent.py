@@ -190,12 +190,13 @@ class LLMAgent:
         def _skills_catalog(self) -> str:
             """Return formatted skills catalog, or empty string.
 
+            Added in Chapter 6.
+
             Builds the ``<available_skills>`` XML block from discovered
             skills that have not opted out of model-driven activation
             (i.e. ``disable-model-invocation`` is not set). Returns an
             empty string when no visible skills remain so callers can
-            append it unconditionally without adding noise. Added in
-            Chapter 6.
+            append it unconditionally without adding noise.
             """
             visible = [
                 skill
@@ -501,10 +502,12 @@ class LLMAgent:
         async def load_memories(self) -> None:
             """Recall relevant episodes from all configured memory backends.
 
+            Added in Chapter 7.
+
             Calls ``recall`` on each memory in ``self.llm_agent.memories``
             and stores the formatted string in ``self._recalled_memories``
             for prompt injection during ``run_step``. No-op when no memories
-            are configured. Added in Chapter 7.
+            are configured.
             """
             loaded = []
             for memory in self.llm_agent.memories:
@@ -606,6 +609,8 @@ class LLMAgent:
         max_steps: int | None = None,
     ) -> TaskHandler:
         """User-explicit skill activation: the programmatic slash command.
+
+        Added in Chapter 6.
 
         Frames the task instruction to direct the model to activate the named
         skill as its first action, then runs the full agent loop. Relies on

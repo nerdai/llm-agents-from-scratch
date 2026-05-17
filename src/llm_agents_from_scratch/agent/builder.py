@@ -37,6 +37,7 @@ class LLMAgentBuilder:
         tools: list[Tool] | None = None,
         templates: LLMAgentTemplates = default_templates,
         mcp_providers: list[MCPToolProvider] | None = None,
+        # added in ch07
         memories: list[BaseMemory] | None = None,
     ) -> None:
         """Initialize an LLMAgentBuilder.
@@ -83,6 +84,7 @@ class LLMAgentBuilder:
         self.templates = templates
         self.mcp_providers = mcp_providers or []
         self.tools = tools or []
+        # added in ch07
         self.memories: list[BaseMemory] = memories or []
 
     def with_llm(self, llm: LLM) -> Self:
@@ -116,12 +118,12 @@ class LLMAgentBuilder:
         return self
 
     def with_memory(self, memory: BaseMemory) -> Self:
-        """Add a memory backend to builder."""
+        """Add a memory backend to builder. Added in Chapter 7."""
         self.memories.append(memory)
         return self
 
     def with_memories(self, memories: list[BaseMemory]) -> Self:
-        """Add memory backends to builder."""
+        """Add memory backends to builder. Added in Chapter 7."""
         self.memories.extend(memories)
         return self
 
@@ -161,5 +163,5 @@ class LLMAgentBuilder:
             llm=self.llm,
             tools=self.tools + mcp_tools,
             templates=self.templates,
-            memories=self.memories,
+            memories=self.memories,  # added in ch07
         )

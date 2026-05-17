@@ -70,6 +70,14 @@ class JSONMemoryStore(BaseMemoryStore):
             reverse=True,
         )[:n]
 
+    async def count(self) -> int:
+        """Return the total number of episodes in the store.
+
+        Returns:
+            int: Episode count.
+        """
+        return len(self._episodes)
+
     async def search(self, query: str, k: int) -> list[Episode]:
         """Not implemented — similarity search is deferred to vector store.
 

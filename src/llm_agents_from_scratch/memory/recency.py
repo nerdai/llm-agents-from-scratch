@@ -59,8 +59,7 @@ class RecencyMemory(BaseMemory):
         Returns:
             str: Episode count and recall window size.
         """
-        episodes = await self.store.read_recent(n=int(1e9))
+        total = await self.store.count()
         return (
-            f"RecencyMemory: {len(episodes)} episodes stored, "
-            f"recalling last {self.n}"
+            f"RecencyMemory: {total} episodes stored, recalling last {self.n}"
         )

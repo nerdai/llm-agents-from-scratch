@@ -55,6 +55,17 @@ async def test_write_persists_to_disk(tmp_path: Path) -> None:
 
 
 @pytest.mark.asyncio
+async def test_count(tmp_path: Path) -> None:
+    """Tests count returns the number of stored episodes."""
+    store = JSONMemoryStore(path=tmp_path / "episodes.jsonl")
+
+    assert await store.count() == 0
+    await store.write(make_episode("task 1"))
+    await store.write(make_episode("task 2"))
+    assert await store.count() == 2  # noqa: PLR2004
+
+
+@pytest.mark.asyncio
 async def test_write_multiple_episodes(tmp_path: Path) -> None:
     """Tests multiple writes accumulate on disk."""
     store = JSONMemoryStore(path=tmp_path / "episodes.jsonl")

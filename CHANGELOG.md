@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- feat: add `with_memory()` and `with_memories()` to `LLMAgentBuilder` (#530)
 - feat: wire memory recall and record into `LLMAgent` and `TaskHandler`
 - feat: add `BaseMemory` and `BaseMemoryStore` abstract base classes (#539)
 - feat: add `Episode` data structure to `data_structures.memory` (#535)

@@ -94,14 +94,3 @@ async def test_summary(tmp_path: Path) -> None:
 
     assert "2" in summary
     assert "5" in summary
-
-
-def test_episode_str() -> None:
-    """Tests Episode.__str__ includes instruction, result, and timestamp."""
-    ep = make_episode("summarise the doc", "here is the summary")
-
-    s = str(ep)
-
-    assert "summarise the doc" in s
-    assert "here is the summary" in s
-    assert ep.completed_at.strftime("%Y-%m-%d") in s

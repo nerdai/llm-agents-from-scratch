@@ -6,7 +6,9 @@ import pytest
 
 from llm_agents_from_scratch.agent import LLMAgent
 from llm_agents_from_scratch.base.llm import BaseLLM
+from llm_agents_from_scratch.base.memory import BaseMemory
 from llm_agents_from_scratch.base.tool import BaseTool
+from llm_agents_from_scratch.data_structures import Episode
 from llm_agents_from_scratch.data_structures.agent import (
     Task,
     TaskResult,
@@ -180,3 +182,80 @@ def test_run_with_skill_with_prompt(mock_llm: BaseLLM) -> None:
         prompt="Summarize this doc",
     )
     assert task.instruction == expected
+
+
+# Memory record tests (Chapter 7)
+
+
+@pytest.mark.asyncio
+@patch.object(LLMAgent.TaskHandler, "get_next_step")
+async def test_run_records_episode_on_success(
+    mock_get_next_step: AsyncMock,
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests memory.record is called with the completed Episode on success."""
+    task = Task(instruction="mock instruction")
+    task_result = TaskResult(task_id=task.id_, content="mock result")
+    mock_get_next_step.side_effect = [task_result]
+
+    mock_memory = AsyncMock(spec=BaseMemory)
+    mock_memory.recall.return_value = ""
+    agent = LLMAgent(llm=mock_llm, memories=[mock_memory])
+
+    handler = agent.run(task)
+    await handler
+
+    mock_memory.record.assert_awaited_once()
+    ep: Episode = mock_memory.record.call_args[0][0]
+    assert isinstance(ep, Episode)
+    assert ep.task == task
+    assert ep.result == task_result
+
+
+@pytest.mark.asyncio
+@patch.object(LLMAgent.TaskHandler, "get_next_step")
+async def test_run_records_episode_on_failure(
+    mock_get_next_step: AsyncMock,
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests memory.record is called with a synthetic Episode on failure."""
+    err = RuntimeError("boom")
+    mock_get_next_step.side_effect = err
+
+    mock_memory = AsyncMock(spec=BaseMemory)
+    mock_memory.recall.return_value = ""
+    task = Task(instruction="mock instruction")
+    agent = LLMAgent(llm=mock_llm, memories=[mock_memory])
+
+    agent.run(task)
+    await asyncio.sleep(0.1)
+
+    mock_memory.record.assert_awaited_once()
+    ep: Episode = mock_memory.record.call_args[0][0]
+    assert isinstance(ep, Episode)
+    assert ep.task == task
+    assert str(err) in ep.result.content
+
+
+@pytest.mark.asyncio
+@patch.object(LLMAgent.TaskHandler, "get_next_step")
+async def test_run_records_episode_for_each_memory(
+    mock_get_next_step: AsyncMock,
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests memory.record is called on every memory in agent.memories."""
+    task = Task(instruction="mock instruction")
+    task_result = TaskResult(task_id=task.id_, content="mock result")
+    mock_get_next_step.side_effect = [task_result]
+
+    mock_memory_a = AsyncMock(spec=BaseMemory)
+    mock_memory_a.recall.return_value = ""
+    mock_memory_b = AsyncMock(spec=BaseMemory)
+    mock_memory_b.recall.return_value = ""
+    agent = LLMAgent(llm=mock_llm, memories=[mock_memory_a, mock_memory_b])
+
+    handler = agent.run(task)
+    await handler
+
+    mock_memory_a.record.assert_awaited_once()
+    mock_memory_b.record.assert_awaited_once()

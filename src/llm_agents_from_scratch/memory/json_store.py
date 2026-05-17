@@ -1,6 +1,5 @@
-"""JSON-file-backed episodic memory store."""
+"""JSONL-file-backed episodic memory store."""
 
-import json
 from pathlib import Path
 
 from llm_agents_from_scratch.base.memory import BaseMemoryStore
@@ -8,10 +7,14 @@ from llm_agents_from_scratch.data_structures.memory import Episode
 
 
 class JSONMemoryStore(BaseMemoryStore):
-    """Episodic memory store backed by a JSON file on disk.
+    """Episodic memory store backed by a JSONL file on disk.
+
+    Each episode is stored as one JSON object per line (JSONL format).
+    New episodes are appended to the file — no full rewrite on each write.
+    The full file is read into memory on construction and on ``read_recent``.
 
     Attributes:
-        path (Path): Path to the JSON file used for persistence.
+        path (Path): Path to the JSONL file used for persistence.
     """
 
     def __init__(self, path: Path) -> None:
@@ -21,7 +24,7 @@ class JSONMemoryStore(BaseMemoryStore):
         is created on the first ``write`` call if it does not yet exist.
 
         Args:
-            path (Path): Caller-supplied path to the backing JSON file. No
+            path (Path): Caller-supplied path to the backing JSONL file. No
                 default location is imposed by the library — the caller
                 decides where episodes are stored.
         """
@@ -32,28 +35,28 @@ class JSONMemoryStore(BaseMemoryStore):
         if not self.path.exists():
             return []
         with open(self.path) as f:
-            return [Episode(**ep) for ep in json.load(f)]
-
-    def _save(self) -> None:
-        with open(self.path, "w") as f:
-            json.dump(
-                [ep.model_dump(mode="json") for ep in self._episodes],
-                f,
-            )
+            return [
+                Episode.model_validate_json(line) for line in f if line.strip()
+            ]
 
     async def write(self, episode: Episode) -> None:
         """Persist an episode to the store.
 
-        Appends to the in-memory list and rewrites the full JSON file.
+        Appends one JSON line to the backing file. Does not rewrite existing
+        content.
 
         Args:
             episode (Episode): The completed episode to store.
         """
         self._episodes.append(episode)
-        self._save()
+        with open(self.path, "a") as f:
+            f.write(episode.model_dump_json() + "\n")
 
     async def read_recent(self, n: int) -> list[Episode]:
         """Return the N most recently recorded episodes.
+
+        Reads all episodes from the in-memory list. A production
+        implementation would tail the file to avoid reading it in full.
 
         Args:
             n (int): Maximum number of episodes to return.

@@ -8,6 +8,23 @@ from llm_agents_from_scratch.data_structures import (
 from llm_agents_from_scratch.data_structures.memory import Episode
 
 
+def test_episode_str() -> None:
+    """Tests Episode.__str__ produces prompt-ready XML with key fields."""
+    task = Task(instruction="summarise the doc")
+    ep = Episode(
+        task=task,
+        rollout="",
+        result=TaskResult(task_id=task.id_, content="here is the summary"),
+    )
+
+    s = str(ep)
+
+    assert "<episode>" in s
+    assert "<task>summarise the doc</task>" in s
+    assert "<result>here is the summary</result>" in s
+    assert ep.completed_at.strftime("%Y-%m-%d") in s
+
+
 def test_episode_init() -> None:
     """Tests construction of Episode."""
     mock_task = MagicMock(spec=Task)

@@ -72,6 +72,7 @@ nav:
   - API Reference:
     - Base:
       - LLM: api_reference/base/llm.md
+      - Memory: api_reference/base/memory.md
       - Tool: api_reference/base/tool.md
     - Agent:
       - LLMAgent: api_reference/agent/llm_agent.md

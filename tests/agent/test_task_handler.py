@@ -7,6 +7,7 @@ import pytest
 from llm_agents_from_scratch.agent import LLMAgent
 from llm_agents_from_scratch.agent.templates import default_templates
 from llm_agents_from_scratch.base.llm import BaseLLM
+from llm_agents_from_scratch.base.memory import BaseMemory
 from llm_agents_from_scratch.data_structures import (
     ChatMessage,
     ChatRole,
@@ -684,6 +685,142 @@ async def test_run_step_injects_skills_catalog() -> None:
             llm_agent_system_message=llm_agent.templates["system_message"],
         )
         + f"\n\n{expected_catalog}"
+    )
+    mock_llm.chat.assert_awaited_once_with(
+        input="Some instruction.",
+        chat_history=[
+            ChatMessage(
+                role=ChatRole.SYSTEM,
+                content=expected_system_content,
+            ),
+        ],
+        tools=list(handler.llm_agent.tools_registry.values()),
+    )
+
+
+# ---------------------------------------------------------------------------
+# Memory tests (Chapter 7)
+# ---------------------------------------------------------------------------
+
+
+def test_llm_agent_init_with_memories(mock_llm: BaseLLM) -> None:
+    """Tests LLMAgent stores memories list on init."""
+    mock_memory = MagicMock(spec=BaseMemory)
+    agent = LLMAgent(llm=mock_llm, memories=[mock_memory])
+    assert agent.memories == [mock_memory]
+
+
+def test_llm_agent_init_no_memories_defaults_to_empty_list(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests LLMAgent.memories defaults to empty list when not provided."""
+    agent = LLMAgent(llm=mock_llm)
+    assert agent.memories == []
+
+
+def test_task_handler_recalled_memories_init(mock_llm: BaseLLM) -> None:
+    """Tests _recalled_memories initialises as empty string."""
+    handler = LLMAgent.TaskHandler(
+        llm_agent=LLMAgent(llm=mock_llm),
+        task=Task(instruction="mock instruction"),
+    )
+    assert handler._recalled_memories == ""
+
+
+def test_format_memories_for_system_prompt_empty(mock_llm: BaseLLM) -> None:
+    """Tests _format_memories_for_system_prompt returns '' for empty list."""
+    handler = LLMAgent.TaskHandler(
+        llm_agent=LLMAgent(llm=mock_llm),
+        task=Task(instruction="mock instruction"),
+    )
+    assert handler._format_memories_for_system_prompt([]) == ""
+
+
+def test_format_memories_for_system_prompt_with_entries(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests _format_memories_for_system_prompt returns formatted template."""
+    handler = LLMAgent.TaskHandler(
+        llm_agent=LLMAgent(llm=mock_llm),
+        task=Task(instruction="mock instruction"),
+    )
+    result = handler._format_memories_for_system_prompt(
+        ["episode 1 context", "episode 2 context"],
+    )
+    expected = default_templates["memories"].format(
+        memories="episode 1 context\nepisode 2 context",
+    )
+    assert result == expected
+
+
+@pytest.mark.asyncio
+async def test_load_memories_populates_recalled_memories(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests load_memories calls recall on each memory and stores result."""
+    mock_memory_a = AsyncMock(spec=BaseMemory)
+    mock_memory_a.recall.return_value = "episode A context"
+    mock_memory_b = AsyncMock(spec=BaseMemory)
+    mock_memory_b.recall.return_value = "episode B context"
+
+    task = Task(instruction="mock instruction")
+    agent = LLMAgent(llm=mock_llm, memories=[mock_memory_a, mock_memory_b])
+    handler = LLMAgent.TaskHandler(llm_agent=agent, task=task)
+
+    await handler.load_memories()
+
+    mock_memory_a.recall.assert_awaited_once_with(task)
+    mock_memory_b.recall.assert_awaited_once_with(task)
+    expected = default_templates["memories"].format(
+        memories="episode A context\nepisode B context",
+    )
+    assert handler._recalled_memories == expected
+
+
+@pytest.mark.asyncio
+async def test_load_memories_no_memories_leaves_empty_string(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests load_memories is a no-op when no memories are configured."""
+    task = Task(instruction="mock instruction")
+    agent = LLMAgent(llm=mock_llm)
+    handler = LLMAgent.TaskHandler(llm_agent=agent, task=task)
+
+    await handler.load_memories()
+
+    assert handler._recalled_memories == ""
+
+
+@pytest.mark.asyncio
+async def test_run_step_injects_recalled_memories() -> None:
+    """Tests run_step appends recalled memories to system message."""
+    mock_llm = AsyncMock()
+    mock_llm.chat.return_value = (
+        ChatMessage(role=ChatRole.USER, content="Some instruction."),
+        ChatMessage(role=ChatRole.ASSISTANT, content="Done."),
+    )
+
+    llm_agent = LLMAgent(llm=mock_llm)
+    handler = LLMAgent.TaskHandler(
+        llm_agent=llm_agent,
+        task=Task(instruction="mock instruction"),
+    )
+    recalled = default_templates["memories"].format(
+        memories="episode 1 context",
+    )
+    handler._recalled_memories = recalled
+
+    step = TaskStep(
+        task_id=handler.task.id_,
+        instruction="Some instruction.",
+    )
+    await handler.run_step(step)
+
+    expected_system_content = (
+        default_templates["run_step_system_message_without_rollout"].format(
+            llm_agent_system_message=llm_agent.templates["system_message"],
+        )
+        + f"\n\n{recalled}"
     )
     mock_llm.chat.assert_awaited_once_with(
         input="Some instruction.",

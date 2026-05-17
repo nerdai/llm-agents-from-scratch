@@ -4,6 +4,7 @@ from typing import TypedDict
 
 from .defaults import (
     DEFAULT_GET_NEXT_INSTRUCTION_PROMPT,
+    DEFAULT_MEMORIES_BLOCK,
     DEFAULT_RUN_STEP_SYSTEM_MESSAGE,
     DEFAULT_RUN_STEP_SYSTEM_MESSAGE_WITHOUT_ROLLOUT,
     DEFAULT_RUN_STEP_USER_MESSAGE,
@@ -29,6 +30,8 @@ class LLMAgentTemplates(TypedDict):
     run_step_user_message: str
     # added in ch06
     skills_catalog: str
+    # added in ch07
+    memories: str
 
 
 default_templates = LLMAgentTemplates(
@@ -42,4 +45,6 @@ default_templates = LLMAgentTemplates(
     run_step_user_message=DEFAULT_RUN_STEP_USER_MESSAGE,
     # added in ch06
     skills_catalog=DEFAULT_SKILLS_CATALOG,
+    # added in ch07
+    memories=DEFAULT_MEMORIES_BLOCK,
 )

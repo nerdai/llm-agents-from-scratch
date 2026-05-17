@@ -6,6 +6,7 @@ from typing import Any
 from typing_extensions import Self
 
 from llm_agents_from_scratch.base.llm import LLM
+from llm_agents_from_scratch.base.memory import BaseMemory
 from llm_agents_from_scratch.base.tool import AsyncBaseTool, Tool
 from llm_agents_from_scratch.data_structures import (
     ChatMessage,
@@ -17,6 +18,7 @@ from llm_agents_from_scratch.data_structures import (
     TaskStepResult,
     ToolCallResult,
 )
+from llm_agents_from_scratch.data_structures.memory import Episode
 from llm_agents_from_scratch.data_structures.skill import SkillScope
 from llm_agents_from_scratch.errors import (
     LLMAgentError,
@@ -51,6 +53,8 @@ class LLMAgent:
         llm: LLM,
         tools: list[Tool] | None = None,
         templates: LLMAgentTemplates = default_templates,
+        # added in ch07
+        memories: list[BaseMemory] | None = None,
     ):
         """Initialize an LLMAgent.
 
@@ -59,6 +63,9 @@ class LLMAgent:
             tools (list[Tool], optional): The set of tools with which the
                 LLM can be equipped. Defaults to None.
             templates (LLMAgentTemplates): Prompt templates for LLM Agent.
+            memories (list[BaseMemory] | None): Episodic memory backends
+                to consult at task start and update at task end. Defaults
+                to None (no memory). Added in Chapter 7.
         """
         self.llm = llm
         tools = tools or []
@@ -70,6 +77,8 @@ class LLMAgent:
         self.tools_registry = {t.name: t for t in tools}
         self.templates = templates
         self.logger = get_logger(self.__class__.__name__)
+        # added in ch07
+        self.memories = memories or []
 
     @property
     def tools(self) -> list[Tool]:
@@ -156,6 +165,8 @@ class LLMAgent:
                 if self.skills
                 else None
             )
+            # added in ch07
+            self._recalled_memories: str = ""
 
         @property
         def background_task(self) -> asyncio.Task:
@@ -251,6 +262,17 @@ class LLMAgent:
 
             return "\n\n".join(rollout_lines)
 
+        def _format_memories_for_system_prompt(
+            self,
+            memories: list[str],
+        ) -> str:
+            if memories:
+                entries = "\n".join(memories)
+                return self.llm_agent.templates["memories"].format(
+                    memories=entries,
+                )
+            return ""
+
         async def get_next_step(
             self,
             previous_step_result: TaskStepResult | None,
@@ -302,7 +324,7 @@ class LLMAgent:
 
             return retval
 
-        async def run_step(self, step: TaskStep) -> TaskStepResult:
+        async def run_step(self, step: TaskStep) -> TaskStepResult:  # noqa: PLR0912
             """Run next step of a given task.
 
             A single step is executed through a single-turn conversation that
@@ -346,6 +368,14 @@ class LLMAgent:
                     role=ChatRole.SYSTEM,
                     content=f"{system_message.content}\n\n{catalog}",
                 )
+
+            # added in ch07: inject recalled memories
+            if memories := self._recalled_memories:
+                system_message = ChatMessage(
+                    role=ChatRole.SYSTEM,
+                    content=f"{system_message.content}\n\n{memories}",
+                )
+
             self.logger.debug(f"💬 SYSTEM: {system_message.content}")
 
             # fictitious user's input
@@ -468,6 +498,22 @@ class LLMAgent:
                 content=final_content,
             )
 
+        async def load_memories(self) -> None:
+            """Recall relevant episodes from all configured memory backends.
+
+            Calls ``recall`` on each memory in ``self.llm_agent.memories``
+            and stores the formatted string in ``self._recalled_memories``
+            for prompt injection during ``run_step``. No-op when no memories
+            are configured. Added in Chapter 7.
+            """
+            loaded = []
+            for memory in self.llm_agent.memories:
+                block = await memory.recall(self.task)
+                loaded.append(block)
+            self._recalled_memories = self._format_memories_for_system_prompt(
+                loaded,
+            )
+
     def run(
         self,
         task: Task,
@@ -509,6 +555,10 @@ class LLMAgent:
             """
             self.logger.info(f"🚀 Starting task: {task.instruction}")
             step_result = None
+
+            # added in ch07
+            await task_handler.load_memories()
+
             while not task_handler.done():
                 try:
                     if task_handler.step_counter == max_steps:
@@ -529,6 +579,21 @@ class LLMAgent:
 
                 except Exception as e:
                     task_handler.set_exception(e)
+
+            # added in ch07
+            exc = task_handler.exception()
+            task_result = (
+                TaskResult(task_id=task.id_, content=str(exc))
+                if exc is not None
+                else task_handler.result()
+            )
+            ep = Episode(
+                task=task,
+                rollout=task_handler.rollout,
+                result=task_result,
+            )
+            for memory in self.memories:
+                await memory.record(ep)
 
         task_handler.background_task = asyncio.create_task(_process_loop())
 

@@ -6,6 +6,7 @@ import pytest
 
 from llm_agents_from_scratch import LLMAgentBuilder
 from llm_agents_from_scratch.agent.templates import default_templates
+from llm_agents_from_scratch.base.memory import BaseMemory
 from llm_agents_from_scratch.errors import LLMAgentBuilderError
 from llm_agents_from_scratch.tools.mcp.tool import MCPTool
 
@@ -15,17 +16,20 @@ def test_init() -> None:
     mock_llm = MagicMock()
     mock_tool = MagicMock()
     mock_mcp_provider = MagicMock()
+    mock_memory = MagicMock(spec=BaseMemory)
 
     # direct params
     builder = LLMAgentBuilder(
         llm=mock_llm,
         tools=[mock_tool],
         mcp_providers=[mock_mcp_provider],
+        memories=[mock_memory],
     )
     assert builder.llm == mock_llm
     assert builder.tools == [mock_tool]
     assert builder.mcp_providers == [mock_mcp_provider]
     assert builder.templates == default_templates
+    assert builder.memories == [mock_memory]
 
     # fluent chaining
     builder = (
@@ -34,22 +38,26 @@ def test_init() -> None:
         .with_llm(mock_llm)
         .with_templates(default_templates)
         .with_mcp_provider(mock_mcp_provider)
+        .with_memory(mock_memory)
     )
     assert builder.llm == mock_llm
     assert builder.tools == [mock_tool]
     assert builder.mcp_providers == [mock_mcp_provider]
     assert builder.templates == default_templates
+    assert builder.memories == [mock_memory]
 
     # mix
     builder = (
         LLMAgentBuilder(llm=mock_llm)
         .with_tools([mock_tool])
         .with_mcp_providers([mock_mcp_provider])
+        .with_memories([mock_memory])
     )
     assert builder.llm == mock_llm
     assert builder.tools == [mock_tool]
     assert builder.mcp_providers == [mock_mcp_provider]
     assert builder.templates == default_templates
+    assert builder.memories == [mock_memory]
 
 
 @pytest.mark.asyncio
@@ -80,6 +88,24 @@ async def test_build() -> None:
     mock_get_tools.assert_awaited_once()
     assert agent.llm == builder.llm
     assert agent.templates == builder.templates
+    assert agent.memories == []
+
+
+@pytest.mark.asyncio
+async def test_build_passes_memories_to_agent() -> None:
+    """Tests build passes memories through to the constructed LLMAgent."""
+    mock_llm = MagicMock()
+    mock_memory_a = MagicMock(spec=BaseMemory)
+    mock_memory_b = MagicMock(spec=BaseMemory)
+
+    agent = await (
+        LLMAgentBuilder(llm=mock_llm)
+        .with_memory(mock_memory_a)
+        .with_memory(mock_memory_b)
+        .build()
+    )
+
+    assert agent.memories == [mock_memory_a, mock_memory_b]
 
 
 @pytest.mark.asyncio

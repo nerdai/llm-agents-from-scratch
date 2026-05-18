@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- feat: implement `SimilarityMemory` and add `summary()` to `BaseMemoryStore`, `JSONMemoryStore`, and `QdrantMemoryStore` (#550)
 - feat: implement QdrantMemoryStore (#548)
 - feat: add count() to store (#545)
 - feat: implement `RecencyMemory` in `memory/recency.py` (#543)

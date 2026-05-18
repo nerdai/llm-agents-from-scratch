@@ -91,3 +91,10 @@ Base: `LLMAgentsFromScratchError` (`errors/core.py`)
 - Uses pytest with `pytest-asyncio` (asyncio_mode=auto in pytest.ini)
 - Tests in `tests/` directory mirror source structure
 - Docstrings not required in test files (ruff D rules ignored)
+
+## Git Workflow
+
+- Always work on a feature branch — never commit directly to `main`
+- If `git status` shows `main`, create a new branch before doing any work
+- If already on a dev branch, stay on it — do not create another branch
+- Always open a PR; never push commits directly to `main`

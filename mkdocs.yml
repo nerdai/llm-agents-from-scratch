@@ -65,6 +65,7 @@ nav:
       - Skills Marketplace: more-examples/ch06/skills_marketplace.ipynb
     - Chapter 7:
       - Episodic Memory (PokéAPI): more-examples/ch07/recency_memory.ipynb
+      - Similarity Memory (REST Countries): more-examples/ch07/similarity_memory.ipynb
   - Capstones:
     # Symlinked from capstones/ — do not copy directly.
     - Capstone 1:

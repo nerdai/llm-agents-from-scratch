@@ -1,6 +1,7 @@
 """JSONL-file-backed episodic memory store."""
 
 from pathlib import Path
+from typing import Any
 
 from llm_agents_from_scratch.base.memory import BaseMemoryStore
 from llm_agents_from_scratch.data_structures.memory import Episode
@@ -89,7 +90,7 @@ class JSONMemoryStore(BaseMemoryStore):
         self,
         query: str,
         k: int,
-        **kwargs: object,
+        **kwargs: Any,
     ) -> list[Episode]:
         """Not implemented — similarity search is deferred to vector store.
 

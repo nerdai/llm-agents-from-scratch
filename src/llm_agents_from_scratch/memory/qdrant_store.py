@@ -1,5 +1,7 @@
 """Qdrant-backed episodic memory store."""
 
+from typing import Any
+
 from qdrant_client import QdrantClient
 
 from llm_agents_from_scratch.base.memory import BaseMemoryStore
@@ -126,7 +128,7 @@ class QdrantMemoryStore(BaseMemoryStore):
         self,
         query: str,
         k: int,
-        **kwargs: object,
+        **kwargs: Any,
     ) -> list[Episode]:
         """Return the K episodes most semantically similar to a query.
 

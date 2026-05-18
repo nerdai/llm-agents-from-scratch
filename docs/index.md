@@ -167,6 +167,17 @@ points at the same JSONL file and picks up all prior episodes from disk.
 [Open Notebook](more-examples/ch07/recency_memory.ipynb){ .md-button .md-button--primary }
 </div>
 
+<div class="landing-card landing-card--example" markdown>
+### :material-magnify: Similarity Memory
+
+Look up seven countries across four regions, then run two targeted queries.
+Each query recalls only the semantically relevant episodes — Southeast Asia
+for one, Western Europe for the other — showing exactly when vector search
+beats a simple recency strategy.
+
+[Open Notebook](more-examples/ch07/similarity_memory.ipynb){ .md-button .md-button--primary }
+</div>
+
 </div>
 
 [Browse all examples :octicons-arrow-right-24:](more-examples/ch06/skills_marketplace.ipynb){ .md-button }

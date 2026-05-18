@@ -669,6 +669,8 @@
       
         
       
+        
+      
     
     
     
@@ -1450,6 +1452,96 @@
     
   
     Skills Marketplace
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_7" id="__nav_3_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chapter 7
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Chapter 7
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../more-examples/ch07/recency_memory.ipynb" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Episodic Memory (PokéAPI)
   
 
     
@@ -3054,7 +3146,7 @@
 </span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a>        <span class="k">return</span> <span class="p">(</span>
 </span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a>            <span class="sa">f</span><span class="s2">&quot;  &lt;episode&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
 </span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a>            <span class="sa">f</span><span class="s2">&quot;    &lt;task&gt;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">instruction</span><span class="si">}</span><span class="s2">&lt;/task&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a>            <span class="sa">f</span><span class="s2">&quot;    &lt;result&gt;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="si">}</span><span class="s2">&lt;/result&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a>            <span class="sa">f</span><span class="s2">&quot;    &lt;result&gt;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="si">}</span><span class="se">\n</span><span class="s2">    &lt;/result&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
 </span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a>            <span class="sa">f</span><span class="s2">&quot;    &lt;completed_at&gt;</span><span class="si">{</span><span class="n">ts</span><span class="si">}</span><span class="s2">&lt;/completed_at&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
 </span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a>            <span class="sa">f</span><span class="s2">&quot;  &lt;/episode&gt;&quot;</span>
 </span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a>        <span class="p">)</span>
@@ -3107,7 +3199,7 @@
 </span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a>    <span class="k">return</span> <span class="p">(</span>
 </span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a>        <span class="sa">f</span><span class="s2">&quot;  &lt;episode&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
 </span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a>        <span class="sa">f</span><span class="s2">&quot;    &lt;task&gt;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">instruction</span><span class="si">}</span><span class="s2">&lt;/task&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a>        <span class="sa">f</span><span class="s2">&quot;    &lt;result&gt;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="si">}</span><span class="s2">&lt;/result&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a>        <span class="sa">f</span><span class="s2">&quot;    &lt;result&gt;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="si">}</span><span class="se">\n</span><span class="s2">    &lt;/result&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
 </span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a>        <span class="sa">f</span><span class="s2">&quot;    &lt;completed_at&gt;</span><span class="si">{</span><span class="n">ts</span><span class="si">}</span><span class="s2">&lt;/completed_at&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
 </span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a>        <span class="sa">f</span><span class="s2">&quot;  &lt;/episode&gt;&quot;</span>
 </span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a>    <span class="p">)</span>

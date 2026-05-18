@@ -192,31 +192,3 @@ async def test_search_empty(mock_client: MagicMock) -> None:
     store = QdrantMemoryStore()
     results = await store.search("anything", k=5)
     assert results == []
-
-
-async def test_summary_empty(mock_client: MagicMock) -> None:
-    mock_client.count.return_value.count = 0
-    store = QdrantMemoryStore()
-    summary = await store.summary()
-    assert "QdrantMemoryStore" in summary
-    assert "0" in summary
-
-
-async def test_summary_with_episodes(
-    mock_client: MagicMock,
-    episode: Episode,
-) -> None:
-    ep_json = episode.model_dump_json()
-    ts = episode.completed_at.timestamp()
-    record = MagicMock()
-    record.payload = {"episode_json": ep_json, "completed_at": ts}
-
-    mock_client.count.return_value.count = 1
-    mock_client.scroll.return_value = ([record], None)
-
-    store = QdrantMemoryStore()
-    summary = await store.summary()
-
-    assert "QdrantMemoryStore" in summary
-    assert "1" in summary
-    assert episode.task.instruction[:20] in summary

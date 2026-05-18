@@ -131,34 +131,6 @@ class QdrantMemoryStore(BaseMemoryStore):
         """
         return int(self._client.count(self._collection).count)
 
-    async def summary(self) -> str:
-        """Return a human-readable summary of the store contents.
-
-        Includes the collection name, total episode count, and the
-        instruction and timestamp of the newest and oldest episodes.
-
-        Returns:
-            str: Multi-line summary of the store.
-        """
-        total = await self.count()
-        lines = [
-            f"QdrantMemoryStore: {total} episodes"
-            f" | collection={self._collection}",
-        ]
-        if total > 0:
-            episodes = await self.read_recent(total)
-            newest = episodes[0]
-            oldest = episodes[-1]
-            lines.append(
-                f"  newest: {str(newest.completed_at)[:19]}"
-                f" | {newest.task.instruction[:60]}",
-            )
-            lines.append(
-                f"  oldest: {str(oldest.completed_at)[:19]}"
-                f" | {oldest.task.instruction[:60]}",
-            )
-        return "\n".join(lines)
-
     async def search(
         self,
         query: str,

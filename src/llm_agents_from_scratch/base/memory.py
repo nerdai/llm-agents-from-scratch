@@ -114,14 +114,3 @@ class BaseMemoryStore(ABC):
         Returns:
             list[Episode]: Episodes ordered by relevance to the query.
         """
-
-    @abstractmethod
-    async def summary(self) -> str:
-        """Return a human-readable summary of the store contents.
-
-        Describes the substrate, episode count, and the oldest and newest
-        episodes. Intended for inspection and debugging.
-
-        Returns:
-            str: Multi-line summary of the store.
-        """

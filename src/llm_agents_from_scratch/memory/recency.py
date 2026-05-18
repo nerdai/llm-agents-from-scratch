@@ -54,13 +54,12 @@ class RecencyMemory(BaseMemory):
         await self.store.write(episode)
 
     async def summary(self) -> str:
-        """Return a human-readable summary of the memory and its store.
-
-        Describes the recall strategy (last N), then delegates to the
-        store for substrate-level facts (count, oldest, newest).
+        """Return a short summary of the memory store contents.
 
         Returns:
-            str: Multi-line summary of the memory and its store.
+            str: Episode count and recall window size.
         """
-        store_summary = await self.store.summary()
-        return f"RecencyMemory (recall last {self.n}):\n{store_summary}"
+        total = await self.store.count()
+        return (
+            f"RecencyMemory: {total} episodes stored, recalling last {self.n}"
+        )

@@ -127,28 +127,3 @@ async def test_search_raises_not_implemented(tmp_path: Path) -> None:
 
     with pytest.raises(NotImplementedError):
         await store.search("query", k=3)
-
-
-@pytest.mark.asyncio
-async def test_summary_empty(tmp_path: Path) -> None:
-    """Tests summary reports zero episodes when store is empty."""
-    store = JSONMemoryStore(dir=tmp_path)
-
-    summary = await store.summary()
-
-    assert "JSONMemoryStore" in summary
-    assert "0" in summary
-
-
-@pytest.mark.asyncio
-async def test_summary_includes_newest_and_oldest(tmp_path: Path) -> None:
-    """Tests summary includes newest and oldest episode instructions."""
-    store = JSONMemoryStore(dir=tmp_path)
-    await store.write(make_episode("oldest task"))
-    await store.write(make_episode("newest task"))
-
-    summary = await store.summary()
-
-    assert "2" in summary
-    assert "oldest task" in summary
-    assert "newest task" in summary

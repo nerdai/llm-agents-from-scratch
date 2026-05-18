@@ -63,6 +63,8 @@ nav:
       - Skill Validation Errors: more-examples/ch06/skill_validation_errors.ipynb
       - User Explicit Skill (Hailstone): more-examples/ch06/user_explicit_hailstone.ipynb
       - Skills Marketplace: more-examples/ch06/skills_marketplace.ipynb
+    - Chapter 7:
+      - Episodic Memory (PokéAPI): more-examples/ch07/recency_memory.ipynb
   - Capstones:
     # Symlinked from capstones/ — do not copy directly.
     - Capstone 1:

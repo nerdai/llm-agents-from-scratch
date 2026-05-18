@@ -157,6 +157,16 @@ engineering required.
 [Open Notebook](more-examples/ch06/skills_marketplace.ipynb){ .md-button .md-button--primary }
 </div>
 
+<div class="landing-card landing-card--example" markdown>
+### :material-brain: Episodic Memory
+
+Run three Pokémon lookups, then ask a synthesis question — the agent answers
+from recalled episodes without calling any tools. A second agent instance
+points at the same JSONL file and picks up all prior episodes from disk.
+
+[Open Notebook](more-examples/ch07/recency_memory.ipynb){ .md-button .md-button--primary }
+</div>
+
 </div>
 
 [Browse all examples :octicons-arrow-right-24:](more-examples/ch06/skills_marketplace.ipynb){ .md-button }

@@ -21,7 +21,7 @@ class Episode(BaseModel):
         return (
             f"  <episode>\n"
             f"    <task>{self.task.instruction}</task>\n"
-            f"    <result>{self.result.content}</result>\n"
+            f"    <result>{self.result.content}\n    </result>\n"
             f"    <completed_at>{ts}</completed_at>\n"
             f"  </episode>"
         )

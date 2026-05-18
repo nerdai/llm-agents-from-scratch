@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- feat: add count() to store (#545)
 - feat: implement `RecencyMemory` in `memory/recency.py` (#543)
 - feat: implement `JSONMemoryStore` in `memory/json_store.py` (#542)
 - feat: add `with_memory()` and `with_memories()` to `LLMAgentBuilder` (#541)

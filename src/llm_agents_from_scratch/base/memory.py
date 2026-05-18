@@ -88,6 +88,14 @@ class BaseMemoryStore(ABC):
         """
 
     @abstractmethod
+    async def count(self) -> int:
+        """Return the total number of episodes in the store.
+
+        Returns:
+            int: Episode count.
+        """
+
+    @abstractmethod
     async def search(self, query: str, k: int) -> list[Episode]:
         """Return the K episodes most relevant to a query.
 

@@ -14,21 +14,28 @@ class JSONMemoryStore(BaseMemoryStore):
     The full file is read into memory on construction and on ``read_recent``.
 
     Attributes:
-        path (Path): Path to the JSONL file used for persistence.
+        path (Path): Full path to the backing JSONL file (``dir / filename``).
     """
 
-    def __init__(self, path: Path) -> None:
+    def __init__(
+        self,
+        dir: Path,
+        filename: str = "episodes.jsonl",
+    ) -> None:
         """Initialize a JSONMemoryStore.
 
-        Loads any existing episodes from ``path`` on construction. The file
-        is created on the first ``write`` call if it does not yet exist.
+        Loads any existing episodes from ``dir / filename`` on construction.
+        The file is created on the first ``write`` call if it does not yet
+        exist.
 
         Args:
-            path (Path): Caller-supplied path to the backing JSONL file. No
-                default location is imposed by the library — the caller
-                decides where episodes are stored.
+            dir (Path): Directory in which the backing JSONL file is stored.
+                The caller decides the location; no default is imposed by the
+                library.
+            filename (str): Name of the JSONL file within ``dir``. Defaults
+                to ``"episodes.jsonl"``.
         """
-        self.path = path
+        self.path = dir / filename
         self._episodes: list[Episode] = self._load()
 
     def _load(self) -> list[Episode]:

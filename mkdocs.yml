@@ -95,6 +95,7 @@ nav:
       - Default Tools: api_reference/tools/default.md
     - Memory:
       - JSONMemoryStore: api_reference/memory/json_store.md
+      - QdrantMemoryStore: api_reference/memory/qdrant_store.md
     - Skills:
       - Skill: api_reference/skills/skill.md
       - Discovery: api_reference/skills/discovery.md

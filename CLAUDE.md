@@ -95,6 +95,7 @@ Base: `LLMAgentsFromScratchError` (`errors/core.py`)
 ## Git Workflow
 
 - Always work on a feature branch — never commit directly to `main`
-- If `git status` shows `main`, create a new branch before doing any work
-- If already on a dev branch, stay on it — do not create another branch
+- Before creating a branch, check `git branch` for an existing one tied to the issue (e.g. `537-implement-...`); use it if it exists
+- If `git status` shows `main`, check for an existing feature branch first before creating a new one
+- Never invent a new branch name if one already exists for the task
 - Always open a PR; never push commits directly to `main`

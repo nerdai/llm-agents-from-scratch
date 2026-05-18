@@ -84,7 +84,7 @@ async def test_record_delegates_to_store(tmp_path: Path) -> None:
 @pytest.mark.asyncio
 async def test_summary(tmp_path: Path) -> None:
     """Tests summary returns episode count and recall window."""
-    store = JSONMemoryStore(path=tmp_path / "episodes.jsonl")
+    store = JSONMemoryStore(dir=tmp_path)
     memory = RecencyMemory(store=store, n=5)
 
     await store.write(make_episode("task 1"))

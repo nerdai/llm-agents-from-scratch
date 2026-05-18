@@ -21,7 +21,7 @@ def test_episode_str() -> None:
 
     assert "<episode>" in s
     assert "<task>summarise the doc</task>" in s
-    assert "<result>here is the summary</result>" in s
+    assert "<result>here is the summary\n    </result>" in s
     assert ep.completed_at.strftime("%Y-%m-%d") in s
 
 

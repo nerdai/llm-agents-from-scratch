@@ -55,3 +55,6 @@ capstones/one/_capstone_1_ch05-openai.ipynb
 # untracked skills
 **/skills/slack-gif-creator
 **/output.gif
+
+# generated notebook artifacts
+more-examples/**/*.jsonl

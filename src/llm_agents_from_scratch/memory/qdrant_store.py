@@ -72,6 +72,8 @@ class QdrantMemoryStore(BaseMemoryStore):
         Args:
             episode (Episode): The completed episode to store.
         """
+        # Embed only semantic content — XML tags and timestamps from
+        # Episode.__str__ add noise and let recency bleed into relevance.
         text = f"{episode.task.instruction}\n{episode.result.content}"
         self._client.add(
             collection_name=self._collection,

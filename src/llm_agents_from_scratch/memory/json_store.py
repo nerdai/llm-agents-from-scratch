@@ -86,6 +86,34 @@ class JSONMemoryStore(BaseMemoryStore):
         """
         return len(self._episodes)
 
+    async def summary(self) -> str:
+        """Return a human-readable summary of the store contents.
+
+        Includes the backing file path, total episode count, and the
+        instruction and timestamp of the newest and oldest episodes.
+
+        Returns:
+            str: Multi-line summary of the store.
+        """
+        total = len(self._episodes)
+        lines = [f"JSONMemoryStore: {total} episodes | path={self.path}"]
+        if total > 0:
+            by_time = sorted(
+                self._episodes,
+                key=lambda e: e.completed_at,
+            )
+            oldest = by_time[0]
+            newest = by_time[-1]
+            lines.append(
+                f"  newest: {str(newest.completed_at)[:19]}"
+                f" | {newest.task.instruction[:60]}",
+            )
+            lines.append(
+                f"  oldest: {str(oldest.completed_at)[:19]}"
+                f" | {oldest.task.instruction[:60]}",
+            )
+        return "\n".join(lines)
+
     async def search(
         self,
         query: str,

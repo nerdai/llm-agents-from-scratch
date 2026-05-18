@@ -1,6 +1,7 @@
 """JSONL-file-backed episodic memory store."""
 
 from pathlib import Path
+from typing import Any
 
 from llm_agents_from_scratch.base.memory import BaseMemoryStore
 from llm_agents_from_scratch.data_structures.memory import Episode
@@ -85,12 +86,18 @@ class JSONMemoryStore(BaseMemoryStore):
         """
         return len(self._episodes)
 
-    async def search(self, query: str, k: int) -> list[Episode]:
+    async def search(
+        self,
+        query: str,
+        k: int,
+        **kwargs: Any,
+    ) -> list[Episode]:
         """Not implemented — similarity search is deferred to vector store.
 
         Args:
             query (str): The search query.
             k (int): Maximum number of episodes to return.
+            **kwargs: Ignored.
 
         Raises:
             NotImplementedError: Always. Use a vector-backed store for

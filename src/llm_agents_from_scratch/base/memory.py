@@ -1,6 +1,7 @@
 """Base memory and memory store classes."""
 
 from abc import ABC, abstractmethod
+from typing import Any
 
 from ..data_structures import Episode, Task
 
@@ -96,12 +97,19 @@ class BaseMemoryStore(ABC):
         """
 
     @abstractmethod
-    async def search(self, query: str, k: int) -> list[Episode]:
+    async def search(
+        self,
+        query: str,
+        k: int,
+        **kwargs: Any,
+    ) -> list[Episode]:
         """Return the K episodes most relevant to a query.
 
         Args:
             query (str): The search query (e.g. the task instruction).
             k (int): Maximum number of episodes to return.
+            **kwargs: Optional substrate-specific search parameters
+                (e.g. filters, score thresholds).
 
         Returns:
             list[Episode]: Episodes ordered by relevance to the query.

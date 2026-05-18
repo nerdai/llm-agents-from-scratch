@@ -107,16 +107,21 @@ class QdrantMemoryStore(BaseMemoryStore):
             with_payload=True,
             limit=total,
         )
-        episodes = [
-            Episode.model_validate_json(p.payload["episode_json"])
+        valid = [
+            p
             for p in points
             if p.payload
+            and "episode_json" in p.payload
+            and "completed_at" in p.payload
         ]
-        return sorted(
-            episodes,
-            key=lambda e: e.completed_at,
+        valid.sort(
+            key=lambda p: p.payload["completed_at"],  # type: ignore[index]
             reverse=True,
-        )[:n]
+        )
+        return [
+            Episode.model_validate_json(p.payload["episode_json"])  # type: ignore[index]
+            for p in valid[:n]
+        ]
 
     async def count(self) -> int:
         """Return the total number of episodes in the store.
@@ -157,5 +162,5 @@ class QdrantMemoryStore(BaseMemoryStore):
         return [
             Episode.model_validate_json(r.metadata["episode_json"])
             for r in results
-            if r.metadata
+            if r.metadata and "episode_json" in r.metadata
         ]

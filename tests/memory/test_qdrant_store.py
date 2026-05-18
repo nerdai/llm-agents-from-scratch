@@ -90,7 +90,10 @@ async def test_read_recent_empty(mock_client: MagicMock) -> None:
 async def test_read_recent(mock_client: MagicMock, episode: Episode) -> None:
     mock_client.count.return_value.count = 1
     record = MagicMock()
-    record.payload = {"episode_json": episode.model_dump_json()}
+    record.payload = {
+        "episode_json": episode.model_dump_json(),
+        "completed_at": episode.completed_at.timestamp(),
+    }
     mock_client.scroll.return_value = ([record], None)
 
     store = QdrantMemoryStore()
@@ -122,7 +125,10 @@ async def test_read_recent_sorted_newest_first(
     records = []
     for ep in [older, newer]:
         rec = MagicMock()
-        rec.payload = {"episode_json": ep.model_dump_json()}
+        rec.payload = {
+            "episode_json": ep.model_dump_json(),
+            "completed_at": ep.completed_at.timestamp(),
+        }
         records.append(rec)
     mock_client.scroll.return_value = (records, None)
 
@@ -150,7 +156,10 @@ async def test_read_recent_respects_n_limit(mock_client: MagicMock) -> None:
     records = []
     for ep in episodes:
         rec = MagicMock()
-        rec.payload = {"episode_json": ep.model_dump_json()}
+        rec.payload = {
+            "episode_json": ep.model_dump_json(),
+            "completed_at": ep.completed_at.timestamp(),
+        }
         records.append(rec)
     mock_client.scroll.return_value = (records, None)
 

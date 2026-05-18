@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+### Changed
+
+- refactor: `JSONMemoryStore` now takes `dir` + `filename` params instead of a single `path` (#547)
+
 ### Added
 
 - feat: add count() to store (#545)

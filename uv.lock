@@ -1474,6 +1474,7 @@ notebook-utils = [
 notebooks = [
     { name = "ipython", version = "8.39.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
     { name = "ipython", version = "9.13.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+    { name = "tqdm" },
 ]
 openai = [
     { name = "openai" },
@@ -1513,6 +1514,7 @@ requires-dist = [
     { name = "pydantic", specifier = ">=2.11.7" },
     { name = "pyyaml", specifier = ">=6.0.2" },
     { name = "qdrant-client", extras = ["fastembed"], specifier = ">=1.14.0" },
+    { name = "tqdm", marker = "extra == 'notebooks'", specifier = ">=4.0.0" },
     { name = "typing-extensions", specifier = ">=4.14.0" },
 ]
 provides-extras = ["notebook-utils", "notebooks", "openai"]

@@ -7,7 +7,7 @@ from pydantic import BaseModel, Field
 
 from .agent import Task, TaskResult
 
-EpisodeField = Literal[
+EpisodeAttr = Literal[
     "instruction",
     "result",
     "additional_data",
@@ -15,13 +15,13 @@ EpisodeField = Literal[
     "rollout",
 ]
 
-_XML_DEFAULTS: list[EpisodeField] = [
+_XML_DEFAULTS: list[EpisodeAttr] = [
     "instruction",
     "result",
     "additional_data",
     "completed_at",
 ]
-_CONCAT_DEFAULTS: list[EpisodeField] = [
+_CONCAT_DEFAULTS: list[EpisodeAttr] = [
     "instruction",
     "result",
     "additional_data",
@@ -50,7 +50,7 @@ class Episode(BaseModel):
     def format(
         self,
         mode: Literal["xml", "concat"] = "xml",
-        fields: list[EpisodeField] | None = None,
+        include: list[EpisodeAttr] | None = None,
     ) -> str:
         """Serialise the episode for prompt injection or embedding.
 
@@ -59,7 +59,7 @@ class Episode(BaseModel):
                 prompt-ready XML block; ``"concat"`` produces a
                 newline-joined string for embedding. Defaults to
                 ``"xml"``.
-            fields (list[EpisodeField] | None): Fields to include.
+            include (list[EpisodeAttr] | None): Attributes to include.
                 Defaults to ``["instruction", "result",
                 "additional_data", "completed_at"]`` for ``"xml"`` and
                 ``["instruction", "result", "additional_data"]`` for
@@ -69,10 +69,10 @@ class Episode(BaseModel):
             str: Serialised episode string.
         """
         if mode == "concat":
-            return self._format_concat(fields or _CONCAT_DEFAULTS)
-        return self._format_xml(fields or _XML_DEFAULTS)
+            return self._format_concat(include or _CONCAT_DEFAULTS)
+        return self._format_xml(include or _XML_DEFAULTS)
 
-    def _format_concat(self, fields: list[EpisodeField]) -> str:
+    def _format_concat(self, fields: list[EpisodeAttr]) -> str:
         parts: list[str] = []
         for f in fields:
             if f == "instruction":
@@ -89,7 +89,7 @@ class Episode(BaseModel):
                 parts.append(self.rollout)
         return "\n".join(parts)
 
-    def _format_xml(self, fields: list[EpisodeField]) -> str:
+    def _format_xml(self, fields: list[EpisodeAttr]) -> str:
         lines = ["  <episode>"]
         for f in fields:
             if f == "instruction":

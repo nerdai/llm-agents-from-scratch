@@ -57,11 +57,11 @@ def test_init_custom_params(mock_client: MagicMock) -> None:
 
 def test_init_episode_format_params(mock_client: MagicMock) -> None:
     store = QdrantMemoryStore(
-        mode="xml",
-        include_in_episodes=["instruction", "result"],
+        episode_format_mode="xml",
+        episode_format_include=["instruction", "result"],
     )
-    assert store._mode == "xml"
-    assert store._include_in_episodes == ["instruction", "result"]
+    assert store._episode_format_mode == "xml"
+    assert store._episode_format_include == ["instruction", "result"]
 
 
 def test_init_custom_client() -> None:

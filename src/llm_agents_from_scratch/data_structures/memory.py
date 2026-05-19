@@ -54,6 +54,7 @@ class Episode(BaseModel):
         Returns:
             str: Serialised episode string.
         """
+        # rollout is excluded by default — it is long and adds noise
         attrs = include or [
             "instruction",
             "result",

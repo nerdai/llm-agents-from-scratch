@@ -28,7 +28,7 @@ def episode_to_qdrant_point_struct(
         models.PointStruct: A point ready to pass to
             ``QdrantClient.upsert()``.
     """
-    text = f"{episode.task.instruction}\n{episode.result.content}"
+    text = episode.format(mode="concat")
     return models.PointStruct(
         id=episode.task.id_,
         vector={

@@ -57,6 +57,23 @@ def test_embedded_text_contains_instruction_and_result() -> None:
     assert episode.result.content in doc.text
 
 
+def test_embedded_text_includes_additional_data() -> None:
+    task = Task(instruction="look up pikachu")
+    episode = Episode(
+        task=task,
+        rollout="",
+        result=TaskResult(task_id=task.id_, content="pikachu is electric"),
+        additional_data={"reflection": "Always verify the name spelling."},
+    )
+    point = episode_to_qdrant_point_struct(
+        episode,
+        vector_field="fast-bge-small-en-v1.5",
+        model_name="BAAI/bge-small-en-v1.5",
+    )
+    doc = point.vector["fast-bge-small-en-v1.5"]  # type: ignore[index]
+    assert "Always verify the name spelling." in doc.text  # type: ignore[union-attr]
+
+
 def test_payload_contains_episode_json() -> None:
     episode = _make_episode()
     point = episode_to_qdrant_point_struct(

@@ -25,6 +25,52 @@ def test_episode_str() -> None:
     assert ep.completed_at.strftime("%Y-%m-%d") in s
 
 
+def test_format_concat_completed_at() -> None:
+    task = Task(instruction="task")
+    ep = Episode(
+        task=task,
+        rollout="",
+        result=TaskResult(task_id=task.id_, content="result"),
+        completed_at=datetime(2025, 6, 1, 12, 0, 0),
+    )
+    text = ep.format(mode="concat", include=["completed_at"])
+    assert "2025-06-01 12:00:00" in text
+
+
+def test_format_concat_rollout() -> None:
+    task = Task(instruction="task")
+    ep = Episode(
+        task=task,
+        rollout="step1 -> step2",
+        result=TaskResult(task_id=task.id_, content="result"),
+    )
+    text = ep.format(mode="concat", include=["rollout"])
+    assert "step1 -> step2" in text
+
+
+def test_format_xml_additional_data() -> None:
+    task = Task(instruction="task")
+    ep = Episode(
+        task=task,
+        rollout="",
+        result=TaskResult(task_id=task.id_, content="result"),
+        additional_data={"reflection": "key lesson here"},
+    )
+    text = ep.format(mode="xml", include=["additional_data"])
+    assert "<reflection>key lesson here</reflection>" in text
+
+
+def test_format_xml_rollout() -> None:
+    task = Task(instruction="task")
+    ep = Episode(
+        task=task,
+        rollout="step1 -> step2",
+        result=TaskResult(task_id=task.id_, content="result"),
+    )
+    text = ep.format(mode="xml", include=["rollout"])
+    assert "<rollout>step1 -> step2</rollout>" in text
+
+
 def test_episode_init() -> None:
     """Tests construction of Episode."""
     mock_task = MagicMock(spec=Task)

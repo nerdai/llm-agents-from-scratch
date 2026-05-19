@@ -139,7 +139,7 @@ def test_episode_format_concat_includes_additional_data() -> None:
     assert "Always verify spelling." in text
 
 
-def test_episode_format_concat_excludes_completed_at_by_default() -> None:
+def test_episode_format_concat_default_includes_completed_at() -> None:
     task = Task(instruction="look up pikachu")
     ep = Episode(
         task=task,
@@ -149,6 +149,5 @@ def test_episode_format_concat_excludes_completed_at_by_default() -> None:
 
     text = ep.format(mode="concat")
 
-    assert "completed_at" not in text
-    ts = ep.completed_at.strftime("%Y-%m-%d")
-    assert ts not in text
+    ts = ep.completed_at.strftime("%Y-%m-%d %H:%M:%S")
+    assert ts in text

@@ -15,18 +15,6 @@ EpisodeAttr = Literal[
     "rollout",
 ]
 
-_XML_DEFAULTS: list[EpisodeAttr] = [
-    "instruction",
-    "result",
-    "additional_data",
-    "completed_at",
-]
-_CONCAT_DEFAULTS: list[EpisodeAttr] = [
-    "instruction",
-    "result",
-    "additional_data",
-]
-
 
 class Episode(BaseModel):
     """A completed task to be stored in memory.
@@ -69,8 +57,13 @@ class Episode(BaseModel):
             str: Serialised episode string.
         """
         if mode == "concat":
-            return self._format_concat(include or _CONCAT_DEFAULTS)
-        return self._format_xml(include or _XML_DEFAULTS)
+            return self._format_concat(
+                include or ["instruction", "result", "additional_data"],
+            )
+        return self._format_xml(
+            include
+            or ["instruction", "result", "additional_data", "completed_at"],
+        )
 
     def _format_concat(self, fields: list[EpisodeAttr]) -> str:
         parts: list[str] = []

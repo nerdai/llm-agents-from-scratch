@@ -1,11 +1,11 @@
 """Qdrant-backed episodic memory store."""
 
-from typing import Any
+from typing import Any, Literal
 
 from qdrant_client import QdrantClient, models
 
 from llm_agents_from_scratch.base.memory import BaseMemoryStore
-from llm_agents_from_scratch.data_structures.memory import Episode
+from llm_agents_from_scratch.data_structures.memory import Episode, EpisodeAttr
 from llm_agents_from_scratch.memory.qdrant_utils import (
     episode_to_qdrant_point_struct,
 )
@@ -16,8 +16,7 @@ class QdrantMemoryStore(BaseMemoryStore):
 
     Episodes are embedded at write time using FastEmbed and stored as
     vector points. Similarity search uses cosine distance over the
-    embedded episode text (task instruction concatenated with result
-    content).
+    embedded episode text.
 
     By default, Qdrant runs in-process with no server required. Pass a
     pre-configured ``QdrantClient`` to persist to a remote or on-disk
@@ -30,6 +29,10 @@ class QdrantMemoryStore(BaseMemoryStore):
     Attributes:
         _client (QdrantClient): The Qdrant client instance.
         _collection (str): Name of the Qdrant collection.
+        _mode (Literal["xml", "concat"]): Episode serialisation mode
+            used when embedding at write time.
+        _include_in_episodes (list[EpisodeAttr] | None): Attributes
+            included in the embedded text at write time.
     """
 
     def __init__(
@@ -37,6 +40,8 @@ class QdrantMemoryStore(BaseMemoryStore):
         collection_name: str = "episodes",
         embedding_model: str = "BAAI/bge-small-en-v1.5",
         client: QdrantClient | None = None,
+        mode: Literal["xml", "concat"] = "concat",
+        include_in_episodes: list[EpisodeAttr] | None = None,
     ) -> None:
         """Initialize a QdrantMemoryStore.
 
@@ -54,10 +59,18 @@ class QdrantMemoryStore(BaseMemoryStore):
             client (QdrantClient | None): Pre-configured Qdrant client.
                 Defaults to an in-memory client when ``None``. The
                 client must use FastEmbed as its embedding backend.
+            mode (Literal["xml", "concat"]): Episode serialisation mode
+                used when embedding episodes at write time. Defaults to
+                ``"concat"``.
+            include_in_episodes (list[EpisodeAttr] | None): Episode
+                attributes to include in the embedded text. Defaults to
+                ``Episode.format()`` defaults for the given mode.
         """
         self._client = client or QdrantClient(":memory:")
         self._client.set_model(embedding_model)
         self._collection = collection_name
+        self._mode: Literal["xml", "concat"] = mode
+        self._include_in_episodes = include_in_episodes
         if not self._client.collection_exists(collection_name):
             self._client.create_collection(
                 collection_name=collection_name,
@@ -82,6 +95,8 @@ class QdrantMemoryStore(BaseMemoryStore):
                     episode,
                     vector_field=self._client.get_vector_field_name(),
                     model_name=self._client.embedding_model_name,
+                    mode=self._mode,
+                    include=self._include_in_episodes,
                 ),
             ],
         )

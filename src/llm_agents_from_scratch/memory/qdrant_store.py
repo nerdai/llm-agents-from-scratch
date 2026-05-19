@@ -6,6 +6,9 @@ from qdrant_client import QdrantClient, models
 
 from llm_agents_from_scratch.base.memory import BaseMemoryStore
 from llm_agents_from_scratch.data_structures.memory import Episode
+from llm_agents_from_scratch.memory.qdrant_utils import (
+    episode_to_qdrant_point_struct,
+)
 
 
 class QdrantMemoryStore(BaseMemoryStore):
@@ -72,24 +75,13 @@ class QdrantMemoryStore(BaseMemoryStore):
         Args:
             episode (Episode): The completed episode to store.
         """
-        # Embed only semantic content — XML tags and timestamps from
-        # Episode.__str__ add noise and let recency bleed into relevance.
-        text = f"{episode.task.instruction}\n{episode.result.content}"
         self._client.upsert(
             collection_name=self._collection,
             points=[
-                models.PointStruct(
-                    id=episode.task.id_,
-                    vector={
-                        self._client.get_vector_field_name(): models.Document(
-                            text=text,
-                            model=self._client.embedding_model_name,
-                        ),
-                    },
-                    payload={
-                        "episode_json": episode.model_dump_json(),
-                        "completed_at": episode.completed_at.timestamp(),
-                    },
+                episode_to_qdrant_point_struct(
+                    episode,
+                    vector_field=self._client.get_vector_field_name(),
+                    model_name=self._client.embedding_model_name,
                 ),
             ],
         )

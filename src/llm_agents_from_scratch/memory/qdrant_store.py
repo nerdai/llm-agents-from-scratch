@@ -1,6 +1,6 @@
 """Qdrant-backed episodic memory store."""
 
-from typing import Any, Literal
+from typing import Any
 
 from qdrant_client import QdrantClient, models
 
@@ -35,10 +35,6 @@ class QdrantMemoryStore(BaseMemoryStore):
     Attributes:
         _client (QdrantClient): The Qdrant client instance.
         _collection (str): Name of the Qdrant collection.
-        _episode_format_mode (Literal["xml", "concat"]): Episode
-            serialisation mode used when embedding at write time.
-        _episode_format_include (list[EpisodeAttr] | None): Attributes
-            included in the embedded text at write time.
     """
 
     def __init__(
@@ -46,8 +42,6 @@ class QdrantMemoryStore(BaseMemoryStore):
         collection_name: str = "episodes",
         embedding_model: str = "BAAI/bge-small-en-v1.5",
         client: QdrantClient | None = None,
-        episode_format_mode: Literal["xml", "concat"] = "concat",
-        episode_format_include: list[EpisodeAttr] | None = None,
     ) -> None:
         """Initialize a QdrantMemoryStore.
 
@@ -65,48 +59,47 @@ class QdrantMemoryStore(BaseMemoryStore):
             client (QdrantClient | None): Pre-configured Qdrant client.
                 Defaults to an in-memory client when ``None``. The
                 client must use FastEmbed as its embedding backend.
-            episode_format_mode (Literal["xml", "concat"]): Episode
-                serialisation mode used when embedding episodes at write
-                time. Defaults to ``"concat"``.
-            episode_format_include (list[EpisodeAttr] | None): Episode
-                attributes to include in the embedded text. Defaults to
-                ``DEFAULT_EPISODE_INCLUDE``. ``completed_at`` is
-                excluded by default to prevent recency from bleeding
-                into relevance scores.
         """
         self._client = client or QdrantClient(":memory:")
         self._client.set_model(embedding_model)
         self._collection = collection_name
-        self._episode_format_mode: Literal["xml", "concat"] = (
-            episode_format_mode
-        )
-        self._episode_format_include: list[EpisodeAttr] = (
-            episode_format_include or DEFAULT_EPISODE_INCLUDE
-        )
         if not self._client.collection_exists(collection_name):
             self._client.create_collection(
                 collection_name=collection_name,
                 vectors_config=self._client.get_fastembed_vector_params(),
             )
 
-    async def write(self, episode: Episode) -> None:
+    async def write(
+        self,
+        episode: Episode,
+        formatted_episode: str | None = None,
+    ) -> None:
         """Embed and persist an episode to the Qdrant collection.
 
-        The embedded text is the episode's task instruction followed by
-        the result content, separated by a newline. The full serialised
-        episode and its completion timestamp are stored in the point
-        payload for later retrieval.
+        The full serialised episode and its completion timestamp are
+        stored in the point payload for later retrieval. The embedded
+        text defaults to a concat-format serialisation of
+        ``DEFAULT_EPISODE_INCLUDE`` attributes when ``formatted_episode``
+        is not provided.
 
         Args:
             episode (Episode): The completed episode to store.
+            formatted_episode (str | None): Pre-formatted text to embed.
+                When provided by the calling memory strategy, this text
+                is used directly for the vector. Defaults to ``None``,
+                in which case the store formats the episode using
+                ``DEFAULT_EPISODE_INCLUDE``.
         """
+        text = formatted_episode or episode.format(
+            mode="concat",
+            include=DEFAULT_EPISODE_INCLUDE,
+        )
         self._client.upsert(
             collection_name=self._collection,
             points=[
                 episode_to_qdrant_point_struct(
                     episode,
-                    self._episode_format_mode,
-                    self._episode_format_include,
+                    text,
                     vector_field=self._client.get_vector_field_name(),
                     model_name=self._client.embedding_model_name,
                 ),

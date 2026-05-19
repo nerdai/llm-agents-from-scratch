@@ -55,25 +55,6 @@ def test_init_custom_params(mock_client: MagicMock) -> None:
     assert store._collection == "my_eps"
 
 
-def test_init_episode_format_defaults(mock_client: MagicMock) -> None:
-    store = QdrantMemoryStore()
-    assert store._episode_format_mode == "concat"
-    assert store._episode_format_include == [
-        "instruction",
-        "result",
-        "additional_data",
-    ]
-
-
-def test_init_episode_format_params(mock_client: MagicMock) -> None:
-    store = QdrantMemoryStore(
-        episode_format_mode="xml",
-        episode_format_include=["instruction", "result"],
-    )
-    assert store._episode_format_mode == "xml"
-    assert store._episode_format_include == ["instruction", "result"]
-
-
 def test_init_custom_client() -> None:
     custom_client = MagicMock(spec=QdrantClient)
     store = QdrantMemoryStore(client=custom_client)
@@ -96,6 +77,19 @@ async def test_write(mock_client: MagicMock, episode: Episode) -> None:
     assert episode.result.content in point.vector["fast-bge-small-en-v1.5"].text
     assert "episode_json" in point.payload
     assert "completed_at" in point.payload
+
+
+async def test_write_uses_formatted_episode_when_provided(
+    mock_client: MagicMock,
+    episode: Episode,
+) -> None:
+    store = QdrantMemoryStore()
+    custom_text = "custom formatted text"
+    await store.write(episode, formatted_episode=custom_text)
+
+    kw = mock_client.upsert.call_args.kwargs
+    point = kw["points"][0]
+    assert point.vector["fast-bge-small-en-v1.5"].text == custom_text
 
 
 async def test_count(mock_client: MagicMock) -> None:

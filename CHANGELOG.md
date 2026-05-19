@@ -10,8 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-- refactor: add `episode_format_mode` + `episode_format_include` to `QdrantMemoryStore`; add `DEFAULT_EPISODE_INCLUDE` (#562)
-- refactor: reorder `episode_to_qdrant_point_struct()` params; qdrant params keyword-only (#562)
+- refactor: `BaseMemoryStore.write()` accepts `formatted_episode: str | None` so memory strategies own embedding text (#562)
+- refactor: `episode_to_qdrant_point_struct()` takes pre-formatted `text: str`; qdrant params keyword-only (#562)
+- refactor: add `DEFAULT_EPISODE_INCLUDE` to `QdrantMemoryStore`; remove init-level format params (#562)
 - refactor: add `episode_to_qdrant_point_struct()` converter in `qdrant_utils.py` (#559)
 - chore: migrate `QdrantMemoryStore` off deprecated `add` and `query` methods (#557)
 - fix: update `recency_memory.ipynb` summary output cells to show delegated format (#556)

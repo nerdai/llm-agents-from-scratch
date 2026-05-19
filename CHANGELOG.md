@@ -10,11 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-- chore: migrate QdrantMemoryStore off deprecated add and query methods (#557)
+- refactor: add `episode_to_qdrant_point_struct()` converter in `qdrant_utils.py` (#559)
+- chore: migrate `QdrantMemoryStore` off deprecated `add` and `query` methods (#557)
+- fix: update `recency_memory.ipynb` summary output cells to show delegated format (#556)
 - refactor: `JSONMemoryStore` now takes `dir` + `filename` params instead of a single `path` (#547)
 
 ### Added
 
+- feat: add `tqdm` to `notebooks` optional extra for async progress bars (#559)
+- bonus-example: `more-examples/ch07/similarity_memory.ipynb` — SimilarityMemory + QdrantMemoryStore with REST Countries API (#554)
 - feat: implement `SimilarityMemory` and add `summary()` to `BaseMemoryStore`, `JSONMemoryStore`, and `QdrantMemoryStore` (#550)
 - feat: implement QdrantMemoryStore (#548)
 - feat: add count() to store (#545)

@@ -95,10 +95,10 @@ class QdrantMemoryStore(BaseMemoryStore):
             points=[
                 episode_to_qdrant_point_struct(
                     episode,
+                    self._episode_format_mode,
+                    self._episode_format_include,
                     vector_field=self._client.get_vector_field_name(),
                     model_name=self._client.embedding_model_name,
-                    mode=self._episode_format_mode,
-                    include=self._episode_format_include,
                 ),
             ],
         )

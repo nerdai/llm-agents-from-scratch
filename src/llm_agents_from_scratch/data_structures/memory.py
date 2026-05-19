@@ -49,21 +49,20 @@ class Episode(BaseModel):
                 ``"xml"``.
             include (list[EpisodeAttr] | None): Attributes to include.
                 Defaults to ``["instruction", "result",
-                "additional_data", "completed_at"]`` for ``"xml"`` and
-                ``["instruction", "result", "additional_data"]`` for
-                ``"concat"``.
+                "additional_data", "completed_at"]``.
 
         Returns:
             str: Serialised episode string.
         """
+        attrs = include or [
+            "instruction",
+            "result",
+            "additional_data",
+            "completed_at",
+        ]
         if mode == "concat":
-            return self._format_concat(
-                include or ["instruction", "result", "additional_data"],
-            )
-        return self._format_xml(
-            include
-            or ["instruction", "result", "additional_data", "completed_at"],
-        )
+            return self._format_concat(attrs)
+        return self._format_xml(attrs)
 
     def _format_concat(self, fields: list[EpisodeAttr]) -> str:
         parts: list[str] = []

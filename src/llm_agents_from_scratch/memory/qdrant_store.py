@@ -2,7 +2,7 @@
 
 from typing import Any
 
-from qdrant_client import QdrantClient
+from qdrant_client import QdrantClient, models
 
 from llm_agents_from_scratch.base.memory import BaseMemoryStore
 from llm_agents_from_scratch.data_structures.memory import Episode
@@ -75,16 +75,23 @@ class QdrantMemoryStore(BaseMemoryStore):
         # Embed only semantic content — XML tags and timestamps from
         # Episode.__str__ add noise and let recency bleed into relevance.
         text = f"{episode.task.instruction}\n{episode.result.content}"
-        self._client.add(
+        self._client.upsert(
             collection_name=self._collection,
-            documents=[text],
-            metadata=[
-                {
-                    "episode_json": episode.model_dump_json(),
-                    "completed_at": episode.completed_at.timestamp(),
-                },
+            points=[
+                models.PointStruct(
+                    id=episode.task.id_,
+                    vector={
+                        self._client.get_vector_field_name(): models.Document(
+                            text=text,
+                            model=self._client.embedding_model_name,
+                        ),
+                    },
+                    payload={
+                        "episode_json": episode.model_dump_json(),
+                        "completed_at": episode.completed_at.timestamp(),
+                    },
+                ),
             ],
-            ids=[episode.task.id_],
         )
 
     async def read_recent(self, n: int) -> list[Episode]:
@@ -174,21 +181,26 @@ class QdrantMemoryStore(BaseMemoryStore):
             query (str): The search query (e.g. the task instruction).
             k (int): Maximum number of episodes to return.
             **kwargs: Additional keyword arguments forwarded to
-                ``QdrantClient.query()`` (e.g. ``query_filter``,
+                ``QdrantClient.query_points()`` (e.g. ``query_filter``,
                 ``score_threshold``).
 
         Returns:
             list[Episode]: Episodes ordered by cosine similarity to the
                 query.
         """
-        results = self._client.query(
+        results = self._client.query_points(
             collection_name=self._collection,
-            query_text=query,
+            query=models.Document(
+                text=query,
+                model=self._client.embedding_model_name,
+            ),
+            using=self._client.get_vector_field_name(),
             limit=k,
+            with_payload=True,
             **kwargs,
-        )
+        ).points
         return [
-            Episode.model_validate_json(r.metadata["episode_json"])
+            Episode.model_validate_json(r.payload["episode_json"])
             for r in results
-            if r.metadata and "episode_json" in r.metadata
+            if r.payload and "episode_json" in r.payload
         ]

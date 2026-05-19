@@ -25,6 +25,8 @@ def mock_client():
         "llm_agents_from_scratch.memory.qdrant_store.QdrantClient",
     ) as mock_cls:
         instance = MagicMock()
+        instance.embedding_model_name = "BAAI/bge-small-en-v1.5"
+        instance.get_vector_field_name.return_value = "fast-bge-small-en-v1.5"
         mock_cls.return_value = instance
         yield instance
 
@@ -64,14 +66,17 @@ async def test_write(mock_client: MagicMock, episode: Episode) -> None:
     store = QdrantMemoryStore()
     await store.write(episode)
 
-    mock_client.add.assert_called_once()
-    kw = mock_client.add.call_args.kwargs
+    mock_client.upsert.assert_called_once()
+    kw = mock_client.upsert.call_args.kwargs
     assert kw["collection_name"] == "episodes"
-    assert episode.task.instruction in kw["documents"][0]
-    assert episode.result.content in kw["documents"][0]
-    assert kw["ids"] == [episode.task.id_]
-    assert "episode_json" in kw["metadata"][0]
-    assert "completed_at" in kw["metadata"][0]
+    point = kw["points"][0]
+    assert point.id == episode.task.id_
+    assert (
+        episode.task.instruction in point.vector["fast-bge-small-en-v1.5"].text
+    )
+    assert episode.result.content in point.vector["fast-bge-small-en-v1.5"].text
+    assert "episode_json" in point.payload
+    assert "completed_at" in point.payload
 
 
 async def test_count(mock_client: MagicMock) -> None:
@@ -171,24 +176,26 @@ async def test_read_recent_respects_n_limit(mock_client: MagicMock) -> None:
 
 
 async def test_search(mock_client: MagicMock, episode: Episode) -> None:
-    mock_result = MagicMock()
-    mock_result.metadata = {"episode_json": episode.model_dump_json()}
-    mock_client.query.return_value = [mock_result]
+    mock_point = MagicMock()
+    mock_point.payload = {"episode_json": episode.model_dump_json()}
+    mock_client.query_points.return_value.points = [mock_point]
 
     store = QdrantMemoryStore()
-    results = await store.search("electric type pokemon", k=3)
+    k = 3
+    results = await store.search("electric type pokemon", k=k)
 
-    mock_client.query.assert_called_once_with(
-        collection_name="episodes",
-        query_text="electric type pokemon",
-        limit=3,
-    )
+    mock_client.query_points.assert_called_once()
+    kw = mock_client.query_points.call_args.kwargs
+    assert kw["collection_name"] == "episodes"
+    assert kw["query"].text == "electric type pokemon"
+    assert kw["using"] == "fast-bge-small-en-v1.5"
+    assert kw["limit"] == k
     assert len(results) == 1
     assert results[0].task.instruction == episode.task.instruction
 
 
 async def test_search_empty(mock_client: MagicMock) -> None:
-    mock_client.query.return_value = []
+    mock_client.query_points.return_value.points = []
     store = QdrantMemoryStore()
     results = await store.search("anything", k=5)
     assert results == []

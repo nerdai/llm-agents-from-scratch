@@ -64,7 +64,9 @@ class QdrantMemoryStore(BaseMemoryStore):
                 time. Defaults to ``"concat"``.
             episode_format_include (list[EpisodeAttr] | None): Episode
                 attributes to include in the embedded text. Defaults to
-                ``Episode.format()`` defaults for the given mode.
+                ``["instruction", "result", "additional_data"]``.
+                ``completed_at`` is excluded by default to prevent
+                recency from bleeding into relevance scores.
         """
         self._client = client or QdrantClient(":memory:")
         self._client.set_model(embedding_model)
@@ -72,7 +74,10 @@ class QdrantMemoryStore(BaseMemoryStore):
         self._episode_format_mode: Literal["xml", "concat"] = (
             episode_format_mode
         )
-        self._episode_format_include = episode_format_include
+        self._episode_format_include: list[EpisodeAttr] = (
+            episode_format_include
+            or ["instruction", "result", "additional_data"]
+        )
         if not self._client.collection_exists(collection_name):
             self._client.create_collection(
                 collection_name=collection_name,

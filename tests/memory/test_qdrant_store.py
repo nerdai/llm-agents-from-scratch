@@ -55,6 +55,16 @@ def test_init_custom_params(mock_client: MagicMock) -> None:
     assert store._collection == "my_eps"
 
 
+def test_init_episode_format_defaults(mock_client: MagicMock) -> None:
+    store = QdrantMemoryStore()
+    assert store._episode_format_mode == "concat"
+    assert store._episode_format_include == [
+        "instruction",
+        "result",
+        "additional_data",
+    ]
+
+
 def test_init_episode_format_params(mock_client: MagicMock) -> None:
     store = QdrantMemoryStore(
         episode_format_mode="xml",

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- chore: migrate QdrantMemoryStore off deprecated add and query methods (#557)
 - refactor: `JSONMemoryStore` now takes `dir` + `filename` params instead of a single `path` (#547)
 
 ### Added

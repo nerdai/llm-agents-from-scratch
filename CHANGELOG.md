@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- refactor: add `episode_format_mode` + `episode_format_include` to `QdrantMemoryStore`; add `DEFAULT_EPISODE_INCLUDE` (#562)
+- refactor: reorder `episode_to_qdrant_point_struct()` params; qdrant params keyword-only (#562)
 - refactor: add `episode_to_qdrant_point_struct()` converter in `qdrant_utils.py` (#559)
 - chore: migrate `QdrantMemoryStore` off deprecated `add` and `query` methods (#557)
 - fix: update `recency_memory.ipynb` summary output cells to show delegated format (#556)
@@ -17,6 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- feat: implement `ReflectiveMemory` in `memory/reflective.py` (#527)
+- feat: add `Episode.additional_data` field and `Episode.format(mode, include)` with `EpisodeAttr` Literal type (#562)
 - feat: add `tqdm` to `notebooks` optional extra for async progress bars (#559)
 - bonus-example: `more-examples/ch07/similarity_memory.ipynb` — SimilarityMemory + QdrantMemoryStore with REST Countries API (#554)
 - feat: implement `SimilarityMemory` and add `summary()` to `BaseMemoryStore`, `JSONMemoryStore`, and `QdrantMemoryStore` (#550)

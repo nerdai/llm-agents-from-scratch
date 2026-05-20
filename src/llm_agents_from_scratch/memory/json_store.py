@@ -50,17 +50,17 @@ class JSONMemoryStore(BaseMemoryStore):
     async def write(
         self,
         episode: Episode,
-        formatted_episode: str | None = None,
+        embedded_text: str | None = None,
     ) -> None:
         """Persist an episode to the store.
 
         Appends one JSON line to the backing file. Does not rewrite existing
-        content. ``formatted_episode`` is accepted for interface compatibility
+        content. ``embedded_text`` is accepted for interface compatibility
         but ignored — this store does not embed episodes.
 
         Args:
             episode (Episode): The completed episode to store.
-            formatted_episode (str | None): Ignored.
+            embedded_text (str | None): Ignored.
         """
         self._episodes.append(episode)
         with open(self.path, "a") as f:

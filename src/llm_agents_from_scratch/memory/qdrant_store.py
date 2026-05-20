@@ -72,25 +72,25 @@ class QdrantMemoryStore(BaseMemoryStore):
     async def write(
         self,
         episode: Episode,
-        formatted_episode: str | None = None,
+        embedded_text: str | None = None,
     ) -> None:
         """Embed and persist an episode to the Qdrant collection.
 
         The full serialised episode and its completion timestamp are
         stored in the point payload for later retrieval. The embedded
         text defaults to a concat-format serialisation of
-        ``DEFAULT_EPISODE_INCLUDE`` attributes when ``formatted_episode``
+        ``DEFAULT_EPISODE_INCLUDE`` attributes when ``embedded_text``
         is not provided.
 
         Args:
             episode (Episode): The completed episode to store.
-            formatted_episode (str | None): Pre-formatted text to embed.
+            embedded_text (str | None): Pre-formatted text to embed.
                 When provided by the calling memory strategy, this text
                 is used directly for the vector. Defaults to ``None``,
                 in which case the store formats the episode using
                 ``DEFAULT_EPISODE_INCLUDE``.
         """
-        text = formatted_episode or episode.format(
+        text = embedded_text or episode.format(
             mode="concat",
             include=DEFAULT_EPISODE_INCLUDE,
         )

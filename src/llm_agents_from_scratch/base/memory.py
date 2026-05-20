@@ -73,13 +73,13 @@ class BaseMemoryStore(ABC):
     async def write(
         self,
         episode: Episode,
-        formatted_episode: str | None = None,
+        embedded_text: str | None = None,
     ) -> None:
         """Persist an episode to the store.
 
         Args:
             episode (Episode): The completed episode to store.
-            formatted_episode (str | None): Pre-formatted text for
+            embedded_text (str | None): Pre-formatted text for
                 substrates that embed episodes (e.g. vector stores).
                 When provided, the store uses this text for embedding
                 instead of formatting the episode itself. Substrates

@@ -5,10 +5,16 @@ from typing import Any
 from qdrant_client import QdrantClient, models
 
 from llm_agents_from_scratch.base.memory import BaseMemoryStore
-from llm_agents_from_scratch.data_structures.memory import Episode
+from llm_agents_from_scratch.data_structures.memory import Episode, EpisodeAttr
 from llm_agents_from_scratch.memory.qdrant_utils import (
     episode_to_qdrant_point_struct,
 )
+
+DEFAULT_EPISODE_INCLUDE: list[EpisodeAttr] = [
+    "instruction",
+    "result",
+    "additional_data",
+]
 
 
 class QdrantMemoryStore(BaseMemoryStore):
@@ -16,8 +22,7 @@ class QdrantMemoryStore(BaseMemoryStore):
 
     Episodes are embedded at write time using FastEmbed and stored as
     vector points. Similarity search uses cosine distance over the
-    embedded episode text (task instruction concatenated with result
-    content).
+    embedded episode text.
 
     By default, Qdrant runs in-process with no server required. Pass a
     pre-configured ``QdrantClient`` to persist to a remote or on-disk
@@ -64,24 +69,39 @@ class QdrantMemoryStore(BaseMemoryStore):
                 vectors_config=self._client.get_fastembed_vector_params(),
             )
 
-    async def write(self, episode: Episode) -> None:
+    async def write(
+        self,
+        episode: Episode,
+        embedded_text: str | None = None,
+    ) -> None:
         """Embed and persist an episode to the Qdrant collection.
 
-        The embedded text is the episode's task instruction followed by
-        the result content, separated by a newline. The full serialised
-        episode and its completion timestamp are stored in the point
-        payload for later retrieval.
+        The full serialised episode and its completion timestamp are
+        stored in the point payload for later retrieval. The embedded
+        text defaults to a concat-format serialisation of
+        ``DEFAULT_EPISODE_INCLUDE`` attributes when ``embedded_text``
+        is not provided.
 
         Args:
             episode (Episode): The completed episode to store.
+            embedded_text (str | None): Pre-formatted text to embed.
+                When provided by the calling memory strategy, this text
+                is used directly for the vector. Defaults to ``None``,
+                in which case the store formats the episode using
+                ``DEFAULT_EPISODE_INCLUDE``.
         """
+        text = embedded_text or episode.format(
+            mode="concat",
+            include=DEFAULT_EPISODE_INCLUDE,
+        )
         self._client.upsert(
             collection_name=self._collection,
             points=[
                 episode_to_qdrant_point_struct(
                     episode,
-                    vector_field=self._client.get_vector_field_name(),
-                    model_name=self._client.embedding_model_name,
+                    text,
+                    self._client.get_vector_field_name(),
+                    self._client.embedding_model_name,
                 ),
             ],
         )

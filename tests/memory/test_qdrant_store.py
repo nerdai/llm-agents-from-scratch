@@ -79,6 +79,19 @@ async def test_write(mock_client: MagicMock, episode: Episode) -> None:
     assert "completed_at" in point.payload
 
 
+async def test_write_uses_embedded_text_when_provided(
+    mock_client: MagicMock,
+    episode: Episode,
+) -> None:
+    store = QdrantMemoryStore()
+    custom_text = "custom formatted text"
+    await store.write(episode, embedded_text=custom_text)
+
+    kw = mock_client.upsert.call_args.kwargs
+    point = kw["points"][0]
+    assert point.vector["fast-bge-small-en-v1.5"].text == custom_text
+
+
 async def test_count(mock_client: MagicMock) -> None:
     expected = 7
     mock_client.count.return_value.count = expected

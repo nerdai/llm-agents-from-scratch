@@ -19,6 +19,7 @@ experience that would help with similar tasks in the future?\
 class ReflectiveMemory(RecencyMemory):
     """Reflexion-style episodic memory with write-time reflection.
 
+    Implements the Reflexion pattern (https://arxiv.org/abs/2303.11366).
     Extends RecencyMemory with an LLM call at write time that distils a
     short lesson from each completed episode. The lesson is stored on
     the episode under ``additional_data["reflection"]`` and surfaced

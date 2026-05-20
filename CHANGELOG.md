@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-- refactor: `BaseMemoryStore.write()` accepts `formatted_episode: str | None` so memory strategies own embedding text (#562)
+- refactor: `BaseMemoryStore.write()` accepts `embedded_text: str | None` so memory strategies own embedding text (#562)
 - refactor: `episode_to_qdrant_point_struct()` takes pre-formatted `text: str`; qdrant params keyword-only (#562)
 - refactor: add `DEFAULT_EPISODE_INCLUDE` to `QdrantMemoryStore`; remove init-level format params (#562)
 - refactor: add `episode_to_qdrant_point_struct()` converter in `qdrant_utils.py` (#559)

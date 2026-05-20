@@ -7,8 +7,8 @@ from llm_agents_from_scratch.data_structures.memory import Episode
 
 def episode_to_qdrant_point_struct(
     episode: Episode,
-    text: str,
     *,
+    text: str,
     vector_field: str,
     model_name: str,
 ) -> models.PointStruct:

@@ -21,7 +21,7 @@ def test_id_matches_task_id() -> None:
     episode = _make_episode()
     point = episode_to_qdrant_point_struct(
         episode,
-        "some text",
+        text="some text",
         vector_field=_FIELD,
         model_name=_MODEL,
     )
@@ -32,7 +32,7 @@ def test_vector_field_name() -> None:
     episode = _make_episode()
     point = episode_to_qdrant_point_struct(
         episode,
-        "some text",
+        text="some text",
         vector_field=_FIELD,
         model_name=_MODEL,
     )
@@ -43,7 +43,7 @@ def test_document_model_name() -> None:
     episode = _make_episode()
     point = episode_to_qdrant_point_struct(
         episode,
-        "some text",
+        text="some text",
         vector_field=_FIELD,
         model_name=_MODEL,
     )
@@ -55,7 +55,7 @@ def test_text_passed_through_to_document() -> None:
     text = episode.format(mode="concat", include=["instruction", "result"])
     point = episode_to_qdrant_point_struct(
         episode,
-        text,
+        text=text,
         vector_field=_FIELD,
         model_name=_MODEL,
     )
@@ -78,7 +78,7 @@ def test_additional_data_in_text_when_caller_includes_it() -> None:
     )
     point = episode_to_qdrant_point_struct(
         episode,
-        text,
+        text=text,
         vector_field=_FIELD,
         model_name=_MODEL,
     )
@@ -90,7 +90,7 @@ def test_payload_contains_episode_json() -> None:
     episode = _make_episode()
     point = episode_to_qdrant_point_struct(
         episode,
-        "some text",
+        text="some text",
         vector_field=_FIELD,
         model_name=_MODEL,
     )
@@ -102,7 +102,7 @@ def test_payload_episode_json_roundtrips() -> None:
     episode = _make_episode()
     point = episode_to_qdrant_point_struct(
         episode,
-        "some text",
+        text="some text",
         vector_field=_FIELD,
         model_name=_MODEL,
     )
@@ -115,11 +115,11 @@ def test_custom_vector_field_and_model() -> None:
     episode = _make_episode()
     point = episode_to_qdrant_point_struct(
         episode,
-        "some text",
+        text="some text",
         vector_field="my-custom-field",
         model_name="sentence-transformers/all-MiniLM-L6-v2",
     )
-    assert "my-custom-field" in point.vector
-    assert point.vector["my-custom-field"].model == (
+    assert "my-custom-field" in point.vector  # type: ignore[operator]
+    assert point.vector["my-custom-field"].model == (  # type: ignore[index]
         "sentence-transformers/all-MiniLM-L6-v2"
     )

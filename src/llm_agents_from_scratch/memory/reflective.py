@@ -75,9 +75,7 @@ class ReflectiveMemory(RecencyMemory):
             result=episode.result.content,
         )
         result = await self.llm.complete(prompt)
-        episode = episode.model_copy(
-            update={"additional_data": {"reflection": result.response}},
-        )
+        episode.additional_data = {"reflection": result.response}
         await self.store.write(episode)
 
     async def summary(self) -> str:

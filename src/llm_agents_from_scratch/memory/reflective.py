@@ -30,6 +30,8 @@ class ReflectiveMemory(RecencyMemory):
         llm (BaseLLM): The LLM used to generate reflections at write
             time.
         n (int): Number of most recent episodes to recall.
+        reflection_template (str): Template used to build the
+            reflection prompt.
     """
 
     def __init__(
@@ -37,6 +39,7 @@ class ReflectiveMemory(RecencyMemory):
         store: BaseMemoryStore,
         llm: BaseLLM,
         n: int = 3,
+        reflection_template: str = REFLECTION_TEMPLATE,
     ) -> None:
         """Initialize a ReflectiveMemory.
 
@@ -47,9 +50,14 @@ class ReflectiveMemory(RecencyMemory):
                 each episode completes.
             n (int): Number of most recent episodes to include in
                 recall. Defaults to 3.
+            reflection_template (str): Template string for the
+                reflection prompt. Must contain ``{instruction}`` and
+                ``{result}`` placeholders. Defaults to
+                ``REFLECTION_TEMPLATE``.
         """
         super().__init__(store=store, n=n)
         self.llm = llm
+        self.reflection_template = reflection_template
 
     async def record(self, episode: Episode) -> None:
         """Generate a reflection and persist the enriched episode.
@@ -62,7 +70,7 @@ class ReflectiveMemory(RecencyMemory):
             episode (Episode): The completed episode to reflect on and
                 store.
         """
-        prompt = REFLECTION_TEMPLATE.format(
+        prompt = self.reflection_template.format(
             instruction=episode.task.instruction,
             result=episode.result.content,
         )

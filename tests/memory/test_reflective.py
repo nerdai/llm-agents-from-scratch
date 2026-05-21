@@ -50,6 +50,40 @@ def test_init_custom_n() -> None:
     assert memory.n == 5  # noqa: PLR2004
 
 
+def test_init_custom_reflection_template() -> None:
+    store = MagicMock(spec=BaseMemoryStore)
+    llm = make_llm()
+    template = "Task: {instruction}\nResult: {result}\nLesson:"
+    memory = ReflectiveMemory(
+        store=store,
+        llm=llm,
+        reflection_template=template,
+    )
+
+    assert memory.reflection_template == template
+
+
+@pytest.mark.asyncio
+async def test_record_uses_custom_reflection_template() -> None:
+    store = AsyncMock(spec=BaseMemoryStore)
+    llm = make_llm()
+    template = "Custom: {instruction} / {result}"
+    memory = ReflectiveMemory(
+        store=store,
+        llm=llm,
+        reflection_template=template,
+    )
+    ep = make_episode()
+
+    await memory.record(ep)
+
+    prompt_arg = llm.complete.call_args[0][0]
+    assert prompt_arg == template.format(
+        instruction=ep.task.instruction,
+        result=ep.result.content,
+    )
+
+
 @pytest.mark.asyncio
 async def test_record_calls_llm_complete() -> None:
     store = AsyncMock(spec=BaseMemoryStore)

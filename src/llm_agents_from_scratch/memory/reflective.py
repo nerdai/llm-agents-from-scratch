@@ -75,6 +75,7 @@ class ReflectiveMemory(RecencyMemory):
             result=episode.result.content,
         )
         result = await self.llm.complete(prompt)
+        # safe to mutate — TaskHandler does not use episode after record()
         episode.additional_data = {"reflection": result.response}
         await self.store.write(episode)
 

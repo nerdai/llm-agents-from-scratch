@@ -5,7 +5,7 @@ from llm_agents_from_scratch.base.memory import BaseMemoryStore
 from llm_agents_from_scratch.data_structures.memory import Episode
 from llm_agents_from_scratch.memory.recency import RecencyMemory
 
-_REFLECTION_PROMPT = """\
+REFLECTION_TEMPLATE = """\
 You just completed the following task.
 
 Task: {instruction}
@@ -62,7 +62,7 @@ class ReflectiveMemory(RecencyMemory):
             episode (Episode): The completed episode to reflect on and
                 store.
         """
-        prompt = _REFLECTION_PROMPT.format(
+        prompt = REFLECTION_TEMPLATE.format(
             instruction=episode.task.instruction,
             result=episode.result.content,
         )

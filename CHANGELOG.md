@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- feat: add `wikipedia` to `notebooks` optional extra (#565)
 - feat: implement ReflectiveMemory in memory/reflective.py (#561)
 - feat: implement `ReflectiveMemory` in `memory/reflective.py` (#527)
 - feat: add `Episode.additional_data` field and `Episode.format(mode, include)` with `EpisodeAttr` Literal type (#562)

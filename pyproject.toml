@@ -51,8 +51,7 @@ notebook-utils = [
 ]
 notebooks = [
   "ipython>=8.37.0",
-  "tqdm>=4.0.0",
-  "wikipedia>=1.4.0"
+  "tqdm>=4.0.0"
 ]
 openai = [
   "openai>=2.9.0"

@@ -1475,7 +1475,6 @@ notebooks = [
     { name = "ipython", version = "8.39.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
     { name = "ipython", version = "9.13.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
     { name = "tqdm" },
-    { name = "wikipedia" },
 ]
 openai = [
     { name = "openai" },
@@ -1517,7 +1516,6 @@ requires-dist = [
     { name = "qdrant-client", extras = ["fastembed"], specifier = ">=1.14.0" },
     { name = "tqdm", marker = "extra == 'notebooks'", specifier = ">=4.0.0" },
     { name = "typing-extensions", specifier = ">=4.14.0" },
-    { name = "wikipedia", marker = "extra == 'notebooks'", specifier = ">=1.4.0" },
 ]
 provides-extras = ["notebook-utils", "notebooks", "openai"]
 
@@ -4004,16 +4002,6 @@ sdist = { url = "https://files.pythonhosted.org/packages/0b/02/ae6ceac1baeda5308
 wheels = [
     { url = "https://files.pythonhosted.org/packages/f4/24/2a3e3df732393fed8b3ebf2ec078f05546de641fe1b667ee316ec1dcf3b7/webencodings-0.5.1-py2.py3-none-any.whl", hash = "sha256:a0af1213f3c2226497a97e2b3aa01a7e4bee4f403f95be16fc9acd2947514a78", size = 11774, upload-time = "2017-04-05T20:21:32.581Z" },
 ]
-
-[[package]]
-name = "wikipedia"
-version = "1.4.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "beautifulsoup4" },
-    { name = "requests" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/67/35/25e68fbc99e672127cc6fbb14b8ec1ba3dfef035bf1e4c90f78f24a80b7d/wikipedia-1.4.0.tar.gz", hash = "sha256:db0fad1829fdd441b1852306e9856398204dc0786d2996dd2e0c8bb8e26133b2", size = 27748, upload-time = "2014-11-15T15:59:49.808Z" }
 
 [[package]]
 name = "win32-setctime"

@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- ...
+
+## [0.0.17] - 2026-05-23
+
 ### Changed
 
 - refactor: `BaseMemoryStore.write()` accepts `embedded_text: str | None` so memory strategies own embedding text (#562)

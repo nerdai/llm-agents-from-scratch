@@ -154,3 +154,29 @@ async def test_record_passes_transformed_episode_to_store() -> None:
 
     written_ep: Episode = store.write.call_args[0][0]
     assert written_ep.additional_data == {"note": "annotated"}
+
+
+# --- delete / update ---
+
+
+@pytest.mark.asyncio
+async def test_delete_delegates_to_store() -> None:
+    store = AsyncMock(spec=BaseMemoryStore)
+    store.delete = AsyncMock()
+    memory = Memory(store=store, recall_fn=AsyncMock(return_value=[]))
+
+    await memory.delete("some-id")
+
+    store.delete.assert_awaited_once_with("some-id")
+
+
+@pytest.mark.asyncio
+async def test_update_delegates_to_store() -> None:
+    store = AsyncMock(spec=BaseMemoryStore)
+    store.update = AsyncMock()
+    memory = Memory(store=store, recall_fn=AsyncMock(return_value=[]))
+    ep = make_episode()
+
+    await memory.update(ep)
+
+    store.update.assert_awaited_once_with(ep)

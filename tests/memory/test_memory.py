@@ -22,16 +22,6 @@ def make_episode(
     )
 
 
-async def recency_recall_fn(
-    store: BaseMemoryStore,
-    n: int,
-) -> "RecallFn":  # noqa: F821
-    async def _fn(task: Task) -> list[Episode]:
-        return await store.read_recent(n)
-
-    return _fn
-
-
 # --- construction ---
 
 
@@ -160,23 +150,16 @@ async def test_record_passes_transformed_episode_to_store() -> None:
 
 
 @pytest.mark.asyncio
-async def test_delete_delegates_to_store() -> None:
-    store = AsyncMock(spec=BaseMemoryStore)
-    store.delete = AsyncMock()
-    memory = Memory(store=store, recall_fn=AsyncMock(return_value=[]))
+async def test_delete_raises_not_implemented() -> None:
+    memory = Memory(store=MagicMock(), recall_fn=AsyncMock(return_value=[]))
 
-    await memory.delete("some-id")
-
-    store.delete.assert_awaited_once_with("some-id")
+    with pytest.raises(NotImplementedError):
+        await memory.delete("some-id")
 
 
 @pytest.mark.asyncio
-async def test_update_delegates_to_store() -> None:
-    store = AsyncMock(spec=BaseMemoryStore)
-    store.update = AsyncMock()
-    memory = Memory(store=store, recall_fn=AsyncMock(return_value=[]))
-    ep = make_episode()
+async def test_update_raises_not_implemented() -> None:
+    memory = Memory(store=MagicMock(), recall_fn=AsyncMock(return_value=[]))
 
-    await memory.update(ep)
-
-    store.update.assert_awaited_once_with(ep)
+    with pytest.raises(NotImplementedError):
+        await memory.update(make_episode())

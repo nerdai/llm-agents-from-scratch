@@ -18,9 +18,8 @@ class Memory:
     in order at write time before the episode is persisted (e.g. reflection,
     summarisation).
 
-    Construct instances via the convenience factories (``RecencyMemory``,
-    ``SimilarityMemory``, ``ReflectiveMemory``) or directly via
-    ``MemoryBuilder``.
+    Construct instances via ``MemoryBuilder`` or the convenience factories
+    that will be introduced alongside it.
 
     Attributes:
         store (BaseMemoryStore): The underlying store that handles
@@ -52,7 +51,9 @@ class Memory:
         """
         self.store = store
         self.recall_fn = recall_fn
-        self.transformations = transformations or []
+        self.transformations = (
+            transformations if transformations is not None else []
+        )
 
     async def recall(self, task: Task) -> str:
         """Retrieve relevant past episodes for a task.
@@ -90,16 +91,29 @@ class Memory:
     async def delete(self, id_: str) -> None:
         """Delete an episode from the store by its ID.
 
+        Requires the backing store to implement ``delete()``. Raises
+        ``NotImplementedError`` until ``BaseMemoryStore.delete()`` is
+        added (see issue #585).
+
         Args:
             id_ (str): The ``id_`` of the episode to delete.
         """
-        await self.store.delete(id_)
+        raise NotImplementedError(
+            f"{type(self.store).__name__} does not support delete().",
+        )
 
     async def update(self, episode: Episode) -> None:
         """Replace an existing episode in the store.
 
+        Requires the backing store to implement ``update()``. Raises
+        ``NotImplementedError`` until ``BaseMemoryStore.update()`` is
+        added (see issue #585).
+
         Args:
-            episode (Episode): The episode to update. Matched by
-                ``episode.id_``.
+            episode (Episode): The episode to update. Matched by the
+                episode identifier once ``Episode.id_`` is available
+                (see issue #584).
         """
-        await self.store.update(episode)
+        raise NotImplementedError(
+            f"{type(self.store).__name__} does not support update().",
+        )

@@ -1,7 +1,7 @@
 """Reflective episodic memory (Reflexion pattern)."""
 
 from llm_agents_from_scratch.base.llm import BaseLLM
-from llm_agents_from_scratch.base.memory import BaseMemoryStore
+from llm_agents_from_scratch.base.memory_store import BaseMemoryStore
 from llm_agents_from_scratch.data_structures.memory import Episode
 from llm_agents_from_scratch.memory.recency import RecencyMemory
 

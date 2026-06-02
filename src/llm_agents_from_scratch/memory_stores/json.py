@@ -3,7 +3,7 @@
 from pathlib import Path
 from typing import Any
 
-from llm_agents_from_scratch.base.memory import BaseMemoryStore
+from llm_agents_from_scratch.base.memory_store import BaseMemoryStore
 from llm_agents_from_scratch.data_structures.memory import Episode
 
 

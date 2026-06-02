@@ -2,7 +2,7 @@
 
 from llm_agents_from_scratch.data_structures import Task, TaskResult
 from llm_agents_from_scratch.data_structures.memory import Episode, RecallMode
-from llm_agents_from_scratch.memory import Memory, SimilarityMemory
+from llm_agents_from_scratch.memory import Memory, similarity_memory
 from llm_agents_from_scratch.memory_stores.qdrant.store import QdrantMemoryStore
 
 
@@ -19,31 +19,31 @@ def make_episode(
 
 
 def test_returns_memory_instance() -> None:
-    memory = SimilarityMemory()
+    memory = similarity_memory()
     assert isinstance(memory, Memory)
 
 
 def test_store_is_qdrant() -> None:
-    memory = SimilarityMemory()
+    memory = similarity_memory()
     assert isinstance(memory.store, QdrantMemoryStore)
 
 
 def test_store_recall_mode_is_search() -> None:
-    memory = SimilarityMemory()
+    memory = similarity_memory()
     assert memory.store.recall_mode == RecallMode.SEARCH
 
 
 def test_max_results_set_from_k() -> None:
-    memory = SimilarityMemory(k=7)
+    memory = similarity_memory(k=7)
     assert memory.store.max_results == 7  # noqa: PLR2004
 
 
 def test_default_key_fn_uses_instruction() -> None:
-    memory = SimilarityMemory()
+    memory = similarity_memory()
     ep = make_episode("look up pikachu")
     assert memory.key_fn(ep) == "look up pikachu"
 
 
 def test_no_metadata_fns_by_default() -> None:
-    memory = SimilarityMemory()
+    memory = similarity_memory()
     assert memory.metadata_fns == {}

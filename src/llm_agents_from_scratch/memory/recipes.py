@@ -31,7 +31,7 @@ def _reflect_fn(llm: BaseLLM) -> MetadataFn:
     return _reflect
 
 
-def RecencyMemory(  # noqa: N802
+def recency_memory(
     path: Path,
     n: int = 5,
 ) -> Memory:
@@ -51,7 +51,7 @@ def RecencyMemory(  # noqa: N802
     return Memory(store=JSONMemoryStore(dir=path, max_results=n))
 
 
-def SimilarityMemory(  # noqa: N802
+def similarity_memory(
     collection: str = "episodes",
     k: int = 5,
 ) -> Memory:
@@ -74,7 +74,7 @@ def SimilarityMemory(  # noqa: N802
     )
 
 
-def ReflectiveMemory(  # noqa: N802
+def reflective_memory(
     path: Path,
     llm: BaseLLM,
     n: int = 5,

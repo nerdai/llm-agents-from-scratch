@@ -9,7 +9,7 @@ from llm_agents_from_scratch.base.llm import BaseLLM
 from llm_agents_from_scratch.data_structures import Task, TaskResult
 from llm_agents_from_scratch.data_structures.llm import CompleteResult
 from llm_agents_from_scratch.data_structures.memory import Episode, RecallMode
-from llm_agents_from_scratch.memory import Memory, ReflectiveMemory
+from llm_agents_from_scratch.memory import Memory, reflective_memory
 from llm_agents_from_scratch.memory_stores.json import JSONMemoryStore
 
 
@@ -34,27 +34,27 @@ def make_llm(reflection: str = "Always verify the name first.") -> BaseLLM:
 
 
 def test_returns_memory_instance(tmp_path: Path) -> None:
-    memory = ReflectiveMemory(path=tmp_path, llm=make_llm())
+    memory = reflective_memory(path=tmp_path, llm=make_llm())
     assert isinstance(memory, Memory)
 
 
 def test_store_is_json(tmp_path: Path) -> None:
-    memory = ReflectiveMemory(path=tmp_path, llm=make_llm())
+    memory = reflective_memory(path=tmp_path, llm=make_llm())
     assert isinstance(memory.store, JSONMemoryStore)
 
 
 def test_store_recall_mode_is_recent(tmp_path: Path) -> None:
-    memory = ReflectiveMemory(path=tmp_path, llm=make_llm())
+    memory = reflective_memory(path=tmp_path, llm=make_llm())
     assert memory.store.recall_mode == RecallMode.RECENT
 
 
 def test_max_results_set_from_n(tmp_path: Path) -> None:
-    memory = ReflectiveMemory(path=tmp_path, llm=make_llm(), n=7)
+    memory = reflective_memory(path=tmp_path, llm=make_llm(), n=7)
     assert memory.store.max_results == 7  # noqa: PLR2004
 
 
 def test_has_reflection_metadata_fn(tmp_path: Path) -> None:
-    memory = ReflectiveMemory(path=tmp_path, llm=make_llm())
+    memory = reflective_memory(path=tmp_path, llm=make_llm())
     assert "reflection" in memory.metadata_fns
 
 
@@ -62,7 +62,7 @@ def test_has_reflection_metadata_fn(tmp_path: Path) -> None:
 async def test_record_calls_llm_and_stores_reflection(tmp_path: Path) -> None:
     reflection = "Always verify the name first."
     llm = make_llm(reflection)
-    memory = ReflectiveMemory(path=tmp_path, llm=llm)
+    memory = reflective_memory(path=tmp_path, llm=llm)
     ep = make_episode()
 
     await memory.record(ep)

@@ -13,7 +13,7 @@ from llm_agents_from_scratch.memory.qdrant_utils import (
 DEFAULT_EPISODE_INCLUDE: list[EpisodeAttr] = [
     "instruction",
     "result",
-    "additional_data",
+    "metadata",
 ]
 
 
@@ -42,6 +42,7 @@ class QdrantMemoryStore(BaseMemoryStore):
         collection_name: str = "episodes",
         embedding_model: str = "BAAI/bge-small-en-v1.5",
         client: QdrantClient | None = None,
+        max_results: int = 5,
     ) -> None:
         """Initialize a QdrantMemoryStore.
 
@@ -59,7 +60,10 @@ class QdrantMemoryStore(BaseMemoryStore):
             client (QdrantClient | None): Pre-configured Qdrant client.
                 Defaults to an in-memory client when ``None``. The
                 client must use FastEmbed as its embedding backend.
+            max_results (int): Default maximum number of episodes
+                returned by ``search``. Defaults to 5.
         """
+        super().__init__(max_results=max_results)
         self._client = client or QdrantClient(":memory:")
         self._client.set_model(embedding_model)
         self._collection = collection_name
@@ -72,25 +76,25 @@ class QdrantMemoryStore(BaseMemoryStore):
     async def write(
         self,
         episode: Episode,
-        embedded_text: str | None = None,
+        key: str | None = None,
     ) -> None:
         """Embed and persist an episode to the Qdrant collection.
 
         The full serialised episode and its completion timestamp are
-        stored in the point payload for later retrieval. The embedded
-        text defaults to a concat-format serialisation of
-        ``DEFAULT_EPISODE_INCLUDE`` attributes when ``embedded_text``
-        is not provided.
+        stored in the point payload for later retrieval. The key
+        defaults to a concat-format serialisation of
+        ``DEFAULT_EPISODE_INCLUDE`` attributes when ``key`` is not
+        provided.
 
         Args:
             episode (Episode): The completed episode to store.
-            embedded_text (str | None): Pre-formatted text to embed.
-                When provided by the calling memory strategy, this text
-                is used directly for the vector. Defaults to ``None``,
-                in which case the store formats the episode using
+            key (str | None): Pre-formatted text to embed. When
+                provided by the calling memory strategy, this text is
+                used directly for the vector. Defaults to ``None``, in
+                which case the store formats the episode using
                 ``DEFAULT_EPISODE_INCLUDE``.
         """
-        text = embedded_text or episode.format(
+        text = key or episode.format(
             mode="concat",
             include=DEFAULT_EPISODE_INCLUDE,
         )
@@ -181,17 +185,16 @@ class QdrantMemoryStore(BaseMemoryStore):
     async def search(
         self,
         query: str,
-        k: int,
         **kwargs: Any,
     ) -> list[Episode]:
-        """Return the K episodes most semantically similar to a query.
+        """Return the most semantically similar episodes for a query.
 
         Embeds the query using the same FastEmbed model used at write
-        time and retrieves the top-K points by cosine similarity.
+        time and retrieves the top ``max_results`` points by cosine
+        similarity.
 
         Args:
             query (str): The search query (e.g. the task instruction).
-            k (int): Maximum number of episodes to return.
             **kwargs: Additional keyword arguments forwarded to
                 ``QdrantClient.query_points()`` (e.g. ``query_filter``,
                 ``score_threshold``).
@@ -207,7 +210,7 @@ class QdrantMemoryStore(BaseMemoryStore):
                 model=self._client.embedding_model_name,
             ),
             using=self._client.get_vector_field_name(),
-            limit=k,
+            limit=self.max_results,
             with_payload=True,
             **kwargs,
         ).points

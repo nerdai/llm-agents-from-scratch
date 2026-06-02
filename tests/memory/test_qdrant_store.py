@@ -79,13 +79,13 @@ async def test_write(mock_client: MagicMock, episode: Episode) -> None:
     assert "completed_at" in point.payload
 
 
-async def test_write_uses_embedded_text_when_provided(
+async def test_write_uses_key_when_provided(
     mock_client: MagicMock,
     episode: Episode,
 ) -> None:
     store = QdrantMemoryStore()
     custom_text = "custom formatted text"
-    await store.write(episode, embedded_text=custom_text)
+    await store.write(episode, key=custom_text)
 
     kw = mock_client.upsert.call_args.kwargs
     point = kw["points"][0]
@@ -193,16 +193,16 @@ async def test_search(mock_client: MagicMock, episode: Episode) -> None:
     mock_point.payload = {"episode_json": episode.model_dump_json()}
     mock_client.query_points.return_value.points = [mock_point]
 
-    store = QdrantMemoryStore()
-    k = 3
-    results = await store.search("electric type pokemon", k=k)
+    max_results = 3
+    store = QdrantMemoryStore(max_results=max_results)
+    results = await store.search("electric type pokemon")
 
     mock_client.query_points.assert_called_once()
     kw = mock_client.query_points.call_args.kwargs
     assert kw["collection_name"] == "episodes"
     assert kw["query"].text == "electric type pokemon"
     assert kw["using"] == "fast-bge-small-en-v1.5"
-    assert kw["limit"] == k
+    assert kw["limit"] == max_results
     assert len(results) == 1
     assert results[0].task.instruction == episode.task.instruction
 
@@ -210,7 +210,7 @@ async def test_search(mock_client: MagicMock, episode: Episode) -> None:
 async def test_search_empty(mock_client: MagicMock) -> None:
     mock_client.query_points.return_value.points = []
     store = QdrantMemoryStore()
-    results = await store.search("anything", k=5)
+    results = await store.search("anything")
     assert results == []
 
 

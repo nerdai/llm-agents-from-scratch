@@ -8,7 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
-- ...
+### Changed
+
+- refactor: introduce `Memory` concrete class with `key_fn` + `metadata_fns`; replaces `BaseMemory` hierarchy (#586)
+- refactor: `Episode.additional_data` renamed to `metadata` (`dict[str, str]`, non-optional, default `{}`) (#586)
+- refactor: `BaseMemoryStore.write()` `embedded_text` param renamed to `key` (#586)
+- refactor: `BaseMemoryStore.search()` `k` param removed; stores use `self.max_results` set at construction (#586)
+- refactor: `BaseMemoryStore` gains `max_results: int = 5` init param (#586)
 
 ## [0.0.17] - 2026-05-23
 

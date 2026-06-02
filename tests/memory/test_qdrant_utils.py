@@ -64,17 +64,17 @@ def test_text_passed_through_to_document() -> None:
     assert episode.result.content in doc.text  # type: ignore[union-attr]
 
 
-def test_additional_data_in_text_when_caller_includes_it() -> None:
+def test_metadata_in_text_when_caller_includes_it() -> None:
     task = Task(instruction="look up pikachu")
     episode = Episode(
         task=task,
         rollout="",
         result=TaskResult(task_id=task.id_, content="pikachu is electric"),
-        additional_data={"reflection": "Always verify the name spelling."},
+        metadata={"reflection": "Always verify the name spelling."},
     )
     text = episode.format(
         mode="concat",
-        include=["instruction", "result", "additional_data"],
+        include=["instruction", "result", "metadata"],
     )
     point = episode_to_qdrant_point_struct(
         episode,

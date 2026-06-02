@@ -22,6 +22,7 @@ class JSONMemoryStore(BaseMemoryStore):
         self,
         dir: Path,
         filename: str = "episodes.jsonl",
+        max_results: int = 5,
     ) -> None:
         """Initialize a JSONMemoryStore.
 
@@ -35,7 +36,10 @@ class JSONMemoryStore(BaseMemoryStore):
                 library.
             filename (str): Name of the JSONL file within ``dir``. Defaults
                 to ``"episodes.jsonl"``.
+            max_results (int): Default maximum number of episodes returned
+                by retrieval operations. Defaults to 5.
         """
+        super().__init__(max_results=max_results)
         self.path = dir / filename
         self._episodes: list[Episode] = self._load()
 
@@ -50,17 +54,17 @@ class JSONMemoryStore(BaseMemoryStore):
     async def write(
         self,
         episode: Episode,
-        embedded_text: str | None = None,
+        key: str | None = None,
     ) -> None:
         """Persist an episode to the store.
 
         Appends one JSON line to the backing file. Does not rewrite existing
-        content. ``embedded_text`` is accepted for interface compatibility
-        but ignored — this store does not embed episodes.
+        content. ``key`` is accepted for interface compatibility but ignored
+        — this store does not embed episodes.
 
         Args:
             episode (Episode): The completed episode to store.
-            embedded_text (str | None): Ignored.
+            key (str | None): Ignored.
         """
         self._episodes.append(episode)
         with open(self.path, "a") as f:
@@ -123,14 +127,12 @@ class JSONMemoryStore(BaseMemoryStore):
     async def search(
         self,
         query: str,
-        k: int,
         **kwargs: Any,
     ) -> list[Episode]:
         """Not implemented — similarity search is deferred to vector store.
 
         Args:
             query (str): The search query.
-            k (int): Maximum number of episodes to return.
             **kwargs: Ignored.
 
         Raises:

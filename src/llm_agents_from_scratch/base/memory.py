@@ -67,24 +67,38 @@ class BaseMemoryStore(ABC):
     2. **Retrieval primitives** — expose `read_recent` and `search` so that
        `BaseMemory` implementations can compose and score results without
        knowing the underlying storage details.
+
+    Attributes:
+        max_results (int): Default number of results returned by
+            ``search`` and ``read_recent`` when no explicit count is
+            supplied by the caller.
     """
+
+    def __init__(self, max_results: int = 5) -> None:
+        """Initialise shared store state.
+
+        Args:
+            max_results (int): Default maximum number of episodes
+                returned by retrieval operations. Defaults to 5.
+        """
+        self.max_results = max_results
 
     @abstractmethod
     async def write(
         self,
         episode: Episode,
-        embedded_text: str | None = None,
+        key: str | None = None,
     ) -> None:
         """Persist an episode to the store.
 
         Args:
             episode (Episode): The completed episode to store.
-            embedded_text (str | None): Pre-formatted text for
-                substrates that embed episodes (e.g. vector stores).
-                When provided, the store uses this text for embedding
-                instead of formatting the episode itself. Substrates
-                that do not embed (e.g. ``JSONMemoryStore``) ignore
-                this argument. Defaults to ``None``.
+            key (str | None): Pre-formatted text for substrates that
+                embed episodes (e.g. vector stores). When provided, the
+                store uses this text for embedding instead of formatting
+                the episode itself. Substrates that do not embed (e.g.
+                ``JSONMemoryStore``) ignore this argument. Defaults to
+                ``None``.
         """
 
     @abstractmethod
@@ -110,14 +124,14 @@ class BaseMemoryStore(ABC):
     async def search(
         self,
         query: str,
-        k: int,
         **kwargs: Any,
     ) -> list[Episode]:
-        """Return the K episodes most relevant to a query.
+        """Return the most relevant episodes for a query.
+
+        The number of results is controlled by ``self.max_results``.
 
         Args:
             query (str): The search query (e.g. the task instruction).
-            k (int): Maximum number of episodes to return.
             **kwargs: Optional substrate-specific search parameters
                 (e.g. filters, score thresholds).
 

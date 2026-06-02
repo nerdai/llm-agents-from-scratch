@@ -1,3 +1,3 @@
 # QdrantMemoryStore
 
-::: llm_agents_from_scratch.memory.qdrant_store
+::: llm_agents_from_scratch.memory_stores.qdrant.store

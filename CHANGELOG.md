@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- feat: add `recall_mode` to `BaseMemoryStore` — `"recent"` delegates `search()` to `read_recent()`; `"search"` performs similarity lookup (#590)
 - feat: add `id_` UUID field to `Episode` (#588)
 
 ### Changed

@@ -5,7 +5,7 @@ import pytest
 from qdrant_client import QdrantClient
 
 from llm_agents_from_scratch.data_structures import Task, TaskResult
-from llm_agents_from_scratch.data_structures.memory import Episode
+from llm_agents_from_scratch.data_structures.memory import Episode, RecallMode
 from llm_agents_from_scratch.memory_stores.qdrant.store import QdrantMemoryStore
 
 
@@ -212,6 +212,26 @@ async def test_search_empty(mock_client: MagicMock) -> None:
     store = QdrantMemoryStore()
     results = await store.search("anything")
     assert results == []
+
+
+async def test_search_uses_read_recent_when_recall_mode_recent(
+    mock_client: MagicMock,
+    episode: Episode,
+) -> None:
+    mock_client.count.return_value.count = 1
+    mock_point = MagicMock()
+    mock_point.payload = {
+        "episode_json": episode.model_dump_json(),
+        "completed_at": episode.completed_at.timestamp(),
+    }
+    mock_client.scroll.return_value = ([mock_point], None)
+
+    store = QdrantMemoryStore(recall_mode=RecallMode.RECENT, max_results=5)
+    results = await store.search("ignored query")
+
+    mock_client.query_points.assert_not_called()
+    assert len(results) == 1
+    assert results[0].id_ == episode.id_
 
 
 async def test_summary_empty(mock_client: MagicMock) -> None:

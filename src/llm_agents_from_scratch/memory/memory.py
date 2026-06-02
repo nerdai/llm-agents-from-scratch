@@ -91,10 +91,9 @@ class Memory:
         if self.metadata_fns:
 
             async def _call(fn: MetadataFn) -> str:
-                result = fn(episode)
-                if inspect.isawaitable(result):
-                    return await result
-                return result  # type: ignore[return-value]
+                if inspect.iscoroutinefunction(fn):
+                    return await fn(episode)  # type: ignore[no-any-return]
+                return fn(episode)  # type: ignore[return-value]
 
             values = await asyncio.gather(
                 *[_call(fn) for fn in self.metadata_fns.values()],

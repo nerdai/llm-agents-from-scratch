@@ -64,7 +64,7 @@ async def test_recall_formats_episodes() -> None:
 
     result = await memory.recall(task)
 
-    store.search.assert_awaited_once_with(task.instruction, store.max_results)
+    store.search.assert_awaited_once_with(task.instruction)
     assert str(ep1) in result
     assert str(ep2) in result
 

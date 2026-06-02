@@ -58,7 +58,6 @@ class SimilarityMemory(BaseMemory):
         """
         episodes = await self.store.search(
             query=task.instruction,
-            k=self.k,
             **self.search_kwargs,
         )
         if not episodes:

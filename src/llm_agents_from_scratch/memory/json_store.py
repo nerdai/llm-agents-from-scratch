@@ -127,14 +127,12 @@ class JSONMemoryStore(BaseMemoryStore):
     async def search(
         self,
         query: str,
-        k: int,
         **kwargs: Any,
     ) -> list[Episode]:
         """Not implemented — similarity search is deferred to vector store.
 
         Args:
             query (str): The search query.
-            k (int): Maximum number of episodes to return.
             **kwargs: Ignored.
 
         Raises:

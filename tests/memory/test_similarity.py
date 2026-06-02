@@ -57,10 +57,7 @@ async def test_recall_returns_formatted_episodes() -> None:
 
     result = await memory.recall(Task(instruction="relevant query"))
 
-    store.search.assert_awaited_once_with(
-        query="relevant query",
-        k=2,
-    )
+    store.search.assert_awaited_once_with(query="relevant query")
     assert str(ep1) in result
     assert str(ep2) in result
 
@@ -80,7 +77,6 @@ async def test_recall_forwards_search_kwargs() -> None:
 
     store.search.assert_awaited_once_with(
         query="query",
-        k=3,
         score_threshold=0.9,
     )
 

@@ -124,14 +124,14 @@ class BaseMemoryStore(ABC):
     async def search(
         self,
         query: str,
-        k: int,
         **kwargs: Any,
     ) -> list[Episode]:
-        """Return the K episodes most relevant to a query.
+        """Return the most relevant episodes for a query.
+
+        The number of results is controlled by ``self.max_results``.
 
         Args:
             query (str): The search query (e.g. the task instruction).
-            k (int): Maximum number of episodes to return.
             **kwargs: Optional substrate-specific search parameters
                 (e.g. filters, score thresholds).
 

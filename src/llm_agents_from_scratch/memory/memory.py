@@ -63,10 +63,7 @@ class Memory:
             str: Formatted episode context, or an empty string if no
                 episodes are available.
         """
-        episodes = await self.store.search(
-            task.instruction,
-            self.store.max_results,
-        )
+        episodes = await self.store.search(task.instruction)
         if not episodes:
             return ""
         return "\n".join(str(ep) for ep in episodes)

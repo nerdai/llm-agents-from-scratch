@@ -185,17 +185,16 @@ class QdrantMemoryStore(BaseMemoryStore):
     async def search(
         self,
         query: str,
-        k: int,
         **kwargs: Any,
     ) -> list[Episode]:
-        """Return the K episodes most semantically similar to a query.
+        """Return the most semantically similar episodes for a query.
 
         Embeds the query using the same FastEmbed model used at write
-        time and retrieves the top-K points by cosine similarity.
+        time and retrieves the top ``max_results`` points by cosine
+        similarity.
 
         Args:
             query (str): The search query (e.g. the task instruction).
-            k (int): Maximum number of episodes to return.
             **kwargs: Additional keyword arguments forwarded to
                 ``QdrantClient.query_points()`` (e.g. ``query_filter``,
                 ``score_threshold``).
@@ -211,7 +210,7 @@ class QdrantMemoryStore(BaseMemoryStore):
                 model=self._client.embedding_model_name,
             ),
             using=self._client.get_vector_field_name(),
-            limit=k,
+            limit=self.max_results,
             with_payload=True,
             **kwargs,
         ).points

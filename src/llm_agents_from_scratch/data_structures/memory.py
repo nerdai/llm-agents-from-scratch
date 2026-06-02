@@ -1,5 +1,6 @@
 """Data structures for episodic memory."""
 
+import uuid
 from datetime import datetime
 from typing import Literal
 
@@ -20,6 +21,7 @@ class Episode(BaseModel):
     """A completed task to be stored in memory.
 
     Attributes:
+        id_ (str): Unique identifier for the episode (UUID4).
         task (Task): The task that was executed.
         rollout (str): The full agent trajectory for the task.
         result (TaskResult): The final result of the task.
@@ -29,6 +31,7 @@ class Episode(BaseModel):
         completed_at (datetime): Timestamp when the episode was recorded.
     """
 
+    id_: str = Field(default_factory=lambda: str(uuid.uuid4()))
     task: Task
     rollout: str
     result: TaskResult

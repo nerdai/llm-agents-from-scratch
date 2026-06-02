@@ -25,7 +25,7 @@ def test_id_matches_task_id() -> None:
         vector_field=_FIELD,
         model_name=_MODEL,
     )
-    assert point.id == episode.task.id_
+    assert point.id == episode.id_
 
 
 def test_vector_field_name() -> None:

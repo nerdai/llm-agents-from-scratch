@@ -1,11 +1,15 @@
 """Qdrant-backed episodic memory store."""
 
-from typing import Any, Literal
+from typing import Any
 
 from qdrant_client import QdrantClient, models
 
 from llm_agents_from_scratch.base.memory_store import BaseMemoryStore
-from llm_agents_from_scratch.data_structures.memory import Episode, EpisodeAttr
+from llm_agents_from_scratch.data_structures.memory import (
+    Episode,
+    EpisodeAttr,
+    RecallMode,
+)
 from llm_agents_from_scratch.memory_stores.qdrant.utils import (
     episode_to_qdrant_point_struct,
 )
@@ -43,7 +47,7 @@ class QdrantMemoryStore(BaseMemoryStore):
         embedding_model: str = "BAAI/bge-small-en-v1.5",
         client: QdrantClient | None = None,
         max_results: int = 5,
-        recall_mode: Literal["recent", "search"] = "search",
+        recall_mode: RecallMode = RecallMode.SEARCH,
     ) -> None:
         """Initialize a QdrantMemoryStore.
 
@@ -63,8 +67,8 @@ class QdrantMemoryStore(BaseMemoryStore):
                 client must use FastEmbed as its embedding backend.
             max_results (int): Default maximum number of episodes
                 returned by ``search``. Defaults to 5.
-            recall_mode (Literal["recent", "search"]): Retrieval strategy
-                used by ``search()``. Defaults to ``"search"``.
+            recall_mode (RecallMode): Retrieval strategy used by
+                ``search()``. Defaults to ``RecallMode.SEARCH``.
         """
         super().__init__(max_results=max_results, recall_mode=recall_mode)
         self._client = client or QdrantClient(":memory:")
@@ -209,7 +213,7 @@ class QdrantMemoryStore(BaseMemoryStore):
             list[Episode]: Episodes ordered by recency or cosine
                 similarity depending on ``recall_mode``.
         """
-        if self.recall_mode == "recent":
+        if self.recall_mode == RecallMode.RECENT:
             return await self.read_recent(self.max_results)
         results = self._client.query_points(
             collection_name=self._collection,

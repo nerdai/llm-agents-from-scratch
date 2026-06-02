@@ -1,9 +1,10 @@
 """Base memory store class."""
 
 from abc import ABC, abstractmethod
-from typing import Any, Literal
+from typing import Any
 
 from ..data_structures import Episode
+from ..data_structures.memory import RecallMode
 
 
 class BaseMemoryStore(ABC):
@@ -22,25 +23,24 @@ class BaseMemoryStore(ABC):
         max_results (int): Default number of results returned by
             ``search`` and ``read_recent`` when no explicit count is
             supplied by the caller.
-        recall_mode (Literal["recent", "search"]): Controls how
-            ``search()`` retrieves episodes. ``"recent"`` ignores the
-            query and returns the most recent episodes via
-            ``read_recent``; ``"search"`` performs a similarity lookup.
+        recall_mode (RecallMode): Controls how ``search()`` retrieves
+            episodes. ``RecallMode.RECENT`` ignores the query and
+            returns the most recent episodes via ``read_recent``;
+            ``RecallMode.SEARCH`` performs a similarity lookup.
     """
 
     def __init__(
         self,
         max_results: int = 5,
-        recall_mode: Literal["recent", "search"] = "search",
+        recall_mode: RecallMode = RecallMode.SEARCH,
     ) -> None:
         """Initialise shared store state.
 
         Args:
             max_results (int): Default maximum number of episodes
                 returned by retrieval operations. Defaults to 5.
-            recall_mode (Literal["recent", "search"]): Retrieval
-                strategy used by ``search()``. Defaults to
-                ``"search"``.
+            recall_mode (RecallMode): Retrieval strategy used by
+                ``search()``. Defaults to ``RecallMode.SEARCH``.
         """
         self.max_results = max_results
         self.recall_mode = recall_mode

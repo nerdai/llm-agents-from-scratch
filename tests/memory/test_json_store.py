@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 
 from llm_agents_from_scratch.data_structures import Task, TaskResult
-from llm_agents_from_scratch.data_structures.memory import Episode
+from llm_agents_from_scratch.data_structures.memory import Episode, RecallMode
 from llm_agents_from_scratch.memory import JSONMemoryStore
 
 
@@ -141,7 +141,7 @@ async def test_search_raises_not_implemented_when_search_mode(
     tmp_path: Path,
 ) -> None:
     """Tests search raises NotImplementedError when recall_mode='search'."""
-    store = JSONMemoryStore(dir=tmp_path, recall_mode="search")
+    store = JSONMemoryStore(dir=tmp_path, recall_mode=RecallMode.SEARCH)
 
     with pytest.raises(NotImplementedError):
         await store.search("query")

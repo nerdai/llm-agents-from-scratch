@@ -2,11 +2,20 @@
 
 import uuid
 from datetime import datetime
+from enum import Enum
 from typing import Literal
 
 from pydantic import BaseModel, Field
 
 from .agent import Task, TaskResult
+
+
+class RecallMode(str, Enum):
+    """Retrieval strategy used by ``BaseMemoryStore.search()``."""
+
+    RECENT = "recent"
+    SEARCH = "search"
+
 
 EpisodeAttr = Literal[
     "instruction",

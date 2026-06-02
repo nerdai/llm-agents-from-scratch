@@ -67,7 +67,21 @@ class BaseMemoryStore(ABC):
     2. **Retrieval primitives** — expose `read_recent` and `search` so that
        `BaseMemory` implementations can compose and score results without
        knowing the underlying storage details.
+
+    Attributes:
+        max_results (int): Default number of results returned by
+            ``search`` and ``read_recent`` when no explicit count is
+            supplied by the caller.
     """
+
+    def __init__(self, max_results: int = 5) -> None:
+        """Initialise shared store state.
+
+        Args:
+            max_results (int): Default maximum number of episodes
+                returned by retrieval operations. Defaults to 5.
+        """
+        self.max_results = max_results
 
     @abstractmethod
     async def write(

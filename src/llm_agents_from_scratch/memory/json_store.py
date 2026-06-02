@@ -22,6 +22,7 @@ class JSONMemoryStore(BaseMemoryStore):
         self,
         dir: Path,
         filename: str = "episodes.jsonl",
+        max_results: int = 5,
     ) -> None:
         """Initialize a JSONMemoryStore.
 
@@ -35,7 +36,10 @@ class JSONMemoryStore(BaseMemoryStore):
                 library.
             filename (str): Name of the JSONL file within ``dir``. Defaults
                 to ``"episodes.jsonl"``.
+            max_results (int): Default maximum number of episodes returned
+                by retrieval operations. Defaults to 5.
         """
+        super().__init__(max_results=max_results)
         self.path = dir / filename
         self._episodes: list[Episode] = self._load()
 

@@ -22,30 +22,30 @@ def make_episode(
     )
 
 
+def make_store(episodes: list[Episode] | None = None) -> AsyncMock:
+    store = AsyncMock(spec=BaseMemoryStore)
+    store.max_results = 5
+    store.search.return_value = episodes or []
+    return store
+
+
 # --- construction ---
 
 
 def test_init_stores_attributes() -> None:
     store = MagicMock(spec=BaseMemoryStore)
-    recall_fn = AsyncMock(return_value=[])
     transform = AsyncMock()
 
-    memory = Memory(
-        store=store,
-        recall_fn=recall_fn,
-        transformations=[transform],
-    )
+    memory = Memory(store=store, transformations=[transform])
 
     assert memory.store is store
-    assert memory.recall_fn is recall_fn
     assert memory.transformations == [transform]
 
 
 def test_init_default_transformations() -> None:
     store = MagicMock(spec=BaseMemoryStore)
-    recall_fn = AsyncMock(return_value=[])
 
-    memory = Memory(store=store, recall_fn=recall_fn)
+    memory = Memory(store=store)
 
     assert memory.transformations == []
 
@@ -57,23 +57,23 @@ def test_init_default_transformations() -> None:
 async def test_recall_formats_episodes() -> None:
     ep1 = make_episode("task one", "result one")
     ep2 = make_episode("task two", "result two")
-    recall_fn = AsyncMock(return_value=[ep1, ep2])
+    store = make_store([ep1, ep2])
 
-    memory = Memory(store=MagicMock(), recall_fn=recall_fn)
+    memory = Memory(store=store)
     task = Task(instruction="new task")
 
     result = await memory.recall(task)
 
-    recall_fn.assert_awaited_once_with(task)
+    store.search.assert_awaited_once_with(task.instruction, store.max_results)
     assert str(ep1) in result
     assert str(ep2) in result
 
 
 @pytest.mark.asyncio
 async def test_recall_returns_empty_string_when_no_episodes() -> None:
-    recall_fn = AsyncMock(return_value=[])
+    store = make_store([])
 
-    memory = Memory(store=MagicMock(), recall_fn=recall_fn)
+    memory = Memory(store=store)
 
     result = await memory.recall(Task(instruction="anything"))
 
@@ -85,8 +85,8 @@ async def test_recall_returns_empty_string_when_no_episodes() -> None:
 
 @pytest.mark.asyncio
 async def test_record_writes_to_store_without_transformations() -> None:
-    store = AsyncMock(spec=BaseMemoryStore)
-    memory = Memory(store=store, recall_fn=AsyncMock(return_value=[]))
+    store = make_store()
+    memory = Memory(store=store)
     ep = make_episode()
 
     await memory.record(ep)
@@ -96,7 +96,7 @@ async def test_record_writes_to_store_without_transformations() -> None:
 
 @pytest.mark.asyncio
 async def test_record_applies_transformations_in_order() -> None:
-    store = AsyncMock(spec=BaseMemoryStore)
+    store = make_store()
     call_order: list[str] = []
 
     async def transform_a(ep: Episode) -> Episode:
@@ -110,11 +110,7 @@ async def test_record_applies_transformations_in_order() -> None:
         ep.additional_data = {"step": "b"}
         return ep
 
-    memory = Memory(
-        store=store,
-        recall_fn=AsyncMock(return_value=[]),
-        transformations=[transform_a, transform_b],
-    )
+    memory = Memory(store=store, transformations=[transform_a, transform_b])
     ep = make_episode()
 
     await memory.record(ep)
@@ -127,17 +123,13 @@ async def test_record_applies_transformations_in_order() -> None:
 
 @pytest.mark.asyncio
 async def test_record_passes_transformed_episode_to_store() -> None:
-    store = AsyncMock(spec=BaseMemoryStore)
+    store = make_store()
 
     async def add_annotation(ep: Episode) -> Episode:
         ep.additional_data = {"note": "annotated"}
         return ep
 
-    memory = Memory(
-        store=store,
-        recall_fn=AsyncMock(return_value=[]),
-        transformations=[add_annotation],
-    )
+    memory = Memory(store=store, transformations=[add_annotation])
     ep = make_episode()
 
     await memory.record(ep)
@@ -151,7 +143,7 @@ async def test_record_passes_transformed_episode_to_store() -> None:
 
 @pytest.mark.asyncio
 async def test_delete_raises_not_implemented() -> None:
-    memory = Memory(store=MagicMock(), recall_fn=AsyncMock(return_value=[]))
+    memory = Memory(store=MagicMock())
 
     with pytest.raises(NotImplementedError):
         await memory.delete("some-id")
@@ -159,7 +151,7 @@ async def test_delete_raises_not_implemented() -> None:
 
 @pytest.mark.asyncio
 async def test_update_raises_not_implemented() -> None:
-    memory = Memory(store=MagicMock(), recall_fn=AsyncMock(return_value=[]))
+    memory = Memory(store=MagicMock())
 
     with pytest.raises(NotImplementedError):
         await memory.update(make_episode())

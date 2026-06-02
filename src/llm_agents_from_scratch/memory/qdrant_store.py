@@ -42,6 +42,7 @@ class QdrantMemoryStore(BaseMemoryStore):
         collection_name: str = "episodes",
         embedding_model: str = "BAAI/bge-small-en-v1.5",
         client: QdrantClient | None = None,
+        max_results: int = 5,
     ) -> None:
         """Initialize a QdrantMemoryStore.
 
@@ -59,7 +60,10 @@ class QdrantMemoryStore(BaseMemoryStore):
             client (QdrantClient | None): Pre-configured Qdrant client.
                 Defaults to an in-memory client when ``None``. The
                 client must use FastEmbed as its embedding backend.
+            max_results (int): Default maximum number of episodes
+                returned by ``search``. Defaults to 5.
         """
+        super().__init__(max_results=max_results)
         self._client = client or QdrantClient(":memory:")
         self._client.set_model(embedding_model)
         self._collection = collection_name

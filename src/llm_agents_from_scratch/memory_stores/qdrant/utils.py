@@ -30,7 +30,7 @@ def episode_to_qdrant_point_struct(
             ``QdrantClient.upsert()``.
     """
     return models.PointStruct(
-        id=episode.task.id_,
+        id=episode.id_,
         vector={
             vector_field: models.Document(text=text, model=model_name),
         },

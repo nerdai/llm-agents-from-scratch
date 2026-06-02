@@ -70,7 +70,7 @@ async def test_write(mock_client: MagicMock, episode: Episode) -> None:
     kw = mock_client.upsert.call_args.kwargs
     assert kw["collection_name"] == "episodes"
     point = kw["points"][0]
-    assert point.id == episode.task.id_
+    assert point.id == episode.id_
     assert (
         episode.task.instruction in point.vector["fast-bge-small-en-v1.5"].text
     )

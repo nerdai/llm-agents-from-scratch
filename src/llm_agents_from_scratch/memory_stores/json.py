@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Any
 
 from llm_agents_from_scratch.base.memory_store import BaseMemoryStore
-from llm_agents_from_scratch.data_structures.memory import Episode
+from llm_agents_from_scratch.data_structures.memory import Episode, RecallMode
 
 
 class JSONMemoryStore(BaseMemoryStore):
@@ -23,6 +23,7 @@ class JSONMemoryStore(BaseMemoryStore):
         dir: Path,
         filename: str = "episodes.jsonl",
         max_results: int = 5,
+        recall_mode: RecallMode = RecallMode.RECENT,
     ) -> None:
         """Initialize a JSONMemoryStore.
 
@@ -38,8 +39,11 @@ class JSONMemoryStore(BaseMemoryStore):
                 to ``"episodes.jsonl"``.
             max_results (int): Default maximum number of episodes returned
                 by retrieval operations. Defaults to 5.
+            recall_mode (RecallMode): Retrieval strategy used by
+                ``search()``. Defaults to ``RecallMode.RECENT`` since
+                this store does not support similarity search.
         """
-        super().__init__(max_results=max_results)
+        super().__init__(max_results=max_results, recall_mode=recall_mode)
         self.path = dir / filename
         self._episodes: list[Episode] = self._load()
 
@@ -129,16 +133,27 @@ class JSONMemoryStore(BaseMemoryStore):
         query: str,
         **kwargs: Any,
     ) -> list[Episode]:
-        """Not implemented — similarity search is deferred to vector store.
+        """Return episodes according to ``recall_mode``.
+
+        When ``recall_mode="recent"`` (the default), the query is ignored
+        and the most recent episodes are returned via ``read_recent``.
+        ``recall_mode="search"`` raises ``NotImplementedError`` — this store
+        does not support similarity search.
 
         Args:
-            query (str): The search query.
+            query (str): The search query. Ignored when
+                ``recall_mode="recent"``.
             **kwargs: Ignored.
 
+        Returns:
+            list[Episode]: Episodes ordered by recency.
+
         Raises:
-            NotImplementedError: Always. Use a vector-backed store for
-                similarity search.
+            NotImplementedError: When ``recall_mode="search"``. Use a
+                vector-backed store for similarity search.
         """
+        if self.recall_mode == RecallMode.RECENT:
+            return await self.read_recent(self.max_results)
         raise NotImplementedError(
             "JSONMemoryStore does not support similarity search. "
             "Use a vector-backed store instead.",

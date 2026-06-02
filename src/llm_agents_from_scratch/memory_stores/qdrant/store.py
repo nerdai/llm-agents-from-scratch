@@ -5,7 +5,11 @@ from typing import Any
 from qdrant_client import QdrantClient, models
 
 from llm_agents_from_scratch.base.memory_store import BaseMemoryStore
-from llm_agents_from_scratch.data_structures.memory import Episode, EpisodeAttr
+from llm_agents_from_scratch.data_structures.memory import (
+    Episode,
+    EpisodeAttr,
+    RecallMode,
+)
 from llm_agents_from_scratch.memory_stores.qdrant.utils import (
     episode_to_qdrant_point_struct,
 )
@@ -43,6 +47,7 @@ class QdrantMemoryStore(BaseMemoryStore):
         embedding_model: str = "BAAI/bge-small-en-v1.5",
         client: QdrantClient | None = None,
         max_results: int = 5,
+        recall_mode: RecallMode = RecallMode.SEARCH,
     ) -> None:
         """Initialize a QdrantMemoryStore.
 
@@ -62,8 +67,10 @@ class QdrantMemoryStore(BaseMemoryStore):
                 client must use FastEmbed as its embedding backend.
             max_results (int): Default maximum number of episodes
                 returned by ``search``. Defaults to 5.
+            recall_mode (RecallMode): Retrieval strategy used by
+                ``search()``. Defaults to ``RecallMode.SEARCH``.
         """
-        super().__init__(max_results=max_results)
+        super().__init__(max_results=max_results, recall_mode=recall_mode)
         self._client = client or QdrantClient(":memory:")
         self._client.set_model(embedding_model)
         self._collection = collection_name
@@ -187,22 +194,27 @@ class QdrantMemoryStore(BaseMemoryStore):
         query: str,
         **kwargs: Any,
     ) -> list[Episode]:
-        """Return the most semantically similar episodes for a query.
+        """Return episodes according to ``recall_mode``.
 
-        Embeds the query using the same FastEmbed model used at write
-        time and retrieves the top ``max_results`` points by cosine
-        similarity.
+        When ``recall_mode="recent"``, the query is ignored and the most
+        recent episodes are returned via ``read_recent``. When
+        ``recall_mode="search"`` (the default), the top ``max_results``
+        episodes most semantically similar to the query are returned.
 
         Args:
             query (str): The search query (e.g. the task instruction).
+                Ignored when ``recall_mode="recent"``.
             **kwargs: Additional keyword arguments forwarded to
-                ``QdrantClient.query_points()`` (e.g. ``query_filter``,
+                ``QdrantClient.query_points()`` when
+                ``recall_mode="search"`` (e.g. ``query_filter``,
                 ``score_threshold``).
 
         Returns:
-            list[Episode]: Episodes ordered by cosine similarity to the
-                query.
+            list[Episode]: Episodes ordered by recency or cosine
+                similarity depending on ``recall_mode``.
         """
+        if self.recall_mode == RecallMode.RECENT:
+            return await self.read_recent(self.max_results)
         results = self._client.query_points(
             collection_name=self._collection,
             query=models.Document(

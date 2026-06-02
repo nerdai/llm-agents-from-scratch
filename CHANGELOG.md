@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- refactor: move `BaseMemoryStore` to `base/memory_store.py`; `base/memory.py` now contains only `BaseMemory` (#587)
+- refactor: move store implementations into new `memory_stores/` package — `json.py`, `qdrant/store.py`, `qdrant/utils.py` (#587)
+
 - refactor: introduce `Memory` concrete class with `key_fn` + `metadata_fns`; replaces `BaseMemory` hierarchy (#586)
 - refactor: `Episode.additional_data` renamed to `metadata` (`dict[str, str]`, non-optional, default `{}`) (#586)
 - refactor: `BaseMemoryStore.write()` `embedded_text` param renamed to `key` (#586)

@@ -6,7 +6,9 @@ from llm_agents_from_scratch.base.llm import BaseLLM
 from llm_agents_from_scratch.data_structures.memory import Episode
 from llm_agents_from_scratch.memory.memory import Memory, MetadataFn
 from llm_agents_from_scratch.memory_stores.json import JSONMemoryStore
-from llm_agents_from_scratch.memory_stores.qdrant.store import QdrantMemoryStore
+from llm_agents_from_scratch.memory_stores.qdrant.store import (
+    QdrantMemoryStore,
+)
 
 _REFLECTION_TEMPLATE = """\
 You just completed the following task.
@@ -75,27 +77,30 @@ def similarity_memory(
 
 
 def reflective_memory(
-    path: Path,
     llm: BaseLLM,
-    n: int = 5,
+    collection: str = "episodes",
+    k: int = 5,
 ) -> Memory:
-    """Return a reflective episodic memory backed by a JSONL file.
+    """Return a reflective episodic memory backed by Qdrant.
 
     Implements the Reflexion pattern: at record time an LLM distils a
     one-sentence lesson from the episode and stores it under
     ``episode.metadata["reflection"]``, which is then surfaced on
-    recall via ``Episode.format()``.
+    recall via ``Episode.format()``. Episodes are retrieved by
+    similarity search so semantically related past reflections surface
+    naturally.
 
     Args:
-        path (Path): Directory in which the backing JSONL file is stored.
         llm (BaseLLM): LLM used to generate the reflection.
-        n (int): Maximum number of recent episodes to recall. Defaults
+        collection (str): Name of the Qdrant collection. Defaults to
+            ``"episodes"``.
+        k (int): Maximum number of similar episodes to recall. Defaults
             to 5.
 
     Returns:
         Memory: Configured memory instance.
     """
     return Memory(
-        store=JSONMemoryStore(dir=path, max_results=n),
+        store=QdrantMemoryStore(collection_name=collection, max_results=k),
         metadata_fns={"reflection": _reflect_fn(llm)},
     )

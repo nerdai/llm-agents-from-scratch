@@ -1,6 +1,5 @@
-"""Unit tests for ReflectiveMemory recipe."""
+"""Unit tests for reflective_memory recipe."""
 
-from pathlib import Path
 from unittest.mock import AsyncMock, MagicMock
 
 import pytest
@@ -10,7 +9,7 @@ from llm_agents_from_scratch.data_structures import Task, TaskResult
 from llm_agents_from_scratch.data_structures.llm import CompleteResult
 from llm_agents_from_scratch.data_structures.memory import Episode, RecallMode
 from llm_agents_from_scratch.memory import Memory, reflective_memory
-from llm_agents_from_scratch.memory_stores.json import JSONMemoryStore
+from llm_agents_from_scratch.memory_stores.qdrant.store import QdrantMemoryStore
 
 
 def make_episode(
@@ -33,36 +32,36 @@ def make_llm(reflection: str = "Always verify the name first.") -> BaseLLM:
     return llm
 
 
-def test_returns_memory_instance(tmp_path: Path) -> None:
-    memory = reflective_memory(path=tmp_path, llm=make_llm())
+def test_returns_memory_instance() -> None:
+    memory = reflective_memory(llm=make_llm())
     assert isinstance(memory, Memory)
 
 
-def test_store_is_json(tmp_path: Path) -> None:
-    memory = reflective_memory(path=tmp_path, llm=make_llm())
-    assert isinstance(memory.store, JSONMemoryStore)
+def test_store_is_qdrant() -> None:
+    memory = reflective_memory(llm=make_llm())
+    assert isinstance(memory.store, QdrantMemoryStore)
 
 
-def test_store_recall_mode_is_recent(tmp_path: Path) -> None:
-    memory = reflective_memory(path=tmp_path, llm=make_llm())
-    assert memory.store.recall_mode == RecallMode.RECENT
+def test_store_recall_mode_is_search() -> None:
+    memory = reflective_memory(llm=make_llm())
+    assert memory.store.recall_mode == RecallMode.SEARCH
 
 
-def test_max_results_set_from_n(tmp_path: Path) -> None:
-    memory = reflective_memory(path=tmp_path, llm=make_llm(), n=7)
+def test_max_results_set_from_k() -> None:
+    memory = reflective_memory(llm=make_llm(), k=7)
     assert memory.store.max_results == 7  # noqa: PLR2004
 
 
-def test_has_reflection_metadata_fn(tmp_path: Path) -> None:
-    memory = reflective_memory(path=tmp_path, llm=make_llm())
+def test_has_reflection_metadata_fn() -> None:
+    memory = reflective_memory(llm=make_llm())
     assert "reflection" in memory.metadata_fns
 
 
 @pytest.mark.asyncio
-async def test_record_calls_llm_and_stores_reflection(tmp_path: Path) -> None:
+async def test_record_calls_llm_and_stores_reflection() -> None:
     reflection = "Always verify the name first."
     llm = make_llm(reflection)
-    memory = reflective_memory(path=tmp_path, llm=llm)
+    memory = reflective_memory(llm=llm)
     ep = make_episode()
 
     await memory.record(ep)

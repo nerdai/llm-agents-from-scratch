@@ -3429,8 +3429,7 @@ or payload filters for Qdrant).</p>
 <span class="normal"><a href="#__codelineno-0-83">83</a></span>
 <span class="normal"><a href="#__codelineno-0-84">84</a></span>
 <span class="normal"><a href="#__codelineno-0-85">85</a></span>
-<span class="normal"><a href="#__codelineno-0-86">86</a></span>
-<span class="normal"><a href="#__codelineno-0-87">87</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="k">class</span><span class="w"> </span><span class="nc">SimilarityMemory</span><span class="p">(</span><span class="n">BaseMemory</span><span class="p">):</span>
+<span class="normal"><a href="#__codelineno-0-86">86</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="k">class</span><span class="w"> </span><span class="nc">SimilarityMemory</span><span class="p">(</span><span class="n">BaseMemory</span><span class="p">):</span>
 </span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Similarity-based episodic memory.</span>
 </span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a>
 </span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="sd">    Recalls the K most semantically similar past episodes using the</span>
@@ -3481,33 +3480,32 @@ or payload filters for Qdrant).</p>
 </span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a>        <span class="n">episodes</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
 </span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a>            <span class="n">query</span><span class="o">=</span><span class="n">task</span><span class="o">.</span><span class="n">instruction</span><span class="p">,</span>
-</span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a>            <span class="n">k</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">,</span>
-</span><span id="__span-0-62"><a id="__codelineno-0-62" name="__codelineno-0-62"></a>            <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">search_kwargs</span><span class="p">,</span>
-</span><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63"></a>        <span class="p">)</span>
-</span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">episodes</span><span class="p">:</span>
-</span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65"></a>            <span class="k">return</span> <span class="s2">&quot;&quot;</span>
-</span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a>        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">ep</span><span class="p">)</span> <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">episodes</span><span class="p">)</span>
-</span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a>
-</span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">episode</span><span class="p">:</span> <span class="n">Episode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Persist a completed episode to the store.</span>
-</span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a>
-</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71"></a><span class="sd">        Args:</span>
-</span><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72"></a><span class="sd">            episode (Episode): The completed episode to store.</span>
-</span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73"></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74"></a>        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">episode</span><span class="p">)</span>
-</span><span id="__span-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75"></a>
-</span><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a human-readable summary of the memory and its store.</span>
-</span><span id="__span-0-78"><a id="__codelineno-0-78" name="__codelineno-0-78"></a>
-</span><span id="__span-0-79"><a id="__codelineno-0-79" name="__codelineno-0-79"></a><span class="sd">        Describes the retrieval strategy (top-K similarity), then</span>
-</span><span id="__span-0-80"><a id="__codelineno-0-80" name="__codelineno-0-80"></a><span class="sd">        delegates to the store for substrate-level facts (count,</span>
-</span><span id="__span-0-81"><a id="__codelineno-0-81" name="__codelineno-0-81"></a><span class="sd">        oldest, newest).</span>
-</span><span id="__span-0-82"><a id="__codelineno-0-82" name="__codelineno-0-82"></a>
-</span><span id="__span-0-83"><a id="__codelineno-0-83" name="__codelineno-0-83"></a><span class="sd">        Returns:</span>
-</span><span id="__span-0-84"><a id="__codelineno-0-84" name="__codelineno-0-84"></a><span class="sd">            str: Multi-line summary of the memory and its store.</span>
-</span><span id="__span-0-85"><a id="__codelineno-0-85" name="__codelineno-0-85"></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="__span-0-86"><a id="__codelineno-0-86" name="__codelineno-0-86"></a>        <span class="n">store_summary</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
-</span><span id="__span-0-87"><a id="__codelineno-0-87" name="__codelineno-0-87"></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;SimilarityMemory (top-</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="si">}</span><span class="s2"> similarity):</span><span class="se">\n</span><span class="si">{</span><span class="n">store_summary</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a>            <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">search_kwargs</span><span class="p">,</span>
+</span><span id="__span-0-62"><a id="__codelineno-0-62" name="__codelineno-0-62"></a>        <span class="p">)</span>
+</span><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">episodes</span><span class="p">:</span>
+</span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64"></a>            <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+</span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65"></a>        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">ep</span><span class="p">)</span> <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">episodes</span><span class="p">)</span>
+</span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a>
+</span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">episode</span><span class="p">:</span> <span class="n">Episode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Persist a completed episode to the store.</span>
+</span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69"></a>
+</span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a><span class="sd">        Args:</span>
+</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71"></a><span class="sd">            episode (Episode): The completed episode to store.</span>
+</span><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73"></a>        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">episode</span><span class="p">)</span>
+</span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74"></a>
+</span><span id="__span-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a human-readable summary of the memory and its store.</span>
+</span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77"></a>
+</span><span id="__span-0-78"><a id="__codelineno-0-78" name="__codelineno-0-78"></a><span class="sd">        Describes the retrieval strategy (top-K similarity), then</span>
+</span><span id="__span-0-79"><a id="__codelineno-0-79" name="__codelineno-0-79"></a><span class="sd">        delegates to the store for substrate-level facts (count,</span>
+</span><span id="__span-0-80"><a id="__codelineno-0-80" name="__codelineno-0-80"></a><span class="sd">        oldest, newest).</span>
+</span><span id="__span-0-81"><a id="__codelineno-0-81" name="__codelineno-0-81"></a>
+</span><span id="__span-0-82"><a id="__codelineno-0-82" name="__codelineno-0-82"></a><span class="sd">        Returns:</span>
+</span><span id="__span-0-83"><a id="__codelineno-0-83" name="__codelineno-0-83"></a><span class="sd">            str: Multi-line summary of the memory and its store.</span>
+</span><span id="__span-0-84"><a id="__codelineno-0-84" name="__codelineno-0-84"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-85"><a id="__codelineno-0-85" name="__codelineno-0-85"></a>        <span class="n">store_summary</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</span><span id="__span-0-86"><a id="__codelineno-0-86" name="__codelineno-0-86"></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;SimilarityMemory (top-</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="si">}</span><span class="s2"> similarity):</span><span class="se">\n</span><span class="si">{</span><span class="n">store_summary</span><span class="si">}</span><span class="s2">&quot;</span>
 </span></code></pre></div></td></tr></table></div>
               </details>
 
@@ -3752,8 +3750,7 @@ no similar episodes are found.</p>
 <span class="normal"><a href="#__codelineno-0-62">62</a></span>
 <span class="normal"><a href="#__codelineno-0-63">63</a></span>
 <span class="normal"><a href="#__codelineno-0-64">64</a></span>
-<span class="normal"><a href="#__codelineno-0-65">65</a></span>
-<span class="normal"><a href="#__codelineno-0-66">66</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">recall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="p">:</span> <span class="n">Task</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal"><a href="#__codelineno-0-65">65</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">recall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="p">:</span> <span class="n">Task</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 </span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve the K most semantically similar past episodes.</span>
 </span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a>
 </span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a><span class="sd">    Uses the task instruction as the search query.</span>
@@ -3768,12 +3765,11 @@ no similar episodes are found.</p>
 </span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a>    <span class="n">episodes</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
 </span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a>        <span class="n">query</span><span class="o">=</span><span class="n">task</span><span class="o">.</span><span class="n">instruction</span><span class="p">,</span>
-</span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a>        <span class="n">k</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">,</span>
-</span><span id="__span-0-62"><a id="__codelineno-0-62" name="__codelineno-0-62"></a>        <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">search_kwargs</span><span class="p">,</span>
-</span><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63"></a>    <span class="p">)</span>
-</span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">episodes</span><span class="p">:</span>
-</span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65"></a>        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
-</span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a>    <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">ep</span><span class="p">)</span> <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">episodes</span><span class="p">)</span>
+</span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a>        <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">search_kwargs</span><span class="p">,</span>
+</span><span id="__span-0-62"><a id="__codelineno-0-62" name="__codelineno-0-62"></a>    <span class="p">)</span>
+</span><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">episodes</span><span class="p">:</span>
+</span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64"></a>        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+</span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65"></a>    <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">ep</span><span class="p">)</span> <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">episodes</span><span class="p">)</span>
 </span></code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -3833,19 +3829,19 @@ no similar episodes are found.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/llm_agents_from_scratch/memory/similarity.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-68">68</a></span>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-67">67</a></span>
+<span class="normal"><a href="#__codelineno-0-68">68</a></span>
 <span class="normal"><a href="#__codelineno-0-69">69</a></span>
 <span class="normal"><a href="#__codelineno-0-70">70</a></span>
 <span class="normal"><a href="#__codelineno-0-71">71</a></span>
 <span class="normal"><a href="#__codelineno-0-72">72</a></span>
-<span class="normal"><a href="#__codelineno-0-73">73</a></span>
-<span class="normal"><a href="#__codelineno-0-74">74</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">episode</span><span class="p">:</span> <span class="n">Episode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Persist a completed episode to the store.</span>
-</span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a>
-</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71"></a><span class="sd">    Args:</span>
-</span><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72"></a><span class="sd">        episode (Episode): The completed episode to store.</span>
-</span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74"></a>    <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">episode</span><span class="p">)</span>
+<span class="normal"><a href="#__codelineno-0-73">73</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">episode</span><span class="p">:</span> <span class="n">Episode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Persist a completed episode to the store.</span>
+</span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69"></a>
+</span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71"></a><span class="sd">        episode (Episode): The completed episode to store.</span>
+</span><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73"></a>    <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">episode</span><span class="p">)</span>
 </span></code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -3900,7 +3896,8 @@ oldest, newest).</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/llm_agents_from_scratch/memory/similarity.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-76">76</a></span>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-75">75</a></span>
+<span class="normal"><a href="#__codelineno-0-76">76</a></span>
 <span class="normal"><a href="#__codelineno-0-77">77</a></span>
 <span class="normal"><a href="#__codelineno-0-78">78</a></span>
 <span class="normal"><a href="#__codelineno-0-79">79</a></span>
@@ -3910,19 +3907,18 @@ oldest, newest).</p>
 <span class="normal"><a href="#__codelineno-0-83">83</a></span>
 <span class="normal"><a href="#__codelineno-0-84">84</a></span>
 <span class="normal"><a href="#__codelineno-0-85">85</a></span>
-<span class="normal"><a href="#__codelineno-0-86">86</a></span>
-<span class="normal"><a href="#__codelineno-0-87">87</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a human-readable summary of the memory and its store.</span>
-</span><span id="__span-0-78"><a id="__codelineno-0-78" name="__codelineno-0-78"></a>
-</span><span id="__span-0-79"><a id="__codelineno-0-79" name="__codelineno-0-79"></a><span class="sd">    Describes the retrieval strategy (top-K similarity), then</span>
-</span><span id="__span-0-80"><a id="__codelineno-0-80" name="__codelineno-0-80"></a><span class="sd">    delegates to the store for substrate-level facts (count,</span>
-</span><span id="__span-0-81"><a id="__codelineno-0-81" name="__codelineno-0-81"></a><span class="sd">    oldest, newest).</span>
-</span><span id="__span-0-82"><a id="__codelineno-0-82" name="__codelineno-0-82"></a>
-</span><span id="__span-0-83"><a id="__codelineno-0-83" name="__codelineno-0-83"></a><span class="sd">    Returns:</span>
-</span><span id="__span-0-84"><a id="__codelineno-0-84" name="__codelineno-0-84"></a><span class="sd">        str: Multi-line summary of the memory and its store.</span>
-</span><span id="__span-0-85"><a id="__codelineno-0-85" name="__codelineno-0-85"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-86"><a id="__codelineno-0-86" name="__codelineno-0-86"></a>    <span class="n">store_summary</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
-</span><span id="__span-0-87"><a id="__codelineno-0-87" name="__codelineno-0-87"></a>    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;SimilarityMemory (top-</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="si">}</span><span class="s2"> similarity):</span><span class="se">\n</span><span class="si">{</span><span class="n">store_summary</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="normal"><a href="#__codelineno-0-86">86</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a human-readable summary of the memory and its store.</span>
+</span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77"></a>
+</span><span id="__span-0-78"><a id="__codelineno-0-78" name="__codelineno-0-78"></a><span class="sd">    Describes the retrieval strategy (top-K similarity), then</span>
+</span><span id="__span-0-79"><a id="__codelineno-0-79" name="__codelineno-0-79"></a><span class="sd">    delegates to the store for substrate-level facts (count,</span>
+</span><span id="__span-0-80"><a id="__codelineno-0-80" name="__codelineno-0-80"></a><span class="sd">    oldest, newest).</span>
+</span><span id="__span-0-81"><a id="__codelineno-0-81" name="__codelineno-0-81"></a>
+</span><span id="__span-0-82"><a id="__codelineno-0-82" name="__codelineno-0-82"></a><span class="sd">    Returns:</span>
+</span><span id="__span-0-83"><a id="__codelineno-0-83" name="__codelineno-0-83"></a><span class="sd">        str: Multi-line summary of the memory and its store.</span>
+</span><span id="__span-0-84"><a id="__codelineno-0-84" name="__codelineno-0-84"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-85"><a id="__codelineno-0-85" name="__codelineno-0-85"></a>    <span class="n">store_summary</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</span><span id="__span-0-86"><a id="__codelineno-0-86" name="__codelineno-0-86"></a>    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;SimilarityMemory (top-</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="si">}</span><span class="s2"> similarity):</span><span class="se">\n</span><span class="si">{</span><span class="n">store_summary</span><span class="si">}</span><span class="s2">&quot;</span>
 </span></code></pre></div></td></tr></table></div>
             </details>
     </div>

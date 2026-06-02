@@ -3293,15 +3293,15 @@
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code><span title="llm_agents_from_scratch.data_structures.memory.Episode.additional_data">additional_data</span></code></td>
+            <td><code><span title="llm_agents_from_scratch.data_structures.memory.Episode.metadata">metadata</span></code></td>
             <td>
-                  <code><span title="dict">dict</span>[<span title="str">str</span>, <span title="str">str</span>] | None</code>
+                  <code><span title="dict">dict</span>[<span title="str">str</span>, <span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Optional key-value
-annotations added by memory strategies at write time (e.g.
-<code>{"reflection": "..."}</code> from ReflectiveMemory).</p>
+                <p>Key-value annotations written at
+record time (e.g. <code>{"reflection": "..."}</code>). Surfaced
+automatically in <code>format()</code> output.</p>
               </div>
             </td>
           </tr>
@@ -3425,16 +3425,16 @@ annotations added by memory strategies at write time (e.g.
 </span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="sd">        task (Task): The task that was executed.</span>
 </span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="sd">        rollout (str): The full agent trajectory for the task.</span>
 </span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="sd">        result (TaskResult): The final result of the task.</span>
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="sd">        additional_data (dict[str, str] | None): Optional key-value</span>
-</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="sd">            annotations added by memory strategies at write time (e.g.</span>
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="sd">            ``{&quot;reflection&quot;: &quot;...&quot;}`` from ReflectiveMemory).</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="sd">        metadata (dict[str, str]): Key-value annotations written at</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="sd">            record time (e.g. ``{&quot;reflection&quot;: &quot;...&quot;}``). Surfaced</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="sd">            automatically in ``format()`` output.</span>
 </span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="sd">        completed_at (datetime): Timestamp when the episode was recorded.</span>
 </span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a>
 </span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a>    <span class="n">task</span><span class="p">:</span> <span class="n">Task</span>
 </span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a>    <span class="n">rollout</span><span class="p">:</span> <span class="nb">str</span>
 </span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a>    <span class="n">result</span><span class="p">:</span> <span class="n">TaskResult</span>
-</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a>    <span class="n">additional_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a>    <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
 </span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a>    <span class="n">completed_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">)</span>
 </span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a>
 </span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">format</span><span class="p">(</span>
@@ -3451,7 +3451,7 @@ annotations added by memory strategies at write time (e.g.
 </span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a><span class="sd">                ``&quot;xml&quot;``.</span>
 </span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a><span class="sd">            include (list[EpisodeAttr] | None): Attributes to include.</span>
 </span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a><span class="sd">                Defaults to ``[&quot;instruction&quot;, &quot;result&quot;,</span>
-</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a><span class="sd">                &quot;additional_data&quot;, &quot;completed_at&quot;]``.</span>
+</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a><span class="sd">                &quot;metadata&quot;, &quot;completed_at&quot;]``.</span>
 </span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a>
 </span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a><span class="sd">        Returns:</span>
 </span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a><span class="sd">            str: Serialised episode string.</span>
@@ -3460,7 +3460,7 @@ annotations added by memory strategies at write time (e.g.
 </span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a>        <span class="n">attrs</span> <span class="o">=</span> <span class="n">include</span> <span class="ow">or</span> <span class="p">[</span>
 </span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a>            <span class="s2">&quot;instruction&quot;</span><span class="p">,</span>
 </span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a>            <span class="s2">&quot;result&quot;</span><span class="p">,</span>
-</span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a>            <span class="s2">&quot;additional_data&quot;</span><span class="p">,</span>
+</span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a>            <span class="s2">&quot;metadata&quot;</span><span class="p">,</span>
 </span><span id="__span-0-62"><a id="__codelineno-0-62" name="__codelineno-0-62"></a>            <span class="s2">&quot;completed_at&quot;</span><span class="p">,</span>
 </span><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63"></a>        <span class="p">]</span>
 </span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64"></a>        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;concat&quot;</span><span class="p">:</span>
@@ -3474,8 +3474,8 @@ annotations added by memory strategies at write time (e.g.
 </span><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72"></a>                <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">instruction</span><span class="p">)</span>
 </span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73"></a>            <span class="k">elif</span> <span class="n">f</span> <span class="o">==</span> <span class="s2">&quot;result&quot;</span><span class="p">:</span>
 </span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74"></a>                <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
-</span><span id="__span-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75"></a>            <span class="k">elif</span> <span class="n">f</span> <span class="o">==</span> <span class="s2">&quot;additional_data&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">additional_data</span><span class="p">:</span>
-</span><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76"></a>                <span class="n">parts</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">additional_data</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+</span><span id="__span-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75"></a>            <span class="k">elif</span> <span class="n">f</span> <span class="o">==</span> <span class="s2">&quot;metadata&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">:</span>
+</span><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76"></a>                <span class="n">parts</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
 </span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77"></a>            <span class="k">elif</span> <span class="n">f</span> <span class="o">==</span> <span class="s2">&quot;completed_at&quot;</span><span class="p">:</span>
 </span><span id="__span-0-78"><a id="__codelineno-0-78" name="__codelineno-0-78"></a>                <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
 </span><span id="__span-0-79"><a id="__codelineno-0-79" name="__codelineno-0-79"></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">completed_at</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">),</span>
@@ -3495,8 +3495,8 @@ annotations added by memory strategies at write time (e.g.
 </span><span id="__span-0-93"><a id="__codelineno-0-93" name="__codelineno-0-93"></a>                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
 </span><span id="__span-0-94"><a id="__codelineno-0-94" name="__codelineno-0-94"></a>                    <span class="sa">f</span><span class="s2">&quot;    &lt;result&gt;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="si">}</span><span class="se">\n</span><span class="s2">    &lt;/result&gt;&quot;</span><span class="p">,</span>
 </span><span id="__span-0-95"><a id="__codelineno-0-95" name="__codelineno-0-95"></a>                <span class="p">)</span>
-</span><span id="__span-0-96"><a id="__codelineno-0-96" name="__codelineno-0-96"></a>            <span class="k">elif</span> <span class="n">f</span> <span class="o">==</span> <span class="s2">&quot;additional_data&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">additional_data</span><span class="p">:</span>
-</span><span id="__span-0-97"><a id="__codelineno-0-97" name="__codelineno-0-97"></a>                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">additional_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+</span><span id="__span-0-96"><a id="__codelineno-0-96" name="__codelineno-0-96"></a>            <span class="k">elif</span> <span class="n">f</span> <span class="o">==</span> <span class="s2">&quot;metadata&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">:</span>
+</span><span id="__span-0-97"><a id="__codelineno-0-97" name="__codelineno-0-97"></a>                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
 </span><span id="__span-0-98"><a id="__codelineno-0-98" name="__codelineno-0-98"></a>                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    &lt;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&gt;</span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">&lt;/</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&gt;&quot;</span><span class="p">)</span>
 </span><span id="__span-0-99"><a id="__codelineno-0-99" name="__codelineno-0-99"></a>            <span class="k">elif</span> <span class="n">f</span> <span class="o">==</span> <span class="s2">&quot;completed_at&quot;</span><span class="p">:</span>
 </span><span id="__span-0-100"><a id="__codelineno-0-100" name="__codelineno-0-100"></a>                <span class="n">ts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">completed_at</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
@@ -3582,7 +3582,7 @@ newline-joined string for embedding. Defaults to
               <div class="doc-md-description">
                 <p>Attributes to include.
 Defaults to <code>["instruction", "result",
-"additional_data", "completed_at"]</code>.</p>
+"metadata", "completed_at"]</code>.</p>
               </div>
             </td>
             <td>
@@ -3660,7 +3660,7 @@ Defaults to <code>["instruction", "result",
 </span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a><span class="sd">            ``&quot;xml&quot;``.</span>
 </span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a><span class="sd">        include (list[EpisodeAttr] | None): Attributes to include.</span>
 </span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a><span class="sd">            Defaults to ``[&quot;instruction&quot;, &quot;result&quot;,</span>
-</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a><span class="sd">            &quot;additional_data&quot;, &quot;completed_at&quot;]``.</span>
+</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a><span class="sd">            &quot;metadata&quot;, &quot;completed_at&quot;]``.</span>
 </span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a>
 </span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a><span class="sd">    Returns:</span>
 </span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a><span class="sd">        str: Serialised episode string.</span>
@@ -3669,7 +3669,7 @@ Defaults to <code>["instruction", "result",
 </span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a>    <span class="n">attrs</span> <span class="o">=</span> <span class="n">include</span> <span class="ow">or</span> <span class="p">[</span>
 </span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a>        <span class="s2">&quot;instruction&quot;</span><span class="p">,</span>
 </span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a>        <span class="s2">&quot;result&quot;</span><span class="p">,</span>
-</span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a>        <span class="s2">&quot;additional_data&quot;</span><span class="p">,</span>
+</span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a>        <span class="s2">&quot;metadata&quot;</span><span class="p">,</span>
 </span><span id="__span-0-62"><a id="__codelineno-0-62" name="__codelineno-0-62"></a>        <span class="s2">&quot;completed_at&quot;</span><span class="p">,</span>
 </span><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63"></a>    <span class="p">]</span>
 </span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64"></a>    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;concat&quot;</span><span class="p">:</span>

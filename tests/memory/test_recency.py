@@ -5,7 +5,7 @@ from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
-from llm_agents_from_scratch.base.memory import BaseMemoryStore
+from llm_agents_from_scratch.base.memory_store import BaseMemoryStore
 from llm_agents_from_scratch.data_structures import Task, TaskResult
 from llm_agents_from_scratch.data_structures.memory import Episode
 from llm_agents_from_scratch.memory import JSONMemoryStore, RecencyMemory

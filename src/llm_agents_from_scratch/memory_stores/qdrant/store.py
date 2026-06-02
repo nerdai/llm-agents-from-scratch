@@ -4,9 +4,9 @@ from typing import Any
 
 from qdrant_client import QdrantClient, models
 
-from llm_agents_from_scratch.base.memory import BaseMemoryStore
+from llm_agents_from_scratch.base.memory_store import BaseMemoryStore
 from llm_agents_from_scratch.data_structures.memory import Episode, EpisodeAttr
-from llm_agents_from_scratch.memory.qdrant_utils import (
+from llm_agents_from_scratch.memory_stores.qdrant.utils import (
     episode_to_qdrant_point_struct,
 )
 

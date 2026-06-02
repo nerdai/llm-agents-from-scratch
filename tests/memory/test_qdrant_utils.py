@@ -1,6 +1,6 @@
 from llm_agents_from_scratch.data_structures import Task, TaskResult
 from llm_agents_from_scratch.data_structures.memory import Episode
-from llm_agents_from_scratch.memory.qdrant_utils import (
+from llm_agents_from_scratch.memory_stores.qdrant.utils import (
     episode_to_qdrant_point_struct,
 )
 

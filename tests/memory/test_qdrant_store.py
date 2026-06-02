@@ -6,7 +6,7 @@ from qdrant_client import QdrantClient
 
 from llm_agents_from_scratch.data_structures import Task, TaskResult
 from llm_agents_from_scratch.data_structures.memory import Episode
-from llm_agents_from_scratch.memory.qdrant_store import QdrantMemoryStore
+from llm_agents_from_scratch.memory_stores.qdrant.store import QdrantMemoryStore
 
 
 @pytest.fixture
@@ -22,7 +22,7 @@ def episode() -> Episode:
 @pytest.fixture
 def mock_client():
     with patch(
-        "llm_agents_from_scratch.memory.qdrant_store.QdrantClient",
+        "llm_agents_from_scratch.memory_stores.qdrant.store.QdrantClient",
     ) as mock_cls:
         instance = MagicMock()
         instance.embedding_model_name = "BAAI/bge-small-en-v1.5"

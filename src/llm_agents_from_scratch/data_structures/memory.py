@@ -10,7 +10,7 @@ from .agent import Task, TaskResult
 EpisodeAttr = Literal[
     "instruction",
     "result",
-    "additional_data",
+    "metadata",
     "completed_at",
     "rollout",
 ]
@@ -23,16 +23,16 @@ class Episode(BaseModel):
         task (Task): The task that was executed.
         rollout (str): The full agent trajectory for the task.
         result (TaskResult): The final result of the task.
-        additional_data (dict[str, str] | None): Optional key-value
-            annotations added by memory strategies at write time (e.g.
-            ``{"reflection": "..."}`` from ReflectiveMemory).
+        metadata (dict[str, str]): Key-value annotations written at
+            record time (e.g. ``{"reflection": "..."}``). Surfaced
+            automatically in ``format()`` output.
         completed_at (datetime): Timestamp when the episode was recorded.
     """
 
     task: Task
     rollout: str
     result: TaskResult
-    additional_data: dict[str, str] | None = None
+    metadata: dict[str, str] = Field(default_factory=dict)
     completed_at: datetime = Field(default_factory=datetime.now)
 
     def format(
@@ -49,7 +49,7 @@ class Episode(BaseModel):
                 ``"xml"``.
             include (list[EpisodeAttr] | None): Attributes to include.
                 Defaults to ``["instruction", "result",
-                "additional_data", "completed_at"]``.
+                "metadata", "completed_at"]``.
 
         Returns:
             str: Serialised episode string.
@@ -58,7 +58,7 @@ class Episode(BaseModel):
         attrs = include or [
             "instruction",
             "result",
-            "additional_data",
+            "metadata",
             "completed_at",
         ]
         if mode == "concat":
@@ -72,8 +72,8 @@ class Episode(BaseModel):
                 parts.append(self.task.instruction)
             elif f == "result":
                 parts.append(self.result.content)
-            elif f == "additional_data" and self.additional_data:
-                parts.extend(self.additional_data.values())
+            elif f == "metadata" and self.metadata:
+                parts.extend(self.metadata.values())
             elif f == "completed_at":
                 parts.append(
                     self.completed_at.strftime("%Y-%m-%d %H:%M:%S"),
@@ -93,8 +93,8 @@ class Episode(BaseModel):
                 lines.append(
                     f"    <result>{self.result.content}\n    </result>",
                 )
-            elif f == "additional_data" and self.additional_data:
-                for key, val in self.additional_data.items():
+            elif f == "metadata" and self.metadata:
+                for key, val in self.metadata.items():
                     lines.append(f"    <{key}>{val}</{key}>")
             elif f == "completed_at":
                 ts = self.completed_at.strftime("%Y-%m-%d %H:%M:%S")

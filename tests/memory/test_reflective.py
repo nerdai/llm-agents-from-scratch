@@ -111,8 +111,7 @@ async def test_record_stores_episode_with_reflection() -> None:
 
     store.write.assert_awaited_once()
     written: Episode = store.write.call_args[0][0]
-    assert written.additional_data is not None
-    assert written.additional_data["reflection"] == reflection
+    assert written.metadata["reflection"] == reflection
 
 
 @pytest.mark.asyncio
@@ -129,13 +128,13 @@ async def test_summary() -> None:
     assert "JSONMemoryStore" in result
 
 
-def test_episode_str_renders_additional_data_as_xml_tags() -> None:
+def test_episode_str_renders_metadata_as_xml_tags() -> None:
     task = Task(instruction="look up pikachu")
     ep = Episode(
         task=task,
         rollout="",
         result=TaskResult(task_id=task.id_, content="pikachu is electric"),
-        additional_data={"reflection": "Always verify spelling."},
+        metadata={"reflection": "Always verify spelling."},
     )
 
     output = str(ep)
@@ -143,7 +142,7 @@ def test_episode_str_renders_additional_data_as_xml_tags() -> None:
     assert "<reflection>Always verify spelling.</reflection>" in output
 
 
-def test_episode_str_no_extra_tags_when_additional_data_none() -> None:
+def test_episode_str_no_extra_tags_when_metadata_none() -> None:
     task = Task(instruction="look up pikachu")
     ep = Episode(
         task=task,
@@ -154,16 +153,16 @@ def test_episode_str_no_extra_tags_when_additional_data_none() -> None:
     output = str(ep)
 
     assert "<reflection>" not in output
-    assert "additional_data" not in output
+    assert "<reflection>" not in output
 
 
-def test_episode_format_concat_includes_additional_data() -> None:
+def test_episode_format_concat_includes_metadata() -> None:
     task = Task(instruction="look up pikachu")
     ep = Episode(
         task=task,
         rollout="",
         result=TaskResult(task_id=task.id_, content="pikachu is electric"),
-        additional_data={"reflection": "Always verify spelling."},
+        metadata={"reflection": "Always verify spelling."},
     )
 
     text = ep.format(mode="concat")

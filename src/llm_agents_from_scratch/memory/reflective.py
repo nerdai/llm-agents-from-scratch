@@ -76,7 +76,7 @@ class ReflectiveMemory(RecencyMemory):
         )
         result = await self.llm.complete(prompt)
         # safe to mutate — TaskHandler does not use episode after record()
-        episode.additional_data = {"reflection": result.response}
+        episode.metadata["reflection"] = result.response
         await self.store.write(episode)
 
     async def summary(self) -> str:

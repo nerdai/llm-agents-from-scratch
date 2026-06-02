@@ -13,7 +13,7 @@ from llm_agents_from_scratch.memory.qdrant_utils import (
 DEFAULT_EPISODE_INCLUDE: list[EpisodeAttr] = [
     "instruction",
     "result",
-    "additional_data",
+    "metadata",
 ]
 
 
@@ -76,25 +76,25 @@ class QdrantMemoryStore(BaseMemoryStore):
     async def write(
         self,
         episode: Episode,
-        embedded_text: str | None = None,
+        key: str | None = None,
     ) -> None:
         """Embed and persist an episode to the Qdrant collection.
 
         The full serialised episode and its completion timestamp are
-        stored in the point payload for later retrieval. The embedded
-        text defaults to a concat-format serialisation of
-        ``DEFAULT_EPISODE_INCLUDE`` attributes when ``embedded_text``
-        is not provided.
+        stored in the point payload for later retrieval. The key
+        defaults to a concat-format serialisation of
+        ``DEFAULT_EPISODE_INCLUDE`` attributes when ``key`` is not
+        provided.
 
         Args:
             episode (Episode): The completed episode to store.
-            embedded_text (str | None): Pre-formatted text to embed.
-                When provided by the calling memory strategy, this text
-                is used directly for the vector. Defaults to ``None``,
-                in which case the store formats the episode using
+            key (str | None): Pre-formatted text to embed. When
+                provided by the calling memory strategy, this text is
+                used directly for the vector. Defaults to ``None``, in
+                which case the store formats the episode using
                 ``DEFAULT_EPISODE_INCLUDE``.
         """
-        text = embedded_text or episode.format(
+        text = key or episode.format(
             mode="concat",
             include=DEFAULT_EPISODE_INCLUDE,
         )

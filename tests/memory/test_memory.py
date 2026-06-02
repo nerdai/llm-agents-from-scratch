@@ -34,20 +34,26 @@ def make_store(episodes: list[Episode] | None = None) -> AsyncMock:
 
 def test_init_stores_attributes() -> None:
     store = MagicMock(spec=BaseMemoryStore)
-    transform = AsyncMock()
+    key_fn = lambda ep: ep.task.instruction  # noqa: E731
+    metadata_fn = AsyncMock(return_value="value")
 
-    memory = Memory(store=store, transformations=[transform])
+    memory = Memory(
+        store=store,
+        key_fn=key_fn,
+        metadata_fns={"note": metadata_fn},
+    )
 
     assert memory.store is store
-    assert memory.transformations == [transform]
+    assert memory.key_fn is key_fn
+    assert memory.metadata_fns == {"note": metadata_fn}
 
 
-def test_init_default_transformations() -> None:
+def test_init_default_metadata_fns() -> None:
     store = MagicMock(spec=BaseMemoryStore)
 
-    memory = Memory(store=store)
+    memory = Memory(store=store, key_fn=lambda ep: ep.task.instruction)
 
-    assert memory.transformations == []
+    assert memory.metadata_fns == {}
 
 
 # --- recall ---
@@ -59,7 +65,7 @@ async def test_recall_formats_episodes() -> None:
     ep2 = make_episode("task two", "result two")
     store = make_store([ep1, ep2])
 
-    memory = Memory(store=store)
+    memory = Memory(store=store, key_fn=lambda ep: ep.task.instruction)
     task = Task(instruction="new task")
 
     result = await memory.recall(task)
@@ -73,7 +79,7 @@ async def test_recall_formats_episodes() -> None:
 async def test_recall_returns_empty_string_when_no_episodes() -> None:
     store = make_store([])
 
-    memory = Memory(store=store)
+    memory = Memory(store=store, key_fn=lambda ep: ep.task.instruction)
 
     result = await memory.recall(Task(instruction="anything"))
 
@@ -84,58 +90,57 @@ async def test_recall_returns_empty_string_when_no_episodes() -> None:
 
 
 @pytest.mark.asyncio
-async def test_record_writes_to_store_without_transformations() -> None:
+async def test_record_writes_episode_with_key() -> None:
     store = make_store()
-    memory = Memory(store=store)
-    ep = make_episode()
+    ep = make_episode("summarise doc")
+    memory = Memory(store=store, key_fn=lambda ep: ep.task.instruction)
 
     await memory.record(ep)
 
-    store.write.assert_awaited_once_with(ep)
+    store.write.assert_awaited_once_with(ep, "summarise doc")
 
 
 @pytest.mark.asyncio
-async def test_record_applies_transformations_in_order() -> None:
+async def test_record_runs_metadata_fns_concurrently() -> None:
     store = make_store()
-    call_order: list[str] = []
-
-    async def transform_a(ep: Episode) -> Episode:
-        call_order.append("a")
-        ep.additional_data = {"step": "a"}
-        return ep
-
-    async def transform_b(ep: Episode) -> Episode:
-        call_order.append("b")
-        assert ep.additional_data == {"step": "a"}
-        ep.additional_data = {"step": "b"}
-        return ep
-
-    memory = Memory(store=store, transformations=[transform_a, transform_b])
     ep = make_episode()
+
+    async def reflect(ep: Episode) -> str:
+        return "a lesson"
+
+    def tag(ep: Episode) -> str:
+        return "important"
+
+    memory = Memory(
+        store=store,
+        key_fn=lambda ep: ep.task.instruction,
+        metadata_fns={"reflection": reflect, "tag": tag},
+    )
 
     await memory.record(ep)
 
-    assert call_order == ["a", "b"]
-    store.write.assert_awaited_once()
-    written_ep: Episode = store.write.call_args[0][0]
-    assert written_ep.additional_data == {"step": "b"}
+    assert ep.metadata["reflection"] == "a lesson"
+    assert ep.metadata["tag"] == "important"
+    store.write.assert_awaited_once_with(ep, ep.task.instruction)
 
 
 @pytest.mark.asyncio
-async def test_record_passes_transformed_episode_to_store() -> None:
+async def test_record_all_metadata_fns_called() -> None:
     store = make_store()
-
-    async def add_annotation(ep: Episode) -> Episode:
-        ep.additional_data = {"note": "annotated"}
-        return ep
-
-    memory = Memory(store=store, transformations=[add_annotation])
     ep = make_episode()
+    fn_a = AsyncMock(return_value="val_a")
+    fn_b = AsyncMock(return_value="val_b")
+
+    memory = Memory(
+        store=store,
+        key_fn=lambda ep: ep.task.instruction,
+        metadata_fns={"a": fn_a, "b": fn_b},
+    )
 
     await memory.record(ep)
 
-    written_ep: Episode = store.write.call_args[0][0]
-    assert written_ep.additional_data == {"note": "annotated"}
+    fn_a.assert_awaited_once_with(ep)
+    fn_b.assert_awaited_once_with(ep)
 
 
 # --- delete / update ---
@@ -143,7 +148,7 @@ async def test_record_passes_transformed_episode_to_store() -> None:
 
 @pytest.mark.asyncio
 async def test_delete_raises_not_implemented() -> None:
-    memory = Memory(store=MagicMock())
+    memory = Memory(store=MagicMock(), key_fn=lambda ep: ep.task.instruction)
 
     with pytest.raises(NotImplementedError):
         await memory.delete("some-id")
@@ -151,7 +156,7 @@ async def test_delete_raises_not_implemented() -> None:
 
 @pytest.mark.asyncio
 async def test_update_raises_not_implemented() -> None:
-    memory = Memory(store=MagicMock())
+    memory = Memory(store=MagicMock(), key_fn=lambda ep: ep.task.instruction)
 
     with pytest.raises(NotImplementedError):
         await memory.update(make_episode())

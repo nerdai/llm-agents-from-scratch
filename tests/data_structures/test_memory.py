@@ -48,15 +48,15 @@ def test_format_concat_rollout() -> None:
     assert "step1 -> step2" in text
 
 
-def test_format_xml_additional_data() -> None:
+def test_format_xml_metadata() -> None:
     task = Task(instruction="task")
     ep = Episode(
         task=task,
         rollout="",
         result=TaskResult(task_id=task.id_, content="result"),
-        additional_data={"reflection": "key lesson here"},
+        metadata={"reflection": "key lesson here"},
     )
-    text = ep.format(mode="xml", include=["additional_data"])
+    text = ep.format(mode="xml", include=["metadata"])
     assert "<reflection>key lesson here</reflection>" in text
 
 

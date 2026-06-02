@@ -121,12 +121,30 @@ async def test_read_recent_returns_all_when_n_exceeds_count(
 
 
 @pytest.mark.asyncio
-async def test_search_raises_not_implemented(tmp_path: Path) -> None:
-    """Tests search raises NotImplementedError."""
-    store = JSONMemoryStore(dir=tmp_path)
+async def test_search_returns_recent_by_default(tmp_path: Path) -> None:
+    """Tests search delegates to read_recent when recall_mode='recent'."""
+    store = JSONMemoryStore(dir=tmp_path, max_results=2)
+    ep1 = make_episode("first")
+    ep2 = make_episode("second")
+    ep3 = make_episode("third")
+    await store.write(ep1)
+    await store.write(ep2)
+    await store.write(ep3)
+
+    results = await store.search("ignored query")
+
+    assert len(results) == 2  # noqa: PLR2004
+
+
+@pytest.mark.asyncio
+async def test_search_raises_not_implemented_when_search_mode(
+    tmp_path: Path,
+) -> None:
+    """Tests search raises NotImplementedError when recall_mode='search'."""
+    store = JSONMemoryStore(dir=tmp_path, recall_mode="search")
 
     with pytest.raises(NotImplementedError):
-        await store.search("query", k=3)
+        await store.search("query")
 
 
 @pytest.mark.asyncio

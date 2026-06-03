@@ -4043,19 +4043,20 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="episodic-memory-selective-recall-with-similarity-search">Episodic Memory — Selective Recall with Similarity Search<a class="anchor-link" href="#episodic-memory-selective-recall-with-similarity-search">¶</a></h1><p>This notebook demonstrates <code>SimilarityMemory</code> and <code>QdrantMemoryStore</code> working together
-to give an <code>LLMAgent</code> episodic memory that retrieves past episodes by <strong>semantic
-relevance</strong> rather than recency.</p>
+<h1 id="episodic-memory-selective-recall-with-similarity-search">Episodic Memory — Selective Recall with Similarity Search<a class="anchor-link" href="#episodic-memory-selective-recall-with-similarity-search">¶</a></h1><p>This notebook demonstrates the <code>similarity_memory()</code> factory, which gives an
+<code>LLMAgent</code> episodic memory that retrieves past episodes by <strong>semantic relevance</strong>
+rather than recency.</p>
 <p>Two properties are illustrated:</p>
 <ul>
 <li><strong>Selective recall.</strong> After each task the agent records an episode in a Qdrant
-in-memory vector store. When a new task arrives, <code>SimilarityMemory</code> searches for
+in-memory vector store. When a new task arrives, <code>similarity_memory()</code> searches for
 the most semantically similar past episodes, not the most recent. A question about
 Southeast Asia retrieves Southeast Asian country episodes; a question about European
 economies retrieves European ones, regardless of when they were recorded.</li>
-<li><strong>Contrast with recency.</strong> The notebook explicitly shows what <code>RecencyMemory</code> would
-have returned for the same queries: the same three most-recent episodes for both,
-illustrating exactly when similarity search adds value over a simpler recency strategy.</li>
+<li><strong>Contrast with recency.</strong> The notebook explicitly shows what <code>recency_memory()</code>
+would have returned for the same queries: the same three most-recent episodes for
+both, illustrating exactly when similarity search adds value over a simpler recency
+strategy.</li>
 </ul>
 <blockquote>
 <p><strong>This notebook uses the <a href="https://restcountries.com/">REST Countries API</a>,</strong>
@@ -4286,7 +4287,7 @@ ensure_ollama()</div>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">Task</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_console_logging</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.memory</span><span class="w"> </span><span class="kn">import</span> <span class="n">QdrantMemoryStore</span><span class="p">,</span> <span class="n">SimilarityMemory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.memory.recipes</span><span class="w"> </span><span class="kn">import</span> <span class="n">similarity_memory</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.tools.simple_function</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleFunctionTool</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-3">import json
@@ -4301,7 +4302,7 @@ from llm_agents_from_scratch import LLMAgent
 from llm_agents_from_scratch.data_structures import Task
 from llm_agents_from_scratch.llms import OllamaLLM
 from llm_agents_from_scratch.logger import enable_console_logging
-from llm_agents_from_scratch.memory import QdrantMemoryStore, SimilarityMemory
+from llm_agents_from_scratch.memory.recipes import similarity_memory
 from llm_agents_from_scratch.tools.simple_function import SimpleFunctionTool</div>
 </div>
 </div>
@@ -4428,12 +4429,11 @@ get_country_tool = SimpleFunctionTool(func=get_country)</div>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="creating-the-agent-with-memory">Creating the Agent with Memory<a class="anchor-link" href="#creating-the-agent-with-memory">¶</a></h2><p><code>QdrantMemoryStore</code> runs Qdrant in-process with no server required. Episodes are
-embedded at write time using FastEmbed (local ONNX, no external service needed).
-<code>SimilarityMemory</code> wraps the store and decides what to recall (the <code>k</code> most
-semantically similar episodes) and how to format the result for the system prompt.
-The agent holds the memory in its <code>memories</code> list. <code>TaskHandler</code> calls <code>recall</code>
-at task start and <code>record</code> at task end automatically.</p>
+<h2 id="creating-the-agent-with-memory">Creating the Agent with Memory<a class="anchor-link" href="#creating-the-agent-with-memory">¶</a></h2><p><code>similarity_memory()</code> creates a <code>Memory</code> backed by an in-process Qdrant vector store.
+Episodes are embedded at write time using FastEmbed (local ONNX, no external service
+needed). The <code>max_results</code> parameter controls how many semantically similar episodes
+are recalled per task. The agent holds the memory in its <code>memories</code> list; <code>TaskHandler</code>
+calls <code>recall</code> at task start and <code>record</code> at task end automatically.</p>
 </div>
 </div>
 </div>
@@ -4456,13 +4456,11 @@ at task start and <code>record</code> at task end automatically.</p>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">store</span> <span class="o">=</span> <span class="n">QdrantMemoryStore</span><span class="p">()</span>
-<span class="n">memory</span> <span class="o">=</span> <span class="n">SimilarityMemory</span><span class="p">(</span><span class="n">store</span><span class="o">=</span><span class="n">store</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">memory</span> <span class="o">=</span> <span class="n">similarity_memory</span><span class="p">(</span><span class="n">max_results</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">,</span> <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">agent</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">get_country_tool</span><span class="p">],</span> <span class="n">memories</span><span class="o">=</span><span class="p">[</span><span class="n">memory</span><span class="p">])</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-5">store = QdrantMemoryStore()
-memory = SimilarityMemory(store=store, k=3)
+<div class="clipboard-copy-txt" id="cell-5">memory = similarity_memory(max_results=3)
 llm = OllamaLLM(model="qwen3:14b", think=False)
 agent = LLMAgent(llm=llm, tools=[get_country_tool], memories=[memory])</div>
 </div>
@@ -4542,10 +4540,10 @@ print(result1)</div>
 INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: What are Thailand's key geographic and demographic facts? Use the get_country tool. Do not rely on prior knowledge.
 INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: get_country
 INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: {"name": "Thailand", "region": "Asia", "subregion": "South-Eastern Asia", "capital": "Bangkok", "population": 65859640, "area_...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: Thailand is located in South-Eastern Asia, with its capital city being Bangkok. The country has a population of approximately 65,859,64...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: Thailand is located in the region of Asia, specifically in South-Eastern Asia. Its capital city is Bangkok. The country has a populatio...[TRUNCATED]
 INFO (llm_agents_fs.TaskHandler) :      No new step required.
-INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: Thailand is located in South-Eastern Asia, with its capital city being Bangkok. The country has a population of approximately 65,859...[TRUNCATED]
-Thailand is located in South-Eastern Asia, with its capital city being Bangkok. The country has a population of approximately 65,859,640 people and covers an area of 513,120 square kilometers. The official language of Thailand is Thai, and the currency used is the Thai baht.
+INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: Thailand is located in the region of Asia, specifically in South-Eastern Asia. Its capital city is Bangkok. The country has a popula...[TRUNCATED]
+Thailand is located in the region of Asia, specifically in South-Eastern Asia. Its capital city is Bangkok. The country has a population of approximately 65,859,640 people and covers an area of 513,120 square kilometers. The primary language spoken in Thailand is Thai, and the official currency is the Thai baht.
 </pre>
 </div>
 </div>
@@ -4623,7 +4621,7 @@ for country, result in zip(countries, results, strict=False):
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>Looking up countries: 100%|██████████████████████████████████████| 6/6 [01:56&lt;00:00, 19.46s/it]
+<pre>Looking up countries: 100%|███████████████████| 6/6 [01:55&lt;00:00, 19.27s/it]
 </pre>
 </div>
 </div>
@@ -4631,42 +4629,60 @@ for country, result in zip(countries, results, strict=False):
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>**Vietnam**
-The tool has returned the following information about Vietnam:
+The tool has successfully retrieved information about Vietnam. Here are the key geographic and demographic facts about Vietnam:
 
-- **Region**: Asia  
-- **Subregion**: South-Eastern Asia  
-- **Capital**: Hanoi  
-- **Population**: 101,343,800  
-- **Area (km²)**: 331,212.0  
-- **Languages**: Vietnamese  
-- **Currencies**: Vietnamese đồng  
+- **Region**: Asia
+- **Subregion**: South-Eastern Asia
+- **Capital**: Hanoi
+- **Population**: 101,343,800
+- **Area**: 331,212 square kilometers
+- **Languages**: Vietnamese
+- **Currencies**: Vietnamese đồng
 
-This covers the key geographic and demographic facts about Vietnam. Let me know if you need further details!
+Let me know if you need further details!
 
 **Indonesia**
-Indonesia is located in Asia, specifically in South-Eastern Asia, with its capital city being Jakarta. The country has a population of approximately 284,438,782 people and covers an area of 1,904,569 square kilometers. The official language of Indonesia is Indonesian, and the currency used is the Indonesian rupiah.
+The key geographic and demographic facts about Indonesia are as follows:
+
+- **Region**: Asia
+- **Subregion**: South-Eastern Asia
+- **Capital**: Jakarta
+- **Population**: 284,438,782
+- **Area**: 1,904,569 square kilometers
+- **Languages**: Indonesian
+- **Currencies**: Indonesian rupiah
 
 **France**
-France is located in Europe, specifically in Western Europe. Its capital city is Paris. The country has a population of approximately 66,351,959 people and covers an area of 543,908 square kilometers. The official language of France is French, and the currency used is the euro.
+France is located in the region of Europe, specifically in Western Europe. Its capital city is Paris. The country has a population of approximately 66,351,959 people and covers an area of 543,908 square kilometers. The primary language spoken in France is French, and the official currency is the euro.
 
 **Germany**
-The tool has provided the following information about Germany:
+The key geographic and demographic facts about Germany are as follows:
 
-- **Region**: Europe  
-- **Subregion**: Western Europe  
-- **Capital**: Berlin  
-- **Population**: 83,491,249  
-- **Area (km²)**: 357,114.0  
-- **Languages**: German  
-- **Currencies**: Euro  
+- **Region**: Europe
+- **Subregion**: Western Europe
+- **Capital**: Berlin
+- **Population**: 83,491,249
+- **Area**: 357,114 square kilometers
+- **Languages**: German
+- **Currencies**: Euro
 
 Let me know if you need further details!
 
 **Kenya**
-Kenya is located in Africa, specifically in the subregion of Eastern Africa. Its capital city is Nairobi. The country has a population of approximately 53,330,978 people and covers an area of 580,367 square kilometers. The official languages of Kenya are English and Swahili, and the currency used is the Kenyan shilling.
+I have retrieved the information about Kenya. Now, I will summarize the key geographic and demographic facts about Kenya based on the data provided:
+
+- **Region**: Africa  
+- **Subregion**: Eastern Africa  
+- **Capital**: Nairobi  
+- **Population**: Approximately 53,330,978 people  
+- **Area**: 580,367 square kilometers  
+- **Languages**: English and Swahili  
+- **Currency**: Kenyan shilling  
+
+Let me know if you need further details!
 
 **Brazil**
-Brazil is located in the Americas, specifically in South America, with its capital city being Brasília. The country has a population of approximately 213,421,037 people and covers an area of 8,515,767 square kilometers. The official language of Brazil is Portuguese, and the currency used is the Brazilian real.
+Brazil is located in the region of the Americas, specifically in South America. Its capital city is Brasília. The country has a population of approximately 213,421,037 people and covers an area of 8,515,767 square kilometers. The primary language spoken in Brazil is Portuguese, and the official currency is the Brazilian real.
 
 </pre>
 </div>
@@ -4734,10 +4750,11 @@ Brazil is located in the Americas, specifically in South America, with its capit
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>SimilarityMemory (top-3 similarity):
-QdrantMemoryStore: 7 episodes | collection=episodes
-  newest: 2026-05-18 23:30:49 | What are France's key geographic and demographic facts? Use 
-  oldest: 2026-05-18 23:28:50 | What are Thailand's key geographic and demographic facts? Us
+<pre>QdrantMemoryStore: 7 episodes | collection=episodes
+  newest: 2026-06-03 00:29:19 | What are Kenya's key geographic and demographic facts? Use t
+  oldest: 2026-06-03 00:27:20 | What are Thailand's key geographic and demographic facts? Us
+  key_fn: &lt;lambda&gt;
+  metadata_fns: none
 </pre>
 </div>
 </div>
@@ -4751,9 +4768,9 @@ QdrantMemoryStore: 7 episodes | collection=episodes
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="the-recency-baseline">The Recency Baseline<a class="anchor-link" href="#the-recency-baseline">¶</a></h2><p>Before running any synthesis tasks, it is worth checking what <code>RecencyMemory</code> would
-recall for any query at this point, regardless of topic. Because the six lookups ran
-concurrently, the recording order depends on wall-clock completion time rather than
+<h2 id="the-recency-baseline">The Recency Baseline<a class="anchor-link" href="#the-recency-baseline">¶</a></h2><p>Before running any synthesis tasks, it is worth checking what <code>recency_memory()</code>
+would recall for any query at this point, regardless of topic. Because the six lookups
+ran concurrently, the recording order depends on wall-clock completion time rather than
 submission order. Whatever three episodes happened to finish last appear below. A
 recency strategy would inject these same three episodes into the system prompt for
 <em>both</em> the Southeast Asia query and the Western Europe query that follow, regardless
@@ -4802,9 +4819,9 @@ for ep in most_recent:
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Most recent 3 episodes (RecencyMemory baseline for any query):
 
-  - What are France's key geographic and demographic facts? Use the g
   - What are Kenya's key geographic and demographic facts? Use the ge
-  - What are Vietnam's key geographic and demographic facts? Use the 
+  - What are Indonesia's key geographic and demographic facts? Use th
+  - What are France's key geographic and demographic facts? Use the g
 </pre>
 </div>
 </div>
@@ -4820,7 +4837,7 @@ for ep in most_recent:
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 id="part-2-selective-recall-southeast-asia">Part 2 — Selective Recall: Southeast Asia<a class="anchor-link" href="#part-2-selective-recall-southeast-asia">¶</a></h2><p>The synthesis task asks about Southeast Asian countries. The cell below
 defines the query and shows which episodes are most semantically similar
-to it. These are exactly what <code>SimilarityMemory</code> injects into the system
+to it. These are exactly what <code>similarity_memory()</code> injects into the system
 prompt when the task runs. Compare this to the recency baseline above.</p>
 </div>
 </div>
@@ -4854,10 +4871,7 @@ prompt when the task runs. Compare this to the recency baseline above.</p>
 <span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Episodes that will be recalled for this query:</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
-<span class="n">recalled_sea</span> <span class="o">=</span> <span class="k">await</span> <span class="n">memory</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
-    <span class="n">query</span><span class="o">=</span><span class="n">task8</span><span class="o">.</span><span class="n">instruction</span><span class="p">,</span>
-    <span class="n">k</span><span class="o">=</span><span class="n">memory</span><span class="o">.</span><span class="n">k</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="n">recalled_sea</span> <span class="o">=</span> <span class="k">await</span> <span class="n">memory</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">task8</span><span class="o">.</span><span class="n">instruction</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">recalled_sea</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">ep</span><span class="p">))</span>
     <span class="nb">print</span><span class="p">()</span>
@@ -4872,10 +4886,7 @@ prompt when the task runs. Compare this to the recency baseline above.</p>
 )
 
 print("Episodes that will be recalled for this query:\n")
-recalled_sea = await memory.store.search(
-    query=task8.instruction,
-    k=memory.k,
-)
+recalled_sea = await memory.store.search(task8.instruction)
 for ep in recalled_sea:
     print(str(ep))
     print()</div>
@@ -4893,44 +4904,42 @@ for ep in recalled_sea:
 <pre>Episodes that will be recalled for this query:
 
   &lt;episode&gt;
-    &lt;task&gt;What are Vietnam's key geographic and demographic facts? Use the get_country tool. Do not rely on prior knowledge.&lt;/task&gt;
-    &lt;result&gt;The tool has returned the following information about Vietnam:
+    &lt;task&gt;What are Indonesia's key geographic and demographic facts? Use the get_country tool. Do not rely on prior knowledge.&lt;/task&gt;
+    &lt;result&gt;The key geographic and demographic facts about Indonesia are as follows:
 
-- **Region**: Asia  
-- **Subregion**: South-Eastern Asia  
-- **Capital**: Hanoi  
-- **Population**: 101,343,800  
-- **Area (km²)**: 331,212.0  
-- **Languages**: Vietnamese  
-- **Currencies**: Vietnamese đồng  
-
-This covers the key geographic and demographic facts about Vietnam. Let me know if you need further details!
+- **Region**: Asia
+- **Subregion**: South-Eastern Asia
+- **Capital**: Jakarta
+- **Population**: 284,438,782
+- **Area**: 1,904,569 square kilometers
+- **Languages**: Indonesian
+- **Currencies**: Indonesian rupiah
     &lt;/result&gt;
-    &lt;completed_at&gt;2026-05-18 23:30:40&lt;/completed_at&gt;
+    &lt;completed_at&gt;2026-06-03 00:29:14&lt;/completed_at&gt;
   &lt;/episode&gt;
 
   &lt;episode&gt;
-    &lt;task&gt;What are Germany's key geographic and demographic facts? Use the get_country tool. Do not rely on prior knowledge.&lt;/task&gt;
-    &lt;result&gt;The tool has provided the following information about Germany:
+    &lt;task&gt;What are Thailand's key geographic and demographic facts? Use the get_country tool. Do not rely on prior knowledge.&lt;/task&gt;
+    &lt;result&gt;Thailand is located in the region of Asia, specifically in South-Eastern Asia. Its capital city is Bangkok. The country has a population of approximately 65,859,640 people and covers an area of 513,120 square kilometers. The primary language spoken in Thailand is Thai, and the official currency is the Thai baht.
+    &lt;/result&gt;
+    &lt;completed_at&gt;2026-06-03 00:27:20&lt;/completed_at&gt;
+  &lt;/episode&gt;
 
-- **Region**: Europe  
-- **Subregion**: Western Europe  
-- **Capital**: Berlin  
-- **Population**: 83,491,249  
-- **Area (km²)**: 357,114.0  
-- **Languages**: German  
-- **Currencies**: Euro  
+  &lt;episode&gt;
+    &lt;task&gt;What are Vietnam's key geographic and demographic facts? Use the get_country tool. Do not rely on prior knowledge.&lt;/task&gt;
+    &lt;result&gt;The tool has successfully retrieved information about Vietnam. Here are the key geographic and demographic facts about Vietnam:
+
+- **Region**: Asia
+- **Subregion**: South-Eastern Asia
+- **Capital**: Hanoi
+- **Population**: 101,343,800
+- **Area**: 331,212 square kilometers
+- **Languages**: Vietnamese
+- **Currencies**: Vietnamese đồng
 
 Let me know if you need further details!
     &lt;/result&gt;
-    &lt;completed_at&gt;2026-05-18 23:30:30&lt;/completed_at&gt;
-  &lt;/episode&gt;
-
-  &lt;episode&gt;
-    &lt;task&gt;What are Indonesia's key geographic and demographic facts? Use the get_country tool. Do not rely on prior knowledge.&lt;/task&gt;
-    &lt;result&gt;Indonesia is located in Asia, specifically in South-Eastern Asia, with its capital city being Jakarta. The country has a population of approximately 284,438,782 people and covers an area of 1,904,569 square kilometers. The official language of Indonesia is Indonesian, and the currency used is the Indonesian rupiah.
-    &lt;/result&gt;
-    &lt;completed_at&gt;2026-05-18 23:30:35&lt;/completed_at&gt;
+    &lt;completed_at&gt;2026-06-03 00:28:55&lt;/completed_at&gt;
   &lt;/episode&gt;
 
 </pre>
@@ -4989,31 +4998,44 @@ print(result8)</div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: Which of the countries you have researched are in Southeast Asia? Summarise their key facts and compare their populations. Answer fro...[TRUNCATED]
 INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Which of the countries you have researched are in Southeast Asia? Summarise their key facts and compare their populations. Answer ...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: From the information gathered, the countries in Southeast Asia are Vietnam and Indonesia. Here are their key facts and a comparison of ...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: From the information I have gathered, all three countries—Indonesia, Thailand, and Vietnam—are located in Southeast Asia. Here are thei...[TRUNCATED]
 INFO (llm_agents_fs.TaskHandler) :      No new step required.
-INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: From the information gathered, the countries in Southeast Asia are Vietnam and Indonesia. Here are their key facts and a comparison ...[TRUNCATED]
-From the information gathered, the countries in Southeast Asia are Vietnam and Indonesia. Here are their key facts and a comparison of their populations:
-
-### Vietnam:
-- **Region**: Asia  
-- **Subregion**: South-Eastern Asia  
-- **Capital**: Hanoi  
-- **Population**: 101,343,800  
-- **Area (km²)**: 331,212.0  
-- **Languages**: Vietnamese  
-- **Currencies**: Vietnamese đồng  
+INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: From the information I have gathered, all three countries—Indonesia, Thailand, and Vietnam—are located in Southeast Asia. Here are t...[TRUNCATED]
+From the information I have gathered, all three countries—Indonesia, Thailand, and Vietnam—are located in Southeast Asia. Here are their key facts and a comparison of their populations:
 
 ### Indonesia:
-- **Region**: Asia  
-- **Subregion**: South-Eastern Asia  
-- **Capital**: Jakarta  
-- **Population**: 284,438,782  
-- **Area (km²)**: 1,904,569.0  
-- **Languages**: Indonesian  
-- **Currencies**: Indonesian rupiah  
+- **Region**: Asia
+- **Subregion**: Southeastern Asia
+- **Capital**: Jakarta
+- **Population**: 284,438,782
+- **Area**: 1,904,569 square kilometers
+- **Languages**: Indonesian
+- **Currencies**: Indonesian rupiah
+
+### Thailand:
+- **Region**: Asia
+- **Subregion**: Southeastern Asia
+- **Capital**: Bangkok
+- **Population**: 65,859,640
+- **Area**: 513,120 square kilometers
+- **Languages**: Thai
+- **Currencies**: Thai baht
+
+### Vietnam:
+- **Region**: Asia
+- **Subregion**: Southeastern Asia
+- **Capital**: Hanoi
+- **Population**: 101,343,800
+- **Area**: 331,212 square kilometers
+- **Languages**: Vietnamese
+- **Currencies**: Vietnamese đồng
 
 ### Comparison of Populations:
-- Indonesia has a significantly larger population than Vietnam. Indonesia's population is approximately **284.4 million**, while Vietnam's population is about **101.3 million**. This means Indonesia's population is more than **2.8 times** that of Vietnam.
+- **Indonesia** has the largest population among the three, with approximately **284 million** people.
+- **Vietnam** has the second-largest population, with around **101 million** people.
+- **Thailand** has the smallest population among the three, with approximately **65.9 million** people.
+
+In summary, Indonesia, Thailand, and Vietnam are all Southeast Asian countries, but Indonesia has the largest population, followed by Vietnam, and then Thailand.
 </pre>
 </div>
 </div>
@@ -5064,10 +5086,7 @@ to the query.</p>
 <span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Episodes that will be recalled for this query:</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
-<span class="n">recalled_eu</span> <span class="o">=</span> <span class="k">await</span> <span class="n">memory</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
-    <span class="n">query</span><span class="o">=</span><span class="n">task9</span><span class="o">.</span><span class="n">instruction</span><span class="p">,</span>
-    <span class="n">k</span><span class="o">=</span><span class="n">memory</span><span class="o">.</span><span class="n">k</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="n">recalled_eu</span> <span class="o">=</span> <span class="k">await</span> <span class="n">memory</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">task9</span><span class="o">.</span><span class="n">instruction</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">recalled_eu</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">ep</span><span class="p">))</span>
     <span class="nb">print</span><span class="p">()</span>
@@ -5082,10 +5101,7 @@ to the query.</p>
 )
 
 print("Episodes that will be recalled for this query:\n")
-recalled_eu = await memory.store.search(
-    query=task9.instruction,
-    k=memory.k,
-)
+recalled_eu = await memory.store.search(task9.instruction)
 for ep in recalled_eu:
     print(str(ep))
     print()</div>
@@ -5103,55 +5119,68 @@ for ep in recalled_eu:
 <pre>Episodes that will be recalled for this query:
 
   &lt;episode&gt;
-    &lt;task&gt;What are Germany's key geographic and demographic facts? Use the get_country tool. Do not rely on prior knowledge.&lt;/task&gt;
-    &lt;result&gt;The tool has provided the following information about Germany:
+    &lt;task&gt;Which of the countries you have researched are in Southeast Asia? Summarise their key facts and compare their populations. Answer from the country information you have already gathered. No tools are needed.&lt;/task&gt;
+    &lt;result&gt;From the information I have gathered, all three countries—Indonesia, Thailand, and Vietnam—are located in Southeast Asia. Here are their key facts and a comparison of their populations:
 
-- **Region**: Europe  
-- **Subregion**: Western Europe  
-- **Capital**: Berlin  
-- **Population**: 83,491,249  
-- **Area (km²)**: 357,114.0  
-- **Languages**: German  
-- **Currencies**: Euro  
+### Indonesia:
+- **Region**: Asia
+- **Subregion**: Southeastern Asia
+- **Capital**: Jakarta
+- **Population**: 284,438,782
+- **Area**: 1,904,569 square kilometers
+- **Languages**: Indonesian
+- **Currencies**: Indonesian rupiah
 
-Let me know if you need further details!
+### Thailand:
+- **Region**: Asia
+- **Subregion**: Southeastern Asia
+- **Capital**: Bangkok
+- **Population**: 65,859,640
+- **Area**: 513,120 square kilometers
+- **Languages**: Thai
+- **Currencies**: Thai baht
+
+### Vietnam:
+- **Region**: Asia
+- **Subregion**: Southeastern Asia
+- **Capital**: Hanoi
+- **Population**: 101,343,800
+- **Area**: 331,212 square kilometers
+- **Languages**: Vietnamese
+- **Currencies**: Vietnamese đồng
+
+### Comparison of Populations:
+- **Indonesia** has the largest population among the three, with approximately **284 million** people.
+- **Vietnam** has the second-largest population, with around **101 million** people.
+- **Thailand** has the smallest population among the three, with approximately **65.9 million** people.
+
+In summary, Indonesia, Thailand, and Vietnam are all Southeast Asian countries, but Indonesia has the largest population, followed by Vietnam, and then Thailand.
     &lt;/result&gt;
-    &lt;completed_at&gt;2026-05-18 23:30:30&lt;/completed_at&gt;
+    &lt;completed_at&gt;2026-06-03 00:36:47&lt;/completed_at&gt;
   &lt;/episode&gt;
 
   &lt;episode&gt;
-    &lt;task&gt;Which of the countries you have researched are in Southeast Asia? Summarise their key facts and compare their populations. Answer from the country information you have already gathered. No tools are needed.&lt;/task&gt;
-    &lt;result&gt;From the information gathered, the countries in Southeast Asia are Vietnam and Indonesia. Here are their key facts and a comparison of their populations:
+    &lt;task&gt;What are Germany's key geographic and demographic facts? Use the get_country tool. Do not rely on prior knowledge.&lt;/task&gt;
+    &lt;result&gt;The key geographic and demographic facts about Germany are as follows:
 
-### Vietnam:
-- **Region**: Asia  
-- **Subregion**: South-Eastern Asia  
-- **Capital**: Hanoi  
-- **Population**: 101,343,800  
-- **Area (km²)**: 331,212.0  
-- **Languages**: Vietnamese  
-- **Currencies**: Vietnamese đồng  
+- **Region**: Europe
+- **Subregion**: Western Europe
+- **Capital**: Berlin
+- **Population**: 83,491,249
+- **Area**: 357,114 square kilometers
+- **Languages**: German
+- **Currencies**: Euro
 
-### Indonesia:
-- **Region**: Asia  
-- **Subregion**: South-Eastern Asia  
-- **Capital**: Jakarta  
-- **Population**: 284,438,782  
-- **Area (km²)**: 1,904,569.0  
-- **Languages**: Indonesian  
-- **Currencies**: Indonesian rupiah  
-
-### Comparison of Populations:
-- Indonesia has a significantly larger population than Vietnam. Indonesia's population is approximately **284.4 million**, while Vietnam's population is about **101.3 million**. This means Indonesia's population is more than **2.8 times** that of Vietnam.
+Let me know if you need further details!
     &lt;/result&gt;
-    &lt;completed_at&gt;2026-05-18 23:39:39&lt;/completed_at&gt;
+    &lt;completed_at&gt;2026-06-03 00:29:00&lt;/completed_at&gt;
   &lt;/episode&gt;
 
   &lt;episode&gt;
     &lt;task&gt;What are France's key geographic and demographic facts? Use the get_country tool. Do not rely on prior knowledge.&lt;/task&gt;
-    &lt;result&gt;France is located in Europe, specifically in Western Europe. Its capital city is Paris. The country has a population of approximately 66,351,959 people and covers an area of 543,908 square kilometers. The official language of France is French, and the currency used is the euro.
+    &lt;result&gt;France is located in the region of Europe, specifically in Western Europe. Its capital city is Paris. The country has a population of approximately 66,351,959 people and covers an area of 543,908 square kilometers. The primary language spoken in France is French, and the official currency is the euro.
     &lt;/result&gt;
-    &lt;completed_at&gt;2026-05-18 23:30:49&lt;/completed_at&gt;
+    &lt;completed_at&gt;2026-06-03 00:29:09&lt;/completed_at&gt;
   &lt;/episode&gt;
 
 </pre>
@@ -5208,32 +5237,34 @@ print(result9)</div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: Which of the countries you have researched are in Western Europe? How do they compare in population and area? Answer from the country...[TRUNCATED]
 INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Which of the countries you have researched are in Western Europe? How do they compare in population and area? Answer from the coun...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: From the information gathered, the countries in Western Europe are Germany and France. Here are their key facts and a comparison of the...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: From the information I have gathered, Germany and France are both located in Western Europe. Here are their key facts and a comparison ...[TRUNCATED]
 INFO (llm_agents_fs.TaskHandler) :      No new step required.
-INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: From the information gathered, the countries in Western Europe are Germany and France. Here are their key facts and a comparison of ...[TRUNCATED]
-From the information gathered, the countries in Western Europe are Germany and France. Here are their key facts and a comparison of their populations and areas:
+INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: From the information I have gathered, Germany and France are both located in Western Europe. Here are their key facts and a comparis...[TRUNCATED]
+From the information I have gathered, Germany and France are both located in Western Europe. Here are their key facts and a comparison of their populations and areas:
 
 ### Germany:
-- **Region**: Europe  
-- **Subregion**: Western Europe  
-- **Capital**: Berlin  
-- **Population**: 83,491,249  
-- **Area (km²)**: 357,114.0  
-- **Languages**: German  
-- **Currencies**: Euro  
+- **Region**: Europe
+- **Subregion**: Western Europe
+- **Capital**: Berlin
+- **Population**: 83,491,249
+- **Area**: 357,114 square kilometers
+- **Languages**: German
+- **Currencies**: Euro
 
 ### France:
-- **Region**: Europe  
-- **Subregion**: Western Europe  
-- **Capital**: Paris  
-- **Population**: 66,351,959  
-- **Area (km²)**: 543,908.0  
-- **Languages**: French  
-- **Currencies**: Euro  
+- **Region**: Europe
+- **Subregion**: Western Europe
+- **Capital**: Paris
+- **Population**: 66,351,959
+- **Area**: 543,908 square kilometers
+- **Languages**: French
+- **Currencies**: Euro
 
 ### Comparison:
-- **Population**: Germany has a larger population than France. Germany's population is approximately **83.5 million**, while France's population is about **66.4 million**. This means Germany's population is about **1.26 times** that of France.
-- **Area**: France has a larger area than Germany. France covers **543,908 km²**, while Germany covers **357,114 km²**. This means France's area is about **1.52 times** that of Germany.
+- **Population**: Germany has a larger population than France, with approximately **83.5 million** people compared to **66.4 million** people in France.
+- **Area**: France has a larger area than Germany, with approximately **543,908 square kilometers** compared to **357,114 square kilometers** in Germany.
+
+In summary, both Germany and France are in Western Europe, but Germany has a larger population, while France has a larger area.
 </pre>
 </div>
 </div>
@@ -5247,19 +5278,18 @@ From the information gathered, the countries in Western Europe are Germany and F
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="key-takeaway">Key Takeaway<a class="anchor-link" href="#key-takeaway">¶</a></h2><p><code>SimilarityMemory</code> and <code>QdrantMemoryStore</code> give the agent something recency-based
-memory cannot: <strong>context that is relevant to the current task</strong>, not merely recent.</p>
+<h2 id="key-takeaway">Key Takeaway<a class="anchor-link" href="#key-takeaway">¶</a></h2><p><code>similarity_memory()</code> gives the agent something recency-based memory cannot:
+<strong>context that is relevant to the current task</strong>, not merely recent.</p>
 <p>The two queries issued in Parts 2 and 3 touched completely different regions. A
 recency strategy would have injected whichever three episodes happened to finish last
 into both queries. Those episodes are unlikely to be relevant to both Southeast Asia
 and Western Europe simultaneously. Similarity search retrieved the right subset for
 each query regardless of when those episodes were recorded.</p>
-<p>The separation of concerns is the same as in <code>RecencyMemory</code>:
-<code>SimilarityMemory</code> decides <em>what</em> to retrieve and <em>how</em> to format it for the prompt;
-<code>QdrantMemoryStore</code> decides <em>how</em> to persist and index episodes. Swapping one does
-not affect the other: the same <code>SimilarityMemory</code> works over any <code>BaseMemoryStore</code>
-that implements <code>search()</code>, and the same <code>QdrantMemoryStore</code> works with any
-<code>BaseMemory</code> implementation.</p>
+<p>The factory takes two parameters: <code>collection</code> (the Qdrant collection name, defaults
+to <code>"episodes"</code>) and <code>max_results</code> (how many similar episodes to recall, defaults to
+<code>5</code>). Swapping in <code>recency_memory()</code> or <code>reflective_memory()</code> requires changing only
+the one line that constructs the memory object — the agent and the rest of the
+notebook are unchanged.</p>
 </div>
 </div>
 </div>

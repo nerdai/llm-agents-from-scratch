@@ -34,7 +34,7 @@ def test_store_recall_mode_is_search() -> None:
 
 
 def test_max_results_set_from_k() -> None:
-    memory = similarity_memory(k=7)
+    memory = similarity_memory(max_results=7)
     assert memory.store.max_results == 7  # noqa: PLR2004
 
 

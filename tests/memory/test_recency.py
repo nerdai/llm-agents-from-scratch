@@ -38,7 +38,7 @@ def test_store_recall_mode_is_recent(tmp_path: Path) -> None:
 
 
 def test_max_results_set_from_n(tmp_path: Path) -> None:
-    memory = recency_memory(path=tmp_path, n=7)
+    memory = recency_memory(path=tmp_path, max_results=7)
     assert memory.store.max_results == 7  # noqa: PLR2004
 
 
@@ -55,7 +55,7 @@ def test_no_metadata_fns_by_default(tmp_path: Path) -> None:
 
 @pytest.mark.asyncio
 async def test_recall_returns_formatted_episodes(tmp_path: Path) -> None:
-    memory = recency_memory(path=tmp_path, n=2)
+    memory = recency_memory(path=tmp_path, max_results=2)
     ep1 = make_episode("task one", "result one")
     ep2 = make_episode("task two", "result two")
     await memory.record(ep1)

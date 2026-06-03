@@ -71,6 +71,7 @@ def reflective_memory(
     llm: BaseLLM,
     collection: str = "episodes",
     max_results: int = 5,
+    template: str | None = None,
 ) -> Memory:
     """Return a reflective episodic memory backed by Qdrant.
 
@@ -87,13 +88,18 @@ def reflective_memory(
             ``"episodes"``.
         max_results (int): Maximum number of similar episodes to recall.
             Defaults to 5.
+        template (str | None): Prompt template for the reflection step.
+            Must contain ``{instruction}`` and ``{result}`` placeholders.
+            Defaults to ``None``, which uses the built-in one-sentence
+            lesson template.
 
     Returns:
         Memory: Configured memory instance.
     """
+    reflection_template = template or _REFLECTION_TEMPLATE
 
     async def _reflect(episode: Episode) -> str:
-        prompt = _REFLECTION_TEMPLATE.format(
+        prompt = reflection_template.format(
             instruction=episode.task.instruction,
             result=episode.result.content,
         )

@@ -58,6 +58,19 @@ def test_has_reflection_metadata_fn() -> None:
 
 
 @pytest.mark.asyncio
+async def test_custom_template_is_used() -> None:
+    custom = "Task: {instruction}\nResult: {result}\nCustom lesson:"
+    llm = make_llm("use 10M points")
+    memory = reflective_memory(llm=llm, template=custom)
+    ep = make_episode(instruction="estimate pi", content="3.14")
+
+    await memory.record(ep)
+
+    prompt_arg = llm.complete.call_args[0][0]
+    assert "Custom lesson:" in prompt_arg
+
+
+@pytest.mark.asyncio
 async def test_record_calls_llm_and_stores_reflection() -> None:
     reflection = "Always verify the name first."
     llm = make_llm(reflection)

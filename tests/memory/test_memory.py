@@ -143,6 +143,21 @@ async def test_record_all_metadata_fns_called() -> None:
     fn_b.assert_awaited_once_with(ep)
 
 
+# --- summary ---
+
+
+@pytest.mark.asyncio
+async def test_summary_delegates_to_store() -> None:
+    store = AsyncMock()
+    store.summary = AsyncMock(return_value="store summary")
+    memory = Memory(store=store)
+
+    result = await memory.summary()
+
+    store.summary.assert_called_once()
+    assert result == "store summary"
+
+
 # --- delete / update ---
 
 

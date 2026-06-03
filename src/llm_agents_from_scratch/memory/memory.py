@@ -110,6 +110,16 @@ class Memory:
 
         await self.store.write(episode, self.key_fn(episode))
 
+    async def summary(self) -> str:
+        """Return a human-readable summary of the backing store.
+
+        Delegates directly to ``store.summary()``.
+
+        Returns:
+            str: Multi-line summary of the store contents.
+        """
+        return await self.store.summary()  # type: ignore[no-any-return]
+
     async def delete(self, id_: str) -> None:
         """Delete an episode from the store by its ID.
 

@@ -1,15 +1,15 @@
-"""Unit tests for ReflectiveMemory."""
+"""Unit tests for reflective_memory recipe."""
 
 from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
 from llm_agents_from_scratch.base.llm import BaseLLM
-from llm_agents_from_scratch.base.memory_store import BaseMemoryStore
 from llm_agents_from_scratch.data_structures import Task, TaskResult
 from llm_agents_from_scratch.data_structures.llm import CompleteResult
-from llm_agents_from_scratch.data_structures.memory import Episode
-from llm_agents_from_scratch.memory import ReflectiveMemory
+from llm_agents_from_scratch.data_structures.memory import Episode, RecallMode
+from llm_agents_from_scratch.memory import Memory, reflective_memory
+from llm_agents_from_scratch.memory_stores.qdrant.store import QdrantMemoryStore
 
 
 def make_episode(
@@ -32,63 +32,36 @@ def make_llm(reflection: str = "Always verify the name first.") -> BaseLLM:
     return llm
 
 
-def test_init_defaults() -> None:
-    store = MagicMock(spec=BaseMemoryStore)
-    llm = make_llm()
-    memory = ReflectiveMemory(store=store, llm=llm)
-
-    assert memory.store is store
-    assert memory.llm is llm
-    assert memory.n == 3  # noqa: PLR2004
+def test_returns_memory_instance() -> None:
+    memory = reflective_memory(llm=make_llm())
+    assert isinstance(memory, Memory)
 
 
-def test_init_custom_n() -> None:
-    store = MagicMock(spec=BaseMemoryStore)
-    llm = make_llm()
-    memory = ReflectiveMemory(store=store, llm=llm, n=5)
-
-    assert memory.n == 5  # noqa: PLR2004
+def test_store_is_qdrant() -> None:
+    memory = reflective_memory(llm=make_llm())
+    assert isinstance(memory.store, QdrantMemoryStore)
 
 
-def test_init_custom_reflection_template() -> None:
-    store = MagicMock(spec=BaseMemoryStore)
-    llm = make_llm()
-    template = "Task: {instruction}\nResult: {result}\nLesson:"
-    memory = ReflectiveMemory(
-        store=store,
-        llm=llm,
-        reflection_template=template,
-    )
+def test_store_recall_mode_is_search() -> None:
+    memory = reflective_memory(llm=make_llm())
+    assert memory.store.recall_mode == RecallMode.SEARCH
 
-    assert memory.reflection_template == template
+
+def test_max_results_set_from_k() -> None:
+    memory = reflective_memory(llm=make_llm(), max_results=7)
+    assert memory.store.max_results == 7  # noqa: PLR2004
+
+
+def test_has_reflection_metadata_fn() -> None:
+    memory = reflective_memory(llm=make_llm())
+    assert "reflection" in memory.metadata_fns
 
 
 @pytest.mark.asyncio
-async def test_record_uses_custom_reflection_template() -> None:
-    store = AsyncMock(spec=BaseMemoryStore)
-    llm = make_llm()
-    template = "Custom: {instruction} / {result}"
-    memory = ReflectiveMemory(
-        store=store,
-        llm=llm,
-        reflection_template=template,
-    )
-    ep = make_episode()
-
-    await memory.record(ep)
-
-    prompt_arg = llm.complete.call_args[0][0]
-    assert prompt_arg == template.format(
-        instruction=ep.task.instruction,
-        result=ep.result.content,
-    )
-
-
-@pytest.mark.asyncio
-async def test_record_calls_llm_complete() -> None:
-    store = AsyncMock(spec=BaseMemoryStore)
-    llm = make_llm()
-    memory = ReflectiveMemory(store=store, llm=llm)
+async def test_record_calls_llm_and_stores_reflection() -> None:
+    reflection = "Always verify the name first."
+    llm = make_llm(reflection)
+    memory = reflective_memory(llm=llm)
     ep = make_episode()
 
     await memory.record(ep)
@@ -97,35 +70,7 @@ async def test_record_calls_llm_complete() -> None:
     prompt_arg = llm.complete.call_args[0][0]
     assert ep.task.instruction in prompt_arg
     assert ep.result.content in prompt_arg
-
-
-@pytest.mark.asyncio
-async def test_record_stores_episode_with_reflection() -> None:
-    store = AsyncMock(spec=BaseMemoryStore)
-    reflection = "Always verify the name first."
-    llm = make_llm(reflection)
-    memory = ReflectiveMemory(store=store, llm=llm)
-    ep = make_episode()
-
-    await memory.record(ep)
-
-    store.write.assert_awaited_once()
-    written: Episode = store.write.call_args[0][0]
-    assert written.metadata["reflection"] == reflection
-
-
-@pytest.mark.asyncio
-async def test_summary() -> None:
-    store = AsyncMock(spec=BaseMemoryStore)
-    store.summary = AsyncMock(return_value="JSONMemoryStore: 2 episodes")
-    llm = make_llm()
-    memory = ReflectiveMemory(store=store, llm=llm, n=4)
-
-    result = await memory.summary()
-
-    assert "ReflectiveMemory" in result
-    assert "4" in result
-    assert "JSONMemoryStore" in result
+    assert ep.metadata["reflection"] == reflection
 
 
 def test_episode_str_renders_metadata_as_xml_tags() -> None:
@@ -142,7 +87,7 @@ def test_episode_str_renders_metadata_as_xml_tags() -> None:
     assert "<reflection>Always verify spelling.</reflection>" in output
 
 
-def test_episode_str_no_extra_tags_when_metadata_none() -> None:
+def test_episode_str_no_extra_tags_when_metadata_empty() -> None:
     task = Task(instruction="look up pikachu")
     ep = Episode(
         task=task,
@@ -152,7 +97,6 @@ def test_episode_str_no_extra_tags_when_metadata_none() -> None:
 
     output = str(ep)
 
-    assert "<reflection>" not in output
     assert "<reflection>" not in output
 
 

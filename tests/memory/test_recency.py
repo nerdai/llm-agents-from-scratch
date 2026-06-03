@@ -1,14 +1,13 @@
-"""Unit tests for RecencyMemory."""
+"""Unit tests for RecencyMemory recipe."""
 
 from pathlib import Path
-from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
-from llm_agents_from_scratch.base.memory_store import BaseMemoryStore
 from llm_agents_from_scratch.data_structures import Task, TaskResult
-from llm_agents_from_scratch.data_structures.memory import Episode
-from llm_agents_from_scratch.memory import JSONMemoryStore, RecencyMemory
+from llm_agents_from_scratch.data_structures.memory import Episode, RecallMode
+from llm_agents_from_scratch.memory import Memory, recency_memory
+from llm_agents_from_scratch.memory_stores.json import JSONMemoryStore
 
 
 def make_episode(
@@ -23,76 +22,55 @@ def make_episode(
     )
 
 
-def test_init_defaults() -> None:
-    """Tests RecencyMemory initialises with n=3 by default."""
-    store = MagicMock(spec=BaseMemoryStore)
-    memory = RecencyMemory(store=store)
-
-    assert memory.store is store
-    assert memory.n == 3  # noqa: PLR2004
+def test_returns_memory_instance(tmp_path: Path) -> None:
+    memory = recency_memory(path=tmp_path)
+    assert isinstance(memory, Memory)
 
 
-def test_init_custom_n() -> None:
-    """Tests RecencyMemory accepts a custom n."""
-    store = MagicMock(spec=BaseMemoryStore)
-    memory = RecencyMemory(store=store, n=10)
+def test_store_is_json(tmp_path: Path) -> None:
+    memory = recency_memory(path=tmp_path)
+    assert isinstance(memory.store, JSONMemoryStore)
 
-    assert memory.n == 10  # noqa: PLR2004
+
+def test_store_recall_mode_is_recent(tmp_path: Path) -> None:
+    memory = recency_memory(path=tmp_path)
+    assert memory.store.recall_mode == RecallMode.RECENT
+
+
+def test_max_results_set_from_n(tmp_path: Path) -> None:
+    memory = recency_memory(path=tmp_path, max_results=7)
+    assert memory.store.max_results == 7  # noqa: PLR2004
+
+
+def test_default_key_fn_uses_instruction(tmp_path: Path) -> None:
+    memory = recency_memory(path=tmp_path)
+    ep = make_episode("look up pikachu")
+    assert memory.key_fn(ep) == "look up pikachu"
+
+
+def test_no_metadata_fns_by_default(tmp_path: Path) -> None:
+    memory = recency_memory(path=tmp_path)
+    assert memory.metadata_fns == {}
 
 
 @pytest.mark.asyncio
-async def test_recall_returns_formatted_episodes() -> None:
-    """Tests recall returns newline-joined episode strings."""
+async def test_recall_returns_formatted_episodes(tmp_path: Path) -> None:
+    memory = recency_memory(path=tmp_path, max_results=2)
     ep1 = make_episode("task one", "result one")
     ep2 = make_episode("task two", "result two")
-
-    store = AsyncMock(spec=BaseMemoryStore)
-    store.read_recent.return_value = [ep2, ep1]
-    memory = RecencyMemory(store=store, n=2)
+    await memory.record(ep1)
+    await memory.record(ep2)
 
     result = await memory.recall(Task(instruction="new task"))
 
-    store.read_recent.assert_awaited_once_with(2)
-    assert str(ep2) in result
     assert str(ep1) in result
+    assert str(ep2) in result
 
 
 @pytest.mark.asyncio
-async def test_recall_returns_empty_string_when_no_episodes() -> None:
-    """Tests recall returns empty string when the store is empty."""
-    store = AsyncMock(spec=BaseMemoryStore)
-    store.read_recent.return_value = []
-    memory = RecencyMemory(store=store)
-
+async def test_recall_returns_empty_string_when_no_episodes(
+    tmp_path: Path,
+) -> None:
+    memory = recency_memory(path=tmp_path)
     result = await memory.recall(Task(instruction="new task"))
-
     assert result == ""
-
-
-@pytest.mark.asyncio
-async def test_record_delegates_to_store(tmp_path: Path) -> None:
-    """Tests record writes the episode to the store."""
-    store = AsyncMock(spec=BaseMemoryStore)
-    memory = RecencyMemory(store=store)
-    ep = make_episode()
-
-    await memory.record(ep)
-
-    store.write.assert_awaited_once_with(ep)
-
-
-@pytest.mark.asyncio
-async def test_summary(tmp_path: Path) -> None:
-    """Tests summary includes recall window and delegates store facts."""
-    store = JSONMemoryStore(dir=tmp_path)
-    memory = RecencyMemory(store=store, n=5)
-
-    await store.write(make_episode("task 1"))
-    await store.write(make_episode("task 2"))
-
-    summary = await memory.summary()
-
-    assert "5" in summary
-    assert "RecencyMemory" in summary
-    assert "JSONMemoryStore" in summary
-    assert "2" in summary

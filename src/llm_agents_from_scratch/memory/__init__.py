@@ -5,17 +5,17 @@ from llm_agents_from_scratch.memory_stores import (
     QdrantMemoryStore,
 )
 
+from . import recipes
 from .memory import Memory, MetadataFn
-from .recency import RecencyMemory
-from .reflective import ReflectiveMemory
-from .similarity import SimilarityMemory
+from .recipes import recency_memory, reflective_memory, similarity_memory
 
 __all__ = [
     "JSONMemoryStore",
     "Memory",
     "MetadataFn",
     "QdrantMemoryStore",
-    "RecencyMemory",
-    "ReflectiveMemory",
-    "SimilarityMemory",
+    "recency_memory",
+    "recipes",
+    "reflective_memory",
+    "similarity_memory",
 ]

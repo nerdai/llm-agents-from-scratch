@@ -24,9 +24,9 @@ class Memory:
     Attributes:
         store (BaseMemoryStore): The underlying store that handles
             persistence and retrieval.
-        key_fn (MetadataFn): Callable that extracts the search key from
-            an episode (e.g. the task instruction). Used as the
-            embedding text by vector stores.
+        key_fn (Callable[[Episode], str]): Callable that extracts the
+            search key from an episode. Used as the embedding text by
+            vector stores. Defaults to ``lambda ep: ep.task.instruction``.
         metadata_fns (dict[str, MetadataFn]): Mapping of metadata key
             to callable. Each callable receives the episode and returns
             a string written into ``episode.metadata[key]`` at record
@@ -36,7 +36,7 @@ class Memory:
     def __init__(
         self,
         store: BaseMemoryStore,
-        key_fn: Callable[[Episode], str],
+        key_fn: Callable[[Episode], str] | None = None,
         metadata_fns: dict[str, MetadataFn] | None = None,
     ) -> None:
         """Initialise a Memory instance.
@@ -44,8 +44,9 @@ class Memory:
         Args:
             store (BaseMemoryStore): The memory store to read from and
                 write to.
-            key_fn (Callable[[Episode], str]): Extracts the text used
-                for embedding/indexing from the episode.
+            key_fn (Callable[[Episode], str] | None): Extracts the text
+                used for embedding/indexing from the episode. Defaults
+                to ``lambda ep: ep.task.instruction``.
             metadata_fns (dict[str, MetadataFn] | None): Optional
                 mapping of metadata key to sync or async callable.
                 Each callable receives the episode and its return value
@@ -54,7 +55,9 @@ class Memory:
                 ``{}``.
         """
         self.store = store
-        self.key_fn = key_fn
+        self.key_fn = (
+            key_fn if key_fn is not None else lambda ep: ep.task.instruction
+        )
         self.metadata_fns = metadata_fns or {}
 
     async def recall(self, task: Task) -> str:

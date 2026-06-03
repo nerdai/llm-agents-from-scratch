@@ -4043,16 +4043,17 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="episodic-memory-research-accumulation-and-persistence">Episodic Memory — Research Accumulation and Persistence<a class="anchor-link" href="#episodic-memory-research-accumulation-and-persistence">¶</a></h1><p>This notebook demonstrates <code>RecencyMemory</code> and <code>JSONMemoryStore</code> working together
-to give an <code>LLMAgent</code> episodic memory that accumulates across tasks and survives
-agent restarts.</p>
+<h1 id="episodic-memory-research-accumulation-and-persistence">Episodic Memory — Research Accumulation and Persistence<a class="anchor-link" href="#episodic-memory-research-accumulation-and-persistence">¶</a></h1><p>This notebook demonstrates the <code>recency_memory()</code> factory, which gives an
+<code>LLMAgent</code> episodic memory that accumulates across tasks and survives agent
+restarts.</p>
 <p>Two properties are illustrated:</p>
 <ul>
 <li><strong>Recall across tasks.</strong> After each task the agent records an episode.
-Subsequent tasks receive the most recent <code>n</code> episodes injected into their system
-prompt, so the agent can answer synthesis questions without repeating tool calls.</li>
-<li><strong>Persistence across restarts.</strong> <code>JSONMemoryStore</code> writes episodes to a JSONL
-file on disk. A brand-new agent instance pointing to the same file picks up all
+Subsequent tasks receive the most recent <code>max_results</code> episodes injected
+into their system prompt, so the agent can answer synthesis questions
+without repeating tool calls.</li>
+<li><strong>Persistence across restarts.</strong> Episodes are written to a JSONL file on
+disk. A brand-new agent instance pointing to the same file picks up all
 prior episodes immediately.</li>
 </ul>
 <blockquote>
@@ -4285,7 +4286,7 @@ ensure_ollama()</div>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures.memory</span><span class="w"> </span><span class="kn">import</span> <span class="n">Episode</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_console_logging</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.memory</span><span class="w"> </span><span class="kn">import</span> <span class="n">JSONMemoryStore</span><span class="p">,</span> <span class="n">RecencyMemory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.memory.recipes</span><span class="w"> </span><span class="kn">import</span> <span class="n">recency_memory</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.tools.simple_function</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleFunctionTool</span>
 
 <span class="n">enable_console_logging</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
@@ -4301,7 +4302,7 @@ from llm_agents_from_scratch.data_structures import Task
 from llm_agents_from_scratch.data_structures.memory import Episode
 from llm_agents_from_scratch.llms import OllamaLLM
 from llm_agents_from_scratch.logger import enable_console_logging
-from llm_agents_from_scratch.memory import JSONMemoryStore, RecencyMemory
+from llm_agents_from_scratch.memory.recipes import recency_memory
 from llm_agents_from_scratch.tools.simple_function import SimpleFunctionTool
 
 enable_console_logging(logging.INFO)</div>
@@ -4434,11 +4435,11 @@ STORE_DIR.mkdir(exist_ok=True)
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="creating-the-agent-with-memory">Creating the Agent with Memory<a class="anchor-link" href="#creating-the-agent-with-memory">¶</a></h2><p><code>JSONMemoryStore</code> manages the JSONL file at <code>STORE_PATH</code>. <code>RecencyMemory</code> wraps
-the store and decides what to recall (the <code>n</code> most recent episodes) and how to
-format the result for the system prompt. The agent holds the memory in its
-<code>memories</code> list. <code>TaskHandler</code> calls <code>recall</code> at task start and <code>record</code> at
-task end automatically.</p>
+<h2 id="creating-the-agent-with-memory">Creating the Agent with Memory<a class="anchor-link" href="#creating-the-agent-with-memory">¶</a></h2><p><code>recency_memory()</code> returns a <code>Memory</code> instance backed by a JSONL file at
+<code>STORE_DIR</code>. It recalls the <code>max_results</code> most recent episodes and formats
+them for the system prompt. The agent holds the memory in its <code>memories</code>
+list; <code>TaskHandler</code> calls <code>recall</code> at task start and <code>record</code> at task end
+automatically.</p>
 </div>
 </div>
 </div>
@@ -4461,13 +4462,11 @@ task end automatically.</p>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">store</span> <span class="o">=</span> <span class="n">JSONMemoryStore</span><span class="p">(</span><span class="nb">dir</span><span class="o">=</span><span class="n">STORE_DIR</span><span class="p">)</span>
-<span class="n">memory</span> <span class="o">=</span> <span class="n">RecencyMemory</span><span class="p">(</span><span class="n">store</span><span class="o">=</span><span class="n">store</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">memory</span> <span class="o">=</span> <span class="n">recency_memory</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">STORE_DIR</span><span class="p">,</span> <span class="n">max_results</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">,</span> <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">agent</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">get_pokemon_tool</span><span class="p">],</span> <span class="n">memories</span><span class="o">=</span><span class="p">[</span><span class="n">memory</span><span class="p">])</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-6">store = JSONMemoryStore(dir=STORE_DIR)
-memory = RecencyMemory(store=store, n=3)
+<div class="clipboard-copy-txt" id="cell-6">memory = recency_memory(path=STORE_DIR, max_results=3)
 llm = OllamaLLM(model="qwen3:14b", think=False)
 agent = LLMAgent(llm=llm, tools=[get_pokemon_tool], memories=[memory])</div>
 </div>
@@ -4604,10 +4603,9 @@ The base stats for Pikachu are as follows:
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>RecencyMemory (recall last 3):
-JSONMemoryStore: 1 episodes | path=episodes.jsonl
-  newest: 2026-05-18 22:25:18 | What are Pikachu's base stats? Use the get_pokemon tool. Do 
-  oldest: 2026-05-18 22:25:18 | What are Pikachu's base stats? Use the get_pokemon tool. Do 
+<pre>JSONMemoryStore: 1 episodes | path=episodes.jsonl
+  newest: 2026-06-03 00:05:34 | What are Pikachu's base stats? Use the get_pokemon tool. Do 
+  oldest: 2026-06-03 00:05:34 | What are Pikachu's base stats? Use the get_pokemon tool. Do 
 </pre>
 </div>
 </div>
@@ -4663,9 +4661,9 @@ print(result2)</div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: What are Gengar's base stats? Use the get_pokemon tool. Do not rely on prior knowledge.
 INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: What are Gengar's base stats? Use the get_pokemon tool. Do not rely on prior knowledge.
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to call the get_pokemon tool with the parameter "name" set to "Gengar".
-INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the get_pokemon tool with the parameter 'name' set to 'Gengar'.
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the get_pokemon tool with the parameter 'name' set to 'Gengar'.
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to call the get_pokemon tool with the name "Gengar" to retrieve its base stats.
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the get_pokemon tool with the name 'Gengar' to retrieve its base stats.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the get_pokemon tool with the name 'Gengar' to retrieve its base stats.
 INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: get_pokemon
 INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: {"name": "gengar", "types": ["ghost", "poison"], "stats": {"hp": 60, "attack": 65, "defense": 60, "special-attack": 130, "spec...[TRUNCATED]
 INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The base stats for Gengar are as follows:
@@ -4729,10 +4727,9 @@ The base stats for Gengar are as follows:
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>RecencyMemory (recall last 3):
-JSONMemoryStore: 2 episodes | path=episodes.jsonl
-  newest: 2026-05-18 22:25:43 | What are Gengar's base stats? Use the get_pokemon tool. Do n
-  oldest: 2026-05-18 22:25:18 | What are Pikachu's base stats? Use the get_pokemon tool. Do 
+<pre>JSONMemoryStore: 2 episodes | path=episodes.jsonl
+  newest: 2026-06-03 00:06:33 | What are Gengar's base stats? Use the get_pokemon tool. Do n
+  oldest: 2026-06-03 00:05:34 | What are Pikachu's base stats? Use the get_pokemon tool. Do 
 </pre>
 </div>
 </div>
@@ -4788,6 +4785,9 @@ print(result3)</div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: What are Mewtwo's base stats? Use the get_pokemon tool. Do not rely on prior knowledge.
 INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: What are Mewtwo's base stats? Use the get_pokemon tool. Do not rely on prior knowledge.
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to call the get_pokemon tool with the parameter "name" set to "Mewtwo".
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the get_pokemon tool with the parameter 'name' set to 'Mewtwo'.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the get_pokemon tool with the parameter 'name' set to 'Mewtwo'.
 INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: get_pokemon
 INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: {"name": "mewtwo", "types": ["psychic"], "stats": {"hp": 106, "attack": 110, "defense": 90, "special-attack": 154, "special-de...[TRUNCATED]
 INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The base stats for Mewtwo are as follows:
@@ -4851,10 +4851,9 @@ The base stats for Mewtwo are as follows:
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>RecencyMemory (recall last 3):
-JSONMemoryStore: 3 episodes | path=episodes.jsonl
-  newest: 2026-05-18 22:26:18 | What are Mewtwo's base stats? Use the get_pokemon tool. Do n
-  oldest: 2026-05-18 22:25:18 | What are Pikachu's base stats? Use the get_pokemon tool. Do 
+<pre>JSONMemoryStore: 3 episodes | path=episodes.jsonl
+  newest: 2026-06-03 00:07:14 | What are Mewtwo's base stats? Use the get_pokemon tool. Do n
+  oldest: 2026-06-03 00:05:34 | What are Pikachu's base stats? Use the get_pokemon tool. Do 
 </pre>
 </div>
 </div>
@@ -4927,15 +4926,15 @@ result4 = await agent.run(task4)</div>
 INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Based on the Pokémon you have already researched, which one has the highest base speed? You do not need to call any tools. Use onl...[TRUNCATED]
 INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: From the Pokémon I have researched:
 
-- **Mewtwo** has a base speed of 130.
-- **Gengar** has a base speed of 110.
-- **Pikachu** has a ba...[TRUNCATED]
+- Mewtwo has a base speed of 130.
+- Gengar has a base speed of 110.
+- Pikachu has a base speed of ...[TRUNCATED]
 INFO (llm_agents_fs.TaskHandler) :      No new step required.
 INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: From the Pokémon I have researched:
 
-- **Mewtwo** has a base speed of 130.
-- **Gengar** has a base speed of 110.
-- **Pikachu** has a...[TRUNCATED]
+- Mewtwo has a base speed of 130.
+- Gengar has a base speed of 110.
+- Pikachu has a base speed ...[TRUNCATED]
 </pre>
 </div>
 </div>
@@ -4977,11 +4976,11 @@ INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: From the Pokémon I ha
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>From the Pokémon I have researched:
 
-- **Mewtwo** has a base speed of 130.
-- **Gengar** has a base speed of 110.
-- **Pikachu** has a base speed of 90.
+- Mewtwo has a base speed of 130.
+- Gengar has a base speed of 110.
+- Pikachu has a base speed of 90.
 
-Among these, **Mewtwo** has the highest base speed of **130**.
+Mewtwo has the highest base speed among the researched Pokémon.
 </pre>
 </div>
 </div>
@@ -5056,7 +5055,7 @@ for line in lines:
 - Special Defense: 50
 - Speed: 90
     &lt;/result&gt;
-    &lt;completed_at&gt;2026-05-18 22:25:18&lt;/completed_at&gt;
+    &lt;completed_at&gt;2026-06-03 00:05:34&lt;/completed_at&gt;
   &lt;/episode&gt;
 
   &lt;episode&gt;
@@ -5069,7 +5068,7 @@ for line in lines:
 - Special Defense: 75
 - Speed: 110
     &lt;/result&gt;
-    &lt;completed_at&gt;2026-05-18 22:25:43&lt;/completed_at&gt;
+    &lt;completed_at&gt;2026-06-03 00:06:33&lt;/completed_at&gt;
   &lt;/episode&gt;
 
   &lt;episode&gt;
@@ -5082,20 +5081,20 @@ for line in lines:
 - Special Defense: 90
 - Speed: 130
     &lt;/result&gt;
-    &lt;completed_at&gt;2026-05-18 22:26:18&lt;/completed_at&gt;
+    &lt;completed_at&gt;2026-06-03 00:07:14&lt;/completed_at&gt;
   &lt;/episode&gt;
 
   &lt;episode&gt;
     &lt;task&gt;Based on the Pokémon you have already researched, which one has the highest base speed? You do not need to call any tools. Use only what you already know.&lt;/task&gt;
     &lt;result&gt;From the Pokémon I have researched:
 
-- **Mewtwo** has a base speed of 130.
-- **Gengar** has a base speed of 110.
-- **Pikachu** has a base speed of 90.
+- Mewtwo has a base speed of 130.
+- Gengar has a base speed of 110.
+- Pikachu has a base speed of 90.
 
-Among these, **Mewtwo** has the highest base speed of **130**.
+Mewtwo has the highest base speed among the researched Pokémon.
     &lt;/result&gt;
-    &lt;completed_at&gt;2026-05-18 22:26:32&lt;/completed_at&gt;
+    &lt;completed_at&gt;2026-06-03 00:07:30&lt;/completed_at&gt;
   &lt;/episode&gt;
 
 </pre>
@@ -5137,13 +5136,11 @@ and it can answer the synthesis question without calling any tools.</p>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">store2</span> <span class="o">=</span> <span class="n">JSONMemoryStore</span><span class="p">(</span><span class="nb">dir</span><span class="o">=</span><span class="n">STORE_DIR</span><span class="p">)</span>
-<span class="n">memory2</span> <span class="o">=</span> <span class="n">RecencyMemory</span><span class="p">(</span><span class="n">store</span><span class="o">=</span><span class="n">store2</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">memory2</span> <span class="o">=</span> <span class="n">recency_memory</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">STORE_DIR</span><span class="p">,</span> <span class="n">max_results</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">llm2</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">,</span> <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">agent2</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm2</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">get_pokemon_tool</span><span class="p">],</span> <span class="n">memories</span><span class="o">=</span><span class="p">[</span><span class="n">memory2</span><span class="p">])</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-16">store2 = JSONMemoryStore(dir=STORE_DIR)
-memory2 = RecencyMemory(store=store2, n=3)
+<div class="clipboard-copy-txt" id="cell-16">memory2 = recency_memory(path=STORE_DIR, max_results=3)
 llm2 = OllamaLLM(model="qwen3:14b", think=False)
 agent2 = LLMAgent(llm=llm2, tools=[get_pokemon_tool], memories=[memory2])</div>
 </div>
@@ -5184,10 +5181,9 @@ agent2 = LLMAgent(llm=llm2, tools=[get_pokemon_tool], memories=[memory2])</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>RecencyMemory (recall last 3):
-JSONMemoryStore: 4 episodes | path=episodes.jsonl
-  newest: 2026-05-18 22:26:32 | Based on the Pokémon you have already researched, which one 
-  oldest: 2026-05-18 22:25:18 | What are Pikachu's base stats? Use the get_pokemon tool. Do 
+<pre>JSONMemoryStore: 4 episodes | path=episodes.jsonl
+  newest: 2026-06-03 00:07:30 | Based on the Pokémon you have already researched, which one 
+  oldest: 2026-06-03 00:05:34 | What are Pikachu's base stats? Use the get_pokemon tool. Do 
 </pre>
 </div>
 </div>
@@ -5243,21 +5239,9 @@ result5 = await agent2.run(task5)</div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: Which Pokémon have you previously researched, and which one had the highest base speed? You do not need to call any tools. Use only w...[TRUNCATED]
 INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Which Pokémon have you previously researched, and which one had the highest base speed? You do not need to call any tools. Use onl...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I have previously researched the following Pokémon:
-
-- **Mewtwo**
-- **Gengar**
-- **Pikachu**
-
-Among these, **Mewtwo** had the highest b...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I have previously researched Mewtwo, Gengar, and Pikachu. Among these Pokémon, Mewtwo has the highest base speed with a value of 130.
 INFO (llm_agents_fs.TaskHandler) :      No new step required.
-INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: I have previously researched the following Pokémon:
-
-- **Mewtwo**
-- **Gengar**
-- **Pikachu**
-
-Among these, **Mewtwo** had the highes...[TRUNCATED]
+INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: I have previously researched Mewtwo, Gengar, and Pikachu. Among these Pokémon, Mewtwo has the highest base speed with a value of 130...[TRUNCATED]
 </pre>
 </div>
 </div>
@@ -5297,13 +5281,7 @@ Among these, **Mewtwo** had the highes...[TRUNCATED]
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>I have previously researched the following Pokémon:
-
-- **Mewtwo**
-- **Gengar**
-- **Pikachu**
-
-Among these, **Mewtwo** had the highest base speed of **130**.
+<pre>I have previously researched Mewtwo, Gengar, and Pikachu. Among these Pokémon, Mewtwo has the highest base speed with a value of 130.
 </pre>
 </div>
 </div>
@@ -5317,21 +5295,21 @@ Among these, **Mewtwo** had the highest base speed of **130**.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="key-takeaway">Key Takeaway<a class="anchor-link" href="#key-takeaway">¶</a></h2><p><code>RecencyMemory</code> and <code>JSONMemoryStore</code> give the agent two things it would otherwise
-lack:</p>
+<h2 id="key-takeaway">Key Takeaway<a class="anchor-link" href="#key-takeaway">¶</a></h2><p><code>recency_memory()</code> gives the agent two things it would otherwise lack:</p>
 <ul>
-<li><strong>Context across tasks.</strong> Every task after the first starts with the N most
-recent episodes injected into its system prompt. The agent can synthesise across
-past work without repeating tool calls (see Part 2 and Part 4).</li>
-<li><strong>Persistence across restarts.</strong> Because <code>JSONMemoryStore</code> writes each episode
-to disk immediately, any new agent pointing at the same file resumes with full
-context. Nothing is lost when the process ends.</li>
+<li><strong>Context across tasks.</strong> Every task after the first starts with the
+<code>max_results</code> most recent episodes injected into its system prompt. The
+agent can synthesise across past work without repeating tool calls (see
+Part 2 and Part 4).</li>
+<li><strong>Persistence across restarts.</strong> Episodes are written to a JSONL file
+immediately after each task. Any new agent pointing at the same path
+resumes with full context — nothing is lost when the process ends.</li>
 </ul>
-<p>The two roles are cleanly separated: <code>RecencyMemory</code> decides <em>what</em> to retrieve
-and <em>how</em> to format it for the prompt; <code>JSONMemoryStore</code> decides <em>how</em> to persist
-it. Swapping one does not affect the other: the same <code>RecencyMemory</code> works over
-any <code>BaseMemoryStore</code> implementation, and the same <code>JSONMemoryStore</code> works with
-any <code>BaseMemory</code> implementation.</p>
+<p>The factory bundles the two layers that deliver these properties: a
+recency-based recall strategy that selects the N most recent episodes, and
+a file-backed store that handles persistence. Both are configured through
+the factory — <code>path</code> sets the storage directory; <code>max_results</code> controls
+the recall window.</p>
 </div>
 </div>
 </div>

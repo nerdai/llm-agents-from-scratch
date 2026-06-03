@@ -143,6 +143,38 @@ async def test_record_all_metadata_fns_called() -> None:
     fn_b.assert_awaited_once_with(ep)
 
 
+# --- summary ---
+
+
+@pytest.mark.asyncio
+async def test_summary_includes_store_summary_and_config() -> None:
+    store = AsyncMock()
+    store.summary = AsyncMock(return_value="store summary")
+    memory = Memory(store=store)
+
+    result = await memory.summary()
+
+    store.summary.assert_called_once()
+    assert "store summary" in result
+    assert "key_fn:" in result
+    assert "metadata_fns: none" in result
+
+
+@pytest.mark.asyncio
+async def test_summary_lists_metadata_fn_keys() -> None:
+    store = AsyncMock()
+    store.summary = AsyncMock(return_value="store summary")
+    memory = Memory(
+        store=store,
+        metadata_fns={"reflection": AsyncMock(), "tag": AsyncMock()},
+    )
+
+    result = await memory.summary()
+
+    assert "reflection" in result
+    assert "tag" in result
+
+
 # --- delete / update ---
 
 

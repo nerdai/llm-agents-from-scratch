@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- feat: add `Memory.summary()` delegating to `store.summary()` (#595)
+- chore: migrate `more-examples/ch07/recency_memory.ipynb` to use `recency_memory()` factory (#595)
 - feat: add `memory/recipes.py` with `RecencyMemory`, `SimilarityMemory`, `ReflectiveMemory` factory functions (#593)
 - feat: `Memory.key_fn` is now optional, defaulting to `lambda ep: ep.task.instruction` (#593)
 - feat: add `recall_mode` (`RecallMode` enum) to `BaseMemoryStore` — `RecallMode.RECENT` delegates `search()` to `read_recent()`; `RecallMode.SEARCH` performs similarity lookup (#590)

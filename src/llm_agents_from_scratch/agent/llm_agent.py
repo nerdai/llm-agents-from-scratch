@@ -549,7 +549,7 @@ class LLMAgent:
                 error=error,
             )
             for memory in self.llm_agent.memories:
-                await memory.record(episode)  # type: ignore
+                await memory.record(episode)
 
     def run(
         self,

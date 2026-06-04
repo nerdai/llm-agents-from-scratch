@@ -528,7 +528,9 @@ class LLMAgent:
             Exactly one of ``result`` or ``error`` must be provided.
             Called before ``set_result()`` / ``set_exception()`` so that
             ``await agent.run(task)`` returns only after the episode is
-            written. Added in Chapter 7.
+            written.
+
+            Added in Chapter 7.
 
             Args:
                 result (TaskResult | None): The successful task result.

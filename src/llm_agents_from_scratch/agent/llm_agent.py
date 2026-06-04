@@ -23,6 +23,7 @@ from llm_agents_from_scratch.data_structures.skill import SkillScope
 from llm_agents_from_scratch.errors import (
     LLMAgentError,
     MaxStepsReachedError,
+    RecordMemoryError,
     TaskHandlerError,
 )
 from llm_agents_from_scratch.logger import get_logger
@@ -517,6 +518,41 @@ class LLMAgent:
                 loaded,
             )
 
+        async def record_memory(
+            self,
+            result: TaskResult | None = None,
+            error: Exception | None = None,
+        ) -> None:
+            """Build an Episode and write it to all configured memories.
+
+            Exactly one of ``result`` or ``error`` must be provided.
+            Called before ``set_result()`` / ``set_exception()`` so that
+            ``await agent.run(task)`` returns only after the episode is
+            written.
+
+            Added in Chapter 7.
+
+            Args:
+                result (TaskResult | None): The successful task result.
+                error (Exception | None): The exception from a failed task.
+
+            Raises:
+                RecordMemoryError: If neither ``result`` nor ``error`` is
+                    provided.
+            """
+            if result is None and error is None:
+                raise RecordMemoryError(
+                    "record_memory() requires either result or error.",
+                )
+            episode = Episode(
+                task=self.task,
+                rollout=self.rollout,
+                result=result,
+                error=error,
+            )
+            for memory in self.llm_agent.memories:
+                await memory.record(episode)
+
     def run(
         self,
         task: Task,
@@ -575,28 +611,17 @@ class LLMAgent:
                                 next_step,
                             )
                         case TaskResult():
+                            await task_handler.record_memory(
+                                result=next_step,
+                            )  # added in ch07
                             task_handler.set_result(next_step)
                             self.logger.info(
                                 f"🏁 Task completed: {next_step.content}",
                             )
 
                 except Exception as e:
+                    await task_handler.record_memory(error=e)  # added in ch07
                     task_handler.set_exception(e)
-
-            # added in ch07
-            exc = task_handler.exception()
-            task_result = (
-                TaskResult(task_id=task.id_, content=str(exc))
-                if exc is not None
-                else task_handler.result()
-            )
-            ep = Episode(
-                task=task,
-                rollout=task_handler.rollout,
-                result=task_result,
-            )
-            for memory in self.memories:
-                await memory.record(ep)
 
         task_handler.background_task = asyncio.create_task(_process_loop())
 

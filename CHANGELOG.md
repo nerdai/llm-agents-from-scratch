@@ -10,8 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- feat: add `RecordMemoryError` to error hierarchy (`TaskHandlerError` subclass) (#601)
+- feat: add `TaskHandler.record_memory(result, error)` — builds and persists an `Episode` before resolving the Future, so `await agent.run(task)` returns only after memory is written (#601)
+- feat: add `Episode.error: Exception | None` field; `Episode.result` is now optional (#601)
+- feat: add `template` param to `reflective_memory()` for custom reflection prompts (#600)
 - feat: add `Memory.summary()` delegating to `store.summary()` (#595)
-- chore: migrate `more-examples/ch07/recency_memory.ipynb` to use `recency_memory()` factory (#595)
 - feat: add `memory/recipes.py` with `RecencyMemory`, `SimilarityMemory`, `ReflectiveMemory` factory functions (#593)
 - feat: `Memory.key_fn` is now optional, defaulting to `lambda ep: ep.task.instruction` (#593)
 - feat: add `recall_mode` (`RecallMode` enum) to `BaseMemoryStore` — `RecallMode.RECENT` delegates `search()` to `read_recent()`; `RecallMode.SEARCH` performs similarity lookup (#590)

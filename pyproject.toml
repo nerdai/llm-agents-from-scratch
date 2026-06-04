@@ -64,7 +64,7 @@ omit = [
 
 [tool.ruff]
 line-length = 80
-exclude = ["examples/**/*.ipynb"]
+exclude = ["examples/**/*.ipynb", "talks/**/*.ipynb"]
 
 [tool.ruff.format]
 quote-style = "double"

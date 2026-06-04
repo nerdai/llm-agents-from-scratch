@@ -23,7 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-- refactor: remove `BaseMemory` ABC and legacy strategy classes (`RecencyMemory`, `SimilarityMemory`, `ReflectiveMemory`); `LLMAgent` and `LLMAgentBuilder` now accept `list[Memory]` directly (#592)
+- refactor: remove `BaseMemory` ABC and legacy strategy classes (`RecencyMemory`, `SimilarityMemory`, `ReflectiveMemory`); `LLMAgent` and `LLMAgentBuilder` now accept `list[Memory]` directly (#602)
 - refactor: move `BaseMemoryStore` to `base/memory_store.py`; `base/memory.py` now contains only `BaseMemory` (#587)
 - refactor: move store implementations into new `memory_stores/` package — `json.py`, `qdrant/store.py`, `qdrant/utils.py` (#587)
 

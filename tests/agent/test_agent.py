@@ -14,7 +14,11 @@ from llm_agents_from_scratch.data_structures.agent import (
     TaskResult,
     TaskStep,
 )
-from llm_agents_from_scratch.errors import LLMAgentError, MaxStepsReachedError
+from llm_agents_from_scratch.errors import (
+    LLMAgentError,
+    MaxStepsReachedError,
+    RecordMemoryError,
+)
 from llm_agents_from_scratch.skills.constants import (
     EXPLICIT_SKILL_ACTIVATION_TEMPLATE,
     EXPLICIT_SKILL_ACTIVATION_WITH_PROMPT_TEMPLATE,
@@ -259,3 +263,16 @@ async def test_run_records_episode_for_each_memory(
 
     mock_memory_a.record.assert_awaited_once()
     mock_memory_b.record.assert_awaited_once()
+
+
+@pytest.mark.asyncio
+async def test_record_memory_raises_when_called_with_no_args(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests record_memory raises RecordMemoryError with no result or error."""
+    task = Task(instruction="mock instruction")
+    agent = LLMAgent(llm=mock_llm)
+    handler = agent.TaskHandler(llm_agent=agent, task=task)
+
+    with pytest.raises(RecordMemoryError):
+        await handler.record_memory()

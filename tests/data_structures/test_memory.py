@@ -71,6 +71,44 @@ def test_format_xml_rollout() -> None:
     assert "<rollout>step1 -> step2</rollout>" in text
 
 
+def test_format_xml_error() -> None:
+    task = Task(instruction="task")
+    err = RuntimeError("something went wrong")
+    ep = Episode(task=task, rollout="", error=err)
+    text = ep.format(mode="xml", include=["error"])
+    assert "<error>something went wrong" in text
+
+
+def test_format_xml_error_omitted_when_none() -> None:
+    task = Task(instruction="task")
+    ep = Episode(
+        task=task,
+        rollout="",
+        result=TaskResult(task_id=task.id_, content="ok"),
+    )
+    text = ep.format(mode="xml", include=["error"])
+    assert "<error>" not in text
+
+
+def test_format_concat_error() -> None:
+    task = Task(instruction="task")
+    err = ValueError("bad value")
+    ep = Episode(task=task, rollout="", error=err)
+    text = ep.format(mode="concat", include=["error"])
+    assert "bad value" in text
+
+
+def test_format_concat_error_omitted_when_none() -> None:
+    task = Task(instruction="task")
+    ep = Episode(
+        task=task,
+        rollout="",
+        result=TaskResult(task_id=task.id_, content="ok"),
+    )
+    text = ep.format(mode="concat", include=["error"])
+    assert text == ""
+
+
 def test_episode_init() -> None:
     """Tests construction of Episode."""
     mock_task = MagicMock(spec=Task)

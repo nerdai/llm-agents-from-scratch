@@ -1,14 +1,4 @@
-from llm_agents_from_scratch.base.memory import BaseMemory
 from llm_agents_from_scratch.base.memory_store import BaseMemoryStore
-
-
-def test_base_memory_abstract_methods() -> None:
-    """Tests abstract methods of BaseMemory."""
-    abstract_methods = BaseMemory.__abstractmethods__
-
-    assert "recall" in abstract_methods
-    assert "record" in abstract_methods
-    assert "summary" in abstract_methods
 
 
 def test_base_memory_store_abstract_methods() -> None:

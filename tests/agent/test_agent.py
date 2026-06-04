@@ -6,7 +6,6 @@ import pytest
 
 from llm_agents_from_scratch.agent import LLMAgent
 from llm_agents_from_scratch.base.llm import BaseLLM
-from llm_agents_from_scratch.base.memory import BaseMemory
 from llm_agents_from_scratch.base.tool import BaseTool
 from llm_agents_from_scratch.data_structures import Episode
 from llm_agents_from_scratch.data_structures.agent import (
@@ -19,6 +18,7 @@ from llm_agents_from_scratch.errors import (
     MaxStepsReachedError,
     RecordMemoryError,
 )
+from llm_agents_from_scratch.memory.memory import Memory
 from llm_agents_from_scratch.skills.constants import (
     EXPLICIT_SKILL_ACTIVATION_TEMPLATE,
     EXPLICIT_SKILL_ACTIVATION_WITH_PROMPT_TEMPLATE,
@@ -202,7 +202,7 @@ async def test_run_records_episode_on_success(
     task_result = TaskResult(task_id=task.id_, content="mock result")
     mock_get_next_step.side_effect = [task_result]
 
-    mock_memory = AsyncMock(spec=BaseMemory)
+    mock_memory = AsyncMock(spec=Memory)
     mock_memory.recall.return_value = ""
     agent = LLMAgent(llm=mock_llm, memories=[mock_memory])
 
@@ -226,7 +226,7 @@ async def test_run_records_episode_on_failure(
     err = RuntimeError("boom")
     mock_get_next_step.side_effect = err
 
-    mock_memory = AsyncMock(spec=BaseMemory)
+    mock_memory = AsyncMock(spec=Memory)
     mock_memory.recall.return_value = ""
     task = Task(instruction="mock instruction")
     agent = LLMAgent(llm=mock_llm, memories=[mock_memory])
@@ -252,9 +252,9 @@ async def test_run_records_episode_for_each_memory(
     task_result = TaskResult(task_id=task.id_, content="mock result")
     mock_get_next_step.side_effect = [task_result]
 
-    mock_memory_a = AsyncMock(spec=BaseMemory)
+    mock_memory_a = AsyncMock(spec=Memory)
     mock_memory_a.recall.return_value = ""
-    mock_memory_b = AsyncMock(spec=BaseMemory)
+    mock_memory_b = AsyncMock(spec=Memory)
     mock_memory_b.recall.return_value = ""
     agent = LLMAgent(llm=mock_llm, memories=[mock_memory_a, mock_memory_b])
 

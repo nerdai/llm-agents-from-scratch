@@ -6,7 +6,6 @@ from typing import Any
 from typing_extensions import Self
 
 from llm_agents_from_scratch.base.llm import LLM
-from llm_agents_from_scratch.base.memory import BaseMemory
 from llm_agents_from_scratch.base.tool import AsyncBaseTool, Tool
 from llm_agents_from_scratch.data_structures import (
     ChatMessage,
@@ -27,6 +26,7 @@ from llm_agents_from_scratch.errors import (
     TaskHandlerError,
 )
 from llm_agents_from_scratch.logger import get_logger
+from llm_agents_from_scratch.memory.memory import Memory
 from llm_agents_from_scratch.skills.constants import (
     EXPLICIT_SKILL_ACTIVATION_TEMPLATE,
     EXPLICIT_SKILL_ACTIVATION_WITH_PROMPT_TEMPLATE,
@@ -55,7 +55,7 @@ class LLMAgent:
         tools: list[Tool] | None = None,
         templates: LLMAgentTemplates = default_templates,
         # added in ch07
-        memories: list[BaseMemory] | None = None,
+        memories: list[Memory] | None = None,
     ):
         """Initialize an LLMAgent.
 
@@ -64,7 +64,7 @@ class LLMAgent:
             tools (list[Tool], optional): The set of tools with which the
                 LLM can be equipped. Defaults to None.
             templates (LLMAgentTemplates): Prompt templates for LLM Agent.
-            memories (list[BaseMemory] | None): Episodic memory backends
+            memories (list[Memory] | None): Episodic memory backends
                 to consult at task start and update at task end. Defaults
                 to None (no memory). Added in Chapter 7.
         """

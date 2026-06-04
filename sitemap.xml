@@ -17,7 +17,7 @@
          <lastmod>2026-06-04</lastmod>
     </url>
     <url>
-         <loc>https://masfromscratch.com/api_reference/base/memory/</loc>
+         <loc>https://masfromscratch.com/api_reference/base/memory_store/</loc>
          <lastmod>2026-06-04</lastmod>
     </url>
     <url>
@@ -57,19 +57,19 @@
          <lastmod>2026-06-04</lastmod>
     </url>
     <url>
-         <loc>https://masfromscratch.com/api_reference/memory/json_store/</loc>
+         <loc>https://masfromscratch.com/api_reference/memory/memory/</loc>
          <lastmod>2026-06-04</lastmod>
     </url>
     <url>
-         <loc>https://masfromscratch.com/api_reference/memory/qdrant_store/</loc>
+         <loc>https://masfromscratch.com/api_reference/memory/recipes/</loc>
          <lastmod>2026-06-04</lastmod>
     </url>
     <url>
-         <loc>https://masfromscratch.com/api_reference/memory/recency/</loc>
+         <loc>https://masfromscratch.com/api_reference/memory_stores/json_store/</loc>
          <lastmod>2026-06-04</lastmod>
     </url>
     <url>
-         <loc>https://masfromscratch.com/api_reference/memory/similarity/</loc>
+         <loc>https://masfromscratch.com/api_reference/memory_stores/qdrant_store/</loc>
          <lastmod>2026-06-04</lastmod>
     </url>
     <url>

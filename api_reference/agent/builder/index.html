@@ -1820,6 +1820,8 @@
         
       
         
+      
+        
           
         
       
@@ -1969,14 +1971,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../base/memory/" class="md-nav__link">
+      <a href="../../base/memory_store/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Memory
+    Memory Store
   
 
     
@@ -2845,10 +2847,6 @@
       
         
       
-        
-      
-        
-      
     
     
     
@@ -2899,7 +2897,127 @@
   
   
     <li class="md-nav__item">
-      <a href="../../memory/json_store/" class="md-nav__link">
+      <a href="../../memory/memory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Memory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../memory/recipes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recipes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_7" id="__nav_5_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Memory Stores
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Memory Stores
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../memory_stores/json_store/" class="md-nav__link">
         
   
   
@@ -2927,7 +3045,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../memory/qdrant_store/" class="md-nav__link">
+      <a href="../../memory_stores/qdrant_store/" class="md-nav__link">
         
   
   
@@ -2935,62 +3053,6 @@
     
   
     QdrantMemoryStore
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../memory/recency/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    RecencyMemory
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../memory/similarity/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    SimilarityMemory
   
 
     
@@ -3040,10 +3102,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_8" >
         
           
-          <label class="md-nav__link" for="__nav_5_7" id="__nav_5_7_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_5_8" id="__nav_5_8_label" tabindex="0">
             
   
   
@@ -3061,8 +3123,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5_7">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_8">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -3481,7 +3543,7 @@ discovery.</p>
           <tr class="doc-section-item">
             <td><code><span title="llm_agents_from_scratch.agent.builder.LLMAgentBuilder.memories">memories</span></code></td>
             <td>
-                  <code><span title="list">list</span>[<a class="autorefs autorefs-internal" title="            BaseMemory (llm_agents_from_scratch.base.memory.BaseMemory)" href="../../base/memory/#llm_agents_from_scratch.base.memory.BaseMemory">BaseMemory</a>]</code>
+                  <code><span title="list">list</span>[<a class="autorefs autorefs-internal" title="            Memory (llm_agents_from_scratch.memory.memory.Memory)" href="../../memory/memory/#llm_agents_from_scratch.memory.memory.Memory">Memory</a>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3655,7 +3717,7 @@ discovery.</p>
 </span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="sd">        templates (LLMAgentTemplates): Prompt templates for the agent.</span>
 </span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="sd">        mcp_providers (list[MCPToolProvider]): MCP providers for tool</span>
 </span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="sd">            discovery.</span>
-</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="sd">        memories (list[BaseMemory]): Memory backends for the agent.</span>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="sd">        memories (list[Memory]): Memory backends for the agent.</span>
 </span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a>
 </span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
@@ -3665,7 +3727,7 @@ discovery.</p>
 </span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a>        <span class="n">templates</span><span class="p">:</span> <span class="n">LLMAgentTemplates</span> <span class="o">=</span> <span class="n">default_templates</span><span class="p">,</span>
 </span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a>        <span class="n">mcp_providers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">MCPToolProvider</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a>        <span class="c1"># added in ch07</span>
-</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>        <span class="n">memories</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">BaseMemory</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>        <span class="n">memories</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Memory</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize an LLMAgentBuilder.</span>
 </span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a>
@@ -3703,7 +3765,7 @@ discovery.</p>
 </span><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76"></a><span class="sd">            mcp_providers (list[MCPToolProvider] | None, optional): MCP</span>
 </span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77"></a><span class="sd">                providers for tool discovery. Tools are fetched during</span>
 </span><span id="__span-0-78"><a id="__codelineno-0-78" name="__codelineno-0-78"></a><span class="sd">                `build()`. Defaults to None.</span>
-</span><span id="__span-0-79"><a id="__codelineno-0-79" name="__codelineno-0-79"></a><span class="sd">            memories (list[BaseMemory] | None, optional): Memory backends</span>
+</span><span id="__span-0-79"><a id="__codelineno-0-79" name="__codelineno-0-79"></a><span class="sd">            memories (list[Memory] | None, optional): Memory backends</span>
 </span><span id="__span-0-80"><a id="__codelineno-0-80" name="__codelineno-0-80"></a><span class="sd">                for the agent. No default implementation is provided — the</span>
 </span><span id="__span-0-81"><a id="__codelineno-0-81" name="__codelineno-0-81"></a><span class="sd">                caller must supply a concrete subclass. Defaults to None.</span>
 </span><span id="__span-0-82"><a id="__codelineno-0-82" name="__codelineno-0-82"></a><span class="sd">        &quot;&quot;&quot;</span>
@@ -3712,7 +3774,7 @@ discovery.</p>
 </span><span id="__span-0-85"><a id="__codelineno-0-85" name="__codelineno-0-85"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">mcp_providers</span> <span class="o">=</span> <span class="n">mcp_providers</span> <span class="ow">or</span> <span class="p">[]</span>
 </span><span id="__span-0-86"><a id="__codelineno-0-86" name="__codelineno-0-86"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">tools</span> <span class="o">=</span> <span class="n">tools</span> <span class="ow">or</span> <span class="p">[]</span>
 </span><span id="__span-0-87"><a id="__codelineno-0-87" name="__codelineno-0-87"></a>        <span class="c1"># added in ch07</span>
-</span><span id="__span-0-88"><a id="__codelineno-0-88" name="__codelineno-0-88"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">memories</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">BaseMemory</span><span class="p">]</span> <span class="o">=</span> <span class="n">memories</span> <span class="ow">or</span> <span class="p">[]</span>
+</span><span id="__span-0-88"><a id="__codelineno-0-88" name="__codelineno-0-88"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">memories</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Memory</span><span class="p">]</span> <span class="o">=</span> <span class="n">memories</span> <span class="ow">or</span> <span class="p">[]</span>
 </span><span id="__span-0-89"><a id="__codelineno-0-89" name="__codelineno-0-89"></a>
 </span><span id="__span-0-90"><a id="__codelineno-0-90" name="__codelineno-0-90"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">with_llm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">llm</span><span class="p">:</span> <span class="n">LLM</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 </span><span id="__span-0-91"><a id="__codelineno-0-91" name="__codelineno-0-91"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Set llm of builder.&quot;&quot;&quot;</span>
@@ -3744,12 +3806,12 @@ discovery.</p>
 </span><span id="__span-0-117"><a id="__codelineno-0-117" name="__codelineno-0-117"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">mcp_providers</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">providers</span><span class="p">)</span>
 </span><span id="__span-0-118"><a id="__codelineno-0-118" name="__codelineno-0-118"></a>        <span class="k">return</span> <span class="bp">self</span>
 </span><span id="__span-0-119"><a id="__codelineno-0-119" name="__codelineno-0-119"></a>
-</span><span id="__span-0-120"><a id="__codelineno-0-120" name="__codelineno-0-120"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">with_memory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memory</span><span class="p">:</span> <span class="n">BaseMemory</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+</span><span id="__span-0-120"><a id="__codelineno-0-120" name="__codelineno-0-120"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">with_memory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memory</span><span class="p">:</span> <span class="n">Memory</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 </span><span id="__span-0-121"><a id="__codelineno-0-121" name="__codelineno-0-121"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a memory backend to builder. Added in Chapter 7.&quot;&quot;&quot;</span>
 </span><span id="__span-0-122"><a id="__codelineno-0-122" name="__codelineno-0-122"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">memories</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">memory</span><span class="p">)</span>
 </span><span id="__span-0-123"><a id="__codelineno-0-123" name="__codelineno-0-123"></a>        <span class="k">return</span> <span class="bp">self</span>
 </span><span id="__span-0-124"><a id="__codelineno-0-124" name="__codelineno-0-124"></a>
-</span><span id="__span-0-125"><a id="__codelineno-0-125" name="__codelineno-0-125"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">with_memories</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memories</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">BaseMemory</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+</span><span id="__span-0-125"><a id="__codelineno-0-125" name="__codelineno-0-125"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">with_memories</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memories</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Memory</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 </span><span id="__span-0-126"><a id="__codelineno-0-126" name="__codelineno-0-126"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Add memory backends to builder. Added in Chapter 7.&quot;&quot;&quot;</span>
 </span><span id="__span-0-127"><a id="__codelineno-0-127" name="__codelineno-0-127"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">memories</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">memories</span><span class="p">)</span>
 </span><span id="__span-0-128"><a id="__codelineno-0-128" name="__codelineno-0-128"></a>        <span class="k">return</span> <span class="bp">self</span>
@@ -3938,7 +4000,7 @@ providers for tool discovery. Tools are fetched during
                 <code>memories</code>
             </td>
             <td>
-                  <code><span title="list">list</span>[<a class="autorefs autorefs-internal" title="            BaseMemory (llm_agents_from_scratch.base.memory.BaseMemory)" href="../../base/memory/#llm_agents_from_scratch.base.memory.BaseMemory">BaseMemory</a>] | None</code>
+                  <code><span title="list">list</span>[<a class="autorefs autorefs-internal" title="            Memory (llm_agents_from_scratch.memory.memory.Memory)" href="../../memory/memory/#llm_agents_from_scratch.memory.memory.Memory">Memory</a>] | None</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4018,7 +4080,7 @@ caller must supply a concrete subclass. Defaults to None.</p>
 </span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a>    <span class="n">templates</span><span class="p">:</span> <span class="n">LLMAgentTemplates</span> <span class="o">=</span> <span class="n">default_templates</span><span class="p">,</span>
 </span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a>    <span class="n">mcp_providers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">MCPToolProvider</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a>    <span class="c1"># added in ch07</span>
-</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>    <span class="n">memories</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">BaseMemory</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>    <span class="n">memories</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Memory</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize an LLMAgentBuilder.</span>
 </span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a>
@@ -4056,7 +4118,7 @@ caller must supply a concrete subclass. Defaults to None.</p>
 </span><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76"></a><span class="sd">        mcp_providers (list[MCPToolProvider] | None, optional): MCP</span>
 </span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77"></a><span class="sd">            providers for tool discovery. Tools are fetched during</span>
 </span><span id="__span-0-78"><a id="__codelineno-0-78" name="__codelineno-0-78"></a><span class="sd">            `build()`. Defaults to None.</span>
-</span><span id="__span-0-79"><a id="__codelineno-0-79" name="__codelineno-0-79"></a><span class="sd">        memories (list[BaseMemory] | None, optional): Memory backends</span>
+</span><span id="__span-0-79"><a id="__codelineno-0-79" name="__codelineno-0-79"></a><span class="sd">        memories (list[Memory] | None, optional): Memory backends</span>
 </span><span id="__span-0-80"><a id="__codelineno-0-80" name="__codelineno-0-80"></a><span class="sd">            for the agent. No default implementation is provided — the</span>
 </span><span id="__span-0-81"><a id="__codelineno-0-81" name="__codelineno-0-81"></a><span class="sd">            caller must supply a concrete subclass. Defaults to None.</span>
 </span><span id="__span-0-82"><a id="__codelineno-0-82" name="__codelineno-0-82"></a><span class="sd">    &quot;&quot;&quot;</span>
@@ -4065,7 +4127,7 @@ caller must supply a concrete subclass. Defaults to None.</p>
 </span><span id="__span-0-85"><a id="__codelineno-0-85" name="__codelineno-0-85"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">mcp_providers</span> <span class="o">=</span> <span class="n">mcp_providers</span> <span class="ow">or</span> <span class="p">[]</span>
 </span><span id="__span-0-86"><a id="__codelineno-0-86" name="__codelineno-0-86"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">tools</span> <span class="o">=</span> <span class="n">tools</span> <span class="ow">or</span> <span class="p">[]</span>
 </span><span id="__span-0-87"><a id="__codelineno-0-87" name="__codelineno-0-87"></a>    <span class="c1"># added in ch07</span>
-</span><span id="__span-0-88"><a id="__codelineno-0-88" name="__codelineno-0-88"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">memories</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">BaseMemory</span><span class="p">]</span> <span class="o">=</span> <span class="n">memories</span> <span class="ow">or</span> <span class="p">[]</span>
+</span><span id="__span-0-88"><a id="__codelineno-0-88" name="__codelineno-0-88"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">memories</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Memory</span><span class="p">]</span> <span class="o">=</span> <span class="n">memories</span> <span class="ow">or</span> <span class="p">[]</span>
 </span></code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -4279,7 +4341,7 @@ caller must supply a concrete subclass. Defaults to None.</p>
               <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-120">120</a></span>
 <span class="normal"><a href="#__codelineno-0-121">121</a></span>
 <span class="normal"><a href="#__codelineno-0-122">122</a></span>
-<span class="normal"><a href="#__codelineno-0-123">123</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-120"><a id="__codelineno-0-120" name="__codelineno-0-120"></a><span class="k">def</span><span class="w"> </span><span class="nf">with_memory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memory</span><span class="p">:</span> <span class="n">BaseMemory</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="normal"><a href="#__codelineno-0-123">123</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-120"><a id="__codelineno-0-120" name="__codelineno-0-120"></a><span class="k">def</span><span class="w"> </span><span class="nf">with_memory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memory</span><span class="p">:</span> <span class="n">Memory</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 </span><span id="__span-0-121"><a id="__codelineno-0-121" name="__codelineno-0-121"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a memory backend to builder. Added in Chapter 7.&quot;&quot;&quot;</span>
 </span><span id="__span-0-122"><a id="__codelineno-0-122" name="__codelineno-0-122"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">memories</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">memory</span><span class="p">)</span>
 </span><span id="__span-0-123"><a id="__codelineno-0-123" name="__codelineno-0-123"></a>    <span class="k">return</span> <span class="bp">self</span>
@@ -4310,7 +4372,7 @@ caller must supply a concrete subclass. Defaults to None.</p>
               <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-125">125</a></span>
 <span class="normal"><a href="#__codelineno-0-126">126</a></span>
 <span class="normal"><a href="#__codelineno-0-127">127</a></span>
-<span class="normal"><a href="#__codelineno-0-128">128</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-125"><a id="__codelineno-0-125" name="__codelineno-0-125"></a><span class="k">def</span><span class="w"> </span><span class="nf">with_memories</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memories</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">BaseMemory</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="normal"><a href="#__codelineno-0-128">128</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-125"><a id="__codelineno-0-125" name="__codelineno-0-125"></a><span class="k">def</span><span class="w"> </span><span class="nf">with_memories</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memories</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Memory</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 </span><span id="__span-0-126"><a id="__codelineno-0-126" name="__codelineno-0-126"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Add memory backends to builder. Added in Chapter 7.&quot;&quot;&quot;</span>
 </span><span id="__span-0-127"><a id="__codelineno-0-127" name="__codelineno-0-127"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">memories</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">memories</span><span class="p">)</span>
 </span><span id="__span-0-128"><a id="__codelineno-0-128" name="__codelineno-0-128"></a>    <span class="k">return</span> <span class="bp">self</span>

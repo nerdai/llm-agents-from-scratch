@@ -1820,6 +1820,8 @@
         
       
         
+      
+        
           
         
       
@@ -1969,14 +1971,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../base/memory/" class="md-nav__link">
+      <a href="../../base/memory_store/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Memory
+    Memory Store
   
 
     
@@ -2873,10 +2875,6 @@
       
         
       
-        
-      
-        
-      
     
     
     
@@ -2927,7 +2925,127 @@
   
   
     <li class="md-nav__item">
-      <a href="../../memory/json_store/" class="md-nav__link">
+      <a href="../../memory/memory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Memory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../memory/recipes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recipes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_7" id="__nav_5_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Memory Stores
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Memory Stores
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../memory_stores/json_store/" class="md-nav__link">
         
   
   
@@ -2955,7 +3073,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../memory/qdrant_store/" class="md-nav__link">
+      <a href="../../memory_stores/qdrant_store/" class="md-nav__link">
         
   
   
@@ -2963,62 +3081,6 @@
     
   
     QdrantMemoryStore
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../memory/recency/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    RecencyMemory
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../memory/similarity/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    SimilarityMemory
   
 
     
@@ -3068,10 +3130,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_8" >
         
           
-          <label class="md-nav__link" for="__nav_5_7" id="__nav_5_7_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_5_8" id="__nav_5_8_label" tabindex="0">
             
   
   
@@ -3089,8 +3151,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5_7">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_8">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -4189,7 +4251,7 @@ the LLM with, represented as a dict.</p>
 </span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a>        <span class="n">tools</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Tool</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56"></a>        <span class="n">templates</span><span class="p">:</span> <span class="n">LLMAgentTemplates</span> <span class="o">=</span> <span class="n">default_templates</span><span class="p">,</span>
 </span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57"></a>        <span class="c1"># added in ch07</span>
-</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a>        <span class="n">memories</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">BaseMemory</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a>        <span class="n">memories</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Memory</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a>    <span class="p">):</span>
 </span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize an LLMAgent.</span>
 </span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a>
@@ -4198,7 +4260,7 @@ the LLM with, represented as a dict.</p>
 </span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64"></a><span class="sd">            tools (list[Tool], optional): The set of tools with which the</span>
 </span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65"></a><span class="sd">                LLM can be equipped. Defaults to None.</span>
 </span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a><span class="sd">            templates (LLMAgentTemplates): Prompt templates for LLM Agent.</span>
-</span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a><span class="sd">            memories (list[BaseMemory] | None): Episodic memory backends</span>
+</span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a><span class="sd">            memories (list[Memory] | None): Episodic memory backends</span>
 </span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68"></a><span class="sd">                to consult at task start and update at task end. Defaults</span>
 </span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69"></a><span class="sd">                to None (no memory). Added in Chapter 7.</span>
 </span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a><span class="sd">        &quot;&quot;&quot;</span>
@@ -7070,7 +7132,7 @@ LLM can be equipped. Defaults to None.</p>
                 <code>memories</code>
             </td>
             <td>
-                  <code><span title="list">list</span>[<a class="autorefs autorefs-internal" title="            BaseMemory (llm_agents_from_scratch.base.memory.BaseMemory)" href="../../base/memory/#llm_agents_from_scratch.base.memory.BaseMemory">BaseMemory</a>] | None</code>
+                  <code><span title="list">list</span>[<a class="autorefs autorefs-internal" title="            Memory (llm_agents_from_scratch.memory.memory.Memory)" href="../../memory/memory/#llm_agents_from_scratch.memory.memory.Memory">Memory</a>] | None</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -7125,7 +7187,7 @@ to None (no memory). Added in Chapter 7.</p>
 </span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a>    <span class="n">tools</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Tool</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56"></a>    <span class="n">templates</span><span class="p">:</span> <span class="n">LLMAgentTemplates</span> <span class="o">=</span> <span class="n">default_templates</span><span class="p">,</span>
 </span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57"></a>    <span class="c1"># added in ch07</span>
-</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a>    <span class="n">memories</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">BaseMemory</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a>    <span class="n">memories</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Memory</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a><span class="p">):</span>
 </span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize an LLMAgent.</span>
 </span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a>
@@ -7134,7 +7196,7 @@ to None (no memory). Added in Chapter 7.</p>
 </span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64"></a><span class="sd">        tools (list[Tool], optional): The set of tools with which the</span>
 </span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65"></a><span class="sd">            LLM can be equipped. Defaults to None.</span>
 </span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a><span class="sd">        templates (LLMAgentTemplates): Prompt templates for LLM Agent.</span>
-</span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a><span class="sd">        memories (list[BaseMemory] | None): Episodic memory backends</span>
+</span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a><span class="sd">        memories (list[Memory] | None): Episodic memory backends</span>
 </span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68"></a><span class="sd">            to consult at task start and update at task end. Defaults</span>
 </span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69"></a><span class="sd">            to None (no memory). Added in Chapter 7.</span>
 </span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a><span class="sd">    &quot;&quot;&quot;</span>

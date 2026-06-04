@@ -23,6 +23,7 @@ from llm_agents_from_scratch.data_structures.skill import SkillScope
 from llm_agents_from_scratch.errors import (
     LLMAgentError,
     MaxStepsReachedError,
+    RecordMemoryError,
     TaskHandlerError,
 )
 from llm_agents_from_scratch.logger import get_logger
@@ -527,14 +528,20 @@ class LLMAgent:
             Exactly one of ``result`` or ``error`` must be provided.
             Called before ``set_result()`` / ``set_exception()`` so that
             ``await agent.run(task)`` returns only after the episode is
-            written.
+            written. Added in Chapter 7.
 
             Args:
                 result (TaskResult | None): The successful task result.
                 error (Exception | None): The exception from a failed task.
+
+            Raises:
+                TaskHandlerError: If neither ``result`` nor ``error`` is
+                    provided.
             """
-            if not result and not error:
-                raise TaskHandlerError("Result or error must be set.")
+            if result is None and error is None:
+                raise RecordMemoryError(
+                    "record_memory() requires either result or error.",
+                )
             if result:
                 episode = Episode(
                     task=self.task,

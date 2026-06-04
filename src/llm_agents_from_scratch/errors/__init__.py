@@ -18,7 +18,7 @@ from .skill import (
     SkillValidationError,
     SkillValidationWarning,
 )
-from .task_handler import TaskHandlerError
+from .task_handler import RecordMemoryError, TaskHandlerError
 
 __all__ = [
     # core
@@ -47,4 +47,5 @@ __all__ = [
     "NameTooLongWarning",
     # task handler
     "TaskHandlerError",
+    "RecordMemoryError",
 ]

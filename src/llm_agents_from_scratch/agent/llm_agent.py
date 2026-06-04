@@ -558,11 +558,12 @@ class LLMAgent:
             """
             self.logger.info(f"🚀 Starting task: {task.instruction}")
             step_result = None
+            episode: Episode | None = None
 
             # added in ch07
             await task_handler.load_memories()
 
-            while not task_handler.done():
+            while episode is None:
                 try:
                     if task_handler.step_counter == max_steps:
                         raise MaxStepsReachedError("Max steps reached.")
@@ -575,28 +576,31 @@ class LLMAgent:
                                 next_step,
                             )
                         case TaskResult():
-                            task_handler.set_result(next_step)
+                            episode = Episode(
+                                task=task,
+                                rollout=task_handler.rollout,
+                                result=next_step,
+                            )
                             self.logger.info(
                                 f"🏁 Task completed: {next_step.content}",
                             )
 
                 except Exception as e:
-                    task_handler.set_exception(e)
+                    episode = Episode(
+                        task=task,
+                        rollout=task_handler.rollout,
+                        error=e,
+                    )
 
-            # added in ch07
-            exc = task_handler.exception()
-            task_result = (
-                TaskResult(task_id=task.id_, content=str(exc))
-                if exc is not None
-                else task_handler.result()
-            )
-            ep = Episode(
-                task=task,
-                rollout=task_handler.rollout,
-                result=task_result,
-            )
+            # added in ch07: record before resolving the Future so that
+            # `await agent.run(task)` returns only after memory is written
             for memory in self.memories:
-                await memory.record(ep)
+                await memory.record(episode)
+
+            if episode.result:
+                task_handler.set_result(episode.result)
+            if episode.error:
+                task_handler.set_exception(episode.error)
 
         task_handler.background_task = asyncio.create_task(_process_loop())
 

@@ -234,7 +234,7 @@ async def test_run_records_episode_on_failure(
     ep: Episode = mock_memory.record.call_args[0][0]
     assert isinstance(ep, Episode)
     assert ep.task == task
-    assert str(err) in ep.result.content
+    assert ep.error is err
 
 
 @pytest.mark.asyncio

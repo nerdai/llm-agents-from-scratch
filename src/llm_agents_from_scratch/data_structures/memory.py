@@ -5,7 +5,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from .agent import Task, TaskResult
 
@@ -33,17 +33,23 @@ class Episode(BaseModel):
         id_ (str): Unique identifier for the episode (UUID4).
         task (Task): The task that was executed.
         rollout (str): The full agent trajectory for the task.
-        result (TaskResult): The final result of the task.
+        result (TaskResult | None): The final result of the task, or
+            ``None`` if the task ended with an error.
+        error (Exception | None): The exception raised if the task
+            failed, or ``None`` on success.
         metadata (dict[str, str]): Key-value annotations written at
             record time (e.g. ``{"reflection": "..."}``). Surfaced
             automatically in ``format()`` output.
         completed_at (datetime): Timestamp when the episode was recorded.
     """
 
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
     id_: str = Field(default_factory=lambda: str(uuid.uuid4()))
     task: Task
     rollout: str
-    result: TaskResult
+    result: TaskResult | None = Field(default=None)
+    error: Exception | None = Field(default=None)
     metadata: dict[str, str] = Field(default_factory=dict)
     completed_at: datetime = Field(default_factory=datetime.now)
 
@@ -82,7 +88,7 @@ class Episode(BaseModel):
         for f in fields:
             if f == "instruction":
                 parts.append(self.task.instruction)
-            elif f == "result":
+            elif f == "result" and self.result:
                 parts.append(self.result.content)
             elif f == "metadata" and self.metadata:
                 parts.extend(self.metadata.values())
@@ -101,7 +107,7 @@ class Episode(BaseModel):
                 lines.append(
                     f"    <task>{self.task.instruction}</task>",
                 )
-            elif f == "result":
+            elif f == "result" and self.result:
                 lines.append(
                     f"    <result>{self.result.content}\n    </result>",
                 )

@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - feat: add `Episode.error: Exception | None` field; `Episode.result` is now optional (#601)
 - feat: add `template` param to `reflective_memory()` for custom reflection prompts (#600)
 - feat: add `Memory.summary()` delegating to `store.summary()` (#595)
-- feat: add `memory/recipes.py` with `RecencyMemory`, `SimilarityMemory`, `ReflectiveMemory` factory functions (#593)
+- feat: add `memory/recipes.py` with `recency_memory()`, `similarity_memory()`, `reflective_memory()` factory functions (#593)
 - feat: `Memory.key_fn` is now optional, defaulting to `lambda ep: ep.task.instruction` (#593)
 - feat: add `recall_mode` (`RecallMode` enum) to `BaseMemoryStore` — `RecallMode.RECENT` delegates `search()` to `read_recent()`; `RecallMode.SEARCH` performs similarity lookup (#590)
 - feat: add `RecallMode(str, Enum)` to `data_structures.memory` (#590)
@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- refactor: remove `BaseMemory` ABC and legacy strategy classes (`RecencyMemory`, `SimilarityMemory`, `ReflectiveMemory`); `LLMAgent` and `LLMAgentBuilder` now accept `list[Memory]` directly (#592)
 - refactor: move `BaseMemoryStore` to `base/memory_store.py`; `base/memory.py` now contains only `BaseMemory` (#587)
 - refactor: move store implementations into new `memory_stores/` package — `json.py`, `qdrant/store.py`, `qdrant/utils.py` (#587)
 

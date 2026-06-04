@@ -75,6 +75,7 @@ nav:
   - API Reference:
     - Base:
       - LLM: api_reference/base/llm.md
+      - Memory Store: api_reference/base/memory_store.md
       - Tool: api_reference/base/tool.md
     - Agent:
       - LLMAgent: api_reference/agent/llm_agent.md
@@ -97,7 +98,6 @@ nav:
       - Memory: api_reference/memory/memory.md
       - Recipes: api_reference/memory/recipes.md
     - Memory Stores:
-      - BaseMemoryStore: api_reference/memory_stores/base.md
       - JSONMemoryStore: api_reference/memory_stores/json_store.md
       - QdrantMemoryStore: api_reference/memory_stores/qdrant_store.md
     - Skills:

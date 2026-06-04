@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- ...
+
+## [0.0.18] - 2026-06-03
+
 ### Added
 
 - feat: add `RecordMemoryError` to error hierarchy (`TaskHandlerError` subclass) (#601)

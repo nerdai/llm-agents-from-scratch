@@ -97,6 +97,7 @@ nav:
       - Memory: api_reference/memory/memory.md
       - Recipes: api_reference/memory/recipes.md
     - Memory Stores:
+      - BaseMemoryStore: api_reference/memory_stores/base.md
       - JSONMemoryStore: api_reference/memory_stores/json_store.md
       - QdrantMemoryStore: api_reference/memory_stores/qdrant_store.md
     - Skills:

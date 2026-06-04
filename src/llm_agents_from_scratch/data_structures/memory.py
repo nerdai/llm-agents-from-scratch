@@ -20,6 +20,7 @@ class RecallMode(str, Enum):
 EpisodeAttr = Literal[
     "instruction",
     "result",
+    "error",
     "metadata",
     "completed_at",
     "rollout",
@@ -76,6 +77,7 @@ class Episode(BaseModel):
         attrs = include or [
             "instruction",
             "result",
+            "error",
             "metadata",
             "completed_at",
         ]
@@ -90,6 +92,8 @@ class Episode(BaseModel):
                 parts.append(self.task.instruction)
             elif f == "result" and self.result:
                 parts.append(self.result.content)
+            elif f == "error" and self.error:
+                parts.append(str(self.error))
             elif f == "metadata" and self.metadata:
                 parts.extend(self.metadata.values())
             elif f == "completed_at":
@@ -110,6 +114,10 @@ class Episode(BaseModel):
             elif f == "result" and self.result:
                 lines.append(
                     f"    <result>{self.result.content}\n    </result>",
+                )
+            elif f == "error" and self.error:
+                lines.append(
+                    f"    <error>{self.error}\n    </error>",
                 )
             elif f == "metadata" and self.metadata:
                 for key, val in self.metadata.items():

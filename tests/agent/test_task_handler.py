@@ -27,7 +27,8 @@ from llm_agents_from_scratch.tools.simple_function import (
 )
 
 
-def test_task_handler_init(
+@pytest.mark.asyncio
+async def test_task_handler_init(
     mock_llm: BaseLLM,
 ) -> None:
     llm_agent = LLMAgent(
@@ -42,7 +43,8 @@ def test_task_handler_init(
     assert handler.llm_agent == llm_agent
 
 
-def test_task_handler_init_discovers_skills(
+@pytest.mark.asyncio
+async def test_task_handler_init_discovers_skills(
     mock_llm: BaseLLM,
 ) -> None:
     mock_skill = MagicMock()
@@ -63,7 +65,8 @@ def test_task_handler_init_discovers_skills(
     assert handler.skills == mock_skills
 
 
-def test_task_handler_raises_error_when_getting_unset_bg_task(
+@pytest.mark.asyncio
+async def test_task_handler_raises_error_when_getting_unset_bg_task(
     mock_llm: BaseLLM,
 ) -> None:
     llm_agent = LLMAgent(
@@ -219,7 +222,8 @@ async def test_get_next_step_raises_error_from_structured_output_call(
     assert initial_step.instruction == "mock instruction"
 
 
-def test_private_format_step_for_rollout(
+@pytest.mark.asyncio
+async def test_private_format_step_for_rollout(
     mock_llm: BaseLLM,
 ) -> None:
     """Tests helper method to get rollout contribution from run step."""
@@ -569,7 +573,8 @@ async def test_run_step_with_tool_calls_in_final_response() -> None:
     assert step_result.content == expected_final_content
 
 
-def test_task_handler_use_skill_tool_set_when_skills_present(
+@pytest.mark.asyncio
+async def test_task_handler_use_skill_tool_set_when_skills_present(
     mock_llm: BaseLLM,
 ) -> None:
     """Tests _use_skill_tool is set when skills are discovered."""
@@ -589,7 +594,8 @@ def test_task_handler_use_skill_tool_set_when_skills_present(
     assert handler._use_skill_tool.name == "from_scratch__use_skill"
 
 
-def test_task_handler_use_skill_tool_none_when_no_skills(
+@pytest.mark.asyncio
+async def test_task_handler_use_skill_tool_none_when_no_skills(
     mock_llm: BaseLLM,
 ) -> None:
     """Tests _use_skill_tool is None when no skills are discovered."""
@@ -606,7 +612,8 @@ def test_task_handler_use_skill_tool_none_when_no_skills(
     assert handler._use_skill_tool is None
 
 
-def test_skills_catalog_empty_when_no_skills(mock_llm: BaseLLM) -> None:
+@pytest.mark.asyncio
+async def test_skills_catalog_empty_when_no_skills(mock_llm: BaseLLM) -> None:
     """Tests _skills_catalog returns empty string when no skills."""
     llm_agent = LLMAgent(llm=mock_llm)
     handler = LLMAgent.TaskHandler(
@@ -616,7 +623,8 @@ def test_skills_catalog_empty_when_no_skills(mock_llm: BaseLLM) -> None:
     assert handler._skills_catalog == ""
 
 
-def test_skills_catalog_returns_catalog_xml(mock_llm: BaseLLM) -> None:
+@pytest.mark.asyncio
+async def test_skills_catalog_returns_catalog_xml(mock_llm: BaseLLM) -> None:
     """Tests _skills_catalog returns formatted XML when skills present."""
     mock_skill = MagicMock(spec=Skill)
     mock_skill.catalog.return_value = "<skill><name>my-skill</name></skill>"
@@ -634,7 +642,8 @@ def test_skills_catalog_returns_catalog_xml(mock_llm: BaseLLM) -> None:
     assert handler._skills_catalog == expected
 
 
-def test_skills_catalog_excludes_explicit_only_skills(
+@pytest.mark.asyncio
+async def test_skills_catalog_excludes_explicit_only_skills(
     mock_llm: BaseLLM,
 ) -> None:
     """Tests _skills_catalog omits skills in _explicit_only_skills."""
@@ -703,14 +712,16 @@ async def test_run_step_injects_skills_catalog() -> None:
 # ---------------------------------------------------------------------------
 
 
-def test_llm_agent_init_with_memories(mock_llm: BaseLLM) -> None:
+@pytest.mark.asyncio
+async def test_llm_agent_init_with_memories(mock_llm: BaseLLM) -> None:
     """Tests LLMAgent stores memories list on init."""
     mock_memory = MagicMock(spec=Memory)
     agent = LLMAgent(llm=mock_llm, memories=[mock_memory])
     assert agent.memories == [mock_memory]
 
 
-def test_llm_agent_init_no_memories_defaults_to_empty_list(
+@pytest.mark.asyncio
+async def test_llm_agent_init_no_memories_defaults_to_empty_list(
     mock_llm: BaseLLM,
 ) -> None:
     """Tests LLMAgent.memories defaults to empty list when not provided."""
@@ -718,7 +729,8 @@ def test_llm_agent_init_no_memories_defaults_to_empty_list(
     assert agent.memories == []
 
 
-def test_task_handler_recalled_memories_init(mock_llm: BaseLLM) -> None:
+@pytest.mark.asyncio
+async def test_task_handler_recalled_memories_init(mock_llm: BaseLLM) -> None:
     """Tests _recalled_memories initialises as empty string."""
     handler = LLMAgent.TaskHandler(
         llm_agent=LLMAgent(llm=mock_llm),
@@ -727,7 +739,10 @@ def test_task_handler_recalled_memories_init(mock_llm: BaseLLM) -> None:
     assert handler._recalled_memories == ""
 
 
-def test_format_memories_for_system_prompt_empty(mock_llm: BaseLLM) -> None:
+@pytest.mark.asyncio
+async def test_format_memories_for_system_prompt_empty(
+    mock_llm: BaseLLM,
+) -> None:
     """Tests _format_memories_for_system_prompt returns '' for empty list."""
     handler = LLMAgent.TaskHandler(
         llm_agent=LLMAgent(llm=mock_llm),
@@ -736,7 +751,8 @@ def test_format_memories_for_system_prompt_empty(mock_llm: BaseLLM) -> None:
     assert handler._format_memories_for_system_prompt([]) == ""
 
 
-def test_format_memories_for_system_prompt_with_entries(
+@pytest.mark.asyncio
+async def test_format_memories_for_system_prompt_with_entries(
     mock_llm: BaseLLM,
 ) -> None:
     """Tests _format_memories_for_system_prompt returns formatted template."""

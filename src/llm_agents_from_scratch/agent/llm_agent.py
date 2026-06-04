@@ -535,25 +535,19 @@ class LLMAgent:
                 error (Exception | None): The exception from a failed task.
 
             Raises:
-                TaskHandlerError: If neither ``result`` nor ``error`` is
+                RecordMemoryError: If neither ``result`` nor ``error`` is
                     provided.
             """
             if result is None and error is None:
                 raise RecordMemoryError(
                     "record_memory() requires either result or error.",
                 )
-            if result:
-                episode = Episode(
-                    task=self.task,
-                    rollout=self.rollout,
-                    result=result,
-                )
-            if error:
-                episode = Episode(
-                    task=self.task,
-                    rollout=self.rollout,
-                    error=error,
-                )
+            episode = Episode(
+                task=self.task,
+                rollout=self.rollout,
+                result=result,
+                error=error,
+            )
             for memory in self.llm_agent.memories:
                 await memory.record(episode)  # type: ignore
 

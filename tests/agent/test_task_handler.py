@@ -7,7 +7,6 @@ import pytest
 from llm_agents_from_scratch.agent import LLMAgent
 from llm_agents_from_scratch.agent.templates import default_templates
 from llm_agents_from_scratch.base.llm import BaseLLM
-from llm_agents_from_scratch.base.memory import BaseMemory
 from llm_agents_from_scratch.data_structures import (
     ChatMessage,
     ChatRole,
@@ -20,6 +19,7 @@ from llm_agents_from_scratch.data_structures import (
 )
 from llm_agents_from_scratch.data_structures.skill import SkillScope
 from llm_agents_from_scratch.errors import TaskHandlerError
+from llm_agents_from_scratch.memory.memory import Memory
 from llm_agents_from_scratch.skills.skill import Skill
 from llm_agents_from_scratch.tools.simple_function import (
     AsyncSimpleFunctionTool,
@@ -705,7 +705,7 @@ async def test_run_step_injects_skills_catalog() -> None:
 
 def test_llm_agent_init_with_memories(mock_llm: BaseLLM) -> None:
     """Tests LLMAgent stores memories list on init."""
-    mock_memory = MagicMock(spec=BaseMemory)
+    mock_memory = MagicMock(spec=Memory)
     agent = LLMAgent(llm=mock_llm, memories=[mock_memory])
     assert agent.memories == [mock_memory]
 
@@ -758,9 +758,9 @@ async def test_load_memories_populates_recalled_memories(
     mock_llm: BaseLLM,
 ) -> None:
     """Tests load_memories calls recall on each memory and stores result."""
-    mock_memory_a = AsyncMock(spec=BaseMemory)
+    mock_memory_a = AsyncMock(spec=Memory)
     mock_memory_a.recall.return_value = "episode A context"
-    mock_memory_b = AsyncMock(spec=BaseMemory)
+    mock_memory_b = AsyncMock(spec=Memory)
     mock_memory_b.recall.return_value = "episode B context"
 
     task = Task(instruction="mock instruction")

@@ -10,9 +10,9 @@ from llm_agents_from_scratch.agent.templates import (
     default_templates,
 )
 from llm_agents_from_scratch.base import LLM
-from llm_agents_from_scratch.base.memory import BaseMemory
 from llm_agents_from_scratch.base.tool import Tool
 from llm_agents_from_scratch.errors import LLMAgentBuilderError
+from llm_agents_from_scratch.memory.memory import Memory
 from llm_agents_from_scratch.tools import MCPTool
 from llm_agents_from_scratch.tools.mcp import MCPToolProvider
 
@@ -28,7 +28,7 @@ class LLMAgentBuilder:
         templates (LLMAgentTemplates): Prompt templates for the agent.
         mcp_providers (list[MCPToolProvider]): MCP providers for tool
             discovery.
-        memories (list[BaseMemory]): Memory backends for the agent.
+        memories (list[Memory]): Memory backends for the agent.
     """
 
     def __init__(
@@ -38,7 +38,7 @@ class LLMAgentBuilder:
         templates: LLMAgentTemplates = default_templates,
         mcp_providers: list[MCPToolProvider] | None = None,
         # added in ch07
-        memories: list[BaseMemory] | None = None,
+        memories: list[Memory] | None = None,
     ) -> None:
         """Initialize an LLMAgentBuilder.
 
@@ -76,7 +76,7 @@ class LLMAgentBuilder:
             mcp_providers (list[MCPToolProvider] | None, optional): MCP
                 providers for tool discovery. Tools are fetched during
                 `build()`. Defaults to None.
-            memories (list[BaseMemory] | None, optional): Memory backends
+            memories (list[Memory] | None, optional): Memory backends
                 for the agent. No default implementation is provided — the
                 caller must supply a concrete subclass. Defaults to None.
         """
@@ -85,7 +85,7 @@ class LLMAgentBuilder:
         self.mcp_providers = mcp_providers or []
         self.tools = tools or []
         # added in ch07
-        self.memories: list[BaseMemory] = memories or []
+        self.memories: list[Memory] = memories or []
 
     def with_llm(self, llm: LLM) -> Self:
         """Set llm of builder."""
@@ -117,12 +117,12 @@ class LLMAgentBuilder:
         self.mcp_providers.extend(providers)
         return self
 
-    def with_memory(self, memory: BaseMemory) -> Self:
+    def with_memory(self, memory: Memory) -> Self:
         """Add a memory backend to builder. Added in Chapter 7."""
         self.memories.append(memory)
         return self
 
-    def with_memories(self, memories: list[BaseMemory]) -> Self:
+    def with_memories(self, memories: list[Memory]) -> Self:
         """Add memory backends to builder. Added in Chapter 7."""
         self.memories.extend(memories)
         return self

@@ -16,8 +16,8 @@ class BaseMemoryStore(ABC):
        any preprocessing required by that substrate (embedding, indexing,
        tokenization).
     2. **Retrieval primitives** — expose `read_recent` and `search` so that
-       `BaseMemory` implementations can compose and score results without
-       knowing the underlying storage details.
+       ``Memory`` instances can compose and score results without knowing
+       the underlying storage details.
 
     Attributes:
         max_results (int): Default number of results returned by

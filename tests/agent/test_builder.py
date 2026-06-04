@@ -6,8 +6,8 @@ import pytest
 
 from llm_agents_from_scratch import LLMAgentBuilder
 from llm_agents_from_scratch.agent.templates import default_templates
-from llm_agents_from_scratch.base.memory import BaseMemory
 from llm_agents_from_scratch.errors import LLMAgentBuilderError
+from llm_agents_from_scratch.memory.memory import Memory
 from llm_agents_from_scratch.tools.mcp.tool import MCPTool
 
 
@@ -16,7 +16,7 @@ def test_init() -> None:
     mock_llm = MagicMock()
     mock_tool = MagicMock()
     mock_mcp_provider = MagicMock()
-    mock_memory = MagicMock(spec=BaseMemory)
+    mock_memory = MagicMock(spec=Memory)
 
     # direct params
     builder = LLMAgentBuilder(
@@ -95,8 +95,8 @@ async def test_build() -> None:
 async def test_build_passes_memories_to_agent() -> None:
     """Tests build passes memories through to the constructed LLMAgent."""
     mock_llm = MagicMock()
-    mock_memory_a = MagicMock(spec=BaseMemory)
-    mock_memory_b = MagicMock(spec=BaseMemory)
+    mock_memory_a = MagicMock(spec=Memory)
+    mock_memory_b = MagicMock(spec=Memory)
 
     agent = await (
         LLMAgentBuilder(llm=mock_llm)

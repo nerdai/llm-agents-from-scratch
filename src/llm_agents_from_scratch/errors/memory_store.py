@@ -15,7 +15,7 @@ class MemoryStoreError(LLMAgentsFromScratchError):
     pass
 
 
-class EpisodeNotFoundWarning(MemoryStoreWarning):
-    """Issued when delete()/update() targets an episode ID not in the store."""
+class EpisodeNotFoundError(MemoryStoreError):
+    """Raised when delete()/update() targets an episode ID not in the store."""
 
     pass

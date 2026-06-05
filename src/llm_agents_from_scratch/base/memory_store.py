@@ -105,8 +105,7 @@ class BaseMemoryStore(ABC):
     async def delete(self, id_: str) -> None:
         """Delete an episode by its unique identifier.
 
-        Issues an ``EpisodeNotFoundWarning`` and returns without error if
-        no episode with the given ``id_`` exists in the store.
+        Raises ``EpisodeNotFoundError`` if no episode with ``id_`` exists.
 
         Args:
             id_ (str): The ``Episode.id_`` of the episode to remove.
@@ -121,8 +120,8 @@ class BaseMemoryStore(ABC):
         """Replace an existing episode with an updated version.
 
         Matches the stored episode by ``episode.id_`` and replaces it
-        in-place. Issues an ``EpisodeNotFoundWarning`` and returns without
-        error if no matching episode exists.
+        in-place. Raises ``EpisodeNotFoundError`` if
+        no matching episode exists.
 
         Args:
             episode (Episode): The updated episode. Matched by ``id_``.

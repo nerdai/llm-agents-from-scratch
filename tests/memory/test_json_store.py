@@ -7,7 +7,7 @@ import pytest
 
 from llm_agents_from_scratch.data_structures import Task, TaskResult
 from llm_agents_from_scratch.data_structures.memory import Episode, RecallMode
-from llm_agents_from_scratch.errors import EpisodeNotFoundWarning
+from llm_agents_from_scratch.errors import EpisodeNotFoundError
 from llm_agents_from_scratch.memory import JSONMemoryStore
 
 
@@ -208,7 +208,7 @@ async def test_delete_rewrites_file_keeping_other_episodes(
 async def test_delete_warns_when_id_not_found(tmp_path: Path) -> None:
     store = JSONMemoryStore(dir=tmp_path)
 
-    with pytest.warns(EpisodeNotFoundWarning):
+    with pytest.raises(EpisodeNotFoundError):
         await store.delete("nonexistent-id")
 
 
@@ -257,5 +257,5 @@ async def test_update_warns_when_id_not_found(tmp_path: Path) -> None:
     store = JSONMemoryStore(dir=tmp_path)
     ep = make_episode()
 
-    with pytest.warns(EpisodeNotFoundWarning):
+    with pytest.raises(EpisodeNotFoundError):
         await store.update(ep)

@@ -6,7 +6,7 @@ from qdrant_client import QdrantClient, models
 
 from llm_agents_from_scratch.data_structures import Task, TaskResult
 from llm_agents_from_scratch.data_structures.memory import Episode, RecallMode
-from llm_agents_from_scratch.errors import EpisodeNotFoundWarning
+from llm_agents_from_scratch.errors import EpisodeNotFoundError
 from llm_agents_from_scratch.memory_stores.qdrant.store import QdrantMemoryStore
 
 
@@ -290,7 +290,7 @@ async def test_delete_warns_when_id_not_found(
     store = QdrantMemoryStore()
     mock_client.retrieve.return_value = []
 
-    with pytest.warns(EpisodeNotFoundWarning):
+    with pytest.raises(EpisodeNotFoundError):
         await store.delete("nonexistent-id")
 
     mock_client.delete.assert_not_called()
@@ -322,7 +322,7 @@ async def test_update_warns_when_id_not_found(
     store = QdrantMemoryStore()
     mock_client.retrieve.return_value = []
 
-    with pytest.warns(EpisodeNotFoundWarning):
+    with pytest.raises(EpisodeNotFoundError):
         await store.update(episode)
 
     mock_client.upsert.assert_not_called()

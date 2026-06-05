@@ -1,12 +1,11 @@
 """JSONL-file-backed episodic memory store."""
 
-import warnings
 from pathlib import Path
 from typing import Any
 
 from llm_agents_from_scratch.base.memory_store import BaseMemoryStore
 from llm_agents_from_scratch.data_structures.memory import Episode, RecallMode
-from llm_agents_from_scratch.errors import EpisodeNotFoundWarning
+from llm_agents_from_scratch.errors import EpisodeNotFoundError
 
 
 class JSONMemoryStore(BaseMemoryStore):
@@ -138,20 +137,20 @@ class JSONMemoryStore(BaseMemoryStore):
     async def delete(self, id_: str) -> None:
         """Delete an episode by its unique identifier.
 
-        Issues an ``EpisodeNotFoundWarning`` if no episode with ``id_``
-        exists. Otherwise removes it from the in-memory list and rewrites
-        the backing file.
+        Raises ``EpisodeNotFoundError`` if no episode with ``id_`` exists.
+        Otherwise removes it from the in-memory list and rewrites the
+        backing file.
 
         Args:
             id_ (str): The ``Episode.id_`` of the episode to remove.
+
+        Raises:
+            EpisodeNotFoundError: If no episode with ``id_`` exists.
         """
         if not any(ep.id_ == id_ for ep in self._episodes):
-            warnings.warn(
+            raise EpisodeNotFoundError(
                 f"Episode '{id_}' not found in JSONMemoryStore.",
-                EpisodeNotFoundWarning,
-                stacklevel=2,
             )
-            return
         self._episodes = [ep for ep in self._episodes if ep.id_ != id_]
         self._rewrite()
 
@@ -162,24 +161,25 @@ class JSONMemoryStore(BaseMemoryStore):
     ) -> None:
         """Replace an existing episode with an updated version.
 
-        Matches by ``episode.id_``. Issues an ``EpisodeNotFoundWarning``
-        if no matching episode exists. Otherwise replaces it in-place and
-        rewrites the backing file. ``key`` is accepted for interface
-        compatibility but ignored — this store does not embed episodes.
+        Matches by ``episode.id_``. Raises ``EpisodeNotFoundError`` if no
+        matching episode exists. Otherwise replaces it in-place and rewrites
+        the backing file. ``key`` is accepted for interface compatibility but
+        ignored — this store does not embed episodes.
 
         Args:
             episode (Episode): The updated episode. Matched by ``id_``.
             key (str | None): Ignored.
+
+        Raises:
+            EpisodeNotFoundError: If no episode with ``episode.id_`` exists.
         """
         for i, ep in enumerate(self._episodes):
             if ep.id_ == episode.id_:
                 self._episodes[i] = episode
                 self._rewrite()
                 return
-        warnings.warn(
+        raise EpisodeNotFoundError(
             f"Episode '{episode.id_}' not found in JSONMemoryStore.",
-            EpisodeNotFoundWarning,
-            stacklevel=2,
         )
 
     async def search(

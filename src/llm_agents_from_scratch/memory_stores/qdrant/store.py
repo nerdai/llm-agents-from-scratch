@@ -1,6 +1,5 @@
 """Qdrant-backed episodic memory store."""
 
-import warnings
 from typing import Any
 
 from qdrant_client import QdrantClient, models
@@ -11,7 +10,7 @@ from llm_agents_from_scratch.data_structures.memory import (
     EpisodeAttr,
     RecallMode,
 )
-from llm_agents_from_scratch.errors import EpisodeNotFoundWarning
+from llm_agents_from_scratch.errors import EpisodeNotFoundError
 from llm_agents_from_scratch.memory_stores.qdrant.utils import (
     episode_to_qdrant_point_struct,
 )
@@ -174,20 +173,19 @@ class QdrantMemoryStore(BaseMemoryStore):
     async def delete(self, id_: str) -> None:
         """Delete an episode by its unique identifier.
 
-        Issues an ``EpisodeNotFoundWarning`` if no point with ``id_``
-        exists in the collection. Otherwise removes it via
-        ``QdrantClient.delete``.
+        Raises ``EpisodeNotFoundError`` if no point with ``id_`` exists
+        in the collection. Otherwise removes it via ``QdrantClient.delete``.
 
         Args:
             id_ (str): The ``Episode.id_`` of the episode to remove.
+
+        Raises:
+            EpisodeNotFoundError: If no point with ``id_`` exists.
         """
         if not self._point_exists(id_):
-            warnings.warn(
+            raise EpisodeNotFoundError(
                 f"Episode '{id_}' not found in QdrantMemoryStore.",
-                EpisodeNotFoundWarning,
-                stacklevel=2,
             )
-            return
         self._client.delete(
             collection_name=self._collection,
             points_selector=models.PointIdsList(points=[id_]),
@@ -200,8 +198,8 @@ class QdrantMemoryStore(BaseMemoryStore):
     ) -> None:
         """Replace an existing episode with an updated version.
 
-        Matches by ``episode.id_`` (the Qdrant point ID). Issues an
-        ``EpisodeNotFoundWarning`` if no matching point exists. Otherwise
+        Matches by ``episode.id_`` (the Qdrant point ID). Raises
+        ``EpisodeNotFoundError`` if no matching point exists. Otherwise
         re-embeds and upserts the updated episode.
 
         Args:
@@ -210,14 +208,14 @@ class QdrantMemoryStore(BaseMemoryStore):
                 used directly for the vector. Defaults to ``None``, in
                 which case the store formats the episode using
                 ``DEFAULT_EPISODE_INCLUDE``.
+
+        Raises:
+            EpisodeNotFoundError: If no point with ``episode.id_`` exists.
         """
         if not self._point_exists(episode.id_):
-            warnings.warn(
+            raise EpisodeNotFoundError(
                 f"Episode '{episode.id_}' not found in QdrantMemoryStore.",
-                EpisodeNotFoundWarning,
-                stacklevel=2,
             )
-            return
         text = key or episode.format(
             mode="concat",
             include=DEFAULT_EPISODE_INCLUDE,

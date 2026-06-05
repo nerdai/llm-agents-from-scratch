@@ -1,11 +1,11 @@
 from .agent import LLMAgentBuilderError, LLMAgentError, MaxStepsReachedError
 from .core import (
-    EpisodeNotFoundWarning,
     LLMAgentsFromScratchError,
     LLMAgentsFromScratchWarning,
     MissingExtraError,
 )
 from .mcp import MCPError, MCPWarning, MissingMCPServerParamsError
+from .memory import EpisodeNotFoundWarning
 from .skill import (
     EmptySkillBodyError,
     InvalidFrontmatterError,

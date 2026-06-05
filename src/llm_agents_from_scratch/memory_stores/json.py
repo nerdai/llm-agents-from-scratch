@@ -145,15 +145,14 @@ class JSONMemoryStore(BaseMemoryStore):
         Args:
             id_ (str): The ``Episode.id_`` of the episode to remove.
         """
-        original = len(self._episodes)
-        self._episodes = [ep for ep in self._episodes if ep.id_ != id_]
-        if len(self._episodes) == original:
+        if not any(ep.id_ == id_ for ep in self._episodes):
             warnings.warn(
                 f"Episode '{id_}' not found in JSONMemoryStore.",
                 EpisodeNotFoundWarning,
                 stacklevel=2,
             )
             return
+        self._episodes = [ep for ep in self._episodes if ep.id_ != id_]
         self._rewrite()
 
     async def update(

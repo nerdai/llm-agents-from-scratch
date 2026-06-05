@@ -177,7 +177,7 @@ class QdrantMemoryStore(BaseMemoryStore):
             collection_name=self._collection,
             ids=[id_],
         )
-        if not hits:
+        if id_ not in {h.id for h in hits}:
             warnings.warn(
                 f"Episode '{id_}' not found in QdrantMemoryStore.",
                 EpisodeNotFoundWarning,
@@ -203,7 +203,7 @@ class QdrantMemoryStore(BaseMemoryStore):
             collection_name=self._collection,
             ids=[episode.id_],
         )
-        if not hits:
+        if episode.id_ not in {h.id for h in hits}:
             warnings.warn(
                 f"Episode '{episode.id_}' not found in QdrantMemoryStore.",
                 EpisodeNotFoundWarning,

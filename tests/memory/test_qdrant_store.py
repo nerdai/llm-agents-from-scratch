@@ -271,7 +271,9 @@ async def test_delete_removes_existing_episode(
     mock_client: QdrantClient,
 ) -> None:
     store = QdrantMemoryStore()
-    mock_client.retrieve.return_value = [MagicMock()]
+    hit = MagicMock()
+    hit.id = "some-id"
+    mock_client.retrieve.return_value = [hit]
 
     await store.delete("some-id")
 
@@ -303,7 +305,9 @@ async def test_update_upserts_existing_episode(
     episode: Episode,
 ) -> None:
     store = QdrantMemoryStore()
-    mock_client.retrieve.return_value = [MagicMock()]
+    hit = MagicMock()
+    hit.id = episode.id_
+    mock_client.retrieve.return_value = [hit]
 
     await store.update(episode)
 

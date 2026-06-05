@@ -5,7 +5,7 @@ from .core import (
     MissingExtraError,
 )
 from .mcp import MCPError, MCPWarning, MissingMCPServerParamsError
-from .memory import EpisodeNotFoundWarning
+from .memory import EpisodeNotFoundWarning, MemoryStoreError, MemoryStoreWarning
 from .skill import (
     EmptySkillBodyError,
     InvalidFrontmatterError,
@@ -26,6 +26,9 @@ __all__ = [
     "LLMAgentsFromScratchError",
     "LLMAgentsFromScratchWarning",
     "MissingExtraError",
+    # memory store
+    "MemoryStoreError",
+    "MemoryStoreWarning",
     "EpisodeNotFoundWarning",
     # agent
     "LLMAgentError",

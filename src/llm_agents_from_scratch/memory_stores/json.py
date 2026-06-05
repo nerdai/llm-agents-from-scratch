@@ -147,11 +147,15 @@ class JSONMemoryStore(BaseMemoryStore):
         Raises:
             EpisodeNotFoundError: If no episode with ``id_`` exists.
         """
-        if not any(ep.id_ == id_ for ep in self._episodes):
+        idx = next(
+            (i for i, ep in enumerate(self._episodes) if ep.id_ == id_),
+            None,
+        )
+        if idx is None:
             raise EpisodeNotFoundError(
                 f"Episode '{id_}' not found in JSONMemoryStore.",
             )
-        self._episodes = [ep for ep in self._episodes if ep.id_ != id_]
+        self._episodes.pop(idx)
         self._rewrite()
 
     async def update(

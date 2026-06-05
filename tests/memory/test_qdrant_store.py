@@ -2,10 +2,11 @@ from datetime import datetime
 from unittest.mock import MagicMock, patch
 
 import pytest
-from qdrant_client import QdrantClient
+from qdrant_client import QdrantClient, models
 
 from llm_agents_from_scratch.data_structures import Task, TaskResult
 from llm_agents_from_scratch.data_structures.memory import Episode, RecallMode
+from llm_agents_from_scratch.errors import EpisodeNotFoundError
 from llm_agents_from_scratch.memory_stores.qdrant.store import QdrantMemoryStore
 
 
@@ -260,3 +261,68 @@ async def test_summary_with_episodes(
     assert "QdrantMemoryStore" in summary
     assert "1" in summary
     assert episode.task.instruction[:20] in summary
+
+
+# --- delete ---
+
+
+@pytest.mark.asyncio
+async def test_delete_removes_existing_episode(
+    mock_client: QdrantClient,
+) -> None:
+    store = QdrantMemoryStore()
+    hit = MagicMock()
+    hit.id = "some-id"
+    mock_client.retrieve.return_value = [hit]
+
+    await store.delete("some-id")
+
+    mock_client.delete.assert_called_once_with(
+        collection_name=store._collection,
+        points_selector=models.PointIdsList(points=["some-id"]),
+    )
+
+
+@pytest.mark.asyncio
+async def test_delete_warns_when_id_not_found(
+    mock_client: QdrantClient,
+) -> None:
+    store = QdrantMemoryStore()
+    mock_client.retrieve.return_value = []
+
+    with pytest.raises(EpisodeNotFoundError):
+        await store.delete("nonexistent-id")
+
+    mock_client.delete.assert_not_called()
+
+
+# --- update ---
+
+
+@pytest.mark.asyncio
+async def test_update_upserts_existing_episode(
+    mock_client: QdrantClient,
+    episode: Episode,
+) -> None:
+    store = QdrantMemoryStore()
+    hit = MagicMock()
+    hit.id = episode.id_
+    mock_client.retrieve.return_value = [hit]
+
+    await store.update(episode)
+
+    mock_client.upsert.assert_called_once()
+
+
+@pytest.mark.asyncio
+async def test_update_warns_when_id_not_found(
+    mock_client: QdrantClient,
+    episode: Episode,
+) -> None:
+    store = QdrantMemoryStore()
+    mock_client.retrieve.return_value = []
+
+    with pytest.raises(EpisodeNotFoundError):
+        await store.update(episode)
+
+    mock_client.upsert.assert_not_called()

@@ -179,16 +179,21 @@ async def test_summary_lists_metadata_fn_keys() -> None:
 
 
 @pytest.mark.asyncio
-async def test_delete_raises_not_implemented() -> None:
-    memory = Memory(store=MagicMock(), key_fn=lambda ep: ep.task.instruction)
+async def test_delete_delegates_to_store() -> None:
+    store = AsyncMock()
+    memory = Memory(store=store)
 
-    with pytest.raises(NotImplementedError):
-        await memory.delete("some-id")
+    await memory.delete("some-id")
+
+    store.delete.assert_awaited_once_with("some-id")
 
 
 @pytest.mark.asyncio
-async def test_update_raises_not_implemented() -> None:
-    memory = Memory(store=MagicMock(), key_fn=lambda ep: ep.task.instruction)
+async def test_update_delegates_to_store() -> None:
+    store = AsyncMock()
+    memory = Memory(store=store)
+    ep = make_episode()
 
-    with pytest.raises(NotImplementedError):
-        await memory.update(make_episode())
+    await memory.update(ep)
+
+    store.update.assert_awaited_once_with(ep, ep.task.instruction)

@@ -135,29 +135,22 @@ class Memory:
     async def delete(self, id_: str) -> None:
         """Delete an episode from the store by its ID.
 
-        Requires the backing store to implement ``delete()``. Raises
-        ``NotImplementedError`` until ``BaseMemoryStore.delete()`` is
-        added (see issue #585).
+        Delegates to ``store.delete()``. Issues an
+        ``EpisodeNotFoundWarning`` if no episode with ``id_`` exists.
 
         Args:
-            id_ (str): The ``id_`` of the episode to delete.
+            id_ (str): The ``Episode.id_`` of the episode to delete.
         """
-        raise NotImplementedError(
-            f"{type(self.store).__name__} does not support delete().",
-        )
+        await self.store.delete(id_)
 
     async def update(self, episode: Episode) -> None:
         """Replace an existing episode in the store.
 
-        Requires the backing store to implement ``update()``. Raises
-        ``NotImplementedError`` until ``BaseMemoryStore.update()`` is
-        added (see issue #585).
+        Delegates to ``store.update()``, passing ``key_fn(episode)`` as
+        the embedding key. Matches by ``episode.id_``. Issues an
+        ``EpisodeNotFoundWarning`` if no matching episode exists.
 
         Args:
-            episode (Episode): The episode to update. Matched by the
-                episode identifier once ``Episode.id_`` is available
-                (see issue #584).
+            episode (Episode): The updated episode. Matched by ``id_``.
         """
-        raise NotImplementedError(
-            f"{type(self.store).__name__} does not support update().",
-        )
+        await self.store.update(episode, self.key_fn(episode))

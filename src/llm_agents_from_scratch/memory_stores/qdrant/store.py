@@ -10,6 +10,7 @@ from llm_agents_from_scratch.data_structures.memory import (
     EpisodeAttr,
     RecallMode,
 )
+from llm_agents_from_scratch.errors import EpisodeNotFoundError
 from llm_agents_from_scratch.memory_stores.qdrant.utils import (
     episode_to_qdrant_point_struct,
 )
@@ -160,6 +161,76 @@ class QdrantMemoryStore(BaseMemoryStore):
             int: Episode count.
         """
         return int(self._client.count(self._collection).count)
+
+    def _point_exists(self, id_: str) -> bool:
+        """Return True if a point with ``id_`` exists in the collection."""
+        hits = self._client.retrieve(
+            collection_name=self._collection,
+            ids=[id_],
+        )
+        return id_ in {h.id for h in hits}
+
+    async def delete(self, id_: str) -> None:
+        """Delete an episode by its unique identifier.
+
+        Raises ``EpisodeNotFoundError`` if no point with ``id_`` exists
+        in the collection. Otherwise removes it via ``QdrantClient.delete``.
+
+        Args:
+            id_ (str): The ``Episode.id_`` of the episode to remove.
+
+        Raises:
+            EpisodeNotFoundError: If no point with ``id_`` exists.
+        """
+        if not self._point_exists(id_):
+            raise EpisodeNotFoundError(
+                f"Episode '{id_}' not found in QdrantMemoryStore.",
+            )
+        self._client.delete(
+            collection_name=self._collection,
+            points_selector=models.PointIdsList(points=[id_]),
+        )
+
+    async def update(
+        self,
+        episode: Episode,
+        key: str | None = None,
+    ) -> None:
+        """Replace an existing episode with an updated version.
+
+        Matches by ``episode.id_`` (the Qdrant point ID). Raises
+        ``EpisodeNotFoundError`` if no matching point exists. Otherwise
+        re-embeds and upserts the updated episode.
+
+        Args:
+            episode (Episode): The updated episode. Matched by ``id_``.
+            key (str | None): Pre-formatted text to embed. When provided,
+                used directly for the vector. Defaults to ``None``, in
+                which case the store formats the episode using
+                ``DEFAULT_EPISODE_INCLUDE``.
+
+        Raises:
+            EpisodeNotFoundError: If no point with ``episode.id_`` exists.
+        """
+        if not self._point_exists(episode.id_):
+            raise EpisodeNotFoundError(
+                f"Episode '{episode.id_}' not found in QdrantMemoryStore.",
+            )
+        text = key or episode.format(
+            mode="concat",
+            include=DEFAULT_EPISODE_INCLUDE,
+        )
+        self._client.upsert(
+            collection_name=self._collection,
+            points=[
+                episode_to_qdrant_point_struct(
+                    episode,
+                    text,
+                    self._client.get_vector_field_name(),
+                    self._client.embedding_model_name,
+                ),
+            ],
+        )
 
     async def summary(self) -> str:
         """Return a human-readable summary of the store contents.

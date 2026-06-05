@@ -5,6 +5,7 @@ from typing import Any
 
 from llm_agents_from_scratch.base.memory_store import BaseMemoryStore
 from llm_agents_from_scratch.data_structures.memory import Episode, RecallMode
+from llm_agents_from_scratch.errors import EpisodeNotFoundError
 
 
 class JSONMemoryStore(BaseMemoryStore):
@@ -127,6 +128,63 @@ class JSONMemoryStore(BaseMemoryStore):
                 f" | {oldest.task.instruction[:60]}",
             )
         return "\n".join(lines)
+
+    def _rewrite(self) -> None:
+        with open(self.path, "w") as f:
+            for ep in self._episodes:
+                f.write(ep.model_dump_json() + "\n")
+
+    async def delete(self, id_: str) -> None:
+        """Delete an episode by its unique identifier.
+
+        Raises ``EpisodeNotFoundError`` if no episode with ``id_`` exists.
+        Otherwise removes it from the in-memory list and rewrites the
+        backing file.
+
+        Args:
+            id_ (str): The ``Episode.id_`` of the episode to remove.
+
+        Raises:
+            EpisodeNotFoundError: If no episode with ``id_`` exists.
+        """
+        idx = next(
+            (i for i, ep in enumerate(self._episodes) if ep.id_ == id_),
+            None,
+        )
+        if idx is None:
+            raise EpisodeNotFoundError(
+                f"Episode '{id_}' not found in JSONMemoryStore.",
+            )
+        self._episodes.pop(idx)
+        self._rewrite()
+
+    async def update(
+        self,
+        episode: Episode,
+        key: str | None = None,
+    ) -> None:
+        """Replace an existing episode with an updated version.
+
+        Matches by ``episode.id_``. Raises ``EpisodeNotFoundError`` if no
+        matching episode exists. Otherwise replaces it in-place and rewrites
+        the backing file. ``key`` is accepted for interface compatibility but
+        ignored — this store does not embed episodes.
+
+        Args:
+            episode (Episode): The updated episode. Matched by ``id_``.
+            key (str | None): Ignored.
+
+        Raises:
+            EpisodeNotFoundError: If no episode with ``episode.id_`` exists.
+        """
+        for i, ep in enumerate(self._episodes):
+            if ep.id_ == episode.id_:
+                self._episodes[i] = episode
+                self._rewrite()
+                return
+        raise EpisodeNotFoundError(
+            f"Episode '{episode.id_}' not found in JSONMemoryStore.",
+        )
 
     async def search(
         self,

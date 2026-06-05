@@ -7,6 +7,7 @@ import pytest
 
 from llm_agents_from_scratch.data_structures import Task, TaskResult
 from llm_agents_from_scratch.data_structures.memory import Episode, RecallMode
+from llm_agents_from_scratch.errors import EpisodeNotFoundError
 from llm_agents_from_scratch.memory import JSONMemoryStore
 
 
@@ -170,3 +171,91 @@ async def test_summary_includes_newest_and_oldest(tmp_path: Path) -> None:
     assert "2" in summary
     assert "oldest task" in summary
     assert "newest task" in summary
+
+
+# --- delete ---
+
+
+@pytest.mark.asyncio
+async def test_delete_removes_episode(tmp_path: Path) -> None:
+    store = JSONMemoryStore(dir=tmp_path)
+    ep = make_episode()
+    await store.write(ep)
+
+    await store.delete(ep.id_)
+
+    assert await store.count() == 0
+    assert store.path.read_text() == ""
+
+
+@pytest.mark.asyncio
+async def test_delete_rewrites_file_keeping_other_episodes(
+    tmp_path: Path,
+) -> None:
+    store = JSONMemoryStore(dir=tmp_path)
+    ep1 = make_episode("keep me")
+    ep2 = make_episode("delete me")
+    await store.write(ep1)
+    await store.write(ep2)
+
+    await store.delete(ep2.id_)
+
+    assert await store.count() == 1
+    assert store._episodes[0].id_ == ep1.id_
+
+
+@pytest.mark.asyncio
+async def test_delete_warns_when_id_not_found(tmp_path: Path) -> None:
+    store = JSONMemoryStore(dir=tmp_path)
+
+    with pytest.raises(EpisodeNotFoundError):
+        await store.delete("nonexistent-id")
+
+
+# --- update ---
+
+
+@pytest.mark.asyncio
+async def test_update_replaces_episode(tmp_path: Path) -> None:
+    store = JSONMemoryStore(dir=tmp_path)
+    ep = make_episode("original")
+    await store.write(ep)
+
+    updated = Episode(
+        id_=ep.id_,
+        task=ep.task,
+        rollout="",
+        result=TaskResult(task_id=ep.task.id_, content="updated content"),
+    )
+    await store.update(updated)
+
+    episodes = await store.read_recent(1)
+    assert episodes[0].result.content == "updated content"
+
+
+@pytest.mark.asyncio
+async def test_update_persists_to_file(tmp_path: Path) -> None:
+    store = JSONMemoryStore(dir=tmp_path)
+    ep = make_episode("original")
+    await store.write(ep)
+
+    updated = Episode(
+        id_=ep.id_,
+        task=ep.task,
+        rollout="",
+        result=TaskResult(task_id=ep.task.id_, content="updated"),
+    )
+    await store.update(updated)
+
+    reloaded = JSONMemoryStore(dir=tmp_path)
+    episodes = await reloaded.read_recent(1)
+    assert episodes[0].result.content == "updated"
+
+
+@pytest.mark.asyncio
+async def test_update_warns_when_id_not_found(tmp_path: Path) -> None:
+    store = JSONMemoryStore(dir=tmp_path)
+    ep = make_episode()
+
+    with pytest.raises(EpisodeNotFoundError):
+        await store.update(ep)

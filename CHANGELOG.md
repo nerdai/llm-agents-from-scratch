@@ -8,7 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
-- ...
+### Changed
+
+- feat: add delete() and update() to BaseMemoryStore (#609)
 
 ## [0.0.18] - 2026-06-03
 

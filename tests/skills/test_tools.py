@@ -215,3 +215,17 @@ def test_use_skill_tool_call_returns_error_when_skill_missing_from_registry(
 
     assert result.error is True
     assert "not found" in result.content  # type: ignore
+
+
+def test_use_skill_tool_call_returns_error_when_name_is_not_string() -> None:
+    """Tests __call__ returns error when 'name' argument is not a string."""
+    tool = UseSkillTool(skills={})
+    tool_call = ToolCall(
+        tool_name="use_skill",
+        arguments={"name": 42},
+    )
+
+    result = tool(tool_call=tool_call)
+
+    assert result.error is True
+    assert "'name' argument must be a string" in result.content  # type: ignore

@@ -1,5 +1,6 @@
 """Qdrant-backed episodic memory store."""
 
+import warnings
 from typing import Any
 
 from qdrant_client import QdrantClient, models
@@ -10,6 +11,7 @@ from llm_agents_from_scratch.data_structures.memory import (
     EpisodeAttr,
     RecallMode,
 )
+from llm_agents_from_scratch.errors import EpisodeNotFoundWarning
 from llm_agents_from_scratch.memory_stores.qdrant.utils import (
     episode_to_qdrant_point_struct,
 )
@@ -160,6 +162,66 @@ class QdrantMemoryStore(BaseMemoryStore):
             int: Episode count.
         """
         return int(self._client.count(self._collection).count)
+
+    async def delete(self, id_: str) -> None:
+        """Delete an episode by its unique identifier.
+
+        Issues an ``EpisodeNotFoundWarning`` if no point with ``id_``
+        exists in the collection. Otherwise removes it via
+        ``QdrantClient.delete``.
+
+        Args:
+            id_ (str): The ``Episode.id_`` of the episode to remove.
+        """
+        hits = self._client.retrieve(
+            collection_name=self._collection,
+            ids=[id_],
+        )
+        if not hits:
+            warnings.warn(
+                f"Episode '{id_}' not found in QdrantMemoryStore.",
+                EpisodeNotFoundWarning,
+                stacklevel=2,
+            )
+            return
+        self._client.delete(
+            collection_name=self._collection,
+            points_selector=models.PointIdsList(points=[id_]),
+        )
+
+    async def update(self, episode: Episode) -> None:
+        """Replace an existing episode with an updated version.
+
+        Matches by ``episode.id_`` (the Qdrant point ID). Issues an
+        ``EpisodeNotFoundWarning`` if no matching point exists. Otherwise
+        re-embeds and upserts the updated episode.
+
+        Args:
+            episode (Episode): The updated episode. Matched by ``id_``.
+        """
+        hits = self._client.retrieve(
+            collection_name=self._collection,
+            ids=[episode.id_],
+        )
+        if not hits:
+            warnings.warn(
+                f"Episode '{episode.id_}' not found in QdrantMemoryStore.",
+                EpisodeNotFoundWarning,
+                stacklevel=2,
+            )
+            return
+        key = episode.format(mode="concat", include=DEFAULT_EPISODE_INCLUDE)
+        self._client.upsert(
+            collection_name=self._collection,
+            points=[
+                episode_to_qdrant_point_struct(
+                    episode,
+                    key,
+                    self._client.get_vector_field_name(),
+                    self._client.embedding_model_name,
+                ),
+            ],
+        )
 
     async def summary(self) -> str:
         """Return a human-readable summary of the store contents.

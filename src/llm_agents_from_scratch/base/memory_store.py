@@ -102,6 +102,29 @@ class BaseMemoryStore(ABC):
         """
 
     @abstractmethod
+    async def delete(self, id_: str) -> None:
+        """Delete an episode by its unique identifier.
+
+        Issues an ``EpisodeNotFoundWarning`` and returns without error if
+        no episode with the given ``id_`` exists in the store.
+
+        Args:
+            id_ (str): The ``Episode.id_`` of the episode to remove.
+        """
+
+    @abstractmethod
+    async def update(self, episode: Episode) -> None:
+        """Replace an existing episode with an updated version.
+
+        Matches the stored episode by ``episode.id_`` and replaces it
+        in-place. Issues an ``EpisodeNotFoundWarning`` and returns without
+        error if no matching episode exists.
+
+        Args:
+            episode (Episode): The updated episode. Matched by ``id_``.
+        """
+
+    @abstractmethod
     async def summary(self) -> str:
         """Return a human-readable summary of the store contents.
 

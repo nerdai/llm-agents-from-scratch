@@ -1,5 +1,6 @@
 from .agent import LLMAgentBuilderError, LLMAgentError, MaxStepsReachedError
 from .core import (
+    EpisodeNotFoundWarning,
     LLMAgentsFromScratchError,
     LLMAgentsFromScratchWarning,
     MissingExtraError,
@@ -25,6 +26,7 @@ __all__ = [
     "LLMAgentsFromScratchError",
     "LLMAgentsFromScratchWarning",
     "MissingExtraError",
+    "EpisodeNotFoundWarning",
     # agent
     "LLMAgentError",
     "LLMAgentBuilderError",

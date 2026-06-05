@@ -1,10 +1,12 @@
 """JSONL-file-backed episodic memory store."""
 
+import warnings
 from pathlib import Path
 from typing import Any
 
 from llm_agents_from_scratch.base.memory_store import BaseMemoryStore
 from llm_agents_from_scratch.data_structures.memory import Episode, RecallMode
+from llm_agents_from_scratch.errors import EpisodeNotFoundWarning
 
 
 class JSONMemoryStore(BaseMemoryStore):
@@ -127,6 +129,53 @@ class JSONMemoryStore(BaseMemoryStore):
                 f" | {oldest.task.instruction[:60]}",
             )
         return "\n".join(lines)
+
+    def _rewrite(self) -> None:
+        with open(self.path, "w") as f:
+            for ep in self._episodes:
+                f.write(ep.model_dump_json() + "\n")
+
+    async def delete(self, id_: str) -> None:
+        """Delete an episode by its unique identifier.
+
+        Issues an ``EpisodeNotFoundWarning`` if no episode with ``id_``
+        exists. Otherwise removes it from the in-memory list and rewrites
+        the backing file.
+
+        Args:
+            id_ (str): The ``Episode.id_`` of the episode to remove.
+        """
+        original = len(self._episodes)
+        self._episodes = [ep for ep in self._episodes if ep.id_ != id_]
+        if len(self._episodes) == original:
+            warnings.warn(
+                f"Episode '{id_}' not found in JSONMemoryStore.",
+                EpisodeNotFoundWarning,
+                stacklevel=2,
+            )
+            return
+        self._rewrite()
+
+    async def update(self, episode: Episode) -> None:
+        """Replace an existing episode with an updated version.
+
+        Matches by ``episode.id_``. Issues an ``EpisodeNotFoundWarning``
+        if no matching episode exists. Otherwise replaces it in-place and
+        rewrites the backing file.
+
+        Args:
+            episode (Episode): The updated episode. Matched by ``id_``.
+        """
+        for i, ep in enumerate(self._episodes):
+            if ep.id_ == episode.id_:
+                self._episodes[i] = episode
+                self._rewrite()
+                return
+        warnings.warn(
+            f"Episode '{episode.id_}' not found in JSONMemoryStore.",
+            EpisodeNotFoundWarning,
+            stacklevel=2,
+        )
 
     async def search(
         self,

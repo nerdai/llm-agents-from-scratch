@@ -17,3 +17,9 @@ class MissingExtraError(LLMAgentsFromScratchError):
     """Raises when an extra is not installed."""
 
     pass
+
+
+class EpisodeNotFoundWarning(LLMAgentsFromScratchWarning):
+    """Issued when delete()/update() targets an episode ID not in the store."""
+
+    pass

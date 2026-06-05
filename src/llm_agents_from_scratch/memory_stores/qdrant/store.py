@@ -163,6 +163,14 @@ class QdrantMemoryStore(BaseMemoryStore):
         """
         return int(self._client.count(self._collection).count)
 
+    def _point_exists(self, id_: str) -> bool:
+        """Return True if a point with ``id_`` exists in the collection."""
+        hits = self._client.retrieve(
+            collection_name=self._collection,
+            ids=[id_],
+        )
+        return id_ in {h.id for h in hits}
+
     async def delete(self, id_: str) -> None:
         """Delete an episode by its unique identifier.
 
@@ -173,11 +181,7 @@ class QdrantMemoryStore(BaseMemoryStore):
         Args:
             id_ (str): The ``Episode.id_`` of the episode to remove.
         """
-        hits = self._client.retrieve(
-            collection_name=self._collection,
-            ids=[id_],
-        )
-        if id_ not in {h.id for h in hits}:
+        if not self._point_exists(id_):
             warnings.warn(
                 f"Episode '{id_}' not found in QdrantMemoryStore.",
                 EpisodeNotFoundWarning,
@@ -199,11 +203,7 @@ class QdrantMemoryStore(BaseMemoryStore):
         Args:
             episode (Episode): The updated episode. Matched by ``id_``.
         """
-        hits = self._client.retrieve(
-            collection_name=self._collection,
-            ids=[episode.id_],
-        )
-        if episode.id_ not in {h.id for h in hits}:
+        if not self._point_exists(episode.id_):
             warnings.warn(
                 f"Episode '{episode.id_}' not found in QdrantMemoryStore.",
                 EpisodeNotFoundWarning,

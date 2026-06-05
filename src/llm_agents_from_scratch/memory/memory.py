@@ -146,11 +146,11 @@ class Memory:
     async def update(self, episode: Episode) -> None:
         """Replace an existing episode in the store.
 
-        Delegates to ``store.update()``. Matches by ``episode.id_``.
-        Issues an ``EpisodeNotFoundWarning`` if no matching episode
-        exists.
+        Delegates to ``store.update()``, passing ``key_fn(episode)`` as
+        the embedding key. Matches by ``episode.id_``. Issues an
+        ``EpisodeNotFoundWarning`` if no matching episode exists.
 
         Args:
             episode (Episode): The updated episode. Matched by ``id_``.
         """
-        await self.store.update(episode)
+        await self.store.update(episode, self.key_fn(episode))

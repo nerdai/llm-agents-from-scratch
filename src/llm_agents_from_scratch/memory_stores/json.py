@@ -156,15 +156,21 @@ class JSONMemoryStore(BaseMemoryStore):
             return
         self._rewrite()
 
-    async def update(self, episode: Episode) -> None:
+    async def update(
+        self,
+        episode: Episode,
+        key: str | None = None,
+    ) -> None:
         """Replace an existing episode with an updated version.
 
         Matches by ``episode.id_``. Issues an ``EpisodeNotFoundWarning``
         if no matching episode exists. Otherwise replaces it in-place and
-        rewrites the backing file.
+        rewrites the backing file. ``key`` is accepted for interface
+        compatibility but ignored — this store does not embed episodes.
 
         Args:
             episode (Episode): The updated episode. Matched by ``id_``.
+            key (str | None): Ignored.
         """
         for i, ep in enumerate(self._episodes):
             if ep.id_ == episode.id_:

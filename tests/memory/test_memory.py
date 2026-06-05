@@ -196,4 +196,4 @@ async def test_update_delegates_to_store() -> None:
 
     await memory.update(ep)
 
-    store.update.assert_awaited_once_with(ep)
+    store.update.assert_awaited_once_with(ep, ep.task.instruction)

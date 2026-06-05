@@ -193,7 +193,11 @@ class QdrantMemoryStore(BaseMemoryStore):
             points_selector=models.PointIdsList(points=[id_]),
         )
 
-    async def update(self, episode: Episode) -> None:
+    async def update(
+        self,
+        episode: Episode,
+        key: str | None = None,
+    ) -> None:
         """Replace an existing episode with an updated version.
 
         Matches by ``episode.id_`` (the Qdrant point ID). Issues an
@@ -202,6 +206,10 @@ class QdrantMemoryStore(BaseMemoryStore):
 
         Args:
             episode (Episode): The updated episode. Matched by ``id_``.
+            key (str | None): Pre-formatted text to embed. When provided,
+                used directly for the vector. Defaults to ``None``, in
+                which case the store formats the episode using
+                ``DEFAULT_EPISODE_INCLUDE``.
         """
         if not self._point_exists(episode.id_):
             warnings.warn(
@@ -210,13 +218,16 @@ class QdrantMemoryStore(BaseMemoryStore):
                 stacklevel=2,
             )
             return
-        key = episode.format(mode="concat", include=DEFAULT_EPISODE_INCLUDE)
+        text = key or episode.format(
+            mode="concat",
+            include=DEFAULT_EPISODE_INCLUDE,
+        )
         self._client.upsert(
             collection_name=self._collection,
             points=[
                 episode_to_qdrant_point_struct(
                     episode,
-                    key,
+                    text,
                     self._client.get_vector_field_name(),
                     self._client.embedding_model_name,
                 ),

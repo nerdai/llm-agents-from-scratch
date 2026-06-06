@@ -3,7 +3,6 @@
 import uuid
 from datetime import datetime
 from enum import Enum
-from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -22,16 +21,6 @@ class EpisodeFormatMode(str, Enum):
 
     XML = "xml"
     CONCAT = "concat"
-
-
-EpisodeAttr = Literal[
-    "instruction",
-    "result",
-    "error",
-    "metadata",
-    "completed_at",
-    "rollout",
-]
 
 
 class Episode(BaseModel):
@@ -64,7 +53,7 @@ class Episode(BaseModel):
     def format(
         self,
         mode: EpisodeFormatMode = EpisodeFormatMode.XML,
-        include: list[EpisodeAttr] | None = None,
+        exclude: set[str] | None = None,
     ) -> str:
         """Serialise the episode for prompt injection or embedding.
 
@@ -73,66 +62,48 @@ class Episode(BaseModel):
                 prompt-ready XML block; ``EpisodeFormatMode.CONCAT`` produces
                 a newline-joined string for embedding. Defaults to
                 ``EpisodeFormatMode.XML``.
-            include (list[EpisodeAttr] | None): Attributes to include.
-                Defaults to ``["instruction", "result",
-                "metadata", "completed_at"]``.
+            exclude (set[str] | None): Field names to omit. Defaults to
+                ``{"id_", "rollout"}`` — both are excluded by default as
+                they add noise in most contexts.
 
         Returns:
             str: Serialised episode string.
         """
-        # rollout is excluded by default — it is long and adds noise
-        attrs = include or [
-            "instruction",
-            "result",
-            "error",
-            "metadata",
-            "completed_at",
-        ]
+        excluded = exclude if exclude is not None else {"id_", "rollout"}
+        fields = [f for f in Episode.model_fields if f not in excluded]
         if mode == EpisodeFormatMode.CONCAT:
-            return self._format_concat(attrs)
-        return self._format_xml(attrs)
+            return self._format_concat(fields)
+        return self._format_xml(fields)
 
-    def _format_concat(self, fields: list[EpisodeAttr]) -> str:
+    def _format_concat(self, fields: list[str]) -> str:
         parts: list[str] = []
         for f in fields:
-            if f == "instruction":
-                parts.append(f"instruction: {self.task.instruction}")
-            elif f == "result" and self.result:
-                parts.append(f"result: {self.result.content}")
-            elif f == "error" and self.error:
-                parts.append(f"error: {self.error}")
-            elif f == "metadata" and self.metadata:
-                parts.extend(f"{k}: {v}" for k, v in self.metadata.items())
+            val = getattr(self, f)
+            if val is None:
+                continue
+            if f == "metadata":
+                parts.extend(f"{k}: {v}" for k, v in val.items())
             elif f == "completed_at":
-                ts = self.completed_at.strftime("%Y-%m-%d %H:%M:%S")
+                ts = val.strftime("%Y-%m-%d %H:%M:%S")
                 parts.append(f"completed_at: {ts}")
-            elif f == "rollout":
-                parts.append(f"rollout: {self.rollout}")
+            else:
+                parts.append(f"{f}: {val}")
         return "\n".join(parts)
 
-    def _format_xml(self, fields: list[EpisodeAttr]) -> str:
+    def _format_xml(self, fields: list[str]) -> str:
         lines = ["  <episode>"]
         for f in fields:
-            if f == "instruction":
-                lines.append(
-                    f"    <task>{self.task.instruction}</task>",
-                )
-            elif f == "result" and self.result:
-                lines.append(
-                    f"    <result>{self.result.content}\n    </result>",
-                )
-            elif f == "error" and self.error:
-                lines.append(
-                    f"    <error>{self.error}\n    </error>",
-                )
-            elif f == "metadata" and self.metadata:
-                for key, val in self.metadata.items():
-                    lines.append(f"    <{key}>{val}</{key}>")
+            val = getattr(self, f)
+            if val is None:
+                continue
+            if f == "metadata":
+                for key, v in val.items():
+                    lines.append(f"    <{key}>{v}</{key}>")
             elif f == "completed_at":
-                ts = self.completed_at.strftime("%Y-%m-%d %H:%M:%S")
+                ts = val.strftime("%Y-%m-%d %H:%M:%S")
                 lines.append(f"    <completed_at>{ts}</completed_at>")
-            elif f == "rollout":
-                lines.append(f"    <rollout>{self.rollout}</rollout>")
+            else:
+                lines.append(f"    <{f}>{val}</{f}>")
         lines.append("  </episode>")
         return "\n".join(lines)
 

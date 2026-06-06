@@ -79,7 +79,7 @@ class Episode(BaseModel):
         for f in Episode.model_fields:
             if f in exclude:
                 continue
-            if val := getattr(self, f, None):
+            if val := getattr(self, f):
                 if f == "metadata":
                     parts.extend(f"{k}: {v}" for k, v in val.items())
                 elif f == "completed_at":
@@ -94,7 +94,7 @@ class Episode(BaseModel):
         for f in Episode.model_fields:
             if f in exclude:
                 continue
-            if val := getattr(self, f, None):
+            if val := getattr(self, f):
                 if f == "metadata":
                     for key, v in val.items():
                         lines.append(f"    <{key}>{v}</{key}>")

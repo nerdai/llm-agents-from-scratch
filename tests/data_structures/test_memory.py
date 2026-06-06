@@ -5,7 +5,7 @@ from llm_agents_from_scratch.data_structures import (
     Task,
     TaskResult,
 )
-from llm_agents_from_scratch.data_structures.memory import Episode
+from llm_agents_from_scratch.data_structures.memory import Episode, FormatMode
 
 
 def test_episode_str() -> None:
@@ -35,7 +35,7 @@ def test_format_concat_labels() -> None:
         completed_at=datetime(2025, 6, 1, 12, 0, 0),
     )
     text = ep.format(
-        mode="concat",
+        mode=FormatMode.CONCAT,
         include=[
             "instruction",
             "result",
@@ -59,7 +59,7 @@ def test_format_concat_completed_at() -> None:
         result=TaskResult(task_id=task.id_, content="result"),
         completed_at=datetime(2025, 6, 1, 12, 0, 0),
     )
-    text = ep.format(mode="concat", include=["completed_at"])
+    text = ep.format(mode=FormatMode.CONCAT, include=["completed_at"])
     assert "2025-06-01 12:00:00" in text
 
 
@@ -70,7 +70,7 @@ def test_format_concat_rollout() -> None:
         rollout="step1 -> step2",
         result=TaskResult(task_id=task.id_, content="result"),
     )
-    text = ep.format(mode="concat", include=["rollout"])
+    text = ep.format(mode=FormatMode.CONCAT, include=["rollout"])
     assert "step1 -> step2" in text
 
 
@@ -82,7 +82,7 @@ def test_format_xml_metadata() -> None:
         result=TaskResult(task_id=task.id_, content="result"),
         metadata={"reflection": "key lesson here"},
     )
-    text = ep.format(mode="xml", include=["metadata"])
+    text = ep.format(mode=FormatMode.XML, include=["metadata"])
     assert "<reflection>key lesson here</reflection>" in text
 
 
@@ -93,7 +93,7 @@ def test_format_xml_rollout() -> None:
         rollout="step1 -> step2",
         result=TaskResult(task_id=task.id_, content="result"),
     )
-    text = ep.format(mode="xml", include=["rollout"])
+    text = ep.format(mode=FormatMode.XML, include=["rollout"])
     assert "<rollout>step1 -> step2</rollout>" in text
 
 
@@ -101,7 +101,7 @@ def test_format_xml_error() -> None:
     task = Task(instruction="task")
     err = RuntimeError("something went wrong")
     ep = Episode(task=task, rollout="", error=err)
-    text = ep.format(mode="xml", include=["error"])
+    text = ep.format(mode=FormatMode.XML, include=["error"])
     assert "<error>something went wrong" in text
 
 
@@ -112,7 +112,7 @@ def test_format_xml_error_omitted_when_none() -> None:
         rollout="",
         result=TaskResult(task_id=task.id_, content="ok"),
     )
-    text = ep.format(mode="xml", include=["error"])
+    text = ep.format(mode=FormatMode.XML, include=["error"])
     assert "<error>" not in text
 
 
@@ -120,7 +120,7 @@ def test_format_concat_error() -> None:
     task = Task(instruction="task")
     err = ValueError("bad value")
     ep = Episode(task=task, rollout="", error=err)
-    text = ep.format(mode="concat", include=["error"])
+    text = ep.format(mode=FormatMode.CONCAT, include=["error"])
     assert "bad value" in text
 
 
@@ -131,7 +131,7 @@ def test_format_concat_error_omitted_when_none() -> None:
         rollout="",
         result=TaskResult(task_id=task.id_, content="ok"),
     )
-    text = ep.format(mode="concat", include=["error"])
+    text = ep.format(mode=FormatMode.CONCAT, include=["error"])
     assert text == ""
 
 

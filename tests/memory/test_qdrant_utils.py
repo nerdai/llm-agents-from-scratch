@@ -1,5 +1,5 @@
 from llm_agents_from_scratch.data_structures import Task, TaskResult
-from llm_agents_from_scratch.data_structures.memory import Episode
+from llm_agents_from_scratch.data_structures.memory import Episode, FormatMode
 from llm_agents_from_scratch.memory_stores.qdrant.utils import (
     episode_to_qdrant_point_struct,
 )
@@ -52,7 +52,10 @@ def test_document_model_name() -> None:
 
 def test_text_passed_through_to_document() -> None:
     episode = _make_episode()
-    text = episode.format(mode="concat", include=["instruction", "result"])
+    text = episode.format(
+        mode=FormatMode.CONCAT,
+        include=["instruction", "result"],
+    )
     point = episode_to_qdrant_point_struct(
         episode,
         text,

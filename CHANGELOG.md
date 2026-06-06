@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- refactor: replace `EpisodeAttr` Literal and `include` param with `exclude: set[str] | None` in `Episode.format()`; fields iterated from `Episode.model_fields` so new fields appear automatically; `QdrantMemoryStore` migrates to `DEFAULT_EPISODE_EXCLUDE`; `error` field is now included in embeddings (#623)
 - feat: introduce FormatMode enum for Episode.format() mode param (#620)
 - feat: `Episode._format_concat` now prefixes each value with its field label (e.g. `instruction: ...`, `result: ...`); metadata entries use their key as label (#616)
 - feat: add delete() and update() to BaseMemoryStore (#609)

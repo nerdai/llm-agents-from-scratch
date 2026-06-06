@@ -79,16 +79,14 @@ class Episode(BaseModel):
         for f in Episode.model_fields:
             if f in exclude:
                 continue
-            val = getattr(self, f)
-            if val is None:
-                continue
-            if f == "metadata":
-                parts.extend(f"{k}: {v}" for k, v in val.items())
-            elif f == "completed_at":
-                ts = val.strftime("%Y-%m-%d %H:%M:%S")
-                parts.append(f"completed_at: {ts}")
-            else:
-                parts.append(f"{f}: {val}")
+            if val := getattr(self, f, None):
+                if f == "metadata":
+                    parts.extend(f"{k}: {v}" for k, v in val.items())
+                elif f == "completed_at":
+                    ts = val.strftime("%Y-%m-%d %H:%M:%S")
+                    parts.append(f"completed_at: {ts}")
+                else:
+                    parts.append(f"{f}: {val}")
         return "\n".join(parts)
 
     def _format_xml(self, exclude: set[str]) -> str:
@@ -96,17 +94,15 @@ class Episode(BaseModel):
         for f in Episode.model_fields:
             if f in exclude:
                 continue
-            val = getattr(self, f)
-            if val is None:
-                continue
-            if f == "metadata":
-                for key, v in val.items():
-                    lines.append(f"    <{key}>{v}</{key}>")
-            elif f == "completed_at":
-                ts = val.strftime("%Y-%m-%d %H:%M:%S")
-                lines.append(f"    <completed_at>{ts}</completed_at>")
-            else:
-                lines.append(f"    <{f}>{val}</{f}>")
+            if val := getattr(self, f, None):
+                if f == "metadata":
+                    for key, v in val.items():
+                        lines.append(f"    <{key}>{v}</{key}>")
+                elif f == "completed_at":
+                    ts = val.strftime("%Y-%m-%d %H:%M:%S")
+                    lines.append(f"    <completed_at>{ts}</completed_at>")
+                else:
+                    lines.append(f"    <{f}>{val}</{f}>")
         lines.append("  </episode>")
         return "\n".join(lines)
 

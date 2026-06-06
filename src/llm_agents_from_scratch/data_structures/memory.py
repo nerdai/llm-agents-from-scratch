@@ -70,14 +70,13 @@ class Episode(BaseModel):
             str: Serialised episode string.
         """
         excluded = exclude if exclude is not None else {"id_", "rollout"}
-        fields = [f for f in Episode.model_fields if f not in excluded]
         if mode == EpisodeFormatMode.CONCAT:
-            return self._format_concat(fields)
-        return self._format_xml(fields)
+            return self._format_concat(excluded)
+        return self._format_xml(excluded)
 
-    def _format_concat(self, fields: list[str]) -> str:
+    def _format_concat(self, exclude: set[str]) -> str:
         parts: list[str] = []
-        for f in fields:
+        for f in [f for f in Episode.model_fields if f not in exclude]:
             val = getattr(self, f)
             if val is None:
                 continue
@@ -90,9 +89,9 @@ class Episode(BaseModel):
                 parts.append(f"{f}: {val}")
         return "\n".join(parts)
 
-    def _format_xml(self, fields: list[str]) -> str:
+    def _format_xml(self, exclude: set[str]) -> str:
         lines = ["  <episode>"]
-        for f in fields:
+        for f in [f for f in Episode.model_fields if f not in exclude]:
             val = getattr(self, f)
             if val is None:
                 continue

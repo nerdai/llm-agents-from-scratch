@@ -10,8 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-- feat: add delete() and update() to BaseMemoryStore (#609)
+- feat: introduce FormatMode enum for Episode.format() mode param (#620)
 - feat: `Episode._format_concat` now prefixes each value with its field label (e.g. `instruction: ...`, `result: ...`); metadata entries use their key as label (#616)
+- feat: add delete() and update() to BaseMemoryStore (#609)
 
 ## [0.0.18] - 2026-06-03
 

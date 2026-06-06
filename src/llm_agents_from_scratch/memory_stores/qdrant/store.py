@@ -7,6 +7,7 @@ from qdrant_client import QdrantClient, models
 from llm_agents_from_scratch.base.memory_store import BaseMemoryStore
 from llm_agents_from_scratch.data_structures.memory import (
     Episode,
+    EpisodeAttr,
     RecallMode,
 )
 from llm_agents_from_scratch.errors import EpisodeNotFoundError
@@ -14,7 +15,11 @@ from llm_agents_from_scratch.memory_stores.qdrant.utils import (
     episode_to_qdrant_point_struct,
 )
 
-DEFAULT_EPISODE_EXCLUDE: set[str] = {"id_", "rollout", "completed_at"}
+DEFAULT_EPISODE_INCLUDE: list[EpisodeAttr] = [
+    "instruction",
+    "result",
+    "metadata",
+]
 
 
 class QdrantMemoryStore(BaseMemoryStore):
@@ -86,7 +91,7 @@ class QdrantMemoryStore(BaseMemoryStore):
         The full serialised episode and its completion timestamp are
         stored in the point payload for later retrieval. The key
         defaults to a concat-format serialisation of
-        ``DEFAULT_EPISODE_EXCLUDE`` attributes when ``key`` is not
+        ``DEFAULT_EPISODE_INCLUDE`` attributes when ``key`` is not
         provided.
 
         Args:
@@ -95,10 +100,11 @@ class QdrantMemoryStore(BaseMemoryStore):
                 provided by the calling memory strategy, this text is
                 used directly for the vector. Defaults to ``None``, in
                 which case the store formats the episode using
-                ``DEFAULT_EPISODE_EXCLUDE``.
+                ``DEFAULT_EPISODE_INCLUDE``.
         """
         text = key or episode.format(
-            exclude=DEFAULT_EPISODE_EXCLUDE,
+            mode="concat",
+            include=DEFAULT_EPISODE_INCLUDE,
         )
         self._client.upsert(
             collection_name=self._collection,
@@ -201,7 +207,7 @@ class QdrantMemoryStore(BaseMemoryStore):
             key (str | None): Pre-formatted text to embed. When provided,
                 used directly for the vector. Defaults to ``None``, in
                 which case the store formats the episode using
-                ``DEFAULT_EPISODE_EXCLUDE``.
+                ``DEFAULT_EPISODE_INCLUDE``.
 
         Raises:
             EpisodeNotFoundError: If no point with ``episode.id_`` exists.
@@ -211,7 +217,8 @@ class QdrantMemoryStore(BaseMemoryStore):
                 f"Episode '{episode.id_}' not found in QdrantMemoryStore.",
             )
         text = key or episode.format(
-            exclude=DEFAULT_EPISODE_EXCLUDE,
+            mode="concat",
+            include=DEFAULT_EPISODE_INCLUDE,
         )
         self._client.upsert(
             collection_name=self._collection,

@@ -57,7 +57,7 @@ def test_text_passed_through_to_document() -> None:
     episode = _make_episode()
     text = episode.format(
         mode=EpisodeFormatMode.CONCAT,
-        exclude={"id_", "rollout", "metadata", "completed_at"},
+        include=["instruction", "result"],
     )
     point = episode_to_qdrant_point_struct(
         episode,
@@ -79,8 +79,8 @@ def test_metadata_in_text_when_caller_includes_it() -> None:
         metadata={"reflection": "Always verify the name spelling."},
     )
     text = episode.format(
-        mode=EpisodeFormatMode.CONCAT,
-        exclude={"id_", "rollout", "error", "completed_at"},
+        mode="concat",
+        include=["instruction", "result", "metadata"],
     )
     point = episode_to_qdrant_point_struct(
         episode,

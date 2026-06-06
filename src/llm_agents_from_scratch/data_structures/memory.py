@@ -76,7 +76,9 @@ class Episode(BaseModel):
 
     def _format_concat(self, exclude: set[str]) -> str:
         parts: list[str] = []
-        for f in [f for f in Episode.model_fields if f not in exclude]:
+        for f in Episode.model_fields:
+            if f in exclude:
+                continue
             val = getattr(self, f)
             if val is None:
                 continue
@@ -91,7 +93,9 @@ class Episode(BaseModel):
 
     def _format_xml(self, exclude: set[str]) -> str:
         lines = ["  <episode>"]
-        for f in [f for f in Episode.model_fields if f not in exclude]:
+        for f in Episode.model_fields:
+            if f in exclude:
+                continue
             val = getattr(self, f)
             if val is None:
                 continue

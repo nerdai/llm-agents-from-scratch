@@ -25,32 +25,6 @@ def test_episode_str() -> None:
     assert ep.completed_at.strftime("%Y-%m-%d") in s
 
 
-def test_format_concat_labels() -> None:
-    task = Task(instruction="my task")
-    ep = Episode(
-        task=task,
-        rollout="step1",
-        result=TaskResult(task_id=task.id_, content="my result"),
-        metadata={"reflection": "a lesson"},
-        completed_at=datetime(2025, 6, 1, 12, 0, 0),
-    )
-    text = ep.format(
-        mode="concat",
-        include=[
-            "instruction",
-            "result",
-            "metadata",
-            "completed_at",
-            "rollout",
-        ],
-    )
-    assert "instruction: my task" in text
-    assert "result: my result" in text
-    assert "reflection: a lesson" in text
-    assert "completed_at: 2025-06-01 12:00:00" in text
-    assert "rollout: step1" in text
-
-
 def test_format_concat_completed_at() -> None:
     task = Task(instruction="task")
     ep = Episode(

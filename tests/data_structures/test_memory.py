@@ -10,6 +10,8 @@ from llm_agents_from_scratch.data_structures.memory import (
     EpisodeFormatMode,
 )
 
+_ALL_FIELDS = set(Episode.model_fields)
+
 
 def test_episode_str() -> None:
     """Tests Episode.__str__ produces prompt-ready XML with key fields."""
@@ -24,7 +26,7 @@ def test_episode_str() -> None:
 
     assert "<episode>" in s
     assert "<task>summarise the doc</task>" in s
-    assert "<result>here is the summary\n    </result>" in s
+    assert "<result>here is the summary</result>" in s
     assert ep.completed_at.strftime("%Y-%m-%d") in s
 
 
@@ -37,17 +39,8 @@ def test_format_concat_labels() -> None:
         metadata={"reflection": "a lesson"},
         completed_at=datetime(2025, 6, 1, 12, 0, 0),
     )
-    text = ep.format(
-        mode=EpisodeFormatMode.CONCAT,
-        include=[
-            "instruction",
-            "result",
-            "metadata",
-            "completed_at",
-            "rollout",
-        ],
-    )
-    assert "instruction: my task" in text
+    text = ep.format(mode=EpisodeFormatMode.CONCAT, exclude={"id_"})
+    assert "task: my task" in text
     assert "result: my result" in text
     assert "reflection: a lesson" in text
     assert "completed_at: 2025-06-01 12:00:00" in text
@@ -62,7 +55,10 @@ def test_format_concat_completed_at() -> None:
         result=TaskResult(task_id=task.id_, content="result"),
         completed_at=datetime(2025, 6, 1, 12, 0, 0),
     )
-    text = ep.format(mode=EpisodeFormatMode.CONCAT, include=["completed_at"])
+    text = ep.format(
+        mode=EpisodeFormatMode.CONCAT,
+        exclude=_ALL_FIELDS - {"completed_at"},
+    )
     assert "2025-06-01 12:00:00" in text
 
 
@@ -73,7 +69,10 @@ def test_format_concat_rollout() -> None:
         rollout="step1 -> step2",
         result=TaskResult(task_id=task.id_, content="result"),
     )
-    text = ep.format(mode=EpisodeFormatMode.CONCAT, include=["rollout"])
+    text = ep.format(
+        mode=EpisodeFormatMode.CONCAT,
+        exclude=_ALL_FIELDS - {"rollout"},
+    )
     assert "step1 -> step2" in text
 
 
@@ -85,7 +84,10 @@ def test_format_xml_metadata() -> None:
         result=TaskResult(task_id=task.id_, content="result"),
         metadata={"reflection": "key lesson here"},
     )
-    text = ep.format(mode=EpisodeFormatMode.XML, include=["metadata"])
+    text = ep.format(
+        mode=EpisodeFormatMode.XML,
+        exclude=_ALL_FIELDS - {"metadata"},
+    )
     assert "<reflection>key lesson here</reflection>" in text
 
 
@@ -96,7 +98,10 @@ def test_format_xml_rollout() -> None:
         rollout="step1 -> step2",
         result=TaskResult(task_id=task.id_, content="result"),
     )
-    text = ep.format(mode=EpisodeFormatMode.XML, include=["rollout"])
+    text = ep.format(
+        mode=EpisodeFormatMode.XML,
+        exclude=_ALL_FIELDS - {"rollout"},
+    )
     assert "<rollout>step1 -> step2</rollout>" in text
 
 
@@ -104,7 +109,10 @@ def test_format_xml_error() -> None:
     task = Task(instruction="task")
     err = RuntimeError("something went wrong")
     ep = Episode(task=task, rollout="", error=err)
-    text = ep.format(mode=EpisodeFormatMode.XML, include=["error"])
+    text = ep.format(
+        mode=EpisodeFormatMode.XML,
+        exclude=_ALL_FIELDS - {"error"},
+    )
     assert "<error>something went wrong" in text
 
 
@@ -115,7 +123,10 @@ def test_format_xml_error_omitted_when_none() -> None:
         rollout="",
         result=TaskResult(task_id=task.id_, content="ok"),
     )
-    text = ep.format(mode=EpisodeFormatMode.XML, include=["error"])
+    text = ep.format(
+        mode=EpisodeFormatMode.XML,
+        exclude=_ALL_FIELDS - {"error"},
+    )
     assert "<error>" not in text
 
 
@@ -123,7 +134,10 @@ def test_format_concat_error() -> None:
     task = Task(instruction="task")
     err = ValueError("bad value")
     ep = Episode(task=task, rollout="", error=err)
-    text = ep.format(mode=EpisodeFormatMode.CONCAT, include=["error"])
+    text = ep.format(
+        mode=EpisodeFormatMode.CONCAT,
+        exclude=_ALL_FIELDS - {"error"},
+    )
     assert "bad value" in text
 
 
@@ -134,7 +148,10 @@ def test_format_concat_error_omitted_when_none() -> None:
         rollout="",
         result=TaskResult(task_id=task.id_, content="ok"),
     )
-    text = ep.format(mode=EpisodeFormatMode.CONCAT, include=["error"])
+    text = ep.format(
+        mode=EpisodeFormatMode.CONCAT,
+        exclude=_ALL_FIELDS - {"error"},
+    )
     assert text == ""
 
 

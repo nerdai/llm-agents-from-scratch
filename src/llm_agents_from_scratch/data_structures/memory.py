@@ -89,19 +89,18 @@ class Episode(BaseModel):
         parts: list[str] = []
         for f in fields:
             if f == "instruction":
-                parts.append(self.task.instruction)
+                parts.append(f"instruction: {self.task.instruction}")
             elif f == "result" and self.result:
-                parts.append(self.result.content)
+                parts.append(f"result: {self.result.content}")
             elif f == "error" and self.error:
-                parts.append(str(self.error))
+                parts.append(f"error: {self.error}")
             elif f == "metadata" and self.metadata:
-                parts.extend(self.metadata.values())
+                parts.extend(f"{k}: {v}" for k, v in self.metadata.items())
             elif f == "completed_at":
-                parts.append(
-                    self.completed_at.strftime("%Y-%m-%d %H:%M:%S"),
-                )
+                ts = self.completed_at.strftime("%Y-%m-%d %H:%M:%S")
+                parts.append(f"completed_at: {ts}")
             elif f == "rollout":
-                parts.append(self.rollout)
+                parts.append(f"rollout: {self.rollout}")
         return "\n".join(parts)
 
     def _format_xml(self, fields: list[EpisodeAttr]) -> str:

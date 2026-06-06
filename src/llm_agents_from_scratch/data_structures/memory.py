@@ -17,7 +17,7 @@ class RecallMode(str, Enum):
     SEARCH = "search"
 
 
-class FormatMode(str, Enum):
+class EpisodeFormatMode(str, Enum):
     """Serialisation format used by ``Episode.format()``."""
 
     XML = "xml"
@@ -63,15 +63,16 @@ class Episode(BaseModel):
 
     def format(
         self,
-        mode: FormatMode = FormatMode.XML,
+        mode: EpisodeFormatMode = EpisodeFormatMode.XML,
         include: list[EpisodeAttr] | None = None,
     ) -> str:
         """Serialise the episode for prompt injection or embedding.
 
         Args:
-            mode (FormatMode): ``FormatMode.XML`` produces a prompt-ready
-                XML block; ``FormatMode.CONCAT`` produces a newline-joined
-                string for embedding. Defaults to ``FormatMode.XML``.
+            mode (EpisodeFormatMode): ``EpisodeFormatMode.XML`` produces a
+                prompt-ready XML block; ``EpisodeFormatMode.CONCAT`` produces
+                a newline-joined string for embedding. Defaults to
+                ``EpisodeFormatMode.XML``.
             include (list[EpisodeAttr] | None): Attributes to include.
                 Defaults to ``["instruction", "result",
                 "metadata", "completed_at"]``.
@@ -87,7 +88,7 @@ class Episode(BaseModel):
             "metadata",
             "completed_at",
         ]
-        if mode == FormatMode.CONCAT:
+        if mode == EpisodeFormatMode.CONCAT:
             return self._format_concat(attrs)
         return self._format_xml(attrs)
 
@@ -137,4 +138,4 @@ class Episode(BaseModel):
 
     def __str__(self) -> str:
         """Return a prompt-ready XML string representation of the episode."""
-        return self.format(mode=FormatMode.XML)
+        return self.format(mode=EpisodeFormatMode.XML)

@@ -40,7 +40,7 @@ jobs:
         name: Upload results to Codecov
         uses: codecov/codecov-action@v5
         with:
-          use_oidc: true
+          token: ${{ secrets.CODECOV_TOKEN }}
           use_pypi: true
           slug: nerdai/llm-agents-from-scratch
           fail_ci_if_error: true

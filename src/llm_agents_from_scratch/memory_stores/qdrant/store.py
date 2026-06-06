@@ -84,9 +84,9 @@ class QdrantMemoryStore(BaseMemoryStore):
     ) -> None:
         """Embed and persist an episode to the Qdrant collection.
 
-        The full serialised episode and its completion timestamp are
+        The full serialized episode and its completion timestamp are
         stored in the point payload for later retrieval. The key
-        defaults to a concat-format serialisation using
+        defaults to a concat-format Serialization using
         ``DEFAULT_EPISODE_EXCLUDE`` when ``key`` is not provided.
 
         Args:

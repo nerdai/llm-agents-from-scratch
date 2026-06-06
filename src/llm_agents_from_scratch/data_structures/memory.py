@@ -17,7 +17,7 @@ class RecallMode(str, Enum):
 
 
 class EpisodeFormatMode(str, Enum):
-    """Serialisation format used by ``Episode.format()``."""
+    """Serialization format used by ``Episode.format()``."""
 
     XML = "xml"
     CONCAT = "concat"
@@ -55,7 +55,7 @@ class Episode(BaseModel):
         mode: EpisodeFormatMode = EpisodeFormatMode.XML,
         exclude: set[str] | None = None,
     ) -> str:
-        """Serialise the episode for prompt injection or embedding.
+        """Serialize the episode for prompt injection or embedding.
 
         Args:
             mode (EpisodeFormatMode): ``EpisodeFormatMode.XML`` produces a
@@ -67,7 +67,7 @@ class Episode(BaseModel):
                 they add noise in most contexts.
 
         Returns:
-            str: Serialised episode string.
+            str: Serialized episode string.
         """
         excluded = exclude if exclude is not None else {"id_", "rollout"}
         if mode == EpisodeFormatMode.CONCAT:

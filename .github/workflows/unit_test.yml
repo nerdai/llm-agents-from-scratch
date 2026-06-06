@@ -38,9 +38,10 @@ jobs:
 
       - if: matrix.python-version == '3.13'
         name: Upload results to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          use_pypi: true
           slug: nerdai/llm-agents-from-scratch
           fail_ci_if_error: true
           verbose: true

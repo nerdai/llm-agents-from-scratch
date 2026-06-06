@@ -41,6 +41,7 @@ jobs:
         uses: codecov/codecov-action@v6
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          use_pypi: true
           slug: nerdai/llm-agents-from-scratch
           fail_ci_if_error: true
           verbose: true

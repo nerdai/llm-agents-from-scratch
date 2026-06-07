@@ -1,5 +1,6 @@
 """Qdrant-backed episodic memory store."""
 
+from collections.abc import Callable
 from typing import Any
 
 from qdrant_client import QdrantClient, models
@@ -36,15 +37,18 @@ class QdrantMemoryStore(BaseMemoryStore):
     Attributes:
         _client (QdrantClient): The Qdrant client instance.
         _collection (str): Name of the Qdrant collection.
+        _key_fn (Callable[[Episode], str]): Callable that extracts the
+            text used for embedding from an episode.
     """
 
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         collection_name: str = "episodes",
         embedding_model: str = "BAAI/bge-small-en-v1.5",
         client: QdrantClient | None = None,
         max_results: int = 5,
         recall_mode: RecallMode = RecallMode.SEARCH,
+        key_fn: Callable[[Episode], str] | None = None,
     ) -> None:
         """Initialize a QdrantMemoryStore.
 
@@ -66,41 +70,38 @@ class QdrantMemoryStore(BaseMemoryStore):
                 returned by ``search``. Defaults to 5.
             recall_mode (RecallMode): Retrieval strategy used by
                 ``search()``. Defaults to ``RecallMode.SEARCH``.
+            key_fn (Callable[[Episode], str] | None): Callable that
+                extracts the text to embed from an episode. Defaults to
+                a concat-format serialization using
+                ``DEFAULT_EPISODE_EXCLUDE``.
         """
         super().__init__(max_results=max_results, recall_mode=recall_mode)
         self._client = client or QdrantClient(":memory:")
         self._client.set_model(embedding_model)
         self._collection = collection_name
+        self._key_fn: Callable[[Episode], str] = key_fn or (
+            lambda ep: ep.format(
+                mode=EpisodeFormatMode.CONCAT,
+                exclude=DEFAULT_EPISODE_EXCLUDE,
+            )
+        )
         if not self._client.collection_exists(collection_name):
             self._client.create_collection(
                 collection_name=collection_name,
                 vectors_config=self._client.get_fastembed_vector_params(),
             )
 
-    async def write(
-        self,
-        episode: Episode,
-        key: str | None = None,
-    ) -> None:
+    async def write(self, episode: Episode) -> None:
         """Embed and persist an episode to the Qdrant collection.
 
         The full serialized episode and its completion timestamp are
-        stored in the point payload for later retrieval. The key
-        defaults to a concat-format Serialization using
-        ``DEFAULT_EPISODE_EXCLUDE`` when ``key`` is not provided.
+        stored in the point payload for later retrieval. The embedding
+        text is produced by ``_key_fn``.
 
         Args:
             episode (Episode): The completed episode to store.
-            key (str | None): Pre-formatted text to embed. When
-                provided by the calling memory strategy, this text is
-                used directly for the vector. Defaults to ``None``, in
-                which case the store formats the episode using
-                ``DEFAULT_EPISODE_EXCLUDE``.
         """
-        text = key or episode.format(
-            mode=EpisodeFormatMode.CONCAT,
-            exclude=DEFAULT_EPISODE_EXCLUDE,
-        )
+        text = self._key_fn(episode)
         self._client.upsert(
             collection_name=self._collection,
             points=[
@@ -186,23 +187,15 @@ class QdrantMemoryStore(BaseMemoryStore):
             points_selector=models.PointIdsList(points=[id_]),
         )
 
-    async def update(
-        self,
-        episode: Episode,
-        key: str | None = None,
-    ) -> None:
+    async def update(self, episode: Episode) -> None:
         """Replace an existing episode with an updated version.
 
         Matches by ``episode.id_`` (the Qdrant point ID). Raises
         ``EpisodeNotFoundError`` if no matching point exists. Otherwise
-        re-embeds and upserts the updated episode.
+        re-embeds and upserts the updated episode using ``_key_fn``.
 
         Args:
             episode (Episode): The updated episode. Matched by ``id_``.
-            key (str | None): Pre-formatted text to embed. When provided,
-                used directly for the vector. Defaults to ``None``, in
-                which case the store formats the episode using
-                ``DEFAULT_EPISODE_EXCLUDE``.
 
         Raises:
             EpisodeNotFoundError: If no point with ``episode.id_`` exists.
@@ -211,10 +204,7 @@ class QdrantMemoryStore(BaseMemoryStore):
             raise EpisodeNotFoundError(
                 f"Episode '{episode.id_}' not found in QdrantMemoryStore.",
             )
-        text = key or episode.format(
-            mode=EpisodeFormatMode.CONCAT,
-            exclude=DEFAULT_EPISODE_EXCLUDE,
-        )
+        text = self._key_fn(episode)
         self._client.upsert(
             collection_name=self._collection,
             points=[

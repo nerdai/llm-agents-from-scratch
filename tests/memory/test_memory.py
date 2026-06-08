@@ -34,24 +34,21 @@ def make_store(episodes: list[Episode] | None = None) -> AsyncMock:
 
 def test_init_stores_attributes() -> None:
     store = MagicMock(spec=BaseMemoryStore)
-    key_fn = lambda ep: ep.task.instruction  # noqa: E731
     metadata_fn = AsyncMock(return_value="value")
 
     memory = Memory(
         store=store,
-        key_fn=key_fn,
         metadata_fns={"note": metadata_fn},
     )
 
     assert memory.store is store
-    assert memory.key_fn is key_fn
     assert memory.metadata_fns == {"note": metadata_fn}
 
 
 def test_init_default_metadata_fns() -> None:
     store = MagicMock(spec=BaseMemoryStore)
 
-    memory = Memory(store=store, key_fn=lambda ep: ep.task.instruction)
+    memory = Memory(store=store)
 
     assert memory.metadata_fns == {}
 
@@ -65,7 +62,7 @@ async def test_recall_formats_episodes() -> None:
     ep2 = make_episode("task two", "result two")
     store = make_store([ep1, ep2])
 
-    memory = Memory(store=store, key_fn=lambda ep: ep.task.instruction)
+    memory = Memory(store=store)
     task = Task(instruction="new task")
 
     result = await memory.recall(task)
@@ -79,7 +76,7 @@ async def test_recall_formats_episodes() -> None:
 async def test_recall_returns_empty_string_when_no_episodes() -> None:
     store = make_store([])
 
-    memory = Memory(store=store, key_fn=lambda ep: ep.task.instruction)
+    memory = Memory(store=store)
 
     result = await memory.recall(Task(instruction="anything"))
 
@@ -90,14 +87,14 @@ async def test_recall_returns_empty_string_when_no_episodes() -> None:
 
 
 @pytest.mark.asyncio
-async def test_record_writes_episode_with_key() -> None:
+async def test_record_writes_episode() -> None:
     store = make_store()
     ep = make_episode("summarise doc")
-    memory = Memory(store=store, key_fn=lambda ep: ep.task.instruction)
+    memory = Memory(store=store)
 
     await memory.record(ep)
 
-    store.write.assert_awaited_once_with(ep, "summarise doc")
+    store.write.assert_awaited_once_with(ep)
 
 
 @pytest.mark.asyncio
@@ -113,7 +110,6 @@ async def test_record_runs_metadata_fns_concurrently() -> None:
 
     memory = Memory(
         store=store,
-        key_fn=lambda ep: ep.task.instruction,
         metadata_fns={"reflection": reflect, "tag": tag},
     )
 
@@ -121,7 +117,7 @@ async def test_record_runs_metadata_fns_concurrently() -> None:
 
     assert ep.metadata["reflection"] == "a lesson"
     assert ep.metadata["tag"] == "important"
-    store.write.assert_awaited_once_with(ep, ep.task.instruction)
+    store.write.assert_awaited_once_with(ep)
 
 
 @pytest.mark.asyncio
@@ -133,7 +129,6 @@ async def test_record_all_metadata_fns_called() -> None:
 
     memory = Memory(
         store=store,
-        key_fn=lambda ep: ep.task.instruction,
         metadata_fns={"a": fn_a, "b": fn_b},
     )
 
@@ -156,7 +151,6 @@ async def test_summary_includes_store_summary_and_config() -> None:
 
     store.summary.assert_called_once()
     assert "store summary" in result
-    assert "key_fn:" in result
     assert "metadata_fns: none" in result
 
 
@@ -196,4 +190,4 @@ async def test_update_delegates_to_store() -> None:
 
     await memory.update(ep)
 
-    store.update.assert_awaited_once_with(ep, ep.task.instruction)
+    store.update.assert_awaited_once_with(ep)

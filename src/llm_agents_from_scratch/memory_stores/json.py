@@ -56,20 +56,14 @@ class JSONMemoryStore(BaseMemoryStore):
                 Episode.model_validate_json(line) for line in f if line.strip()
             ]
 
-    async def write(
-        self,
-        episode: Episode,
-        key: str | None = None,
-    ) -> None:
+    async def write(self, episode: Episode) -> None:
         """Persist an episode to the store.
 
         Appends one JSON line to the backing file. Does not rewrite existing
-        content. ``key`` is accepted for interface compatibility but ignored
-        — this store does not embed episodes.
+        content.
 
         Args:
             episode (Episode): The completed episode to store.
-            key (str | None): Ignored.
         """
         self._episodes.append(episode)
         with open(self.path, "a") as f:
@@ -158,21 +152,15 @@ class JSONMemoryStore(BaseMemoryStore):
         self._episodes.pop(idx)
         self._rewrite()
 
-    async def update(
-        self,
-        episode: Episode,
-        key: str | None = None,
-    ) -> None:
+    async def update(self, episode: Episode) -> None:
         """Replace an existing episode with an updated version.
 
         Matches by ``episode.id_``. Raises ``EpisodeNotFoundError`` if no
         matching episode exists. Otherwise replaces it in-place and rewrites
-        the backing file. ``key`` is accepted for interface compatibility but
-        ignored — this store does not embed episodes.
+        the backing file.
 
         Args:
             episode (Episode): The updated episode. Matched by ``id_``.
-            key (str | None): Ignored.
 
         Raises:
             EpisodeNotFoundError: If no episode with ``episode.id_`` exists.

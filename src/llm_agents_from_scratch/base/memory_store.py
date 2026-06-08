@@ -46,21 +46,11 @@ class BaseMemoryStore(ABC):
         self.recall_mode = recall_mode
 
     @abstractmethod
-    async def write(
-        self,
-        episode: Episode,
-        key: str | None = None,
-    ) -> None:
+    async def write(self, episode: Episode) -> None:
         """Persist an episode to the store.
 
         Args:
             episode (Episode): The completed episode to store.
-            key (str | None): Pre-formatted text for substrates that
-                embed episodes (e.g. vector stores). When provided, the
-                store uses this text for embedding instead of formatting
-                the episode itself. Substrates that do not embed (e.g.
-                ``JSONMemoryStore``) ignore this argument. Defaults to
-                ``None``.
         """
 
     @abstractmethod
@@ -112,11 +102,7 @@ class BaseMemoryStore(ABC):
         """
 
     @abstractmethod
-    async def update(
-        self,
-        episode: Episode,
-        key: str | None = None,
-    ) -> None:
+    async def update(self, episode: Episode) -> None:
         """Replace an existing episode with an updated version.
 
         Matches the stored episode by ``episode.id_`` and replaces it
@@ -125,9 +111,6 @@ class BaseMemoryStore(ABC):
 
         Args:
             episode (Episode): The updated episode. Matched by ``id_``.
-            key (str | None): Pre-formatted text for substrates that
-                embed episodes (e.g. vector stores). Ignored by stores
-                that do not embed. Defaults to ``None``.
         """
 
     @abstractmethod

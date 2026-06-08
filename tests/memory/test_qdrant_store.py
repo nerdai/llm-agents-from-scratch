@@ -80,13 +80,13 @@ async def test_write(mock_client: MagicMock, episode: Episode) -> None:
     assert "completed_at" in point.payload
 
 
-async def test_write_uses_key_when_provided(
+async def test_write_uses_key_fn_when_provided(
     mock_client: MagicMock,
     episode: Episode,
 ) -> None:
-    store = QdrantMemoryStore()
     custom_text = "custom formatted text"
-    await store.write(episode, key=custom_text)
+    store = QdrantMemoryStore(key_fn=lambda ep: custom_text)
+    await store.write(episode)
 
     kw = mock_client.upsert.call_args.kwargs
     point = kw["points"][0]

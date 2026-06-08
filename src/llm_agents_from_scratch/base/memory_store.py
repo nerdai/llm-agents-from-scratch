@@ -1,10 +1,12 @@
 """Base memory store class."""
 
+import warnings
 from abc import ABC, abstractmethod
 from typing import Any
 
 from ..data_structures import Episode
 from ..data_structures.memory import RecallMode
+from ..errors import MaxResultsExceededWarning
 
 
 class BaseMemoryStore(ABC):
@@ -116,8 +118,17 @@ class BaseMemoryStore(ABC):
                 depending on ``recall_mode``.
         """
         if self.recall_mode == RecallMode.RECENT:
-            return await self._read_recent(self.max_results)
-        return await self._search(query, **kwargs)
+            results = await self._read_recent(self.max_results)
+        else:
+            results = await self._search(query, **kwargs)
+        if len(results) > self.max_results:
+            warnings.warn(
+                f"{type(self).__name__}._search returned {len(results)} results"
+                f" but max_results={self.max_results}.",
+                MaxResultsExceededWarning,
+                stacklevel=2,
+            )
+        return results
 
     @abstractmethod
     async def delete(self, id_: str) -> None:

@@ -103,7 +103,7 @@ async def test_count(mock_client: MagicMock) -> None:
 async def test_read_recent_empty(mock_client: MagicMock) -> None:
     mock_client.count.return_value.count = 0
     store = QdrantMemoryStore()
-    assert await store.read_recent(3) == []
+    assert await store._read_recent(3) == []
 
 
 async def test_read_recent(mock_client: MagicMock, episode: Episode) -> None:
@@ -116,7 +116,7 @@ async def test_read_recent(mock_client: MagicMock, episode: Episode) -> None:
     mock_client.scroll.return_value = ([record], None)
 
     store = QdrantMemoryStore()
-    result = await store.read_recent(5)
+    result = await store._read_recent(5)
 
     assert len(result) == 1
     assert result[0].task.instruction == episode.task.instruction
@@ -152,7 +152,7 @@ async def test_read_recent_sorted_newest_first(
     mock_client.scroll.return_value = (records, None)
 
     store = QdrantMemoryStore()
-    result = await store.read_recent(2)
+    result = await store._read_recent(2)
 
     assert result[0].task.instruction == "newer task"
     assert result[1].task.instruction == "older task"
@@ -184,7 +184,7 @@ async def test_read_recent_respects_n_limit(mock_client: MagicMock) -> None:
 
     n = 3
     store = QdrantMemoryStore()
-    result = await store.read_recent(n)
+    result = await store._read_recent(n)
 
     assert len(result) == n
 

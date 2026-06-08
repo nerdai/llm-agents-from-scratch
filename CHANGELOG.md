@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- refactor: make _read_recent and _search internal; dispatch in BaseMemoryStore.search() (#630)
 - refactor: remove key from BaseMemoryStore interface; move key_fn to QdrantMemoryStore (#629)
 - refactor: replace `EpisodeAttr` Literal and `include` param with `exclude: set[str] | None` in `Episode.format()`; fields iterated from `Episode.model_fields` so new fields appear automatically; `QdrantMemoryStore` migrates to `DEFAULT_EPISODE_EXCLUDE`; `error` field is now included in embeddings (#623)
 - feat: introduce FormatMode enum for Episode.format() mode param (#620)

@@ -102,7 +102,7 @@ async def test_read_recent_returns_n_most_recent(tmp_path: Path) -> None:
     await store.write(make_episode("middle"))
     await store.write(make_episode("newest"))
 
-    recent = await store.read_recent(2)
+    recent = await store._read_recent(2)
 
     assert len(recent) == 2  # noqa: PLR2004
     assert recent[0].task.instruction == "newest"
@@ -117,7 +117,7 @@ async def test_read_recent_returns_all_when_n_exceeds_count(
     store = JSONMemoryStore(dir=tmp_path)
     await store.write(make_episode())
 
-    recent = await store.read_recent(10)
+    recent = await store._read_recent(10)
     assert len(recent) == 1
 
 
@@ -229,7 +229,7 @@ async def test_update_replaces_episode(tmp_path: Path) -> None:
     )
     await store.update(updated)
 
-    episodes = await store.read_recent(1)
+    episodes = await store._read_recent(1)
     assert episodes[0].result.content == "updated content"
 
 
@@ -248,7 +248,7 @@ async def test_update_persists_to_file(tmp_path: Path) -> None:
     await store.update(updated)
 
     reloaded = JSONMemoryStore(dir=tmp_path)
-    episodes = await reloaded.read_recent(1)
+    episodes = await reloaded._read_recent(1)
     assert episodes[0].result.content == "updated"
 
 

@@ -7,6 +7,6 @@ def test_base_memory_store_abstract_methods() -> None:
 
     assert "write" in abstract_methods
     assert "count" in abstract_methods
-    assert "read_recent" in abstract_methods
-    assert "search" in abstract_methods
+    assert "_read_recent" in abstract_methods
+    assert "_search" in abstract_methods
     assert "summary" in abstract_methods

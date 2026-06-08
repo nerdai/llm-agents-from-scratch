@@ -69,7 +69,7 @@ class JSONMemoryStore(BaseMemoryStore):
         with open(self.path, "a") as f:
             f.write(episode.model_dump_json() + "\n")
 
-    async def read_recent(self, n: int) -> list[Episode]:
+    async def _read_recent(self, n: int) -> list[Episode]:
         """Return the N most recently recorded episodes.
 
         Reads all episodes from the in-memory list. A production
@@ -174,32 +174,25 @@ class JSONMemoryStore(BaseMemoryStore):
             f"Episode '{episode.id_}' not found in JSONMemoryStore.",
         )
 
-    async def search(
+    async def _search(
         self,
         query: str,
         **kwargs: Any,
     ) -> list[Episode]:
-        """Return episodes according to ``recall_mode``.
+        """Raise ``NotImplementedError`` — this store does not embed episodes.
 
-        When ``recall_mode="recent"`` (the default), the query is ignored
-        and the most recent episodes are returned via ``read_recent``.
-        ``recall_mode="search"`` raises ``NotImplementedError`` — this store
-        does not support similarity search.
+        Called by the base ``search()`` when ``recall_mode`` is
+        ``RecallMode.SEARCH``. ``JSONMemoryStore`` does not support
+        similarity search; use a vector-backed store instead.
 
         Args:
-            query (str): The search query. Ignored when
-                ``recall_mode="recent"``.
+            query (str): Ignored.
             **kwargs: Ignored.
 
-        Returns:
-            list[Episode]: Episodes ordered by recency.
-
         Raises:
-            NotImplementedError: When ``recall_mode="search"``. Use a
-                vector-backed store for similarity search.
+            NotImplementedError: Always. Use a vector-backed store for
+                similarity search.
         """
-        if self.recall_mode == RecallMode.RECENT:
-            return await self.read_recent(self.max_results)
         raise NotImplementedError(
             "JSONMemoryStore does not support similarity search. "
             "Use a vector-backed store instead.",

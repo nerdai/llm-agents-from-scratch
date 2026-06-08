@@ -54,7 +54,7 @@ class BaseMemoryStore(ABC):
         """
 
     @abstractmethod
-    async def read_recent(self, n: int) -> list[Episode]:
+    async def _read_recent(self, n: int) -> list[Episode]:
         """Return the N most recently recorded episodes.
 
         Args:
@@ -65,14 +65,24 @@ class BaseMemoryStore(ABC):
         """
 
     @abstractmethod
-    async def count(self) -> int:
-        """Return the total number of episodes in the store.
+    async def _search(
+        self,
+        query: str,
+        **kwargs: Any,
+    ) -> list[Episode]:
+        """Return the most relevant episodes for a query.
+
+        The number of results is controlled by ``self.max_results``.
+
+        Args:
+            query (str): The search query (e.g. the task instruction).
+            **kwargs: Optional substrate-specific search parameters
+                (e.g. filters, score thresholds).
 
         Returns:
-            int: Episode count.
+            list[Episode]: Episodes ordered by relevance to the query.
         """
 
-    @abstractmethod
     async def search(
         self,
         query: str,
@@ -90,6 +100,9 @@ class BaseMemoryStore(ABC):
         Returns:
             list[Episode]: Episodes ordered by relevance to the query.
         """
+        if self.recall_mode == RecallMode.RECENT:
+            return await self._read_recent(self.max_results)
+        return await self._search(query, **kwargs)
 
     @abstractmethod
     async def delete(self, id_: str) -> None:
@@ -111,6 +124,14 @@ class BaseMemoryStore(ABC):
 
         Args:
             episode (Episode): The updated episode. Matched by ``id_``.
+        """
+
+    @abstractmethod
+    async def count(self) -> int:
+        """Return the total number of episodes in the store.
+
+        Returns:
+            int: Episode count.
         """
 
     @abstractmethod

@@ -7,6 +7,7 @@ from .core import (
 from .mcp import MCPError, MCPWarning, MissingMCPServerParamsError
 from .memory_store import (
     EpisodeNotFoundError,
+    MaxResultsExceededWarning,
     MemoryStoreError,
     MemoryStoreWarning,
 )
@@ -33,6 +34,7 @@ __all__ = [
     # memory store
     "MemoryStoreError",
     "MemoryStoreWarning",
+    "MaxResultsExceededWarning",
     "EpisodeNotFoundError",
     # agent
     "LLMAgentError",

@@ -9,6 +9,12 @@ class MemoryStoreWarning(LLMAgentsFromScratchWarning):
     pass
 
 
+class MaxResultsExceededWarning(MemoryStoreWarning):
+    """Emitted when a store returns more results than ``max_results``."""
+
+    pass
+
+
 class MemoryStoreError(LLMAgentsFromScratchError):
     """Base error for all memory-store-related exceptions."""
 

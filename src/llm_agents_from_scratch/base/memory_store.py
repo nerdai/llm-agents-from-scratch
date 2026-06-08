@@ -6,6 +6,7 @@ from typing import Any
 
 from ..data_structures import Episode
 from ..data_structures.memory import RecallMode
+from ..errors import MaxResultsExceededWarning
 
 
 class BaseMemoryStore(ABC):
@@ -124,6 +125,7 @@ class BaseMemoryStore(ABC):
             warnings.warn(
                 f"{type(self).__name__}._search returned {len(results)} results"
                 f" but max_results={self.max_results}.",
+                MaxResultsExceededWarning,
                 stacklevel=2,
             )
         return results

@@ -15,18 +15,19 @@ class BaseMemoryStore(ABC):
     1. **Durable persistence** — write episodes to the substrate, including
        any preprocessing required by that substrate (embedding, indexing,
        tokenization).
-    2. **Retrieval primitives** — expose `read_recent` and `search` so that
-       ``Memory`` instances can compose and score results without knowing
-       the underlying storage details.
+    2. **Retrieval primitives** — implement ``_read_recent`` and ``_search``
+       so that the concrete ``search()`` method can dispatch based on
+       ``recall_mode`` without knowing the underlying storage details.
+
+    The public retrieval interface is ``search()``. Subclasses must not
+    override it; they implement ``_read_recent`` and ``_search`` instead.
 
     Attributes:
         max_results (int): Default number of results returned by
-            ``search`` and ``read_recent`` when no explicit count is
-            supplied by the caller.
+            ``search()`` when no explicit count is supplied by the caller.
         recall_mode (RecallMode): Controls how ``search()`` retrieves
-            episodes. ``RecallMode.RECENT`` ignores the query and
-            returns the most recent episodes via ``read_recent``;
-            ``RecallMode.SEARCH`` performs a similarity lookup.
+            episodes. ``RecallMode.RECENT`` delegates to ``_read_recent``;
+            ``RecallMode.SEARCH`` delegates to ``_search``.
     """
 
     def __init__(
@@ -49,6 +50,8 @@ class BaseMemoryStore(ABC):
     async def write(self, episode: Episode) -> None:
         """Persist an episode to the store.
 
+        Subclasses must implement this method.
+
         Args:
             episode (Episode): The completed episode to store.
         """
@@ -56,6 +59,10 @@ class BaseMemoryStore(ABC):
     @abstractmethod
     async def _read_recent(self, n: int) -> list[Episode]:
         """Return the N most recently recorded episodes.
+
+        Subclasses must implement this method. It is called by the
+        concrete ``search()`` when ``recall_mode`` is
+        ``RecallMode.RECENT``.
 
         Args:
             n (int): Maximum number of episodes to return.
@@ -72,7 +79,10 @@ class BaseMemoryStore(ABC):
     ) -> list[Episode]:
         """Return the most relevant episodes for a query.
 
-        The number of results is controlled by ``self.max_results``.
+        Subclasses must implement this method. It is called by the
+        concrete ``search()`` when ``recall_mode`` is
+        ``RecallMode.SEARCH``. The number of results is controlled by
+        ``self.max_results``.
 
         Args:
             query (str): The search query (e.g. the task instruction).
@@ -88,17 +98,22 @@ class BaseMemoryStore(ABC):
         query: str,
         **kwargs: Any,
     ) -> list[Episode]:
-        """Return the most relevant episodes for a query.
+        """Return episodes according to ``recall_mode``.
 
-        The number of results is controlled by ``self.max_results``.
+        Dispatches to ``_read_recent`` when ``recall_mode`` is
+        ``RecallMode.RECENT``, or to ``_search`` when it is
+        ``RecallMode.SEARCH``. Subclasses must not override this method;
+        implement ``_read_recent`` and ``_search`` instead.
 
         Args:
             query (str): The search query (e.g. the task instruction).
+                Ignored when ``recall_mode`` is ``RecallMode.RECENT``.
             **kwargs: Optional substrate-specific search parameters
-                (e.g. filters, score thresholds).
+                forwarded to ``_search``.
 
         Returns:
-            list[Episode]: Episodes ordered by relevance to the query.
+            list[Episode]: Episodes ordered by recency or relevance
+                depending on ``recall_mode``.
         """
         if self.recall_mode == RecallMode.RECENT:
             return await self._read_recent(self.max_results)
@@ -108,7 +123,8 @@ class BaseMemoryStore(ABC):
     async def delete(self, id_: str) -> None:
         """Delete an episode by its unique identifier.
 
-        Raises ``EpisodeNotFoundError`` if no episode with ``id_`` exists.
+        Subclasses must implement this method. Raises
+        ``EpisodeNotFoundError`` if no episode with ``id_`` exists.
 
         Args:
             id_ (str): The ``Episode.id_`` of the episode to remove.
@@ -118,9 +134,9 @@ class BaseMemoryStore(ABC):
     async def update(self, episode: Episode) -> None:
         """Replace an existing episode with an updated version.
 
-        Matches the stored episode by ``episode.id_`` and replaces it
-        in-place. Raises ``EpisodeNotFoundError`` if
-        no matching episode exists.
+        Subclasses must implement this method. Matches the stored episode
+        by ``episode.id_`` and replaces it in-place. Raises
+        ``EpisodeNotFoundError`` if no matching episode exists.
 
         Args:
             episode (Episode): The updated episode. Matched by ``id_``.
@@ -130,6 +146,8 @@ class BaseMemoryStore(ABC):
     async def count(self) -> int:
         """Return the total number of episodes in the store.
 
+        Subclasses must implement this method.
+
         Returns:
             int: Episode count.
         """
@@ -138,8 +156,9 @@ class BaseMemoryStore(ABC):
     async def summary(self) -> str:
         """Return a human-readable summary of the store contents.
 
-        Describes the substrate, episode count, and the oldest and newest
-        episodes. Intended for inspection and debugging.
+        Subclasses must implement this method. Should describe the
+        substrate, episode count, and the oldest and newest episodes.
+        Intended for inspection and debugging.
 
         Returns:
             str: Multi-line summary of the store.

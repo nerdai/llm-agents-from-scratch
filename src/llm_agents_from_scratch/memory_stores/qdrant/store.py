@@ -113,7 +113,7 @@ class QdrantMemoryStore(BaseMemoryStore):
             ],
         )
 
-    async def read_recent(self, n: int) -> list[Episode]:
+    async def _read_recent(self, n: int) -> list[Episode]:
         """Return the N most recently recorded episodes.
 
         Fetches all points from the collection and sorts by the stored
@@ -231,7 +231,7 @@ class QdrantMemoryStore(BaseMemoryStore):
             f" | collection={self._collection}",
         ]
         if total > 0:
-            episodes = await self.read_recent(total)
+            episodes = await self._read_recent(total)
             newest = episodes[0]
             oldest = episodes[-1]
             lines.append(
@@ -244,32 +244,25 @@ class QdrantMemoryStore(BaseMemoryStore):
             )
         return "\n".join(lines)
 
-    async def search(
+    async def _search(
         self,
         query: str,
         **kwargs: Any,
     ) -> list[Episode]:
-        """Return episodes according to ``recall_mode``.
+        """Return the top ``max_results`` episodes most similar to ``query``.
 
-        When ``recall_mode="recent"``, the query is ignored and the most
-        recent episodes are returned via ``read_recent``. When
-        ``recall_mode="search"`` (the default), the top ``max_results``
-        episodes most semantically similar to the query are returned.
+        Called by the base ``search()`` when ``recall_mode`` is
+        ``RecallMode.SEARCH``. Uses cosine similarity over FastEmbed vectors.
 
         Args:
             query (str): The search query (e.g. the task instruction).
-                Ignored when ``recall_mode="recent"``.
             **kwargs: Additional keyword arguments forwarded to
-                ``QdrantClient.query_points()`` when
-                ``recall_mode="search"`` (e.g. ``query_filter``,
-                ``score_threshold``).
+                ``QdrantClient.query_points()``
+                (e.g. ``query_filter``, ``score_threshold``).
 
         Returns:
-            list[Episode]: Episodes ordered by recency or cosine
-                similarity depending on ``recall_mode``.
+            list[Episode]: Episodes ordered by cosine similarity.
         """
-        if self.recall_mode == RecallMode.RECENT:
-            return await self.read_recent(self.max_results)
         results = self._client.query_points(
             collection_name=self._collection,
             query=models.Document(

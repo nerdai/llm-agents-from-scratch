@@ -38,7 +38,7 @@ jobs:
 
       - if: matrix.python-version == '3.13'
         name: Upload results to Codecov
-        uses: codecov/codecov-action@v6
+        uses: codecov/codecov-action@v7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           use_pypi: true

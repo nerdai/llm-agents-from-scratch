@@ -1,7 +1,6 @@
 """Qdrant-backed episodic memory store."""
 
-from collections.abc import Callable
-from typing import Any
+from typing import Any, Callable
 
 from qdrant_client import QdrantClient, models
 

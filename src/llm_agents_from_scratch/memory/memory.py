@@ -2,7 +2,7 @@
 
 import asyncio
 import inspect
-from collections.abc import Awaitable, Callable
+from typing import Awaitable, Callable
 
 from llm_agents_from_scratch.base.memory_store import BaseMemoryStore
 from llm_agents_from_scratch.data_structures import Task

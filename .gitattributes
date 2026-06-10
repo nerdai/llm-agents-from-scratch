@@ -1,2 +1,3 @@
 examples/**/*.ipynb linguist-documentation=true
 more-examples/**/*.ipynb linguist-documentation=true
+capstones/**/*.ipynb linguist-documentation=true

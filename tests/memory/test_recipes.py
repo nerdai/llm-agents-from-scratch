@@ -19,7 +19,7 @@ from llm_agents_from_scratch.memory_stores.json import JSONMemoryStore
 from llm_agents_from_scratch.memory_stores.qdrant.store import QdrantMemoryStore
 
 _QDRANT_PATCH = (
-    "llm_agents_from_scratch.memory_stores.qdrant.store.QdrantClient"
+    "llm_agents_from_scratch.memory_stores.qdrant.store.AsyncQdrantClient"
 )
 
 
@@ -29,6 +29,12 @@ def mock_qdrant_client():
         instance = MagicMock()
         instance.embedding_model_name = "BAAI/bge-small-en-v1.5"
         instance.get_vector_field_name.return_value = "fast-bge-small-en-v1.5"
+        instance.collection_exists = AsyncMock(return_value=True)
+        instance.create_collection = AsyncMock()
+        instance.upsert = AsyncMock()
+        instance.query_points = AsyncMock(
+            return_value=MagicMock(points=[]),
+        )
         mock_cls.return_value = instance
         yield instance
 

@@ -1,8 +1,8 @@
 from datetime import datetime
-from unittest.mock import MagicMock, patch
+from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
-from qdrant_client import QdrantClient, models
+from qdrant_client import AsyncQdrantClient, models
 
 from llm_agents_from_scratch.data_structures import Task, TaskResult
 from llm_agents_from_scratch.data_structures.memory import Episode, RecallMode
@@ -23,31 +23,53 @@ def episode() -> Episode:
 @pytest.fixture
 def mock_client():
     with patch(
-        "llm_agents_from_scratch.memory_stores.qdrant.store.QdrantClient",
+        "llm_agents_from_scratch.memory_stores.qdrant.store.AsyncQdrantClient",
     ) as mock_cls:
         instance = MagicMock()
         instance.embedding_model_name = "BAAI/bge-small-en-v1.5"
         instance.get_vector_field_name.return_value = "fast-bge-small-en-v1.5"
+        instance.collection_exists = AsyncMock(return_value=True)
+        instance.create_collection = AsyncMock()
+        instance.upsert = AsyncMock()
+        instance.count = AsyncMock(return_value=MagicMock(count=0))
+        instance.scroll = AsyncMock(return_value=([], None))
+        instance.retrieve = AsyncMock(return_value=[])
+        instance.delete = AsyncMock()
+        instance.query_points = AsyncMock(
+            return_value=MagicMock(points=[]),
+        )
         mock_cls.return_value = instance
         yield instance
 
 
-def test_init(mock_client: MagicMock) -> None:
-    mock_client.collection_exists.return_value = False
-    QdrantMemoryStore()
-    mock_client.set_model.assert_called_once_with("BAAI/bge-small-en-v1.5")
+async def test_ensure_collection_creates_when_missing(
+    mock_client: MagicMock,
+) -> None:
+    mock_client.collection_exists = AsyncMock(return_value=False)
+    store = QdrantMemoryStore()
+    await store._ensure_collection()
     mock_client.create_collection.assert_called_once()
 
 
-def test_init_skips_create_if_collection_exists(
+async def test_ensure_collection_skips_create_if_exists(
     mock_client: MagicMock,
 ) -> None:
-    mock_client.collection_exists.return_value = True
-    QdrantMemoryStore()
+    mock_client.collection_exists = AsyncMock(return_value=True)
+    store = QdrantMemoryStore()
+    await store._ensure_collection()
     mock_client.create_collection.assert_not_called()
 
 
-def test_init_custom_params(mock_client: MagicMock) -> None:
+async def test_ensure_collection_called_only_once(
+    mock_client: MagicMock,
+) -> None:
+    store = QdrantMemoryStore()
+    await store._ensure_collection()
+    await store._ensure_collection()
+    mock_client.collection_exists.assert_called_once()
+
+
+async def test_init_custom_params(mock_client: MagicMock) -> None:
     store = QdrantMemoryStore(
         collection_name="my_eps",
         embedding_model="BAAI/bge-large-en-v1.5",
@@ -57,7 +79,7 @@ def test_init_custom_params(mock_client: MagicMock) -> None:
 
 
 def test_init_custom_client() -> None:
-    custom_client = MagicMock(spec=QdrantClient)
+    custom_client = MagicMock(spec=AsyncQdrantClient)
     store = QdrantMemoryStore(client=custom_client)
     assert store._client is custom_client
     custom_client.set_model.assert_called_once()
@@ -95,19 +117,19 @@ async def test_write_uses_key_fn_when_provided(
 
 async def test_count(mock_client: MagicMock) -> None:
     expected = 7
-    mock_client.count.return_value.count = expected
+    mock_client.count.return_value = MagicMock(count=expected)
     store = QdrantMemoryStore()
     assert await store.count() == expected
 
 
 async def test_read_recent_empty(mock_client: MagicMock) -> None:
-    mock_client.count.return_value.count = 0
+    mock_client.count.return_value = MagicMock(count=0)
     store = QdrantMemoryStore()
     assert await store._read_recent(3) == []
 
 
 async def test_read_recent(mock_client: MagicMock, episode: Episode) -> None:
-    mock_client.count.return_value.count = 1
+    mock_client.count.return_value = MagicMock(count=1)
     record = MagicMock()
     record.payload = {
         "episode_json": episode.model_dump_json(),
@@ -140,7 +162,7 @@ async def test_read_recent_sorted_newest_first(
         completed_at=datetime(2025, 6, 1),
     )
 
-    mock_client.count.return_value.count = 2
+    mock_client.count.return_value = MagicMock(count=2)
     records = []
     for ep in [older, newer]:
         rec = MagicMock()
@@ -171,7 +193,7 @@ async def test_read_recent_respects_n_limit(mock_client: MagicMock) -> None:
             ),
         )
 
-    mock_client.count.return_value.count = 5
+    mock_client.count.return_value = MagicMock(count=5)
     records = []
     for ep in episodes:
         rec = MagicMock()
@@ -192,7 +214,7 @@ async def test_read_recent_respects_n_limit(mock_client: MagicMock) -> None:
 async def test_search(mock_client: MagicMock, episode: Episode) -> None:
     mock_point = MagicMock()
     mock_point.payload = {"episode_json": episode.model_dump_json()}
-    mock_client.query_points.return_value.points = [mock_point]
+    mock_client.query_points.return_value = MagicMock(points=[mock_point])
 
     max_results = 3
     store = QdrantMemoryStore(max_results=max_results)
@@ -209,7 +231,7 @@ async def test_search(mock_client: MagicMock, episode: Episode) -> None:
 
 
 async def test_search_empty(mock_client: MagicMock) -> None:
-    mock_client.query_points.return_value.points = []
+    mock_client.query_points.return_value = MagicMock(points=[])
     store = QdrantMemoryStore()
     results = await store.search("anything")
     assert results == []
@@ -219,7 +241,7 @@ async def test_search_uses_read_recent_when_recall_mode_recent(
     mock_client: MagicMock,
     episode: Episode,
 ) -> None:
-    mock_client.count.return_value.count = 1
+    mock_client.count.return_value = MagicMock(count=1)
     mock_point = MagicMock()
     mock_point.payload = {
         "episode_json": episode.model_dump_json(),
@@ -236,7 +258,7 @@ async def test_search_uses_read_recent_when_recall_mode_recent(
 
 
 async def test_summary_empty(mock_client: MagicMock) -> None:
-    mock_client.count.return_value.count = 0
+    mock_client.count.return_value = MagicMock(count=0)
     store = QdrantMemoryStore()
     summary = await store.summary()
     assert "QdrantMemoryStore" in summary
@@ -252,7 +274,7 @@ async def test_summary_with_episodes(
     record = MagicMock()
     record.payload = {"episode_json": ep_json, "completed_at": ts}
 
-    mock_client.count.return_value.count = 1
+    mock_client.count.return_value = MagicMock(count=1)
     mock_client.scroll.return_value = ([record], None)
 
     store = QdrantMemoryStore()
@@ -268,7 +290,7 @@ async def test_summary_with_episodes(
 
 @pytest.mark.asyncio
 async def test_delete_removes_existing_episode(
-    mock_client: QdrantClient,
+    mock_client: MagicMock,
 ) -> None:
     store = QdrantMemoryStore()
     hit = MagicMock()
@@ -285,7 +307,7 @@ async def test_delete_removes_existing_episode(
 
 @pytest.mark.asyncio
 async def test_delete_warns_when_id_not_found(
-    mock_client: QdrantClient,
+    mock_client: MagicMock,
 ) -> None:
     store = QdrantMemoryStore()
     mock_client.retrieve.return_value = []
@@ -301,7 +323,7 @@ async def test_delete_warns_when_id_not_found(
 
 @pytest.mark.asyncio
 async def test_update_upserts_existing_episode(
-    mock_client: QdrantClient,
+    mock_client: MagicMock,
     episode: Episode,
 ) -> None:
     store = QdrantMemoryStore()
@@ -316,7 +338,7 @@ async def test_update_upserts_existing_episode(
 
 @pytest.mark.asyncio
 async def test_update_warns_when_id_not_found(
-    mock_client: QdrantClient,
+    mock_client: MagicMock,
     episode: Episode,
 ) -> None:
     store = QdrantMemoryStore()

@@ -53,7 +53,7 @@ def test_init_custom_params(mock_client: MagicMock) -> None:
         embedding_model="BAAI/bge-large-en-v1.5",
     )
     mock_client.set_model.assert_called_once_with("BAAI/bge-large-en-v1.5")
-    assert store._collection == "my_eps"
+    assert store._collection_name == "my_eps"
 
 
 def test_init_custom_client() -> None:
@@ -278,7 +278,7 @@ async def test_delete_removes_existing_episode(
     await store.delete("some-id")
 
     mock_client.delete.assert_called_once_with(
-        collection_name=store._collection,
+        collection_name=store._collection_name,
         points_selector=models.PointIdsList(points=["some-id"]),
     )
 

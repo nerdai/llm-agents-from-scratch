@@ -77,7 +77,7 @@ class QdrantMemoryStore(BaseMemoryStore):
         super().__init__(max_results=max_results, recall_mode=recall_mode)
         self._client = client or QdrantClient(":memory:")
         self._client.set_model(embedding_model)
-        self._collection = collection_name
+        self._collection_name = collection_name
         self._key_fn: Callable[[Episode], str] = key_fn or (
             lambda ep: ep.format(
                 mode=EpisodeFormatMode.CONCAT,
@@ -102,7 +102,7 @@ class QdrantMemoryStore(BaseMemoryStore):
         """
         text = self._key_fn(episode)
         self._client.upsert(
-            collection_name=self._collection,
+            collection_name=self._collection_name,
             points=[
                 episode_to_qdrant_point_struct(
                     episode,
@@ -125,11 +125,11 @@ class QdrantMemoryStore(BaseMemoryStore):
         Returns:
             list[Episode]: Episodes ordered from most recent to oldest.
         """
-        total = int(self._client.count(self._collection).count)
+        total = int(self._client.count(self._collection_name).count)
         if total == 0:
             return []
         points, _ = self._client.scroll(
-            collection_name=self._collection,
+            collection_name=self._collection_name,
             with_payload=True,
             limit=total,
         )
@@ -155,12 +155,12 @@ class QdrantMemoryStore(BaseMemoryStore):
         Returns:
             int: Episode count.
         """
-        return int(self._client.count(self._collection).count)
+        return int(self._client.count(self._collection_name).count)
 
     def _point_exists(self, id_: str) -> bool:
         """Return True if a point with ``id_`` exists in the collection."""
         hits = self._client.retrieve(
-            collection_name=self._collection,
+            collection_name=self._collection_name,
             ids=[id_],
         )
         return id_ in {h.id for h in hits}
@@ -182,7 +182,7 @@ class QdrantMemoryStore(BaseMemoryStore):
                 f"Episode '{id_}' not found in QdrantMemoryStore.",
             )
         self._client.delete(
-            collection_name=self._collection,
+            collection_name=self._collection_name,
             points_selector=models.PointIdsList(points=[id_]),
         )
 
@@ -205,7 +205,7 @@ class QdrantMemoryStore(BaseMemoryStore):
             )
         text = self._key_fn(episode)
         self._client.upsert(
-            collection_name=self._collection,
+            collection_name=self._collection_name,
             points=[
                 episode_to_qdrant_point_struct(
                     episode,
@@ -228,7 +228,7 @@ class QdrantMemoryStore(BaseMemoryStore):
         total = await self.count()
         lines = [
             f"QdrantMemoryStore: {total} episodes"
-            f" | collection={self._collection}",
+            f" | collection={self._collection_name}",
         ]
         if total > 0:
             episodes = await self._read_recent(total)
@@ -264,7 +264,7 @@ class QdrantMemoryStore(BaseMemoryStore):
             list[Episode]: Episodes ordered by cosine similarity.
         """
         results = self._client.query_points(
-            collection_name=self._collection,
+            collection_name=self._collection_name,
             query=models.Document(
                 text=query,
                 model=self._client.embedding_model_name,

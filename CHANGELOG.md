@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- nit: rename _collection to_collection_name in QdrantMemoryStore (#637)
 - feat: add `MaxResultsExceededWarning`; `BaseMemoryStore.search()` emits it when `_search` or `_read_recent` returns more results than `max_results` (#632)
 - refactor: make _read_recent and _search internal; dispatch in BaseMemoryStore.search() (#630)
 - refactor: remove key from BaseMemoryStore interface; move key_fn to QdrantMemoryStore (#629)

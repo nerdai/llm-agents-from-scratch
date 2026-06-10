@@ -35,7 +35,7 @@ class QdrantMemoryStore(BaseMemoryStore):
 
     Attributes:
         _client (QdrantClient): The Qdrant client instance.
-        _collection (str): Name of the Qdrant collection.
+        _collection_name (str): Name of the Qdrant collection.
         _key_fn (Callable[[Episode], str]): Callable that extracts the
             text used for embedding from an episode.
     """

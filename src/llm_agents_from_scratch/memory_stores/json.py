@@ -123,7 +123,7 @@ class JSONMemoryStore(BaseMemoryStore):
             )
         return "\n".join(lines)
 
-    def _rewrite(self) -> None:
+    def _rewrite_jsonl(self) -> None:
         with open(self.path, "w") as f:
             for ep in self._episodes:
                 f.write(ep.model_dump_json() + "\n")
@@ -150,7 +150,7 @@ class JSONMemoryStore(BaseMemoryStore):
                 f"Episode '{id_}' not found in JSONMemoryStore.",
             )
         self._episodes.pop(idx)
-        self._rewrite()
+        self._rewrite_jsonl()
 
     async def update(self, episode: Episode) -> None:
         """Replace an existing episode with an updated version.
@@ -168,7 +168,7 @@ class JSONMemoryStore(BaseMemoryStore):
         for i, ep in enumerate(self._episodes):
             if ep.id_ == episode.id_:
                 self._episodes[i] = episode
-                self._rewrite()
+                self._rewrite_jsonl()
                 return
         raise EpisodeNotFoundError(
             f"Episode '{episode.id_}' not found in JSONMemoryStore.",

@@ -148,7 +148,7 @@ class QdrantMemoryStore(BaseMemoryStore):
             list[Episode]: Episodes ordered from most recent to oldest.
         """
         await self._ensure_collection()
-        points, _ = await self._client.scroll(
+        recent_points, _ = await self._client.scroll(
             collection_name=self._collection_name,
             with_payload=True,
             limit=n,
@@ -157,7 +157,7 @@ class QdrantMemoryStore(BaseMemoryStore):
                 direction=models.Direction.DESC,
             ),
         )
-        return [qdrant_point_to_episode(p) for p in points]
+        return [qdrant_point_to_episode(p) for p in recent_points]
 
     async def count(self) -> int:
         """Return the total number of episodes in the store.

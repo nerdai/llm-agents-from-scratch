@@ -2,13 +2,13 @@
 
 import asyncio
 import inspect
-from typing import Awaitable, Callable
+from typing import Awaitable, Callable, TypeAlias
 
 from llm_agents_from_scratch.base.memory_store import BaseMemoryStore
 from llm_agents_from_scratch.data_structures import Task
 from llm_agents_from_scratch.data_structures.memory import Episode
 
-MetadataFn = Callable[[Episode], str | Awaitable[str]]
+MetadataFn: TypeAlias = Callable[[Episode], str | Awaitable[str]]
 
 
 class Memory:
@@ -34,7 +34,7 @@ class Memory:
         store: BaseMemoryStore,
         metadata_fns: dict[str, MetadataFn] | None = None,
     ) -> None:
-        """Initialise a Memory instance.
+        """Initialize a Memory instance.
 
         Args:
             store (BaseMemoryStore): The memory store to read from and

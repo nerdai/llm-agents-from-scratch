@@ -8,8 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+### Added
+
+- feat: add `qdrant_point_to_episode()` to `memory_stores/qdrant/utils.py` — inverse of `episode_to_qdrant_point_struct()`; accepts `models.Record | models.ScoredPoint`; raises `QdrantPointPayloadMissingError` when payload is `None` or `QdrantEpisodeJsonMissingError` when `episode_json` key is absent (#643)
+- feat: add `memory_stores/qdrant/errors.py` with `QdrantMemoryStoreError`, `QdrantPointPayloadError`, `QdrantPointPayloadMissingError`, `QdrantEpisodeJsonMissingError` (#643)
+
 ### Changed
 
+- refactor: `_read_recent()` uses `scroll(order_by=OrderBy(completed_at, DESC), limit=n)` — eliminates the `count()` round-trip and Python-side sort; float payload index on `completed_at` created unconditionally in `_ensure_collection()` (new and pre-existing collections) for server-mode compatibility (#643)
 - nit: rename JSONMemoryStore._rewrite() to_rewrite_jsonl() (#642)
 - refactor: migrate `QdrantMemoryStore` to `AsyncQdrantClient`; collection creation moved to lazy `_ensure_collection()` with `_collection_ready` flag (#638)
 - nit: rename `_collection` to `_collection_name` in `QdrantMemoryStore` (#637)

@@ -1,10 +1,18 @@
+import pytest
+from qdrant_client import models
+
 from llm_agents_from_scratch.data_structures import Task, TaskResult
 from llm_agents_from_scratch.data_structures.memory import (
     Episode,
     EpisodeFormatMode,
 )
+from llm_agents_from_scratch.memory_stores.qdrant.errors import (
+    QdrantEpisodeJsonMissingError,
+    QdrantPointPayloadMissingError,
+)
 from llm_agents_from_scratch.memory_stores.qdrant.utils import (
     episode_to_qdrant_point_struct,
+    qdrant_point_to_episode,
 )
 
 _FIELD = "fast-bge-small-en-v1.5"
@@ -129,3 +137,63 @@ def test_custom_vector_field_and_model() -> None:
     assert point.vector["my-custom-field"].model == (  # type: ignore[index]
         "sentence-transformers/all-MiniLM-L6-v2"
     )
+
+
+# --- qdrant_point_to_episode ---
+
+
+def test_qdrant_point_to_episode_from_record() -> None:
+    episode = _make_episode()
+    record = models.Record(
+        id=episode.id_,
+        payload={"episode_json": episode.model_dump_json()},
+    )
+    restored = qdrant_point_to_episode(record)
+    assert restored.id_ == episode.id_
+    assert restored.task.instruction == episode.task.instruction
+    assert restored.result.content == episode.result.content
+
+
+def test_qdrant_point_to_episode_from_scored_point() -> None:
+    episode = _make_episode()
+    scored = models.ScoredPoint(
+        id=episode.id_,
+        version=0,
+        score=0.95,
+        payload={"episode_json": episode.model_dump_json()},
+        vector=None,
+    )
+    restored = qdrant_point_to_episode(scored)
+    assert restored.id_ == episode.id_
+    assert restored.task.instruction == episode.task.instruction
+
+
+def test_qdrant_point_to_episode_roundtrip() -> None:
+    episode = _make_episode()
+    point = episode_to_qdrant_point_struct(
+        episode,
+        "text",
+        vector_field=_FIELD,
+        model_name=_MODEL,
+    )
+    record = models.Record(id=point.id, payload=point.payload)
+    restored = qdrant_point_to_episode(record)
+    assert restored == episode
+
+
+def test_qdrant_point_to_episode_raises_when_payload_none() -> None:
+    record = models.Record(id="some-id", payload=None)
+    with pytest.raises(QdrantPointPayloadMissingError, match="some-id"):
+        qdrant_point_to_episode(record)
+
+
+def test_qdrant_point_to_episode_raises_when_episode_json_missing() -> None:
+    record = models.Record(id="some-id", payload={"completed_at": 1234567890})
+    with pytest.raises(QdrantEpisodeJsonMissingError, match="some-id"):
+        qdrant_point_to_episode(record)
+
+
+def test_qdrant_point_to_episode_empty_payload_raises() -> None:
+    record = models.Record(id="some-id", payload={})
+    with pytest.raises(QdrantEpisodeJsonMissingError, match="some-id"):
+        qdrant_point_to_episode(record)

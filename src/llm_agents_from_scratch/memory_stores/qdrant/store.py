@@ -13,6 +13,7 @@ from llm_agents_from_scratch.data_structures.memory import (
 from llm_agents_from_scratch.errors import EpisodeNotFoundError
 from llm_agents_from_scratch.memory_stores.qdrant.utils import (
     episode_to_qdrant_point_struct,
+    qdrant_point_to_episode,
 )
 
 DEFAULT_EPISODE_EXCLUDE: set[str] = {"id_", "rollout", "completed_at"}
@@ -87,7 +88,13 @@ class QdrantMemoryStore(BaseMemoryStore):
         )
 
     async def _ensure_collection(self) -> None:
-        """Create the Qdrant collection if it does not yet exist.
+        """Create the Qdrant collection and payload index if they do not exist.
+
+        Creates a float payload index on ``completed_at`` (always, even
+        for pre-existing collections) so that ``order_by`` in ``scroll()``
+        works against a real Qdrant server. In-memory mode does not require
+        an index, but server mode does — and existing collections deployed
+        before this change would otherwise be missing it.
 
         No-op after the first successful call (guarded by
         ``_collection_ready``).
@@ -99,6 +106,11 @@ class QdrantMemoryStore(BaseMemoryStore):
                 collection_name=self._collection_name,
                 vectors_config=self._client.get_fastembed_vector_params(),
             )
+        await self._client.create_payload_index(
+            collection_name=self._collection_name,
+            field_name="completed_at",
+            field_schema=models.PayloadSchemaType.FLOAT,
+        )
         self._collection_ready = True
 
     async def write(self, episode: Episode) -> None:
@@ -128,8 +140,8 @@ class QdrantMemoryStore(BaseMemoryStore):
     async def _read_recent(self, n: int) -> list[Episode]:
         """Return the N most recently recorded episodes.
 
-        Fetches all points from the collection and sorts by the stored
-        ``completed_at`` timestamp.
+        Uses Qdrant's ``order_by`` to sort by ``completed_at`` server-side
+        so only the top ``n`` points are transferred.
 
         Args:
             n (int): Maximum number of episodes to return.
@@ -138,29 +150,16 @@ class QdrantMemoryStore(BaseMemoryStore):
             list[Episode]: Episodes ordered from most recent to oldest.
         """
         await self._ensure_collection()
-        total = int((await self._client.count(self._collection_name)).count)
-        if total == 0:
-            return []
-        points, _ = await self._client.scroll(
+        recent_points, _ = await self._client.scroll(
             collection_name=self._collection_name,
             with_payload=True,
-            limit=total,
+            limit=n,
+            order_by=models.OrderBy(
+                key="completed_at",
+                direction=models.Direction.DESC,
+            ),
         )
-        valid = [
-            p
-            for p in points
-            if p.payload
-            and "episode_json" in p.payload
-            and "completed_at" in p.payload
-        ]
-        valid.sort(
-            key=lambda p: p.payload["completed_at"],  # type: ignore[index]
-            reverse=True,
-        )
-        return [
-            Episode.model_validate_json(p.payload["episode_json"])  # type: ignore[index]
-            for p in valid[:n]
-        ]
+        return [qdrant_point_to_episode(p) for p in recent_points]
 
     async def count(self) -> int:
         """Return the total number of episodes in the store.
@@ -281,7 +280,7 @@ class QdrantMemoryStore(BaseMemoryStore):
             list[Episode]: Episodes ordered by cosine similarity.
         """
         await self._ensure_collection()
-        results = (
+        similar_points = (
             await self._client.query_points(
                 collection_name=self._collection_name,
                 query=models.Document(
@@ -294,8 +293,4 @@ class QdrantMemoryStore(BaseMemoryStore):
                 **kwargs,
             )
         ).points
-        return [
-            Episode.model_validate_json(r.payload["episode_json"])
-            for r in results
-            if r.payload and "episode_json" in r.payload
-        ]
+        return [qdrant_point_to_episode(p) for p in similar_points]

@@ -27,7 +27,7 @@ def episode_to_qdrant_point_struct(
 
     Returns:
         models.PointStruct: A point ready to pass to
-            ``QdrantClient.upsert()``.
+            ``AsyncQdrantClient.upsert()``.
     """
     return models.PointStruct(
         id=episode.id_,
@@ -39,3 +39,27 @@ def episode_to_qdrant_point_struct(
             "completed_at": episode.completed_at.timestamp(),
         },
     )
+
+
+def qdrant_point_to_episode(
+    point: models.Record | models.ScoredPoint,
+) -> Episode:
+    """Convert a Qdrant read point back to an Episode.
+
+    Inverse of ``episode_to_qdrant_point_struct``. Accepts both
+    ``models.Record`` (returned by ``scroll`` / ``retrieve``) and
+    ``models.ScoredPoint`` (returned by ``query_points``).
+
+    Args:
+        point (models.Record | models.ScoredPoint): A point retrieved
+            from a Qdrant collection.
+
+    Returns:
+        Episode: The deserialized episode.
+
+    Raises:
+        KeyError: If the point payload does not contain ``episode_json``.
+        ValueError: If ``episode_json`` cannot be parsed as an
+            ``Episode``.
+    """
+    return Episode.model_validate_json(point.payload["episode_json"])  # type: ignore[index]

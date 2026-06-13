@@ -13,6 +13,7 @@ from llm_agents_from_scratch.data_structures.memory import (
 from llm_agents_from_scratch.errors import EpisodeNotFoundError
 from llm_agents_from_scratch.memory_stores.qdrant.utils import (
     episode_to_qdrant_point_struct,
+    qdrant_point_to_episode,
 )
 
 DEFAULT_EPISODE_EXCLUDE: set[str] = {"id_", "rollout", "completed_at"}
@@ -157,10 +158,7 @@ class QdrantMemoryStore(BaseMemoryStore):
             key=lambda p: p.payload["completed_at"],  # type: ignore[index]
             reverse=True,
         )
-        return [
-            Episode.model_validate_json(p.payload["episode_json"])  # type: ignore[index]
-            for p in valid[:n]
-        ]
+        return [qdrant_point_to_episode(p) for p in valid[:n]]
 
     async def count(self) -> int:
         """Return the total number of episodes in the store.
@@ -295,7 +293,7 @@ class QdrantMemoryStore(BaseMemoryStore):
             )
         ).points
         return [
-            Episode.model_validate_json(r.payload["episode_json"])
+            qdrant_point_to_episode(r)
             for r in results
             if r.payload and "episode_json" in r.payload
         ]

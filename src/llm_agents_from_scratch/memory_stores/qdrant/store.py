@@ -157,11 +157,7 @@ class QdrantMemoryStore(BaseMemoryStore):
                 direction=models.Direction.DESC,
             ),
         )
-        return [
-            qdrant_point_to_episode(p)
-            for p in points
-            if p.payload and "episode_json" in p.payload
-        ]
+        return [qdrant_point_to_episode(p) for p in points]
 
     async def count(self) -> int:
         """Return the total number of episodes in the store.
@@ -295,8 +291,4 @@ class QdrantMemoryStore(BaseMemoryStore):
                 **kwargs,
             )
         ).points
-        return [
-            qdrant_point_to_episode(p)
-            for p in similar_points
-            if p.payload and "episode_json" in p.payload
-        ]
+        return [qdrant_point_to_episode(p) for p in similar_points]

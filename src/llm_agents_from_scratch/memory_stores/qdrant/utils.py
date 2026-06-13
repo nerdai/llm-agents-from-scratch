@@ -66,7 +66,7 @@ def qdrant_point_to_episode(
         QdrantEpisodeJsonMissingError: If the payload exists but does not
             contain the ``episode_json`` key.
     """
-    if not point.payload:
+    if point.payload is None:
         raise QdrantPointPayloadMissingError(
             f"Point '{point.id}' has no payload.",
         )

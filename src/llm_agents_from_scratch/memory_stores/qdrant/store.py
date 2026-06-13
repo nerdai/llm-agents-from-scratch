@@ -90,9 +90,11 @@ class QdrantMemoryStore(BaseMemoryStore):
     async def _ensure_collection(self) -> None:
         """Create the Qdrant collection and payload index if they do not exist.
 
-        Creates a float payload index on ``completed_at`` so that
-        ``order_by`` in ``scroll()`` works against a real Qdrant server
-        (in-memory mode does not require an index, but server mode does).
+        Creates a float payload index on ``completed_at`` (always, even
+        for pre-existing collections) so that ``order_by`` in ``scroll()``
+        works against a real Qdrant server. In-memory mode does not require
+        an index, but server mode does — and existing collections deployed
+        before this change would otherwise be missing it.
 
         No-op after the first successful call (guarded by
         ``_collection_ready``).
@@ -104,11 +106,11 @@ class QdrantMemoryStore(BaseMemoryStore):
                 collection_name=self._collection_name,
                 vectors_config=self._client.get_fastembed_vector_params(),
             )
-            await self._client.create_payload_index(
-                collection_name=self._collection_name,
-                field_name="completed_at",
-                field_schema=models.PayloadSchemaType.FLOAT,
-            )
+        await self._client.create_payload_index(
+            collection_name=self._collection_name,
+            field_name="completed_at",
+            field_schema=models.PayloadSchemaType.FLOAT,
+        )
         self._collection_ready = True
 
     async def write(self, episode: Episode) -> None:

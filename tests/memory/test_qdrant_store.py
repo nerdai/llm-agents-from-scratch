@@ -64,7 +64,11 @@ async def test_ensure_collection_skips_create_if_exists(
     store = QdrantMemoryStore()
     await store._ensure_collection()
     mock_client.create_collection.assert_not_called()
-    mock_client.create_payload_index.assert_not_called()
+    mock_client.create_payload_index.assert_called_once_with(
+        collection_name=store._collection_name,
+        field_name="completed_at",
+        field_schema=models.PayloadSchemaType.FLOAT,
+    )
 
 
 async def test_ensure_collection_called_only_once(

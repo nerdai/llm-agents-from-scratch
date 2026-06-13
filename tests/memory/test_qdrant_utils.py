@@ -191,3 +191,9 @@ def test_qdrant_point_to_episode_raises_when_episode_json_missing() -> None:
     record = models.Record(id="some-id", payload={"completed_at": 1234567890})
     with pytest.raises(QdrantEpisodeJsonMissingError, match="some-id"):
         qdrant_point_to_episode(record)
+
+
+def test_qdrant_point_to_episode_empty_payload_raises() -> None:
+    record = models.Record(id="some-id", payload={})
+    with pytest.raises(QdrantEpisodeJsonMissingError, match="some-id"):
+        qdrant_point_to_episode(record)

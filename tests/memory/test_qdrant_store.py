@@ -123,13 +123,12 @@ async def test_count(mock_client: MagicMock) -> None:
 
 
 async def test_read_recent_empty(mock_client: MagicMock) -> None:
-    mock_client.count.return_value = MagicMock(count=0)
+    mock_client.scroll.return_value = ([], None)
     store = QdrantMemoryStore()
     assert await store._read_recent(3) == []
 
 
 async def test_read_recent(mock_client: MagicMock, episode: Episode) -> None:
-    mock_client.count.return_value = MagicMock(count=1)
     record = MagicMock()
     record.payload = {
         "episode_json": episode.model_dump_json(),
@@ -144,45 +143,23 @@ async def test_read_recent(mock_client: MagicMock, episode: Episode) -> None:
     assert result[0].task.instruction == episode.task.instruction
 
 
-async def test_read_recent_sorted_newest_first(
+async def test_read_recent_passes_order_by_to_scroll(
     mock_client: MagicMock,
 ) -> None:
-    older_task = Task(instruction="older task")
-    newer_task = Task(instruction="newer task")
-    older = Episode(
-        task=older_task,
-        rollout="",
-        result=TaskResult(task_id=older_task.id_, content="r"),
-        completed_at=datetime(2025, 1, 1),
-    )
-    newer = Episode(
-        task=newer_task,
-        rollout="",
-        result=TaskResult(task_id=newer_task.id_, content="r"),
-        completed_at=datetime(2025, 6, 1),
-    )
-
-    mock_client.count.return_value = MagicMock(count=2)
-    records = []
-    for ep in [older, newer]:
-        rec = MagicMock()
-        rec.payload = {
-            "episode_json": ep.model_dump_json(),
-            "completed_at": ep.completed_at.timestamp(),
-        }
-        records.append(rec)
-    mock_client.scroll.return_value = (records, None)
-
+    mock_client.scroll.return_value = ([], None)
     store = QdrantMemoryStore()
-    result = await store._read_recent(2)
+    await store._read_recent(2)
 
-    assert result[0].task.instruction == "newer task"
-    assert result[1].task.instruction == "older task"
+    kw = mock_client.scroll.call_args.kwargs
+    assert kw["order_by"].key == "completed_at"
+    assert kw["order_by"].direction == models.Direction.DESC
 
 
-async def test_read_recent_respects_n_limit(mock_client: MagicMock) -> None:
+async def test_read_recent_passes_n_as_limit_to_scroll(
+    mock_client: MagicMock,
+) -> None:
     episodes = []
-    for i in range(5):
+    for i in range(3):
         t = Task(instruction=f"task {i}")
         episodes.append(
             Episode(
@@ -193,7 +170,6 @@ async def test_read_recent_respects_n_limit(mock_client: MagicMock) -> None:
             ),
         )
 
-    mock_client.count.return_value = MagicMock(count=5)
     records = []
     for ep in episodes:
         rec = MagicMock()
@@ -208,6 +184,7 @@ async def test_read_recent_respects_n_limit(mock_client: MagicMock) -> None:
     store = QdrantMemoryStore()
     result = await store._read_recent(n)
 
+    assert mock_client.scroll.call_args.kwargs["limit"] == n
     assert len(result) == n
 
 

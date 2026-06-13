@@ -129,8 +129,8 @@ class QdrantMemoryStore(BaseMemoryStore):
     async def _read_recent(self, n: int) -> list[Episode]:
         """Return the N most recently recorded episodes.
 
-        Fetches all points from the collection and sorts by the stored
-        ``completed_at`` timestamp.
+        Uses Qdrant's ``order_by`` to sort by ``completed_at`` server-side
+        so only the top ``n`` points are transferred.
 
         Args:
             n (int): Maximum number of episodes to return.
@@ -139,26 +139,20 @@ class QdrantMemoryStore(BaseMemoryStore):
             list[Episode]: Episodes ordered from most recent to oldest.
         """
         await self._ensure_collection()
-        total = int((await self._client.count(self._collection_name)).count)
-        if total == 0:
-            return []
         points, _ = await self._client.scroll(
             collection_name=self._collection_name,
             with_payload=True,
-            limit=total,
+            limit=n,
+            order_by=models.OrderBy(
+                key="completed_at",
+                direction=models.Direction.DESC,
+            ),
         )
-        valid = [
-            p
+        return [
+            qdrant_point_to_episode(p)
             for p in points
-            if p.payload
-            and "episode_json" in p.payload
-            and "completed_at" in p.payload
+            if p.payload and "episode_json" in p.payload
         ]
-        valid.sort(
-            key=lambda p: p.payload["completed_at"],  # type: ignore[index]
-            reverse=True,
-        )
-        return [qdrant_point_to_episode(p) for p in valid[:n]]
 
     async def count(self) -> int:
         """Return the total number of episodes in the store.
@@ -279,7 +273,7 @@ class QdrantMemoryStore(BaseMemoryStore):
             list[Episode]: Episodes ordered by cosine similarity.
         """
         await self._ensure_collection()
-        results = (
+        similar_points = (
             await self._client.query_points(
                 collection_name=self._collection_name,
                 query=models.Document(
@@ -293,7 +287,7 @@ class QdrantMemoryStore(BaseMemoryStore):
             )
         ).points
         return [
-            qdrant_point_to_episode(r)
-            for r in results
-            if r.payload and "episode_json" in r.payload
+            qdrant_point_to_episode(p)
+            for p in similar_points
+            if p.payload and "episode_json" in p.payload
         ]

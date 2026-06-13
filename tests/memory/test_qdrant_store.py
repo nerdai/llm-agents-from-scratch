@@ -30,6 +30,7 @@ def mock_client():
         instance.get_vector_field_name.return_value = "fast-bge-small-en-v1.5"
         instance.collection_exists = AsyncMock(return_value=True)
         instance.create_collection = AsyncMock()
+        instance.create_payload_index = AsyncMock()
         instance.upsert = AsyncMock()
         instance.count = AsyncMock(return_value=MagicMock(count=0))
         instance.scroll = AsyncMock(return_value=([], None))
@@ -49,6 +50,11 @@ async def test_ensure_collection_creates_when_missing(
     store = QdrantMemoryStore()
     await store._ensure_collection()
     mock_client.create_collection.assert_called_once()
+    mock_client.create_payload_index.assert_called_once_with(
+        collection_name=store._collection_name,
+        field_name="completed_at",
+        field_schema=models.PayloadSchemaType.FLOAT,
+    )
 
 
 async def test_ensure_collection_skips_create_if_exists(
@@ -58,6 +64,7 @@ async def test_ensure_collection_skips_create_if_exists(
     store = QdrantMemoryStore()
     await store._ensure_collection()
     mock_client.create_collection.assert_not_called()
+    mock_client.create_payload_index.assert_not_called()
 
 
 async def test_ensure_collection_called_only_once(

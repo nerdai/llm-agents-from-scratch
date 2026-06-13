@@ -1,9 +1,14 @@
+import pytest
 from qdrant_client import models
 
 from llm_agents_from_scratch.data_structures import Task, TaskResult
 from llm_agents_from_scratch.data_structures.memory import (
     Episode,
     EpisodeFormatMode,
+)
+from llm_agents_from_scratch.memory_stores.qdrant.errors import (
+    QdrantEpisodeJsonMissingError,
+    QdrantPointPayloadMissingError,
 )
 from llm_agents_from_scratch.memory_stores.qdrant.utils import (
     episode_to_qdrant_point_struct,
@@ -174,3 +179,15 @@ def test_qdrant_point_to_episode_roundtrip() -> None:
     record = models.Record(id=point.id, payload=point.payload)
     restored = qdrant_point_to_episode(record)
     assert restored == episode
+
+
+def test_qdrant_point_to_episode_raises_when_payload_none() -> None:
+    record = models.Record(id="some-id", payload=None)
+    with pytest.raises(QdrantPointPayloadMissingError, match="some-id"):
+        qdrant_point_to_episode(record)
+
+
+def test_qdrant_point_to_episode_raises_when_episode_json_missing() -> None:
+    record = models.Record(id="some-id", payload={"completed_at": 1234567890})
+    with pytest.raises(QdrantEpisodeJsonMissingError, match="some-id"):
+        qdrant_point_to_episode(record)

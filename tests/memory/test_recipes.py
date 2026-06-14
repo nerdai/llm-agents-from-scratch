@@ -137,7 +137,8 @@ async def test_reflective_memory_reflect_calls_llm(
     await memory.record(ep)
 
     llm.complete.assert_awaited_once()
-    assert ep.metadata["reflection"] == "always call the tool first"
+    written: Episode = mock_qdrant_client.upsert.call_args.kwargs["points"][0]
+    assert "always call the tool first" in written.payload["episode_json"]
 
 
 @pytest.mark.asyncio

@@ -72,20 +72,27 @@ class Memory:
     async def record(self, episode: Episode) -> None:
         """Persist a completed episode.
 
+        Works on a shallow copy of ``episode`` so that ``metadata_fns``
+        enrichment never mutates the caller's object. This is important
+        when multiple ``Memory`` instances share the same episode: each
+        writes into its own copy, preventing cross-memory metadata
+        contamination.
+
         Runs all ``metadata_fns`` concurrently and writes their results
-        into ``episode.metadata``, then persists the episode via
+        into the copy's ``metadata``, then persists the copy via
         ``store.write()``.
 
         Args:
             episode (Episode): The completed episode to enrich and
-                store.
+                store. The original object is not modified.
         """
+        ep = episode.model_copy(deep=True)
         if self.metadata_fns:
 
             async def _call(fn: MetadataFn) -> str:
                 if inspect.iscoroutinefunction(fn):
-                    return await fn(episode)  # type: ignore[no-any-return]
-                return fn(episode)  # type: ignore[return-value]
+                    return await fn(ep)  # type: ignore[no-any-return]
+                return fn(ep)  # type: ignore[return-value]
 
             values = await asyncio.gather(
                 *[_call(fn) for fn in self.metadata_fns.values()],
@@ -95,9 +102,9 @@ class Memory:
                 values,
                 strict=True,
             ):
-                episode.metadata[key] = value
+                ep.metadata[key] = value
 
-        await self.store.write(episode)
+        await self.store.write(ep)
 
     async def summary(self) -> str:
         """Return a human-readable summary of this memory instance.

@@ -94,7 +94,7 @@ async def test_record_writes_episode() -> None:
 
     await memory.record(ep)
 
-    store.write.assert_awaited_once_with(ep)
+    store.write.assert_awaited_once()
 
 
 @pytest.mark.asyncio
@@ -102,10 +102,10 @@ async def test_record_runs_metadata_fns_concurrently() -> None:
     store = make_store()
     ep = make_episode()
 
-    async def reflect(ep: Episode) -> str:
+    async def reflect(episode: Episode) -> str:
         return "a lesson"
 
-    def tag(ep: Episode) -> str:
+    def tag(episode: Episode) -> str:
         return "important"
 
     memory = Memory(
@@ -115,9 +115,25 @@ async def test_record_runs_metadata_fns_concurrently() -> None:
 
     await memory.record(ep)
 
-    assert ep.metadata["reflection"] == "a lesson"
-    assert ep.metadata["tag"] == "important"
-    store.write.assert_awaited_once_with(ep)
+    written: Episode = store.write.call_args.args[0]
+    assert written.metadata["reflection"] == "a lesson"
+    assert written.metadata["tag"] == "important"
+    store.write.assert_awaited_once()
+
+
+@pytest.mark.asyncio
+async def test_record_does_not_mutate_original_episode() -> None:
+    store = make_store()
+    ep = make_episode()
+
+    memory = Memory(
+        store=store,
+        metadata_fns={"note": lambda _: "enriched"},
+    )
+
+    await memory.record(ep)
+
+    assert ep.metadata == {}
 
 
 @pytest.mark.asyncio
@@ -134,8 +150,8 @@ async def test_record_all_metadata_fns_called() -> None:
 
     await memory.record(ep)
 
-    fn_a.assert_awaited_once_with(ep)
-    fn_b.assert_awaited_once_with(ep)
+    fn_a.assert_awaited_once()
+    fn_b.assert_awaited_once()
 
 
 # --- summary ---

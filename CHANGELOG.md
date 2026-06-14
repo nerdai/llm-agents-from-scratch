@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- fix: Memory.record() works on a deep copy of Episode (#650)
 - chore: use TypeAlias for MetadataFn in memory.py (#647)
 - refactor: `_read_recent()` uses `scroll(order_by=OrderBy(completed_at, DESC), limit=n)` — eliminates the `count()` round-trip and Python-side sort; float payload index on `completed_at` created unconditionally in `_ensure_collection()` (new and pre-existing collections) for server-mode compatibility (#643)
 - nit: rename JSONMemoryStore._rewrite() to_rewrite_jsonl() (#642)

@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- feat: rename BaseMemoryStore.search() to recall() (#661)
 - feat: strengthen `DEFAULT_MEMORIES_BLOCK` template in `agent/templates/defaults.py` — adds `<warning>` wrapper and explicit instruction "if a past episode covers the same task, use its result directly unless instructed otherwise" (#660)
 - feat: `TaskHandler.run_step()` appends recalled memories to the system message before the skills catalog — memories are injected at `agent/llm_agent.py` after the rollout block is composed, ensuring they appear in every step's system prompt (#660)
 - fix: Memory.record() works on a deep copy of Episode (#650)

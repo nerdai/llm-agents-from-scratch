@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- feat: strengthen `DEFAULT_MEMORIES_BLOCK` template in `agent/templates/defaults.py` — adds `<warning>` wrapper and explicit instruction "if a past episode covers the same task, use its result directly unless instructed otherwise" (#660)
+- feat: `TaskHandler.run_step()` appends recalled memories to the system message before the skills catalog — memories are injected at `agent/llm_agent.py` after the rollout block is composed, ensuring they appear in every step's system prompt (#660)
 - fix: Memory.record() works on a deep copy of Episode (#650)
 - chore: use TypeAlias for MetadataFn in memory.py (#647)
 - refactor: `_read_recent()` uses `scroll(order_by=OrderBy(completed_at, DESC), limit=n)` — eliminates the `count()` round-trip and Python-side sort; float payload index on `completed_at` created unconditionally in `_ensure_collection()` (new and pre-existing collections) for server-mode compatibility (#643)

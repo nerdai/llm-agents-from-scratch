@@ -364,18 +364,19 @@ class LLMAgent:
                     ],
                 ),
             )
-            # added in ch06: bolt on skills catalog when skills are available
-            if catalog := self._skills_catalog:
-                system_message = ChatMessage(
-                    role=ChatRole.SYSTEM,
-                    content=f"{system_message.content}\n\n{catalog}",
-                )
 
             # added in ch07: inject recalled memories
             if memories := self._recalled_memories:
                 system_message = ChatMessage(
                     role=ChatRole.SYSTEM,
                     content=f"{system_message.content}\n\n{memories}",
+                )
+
+            # added in ch06: bolt on skills catalog when skills are available
+            if catalog := self._skills_catalog:
+                system_message = ChatMessage(
+                    role=ChatRole.SYSTEM,
+                    content=f"{system_message.content}\n\n{catalog}",
                 )
 
             self.logger.debug(f"💬 SYSTEM: {system_message.content}")

@@ -52,7 +52,7 @@ class Memory:
     async def recall(self, task: Task) -> str:
         """Retrieve relevant past episodes for a task.
 
-        Calls ``store.search(task.instruction)`` and formats the result
+        Calls ``store.recall(task.instruction)`` and formats the result
         as a newline-separated XML string for injection into the system
         prompt.
 
@@ -64,7 +64,7 @@ class Memory:
             str: Formatted episode context, or an empty string if no
                 episodes are available.
         """
-        episodes = await self.store.search(task.instruction)
+        episodes = await self.store.recall(task.instruction)
         if not episodes:
             return ""
         return "\n".join(str(ep) for ep in episodes)

@@ -10,7 +10,7 @@ from .agent import Task, TaskResult
 
 
 class RecallMode(str, Enum):
-    """Retrieval strategy used by ``BaseMemoryStore.search()``."""
+    """Retrieval strategy used by ``BaseMemoryStore.recall()``."""
 
     RECENT = "recent"
     SEARCH = "search"

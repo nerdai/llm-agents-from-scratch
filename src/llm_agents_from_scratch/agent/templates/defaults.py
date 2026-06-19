@@ -78,9 +78,13 @@ one, call the `from_scratch__use_skill` tool with the skill name.
 </available_skills>""".strip()
 
 DEFAULT_MEMORIES_BLOCK = """The following are memories from past episodes or
-task executions. Review these carefully: apply any lessons or insights to
+task executions.
+
+<warning>
+Review these carefully: apply any lessons or insights to
 inform your approach, and if a past episode covers the same task, use its
 result directly unless instructed otherwise.
+</warning>
 
 <memories>
 {memories}

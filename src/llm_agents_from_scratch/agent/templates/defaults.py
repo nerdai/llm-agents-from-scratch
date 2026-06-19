@@ -8,7 +8,12 @@ what to do next.
 
 IMPORTANT: Do not include raw tool-call JSON in your responses. If you need to
 use a tool, state your intent clearly (e.g., "I need to call the X tool with Y
-parameters") and the system will execute it."""
+parameters") and the system will execute it.
+
+IMPORTANT: If past memories are available, use them. If a recalled <episode>
+covers the same or a similar task, use its result directly rather than repeating
+tool calls, unless explicitly instructed otherwise.
+"""
 
 DEFAULT_GET_NEXT_INSTRUCTION_PROMPT = """You are overseeing an assistant's
 progress in accomplishing a user instruction.
@@ -80,9 +85,13 @@ one, call the `from_scratch__use_skill` tool with the skill name.
 DEFAULT_MEMORIES_BLOCK = """The following are memories from past episodes or
 task executions.
 
+IMPORTANT: If a recalled <episode> covers the same or a similar task, use its
+result directly rather than repeating tool calls, unless explicitly instructed
+otherwise.
+
 <warning>
 Review these carefully: apply any lessons or insights to
-inform your approach, and if a past episode covers the same task, use its
+inform your approach, and if a past <episode> covers the same task, use its
 result directly unless instructed otherwise.
 </warning>
 

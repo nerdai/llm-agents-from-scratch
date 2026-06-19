@@ -4904,13 +4904,13 @@ prompt when the task runs. Compare this to the recency baseline above.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a1b2c3d4e5f60023">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=a1b2c3d4e5f60023">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-11">
@@ -4933,7 +4933,7 @@ prompt when the task runs. Compare this to the recency baseline above.</p>
 <span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Episodes that will be recalled for this query:</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
-<span class="n">recalled_sea</span> <span class="o">=</span> <span class="k">await</span> <span class="n">memory</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">task8</span><span class="o">.</span><span class="n">instruction</span><span class="p">)</span>
+<span class="n">recalled_sea</span> <span class="o">=</span> <span class="k">await</span> <span class="n">memory</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">recall</span><span class="p">(</span><span class="n">task8</span><span class="o">.</span><span class="n">instruction</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">recalled_sea</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">ep</span><span class="p">))</span>
     <span class="nb">print</span><span class="p">()</span>
@@ -4948,63 +4948,10 @@ prompt when the task runs. Compare this to the recency baseline above.</p>
 )
 
 print("Episodes that will be recalled for this query:\n")
-recalled_sea = await memory.store.search(task8.instruction)
+recalled_sea = await memory.store.recall(task8.instruction)
 for ep in recalled_sea:
     print(str(ep))
     print()</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Episodes that will be recalled for this query:
-
-  &lt;episode&gt;
-    &lt;task&gt;What are Indonesia's key geographic and demographic facts? Use the get_country tool. Do not rely on prior knowledge.&lt;/task&gt;
-    &lt;result&gt;The key geographic and demographic facts about Indonesia are as follows:
-
-- **Region**: Asia
-- **Subregion**: South-Eastern Asia
-- **Capital**: Jakarta
-- **Population**: 284,438,782
-- **Area**: 1,904,569 square kilometers
-- **Languages**: Indonesian
-- **Currencies**: Indonesian rupiah
-    &lt;/result&gt;
-    &lt;completed_at&gt;2026-06-03 00:29:14&lt;/completed_at&gt;
-  &lt;/episode&gt;
-
-  &lt;episode&gt;
-    &lt;task&gt;What are Thailand's key geographic and demographic facts? Use the get_country tool. Do not rely on prior knowledge.&lt;/task&gt;
-    &lt;result&gt;Thailand is located in the region of Asia, specifically in South-Eastern Asia. Its capital city is Bangkok. The country has a population of approximately 65,859,640 people and covers an area of 513,120 square kilometers. The primary language spoken in Thailand is Thai, and the official currency is the Thai baht.
-    &lt;/result&gt;
-    &lt;completed_at&gt;2026-06-03 00:27:20&lt;/completed_at&gt;
-  &lt;/episode&gt;
-
-  &lt;episode&gt;
-    &lt;task&gt;What are Vietnam's key geographic and demographic facts? Use the get_country tool. Do not rely on prior knowledge.&lt;/task&gt;
-    &lt;result&gt;The tool has successfully retrieved information about Vietnam. Here are the key geographic and demographic facts about Vietnam:
-
-- **Region**: Asia
-- **Subregion**: South-Eastern Asia
-- **Capital**: Hanoi
-- **Population**: 101,343,800
-- **Area**: 331,212 square kilometers
-- **Languages**: Vietnamese
-- **Currencies**: Vietnamese đồng
-
-Let me know if you need further details!
-    &lt;/result&gt;
-    &lt;completed_at&gt;2026-06-03 00:28:55&lt;/completed_at&gt;
-  &lt;/episode&gt;
-
-</pre>
 </div>
 </div>
 </div>
@@ -5119,13 +5066,13 @@ to the query.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a1b2c3d4e5f60027">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=a1b2c3d4e5f60027">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-13">
@@ -5148,7 +5095,7 @@ to the query.</p>
 <span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Episodes that will be recalled for this query:</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
-<span class="n">recalled_eu</span> <span class="o">=</span> <span class="k">await</span> <span class="n">memory</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">task9</span><span class="o">.</span><span class="n">instruction</span><span class="p">)</span>
+<span class="n">recalled_eu</span> <span class="o">=</span> <span class="k">await</span> <span class="n">memory</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">recall</span><span class="p">(</span><span class="n">task9</span><span class="o">.</span><span class="n">instruction</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">recalled_eu</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">ep</span><span class="p">))</span>
     <span class="nb">print</span><span class="p">()</span>
@@ -5163,89 +5110,10 @@ to the query.</p>
 )
 
 print("Episodes that will be recalled for this query:\n")
-recalled_eu = await memory.store.search(task9.instruction)
+recalled_eu = await memory.store.recall(task9.instruction)
 for ep in recalled_eu:
     print(str(ep))
     print()</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Episodes that will be recalled for this query:
-
-  &lt;episode&gt;
-    &lt;task&gt;Which of the countries you have researched are in Southeast Asia? Summarise their key facts and compare their populations. Answer from the country information you have already gathered. No tools are needed.&lt;/task&gt;
-    &lt;result&gt;From the information I have gathered, all three countries—Indonesia, Thailand, and Vietnam—are located in Southeast Asia. Here are their key facts and a comparison of their populations:
-
-### Indonesia:
-- **Region**: Asia
-- **Subregion**: Southeastern Asia
-- **Capital**: Jakarta
-- **Population**: 284,438,782
-- **Area**: 1,904,569 square kilometers
-- **Languages**: Indonesian
-- **Currencies**: Indonesian rupiah
-
-### Thailand:
-- **Region**: Asia
-- **Subregion**: Southeastern Asia
-- **Capital**: Bangkok
-- **Population**: 65,859,640
-- **Area**: 513,120 square kilometers
-- **Languages**: Thai
-- **Currencies**: Thai baht
-
-### Vietnam:
-- **Region**: Asia
-- **Subregion**: Southeastern Asia
-- **Capital**: Hanoi
-- **Population**: 101,343,800
-- **Area**: 331,212 square kilometers
-- **Languages**: Vietnamese
-- **Currencies**: Vietnamese đồng
-
-### Comparison of Populations:
-- **Indonesia** has the largest population among the three, with approximately **284 million** people.
-- **Vietnam** has the second-largest population, with around **101 million** people.
-- **Thailand** has the smallest population among the three, with approximately **65.9 million** people.
-
-In summary, Indonesia, Thailand, and Vietnam are all Southeast Asian countries, but Indonesia has the largest population, followed by Vietnam, and then Thailand.
-    &lt;/result&gt;
-    &lt;completed_at&gt;2026-06-03 00:36:47&lt;/completed_at&gt;
-  &lt;/episode&gt;
-
-  &lt;episode&gt;
-    &lt;task&gt;What are Germany's key geographic and demographic facts? Use the get_country tool. Do not rely on prior knowledge.&lt;/task&gt;
-    &lt;result&gt;The key geographic and demographic facts about Germany are as follows:
-
-- **Region**: Europe
-- **Subregion**: Western Europe
-- **Capital**: Berlin
-- **Population**: 83,491,249
-- **Area**: 357,114 square kilometers
-- **Languages**: German
-- **Currencies**: Euro
-
-Let me know if you need further details!
-    &lt;/result&gt;
-    &lt;completed_at&gt;2026-06-03 00:29:00&lt;/completed_at&gt;
-  &lt;/episode&gt;
-
-  &lt;episode&gt;
-    &lt;task&gt;What are France's key geographic and demographic facts? Use the get_country tool. Do not rely on prior knowledge.&lt;/task&gt;
-    &lt;result&gt;France is located in the region of Europe, specifically in Western Europe. Its capital city is Paris. The country has a population of approximately 66,351,959 people and covers an area of 543,908 square kilometers. The primary language spoken in France is French, and the official currency is the euro.
-    &lt;/result&gt;
-    &lt;completed_at&gt;2026-06-03 00:29:09&lt;/completed_at&gt;
-  &lt;/episode&gt;
-
-</pre>
 </div>
 </div>
 </div>

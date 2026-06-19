@@ -25,7 +25,7 @@ def make_episode(
 def make_store(episodes: list[Episode] | None = None) -> AsyncMock:
     store = AsyncMock(spec=BaseMemoryStore)
     store.max_results = 5
-    store.search.return_value = episodes or []
+    store.recall.return_value = episodes or []
     return store
 
 
@@ -67,7 +67,7 @@ async def test_recall_formats_episodes() -> None:
 
     result = await memory.recall(task)
 
-    store.search.assert_awaited_once_with(task.instruction)
+    store.recall.assert_awaited_once_with(task.instruction)
     assert str(ep1) in result
     assert str(ep2) in result
 

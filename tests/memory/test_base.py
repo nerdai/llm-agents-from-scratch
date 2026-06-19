@@ -29,7 +29,7 @@ def _make_episode() -> Episode:
 
 
 class StubStore(BaseMemoryStore):
-    """Minimal concrete store for testing BaseMemoryStore.search() dispatch."""
+    """Minimal concrete store for testing BaseMemoryStore.recall() dispatch."""
 
     def __init__(
         self,
@@ -63,35 +63,35 @@ class StubStore(BaseMemoryStore):
 
 
 @pytest.mark.asyncio
-async def test_search_dispatches_to_search_when_recall_mode_search() -> None:
+async def test_recall_dispatches_to_search_when_recall_mode_search() -> None:
     episodes = [_make_episode(), _make_episode()]
     store = StubStore(episodes, recall_mode=RecallMode.SEARCH)
 
-    result = await store.search("query")
+    result = await store.recall("query")
 
     assert result == episodes
 
 
 @pytest.mark.asyncio
-async def test_search_dispatches_to_read_recent_when_recall_mode_recent() -> (
+async def test_recall_dispatches_to_read_recent_when_recall_mode_recent() -> (
     None
 ):
     episodes = [_make_episode(), _make_episode(), _make_episode()]
     store = StubStore(episodes, recall_mode=RecallMode.RECENT, max_results=2)
 
-    result = await store.search("ignored")
+    result = await store.recall("ignored")
 
     assert result == episodes[:2]
 
 
 @pytest.mark.asyncio
-async def test_search_warns_when_results_exceed_max_results() -> None:
+async def test_recall_warns_when_results_exceed_max_results() -> None:
     episodes = [_make_episode(), _make_episode(), _make_episode()]
     store = StubStore(episodes, recall_mode=RecallMode.SEARCH, max_results=2)
 
     with warnings.catch_warnings(record=True) as caught:
         warnings.simplefilter("always")
-        await store.search("query")
+        await store.recall("query")
 
     assert len(caught) == 1
     assert issubclass(caught[0].category, MaxResultsExceededWarning)
@@ -100,13 +100,13 @@ async def test_search_warns_when_results_exceed_max_results() -> None:
 
 
 @pytest.mark.asyncio
-async def test_search_no_warning_when_results_within_max_results() -> None:
+async def test_recall_no_warning_when_results_within_max_results() -> None:
     episodes = [_make_episode(), _make_episode()]
     store = StubStore(episodes, recall_mode=RecallMode.SEARCH, max_results=5)
 
     with warnings.catch_warnings(record=True) as caught:
         warnings.simplefilter("always")
-        await store.search("query")
+        await store.recall("query")
 
     assert not any(
         issubclass(w.category, MaxResultsExceededWarning) for w in caught

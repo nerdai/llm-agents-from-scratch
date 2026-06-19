@@ -199,14 +199,14 @@ async def test_read_recent_passes_n_as_limit_to_scroll(
     assert len(result) == n
 
 
-async def test_search(mock_client: MagicMock, episode: Episode) -> None:
+async def test_recall(mock_client: MagicMock, episode: Episode) -> None:
     mock_point = MagicMock()
     mock_point.payload = {"episode_json": episode.model_dump_json()}
     mock_client.query_points.return_value = MagicMock(points=[mock_point])
 
     max_results = 3
     store = QdrantMemoryStore(max_results=max_results)
-    results = await store.search("electric type pokemon")
+    results = await store.recall("electric type pokemon")
 
     mock_client.query_points.assert_called_once()
     kw = mock_client.query_points.call_args.kwargs
@@ -218,14 +218,14 @@ async def test_search(mock_client: MagicMock, episode: Episode) -> None:
     assert results[0].task.instruction == episode.task.instruction
 
 
-async def test_search_empty(mock_client: MagicMock) -> None:
+async def test_recall_empty(mock_client: MagicMock) -> None:
     mock_client.query_points.return_value = MagicMock(points=[])
     store = QdrantMemoryStore()
-    results = await store.search("anything")
+    results = await store.recall("anything")
     assert results == []
 
 
-async def test_search_uses_read_recent_when_recall_mode_recent(
+async def test_recall_uses_read_recent_when_recall_mode_recent(
     mock_client: MagicMock,
     episode: Episode,
 ) -> None:
@@ -238,7 +238,7 @@ async def test_search_uses_read_recent_when_recall_mode_recent(
     mock_client.scroll.return_value = ([mock_point], None)
 
     store = QdrantMemoryStore(recall_mode=RecallMode.RECENT, max_results=5)
-    results = await store.search("ignored query")
+    results = await store.recall("ignored query")
 
     mock_client.query_points.assert_not_called()
     assert len(results) == 1

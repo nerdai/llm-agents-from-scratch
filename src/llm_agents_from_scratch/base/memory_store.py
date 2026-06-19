@@ -95,7 +95,7 @@ class BaseMemoryStore(ABC):
             list[Episode]: Episodes ordered by relevance to the query.
         """
 
-    async def search(
+    async def recall(
         self,
         query: str,
         **kwargs: Any,

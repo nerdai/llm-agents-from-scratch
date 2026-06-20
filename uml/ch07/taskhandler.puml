@@ -1,0 +1,43 @@
+@startuml uml_ch07_taskhandler_updates
+!include ../common/book-clean.puml
+left to right direction
+
+package "llm_agents_from_scratch.agent" <<Folder>> {
+
+  class LLMAgent {
+    <color:#aaaaaa>+llm: LLM</color>
+    <color:#aaaaaa>+tools_registry: dict[str, Tool]</color>
+    <color:#aaaaaa>+templates: LLMAgentTemplates</color>
+    <color:#aaaaaa>+logger: Logger</color>
+    +memories: list[Memory]
+    --
+    <color:#aaaaaa>+tools: list[Tool]</color>
+    <color:#aaaaaa>+add_tool(tool: Tool): Self</color>
+    +<b>run(task: Task, ...): TaskHandler</b>
+  }
+
+  class "LLMAgent.TaskHandler" as TaskHandler {
+    <color:#aaaaaa>+llm_agent: LLMAgent</color>
+    <color:#aaaaaa>+task: Task</color>
+    <color:#aaaaaa>+rollout: str</color>
+    <color:#aaaaaa>+step_counter: int</color>
+    <color:#aaaaaa>-_background_task: ~asyncio.Task</color>
+    <color:#aaaaaa>+skills: dict[str, Skill]</color>
+    <color:#aaaaaa>-_skills_catalog: str</color>
+    <color:#aaaaaa>-_use_skill_tool: UseSkillTool | None</color>
+    <color:#aaaaaa>-_explicit_only_skills: set[str]</color>
+    -_recalled_memories: str
+    --
+    <color:#aaaaaa>+<<async>> get_next_step(): TaskStep | TaskResult</color>
+    +<b><<async>> run_step(step: TaskStep): TaskStepResult</b>
+    <color:#aaaaaa>-_format_step_for_rollout()</color>
+    -_format_memories_for_system_prompt(\n\tmemories: list[str]\n): str
+    +<<async>> load_memories(): None
+    +<<async>> record_memory(\n\tresult: TaskResult | None,\n\terror: Exception | None\n): None
+  }
+}
+
+' Relations
+LLMAgent *-- TaskHandler : " has"
+
+@enduml

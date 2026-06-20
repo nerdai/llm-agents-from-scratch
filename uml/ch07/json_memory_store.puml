@@ -1,0 +1,30 @@
+@startuml json_memory_store
+!include ../common/book-clean.puml
+
+package "llm_agents_from_scratch.base.memory_store" <<Folder>> {
+  abstract class BaseMemoryStore {
+    --
+    +<<async>> write()
+    +<<async>> recall()
+    +<<async>> delete()
+    +<<async>> update()
+    +<<async>> count()
+    +<<async>> summary()
+    -<<async>> _read_recent()
+    -<<async>> _search()
+  }
+}
+
+package "llm_agents_from_scratch.memory_stores" <<Folder>> {
+
+  class JSONMemoryStore {
+    +path: Path
+    --
+    +<<constructor>> __init__(\n\tdir: Path,\n\tfilename: str,\n\tmax_results: int,\n\trecall_mode: RecallMode\n):
+  }
+}
+
+' Relations
+BaseMemoryStore <|-- JSONMemoryStore : " inherits"
+
+@enduml

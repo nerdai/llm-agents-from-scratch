@@ -1,0 +1,45 @@
+@startuml episode
+!include ../common/book-clean.puml
+
+' External dependencies
+package "external_dependencies" <<Folder>> {
+  class "pydantic.BaseModel" as BaseModel
+  class "str" as StrBuiltin
+  class "enum.Enum" as Enum
+}
+
+package "llm_agents_from_scratch.data_structures.memory" <<Folder>> {
+
+  enum RecallMode {
+    RECENT = 'recent'
+    SEARCH = 'search'
+  }
+
+  enum EpisodeFormatMode {
+    XML = 'xml'
+    CONCAT = 'concat'
+  }
+
+  class Episode {
+    +id_: str
+    +task: Task
+    +rollout: str
+    +result: TaskResult | None
+    +error: Exception | None
+    +metadata: dict[str, str]
+    +completed_at: datetime
+    --
+    +format(\n\tmode: EpisodeFormatMode,\n\texclude: set[str] | None\n): str
+    +__str__(): str
+  }
+}
+
+' Relations
+StrBuiltin <|-- RecallMode : " inherits"
+Enum <|-- RecallMode : " inherits"
+StrBuiltin <|-- EpisodeFormatMode : " inherits"
+Enum <|-- EpisodeFormatMode : " inherits"
+BaseModel <|-- Episode : " inherits"
+Episode *-- EpisodeFormatMode : " uses"
+
+@enduml

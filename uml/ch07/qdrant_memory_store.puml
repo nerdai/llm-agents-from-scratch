@@ -1,0 +1,36 @@
+@startuml qdrant_memory_store
+!include ../common/book-clean.puml
+left to right direction
+
+package "llm_agents_from_scratch.base.memory_store" <<Folder>> {
+  abstract class BaseMemoryStore {
+    --
+    +<<async>> write()
+    +<<async>> recall()
+    +<<async>> delete()
+    +<<async>> update()
+    +<<async>> count()
+    +<<async>> summary()
+    -<<async>> _read_recent()
+    -<<async>> _search()
+  }
+}
+
+package "llm_agents_from_scratch.memory_stores.qdrant" <<Folder>> {
+
+  class QdrantMemoryStore {
+    -_client: ~qdrant_client.AsyncQdrantClient
+    -_collection_name: str
+    -_collection_ready: bool
+    -_key_fn: Callable
+    --
+    +<<constructor>> __init__(\n\tcollection_name: str,\n\tembedding_model: str,\n\tclient: AsyncQdrantClient | None,\n\tmax_results: int,\n\trecall_mode: RecallMode,\n\tkey_fn: Callable | None\n):
+    -<<async>> _ensure_collection(): None
+    -<<async>> _point_exists(id_: str): bool
+  }
+}
+
+' Relations
+BaseMemoryStore <|-- QdrantMemoryStore : " inherits"
+
+@enduml

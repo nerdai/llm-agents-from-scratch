@@ -4,20 +4,18 @@
 ' External dependencies
 package "external_dependencies" <<Folder>> {
   class "pydantic.BaseModel" as BaseModel
-  class "str" as StrBuiltin
-  class "enum.Enum" as Enum
 }
 
 package "llm_agents_from_scratch.data_structures.memory" <<Folder>> {
 
   enum RecallMode {
-    RECENT = 'recent'
-    SEARCH = 'search'
+    RECENT
+    SEARCH
   }
 
   enum EpisodeFormatMode {
-    XML = 'xml'
-    CONCAT = 'concat'
+    XML
+    CONCAT
   }
 
   class Episode {
@@ -35,10 +33,6 @@ package "llm_agents_from_scratch.data_structures.memory" <<Folder>> {
 }
 
 ' Relations
-StrBuiltin <|-- RecallMode : " inherits"
-Enum <|-- RecallMode : " inherits"
-StrBuiltin <|-- EpisodeFormatMode : " inherits"
-Enum <|-- EpisodeFormatMode : " inherits"
 BaseModel <|-- Episode : " inherits"
 Episode *-- EpisodeFormatMode : " uses"
 

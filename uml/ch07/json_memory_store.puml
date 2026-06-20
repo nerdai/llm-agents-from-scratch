@@ -1,5 +1,6 @@
 @startuml json_memory_store
 !include ../common/book-clean.puml
+left to right direction
 
 package "llm_agents_from_scratch.base.memory_store" <<Folder>> {
   abstract class BaseMemoryStore {
@@ -25,6 +26,6 @@ package "llm_agents_from_scratch.memory_stores" <<Folder>> {
 }
 
 ' Relations
-BaseMemoryStore <|-right- JSONMemoryStore : " inherits"
+BaseMemoryStore <|-- JSONMemoryStore : " inherits"
 
 @enduml

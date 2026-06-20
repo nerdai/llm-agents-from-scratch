@@ -8,11 +8,6 @@ package "external_dependencies" <<Folder>> {
 
 package "llm_agents_from_scratch.data_structures.memory" <<Folder>> {
 
-  enum RecallMode {
-    RECENT
-    SEARCH
-  }
-
   enum EpisodeFormatMode {
     XML
     CONCAT
@@ -34,6 +29,6 @@ package "llm_agents_from_scratch.data_structures.memory" <<Folder>> {
 
 ' Relations
 BaseModel <|-- Episode : " inherits"
-Episode *-- EpisodeFormatMode : " uses"
+Episode *-right- EpisodeFormatMode : " uses"
 
 @enduml

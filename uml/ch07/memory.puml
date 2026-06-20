@@ -1,0 +1,35 @@
+@startuml memory
+!include ../common/book-clean.puml
+left to right direction
+
+package "llm_agents_from_scratch.base.memory_store" <<Folder>> {
+  abstract class BaseMemoryStore {
+    --
+    +<<async>> write()
+    +<<async>> recall()
+    +<<async>> delete()
+    +<<async>> update()
+    +<<async>> count()
+    +<<async>> summary()
+  }
+}
+
+package "llm_agents_from_scratch.memory" <<Folder>> {
+
+  class Memory {
+    +store: BaseMemoryStore
+    +metadata_fns: dict[str, MetadataFn]
+    --
+    +<<constructor>> __init__(\n\tstore: BaseMemoryStore,\n\tmetadata_fns: dict[str, MetadataFn] | None\n):
+    +<<async>> recall(task: Task): str
+    +<<async>> record(episode: Episode): None
+    +<<async>> delete(id_: str): None
+    +<<async>> update(episode: Episode): None
+    +<<async>> summary(): str
+  }
+}
+
+' Relations
+Memory *-- BaseMemoryStore : " has"
+
+@enduml

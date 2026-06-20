@@ -17,12 +17,12 @@ package "llm_agents_from_scratch.base.memory_store" <<Folder>> {
     --
     +<<async>> write(episode: Episode): None
     +<<async>> recall(\n\tquery: str,\n\t**kwargs\n): list[Episode]
+    -<<async>> _read_recent(n: int): list[Episode]
+    -<<async>> _search(\n\tquery: str,\n\t**kwargs\n): list[Episode]
     +<<async>> delete(id_: str): None
     +<<async>> update(episode: Episode): None
     +<<async>> count(): int
     +<<async>> summary(): str
-    -<<async>> _read_recent(n: int): list[Episode]
-    -<<async>> _search(\n\tquery: str,\n\t**kwargs\n): list[Episode]
   }
 }
 

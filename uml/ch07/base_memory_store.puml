@@ -1,0 +1,32 @@
+@startuml base_memory_store
+!include ../common/book-clean.puml
+
+package "llm_agents_from_scratch.data_structures.memory" <<Folder>> {
+
+  enum RecallMode {
+    RECENT
+    SEARCH
+  }
+}
+
+package "llm_agents_from_scratch.base.memory_store" <<Folder>> {
+
+  abstract class BaseMemoryStore {
+    +max_results: int
+    +recall_mode: RecallMode
+    --
+    +<<async>> write(episode: Episode): None
+    +<<async>> recall(\n\tquery: str,\n\t**kwargs\n): list[Episode]
+    -<<async>> _read_recent(n: int): list[Episode]
+    -<<async>> _search(\n\tquery: str,\n\t**kwargs\n): list[Episode]
+    +<<async>> delete(id_: str): None
+    +<<async>> update(episode: Episode): None
+    +<<async>> count(): int
+    +<<async>> summary(): str
+  }
+}
+
+' Relations
+BaseMemoryStore *-left- RecallMode
+
+@enduml

@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- ...
+
+## [0.0.19] - 2026-06-23
+
 ### Added
 
 - feat: add `qdrant_point_to_episode()` to `memory_stores/qdrant/utils.py` — inverse of `episode_to_qdrant_point_struct()`; accepts `models.Record | models.ScoredPoint`; raises `QdrantPointPayloadMissingError` when payload is `None` or `QdrantEpisodeJsonMissingError` when `episode_json` key is absent (#643)

@@ -64,7 +64,20 @@ class HumanInputTool(BaseTool):
             ToolCallResult: The human's response as the content.
         """
         prompt = tool_call.arguments.get("prompt", "")
-        response = input(prompt)
+        try:
+            response = input(prompt)
+        except EOFError:
+            return ToolCallResult(
+                tool_call_id=tool_call.id_,
+                content="No input received (stdin closed).",
+                error=True,
+            )
+        except KeyboardInterrupt:
+            return ToolCallResult(
+                tool_call_id=tool_call.id_,
+                content="Human declined to provide input (KeyboardInterrupt).",
+                error=True,
+            )
 
         return ToolCallResult(
             tool_call_id=tool_call.id_,

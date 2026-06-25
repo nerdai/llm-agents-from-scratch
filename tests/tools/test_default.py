@@ -6,6 +6,7 @@ from unittest.mock import patch
 from llm_agents_from_scratch.data_structures import ToolCall
 from llm_agents_from_scratch.tools.default import (
     DEFAULT_TOOLS,
+    HumanInputTool,
     PythonInterpreterTool,
     ReadFileTool,
 )
@@ -261,3 +262,102 @@ def test_python_interpreter_tool_passes_stdin(tmp_path: Path) -> None:
 def test_default_tools_contains_python_interpreter_tool() -> None:
     """Tests DEFAULT_TOOLS includes a PythonInterpreterTool instance."""
     assert any(isinstance(t, PythonInterpreterTool) for t in DEFAULT_TOOLS)
+
+
+# --- HumanInputTool ---
+
+
+def test_human_input_tool_name() -> None:
+    """Tests HumanInputTool.name."""
+    tool = HumanInputTool()
+    assert tool.name == "human_input"
+
+
+def test_human_input_tool_description() -> None:
+    """Tests HumanInputTool.description mentions human and input."""
+    tool = HumanInputTool()
+    assert "human" in tool.description.lower()
+
+
+def test_human_input_tool_parameters_json_schema() -> None:
+    """Tests HumanInputTool schema has required prompt field."""
+    tool = HumanInputTool()
+    schema = tool.parameters_json_schema
+    assert schema["type"] == "object"
+    assert "prompt" in schema["properties"]
+    assert schema["required"] == ["prompt"]
+
+
+def test_human_input_tool_returns_response() -> None:
+    """Tests HumanInputTool returns the human's response as content."""
+    tool = HumanInputTool()
+    tool_call = ToolCall(
+        tool_name="human_input",
+        arguments={"prompt": "What is your name?"},
+    )
+
+    with patch("builtins.input", return_value="Alice"):
+        result = tool(tool_call=tool_call)
+
+    assert result.error is False
+    assert result.content == "Alice"
+
+
+def test_human_input_tool_passes_prompt_to_input() -> None:
+    """Tests HumanInputTool passes the prompt argument to input()."""
+    tool = HumanInputTool()
+    tool_call = ToolCall(
+        tool_name="human_input",
+        arguments={"prompt": "How old are you?"},
+    )
+
+    with patch("builtins.input", return_value="30") as mock_input:
+        tool(tool_call=tool_call)
+
+    mock_input.assert_called_once_with("How old are you?")
+
+
+def test_human_input_tool_missing_prompt_defaults_to_empty() -> None:
+    """Tests HumanInputTool defaults to empty string when prompt is absent."""
+    tool = HumanInputTool()
+    tool_call = ToolCall(
+        tool_name="human_input",
+        arguments={},
+    )
+
+    with patch("builtins.input", return_value="ok") as mock_input:
+        tool(tool_call=tool_call)
+
+    mock_input.assert_called_once_with("")
+
+
+def test_human_input_tool_eof_error() -> None:
+    """Tests HumanInputTool returns error result on EOFError."""
+    tool = HumanInputTool()
+    tool_call = ToolCall(
+        tool_name="human_input",
+        arguments={"prompt": "Enter value:"},
+    )
+
+    with patch("builtins.input", side_effect=EOFError):
+        result = tool(tool_call=tool_call)
+
+    assert result.error is True
+    assert result.content is not None
+    assert "stdin" in result.content.lower()
+
+
+def test_human_input_tool_keyboard_interrupt() -> None:
+    """Tests HumanInputTool returns error result on KeyboardInterrupt."""
+    tool = HumanInputTool()
+    tool_call = ToolCall(
+        tool_name="human_input",
+        arguments={"prompt": "Enter value:"},
+    )
+
+    with patch("builtins.input", side_effect=KeyboardInterrupt):
+        result = tool(tool_call=tool_call)
+
+    assert result.error is True
+    assert result.content is not None
+    assert "declined" in result.content.lower()

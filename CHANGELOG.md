@@ -8,7 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
-- ...
+### Added
+
+- feat: implement HumanInputTool (#685)
 
 ## [0.0.19] - 2026-06-23
 

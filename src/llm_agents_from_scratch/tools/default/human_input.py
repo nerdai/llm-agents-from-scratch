@@ -7,19 +7,26 @@ from ...data_structures import ToolCall, ToolCallResult
 
 
 class HumanInputTool(BaseTool):
-    """_summary_
+    """A tool that pauses execution to collect input from a human operator.
 
-    Args:
-        BaseTool (_type_): _description_
+    The LLM calls this tool when it needs clarification, a decision, or
+    additional information that cannot be inferred from the task alone.
+    Execution blocks until the human responds.
     """
 
     @property
     def name(self) -> str:
-        return "HumanInputTool"
+        """Name of the human-input tool."""
+        return "human_input"
 
     @property
     def description(self) -> str:
-        return ""
+        """Description of the human-input tool."""
+        return (
+            "Ask the human operator a question and wait for their response. "
+            "Use this tool when you need clarification or additional "
+            "information that is not available from the task context."
+        )
 
     @property
     def parameters_json_schema(self) -> dict[str, Any]:
@@ -29,9 +36,12 @@ class HumanInputTool(BaseTool):
             "properties": {
                 "prompt": {
                     "type": "string",
-                    "description": "Prompt to provide human.",
+                    "description": (
+                        "The question or prompt to present to the human."
+                    ),
                 },
             },
+            "required": ["prompt"],
         }
 
     def __call__(
@@ -40,7 +50,20 @@ class HumanInputTool(BaseTool):
         *args: Any,
         **kwargs: Any,
     ) -> ToolCallResult:
-        prompt = tool_call.arguments.get("prompt")
+        """Display a prompt to the human operator and return their response.
+
+        Blocks until the operator submits a response via stdin.
+
+        Args:
+            tool_call (ToolCall): The tool call containing the ``prompt``
+                argument.
+            *args (Any): Additional positional arguments (unused).
+            **kwargs (Any): Additional keyword arguments (unused).
+
+        Returns:
+            ToolCallResult: The human's response as the content.
+        """
+        prompt = tool_call.arguments.get("prompt", "")
         response = input(prompt)
 
         return ToolCallResult(

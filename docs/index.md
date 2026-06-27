@@ -101,7 +101,7 @@ from core concepts to full multi-agent systems:
 | 5 | MCP Tools | [Ch 5](notebooks/ch05.ipynb) |
 | 6 | Skills | [Ch 6](notebooks/ch06.ipynb) |
 | 7 | Memory | [Ch 7](notebooks/ch07.ipynb) |
-| 8 | Human in the Loop | — |
+| 8 | Human in the Loop | [Ch 8](notebooks/ch08.ipynb) |
 
 ### Part 3 — Building Multi-Agent Systems
 

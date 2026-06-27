@@ -1,13 +1,18 @@
 """Agent Module."""
 
 import asyncio
+import uuid
 from typing import Any
 
+from rich.console import Console
+from rich.panel import Panel
+from rich.prompt import Confirm, Prompt
 from typing_extensions import Self
 
 from llm_agents_from_scratch.base.llm import LLM
 from llm_agents_from_scratch.base.tool import AsyncBaseTool, Tool
 from llm_agents_from_scratch.data_structures import (
+    ApprovalResult,
     ChatMessage,
     ChatRole,
     NextStepDecision,
@@ -554,6 +559,87 @@ class LLMAgent:
             for memory in self.llm_agent.memories:
                 await memory.record(episode)
 
+        @staticmethod
+        def _prompt_for_approval(
+            proposed_content: str,
+            prompt_text: str,
+            rationale_prompt_text: str,
+        ) -> ApprovalResult:
+            """Render the proposed result and collect a yes/no approval.
+
+            Added in Chapter 8.
+
+            Synchronous helper intended to be called via ``asyncio.to_thread``.
+            Raises ``EOFError`` on closed stdin and ``KeyboardInterrupt`` on
+            operator interrupt — both are handled by the caller.
+
+            Args:
+                proposed_content: The result content to render in a ``Panel``.
+                prompt_text: The yes/no question text.
+                rationale_prompt_text: The rationale prompt shown on rejection.
+
+            Returns:
+                ApprovalResult: ``approved=True`` on yes; ``approved=False``
+                    with the rationale on no.
+            """
+            console = Console()
+            console.print(
+                Panel(
+                    proposed_content,
+                    title="Proposed Task Result",
+                    border_style="cyan",
+                ),
+            )
+            approved = Confirm.ask(prompt_text, console=console)
+            if approved:
+                return ApprovalResult(approved=True, feedback="")
+            feedback = Prompt.ask(rationale_prompt_text, console=console)
+            return ApprovalResult(approved=False, feedback=feedback)
+
+        async def request_approval(
+            self,
+            result: TaskResult,
+        ) -> ApprovalResult:
+            """Ask a human to approve or reject the proposed task result.
+
+            Added in Chapter 8.
+
+            Runs the blocking rich prompts in a thread via
+            ``asyncio.to_thread``. Auto-approves on ``EOFError``
+            (headless); rejects with an interruption note on
+            ``KeyboardInterrupt``.
+
+            Args:
+                result (TaskResult): The proposed task result to review.
+
+            Returns:
+                ApprovalResult: The approval decision.
+            """
+            prompt_text = self.llm_agent.templates["approval_prompt"]
+            rationale_prompt_text = self.llm_agent.templates[
+                "approval_rationale_prompt"
+            ]
+            try:
+                return await asyncio.to_thread(
+                    self._prompt_for_approval,
+                    result.content,
+                    prompt_text,
+                    rationale_prompt_text,
+                )
+            except EOFError:
+                self.logger.info(
+                    "Approval prompt got EOF (headless); auto-approving.",
+                )
+                return ApprovalResult(approved=True, feedback="")
+            except KeyboardInterrupt:
+                self.logger.info(
+                    "Approval prompt interrupted by operator; rejecting.",
+                )
+                return ApprovalResult(
+                    approved=False,
+                    feedback="Interrupted by operator.",
+                )
+
     def run(
         self,
         task: Task,
@@ -561,6 +647,8 @@ class LLMAgent:
         # added in ch06
         skills_scopes: list[SkillScope] | None = None,
         explicit_only_skills: set[str] | None = None,
+        # added in ch08
+        with_approval: bool = False,
     ) -> TaskHandler:
         """Agent's processing loop for executing tasks.
 
@@ -575,6 +663,13 @@ class LLMAgent:
                 from the model catalog for this run. They remain activatable
                 via ``run_with_skill()``. Defaults to None. Added in
                 Chapter 6.
+            with_approval (bool): When ``True``, an end-of-loop human
+                approval gate fires before each ``TaskResult`` is accepted.
+                The human may approve (result is recorded and returned) or
+                reject with feedback (feedback re-enters the loop as a new
+                step). Rejections do not consume the step budget; pair with
+                ``max_steps`` to bound repeated-rejection loops. Defaults
+                to ``False``. Added in Chapter 8.
 
         Returns:
             TaskHandler: the TaskHandler object responsible for task execution.
@@ -612,6 +707,27 @@ class LLMAgent:
                                 next_step,
                             )
                         case TaskResult():
+                            # added in ch08
+                            if with_approval:
+                                approval = await task_handler.request_approval(
+                                    next_step,
+                                )
+                                if not approval.approved:
+                                    step_result = TaskStepResult(
+                                        task_step_id=str(
+                                            uuid.uuid4(),
+                                        ),
+                                        content=self.templates[
+                                            "approval_rejection_feedback"
+                                        ].format(
+                                            feedback=approval.feedback,
+                                        ),
+                                    )
+                                    self.logger.info(
+                                        "🔁 Task result rejected; "
+                                        "re-entering loop with feedback.",
+                                    )
+                                    continue
                             await task_handler.record_memory(
                                 result=next_step,
                             )  # added in ch07

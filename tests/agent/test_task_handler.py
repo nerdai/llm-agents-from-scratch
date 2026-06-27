@@ -8,6 +8,7 @@ from llm_agents_from_scratch.agent import LLMAgent
 from llm_agents_from_scratch.agent.templates import default_templates
 from llm_agents_from_scratch.base.llm import BaseLLM
 from llm_agents_from_scratch.data_structures import (
+    ApprovalResult,
     ChatMessage,
     ChatRole,
     NextStepDecision,
@@ -848,3 +849,147 @@ async def test_run_step_injects_recalled_memories() -> None:
         ],
         tools=list(handler.llm_agent.tools_registry.values()),
     )
+
+
+# ---------------------------------------------------------------------------
+# Approval gate tests (Chapter 8)
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.asyncio
+async def test_request_approval_approves(mock_llm: BaseLLM) -> None:
+    """Tests request_approval returns approved=True on yes."""
+    agent = LLMAgent(llm=mock_llm)
+    handler = LLMAgent.TaskHandler(
+        llm_agent=agent,
+        task=Task(instruction="mock instruction"),
+    )
+    result = TaskResult(task_id=handler.task.id_, content="mock result")
+
+    with patch(
+        "llm_agents_from_scratch.agent.llm_agent.LLMAgent.TaskHandler._prompt_for_approval",
+        return_value=ApprovalResult(approved=True, feedback=""),
+    ):
+        approval = await handler.request_approval(result)
+
+    assert approval.approved is True
+    assert approval.feedback == ""
+
+
+@pytest.mark.asyncio
+async def test_request_approval_rejects_with_feedback(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests request_approval returns approved=False with rationale on no."""
+    agent = LLMAgent(llm=mock_llm)
+    handler = LLMAgent.TaskHandler(
+        llm_agent=agent,
+        task=Task(instruction="mock instruction"),
+    )
+    result = TaskResult(task_id=handler.task.id_, content="mock result")
+
+    with patch(
+        "llm_agents_from_scratch.agent.llm_agent.LLMAgent.TaskHandler._prompt_for_approval",
+        return_value=ApprovalResult(
+            approved=False,
+            feedback="needs more detail",
+        ),
+    ):
+        approval = await handler.request_approval(result)
+
+    assert approval.approved is False
+    assert approval.feedback == "needs more detail"
+
+
+@pytest.mark.asyncio
+async def test_request_approval_auto_approves_on_eof(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests request_approval auto-approves when stdin is closed (headless)."""
+    agent = LLMAgent(llm=mock_llm)
+    handler = LLMAgent.TaskHandler(
+        llm_agent=agent,
+        task=Task(instruction="mock instruction"),
+    )
+    result = TaskResult(task_id=handler.task.id_, content="mock result")
+
+    with patch(
+        "llm_agents_from_scratch.agent.llm_agent.LLMAgent.TaskHandler._prompt_for_approval",
+        side_effect=EOFError(),
+    ):
+        approval = await handler.request_approval(result)
+
+    assert approval.approved is True
+    assert approval.feedback == ""
+
+
+@pytest.mark.asyncio
+async def test_request_approval_rejects_on_keyboard_interrupt(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests request_approval rejects with interruption note on Ctrl-C."""
+    agent = LLMAgent(llm=mock_llm)
+    handler = LLMAgent.TaskHandler(
+        llm_agent=agent,
+        task=Task(instruction="mock instruction"),
+    )
+    result = TaskResult(task_id=handler.task.id_, content="mock result")
+
+    with patch(
+        "llm_agents_from_scratch.agent.llm_agent.LLMAgent.TaskHandler._prompt_for_approval",
+        side_effect=KeyboardInterrupt(),
+    ):
+        approval = await handler.request_approval(result)
+
+    assert approval.approved is False
+    assert approval.feedback == "Interrupted by operator."
+
+
+def test_prompt_for_approval_returns_approved_on_yes() -> None:
+    """Tests _prompt_for_approval returns approved=True when Confirm is yes."""
+    with (
+        patch("rich.prompt.Confirm.ask", return_value=True),
+        patch("rich.prompt.Prompt.ask") as mock_prompt,
+    ):
+        approval = LLMAgent.TaskHandler._prompt_for_approval(
+            "mock content",
+            "Approve?",
+            "Rationale?",
+        )
+
+    assert approval.approved is True
+    assert approval.feedback == ""
+    mock_prompt.assert_not_called()
+
+
+def test_prompt_for_approval_returns_rejected_with_rationale_on_no() -> None:
+    """Tests _prompt_for_approval returns rejected with rationale on no."""
+    with (
+        patch("rich.prompt.Confirm.ask", return_value=False),
+        patch("rich.prompt.Prompt.ask", return_value="fix the math") as mock_p,
+    ):
+        approval = LLMAgent.TaskHandler._prompt_for_approval(
+            "mock content",
+            "Approve?",
+            "Rationale?",
+        )
+
+    assert approval.approved is False
+    assert approval.feedback == "fix the math"
+    mock_p.assert_called_once()
+
+
+def test_prompt_for_approval_uses_approval_template_text() -> None:
+    """Tests _prompt_for_approval passes the template text to Confirm.ask."""
+    with (
+        patch("rich.prompt.Confirm.ask", return_value=True) as mock_confirm,
+        patch("rich.prompt.Prompt.ask"),
+    ):
+        LLMAgent.TaskHandler._prompt_for_approval(
+            "content",
+            "my question",
+            "my rationale",
+        )
+
+    mock_confirm.assert_called_once()
+    assert mock_confirm.call_args.args[0] == "my question"

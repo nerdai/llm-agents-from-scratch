@@ -1461,6 +1461,7 @@ dependencies = [
     { name = "pydantic" },
     { name = "pyyaml" },
     { name = "qdrant-client", extra = ["fastembed"] },
+    { name = "rich" },
     { name = "typing-extensions" },
 ]
 
@@ -1512,6 +1513,7 @@ requires-dist = [
     { name = "pydantic", specifier = ">=2.11.7" },
     { name = "pyyaml", specifier = ">=6.0.2" },
     { name = "qdrant-client", extras = ["fastembed"], specifier = ">=1.14.0" },
+    { name = "rich", specifier = ">=13.9.0" },
     { name = "tqdm", marker = "extra == 'notebooks'", specifier = ">=4.0.0" },
     { name = "typing-extensions", specifier = ">=4.14.0" },
 ]

@@ -3,6 +3,9 @@
 from typing import TypedDict
 
 from .defaults import (
+    DEFAULT_APPROVAL_PROMPT,
+    DEFAULT_APPROVAL_RATIONALE_PROMPT,
+    DEFAULT_APPROVAL_REJECTION_FEEDBACK,
     DEFAULT_GET_NEXT_INSTRUCTION_PROMPT,
     DEFAULT_MEMORIES_BLOCK,
     DEFAULT_RUN_STEP_SYSTEM_MESSAGE,
@@ -32,6 +35,10 @@ class LLMAgentTemplates(TypedDict):
     skills_catalog: str
     # added in ch07
     memories: str
+    # added in ch08
+    approval_prompt: str
+    approval_rationale_prompt: str
+    approval_rejection_feedback: str
 
 
 default_templates = LLMAgentTemplates(
@@ -47,4 +54,8 @@ default_templates = LLMAgentTemplates(
     skills_catalog=DEFAULT_SKILLS_CATALOG,
     # added in ch07
     memories=DEFAULT_MEMORIES_BLOCK,
+    # added in ch08
+    approval_prompt=DEFAULT_APPROVAL_PROMPT,
+    approval_rationale_prompt=DEFAULT_APPROVAL_RATIONALE_PROMPT,
+    approval_rejection_feedback=DEFAULT_APPROVAL_REJECTION_FEEDBACK,
 )

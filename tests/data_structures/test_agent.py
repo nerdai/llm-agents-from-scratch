@@ -1,7 +1,10 @@
 from unittest.mock import MagicMock, patch
 
 from llm_agents_from_scratch.data_structures import Task, TaskStep
-from llm_agents_from_scratch.data_structures.agent import ApprovalResult
+from llm_agents_from_scratch.data_structures.agent import (
+    ApprovalResult,
+    RejectedTaskResult,
+)
 
 
 @patch("llm_agents_from_scratch.data_structures.agent.uuid")
@@ -28,6 +31,15 @@ def test_string_representation_task_step(mock_uuid: MagicMock) -> None:
     assert str(task_step) == "a fake instruction"
     assert task_step.task_id == "000"
     assert task_step.id_ == "111"
+
+
+def test_rejected_task_result_str() -> None:
+    """Tests RejectedTaskResult.__str__ returns feedback."""
+    result = RejectedTaskResult(
+        failed_result_content="wrong answer",
+        feedback="fix the math",
+    )
+    assert str(result) == "fix the math"
 
 
 def test_approval_result_str_approved() -> None:

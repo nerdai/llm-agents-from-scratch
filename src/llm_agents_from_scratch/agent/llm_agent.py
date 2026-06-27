@@ -1,7 +1,6 @@
 """Agent Module."""
 
 import asyncio
-import uuid
 from typing import Any
 
 from rich.console import Console
@@ -16,6 +15,7 @@ from llm_agents_from_scratch.data_structures import (
     ChatMessage,
     ChatRole,
     NextStepDecision,
+    RejectedTaskResult,
     Task,
     TaskResult,
     TaskStep,
@@ -282,18 +282,36 @@ class LLMAgent:
 
         async def get_next_step(
             self,
-            previous_step_result: TaskStepResult | None,
+            previous_step_result: (
+                TaskStepResult
+                | RejectedTaskResult  # added in ch08
+                | None
+            ),
         ) -> TaskStep | TaskResult:
             """Based on previous step result, get next step or conclude task.
 
             Returns:
-                TaskStep | TaskResult: Either the next step or the result of the
-                    task.
+                TaskStep | TaskResult: Either the next step or the result of
+                    the task.
             """
             if not previous_step_result:
                 return TaskStep(
                     task_id=self.task.id_,
                     instruction=self.task.instruction,
+                )
+            # added in ch08: rejection bypasses LLM routing
+            if isinstance(previous_step_result, RejectedTaskResult):
+                self.logger.info(
+                    f"🧠 New Step (rejection): {previous_step_result.feedback}",
+                )
+                return TaskStep(
+                    task_id=self.task.id_,
+                    instruction=self.llm_agent.templates[
+                        "approval_rejection_feedback"
+                    ].format(
+                        content=previous_step_result.failed_result_content,
+                        feedback=previous_step_result.feedback,
+                    ),
                 )
             self.logger.debug(f"🧵 Rollout: {self.rollout}")
 
@@ -715,15 +733,9 @@ class LLMAgent:
                                     next_step,
                                 )
                                 if not approval.approved:
-                                    step_result = TaskStepResult(
-                                        task_step_id=str(
-                                            uuid.uuid4(),
-                                        ),
-                                        content=self.templates[
-                                            "approval_rejection_feedback"
-                                        ].format(
-                                            feedback=approval.feedback,
-                                        ),
+                                    step_result = RejectedTaskResult(
+                                        failed_result_content=next_step.content,
+                                        feedback=approval.feedback,
                                     )
                                     self.logger.info(
                                         "🔁 Task result rejected; "
@@ -751,6 +763,8 @@ class LLMAgent:
         skill_name: str,
         prompt: str | None = None,
         max_steps: int | None = None,
+        # added in ch08
+        with_approval: bool = False,
     ) -> TaskHandler:
         """User-explicit skill activation: the programmatic slash command.
 
@@ -768,6 +782,8 @@ class LLMAgent:
                 skill activation. Defaults to None.
             max_steps (int | None): Maximum number of steps to run.
                 Defaults to None.
+            with_approval (bool): Passed through to ``run()``. Added in
+                Chapter 8.
 
         Returns:
             TaskHandler: The handler responsible for task execution.
@@ -783,4 +799,9 @@ class LLMAgent:
             )
         task = Task(instruction=instruction)
 
-        return self.run(task=task, max_steps=max_steps)
+        return self.run(
+            task=task,
+            max_steps=max_steps,
+            # added in ch08
+            with_approval=with_approval,
+        )

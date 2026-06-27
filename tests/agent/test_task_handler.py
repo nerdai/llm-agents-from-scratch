@@ -12,6 +12,7 @@ from llm_agents_from_scratch.data_structures import (
     ChatMessage,
     ChatRole,
     NextStepDecision,
+    RejectedTaskResult,
     Task,
     TaskResult,
     TaskStep,
@@ -146,6 +147,31 @@ async def test_get_next_step(mock_llm: BaseLLM) -> None:
     assert initial_step.instruction == "mock instruction"
     assert isinstance(next_step, TaskStep)
     assert next_step.instruction == expected_next_step.content
+
+
+@pytest.mark.asyncio
+async def test_get_next_step_routes_rejected_task_result_without_llm(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests get_next_step returns TaskStep directly for RejectedTaskResult."""
+    task = Task(instruction="mock instruction")
+    handler = LLMAgent.TaskHandler(
+        llm_agent=LLMAgent(llm=mock_llm),
+        task=task,
+    )
+
+    rejected = RejectedTaskResult(
+        failed_result_content="wrong answer",
+        feedback="fix the math",
+    )
+    next_step = await handler.get_next_step(previous_step_result=rejected)
+
+    assert isinstance(next_step, TaskStep)
+    expected = default_templates["approval_rejection_feedback"].format(
+        content="wrong answer",
+        feedback="fix the math",
+    )
+    assert next_step.instruction == expected
 
 
 @pytest.mark.asyncio

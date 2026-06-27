@@ -1,6 +1,7 @@
 from .agent import (
     ApprovalResult,
     NextStepDecision,
+    RejectedTaskResult,
     Task,
     TaskResult,
     TaskStep,
@@ -15,6 +16,7 @@ __all__ = [
     # agent
     "ApprovalResult",
     "NextStepDecision",
+    "RejectedTaskResult",
     "Task",
     "TaskResult",
     "TaskStep",

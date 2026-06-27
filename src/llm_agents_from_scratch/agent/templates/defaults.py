@@ -102,11 +102,15 @@ result directly unless instructed otherwise.
 DEFAULT_APPROVAL_PROMPT = "Approve this result?"
 
 DEFAULT_APPROVAL_RATIONALE_PROMPT = (
-    "Provide your correction rationale for the agent to address:"
+    "Provide your correction rationale for the agent to address"
 )
 
 DEFAULT_APPROVAL_REJECTION_FEEDBACK = """The human operator REJECTED your \
 proposed task result. Revise your approach and try again.
+
+<proposed-result>
+{content}
+</proposed-result>
 
 <human-correction>
 {feedback}

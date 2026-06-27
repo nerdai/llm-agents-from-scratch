@@ -305,17 +305,23 @@ def test_human_input_tool_returns_response() -> None:
 
 
 def test_human_input_tool_passes_prompt_to_input() -> None:
-    """Tests HumanInputTool passes the prompt argument to Prompt.ask."""
+    """Tests HumanInputTool renders the prompt in a Panel and uses > inline."""
     tool = HumanInputTool()
     tool_call = ToolCall(
         tool_name="human_input",
         arguments={"prompt": "How old are you?"},
     )
 
-    with patch("rich.prompt.Prompt.ask", return_value="30") as mock_ask:
+    with (
+        patch("rich.console.Console.print"),
+        patch("rich.prompt.Prompt.ask", return_value="30") as mock_ask,
+    ):
         tool(tool_call=tool_call)
 
-    mock_ask.assert_called_once_with("How old are you?")
+    mock_ask.assert_called_once_with(
+        ">",
+        console=mock_ask.call_args.kwargs["console"],
+    )
 
 
 def test_human_input_tool_missing_prompt_defaults_to_empty() -> None:
@@ -326,10 +332,16 @@ def test_human_input_tool_missing_prompt_defaults_to_empty() -> None:
         arguments={},
     )
 
-    with patch("rich.prompt.Prompt.ask", return_value="ok") as mock_ask:
+    with (
+        patch("rich.console.Console.print"),
+        patch("rich.prompt.Prompt.ask", return_value="ok") as mock_ask,
+    ):
         tool(tool_call=tool_call)
 
-    mock_ask.assert_called_once_with("")
+    mock_ask.assert_called_once_with(
+        ">",
+        console=mock_ask.call_args.kwargs["console"],
+    )
 
 
 def test_human_input_tool_choices_passed_to_prompt() -> None:
@@ -340,10 +352,17 @@ def test_human_input_tool_choices_passed_to_prompt() -> None:
         arguments={"prompt": "Pick one:", "choices": ["yes", "no"]},
     )
 
-    with patch("rich.prompt.Prompt.ask", return_value="yes") as mock_ask:
+    with (
+        patch("rich.console.Console.print"),
+        patch("rich.prompt.Prompt.ask", return_value="yes") as mock_ask,
+    ):
         result = tool(tool_call=tool_call)
 
-    mock_ask.assert_called_once_with("Pick one:", choices=["yes", "no"])
+    mock_ask.assert_called_once_with(
+        ">",
+        choices=["yes", "no"],
+        console=mock_ask.call_args.kwargs["console"],
+    )
     assert result.error is False
     assert result.content == "yes"
 

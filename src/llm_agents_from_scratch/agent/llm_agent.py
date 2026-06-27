@@ -863,7 +863,6 @@ class LLMAgent:
     async def run_supervised(
         self,
         task: Task,
-        # added in ch08
         skills_scopes: list[SkillScope] | None = None,
         explicit_only_skills: set[str] | None = None,
     ) -> SupervisedTaskHandler:
@@ -881,11 +880,9 @@ class LLMAgent:
         Args:
             task: The task to perform.
             skills_scopes (list[SkillScope] | None): Scopes to scan for
-                skills. Defaults to ``[USER, PROJECT]``. Added in
-                Chapter 6.
+                skills. Defaults to ``[USER, PROJECT]``.
             explicit_only_skills (set[str] | None): Skill names to
                 exclude from the model catalog. Defaults to None.
-                Added in Chapter 6.
 
         Returns:
             SupervisedTaskHandler: Ready for stepwise execution.

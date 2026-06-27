@@ -10,8 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
-- feat: implement HumanInputTool (#685)
+- refactor: adopt `rich.prompt.Prompt` in `HumanInputTool`; add optional `choices` parameter for constrained input (#689)
 - feat: implement end-of-loop human approval gate in `_process_loop` — adds `with_approval` param to `LLMAgent.run()`, `TaskHandler.request_approval()`, `TaskHandler._prompt_for_approval()`, `ApprovalResult` data structure, three approval template keys, and `rich>=13.9.0` dependency (#688)
+- feat: implement HumanInputTool (#685)
 
 ## [0.0.19] - 2026-06-23
 

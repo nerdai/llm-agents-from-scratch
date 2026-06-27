@@ -2,6 +2,8 @@
 
 from typing import Any
 
+from rich.prompt import Prompt
+
 from ...base.tool import BaseTool
 from ...data_structures import ToolCall, ToolCallResult
 
@@ -25,7 +27,8 @@ class HumanInputTool(BaseTool):
         return (
             "Ask the human operator a question and wait for their response. "
             "Use this tool when you need clarification or additional "
-            "information that is not available from the task context."
+            "information that is not available from the task context. "
+            "Optionally provide a list of choices to constrain the response."
         )
 
     @property
@@ -40,6 +43,15 @@ class HumanInputTool(BaseTool):
                         "The question or prompt to present to the human."
                     ),
                 },
+                "choices": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "description": (
+                        "Optional list of valid responses. When provided, "
+                        "the human is re-prompted until they enter one of "
+                        "the listed values."
+                    ),
+                },
             },
             "required": ["prompt"],
         }
@@ -52,11 +64,13 @@ class HumanInputTool(BaseTool):
     ) -> ToolCallResult:
         """Display a prompt to the human operator and return their response.
 
-        Blocks until the operator submits a response via stdin.
+        Blocks until the operator submits a valid response via stdin. When
+        ``choices`` is provided, re-prompts until the response matches one
+        of the allowed values.
 
         Args:
             tool_call (ToolCall): The tool call containing the ``prompt``
-                argument.
+                argument and optional ``choices`` list.
             *args (Any): Additional positional arguments (unused).
             **kwargs (Any): Additional keyword arguments (unused).
 
@@ -64,8 +78,12 @@ class HumanInputTool(BaseTool):
             ToolCallResult: The human's response as the content.
         """
         prompt = tool_call.arguments.get("prompt", "")
+        choices = tool_call.arguments.get("choices")
         try:
-            response = input(prompt)
+            if choices:
+                response = Prompt.ask(prompt, choices=choices)
+            else:
+                response = Prompt.ask(prompt)
         except EOFError:
             return ToolCallResult(
                 tool_call_id=tool_call.id_,

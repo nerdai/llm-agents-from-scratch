@@ -604,6 +604,8 @@ class LLMAgent:
 
             Added in Chapter 8.
 
+            Operator-gated human-in-the-loop pattern; unlike
+            ``HumanInputTool``, the pause is not agent-initiated.
             Runs the blocking rich prompts in a thread via
             ``asyncio.to_thread``. Auto-approves on ``EOFError``
             (headless); rejects with an interruption note on

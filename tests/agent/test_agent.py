@@ -5,12 +5,12 @@ from unittest.mock import AsyncMock, MagicMock, patch
 import pytest
 
 from llm_agents_from_scratch.agent import LLMAgent
-from llm_agents_from_scratch.agent.templates import default_templates
 from llm_agents_from_scratch.base.llm import BaseLLM
 from llm_agents_from_scratch.base.tool import BaseTool
 from llm_agents_from_scratch.data_structures import (
     ApprovalResult,
     Episode,
+    RejectedTaskResult,
 )
 from llm_agents_from_scratch.data_structures.agent import (
     Task,
@@ -374,13 +374,12 @@ async def test_run_approval_gate_rejection_feedback_is_template_wrapped(
     handler = agent.run(task, with_approval=True)
     await handler
 
-    # second get_next_step call receives the template-wrapped feedback
+    # second get_next_step call receives a RejectedTaskResult
     second_call_args = mock_get_next_step.await_args_list[1]
     step_result = second_call_args.args[0]
-    expected_feedback = default_templates["approval_rejection_feedback"].format(
-        feedback="fix the math",
-    )
-    assert step_result.content == expected_feedback
+    assert isinstance(step_result, RejectedTaskResult)
+    assert step_result.failed_result_content == "wrong answer"
+    assert step_result.feedback == "fix the math"
 
 
 @pytest.mark.asyncio

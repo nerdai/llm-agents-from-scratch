@@ -2,6 +2,8 @@
 
 from typing import Any
 
+from rich.console import Console
+from rich.panel import Panel
 from rich.prompt import Prompt
 
 from ...base.tool import BaseTool
@@ -80,10 +82,14 @@ class HumanInputTool(BaseTool):
         prompt = tool_call.arguments.get("prompt", "")
         choices = tool_call.arguments.get("choices")
         try:
+            console = Console()
+            console.print(
+                Panel(prompt, title="Human Input", border_style="yellow"),
+            )
             if choices:
-                response = Prompt.ask(prompt, choices=choices)
+                response = Prompt.ask(">", choices=choices, console=console)
             else:
-                response = Prompt.ask(prompt)
+                response = Prompt.ask(">", console=console)
         except EOFError:
             return ToolCallResult(
                 tool_call_id=tool_call.id_,

@@ -87,6 +87,23 @@ class NextStepDecision(BaseModel):
     )
 
 
+class RejectedTaskResult(BaseModel):
+    """Human rejection feedback from the approval gate.
+
+    Added in Chapter 8. Returned by ``_process_loop`` when the operator
+    rejects a proposed ``TaskResult``; passed to ``get_next_step`` so it
+    can route deterministically to a new ``TaskStep`` without consulting
+    the LLM.
+
+    Attributes:
+        failed_result_content: Content of the rejected ``TaskResult``.
+        feedback: The operator's raw correction rationale.
+    """
+
+    failed_result_content: str
+    feedback: str
+
+
 class ApprovalResult(BaseModel):
     """The outcome of the end-of-loop human approval gate.
 

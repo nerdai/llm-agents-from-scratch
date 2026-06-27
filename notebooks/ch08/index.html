@@ -8,13 +8,9 @@
       
       
       
-        <link rel="canonical" href="https://masfromscratch.com/notebooks/ch04/">
+        <link rel="canonical" href="https://masfromscratch.com/notebooks/ch08/">
       
       
-        <link rel="prev" href="../ch03/">
-      
-      
-        <link rel="next" href="../ch05/">
       
       
         
@@ -25,7 +21,7 @@
     
     
       
-        <title>Chapter 4 — The LLMAgent class - LLM Agents From Scratch</title>
+        <title>Chapter 8 — Human in the Loop - LLM Agents From Scratch</title>
       
     
     
@@ -80,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#chapter-4-the-llmagent-class" class="md-skip">
+        <a href="#chapter-8-human-in-the-loop" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Chapter 4 — The LLMAgent class
+              Chapter 8 — Human in the Loop
             
           </span>
         </div>
@@ -244,12 +240,10 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
+      <li class="md-tabs__item">
         <a href="../" class="md-tabs__link">
           
   
@@ -426,8 +420,6 @@
       
   
   
-    
-  
   
   
     
@@ -451,17 +443,14 @@
     
     
       
-        
-        
-      
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
           <div class="md-nav__link md-nav__container">
@@ -483,13 +472,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -562,37 +551,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Chapter 4 — The LLMAgent class
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../ch04/" class="md-nav__link">
         
   
   
@@ -608,181 +570,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#setup-instructions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Setup Instructions
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#running-an-ollama-service" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Running an Ollama service
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Examples
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Examples">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#example-1-instantiating-an" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 1: Instantiating an
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-2-demo-usage-of" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 2: Demo usage of
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-3-the-hailstone-llm-agent" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 3: The Hailstone LLM Agent
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Example 3: The Hailstone LLM Agent">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#define-the-hailstone-tool" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Define the Hailstone tool
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#define-our-backbone-llm" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Define our backbone LLM
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#define-the-llmagent" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Define the LLMAgent
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#the-hailstone-task" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The Hailstone Task
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#running-the-task" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Running the Task
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#the-taskresult" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The TaskResult
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#the-rollout" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The Rollout
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -3348,10 +3135,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#example-1-instantiating-an" class="md-nav__link">
+  <a href="#example-1-agent-initiated-pause-with-humaninputtool" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example 1: Instantiating an
+        Example 1: Agent-Initiated Pause with HumanInputTool
       
     </span>
   </a>
@@ -3359,10 +3146,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#example-2-demo-usage-of" class="md-nav__link">
+  <a href="#example-2-end-of-loop-approval-gate" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example 2: Demo usage of
+        Example 2: End-of-Loop Approval Gate
       
     </span>
   </a>
@@ -3370,96 +3157,13 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#example-3-the-hailstone-llm-agent" class="md-nav__link">
+  <a href="#example-3-caller-driven-stepwise-execution-with-run_supervised" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example 3: The Hailstone LLM Agent
+        Example 3: Caller-Driven Stepwise Execution with run_supervised()
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Example 3: The Hailstone LLM Agent">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#define-the-hailstone-tool" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Define the Hailstone tool
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#define-our-backbone-llm" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Define our backbone LLM
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#define-the-llmagent" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Define the LLMAgent
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#the-hailstone-task" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The Hailstone Task
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#running-the-task" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Running the Task
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#the-taskresult" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The TaskResult
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#the-rollout" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The Rollout
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -4209,18 +3913,18 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </style>
 <!-- End of mermaid configuration --><div class="jupyter-wrapper">
 <div class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=60405002-e4c4-4ee2-8aae-53e704cdba1c">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0008-0000-0000-000000000001">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="chapter-4-the-llmagent-class">Chapter 4 — The LLMAgent class<a class="anchor-link" href="#chapter-4-the-llmagent-class">¶</a></h1>
+<h1 id="chapter-8-human-in-the-loop">Chapter 8 — Human in the Loop<a class="anchor-link" href="#chapter-8-human-in-the-loop">¶</a></h1>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=fbb4d8c3-8137-4fd3-bf37-c5359018538e">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0008-0000-0000-000000000002">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -4234,7 +3938,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=bfd15ba8-e106-486e-afb5-8deef2dee2a0">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=a1b2c3d4-0008-0000-0000-000000000003">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -4263,23 +3967,23 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=bf43a249-cbd0-4e70-b8d0-3fd14b4b32ac">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0008-0000-0000-000000000004">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="running-an-ollama-service">Running an Ollama service<a class="anchor-link" href="#running-an-ollama-service">¶</a></h2><p>To execute the code provided in this notebook, you’ll need to have Ollama installed on your local machine and have its LLM hosting service running. To download Ollama, follow the instructions found on this page: <a href="https://ollama.com/download">https://ollama.com/download</a>. After downloading and installing Ollama, you can start a service by opening a terminal and running the command <code>ollama serve</code>.</p>
+<h2 id="running-an-ollama-service">Running an Ollama service<a class="anchor-link" href="#running-an-ollama-service">¶</a></h2><p>To execute the code provided in this notebook, you'll need to have Ollama installed on your local machine and have its LLM hosting service running. To download Ollama, follow the instructions found on this page: <a href="https://ollama.com/download">https://ollama.com/download</a>. After downloading and installing Ollama, you can start a service by opening a terminal and running the command <code>ollama serve</code>.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=4b8c5dad">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0008-0000-0000-000000000005">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-2">
@@ -4397,9 +4101,22 @@ ensure_ollama()</div>
 </div>
 </div>
 </div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>✓ Ollama already running at http://localhost:11434
+</pre>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d0f8ec9a-28e2-4e5e-942f-091e789ed14b">
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0008-0000-0000-000000000006">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -4410,23 +4127,23 @@ ensure_ollama()</div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e6281fc2-5412-446c-8c80-3226eaeabe5a">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0008-0000-0000-000000000007">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="example-1-instantiating-an-llmagent">Example 1: Instantiating an <code>LLMAgent</code><a class="anchor-link" href="#example-1-instantiating-an-llmagent">¶</a></h3>
+<h3 id="example-1-agent-initiated-pause-with-humaninputtool">Example 1: Agent-Initiated Pause with HumanInputTool<a class="anchor-link" href="#example-1-agent-initiated-pause-with-humaninputtool">¶</a></h3>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=bc0ab1b8-aec1-49df-a63e-60ab2317be2f">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=a1b2c3d4-0008-0000-0000-000000000008">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-3">
@@ -4439,33 +4156,63 @@ ensure_ollama()</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMAgent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">Task</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_console_logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleFunctionTool</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.tools.default</span><span class="w"> </span><span class="kn">import</span> <span class="n">HumanInputTool</span>
 
-<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">)</span>
-<span class="n">llm_agent</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="p">(</span>
-    <span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="n">enable_console_logging</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">next_number</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+
+
+<span class="n">next_number_tool</span> <span class="o">=</span> <span class="n">SimpleFunctionTool</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">next_number</span><span class="p">)</span>
+<span class="n">human_input_tool</span> <span class="o">=</span> <span class="n">HumanInputTool</span><span class="p">()</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">,</span> <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">agent</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">next_number_tool</span><span class="p">,</span> <span class="n">human_input_tool</span><span class="p">])</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-3">from llm_agents_from_scratch.llms import OllamaLLM
-from llm_agents_from_scratch import LLMAgent
+<div class="clipboard-copy-txt" id="cell-3">import logging
 
-llm = OllamaLLM(model="qwen3:14b")
-llm_agent = LLMAgent(
-    llm=llm,
-)</div>
+from llm_agents_from_scratch import LLMAgent
+from llm_agents_from_scratch.data_structures import Task
+from llm_agents_from_scratch.logger import enable_console_logging
+from llm_agents_from_scratch.llms import OllamaLLM
+from llm_agents_from_scratch.tools import SimpleFunctionTool
+from llm_agents_from_scratch.tools.default import HumanInputTool
+
+enable_console_logging(logging.INFO)
+
+
+def next_number(x: int) -&gt; int:
+    if x % 2 == 0:
+        return x // 2
+    return 3 * x + 1
+
+
+next_number_tool = SimpleFunctionTool(func=next_number)
+human_input_tool = HumanInputTool()
+llm = OllamaLLM(model="qwen3:14b", think=False)
+agent = LLMAgent(llm=llm, tools=[next_number_tool, human_input_tool])</div>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=7f51d14f-ddcf-46e2-b277-f14053a03349">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0008-0000-0000-000000000009">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-4">
@@ -4478,9 +4225,25 @@ llm_agent = LLMAgent(
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">llm_agent</span><span class="o">.</span><span class="n">tools</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span>
+    <span class="n">instruction</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">"Compute the full Hailstone sequence step by step using next_number. "</span>
+        <span class="s2">"The starting number must come from the human operator — ask them "</span>
+        <span class="s2">"before beginning."</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">agent</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-4">llm_agent.tools</div>
+<div class="clipboard-copy-txt" id="cell-4">task = Task(
+    instruction=(
+        "Compute the full Hailstone sequence step by step using next_number. "
+        "The starting number must come from the human operator — ask them "
+        "before beginning."
+    )
+)
+result = await agent.run(task)
+print(result.content)</div>
 </div>
 </div>
 </div>
@@ -4489,33 +4252,73 @@ llm_agent = LLMAgent(
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[2]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>[]</pre>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: Compute the full Hailstone sequence step by step using next_number. The starting number must come from the human operator — ask them ...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Compute the full Hailstone sequence step by step using next_number. The starting number must come from the human operator — ask th...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to ask the human operator for the starting number to compute the Hailstone sequence.
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Ask the human operator for the starting number to compute the Hailstone sequence.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Ask the human operator for the starting number to compute the Hailstone sequence.
+INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: human_input
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #808000; text-decoration-color: #808000">╭────────────────────────────────────────────────── Human Input ──────────────────────────────────────────────────╮</span>
+<span style="color: #808000; text-decoration-color: #808000">│</span> Please provide the starting number for the Hailstone sequence.                                                  <span style="color: #808000; text-decoration-color: #808000">│</span>
+<span style="color: #808000; text-decoration-color: #808000">╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">&gt;: </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 2
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I have received the starting number, which is 2. I will now compute the Hailstone sequence step by step using the next_number tool unti...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Compute the next number in the Hailstone sequence using the starting number 2.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Compute the next number in the Hailstone sequence using the starting number 2.
+INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
+INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 1
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The next number in the Hailstone sequence after 2 is 1. Since we have reached 1, the sequence is complete. The full sequence is [2, 1].
+INFO (llm_agents_fs.TaskHandler) :      No new step required.
+INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The next number in the Hailstone sequence after 2 is 1. Since we have reached 1, the sequence is complete. The full sequence is [2, ...[TRUNCATED]
+The next number in the Hailstone sequence after 2 is 1. Since we have reached 1, the sequence is complete. The full sequence is [2, 1].
+</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b81f366e-b2d0-402b-9fb7-984fbd91b01f">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=baf1bd33">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="example-2-demo-usage-of-add_tool">Example 2: Demo usage of <code>add_tool()</code><a class="anchor-link" href="#example-2-demo-usage-of-add_tool">¶</a></h3>
+<h3 id="example-2-end-of-loop-approval-gate">Example 2: End-of-Loop Approval Gate<a class="anchor-link" href="#example-2-end-of-loop-approval-gate">¶</a></h3>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=ba842320-9881-4150-b392-73fe9f9dab79">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=7d13724c">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-5">
@@ -4528,33 +4331,59 @@ llm_agent = LLMAgent(
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleFunctionTool</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">add_one</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""A dummy tool for adding one to the supplied number."""</span>
-    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
-    
-<span class="n">tool</span> <span class="o">=</span> <span class="n">SimpleFunctionTool</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">add_one</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMAgent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">Task</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_console_logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleFunctionTool</span>
+
+<span class="n">enable_console_logging</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">next_number</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+
+
+<span class="n">next_number_tool</span> <span class="o">=</span> <span class="n">SimpleFunctionTool</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">next_number</span><span class="p">)</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">,</span> <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">agent</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">next_number_tool</span><span class="p">])</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-5">from llm_agents_from_scratch.tools import SimpleFunctionTool
+<div class="clipboard-copy-txt" id="cell-5">import logging
 
-def add_one(x: int) -&gt; int:
-    """A dummy tool for adding one to the supplied number."""
-    return x + 1
-    
-tool = SimpleFunctionTool(func=add_one)</div>
+from llm_agents_from_scratch import LLMAgent
+from llm_agents_from_scratch.data_structures import Task
+from llm_agents_from_scratch.logger import enable_console_logging
+from llm_agents_from_scratch.llms import OllamaLLM
+from llm_agents_from_scratch.tools import SimpleFunctionTool
+
+enable_console_logging(logging.INFO)
+
+
+def next_number(x: int) -&gt; int:
+    if x % 2 == 0:
+        return x // 2
+    return 3 * x + 1
+
+
+next_number_tool = SimpleFunctionTool(func=next_number)
+llm = OllamaLLM(model="qwen3:14b", think=False)
+agent = LLMAgent(llm=llm, tools=[next_number_tool])</div>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=94d573ca-adf3-4c2f-b932-344bc2466873">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=e7a074f4">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
@@ -4567,11 +4396,23 @@ tool = SimpleFunctionTool(func=add_one)</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">llm_agent</span><span class="o">.</span><span class="n">add_tool</span><span class="p">(</span><span class="n">tool</span><span class="p">)</span>
-<span class="n">llm_agent</span><span class="o">.</span><span class="n">tools</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span>
+    <span class="n">instruction</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">"Compute the full Hailstone sequence starting from 5, "</span>
+        <span class="s2">"step by step using next_number, until you reach 1."</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">agent</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">with_approval</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-6">llm_agent.add_tool(tool)
-llm_agent.tools</div>
+<div class="clipboard-copy-txt" id="cell-6">task = Task(
+    instruction=(
+        "Compute the full Hailstone sequence starting from 5, "
+        "step by step using next_number, until you reach 1."
+    )
+)
+result = await agent.run(task, with_approval=True)
+print(result.content)</div>
 </div>
 </div>
 </div>
@@ -4580,33 +4421,213 @@ llm_agent.tools</div>
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[4]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>[&lt;llm_agents_from_scratch.tools.simple_function.SimpleFunctionTool at 0x71089431c590&gt;]</pre>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: Compute the full Hailstone sequence starting from 5, step by step using next_number, until you reach 1.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Compute the full Hailstone sequence starting from 5, step by step using next_number, until you reach 1.
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to call the stop-at-one skill with the starting number 5.
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the stop-at-one skill with the starting number 5.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the stop-at-one skill with the starting number 5.
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: 
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the stop-at-one skill with the starting number 5.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the stop-at-one skill with the starting number 5.
+INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: from_scratch__use_skill
+INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: &lt;skill_content name="stop-at-one"&gt;
+# Stop At One
+
+Compute a full sequence from a starting number down to 1
+using the `next_num...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to call the next_number tool with the starting number 5.
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the next_number tool with the starting number 5.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the next_number tool with the starting number 5.
+INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
+INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 16
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The next number in the sequence after 5 is 16. I will continue the process by calling the next_number tool with the current number 16.
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the next_number tool with the current number 16.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the next_number tool with the current number 16.
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to make the following tool call(s):
+
+{
+    "id_": "12345678-90ab-cdef-1234-567890abcdef",
+    "tool_name": "next_number",
+    "a...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the next_number tool with the current number 16.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the next_number tool with the current number 16.
+INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
+INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 8
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The next number in the sequence after 16 is 8. I will continue the process by calling the next_number tool with the current number 8.
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the next_number tool with the current number 8.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the next_number tool with the current number 8.
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to make the following tool call(s):
+
+{
+    "id_": "12345678-90ab-cdef-1234-567890abcdef",
+    "tool_name": "next_number",
+    "a...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the next_number tool with the current number 8.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the next_number tool with the current number 8.
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to make the following tool call(s):
+
+{
+    "id_": "12345678-90ab-cdef-1234-567890abcdef",
+    "tool_name": "next_number",
+    "a...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the next_number tool with the current number 8.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the next_number tool with the current number 8.
+INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
+INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 4
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The next number in the sequence after 8 is 4. I will continue the process by calling the next_number tool with the current number 4.
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the next_number tool with the current number 4.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the next_number tool with the current number 4.
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to make the following tool call(s):
+
+{
+    "id_": "12345678-90ab-cdef-1234-567890abcdef",
+    "tool_name": "next_number",
+    "a...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the next_number tool with the current number 4.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the next_number tool with the current number 4.
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to make the following tool call(s):
+
+{
+    "id_": "12345678-90ab-cdef-1234-567890abcdef",
+    "tool_name": "next_number",
+    "a...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the next_number tool with the current number 4.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the next_number tool with the current number 4.
+INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
+INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 2
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The next number in the sequence after 4 is 2. I will continue the process by calling the next_number tool with the current number 2.
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the next_number tool with the current number 2.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the next_number tool with the current number 2.
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to make the following tool call(s):
+
+{
+    "id_": "12345678-90ab-cdef-1234-567890abcdef",
+    "tool_name": "next_number",
+    "a...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the next_number tool with the current number 2.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the next_number tool with the current number 2.
+INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
+INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 1
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The next number in the sequence after 2 is 1. Now that we have reached 1, the sequence is complete. Let me summarize the full Hailstone...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      No new step required.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #008080; text-decoration-color: #008080">╭───────────────────────────────────────────── Proposed Task Result ──────────────────────────────────────────────╮</span>
+<span style="color: #008080; text-decoration-color: #008080">│</span> The next number in the sequence after 2 is 1. Now that we have reached 1, the sequence is complete. Let me      <span style="color: #008080; text-decoration-color: #008080">│</span>
+<span style="color: #008080; text-decoration-color: #008080">│</span> summarize the full Hailstone sequence starting from 5:                                                          <span style="color: #008080; text-decoration-color: #008080">│</span>
+<span style="color: #008080; text-decoration-color: #008080">│</span>                                                                                                                 <span style="color: #008080; text-decoration-color: #008080">│</span>
+<span style="color: #008080; text-decoration-color: #008080">│</span> **Sequence:** 5 → 16 → 8 → 4 → 2 → 1                                                                            <span style="color: #008080; text-decoration-color: #008080">│</span>
+<span style="color: #008080; text-decoration-color: #008080">│</span> **Starting number:** 5                                                                                          <span style="color: #008080; text-decoration-color: #008080">│</span>
+<span style="color: #008080; text-decoration-color: #008080">│</span> **Total steps taken:** 5                                                                                        <span style="color: #008080; text-decoration-color: #008080">│</span>
+<span style="color: #008080; text-decoration-color: #008080">│</span> **Maximum value reached:** 16                                                                                   <span style="color: #008080; text-decoration-color: #008080">│</span>
+<span style="color: #008080; text-decoration-color: #008080">╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Approve this result? <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">[y/n]</span>: </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Provide your correction rationale for the agent to address: </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO (llm_agents_fs.LLMAgent) :      🔁 Task result rejected; re-entering loop with feedback.
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step (rejection): Everything looks good, but just omit the first sentence in your response.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: The human operator REJECTED your proposed task result. Revise your approach and try again.
+
+&lt;proposed-result&gt;
+The next number in t...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: Let me summarize the full Hailstone sequence starting from 5:
+
+**Sequence:** 5 → 16 → 8 → 4 → 2 → 1  
+**Starting number:** 5  
+**Total ...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      No new step required.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #008080; text-decoration-color: #008080">╭───────────────────────────────────────────── Proposed Task Result ──────────────────────────────────────────────╮</span>
+<span style="color: #008080; text-decoration-color: #008080">│</span> Let me summarize the full Hailstone sequence starting from 5:                                                   <span style="color: #008080; text-decoration-color: #008080">│</span>
+<span style="color: #008080; text-decoration-color: #008080">│</span>                                                                                                                 <span style="color: #008080; text-decoration-color: #008080">│</span>
+<span style="color: #008080; text-decoration-color: #008080">│</span> **Sequence:** 5 → 16 → 8 → 4 → 2 → 1                                                                            <span style="color: #008080; text-decoration-color: #008080">│</span>
+<span style="color: #008080; text-decoration-color: #008080">│</span> **Starting number:** 5                                                                                          <span style="color: #008080; text-decoration-color: #008080">│</span>
+<span style="color: #008080; text-decoration-color: #008080">│</span> **Total steps taken:** 5                                                                                        <span style="color: #008080; text-decoration-color: #008080">│</span>
+<span style="color: #008080; text-decoration-color: #008080">│</span> **Maximum value reached:** 16                                                                                   <span style="color: #008080; text-decoration-color: #008080">│</span>
+<span style="color: #008080; text-decoration-color: #008080">╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Approve this result? <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">[y/n]</span>: </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: Let me summarize the full Hailstone sequence starting from 5:
+
+**Sequence:** 5 → 16 → 8 → 4 → 2 → 1  
+**Starting number:** 5  
+**Tot...[TRUNCATED]
+Let me summarize the full Hailstone sequence starting from 5:
+
+**Sequence:** 5 → 16 → 8 → 4 → 2 → 1  
+**Starting number:** 5  
+**Total steps taken:** 5  
+**Maximum value reached:** 16
+</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=390890ef-f930-4158-982e-98f357cdbc46">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0008-0000-0000-000000000010">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="example-3-the-hailstone-llm-agent">Example 3: The Hailstone LLM Agent<a class="anchor-link" href="#example-3-the-hailstone-llm-agent">¶</a></h3>
+<h3 id="example-3-caller-driven-stepwise-execution-with-run_supervised">Example 3: Caller-Driven Stepwise Execution with run_supervised()<a class="anchor-link" href="#example-3-caller-driven-stepwise-execution-with-run_supervised">¶</a></h3>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=83b822c6-9ec3-4c23-8ef6-1c07171accb7">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=d293e3ca">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-7">
@@ -4619,21 +4640,59 @@ llm_agent.tools</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">LOGGING_ENABLED</span> <span class="o">=</span> <span class="kc">True</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMAgent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">Task</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_console_logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleFunctionTool</span>
+
+<span class="n">enable_console_logging</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">next_number</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+
+
+<span class="n">next_number_tool</span> <span class="o">=</span> <span class="n">SimpleFunctionTool</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">next_number</span><span class="p">)</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">,</span> <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">agent</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">next_number_tool</span><span class="p">])</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-7">LOGGING_ENABLED = True</div>
+<div class="clipboard-copy-txt" id="cell-7">import logging
+
+from llm_agents_from_scratch import LLMAgent
+from llm_agents_from_scratch.data_structures import Task
+from llm_agents_from_scratch.logger import enable_console_logging
+from llm_agents_from_scratch.llms import OllamaLLM
+from llm_agents_from_scratch.tools import SimpleFunctionTool
+
+enable_console_logging(logging.INFO)
+
+
+def next_number(x: int) -&gt; int:
+    if x % 2 == 0:
+        return x // 2
+    return 3 * x + 1
+
+
+next_number_tool = SimpleFunctionTool(func=next_number)
+llm = OllamaLLM(model="qwen3:14b", think=False)
+agent = LLMAgent(llm=llm, tools=[next_number_tool])</div>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=b4b7c322-fb54-4d4a-b1c8-4c7b574440e8">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=933b6293">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-8">
@@ -4646,41 +4705,33 @@ llm_agent.tools</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_console_logging</span>
-
-<span class="k">if</span> <span class="n">LOGGING_ENABLED</span><span class="p">:</span>
-    <span class="n">enable_console_logging</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span>
+    <span class="n">instruction</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">"Compute the full Hailstone sequence starting from 4, "</span>
+        <span class="s2">"step by step using next_number, until you reach 1."</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+<span class="n">task_handler</span> <span class="o">=</span> <span class="k">await</span> <span class="n">agent</span><span class="o">.</span><span class="n">run_supervised</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">explicit_only_skills</span><span class="o">=</span><span class="p">[</span><span class="s2">"stop-at-one"</span><span class="p">])</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-8">import logging
-from llm_agents_from_scratch.logger import enable_console_logging
-
-if LOGGING_ENABLED:
-    enable_console_logging(logging.INFO)</div>
+<div class="clipboard-copy-txt" id="cell-8">task = Task(
+    instruction=(
+        "Compute the full Hailstone sequence starting from 4, "
+        "step by step using next_number, until you reach 1."
+    )
+)
+task_handler = await agent.run_supervised(task, explicit_only_skills=["stop-at-one"])</div>
 </div>
 </div>
 </div>
 </div>
 </div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=25a91d17-0996-47ea-b46e-64c43c782824">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="define-the-hailstone-tool">Define the Hailstone tool<a class="anchor-link" href="#define-the-hailstone-tool">¶</a></h4><p>This is an adapted version of the Hailstone tool from Chapter 2. Since LLMs have been pretrained on a corpus that includes information on the Hailstone sequence, they may rely on their parametric knowledge to perform the task rather than using the provided tool.</p>
-<p>One way to force tool-calling is to obfuscate the function details and omit any mention of the Hailstone sequence. This ensures our demonstration shows the LLM agent actually using tools.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=fed674f4-6a68-4741-ada7-0b6a6f34fe3e">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=d87789b2">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-9">
@@ -4693,68 +4744,35 @@ if LOGGING_ENABLED:
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">PydanticFunctionTool</span>
-
-
-<span class="k">class</span><span class="w"> </span><span class="nc">AlgoParams</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Params for next_number."""</span>
-
-    <span class="n">x</span><span class="p">:</span> <span class="nb">int</span>
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">next_number</span><span class="p">(</span><span class="n">params</span><span class="p">:</span> <span class="n">AlgoParams</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Generate the next number of the sequence."""</span>
-    <span class="k">if</span> <span class="n">params</span><span class="o">.</span><span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">params</span><span class="o">.</span><span class="n">x</span> <span class="o">//</span> <span class="mi">2</span>
-    <span class="k">return</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">params</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
-
-
-<span class="c1"># convert our Python function to a BaseTool</span>
-<span class="n">tool</span> <span class="o">=</span> <span class="n">PydanticFunctionTool</span><span class="p">(</span><span class="n">next_number</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">step</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">get_next_step</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">step</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-9">from pydantic import BaseModel
-from llm_agents_from_scratch.tools import PydanticFunctionTool
-
-
-class AlgoParams(BaseModel):
-    """Params for next_number."""
-
-    x: int
-
-
-def next_number(params: AlgoParams) -&gt; int:
-    """Generate the next number of the sequence."""
-    if params.x % 2 == 0:
-        return params.x // 2
-    return 3 * params.x + 1
-
-
-# convert our Python function to a BaseTool
-tool = PydanticFunctionTool(next_number)</div>
+<div class="clipboard-copy-txt" id="cell-9">step = await task_handler.get_next_step(None)
+step</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>TaskStep(id_='2d14732d-e307-4706-aaac-944ebfdf0c69', task_id='fb5b7d5f-de29-4bec-b569-a88897230cf6', instruction='Compute the full Hailstone sequence starting from 4, step by step using next_number, until you reach 1.')</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5f3d880c-9b35-492e-9390-f97e4fb1c3ab">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="define-our-backbone-llm">Define our backbone LLM<a class="anchor-link" href="#define-our-backbone-llm">¶</a></h4>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=00463e83-28fd-4ad9-b375-0e0e5ed9ab81">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=ae9ae241">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-10">
@@ -4767,36 +4785,43 @@ tool = PydanticFunctionTool(next_number)</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
-
-<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">step_result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">run_step</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+<span class="n">step_result</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-10">from llm_agents_from_scratch.llms import OllamaLLM
-
-llm = OllamaLLM(model="qwen3:14b")</div>
+<div class="clipboard-copy-txt" id="cell-10">step_result = await task_handler.run_step(step)
+step_result</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO (llm_agents_fs.SupervisedTaskHandler) :      ⚙️ Processing Step: Compute the full Hailstone sequence starting from 4, step by step using next_number, until you reach 1.
+INFO (llm_agents_fs.SupervisedTaskHandler) :      ✅ Step Result: I need to call the next_number tool with x=4.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[9]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>TaskStepResult(task_step_id='2d14732d-e307-4706-aaac-944ebfdf0c69', content='I need to call the next_number tool with x=4.')</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d0eda9ff-7d96-4628-9c8a-63d36834468f">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="define-the-llmagent">Define the LLMAgent<a class="anchor-link" href="#define-the-llmagent">¶</a></h4>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=d8fdc618-e9b0-4726-a25d-85ad858b2e2c">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=d1d3e3e4">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-11">
@@ -4809,42 +4834,42 @@ llm = OllamaLLM(model="qwen3:14b")</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMAgent</span>
-
-<span class="n">llm_agent</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="p">(</span>
-    <span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span>
-    <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">tool</span><span class="p">],</span>
-<span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">step</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">get_next_step</span><span class="p">(</span><span class="n">step_result</span><span class="p">)</span>
+<span class="n">step</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-11">from llm_agents_from_scratch import LLMAgent
-
-llm_agent = LLMAgent(
-    llm=llm,
-    tools=[tool],
-)</div>
+<div class="clipboard-copy-txt" id="cell-11">step = await task_handler.get_next_step(step_result)
+step</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO (llm_agents_fs.SupervisedTaskHandler) :      🧠 New Step: Call the next_number tool with x=4.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[10]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>TaskStep(id_='690b7f82-7f4f-45fa-ade0-af13029d85d2', task_id='fb5b7d5f-de29-4bec-b569-a88897230cf6', instruction='Call the next_number tool with x=4.')</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4cf38027-8fda-4c62-abf4-8e1d5fa31c69">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="the-hailstone-task">The Hailstone Task<a class="anchor-link" href="#the-hailstone-task">¶</a></h4>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=c502a9a8-545b-4094-a52a-06d5101ef9ee">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c035cb6f">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-12">
@@ -4857,21 +4882,45 @@ llm_agent = LLMAgent(
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">Task</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">step_result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">run_step</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+<span class="n">step_result</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-12">from llm_agents_from_scratch.data_structures import Task</div>
+<div class="clipboard-copy-txt" id="cell-12">step_result = await task_handler.run_step(step)
+step_result</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO (llm_agents_fs.SupervisedTaskHandler) :      ⚙️ Processing Step: Call the next_number tool with x=4.
+INFO (llm_agents_fs.SupervisedTaskHandler) :      🛠️ Executing Tool Call: next_number
+INFO (llm_agents_fs.SupervisedTaskHandler) :      ✅ Successful Tool Call: 2
+INFO (llm_agents_fs.SupervisedTaskHandler) :      ✅ Step Result: The next number in the Hailstone sequence starting from 4 is 2. I will now use the next_number tool again with x=2 to continue the sequ...[TRUNCATED]
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[11]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>TaskStepResult(task_step_id='690b7f82-7f4f-45fa-ade0-af13029d85d2', content='The next number in the Hailstone sequence starting from 4 is 2. I will now use the next_number tool again with x=2 to continue the sequence.')</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=3838db7f-fcd6-432f-8e4c-0eb8ac3706d8">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=353c34ef">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-13">
@@ -4884,74 +4933,42 @@ llm_agent = LLMAgent(
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">instruction_template</span> <span class="o">=</span> <span class="s2">"""</span>
-<span class="s2">You are given a tool, `next_number`, that generates the next number in the</span>
-<span class="s2">sequence given the current number.</span>
-
-<span class="s2">Start with the number x=</span><span class="si">{x}</span><span class="s2">.</span>
-
-<span class="s2">&lt;rules&gt;</span>
-<span class="s2">CALL `next_number` on the current number x</span>
-<span class="s2">STOP AND WAIT for the result.</span>
-<span class="s2">REPEAT this step-by-step process until the number 1 is reached.</span>
-<span class="s2">FINAL RESULT: When you receive the number 1, provide the complete sequence you</span>
-<span class="s2">observed from start to finish (including the starting number x and ending number</span>
-<span class="s2">1).</span>
-<span class="s2">&lt;/rules&gt;</span>
-
-<span class="s2">&lt;warnings&gt;</span>
-<span class="s2">NEVER fabricate or simulate tool call results</span>
-<span class="s2">NEVER make multiple tool calls in one response</span>
-<span class="s2">STOP and WAIT - ALWAYS wait for the actual tool response before deciding next</span>
-<span class="s2">steps</span>
-<span class="s2">&lt;/warnings&gt;</span>
-<span class="s2">"""</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">step</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">get_next_step</span><span class="p">(</span><span class="n">step_result</span><span class="p">)</span>
+<span class="n">step</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-13">instruction_template = """
-You are given a tool, `next_number`, that generates the next number in the
-sequence given the current number.
-
-Start with the number x={x}.
-
-&lt;rules&gt;
-CALL `next_number` on the current number x
-STOP AND WAIT for the result.
-REPEAT this step-by-step process until the number 1 is reached.
-FINAL RESULT: When you receive the number 1, provide the complete sequence you
-observed from start to finish (including the starting number x and ending number
-1).
-&lt;/rules&gt;
-
-&lt;warnings&gt;
-NEVER fabricate or simulate tool call results
-NEVER make multiple tool calls in one response
-STOP and WAIT - ALWAYS wait for the actual tool response before deciding next
-steps
-&lt;/warnings&gt;
-""".strip()</div>
+<div class="clipboard-copy-txt" id="cell-13">step = await task_handler.get_next_step(step_result)
+step</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO (llm_agents_fs.SupervisedTaskHandler) :      🧠 New Step: Call the next_number tool with x=2.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[12]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>TaskStep(id_='a145a42f-89b1-4be0-8213-94eb3e9dd7fb', task_id='fb5b7d5f-de29-4bec-b569-a88897230cf6', instruction='Call the next_number tool with x=2.')</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e22822fa-e7c6-472b-93d2-3e624a8a07ee">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="running-the-task">Running the Task<a class="anchor-link" href="#running-the-task">¶</a></h4>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=13d883a9-23d3-40ac-9130-39e8eee47d46">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=bc1ac257">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-14">
@@ -4964,29 +4981,45 @@ steps
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">number</span> <span class="o">=</span> <span class="mi">4</span>
-<span class="n">sequence</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>  <span class="c1"># correct Hailstone sequence</span>
-<span class="n">task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span>
-    <span class="n">instruction</span><span class="o">=</span><span class="n">instruction_template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">number</span><span class="p">),</span>
-<span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">step_result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">run_step</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+<span class="n">step_result</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-14">number = 4
-sequence = [4, 2, 1]  # correct Hailstone sequence
-task = Task(
-    instruction=instruction_template.format(x=number),
-)</div>
+<div class="clipboard-copy-txt" id="cell-14">step_result = await task_handler.run_step(step)
+step_result</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO (llm_agents_fs.SupervisedTaskHandler) :      ⚙️ Processing Step: Call the next_number tool with x=2.
+INFO (llm_agents_fs.SupervisedTaskHandler) :      🛠️ Executing Tool Call: next_number
+INFO (llm_agents_fs.SupervisedTaskHandler) :      ✅ Successful Tool Call: 1
+INFO (llm_agents_fs.SupervisedTaskHandler) :      ✅ Step Result: The next number in the Hailstone sequence starting from 2 is 1. Since we have reached 1, the sequence is complete. The full Hailstone s...[TRUNCATED]
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[13]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>TaskStepResult(task_step_id='a145a42f-89b1-4be0-8213-94eb3e9dd7fb', content='The next number in the Hailstone sequence starting from 2 is 1. Since we have reached 1, the sequence is complete. The full Hailstone sequence starting from 4 is: 4, 2, 1.')</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=7dda06d3-3df2-477c-981c-5d3b45efb9bb">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=088f6eb6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-15">
@@ -4999,9 +5032,11 @@ task = Task(
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">handler</span> <span class="o">=</span> <span class="n">llm_agent</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">get_next_step</span><span class="p">(</span><span class="n">step_result</span><span class="p">)</span>
+<span class="n">result</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-15">handler = llm_agent.run(task, max_steps=5)</div>
+<div class="clipboard-copy-txt" id="cell-15">result = await task_handler.get_next_step(step_result)
+result</div>
 </div>
 </div>
 </div>
@@ -5013,43 +5048,26 @@ task = Task(
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: You are given a tool, `next_number`, that generates the next number in the
-sequence given the current number.
-
-Start with the number ...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: You are given a tool, `next_number`, that generates the next number in the
-sequence given the current number.
-
-Start with the numb...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
-INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 2
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The `next_number` function returned the number 2 when called with x=4. 
-
-Now I will call the `next_number` function again, but this tim...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: CALL `next_number` on the current number x=2
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: CALL `next_number` on the current number x=2
-INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
-INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 1
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The `next_number` function returned the number 1 when called with x=2. 
-
-Now, I will provide the complete sequence observed from start ...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      No new step required.
-INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The complete sequence observed from start to finish (including the starting number x and ending number 1) is as follows:
-
-4 -&gt; 2 -&gt; ...[TRUNCATED]
+<pre>INFO (llm_agents_fs.SupervisedTaskHandler) :      No new step required.
 </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[14]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>TaskResult(task_id='fb5b7d5f-de29-4bec-b569-a88897230cf6', content='The next number in the Hailstone sequence starting from 2 is 1. Since we have reached 1, the sequence is complete. The full Hailstone sequence starting from 4 is: 4, 2, 1.')</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=74d94ff4-9baf-43d0-9ad9-fce47fefb539">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=efccbb59-a063-49c3-9f8f-828c893f0ca9">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-16">
@@ -5062,9 +5080,13 @@ INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The complete sequence 
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">handler</span><span class="o">.</span><span class="n">done</span><span class="p">()</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># since result is a TaskResult, we can call complete()</span>
+<span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">complete</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-16">handler.done()</div>
+<div class="clipboard-copy-txt" id="cell-16"># since result is a TaskResult, we can call complete()
+await task_handler.complete(result)
+print(result.content)</div>
 </div>
 </div>
 </div>
@@ -5073,22 +5095,23 @@ INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The complete sequence 
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[14]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>True</pre>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>The next number in the Hailstone sequence starting from 2 is 1. Since we have reached 1, the sequence is complete. The full Hailstone sequence starting from 4 is: 4, 2, 1.
+</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=85b469dd-240a-473a-9c11-626e95c4008a">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=1881061d-fb9b-45c1-a948-0e409ffb4318">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-17">
@@ -5101,237 +5124,9 @@ INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The complete sequence 
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># number of sub-steps taken</span>
-<span class="n">handler</span><span class="o">.</span><span class="n">step_counter</span>
+<div class="highlight-ipynb hl-python"><pre><span></span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-17"># number of sub-steps taken
-handler.step_counter</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[15]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>2</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1c0360c1-17a8-4a3b-8f12-1a7803d78d2a">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="the-taskresult">The TaskResult<a class="anchor-link" href="#the-taskresult">¶</a></h4><p>Upon successful task execution, the final <code>TaskResult</code> object is set as the result for the <code>TaskHandler</code> (an <code>asyncio.Future</code>).</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=234d25b0-316e-41a9-83d4-cabaa6f3ac8a">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-18">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">result</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">handler</span><span class="o">.</span><span class="n">exception</span><span class="p">()</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">handler</span><span class="o">.</span><span class="n">exception</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-18">result = handler.result() if not handler.exception() else str(handler.exception())
-print(result)</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>The complete sequence observed from start to finish (including the starting number x and ending number 1) is as follows:
-
-4 -&gt; 2 -&gt; 1
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=64fedc3d-a140-48fc-a42c-96492af1df08">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-19">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Alternative execution style (if you don't want/need the handler)</span>
-<span class="c1"># result = await llm_agent.run(task, max_steps=5)</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-19"># Alternative execution style (if you don't want/need the handler)
-# result = await llm_agent.run(task, max_steps=5)</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=fedb24db-ef3e-4d47-960f-45d3627e3b70">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="the-rollout">The Rollout<a class="anchor-link" href="#the-rollout">¶</a></h4><p>The <code>rollout</code> attribute of the <code>TaskHandler</code> sheds light on the steps that the <code>LLMAgent</code> took to perform its task.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=0558b406-6b68-4121-a5be-2305913278c0">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-20">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">handler</span><span class="o">.</span><span class="n">rollout</span><span class="p">)</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-20">print(handler.rollout)</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>=== Task Step Start ===
-
-💬 assistant: My current instruction is 'You are given a tool, `next_number`, that generates the next number in the
-sequence given the current number.
-
-Start with the number x=4.
-
-&lt;rules&gt;
-CALL `next_number` on the current number x
-STOP AND WAIT for the result.
-REPEAT this step-by-step process until the number 1 is reached.
-FINAL RESULT: When you receive the number 1, provide the complete sequence you
-observed from start to finish (including the starting number x and ending number
-1).
-&lt;/rules&gt;
-
-&lt;warnings&gt;
-NEVER fabricate or simulate tool call results
-NEVER make multiple tool calls in one response
-STOP and WAIT - ALWAYS wait for the actual tool response before deciding next
-steps
-&lt;/warnings&gt;'
-
-💬 assistant: I need to make the following tool call(s):
-
-{
-    "id_": "211bc0e5-b633-4582-a1fd-1d61d4701f4e",
-    "tool_name": "next_number",
-    "arguments": {
-        "x": 4
-    }
-}.
-
-🔧 tool: {
-    "tool_call_id": "211bc0e5-b633-4582-a1fd-1d61d4701f4e",
-    "content": "2",
-    "error": false
-}
-
-💬 assistant: The `next_number` function returned the number 2 when called with x=4. 
-
-Now I will call the `next_number` function again, but this time with the new current number being 2.
-
-I'll proceed to make my next tool call.
-
-
-=== Task Step End ===
-
-=== Task Step Start ===
-
-💬 assistant: My current instruction is 'CALL `next_number` on the current number x=2'
-
-💬 assistant: I need to make the following tool call(s):
-
-{
-    "id_": "7d529c53-2da2-49c7-a538-abfa8217cd62",
-    "tool_name": "next_number",
-    "arguments": {
-        "x": 2
-    }
-}.
-
-🔧 tool: {
-    "tool_call_id": "7d529c53-2da2-49c7-a538-abfa8217cd62",
-    "content": "1",
-    "error": false
-}
-
-💬 assistant: The `next_number` function returned the number 1 when called with x=2. 
-
-Now, I will provide the complete sequence observed from start to finish: Starting at x = 4 and ending with x = 1.
-
-Here is the sequence:
-```
-4 -&gt; 2 -&gt; 1
-```
-
-Since we received the final number 1 as requested by the instruction, no further calls are needed. The task can now be considered complete.
-
-=== Task Step End ===
-</pre>
+<div class="clipboard-copy-txt" id="cell-17"></div>
 </div>
 </div>
 </div>
@@ -5377,44 +5172,6 @@ Since we received the final number 1 as requested by the instruction, no further
       
         <footer class="md-footer">
   
-    
-      
-      <nav class="md-footer__inner md-grid" aria-label="Footer" >
-        
-          
-          <a href="../ch03/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Chapter 3 — Working with LLMs">
-            <div class="md-footer__button md-icon">
-              
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
-            </div>
-            <div class="md-footer__title">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              <div class="md-ellipsis">
-                Chapter 3 — Working with LLMs
-              </div>
-            </div>
-          </a>
-        
-        
-          
-          <a href="../ch05/" class="md-footer__link md-footer__link--next" aria-label="Next: Chapter 5 — MCP Tools">
-            <div class="md-footer__title">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              <div class="md-ellipsis">
-                Chapter 5 — MCP Tools
-              </div>
-            </div>
-            <div class="md-footer__button md-icon">
-              
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
-            </div>
-          </a>
-        
-      </nav>
     
   
   <div class="md-footer-meta md-typeset">

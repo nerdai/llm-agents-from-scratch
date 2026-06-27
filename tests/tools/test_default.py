@@ -280,11 +280,12 @@ def test_human_input_tool_description() -> None:
 
 
 def test_human_input_tool_parameters_json_schema() -> None:
-    """Tests HumanInputTool schema has required prompt field."""
+    """Tests HumanInputTool schema has required prompt and optional choices."""
     tool = HumanInputTool()
     schema = tool.parameters_json_schema
     assert schema["type"] == "object"
     assert "prompt" in schema["properties"]
+    assert "choices" in schema["properties"]
     assert schema["required"] == ["prompt"]
 
 
@@ -296,7 +297,7 @@ def test_human_input_tool_returns_response() -> None:
         arguments={"prompt": "What is your name?"},
     )
 
-    with patch("builtins.input", return_value="Alice"):
+    with patch("rich.prompt.Prompt.ask", return_value="Alice"):
         result = tool(tool_call=tool_call)
 
     assert result.error is False
@@ -304,17 +305,17 @@ def test_human_input_tool_returns_response() -> None:
 
 
 def test_human_input_tool_passes_prompt_to_input() -> None:
-    """Tests HumanInputTool passes the prompt argument to input()."""
+    """Tests HumanInputTool passes the prompt argument to Prompt.ask."""
     tool = HumanInputTool()
     tool_call = ToolCall(
         tool_name="human_input",
         arguments={"prompt": "How old are you?"},
     )
 
-    with patch("builtins.input", return_value="30") as mock_input:
+    with patch("rich.prompt.Prompt.ask", return_value="30") as mock_ask:
         tool(tool_call=tool_call)
 
-    mock_input.assert_called_once_with("How old are you?")
+    mock_ask.assert_called_once_with("How old are you?")
 
 
 def test_human_input_tool_missing_prompt_defaults_to_empty() -> None:
@@ -325,10 +326,26 @@ def test_human_input_tool_missing_prompt_defaults_to_empty() -> None:
         arguments={},
     )
 
-    with patch("builtins.input", return_value="ok") as mock_input:
+    with patch("rich.prompt.Prompt.ask", return_value="ok") as mock_ask:
         tool(tool_call=tool_call)
 
-    mock_input.assert_called_once_with("")
+    mock_ask.assert_called_once_with("")
+
+
+def test_human_input_tool_choices_passed_to_prompt() -> None:
+    """Tests HumanInputTool passes choices to Prompt.ask when provided."""
+    tool = HumanInputTool()
+    tool_call = ToolCall(
+        tool_name="human_input",
+        arguments={"prompt": "Pick one:", "choices": ["yes", "no"]},
+    )
+
+    with patch("rich.prompt.Prompt.ask", return_value="yes") as mock_ask:
+        result = tool(tool_call=tool_call)
+
+    mock_ask.assert_called_once_with("Pick one:", choices=["yes", "no"])
+    assert result.error is False
+    assert result.content == "yes"
 
 
 def test_human_input_tool_eof_error() -> None:
@@ -339,7 +356,7 @@ def test_human_input_tool_eof_error() -> None:
         arguments={"prompt": "Enter value:"},
     )
 
-    with patch("builtins.input", side_effect=EOFError):
+    with patch("rich.prompt.Prompt.ask", side_effect=EOFError):
         result = tool(tool_call=tool_call)
 
     assert result.error is True
@@ -355,7 +372,7 @@ def test_human_input_tool_keyboard_interrupt() -> None:
         arguments={"prompt": "Enter value:"},
     )
 
-    with patch("builtins.input", side_effect=KeyboardInterrupt):
+    with patch("rich.prompt.Prompt.ask", side_effect=KeyboardInterrupt):
         result = tool(tool_call=tool_call)
 
     assert result.error is True

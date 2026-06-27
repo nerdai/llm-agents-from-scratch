@@ -1039,6 +1039,18 @@ async def test_supervised_handler_background_task_raises(
 
 
 @pytest.mark.asyncio
+async def test_supervised_handler_background_task_setter_raises(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests background_task setter raises TaskHandlerError."""
+    agent = LLMAgent(llm=mock_llm)
+    handler = await agent.run_supervised(Task(instruction="mock instruction"))
+
+    with pytest.raises(TaskHandlerError, match="caller-driven"):
+        handler.background_task = MagicMock()  # type: ignore[assignment]
+
+
+@pytest.mark.asyncio
 async def test_run_supervised_returns_supervised_task_handler(
     mock_llm: BaseLLM,
 ) -> None:

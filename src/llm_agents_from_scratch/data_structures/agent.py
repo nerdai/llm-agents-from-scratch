@@ -103,10 +103,6 @@ class RejectedTaskResult(BaseModel):
     failed_result_content: str
     feedback: str
 
-    def __str__(self) -> str:
-        """String representation of RejectedTaskResult."""
-        return self.feedback
-
 
 class ApprovalResult(BaseModel):
     """The outcome of the end-of-loop human approval gate.

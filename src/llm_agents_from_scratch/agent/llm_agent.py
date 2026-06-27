@@ -660,6 +660,60 @@ class LLMAgent:
                     feedback="Interrupted by operator.",
                 )
 
+    class SupervisedTaskHandler(TaskHandler):
+        """TaskHandler for human-driven stepwise execution.
+
+        Added in Chapter 8. Returned by ``run_supervised()``; the caller
+        drives the loop manually via ``get_next_step()`` and ``run_step()``
+        and finalises execution with ``complete()`` or ``abort()``.
+        """
+
+        async def complete(self, result: TaskResult) -> None:
+            """Accept the final result and resolve the handler.
+
+            Added in Chapter 8.
+
+            Args:
+                result: The ``TaskResult`` to accept.
+            """
+            await self.record_memory(result=result)
+            self.set_result(result)
+
+        def reject(
+            self,
+            result: TaskResult,
+            feedback: str,
+        ) -> RejectedTaskResult:
+            """Reject a proposed TaskResult and return feedback for re-routing.
+
+            Added in Chapter 8.
+
+            Args:
+                result: The ``TaskResult`` to reject.
+                feedback: Correction rationale passed back to the agent.
+
+            Returns:
+                RejectedTaskResult: Pass to ``get_next_step()`` to
+                    re-enter the loop without consulting the LLM.
+            """
+            return RejectedTaskResult(
+                failed_result_content=result.content,
+                feedback=feedback,
+            )
+
+        async def abort(self, error: Exception | None = None) -> None:
+            """Abort the supervised task and resolve the handler.
+
+            Added in Chapter 8.
+
+            Args:
+                error: Exception to set. Defaults to
+                    ``TaskHandlerError("Task aborted.")``.
+            """
+            err = error or TaskHandlerError("Task aborted.")
+            await self.record_memory(error=err)
+            self.set_exception(err)
+
     def run(
         self,
         task: Task,
@@ -805,3 +859,42 @@ class LLMAgent:
             # added in ch08
             with_approval=with_approval,
         )
+
+    async def run_supervised(
+        self,
+        task: Task,
+        # added in ch08
+        skills_scopes: list[SkillScope] | None = None,
+        explicit_only_skills: set[str] | None = None,
+    ) -> SupervisedTaskHandler:
+        """Human-driven stepwise task execution.
+
+        Added in Chapter 8. Creates and returns a
+        ``SupervisedTaskHandler`` with memories loaded, without starting
+        the autonomous ``_process_loop``. The caller drives execution
+        cell-by-cell via ``get_next_step()`` and ``run_step()``, then
+        finalises with ``complete()`` or ``abort()``.
+
+        Contrasts with ``run()``: supervised = human controls cadence;
+        autonomous = agent runs to completion.
+
+        Args:
+            task: The task to perform.
+            skills_scopes (list[SkillScope] | None): Scopes to scan for
+                skills. Defaults to ``[USER, PROJECT]``. Added in
+                Chapter 6.
+            explicit_only_skills (set[str] | None): Skill names to
+                exclude from the model catalog. Defaults to None.
+                Added in Chapter 6.
+
+        Returns:
+            SupervisedTaskHandler: Ready for stepwise execution.
+        """
+        task_handler = self.SupervisedTaskHandler(
+            llm_agent=self,
+            task=task,
+            skills_scopes=skills_scopes,
+            explicit_only_skills=explicit_only_skills,
+        )
+        await task_handler.load_memories()
+        return task_handler

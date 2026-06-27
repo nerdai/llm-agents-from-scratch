@@ -1019,3 +1019,114 @@ def test_prompt_for_approval_uses_approval_template_text() -> None:
 
     mock_confirm.assert_called_once()
     assert mock_confirm.call_args.args[0] == "my question"
+
+
+# ---------------------------------------------------------------------------
+# SupervisedTaskHandler tests (Chapter 8)
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.asyncio
+async def test_run_supervised_returns_supervised_task_handler(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests run_supervised returns a SupervisedTaskHandler."""
+    agent = LLMAgent(llm=mock_llm)
+    task = Task(instruction="mock instruction")
+
+    handler = await agent.run_supervised(task)
+
+    assert isinstance(handler, LLMAgent.SupervisedTaskHandler)
+
+
+@pytest.mark.asyncio
+async def test_run_supervised_loads_memories(mock_llm: BaseLLM) -> None:
+    """Tests run_supervised calls load_memories before returning."""
+    mock_memory = AsyncMock(spec=Memory)
+    mock_memory.recall.return_value = "episode context"
+    agent = LLMAgent(llm=mock_llm, memories=[mock_memory])
+    task = Task(instruction="mock instruction")
+
+    await agent.run_supervised(task)
+
+    mock_memory.recall.assert_awaited_once_with(task)
+
+
+@pytest.mark.asyncio
+async def test_run_supervised_does_not_start_background_task(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests run_supervised does not set a background asyncio task."""
+    agent = LLMAgent(llm=mock_llm)
+    task = Task(instruction="mock instruction")
+
+    handler = await agent.run_supervised(task)
+
+    assert handler._background_task is None
+
+
+@pytest.mark.asyncio
+async def test_supervised_handler_complete_sets_result_and_records_memory(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests complete() records memory then resolves the handler."""
+    mock_memory = AsyncMock(spec=Memory)
+    mock_memory.recall.return_value = ""
+    agent = LLMAgent(llm=mock_llm, memories=[mock_memory])
+    task = Task(instruction="mock instruction")
+    handler = await agent.run_supervised(task)
+    result = TaskResult(task_id=task.id_, content="done")
+
+    await handler.complete(result)
+
+    assert handler.result() == result
+    mock_memory.record.assert_awaited_once()
+
+
+@pytest.mark.asyncio
+async def test_supervised_handler_abort_sets_exception_and_records_memory(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests abort() records memory then sets exception on the handler."""
+    mock_memory = AsyncMock(spec=Memory)
+    mock_memory.recall.return_value = ""
+    agent = LLMAgent(llm=mock_llm, memories=[mock_memory])
+    task = Task(instruction="mock instruction")
+    handler = await agent.run_supervised(task)
+
+    await handler.abort()
+
+    assert isinstance(handler.exception(), TaskHandlerError)
+    mock_memory.record.assert_awaited_once()
+
+
+@pytest.mark.asyncio
+async def test_supervised_handler_abort_with_custom_error(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests abort() sets the provided exception on the handler."""
+    agent = LLMAgent(llm=mock_llm)
+    task = Task(instruction="mock instruction")
+    handler = await agent.run_supervised(task)
+    err = RuntimeError("operator stopped")
+
+    await handler.abort(error=err)
+
+    assert handler.exception() is err
+
+
+@pytest.mark.asyncio
+async def test_supervised_handler_reject_returns_rejected_task_result(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests reject() constructs a RejectedTaskResult from a TaskResult."""
+    agent = LLMAgent(llm=mock_llm)
+    task = Task(instruction="mock instruction")
+    handler = await agent.run_supervised(task)
+    result = TaskResult(task_id=task.id_, content="wrong answer")
+
+    rejected = handler.reject(result, feedback="fix the math")
+
+    assert isinstance(rejected, RejectedTaskResult)
+    assert rejected.failed_result_content == "wrong answer"
+    assert rejected.feedback == "fix the math"

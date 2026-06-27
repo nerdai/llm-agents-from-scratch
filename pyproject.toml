@@ -42,6 +42,7 @@ dependencies = [
   "pydantic>=2.11.7",
   "pyyaml>=6.0.2",
   "qdrant-client[fastembed]>=1.14.0",
+  "rich>=13.9.0",
   "typing-extensions>=4.14.0"
 ]
 

@@ -85,3 +85,24 @@ class NextStepDecision(BaseModel):
             "objective is fully achieved)."
         ),
     )
+
+
+class ApprovalResult(BaseModel):
+    """The outcome of the end-of-loop human approval gate.
+
+    Added in Chapter 8.
+
+    Attributes:
+        approved: Whether the human accepted the proposed task result.
+        feedback: The human's correction rationale on rejection; empty
+            on approval.
+    """
+
+    approved: bool
+    feedback: str = ""
+
+    def __str__(self) -> str:
+        """String representation of ApprovalResult."""
+        if self.approved:
+            return "approved"
+        return f"rejected: {self.feedback}"

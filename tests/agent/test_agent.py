@@ -5,9 +5,13 @@ from unittest.mock import AsyncMock, MagicMock, patch
 import pytest
 
 from llm_agents_from_scratch.agent import LLMAgent
+from llm_agents_from_scratch.agent.templates import default_templates
 from llm_agents_from_scratch.base.llm import BaseLLM
 from llm_agents_from_scratch.base.tool import BaseTool
-from llm_agents_from_scratch.data_structures import Episode
+from llm_agents_from_scratch.data_structures import (
+    ApprovalResult,
+    Episode,
+)
 from llm_agents_from_scratch.data_structures.agent import (
     Task,
     TaskResult,
@@ -276,3 +280,130 @@ async def test_record_memory_raises_when_called_with_no_args(
 
     with pytest.raises(RecordMemoryError):
         await handler.record_memory()
+
+
+# ---------------------------------------------------------------------------
+# Approval gate end-to-end loop tests (Chapter 8)
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.asyncio
+@patch.object(LLMAgent.TaskHandler, "request_approval")
+@patch.object(LLMAgent.TaskHandler, "get_next_step")
+async def test_run_approval_gate_approves_and_records_memory(
+    mock_get_next_step: AsyncMock,
+    mock_request_approval: AsyncMock,
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests approved result is recorded and set as the handler result."""
+    task = Task(instruction="mock instruction")
+    task_result = TaskResult(task_id=task.id_, content="mock result")
+    mock_get_next_step.side_effect = [task_result]
+    mock_request_approval.return_value = ApprovalResult(
+        approved=True,
+        feedback="",
+    )
+
+    mock_memory = AsyncMock(spec=Memory)
+    mock_memory.recall.return_value = ""
+    agent = LLMAgent(llm=mock_llm, memories=[mock_memory])
+
+    handler = agent.run(task, with_approval=True)
+    await handler
+
+    mock_request_approval.assert_awaited_once_with(task_result)
+    mock_memory.record.assert_awaited_once()
+    assert str(handler.result()) == "mock result"
+
+
+@pytest.mark.asyncio
+@patch.object(LLMAgent.TaskHandler, "request_approval")
+@patch.object(LLMAgent.TaskHandler, "get_next_step")
+async def test_run_approval_gate_rejection_reenters_loop(
+    mock_get_next_step: AsyncMock,
+    mock_request_approval: AsyncMock,
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests rejection feedback re-enters the loop and is template-wrapped."""
+    task = Task(instruction="mock instruction")
+    first_result = TaskResult(task_id=task.id_, content="wrong answer")
+    final_result = TaskResult(task_id=task.id_, content="correct answer")
+    mock_get_next_step.side_effect = [first_result, final_result]
+    mock_request_approval.side_effect = [
+        ApprovalResult(approved=False, feedback="fix the math"),
+        ApprovalResult(approved=True, feedback=""),
+    ]
+
+    mock_memory = AsyncMock(spec=Memory)
+    mock_memory.recall.return_value = ""
+    agent = LLMAgent(llm=mock_llm, memories=[mock_memory])
+
+    handler = agent.run(task, with_approval=True)
+    await handler
+
+    # approval gate fires twice: reject then approve
+    expected_approval_calls = 2
+    assert mock_request_approval.await_count == expected_approval_calls
+    # memory is recorded only once (on approval), never on rejection
+    mock_memory.record.assert_awaited_once()
+    ep: Episode = mock_memory.record.call_args[0][0]
+    assert ep.result == final_result
+    # the rejected result was never recorded
+    assert str(handler.result()) == "correct answer"
+
+
+@pytest.mark.asyncio
+@patch.object(LLMAgent.TaskHandler, "request_approval")
+@patch.object(LLMAgent.TaskHandler, "get_next_step")
+async def test_run_approval_gate_rejection_feedback_is_template_wrapped(
+    mock_get_next_step: AsyncMock,
+    mock_request_approval: AsyncMock,
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests rejection feedback reaches get_next_step template-wrapped."""
+    task = Task(instruction="mock instruction")
+    first_result = TaskResult(task_id=task.id_, content="wrong answer")
+    final_result = TaskResult(task_id=task.id_, content="correct answer")
+    mock_get_next_step.side_effect = [first_result, final_result]
+    mock_request_approval.side_effect = [
+        ApprovalResult(approved=False, feedback="fix the math"),
+        ApprovalResult(approved=True, feedback=""),
+    ]
+
+    agent = LLMAgent(llm=mock_llm)
+    handler = agent.run(task, with_approval=True)
+    await handler
+
+    # second get_next_step call receives the template-wrapped feedback
+    second_call_args = mock_get_next_step.await_args_list[1]
+    step_result = second_call_args.args[0]
+    expected_feedback = default_templates["approval_rejection_feedback"].format(
+        feedback="fix the math",
+    )
+    assert step_result.content == expected_feedback
+
+
+@pytest.mark.asyncio
+@patch.object(LLMAgent.TaskHandler, "request_approval")
+@patch.object(LLMAgent.TaskHandler, "get_next_step")
+async def test_run_approval_gate_rejection_does_not_increment_step_counter(
+    mock_get_next_step: AsyncMock,
+    mock_request_approval: AsyncMock,
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests a rejection does not count as a step toward max_steps."""
+    task = Task(instruction="mock instruction")
+    task_result = TaskResult(task_id=task.id_, content="answer")
+    mock_get_next_step.side_effect = [task_result, task_result]
+    mock_request_approval.side_effect = [
+        ApprovalResult(approved=False, feedback="wrong"),
+        ApprovalResult(approved=True, feedback=""),
+    ]
+
+    agent = LLMAgent(llm=mock_llm)
+    handler = agent.run(task, with_approval=True)
+    await handler
+
+    # No run_step was ever called (get_next_step always returned TaskResult),
+    # so the rejection must not have incremented step_counter.
+    assert handler.step_counter == 0

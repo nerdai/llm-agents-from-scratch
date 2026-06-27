@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- feat: `SupervisedTaskHandler.complete()` raises `TaskHandlerError` at runtime when passed a non-`TaskResult` argument (#694)
 - feat: add `LLMAgent.run_supervised()` and `LLMAgent.SupervisedTaskHandler` — human-driven stepwise execution; caller controls cadence via `get_next_step()` / `run_step()` and finalises with `complete()`, `reject()`, or `abort()` (#693)
 - feat: introduce `RejectedTaskResult` data structure; `get_next_step` accepts `TaskStepResult | RejectedTaskResult | None` and dispatches by type — rejection routes deterministically to a new `TaskStep` without consulting the LLM; `_process_loop` captures raw `failed_result_content` + `feedback`; rejection template now includes `<proposed-result>` alongside `<human-correction>`; `HumanInputTool` styled with yellow `Panel` (#691)
 - refactor: adopt `rich.prompt.Prompt` in `HumanInputTool`; add optional `choices` parameter for constrained input (#689)

@@ -1154,3 +1154,17 @@ async def test_supervised_handler_reject_returns_rejected_task_result(
     assert isinstance(rejected, RejectedTaskResult)
     assert rejected.failed_result_content == "wrong answer"
     assert rejected.feedback == "fix the math"
+
+
+@pytest.mark.asyncio
+async def test_supervised_handler_complete_raises_on_non_task_result(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests complete() raises TaskHandlerError when not given a TaskResult."""
+    agent = LLMAgent(llm=mock_llm)
+    task = Task(instruction="mock instruction")
+    handler = await agent.run_supervised(task)
+    step = TaskStep(task_id=task.id_, instruction="do something")
+
+    with pytest.raises(TaskHandlerError, match="TaskResult"):
+        await handler.complete(step)  # type: ignore[arg-type]

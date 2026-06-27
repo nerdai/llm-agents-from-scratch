@@ -168,6 +168,16 @@ points at the same JSONL file and picks up all prior episodes from disk.
 </div>
 
 <div class="landing-card landing-card--example" markdown>
+### :material-human-edit: Supervised Trajectories
+
+Step through two `SupervisedTaskHandler` trajectories: a reject-and-revise
+cycle where the human sends feedback and the agent corrects its output, and
+an abort that terminates mid-execution with a clean error.
+
+[Open Notebook](more-examples/ch08/supervised_trajectories.ipynb){ .md-button .md-button--primary }
+</div>
+
+<div class="landing-card landing-card--example" markdown>
 ### :material-magnify: Similarity Memory
 
 Look up seven countries across four regions, then run two targeted queries.

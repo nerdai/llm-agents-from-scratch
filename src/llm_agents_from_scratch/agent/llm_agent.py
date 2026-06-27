@@ -668,6 +668,24 @@ class LLMAgent:
         and finalises execution with ``complete()`` or ``abort()``.
         """
 
+        @property
+        def background_task(self) -> asyncio.Task:
+            """Not available in supervised mode."""
+            raise TaskHandlerError(
+                "SupervisedTaskHandler has no background task — "
+                "execution is caller-driven via get_next_step() "
+                "and run_step().",
+            )
+
+        @background_task.setter
+        def background_task(self, asyncio_task: asyncio.Task) -> None:
+            """Not available in supervised mode."""
+            raise TaskHandlerError(
+                "SupervisedTaskHandler has no background task — "
+                "execution is caller-driven via get_next_step() "
+                "and run_step().",
+            )
+
         async def complete(self, result: TaskResult) -> None:
             """Accept the final result and resolve the handler.
 

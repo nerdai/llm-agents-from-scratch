@@ -1027,6 +1027,18 @@ def test_prompt_for_approval_uses_approval_template_text() -> None:
 
 
 @pytest.mark.asyncio
+async def test_supervised_handler_background_task_raises(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests background_task raises TaskHandlerError in supervised mode."""
+    agent = LLMAgent(llm=mock_llm)
+    handler = await agent.run_supervised(Task(instruction="mock instruction"))
+
+    with pytest.raises(TaskHandlerError, match="caller-driven"):
+        handler.background_task  # noqa: B018
+
+
+@pytest.mark.asyncio
 async def test_run_supervised_returns_supervised_task_handler(
     mock_llm: BaseLLM,
 ) -> None:

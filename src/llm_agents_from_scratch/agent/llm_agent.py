@@ -698,6 +698,11 @@ class LLMAgent:
             Args:
                 result: The ``TaskResult`` to accept.
             """
+            if not isinstance(result, TaskResult):
+                raise TaskHandlerError(
+                    f"complete() requires a TaskResult, "
+                    f"got {type(result).__name__}.",
+                )
             await self.record_memory(result=result)
             self.set_result(result)
 

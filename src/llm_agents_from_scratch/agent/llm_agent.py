@@ -663,9 +663,13 @@ class LLMAgent:
     class SupervisedTaskHandler(TaskHandler):
         """TaskHandler for human-driven stepwise execution.
 
-        Added in Chapter 8. Returned by ``run_supervised()``; the caller
-        drives the loop manually via ``get_next_step()`` and ``run_step()``
-        and finalises execution with ``complete()`` or ``abort()``.
+        Added in Chapter 8. Caller-driven human-in-the-loop pattern;
+        unlike ``HumanInputTool`` (agent-initiated) and
+        ``request_approval`` (operator-gated at result time), the human
+        controls the entire execution cadence. Returned by
+        ``run_supervised()``; the caller drives the loop manually via
+        ``get_next_step()`` and ``run_step()`` and finalises execution
+        with ``complete()`` or ``abort()``.
         """
 
         @property

@@ -2,222 +2,226 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://masfromscratch.com/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/api_reference/agent/builder/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/api_reference/agent/llm_agent/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/api_reference/base/llm/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/api_reference/base/memory_store/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/api_reference/base/tool/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/api_reference/data_structures/agent/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/api_reference/data_structures/llm/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/api_reference/data_structures/memory/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/api_reference/data_structures/skill/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/api_reference/data_structures/tool/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/api_reference/errors/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/api_reference/llms/ollama/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/api_reference/llms/openai/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/api_reference/memory/memory/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/api_reference/memory/recipes/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/api_reference/memory_stores/json_store/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/api_reference/memory_stores/qdrant_store/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/api_reference/skills/constants/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/api_reference/skills/discovery/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/api_reference/skills/skill/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/api_reference/skills/tools/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/api_reference/tools/default/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/api_reference/tools/mcp/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/api_reference/tools/pydantic_function/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/api_reference/tools/simple_function/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/capstones/one/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/capstones/one/capstone_1/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/capstones/one/runpod_instructions/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/more-examples/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/more-examples/ch02/async_tools/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/more-examples/ch02/multi_tool_registry/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/more-examples/ch02/pydantic_tool_validation/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/more-examples/ch03/multi_turn_chat/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/more-examples/ch03/parallel_tool_calls/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/more-examples/ch03/pdf_extraction/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/more-examples/ch04/pokemon_comparison/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/more-examples/ch04/pokemon_error_handling/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/more-examples/ch05/github_mcp/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/more-examples/ch05/goodnews_mcp/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/more-examples/ch06/additional_resource_python/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/more-examples/ch06/skill_validation_errors/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/more-examples/ch06/skills_marketplace/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/more-examples/ch06/user_explicit_hailstone/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/more-examples/ch06/with_and_without_skills/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/more-examples/ch07/recency_memory/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/more-examples/ch07/similarity_memory/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
+    </url>
+    <url>
+         <loc>https://masfromscratch.com/more-examples/ch08/supervised_trajectories/</loc>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/notebooks/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/notebooks/ch02/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/notebooks/ch03/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/notebooks/ch04/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/notebooks/ch05/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/notebooks/ch06/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/notebooks/ch07/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
     <url>
          <loc>https://masfromscratch.com/notebooks/ch08/</loc>
-         <lastmod>2026-06-27</lastmod>
+         <lastmod>2026-06-29</lastmod>
     </url>
 </urlset>

@@ -8,31 +8,27 @@
       
       
       
-        <link rel="canonical" href="https://masfromscratch.com/notebooks/ch06/">
+        <link rel="canonical" href="https://masfromscratch.com/more-examples/ch08/supervised_trajectories/">
       
       
-        <link rel="prev" href="../ch05/">
-      
-      
-        <link rel="next" href="../../more-examples/">
       
       
         
       
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
-        <title>Chapter 6 — Agent Skills - LLM Agents From Scratch</title>
+        <title>Supervised Trajectories — Reject and Revise, and Abort - LLM Agents From Scratch</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -51,11 +47,11 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="../../stylesheets/extra.css">
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -80,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#chapter-6-agent-skills" class="md-skip">
+        <a href="#supervised-trajectories-reject-and-revise-and-abort" class="md-skip">
           Skip to content
         </a>
       
@@ -94,7 +90,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="LLM Agents From Scratch" class="md-header__button md-logo" aria-label="LLM Agents From Scratch" data-md-component="logo">
+    <a href="../../.." title="LLM Agents From Scratch" class="md-header__button md-logo" aria-label="LLM Agents From Scratch" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5 2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5 2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5 2.5 2.5 0 0 0-2.5-2.5"/></svg>
@@ -114,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Chapter 6 — Agent Skills
+              Supervised Trajectories — Reject and Revise, and Abort
             
           </span>
         </div>
@@ -227,7 +223,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../.." class="md-tabs__link">
+      <a href="../../.." class="md-tabs__link">
         
   
   
@@ -244,13 +240,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../../notebooks/" class="md-tabs__link">
           
   
   
@@ -272,7 +266,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../more-examples/" class="md-tabs__link">
+        <a href="../../" class="md-tabs__link">
           
   
   
@@ -301,7 +295,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../capstones/one/" class="md-tabs__link">
+        <a href="../../../capstones/one/" class="md-tabs__link">
           
   
   
@@ -333,7 +327,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../api_reference/base/llm/" class="md-tabs__link">
+        <a href="../../../api_reference/base/llm/" class="md-tabs__link">
           
   
   
@@ -372,7 +366,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="LLM Agents From Scratch" class="md-nav__button md-logo" aria-label="LLM Agents From Scratch" data-md-component="logo">
+    <a href="../../.." title="LLM Agents From Scratch" class="md-nav__button md-logo" aria-label="LLM Agents From Scratch" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5 2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5 2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5 2.5 2.5 0 0 0-2.5-2.5"/></svg>
@@ -402,7 +396,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   
@@ -426,8 +420,6 @@
       
   
   
-    
-  
   
   
     
@@ -451,21 +443,18 @@
     
     
       
-        
-        
-      
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../../notebooks/" class="md-nav__link ">
               
   
   
@@ -483,13 +472,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -509,7 +498,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ch02/" class="md-nav__link">
+      <a href="../../../notebooks/ch02/" class="md-nav__link">
         
   
   
@@ -537,7 +526,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ch03/" class="md-nav__link">
+      <a href="../../../notebooks/ch03/" class="md-nav__link">
         
   
   
@@ -565,7 +554,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ch04/" class="md-nav__link">
+      <a href="../../../notebooks/ch04/" class="md-nav__link">
         
   
   
@@ -593,7 +582,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ch05/" class="md-nav__link">
+      <a href="../../../notebooks/ch05/" class="md-nav__link">
         
   
   
@@ -618,37 +607,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Chapter 6 — Agent Skills
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../../notebooks/ch06/" class="md-nav__link">
         
   
   
@@ -664,109 +626,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#setup-instructions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Setup Instructions
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#running-an-ollama-service" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Running an Ollama service
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#the-hailstone-skill" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The Hailstone Skill
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Examples
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Examples">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#example-1-skill-discovery" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 1: Skill Discovery
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-2-useskilltool-activation-result" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 2: UseSkillTool Activation Result
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-3-model-driven-skill-activation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 3: Model-driven Skill Activation
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -819,7 +678,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../more-examples/" class="md-nav__link ">
+            <a href="../../" class="md-nav__link ">
               
   
   
@@ -921,7 +780,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../more-examples/ch02/async_tools/" class="md-nav__link">
+      <a href="../../ch02/async_tools/" class="md-nav__link">
         
   
   
@@ -949,7 +808,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../more-examples/ch02/multi_tool_registry/" class="md-nav__link">
+      <a href="../../ch02/multi_tool_registry/" class="md-nav__link">
         
   
   
@@ -977,7 +836,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../more-examples/ch02/pydantic_tool_validation/" class="md-nav__link">
+      <a href="../../ch02/pydantic_tool_validation/" class="md-nav__link">
         
   
   
@@ -1071,7 +930,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../more-examples/ch03/multi_turn_chat/" class="md-nav__link">
+      <a href="../../ch03/multi_turn_chat/" class="md-nav__link">
         
   
   
@@ -1099,7 +958,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../more-examples/ch03/pdf_extraction/" class="md-nav__link">
+      <a href="../../ch03/pdf_extraction/" class="md-nav__link">
         
   
   
@@ -1127,7 +986,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../more-examples/ch03/parallel_tool_calls/" class="md-nav__link">
+      <a href="../../ch03/parallel_tool_calls/" class="md-nav__link">
         
   
   
@@ -1219,7 +1078,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../more-examples/ch04/pokemon_error_handling/" class="md-nav__link">
+      <a href="../../ch04/pokemon_error_handling/" class="md-nav__link">
         
   
   
@@ -1247,7 +1106,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../more-examples/ch04/pokemon_comparison/" class="md-nav__link">
+      <a href="../../ch04/pokemon_comparison/" class="md-nav__link">
         
   
   
@@ -1339,7 +1198,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../more-examples/ch05/github_mcp/" class="md-nav__link">
+      <a href="../../ch05/github_mcp/" class="md-nav__link">
         
   
   
@@ -1367,7 +1226,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../more-examples/ch05/goodnews_mcp/" class="md-nav__link">
+      <a href="../../ch05/goodnews_mcp/" class="md-nav__link">
         
   
   
@@ -1465,7 +1324,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../more-examples/ch06/additional_resource_python/" class="md-nav__link">
+      <a href="../../ch06/additional_resource_python/" class="md-nav__link">
         
   
   
@@ -1493,7 +1352,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../more-examples/ch06/with_and_without_skills/" class="md-nav__link">
+      <a href="../../ch06/with_and_without_skills/" class="md-nav__link">
         
   
   
@@ -1521,7 +1380,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../more-examples/ch06/skill_validation_errors/" class="md-nav__link">
+      <a href="../../ch06/skill_validation_errors/" class="md-nav__link">
         
   
   
@@ -1549,7 +1408,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../more-examples/ch06/user_explicit_hailstone/" class="md-nav__link">
+      <a href="../../ch06/user_explicit_hailstone/" class="md-nav__link">
         
   
   
@@ -1577,7 +1436,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../more-examples/ch06/skills_marketplace/" class="md-nav__link">
+      <a href="../../ch06/skills_marketplace/" class="md-nav__link">
         
   
   
@@ -1669,7 +1528,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../more-examples/ch07/recency_memory/" class="md-nav__link">
+      <a href="../../ch07/recency_memory/" class="md-nav__link">
         
   
   
@@ -1697,7 +1556,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../more-examples/ch07/similarity_memory/" class="md-nav__link">
+      <a href="../../ch07/similarity_memory/" class="md-nav__link">
         
   
   
@@ -1819,7 +1678,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../capstones/one/" class="md-nav__link ">
+            <a href="../../../capstones/one/" class="md-nav__link ">
               
   
   
@@ -1863,7 +1722,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../capstones/one/capstone_1/" class="md-nav__link">
+      <a href="../../../capstones/one/capstone_1/" class="md-nav__link">
         
   
   
@@ -1891,7 +1750,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../capstones/one/runpod_instructions/" class="md-nav__link">
+      <a href="../../../capstones/one/runpod_instructions/" class="md-nav__link">
         
   
   
@@ -1971,7 +1830,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../api_reference/errors/" class="md-nav__link ">
+            <a href="../../../api_reference/errors/" class="md-nav__link ">
               
   
   
@@ -2071,7 +1930,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/base/llm/" class="md-nav__link">
+      <a href="../../../api_reference/base/llm/" class="md-nav__link">
         
   
   
@@ -2099,7 +1958,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/base/memory_store/" class="md-nav__link">
+      <a href="../../../api_reference/base/memory_store/" class="md-nav__link">
         
   
   
@@ -2127,7 +1986,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/base/tool/" class="md-nav__link">
+      <a href="../../../api_reference/base/tool/" class="md-nav__link">
         
   
   
@@ -2219,7 +2078,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/agent/llm_agent/" class="md-nav__link">
+      <a href="../../../api_reference/agent/llm_agent/" class="md-nav__link">
         
   
   
@@ -2247,7 +2106,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/agent/builder/" class="md-nav__link">
+      <a href="../../../api_reference/agent/builder/" class="md-nav__link">
         
   
   
@@ -2345,7 +2204,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/data_structures/agent/" class="md-nav__link">
+      <a href="../../../api_reference/data_structures/agent/" class="md-nav__link">
         
   
   
@@ -2373,7 +2232,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/data_structures/llm/" class="md-nav__link">
+      <a href="../../../api_reference/data_structures/llm/" class="md-nav__link">
         
   
   
@@ -2401,7 +2260,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/data_structures/memory/" class="md-nav__link">
+      <a href="../../../api_reference/data_structures/memory/" class="md-nav__link">
         
   
   
@@ -2429,7 +2288,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/data_structures/skill/" class="md-nav__link">
+      <a href="../../../api_reference/data_structures/skill/" class="md-nav__link">
         
   
   
@@ -2457,7 +2316,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/data_structures/tool/" class="md-nav__link">
+      <a href="../../../api_reference/data_structures/tool/" class="md-nav__link">
         
   
   
@@ -2549,7 +2408,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/llms/ollama/" class="md-nav__link">
+      <a href="../../../api_reference/llms/ollama/" class="md-nav__link">
         
   
   
@@ -2577,7 +2436,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/llms/openai/" class="md-nav__link">
+      <a href="../../../api_reference/llms/openai/" class="md-nav__link">
         
   
   
@@ -2673,7 +2532,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/tools/simple_function/" class="md-nav__link">
+      <a href="../../../api_reference/tools/simple_function/" class="md-nav__link">
         
   
   
@@ -2701,7 +2560,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/tools/pydantic_function/" class="md-nav__link">
+      <a href="../../../api_reference/tools/pydantic_function/" class="md-nav__link">
         
   
   
@@ -2729,7 +2588,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/tools/mcp/" class="md-nav__link">
+      <a href="../../../api_reference/tools/mcp/" class="md-nav__link">
         
   
   
@@ -2757,7 +2616,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/tools/default/" class="md-nav__link">
+      <a href="../../../api_reference/tools/default/" class="md-nav__link">
         
   
   
@@ -2849,7 +2708,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/memory/memory/" class="md-nav__link">
+      <a href="../../../api_reference/memory/memory/" class="md-nav__link">
         
   
   
@@ -2877,7 +2736,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/memory/recipes/" class="md-nav__link">
+      <a href="../../../api_reference/memory/recipes/" class="md-nav__link">
         
   
   
@@ -2969,7 +2828,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/memory_stores/json_store/" class="md-nav__link">
+      <a href="../../../api_reference/memory_stores/json_store/" class="md-nav__link">
         
   
   
@@ -2997,7 +2856,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/memory_stores/qdrant_store/" class="md-nav__link">
+      <a href="../../../api_reference/memory_stores/qdrant_store/" class="md-nav__link">
         
   
   
@@ -3093,7 +2952,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/skills/skill/" class="md-nav__link">
+      <a href="../../../api_reference/skills/skill/" class="md-nav__link">
         
   
   
@@ -3121,7 +2980,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/skills/discovery/" class="md-nav__link">
+      <a href="../../../api_reference/skills/discovery/" class="md-nav__link">
         
   
   
@@ -3149,7 +3008,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/skills/tools/" class="md-nav__link">
+      <a href="../../../api_reference/skills/tools/" class="md-nav__link">
         
   
   
@@ -3177,7 +3036,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/skills/constants/" class="md-nav__link">
+      <a href="../../../api_reference/skills/constants/" class="md-nav__link">
         
   
   
@@ -3242,17 +3101,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#setup-instructions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Setup Instructions
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#running-an-ollama-service" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3264,10 +3112,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-hailstone-skill" class="md-nav__link">
+  <a href="#trajectory-1-reject-and-revise" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The Hailstone Skill
+        Trajectory 1: Reject and Revise
       
     </span>
   </a>
@@ -3275,52 +3123,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
+  <a href="#trajectory-2-abort" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Examples
+        Trajectory 2: Abort
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Examples">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#example-1-skill-discovery" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 1: Skill Discovery
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-2-useskilltool-activation-result" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 2: UseSkillTool Activation Result
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example-3-model-driven-skill-activation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example 3: Model-driven Skill Activation
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -4065,32 +3874,30 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </style>
 <!-- End of mermaid configuration --><div class="jupyter-wrapper">
 <div class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0001-0000-0000-000000000001">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c8-st-0001">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="chapter-6-agent-skills">Chapter 6 — Agent Skills<a class="anchor-link" href="#chapter-6-agent-skills">¶</a></h1>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0001-0000-0000-000000000002">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="setup-instructions">Setup Instructions<a class="anchor-link" href="#setup-instructions">¶</a></h2><p>To ensure you have the required dependencies to run this notebook, you'll need to have our <code>llm-agents-from-scratch</code> framework installed on the running Jupyter kernel. To do this, you can launch this notebook with the following command while within the project's root directory:</p>
-<div class="highlight"><pre><span></span>uv<span class="w"> </span>run<span class="w"> </span>--with<span class="w"> </span>jupyter<span class="w"> </span>jupyter<span class="w"> </span>lab
-</pre></div>
-<p>Alternatively, if you just want to use the published version of <code>llm-agents-from-scratch</code> without local development, you can install it from PyPi by uncommenting the cell below.</p>
+<h1 id="supervised-trajectories-reject-and-revise-and-abort">Supervised Trajectories — Reject and Revise, and Abort<a class="anchor-link" href="#supervised-trajectories-reject-and-revise-and-abort">¶</a></h1><p>This notebook shows two trajectories available with <code>SupervisedTaskHandler</code>
+that are not possible with <code>run()</code> or <code>run(with_approval=True)</code>:</p>
+<ul>
+<li><strong>Reject and Revise.</strong> After the agent delivers its result, the human calls
+<code>reject()</code> with structured feedback. The handler routes the rejection back
+through <code>get_next_step()</code> deterministically — the agent revises without
+replanning from scratch.</li>
+<li><strong>Abort.</strong> The human calls <code>abort()</code> mid-execution to terminate cleanly,
+setting a <code>TaskHandlerError</code> (or a custom exception) on the handler that
+the caller can inspect.</li>
+</ul>
+<p>Both trajectories use a code refactoring scenario to keep the focus on the
+HITL mechanics rather than tooling.</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=a1b2c3d4-0001-0000-0000-000000000003">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=c8-st-0002">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -4108,10 +3915,10 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Uncomment the line below to install `llm-agents-from-scratch` from PyPi</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Uncomment the line below to install `llm-agents-from-scratch` from PyPI</span>
 <span class="c1"># !pip install llm-agents-from-scratch</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-1"># Uncomment the line below to install `llm-agents-from-scratch` from PyPi
+<div class="clipboard-copy-txt" id="cell-1"># Uncomment the line below to install `llm-agents-from-scratch` from PyPI
 # !pip install llm-agents-from-scratch</div>
 </div>
 </div>
@@ -4119,23 +3926,27 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0001-0000-0000-000000000004">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c8-st-0003">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="running-an-ollama-service">Running an Ollama service<a class="anchor-link" href="#running-an-ollama-service">¶</a></h2><p>To execute the code provided in this notebook, you'll need to have Ollama installed on your local machine and have its LLM hosting service running. To download Ollama, follow the instructions found on this page: <a href="https://ollama.com/download">https://ollama.com/download</a>. After downloading and installing Ollama, you can start a service by opening a terminal and running the command <code>ollama serve</code>.</p>
+<h2 id="running-an-ollama-service">Running an Ollama service<a class="anchor-link" href="#running-an-ollama-service">¶</a></h2><p>To execute the code provided in this notebook, you'll need to have Ollama
+installed on your local machine and have its LLM hosting service running.
+To download Ollama, follow the instructions found on this page:
+<a href="https://ollama.com/download">https://ollama.com/download</a>. After downloading and installing Ollama, you
+can start a service by opening a terminal and running <code>ollama serve</code>.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=6ed70298">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c8-st-0004">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-2">
@@ -4148,7 +3959,12 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span><span class="o">,</span><span class="w"> </span><span class="nn">shutil</span><span class="o">,</span><span class="w"> </span><span class="nn">subprocess</span><span class="o">,</span><span class="w"> </span><span class="nn">time</span><span class="o">,</span><span class="w"> </span><span class="nn">urllib.request</span><span class="o">,</span><span class="w"> </span><span class="nn">urllib.error</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">urllib.error</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">urllib.request</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">ensure_ollama</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">"http://localhost:11434"</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">15</span><span class="p">):</span>
@@ -4162,9 +3978,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
             <span class="k">return</span> <span class="kc">False</span>
 
     <span class="k">if</span> <span class="n">_up</span><span class="p">():</span>
-        <span class="k">return</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✓ Ollama already running at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\u2713</span><span class="s2"> Ollama already running at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="c1"># Lightning persistent path first, then standard locations</span>
     <span class="n">ollama_path</span> <span class="o">=</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="s2">"ollama"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">ollama_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="p">[</span>
@@ -4178,7 +3993,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     <span class="k">if</span> <span class="n">ollama_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
             <span class="s2">"Could not find the ollama binary. Install with: "</span>
-            <span class="s2">"curl -fsSL https://ollama.com/install.sh | sh"</span>
+            <span class="s2">"curl -fsSL https://ollama.com/install.sh | sh"</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Starting Ollama server (</span><span class="si">{</span><span class="n">ollama_path</span><span class="si">}</span><span class="s2">)..."</span><span class="p">)</span>
@@ -4191,7 +4006,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     <span class="n">deadline</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="n">timeout</span>
     <span class="k">while</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">deadline</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">_up</span><span class="p">():</span>
-            <span class="k">return</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✓ Ollama up and running at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\u2713</span><span class="s2"> Ollama up and running at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
 
     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Ollama did not start within </span><span class="si">{</span><span class="n">timeout</span><span class="si">}</span><span class="s2">s"</span><span class="p">)</span>
@@ -4199,7 +4014,12 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 
 <span class="n">ensure_ollama</span><span class="p">()</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-2">import os, shutil, subprocess, time, urllib.request, urllib.error
+<div class="clipboard-copy-txt" id="cell-2">import os
+import shutil
+import subprocess
+import time
+import urllib.error
+import urllib.request
 
 
 def ensure_ollama(host="http://localhost:11434", timeout=15):
@@ -4213,9 +4033,8 @@ def ensure_ollama(host="http://localhost:11434", timeout=15):
             return False
 
     if _up():
-        return print(f"✓ Ollama already running at {host}")
+        return print(f"\u2713 Ollama already running at {host}")
 
-    # Lightning persistent path first, then standard locations
     ollama_path = shutil.which("ollama")
     if ollama_path is None:
         for candidate in [
@@ -4229,7 +4048,7 @@ def ensure_ollama(host="http://localhost:11434", timeout=15):
     if ollama_path is None:
         raise RuntimeError(
             "Could not find the ollama binary. Install with: "
-            "curl -fsSL https://ollama.com/install.sh | sh"
+            "curl -fsSL https://ollama.com/install.sh | sh",
         )
 
     print(f"Starting Ollama server ({ollama_path})...")
@@ -4242,7 +4061,7 @@ def ensure_ollama(host="http://localhost:11434", timeout=15):
     deadline = time.time() + timeout
     while time.time() &lt; deadline:
         if _up():
-            return print(f"✓ Ollama up and running at {host}")
+            return print(f"\u2713 Ollama up and running at {host}")
         time.sleep(0.5)
 
     raise RuntimeError(f"Ollama did not start within {timeout}s")
@@ -4253,62 +4072,27 @@ ensure_ollama()</div>
 </div>
 </div>
 </div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0001-0000-0000-000000000005">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="the-hailstone-skill">The Hailstone Skill<a class="anchor-link" href="#the-hailstone-skill">¶</a></h2><p>The examples in this notebook use a <code>hailstone-sequence</code> skill that instructs the agent to compute a full Hailstone (Collatz) sequence using a <code>next_number</code> tool.</p>
-<p><strong>Important:</strong> Run this notebook from within the <code>examples/</code> directory so the skill is discovered as a project-scoped skill.</p>
-<p>The skill is located at: <code>examples/.agents/skills/stop-at-one/SKILL.md</code></p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=54ce10ef-7af3-4d98-ad55-ae05d66bf61e">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<blockquote>
-<p><strong>Note on obfuscation:</strong> The skill is intentionally named <code>stop-at-one</code> and contains no mention of "Hailstone" or "Collatz". This prevents the LLM from relying on its parametric knowledge of the Collatz conjecture to simulate the sequence internally — forcing it to actually call the <code>next_number</code> tool at each step as the skill instructs.</p>
-</blockquote>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>✓ Ollama already running at http://localhost:11434
+</pre>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0001-0000-0000-000000000007">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="examples">Examples<a class="anchor-link" href="#examples">¶</a></h2>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0001-0000-0000-000000000008">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="example-1-skill-discovery">Example 1: Skill Discovery<a class="anchor-link" href="#example-1-skill-discovery">¶</a></h3>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0001-0000-0000-000000000009">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=c8-st-0005">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-3">
@@ -4321,71 +4105,56 @@ ensure_ollama()</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMAgent</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMAgent</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">Task</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_console_logging</span>
 
-<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">)</span>
+<span class="n">enable_console_logging</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+
+<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">,</span> <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">agent</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">)</span>
-
-<span class="n">task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span><span class="n">instruction</span><span class="o">=</span><span class="s2">"Compute the stop-at-one sequence for 8."</span><span class="p">)</span>
-<span class="n">handler</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="o">.</span><span class="n">TaskHandler</span><span class="p">(</span><span class="n">llm_agent</span><span class="o">=</span><span class="n">agent</span><span class="p">,</span> <span class="n">task</span><span class="o">=</span><span class="n">task</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">handler</span><span class="o">.</span><span class="n">skills</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">handler</span><span class="o">.</span><span class="n">skills</span><span class="p">[</span><span class="s2">"stop-at-one"</span><span class="p">]</span><span class="o">.</span><span class="n">frontmatter</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">handler</span><span class="o">.</span><span class="n">skills</span><span class="p">[</span><span class="s2">"stop-at-one"</span><span class="p">]</span><span class="o">.</span><span class="n">scope</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-3">from llm_agents_from_scratch import LLMAgent
+<div class="clipboard-copy-txt" id="cell-3">import logging
+
+from llm_agents_from_scratch import LLMAgent
 from llm_agents_from_scratch.data_structures import Task
 from llm_agents_from_scratch.llms import OllamaLLM
+from llm_agents_from_scratch.logger import enable_console_logging
 
-llm = OllamaLLM(model="qwen3:14b")
-agent = LLMAgent(llm=llm)
+enable_console_logging(logging.INFO)
 
-task = Task(instruction="Compute the stop-at-one sequence for 8.")
-handler = LLMAgent.TaskHandler(llm_agent=agent, task=task)
-
-print(handler.skills)
-print(handler.skills["stop-at-one"].frontmatter)
-print(handler.skills["stop-at-one"].scope)</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>{'stop-at-one': &lt;llm_agents_from_scratch.skills.skill.Skill object at 0x79dcb4eaaa50&gt;}
-name='stop-at-one' description='Compute a sequence for a given starting number by repeatedly calling the next_number tool until the value 1 is reached.' license=None compatibility=None metadata=None allowed_tools=None
-SkillScope.PROJECT
-</pre>
+llm = OllamaLLM(model="qwen3:14b", think=False)
+agent = LLMAgent(llm=llm)</div>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0001-0000-0000-000000000010">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c8-st-0006">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="example-2-useskilltool-activation-result">Example 2: UseSkillTool Activation Result<a class="anchor-link" href="#example-2-useskilltool-activation-result">¶</a></h3>
+<h2 id="trajectory-1-reject-and-revise">Trajectory 1: Reject and Revise<a class="anchor-link" href="#trajectory-1-reject-and-revise">¶</a></h2><p>The agent is asked to refactor a function by replacing its <code>if-elif</code> chain
+with a dictionary dispatch. After it delivers its result, the human inspects
+it, finds it incomplete (no error handling), and calls <code>reject()</code> with
+specific feedback. The handler feeds the rejection back through
+<code>get_next_step()</code> and the agent revises.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0001-0000-0000-000000000011">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=c8-st-0007">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-4">
@@ -4398,123 +4167,41 @@ SkillScope.PROJECT
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolCall</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.skills.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">UseSkillTool</span>
-
-<span class="n">tool</span> <span class="o">=</span> <span class="n">UseSkillTool</span><span class="p">(</span><span class="n">skills</span><span class="o">=</span><span class="n">handler</span><span class="o">.</span><span class="n">skills</span><span class="p">)</span>
-<span class="n">tool_call</span> <span class="o">=</span> <span class="n">ToolCall</span><span class="p">(</span>
-    <span class="n">tool_name</span><span class="o">=</span><span class="s2">"from_scratch__use_skill"</span><span class="p">,</span>
-    <span class="n">arguments</span><span class="o">=</span><span class="p">{</span><span class="s2">"name"</span><span class="p">:</span> <span class="s2">"stop-at-one"</span><span class="p">},</span>
-<span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">tool</span><span class="p">(</span><span class="n">tool_call</span><span class="o">=</span><span class="n">tool_call</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">ORIGINAL</span> <span class="o">=</span> <span class="s2">"""</span><span class="se">\</span>
+<span class="s2">def calculate(x, y, operation):</span>
+<span class="s2">    if operation == </span><span class="se">\"</span><span class="s2">add</span><span class="se">\"</span><span class="s2">:</span>
+<span class="s2">        return x + y</span>
+<span class="s2">    elif operation == </span><span class="se">\"</span><span class="s2">subtract</span><span class="se">\"</span><span class="s2">:</span>
+<span class="s2">        return x - y</span>
+<span class="s2">    elif operation == </span><span class="se">\"</span><span class="s2">multiply</span><span class="se">\"</span><span class="s2">:</span>
+<span class="s2">        return x * y</span>
+<span class="s2">    elif operation == </span><span class="se">\"</span><span class="s2">divide</span><span class="se">\"</span><span class="s2">:</span>
+<span class="s2">        return x / y</span>
+<span class="s2">"""</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-4">from llm_agents_from_scratch.data_structures import ToolCall
-from llm_agents_from_scratch.skills.tools import UseSkillTool
-
-tool = UseSkillTool(skills=handler.skills)
-tool_call = ToolCall(
-    tool_name="from_scratch__use_skill",
-    arguments={"name": "stop-at-one"},
-)
-result = tool(tool_call=tool_call)
-print(result.content)</div>
+<div class="clipboard-copy-txt" id="cell-4">ORIGINAL = """\
+def calculate(x, y, operation):
+    if operation == \"add\":
+        return x + y
+    elif operation == \"subtract\":
+        return x - y
+    elif operation == \"multiply\":
+        return x * y
+    elif operation == \"divide\":
+        return x / y
+"""</div>
 </div>
 </div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>&lt;skill_content name="stop-at-one"&gt;
-# Stop At One
-
-Compute a full sequence from a starting number down to 1
-using the `next_number` tool.
-
-## Arguments
-
-The user must provide a **starting number** (a positive integer greater than 1).
-
-If no starting number is given, ask the user before proceeding.
-
-## Steps
-
-### 1. Initialize
-
-Set the current number `x` to the starting number provided by the user.
-
-Begin tracking the sequence as a list: `[x]`.
-
-### 2. Call the tool
-
-Call `next_number` with the current value of `x`.
-
-```
-next_number(x=&lt;current_number&gt;)
-```
-
-**STOP and WAIT** for the tool result before continuing.
-
-### 3. Record the result
-
-Append the returned value to the sequence list.
-
-Set `x` to the returned value.
-
-### 4. Check termination
-
-- If `x == 1`, proceed to Step 5.
-- Otherwise, go back to Step 2.
-
-**Important rules:**
-- NEVER fabricate or simulate tool call results.
-- NEVER make multiple tool calls in a single response.
-- ALWAYS wait for the actual tool response before deciding next steps.
-
-### 5. Report the result
-
-Print the complete sequence from start to finish, for example:
-
-```
-6 → 3 → 10 → 5 → 16 → 8 → 4 → 2 → 1
-```
-
-Also report:
-- **Starting number**
-- **Total steps taken** (number of tool calls made)
-- **Maximum value reached** in the sequence
-
-Skill directory: /home/nerdai/Projects/llm-agents-from-scratch/examples/.agents/skills/stop-at-one
-&lt;/skill_content&gt;
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0001-0000-0000-000000000012">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="example-3-model-driven-skill-activation">Example 3: Model-driven Skill Activation<a class="anchor-link" href="#example-3-model-driven-skill-activation">¶</a></h3>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=a1b2c3d4-0001-0000-0000-000000000013">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=c8-st-0008">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-5">
@@ -4527,27 +4214,33 @@ Skill directory: /home/nerdai/Projects/llm-agents-from-scratch/examples/.agents/
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_console_logging</span>
-
-<span class="n">enable_console_logging</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span>
+    <span class="n">instruction</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">"Refactor the following Python function to replace the "</span>
+        <span class="sa">f</span><span class="s2">"if-elif chain with a dictionary dispatch:</span><span class="se">\n\n</span><span class="si">{</span><span class="n">ORIGINAL</span><span class="si">}</span><span class="s2">"</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+<span class="n">task_handler</span> <span class="o">=</span> <span class="k">await</span> <span class="n">agent</span><span class="o">.</span><span class="n">run_supervised</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-5">import logging
-from llm_agents_from_scratch.logger import enable_console_logging
-
-enable_console_logging(logging.INFO)</div>
+<div class="clipboard-copy-txt" id="cell-5">task = Task(
+    instruction=(
+        "Refactor the following Python function to replace the "
+        f"if-elif chain with a dictionary dispatch:\n\n{ORIGINAL}"
+    ),
+)
+task_handler = await agent.run_supervised(task)</div>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0001-0000-0000-000000000014">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c8-st-0009">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
@@ -4560,43 +4253,11 @@ enable_console_logging(logging.INFO)</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMAgent</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">Task</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.tools.simple_function</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleFunctionTool</span>
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">next_number</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-    <span class="k">if</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">x</span> <span class="o">//</span> <span class="mi">2</span>
-    <span class="k">return</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
-
-
-<span class="n">next_number_tool</span> <span class="o">=</span> <span class="n">SimpleFunctionTool</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">next_number</span><span class="p">)</span>
-<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">,</span> <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">agent</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">next_number_tool</span><span class="p">])</span>
-
-<span class="n">task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span><span class="n">instruction</span><span class="o">=</span><span class="s2">"Compute the stop-at-one sequence for 8."</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">agent</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">step</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">get_next_step</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">step</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-6">from llm_agents_from_scratch import LLMAgent
-from llm_agents_from_scratch.data_structures import Task
-from llm_agents_from_scratch.llms import OllamaLLM
-from llm_agents_from_scratch.tools.simple_function import SimpleFunctionTool
-
-
-def next_number(x: int) -&gt; int:
-    if x % 2 == 0:
-        return x // 2
-    return 3 * x + 1
-
-
-next_number_tool = SimpleFunctionTool(func=next_number)
-llm = OllamaLLM(model="qwen3:14b", think=False)
-agent = LLMAgent(llm=llm, tools=[next_number_tool])
-
-task = Task(instruction="Compute the stop-at-one sequence for 8.")
-result = await agent.run(task)</div>
+<div class="clipboard-copy-txt" id="cell-6">step = await task_handler.get_next_step(None)
+step</div>
 </div>
 </div>
 </div>
@@ -4605,51 +4266,22 @@ result = await agent.run(task)</div>
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: Compute the stop-at-one sequence for 8.
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Compute the stop-at-one sequence for 8.
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to call the stop-at-one skill with the starting number 8.
-INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the stop-at-one skill with the starting number 8.
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the stop-at-one skill with the starting number 8.
-INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: from_scratch__use_skill
-INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: &lt;skill_content name="stop-at-one"&gt;
-# Stop At One
-
-Compute a full sequence from a starting number down to 1
-using the `next_num...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to call the next_number tool with the starting number 8.
-INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the next_number tool with the starting number 8.
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the next_number tool with the starting number 8.
-INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
-INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 4
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The next number in the sequence after 8 is 4. I will continue the process by calling the next_number tool with the current number 4.
-INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the next_number tool with the current number 4.
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the next_number tool with the current number 4.
-INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
-INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 2
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The next number in the sequence after 4 is 2. I will continue the process by calling the next_number tool with the current number 2.
-INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the next_number tool with the current number 2.
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the next_number tool with the current number 2.
-INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
-INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 1
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The next number in the sequence after 2 is 1. Now that we have reached 1, the sequence is complete. Here is the full sequence from the ...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      No new step required.
-INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The next number in the sequence after 2 is 1. Now that we have reached 1, the sequence is complete. Here is the full sequence from t...[TRUNCATED]
-</pre>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[5]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>TaskStep(id_='43578526-53c2-461e-8df4-cd214a0c43da', task_id='527becc1-a663-4567-aaf6-921dbf134483', instruction='Refactor the following Python function to replace the if-elif chain with a dictionary dispatch:\n\ndef calculate(x, y, operation):\n    if operation == "add":\n        return x + y\n    elif operation == "subtract":\n        return x - y\n    elif operation == "multiply":\n        return x * y\n    elif operation == "divide":\n        return x / y\n')</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0001-0000-0000-000000000015">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c8-st-0010">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-7">
@@ -4662,9 +4294,11 @@ INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The next number in the
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">step_result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">run_step</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+<span class="n">step_result</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-7">print(result)</div>
+<div class="clipboard-copy-txt" id="cell-7">step_result = await task_handler.run_step(step)
+step_result</div>
 </div>
 </div>
 </div>
@@ -4676,13 +4310,703 @@ INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The next number in the
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>The next number in the sequence after 2 is 1. Now that we have reached 1, the sequence is complete. Here is the full sequence from the starting number 8:
+<pre>INFO (llm_agents_fs.SupervisedTaskHandler) :      ⚙️ Processing Step: Refactor the following Python function to replace the if-elif chain with a dictionary dispatch:
 
-**Sequence:** 8 → 4 → 2 → 1  
-**Starting number:** 8  
-**Total steps taken:** 3  
-**Maximum value reached:** 8
+def calculate(x, y, operation):
+ ...[TRUNCATED]
+INFO (llm_agents_fs.SupervisedTaskHandler) :      ✅ Step Result: I need to refactor the function by replacing the if-elif chain with a dictionary that maps operations to corresponding lambda functions...[TRUNCATED]
 </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[6]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>TaskStepResult(task_step_id='43578526-53c2-461e-8df4-cd214a0c43da', content='I need to refactor the function by replacing the if-elif chain with a dictionary that maps operations to corresponding lambda functions or function references. This approach will make the code more concise and easier to extend. Let me proceed with this change.')</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c8-st-0011">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-8">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">step</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">get_next_step</span><span class="p">(</span><span class="n">step_result</span><span class="p">)</span>
+<span class="n">step</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-8">step = await task_handler.get_next_step(step_result)
+step</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO (llm_agents_fs.SupervisedTaskHandler) :      🧠 New Step: Define a dictionary that maps each operation string to a corresponding lambda function or function reference, and then use the dictionary ...[TRUNCATED]
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[7]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>TaskStep(id_='05f23f72-89e8-4a00-829a-212f479f48c0', task_id='527becc1-a663-4567-aaf6-921dbf134483', instruction='Define a dictionary that maps each operation string to a corresponding lambda function or function reference, and then use the dictionary to perform the calculation.')</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=f8cd23db-2651-440e-bb12-b63383b5b2e8">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-9">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">step_result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">run_step</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+<span class="n">step_result</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-9">step_result = await task_handler.run_step(step)
+step_result</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO (llm_agents_fs.SupervisedTaskHandler) :      ⚙️ Processing Step: Define a dictionary that maps each operation string to a corresponding lambda function or function reference, and then use the dic...[TRUNCATED]
+INFO (llm_agents_fs.SupervisedTaskHandler) :      ✅ Step Result: I will define a dictionary called `operations` where each key is an operation string, and the corresponding value is a lambda function ...[TRUNCATED]
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>TaskStepResult(task_step_id='05f23f72-89e8-4a00-829a-212f479f48c0', content='I will define a dictionary called `operations` where each key is an operation string, and the corresponding value is a lambda function that performs the respective calculation. Then, I will use the dictionary to perform the calculation based on the `operation` parameter. Let me implement this change.')</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=93a2dd77-d506-41f5-8543-8341847c26e2">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-10">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">step</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">get_next_step</span><span class="p">(</span><span class="n">step_result</span><span class="p">)</span>
+<span class="n">step</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-10">step = await task_handler.get_next_step(step_result)
+step</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO (llm_agents_fs.SupervisedTaskHandler) :      🧠 New Step: Define the dictionary `operations` with lambda functions for each operation and use it to perform the calculation.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[9]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>TaskStep(id_='1469aa64-8378-44f4-a3c1-1200311a7db6', task_id='527becc1-a663-4567-aaf6-921dbf134483', instruction='Define the dictionary `operations` with lambda functions for each operation and use it to perform the calculation.')</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=14f89600-f5b5-4b5f-b189-a29948494953">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-11">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">step_result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">run_step</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+<span class="n">step_result</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-11">step_result = await task_handler.run_step(step)
+step_result</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO (llm_agents_fs.SupervisedTaskHandler) :      ⚙️ Processing Step: Define the dictionary `operations` with lambda functions for each operation and use it to perform the calculation.
+INFO (llm_agents_fs.SupervisedTaskHandler) :      ✅ Step Result: I will define the `operations` dictionary with lambda functions for each operation. Here's how the dictionary will look:
+
+```python
+ope...[TRUNCATED]
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[10]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>TaskStepResult(task_step_id='1469aa64-8378-44f4-a3c1-1200311a7db6', content='I will define the `operations` dictionary with lambda functions for each operation. Here\'s how the dictionary will look:\n\n```python\noperations = {\n    "add": lambda x, y: x + y,\n    "subtract": lambda x, y: x - y,\n    "multiply": lambda x, y: x * y,\n    "divide": lambda x, y: x / y\n}\n```\n\nThen, I will use this dictionary to perform the calculation by accessing the appropriate lambda function based on the `operation` parameter. The updated function will look like this:\n\n```python\ndef calculate(x, y, operation):\n    return operations[operation](x, y)\n```\n\nThis refactoring replaces the if-elif chain with a dictionary-based dispatch, making the code more concise and easier to maintain.')</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=541c0585-db32-4f54-ad4c-ec64144dfb84">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-12">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">get_next_step</span><span class="p">(</span><span class="n">step_result</span><span class="p">)</span>
+<span class="n">result</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-12">result = await task_handler.get_next_step(step_result)
+result</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO (llm_agents_fs.SupervisedTaskHandler) :      No new step required.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[11]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>TaskResult(task_id='527becc1-a663-4567-aaf6-921dbf134483', content='I will define the `operations` dictionary with lambda functions for each operation. Here\'s how the dictionary will look:\n\n```python\noperations = {\n    "add": lambda x, y: x + y,\n    "subtract": lambda x, y: x - y,\n    "multiply": lambda x, y: x * y,\n    "divide": lambda x, y: x / y\n}\n```\n\nThen, I will use this dictionary to perform the calculation by accessing the appropriate lambda function based on the `operation` parameter. The updated function will look like this:\n\n```python\ndef calculate(x, y, operation):\n    return operations[operation](x, y)\n```\n\nThis refactoring replaces the if-elif chain with a dictionary-based dispatch, making the code more concise and easier to maintain.')</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c8-st-0012">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-13">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">rejected</span> <span class="o">=</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">reject</span><span class="p">(</span>
+    <span class="n">result</span><span class="p">,</span>
+    <span class="n">feedback</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">"Good start, but add error handling: raise ValueError for "</span>
+        <span class="s2">"unknown operations and ZeroDivisionError for division by zero."</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+<span class="n">rejected</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-13">rejected = task_handler.reject(
+    result,
+    feedback=(
+        "Good start, but add error handling: raise ValueError for "
+        "unknown operations and ZeroDivisionError for division by zero."
+    ),
+)
+rejected</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[12]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>RejectedTaskResult(failed_result_content='I will define the `operations` dictionary with lambda functions for each operation. Here\'s how the dictionary will look:\n\n```python\noperations = {\n    "add": lambda x, y: x + y,\n    "subtract": lambda x, y: x - y,\n    "multiply": lambda x, y: x * y,\n    "divide": lambda x, y: x / y\n}\n```\n\nThen, I will use this dictionary to perform the calculation by accessing the appropriate lambda function based on the `operation` parameter. The updated function will look like this:\n\n```python\ndef calculate(x, y, operation):\n    return operations[operation](x, y)\n```\n\nThis refactoring replaces the if-elif chain with a dictionary-based dispatch, making the code more concise and easier to maintain.', feedback='Good start, but add error handling: raise ValueError for unknown operations and ZeroDivisionError for division by zero.')</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c8-st-0013">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-14">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">step</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">get_next_step</span><span class="p">(</span><span class="n">rejected</span><span class="p">)</span>
+<span class="n">step</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-14">step = await task_handler.get_next_step(rejected)
+step</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO (llm_agents_fs.SupervisedTaskHandler) :      🧠 New Step (rejection): Good start, but add error handling: raise ValueError for unknown operations and ZeroDivisionError for division by zero.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[13]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>TaskStep(id_='0e361fcc-5680-4abc-94f7-aed80e88ddff', task_id='527becc1-a663-4567-aaf6-921dbf134483', instruction='The human operator REJECTED your proposed task result. Revise your approach and try again.\n\n&lt;proposed-result&gt;\nI will define the `operations` dictionary with lambda functions for each operation. Here\'s how the dictionary will look:\n\n```python\noperations = {\n    "add": lambda x, y: x + y,\n    "subtract": lambda x, y: x - y,\n    "multiply": lambda x, y: x * y,\n    "divide": lambda x, y: x / y\n}\n```\n\nThen, I will use this dictionary to perform the calculation by accessing the appropriate lambda function based on the `operation` parameter. The updated function will look like this:\n\n```python\ndef calculate(x, y, operation):\n    return operations[operation](x, y)\n```\n\nThis refactoring replaces the if-elif chain with a dictionary-based dispatch, making the code more concise and easier to maintain.\n&lt;/proposed-result&gt;\n\n&lt;human-correction&gt;\nGood start, but add error handling: raise ValueError for unknown operations and ZeroDivisionError for division by zero.\n&lt;/human-correction&gt;')</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c8-st-0014">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-15">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">step_result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">run_step</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+<span class="n">step_result</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-15">step_result = await task_handler.run_step(step)
+step_result</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO (llm_agents_fs.SupervisedTaskHandler) :      ⚙️ Processing Step: The human operator REJECTED your proposed task result. Revise your approach and try again.
+
+&lt;proposed-result&gt;
+I will define the `o...[TRUNCATED]
+INFO (llm_agents_fs.SupervisedTaskHandler) :      ✅ Step Result: I need to revise the function to include error handling as requested. Specifically, I should:
+
+1. Add a check to raise a `ValueError` i...[TRUNCATED]
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[14]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>TaskStepResult(task_step_id='0e361fcc-5680-4abc-94f7-aed80e88ddff', content='I need to revise the function to include error handling as requested. Specifically, I should:\n\n1. Add a check to raise a `ValueError` if the `operation` is not found in the `operations` dictionary.\n2. Add a check to raise a `ZeroDivisionError` if the `operation` is "divide" and `y` is zero.\n\nHere\'s the updated function with error handling:\n\n```python\ndef calculate(x, y, operation):\n    operations = {\n        "add": lambda x, y: x + y,\n        "subtract": lambda x, y: x - y,\n        "multiply": lambda x, y: x * y,\n        "divide": lambda x, y: x / y\n    }\n\n    if operation not in operations:\n        raise ValueError(f"Unknown operation: {operation}")\n\n    if operation == "divide" and y == 0:\n        raise ZeroDivisionError("Division by zero is not allowed")\n\n    return operations[operation](x, y)\n```\n\nThis version includes the requested error handling while maintaining the dictionary-based dispatch approach.')</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c8-st-0015">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-16">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">get_next_step</span><span class="p">(</span><span class="n">step_result</span><span class="p">)</span>
+<span class="n">result</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-16">result = await task_handler.get_next_step(step_result)
+result</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO (llm_agents_fs.SupervisedTaskHandler) :      No new step required.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[15]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>TaskResult(task_id='527becc1-a663-4567-aaf6-921dbf134483', content='I need to revise the function to include error handling as requested. Specifically, I should:\n\n1. Add a check to raise a `ValueError` if the `operation` is not found in the `operations` dictionary.\n2. Add a check to raise a `ZeroDivisionError` if the `operation` is "divide" and `y` is zero.\n\nHere\'s the updated function with error handling:\n\n```python\ndef calculate(x, y, operation):\n    operations = {\n        "add": lambda x, y: x + y,\n        "subtract": lambda x, y: x - y,\n        "multiply": lambda x, y: x * y,\n        "divide": lambda x, y: x / y\n    }\n\n    if operation not in operations:\n        raise ValueError(f"Unknown operation: {operation}")\n\n    if operation == "divide" and y == 0:\n        raise ZeroDivisionError("Division by zero is not allowed")\n\n    return operations[operation](x, y)\n```\n\nThis version includes the requested error handling while maintaining the dictionary-based dispatch approach.')</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c8-st-0016">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-17">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">complete</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-17">await task_handler.complete(result)
+print(result.content)</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>I need to revise the function to include error handling as requested. Specifically, I should:
+
+1. Add a check to raise a `ValueError` if the `operation` is not found in the `operations` dictionary.
+2. Add a check to raise a `ZeroDivisionError` if the `operation` is "divide" and `y` is zero.
+
+Here's the updated function with error handling:
+
+```python
+def calculate(x, y, operation):
+    operations = {
+        "add": lambda x, y: x + y,
+        "subtract": lambda x, y: x - y,
+        "multiply": lambda x, y: x * y,
+        "divide": lambda x, y: x / y
+    }
+
+    if operation not in operations:
+        raise ValueError(f"Unknown operation: {operation}")
+
+    if operation == "divide" and y == 0:
+        raise ZeroDivisionError("Division by zero is not allowed")
+
+    return operations[operation](x, y)
+```
+
+This version includes the requested error handling while maintaining the dictionary-based dispatch approach.
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c8-st-0017">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="trajectory-2-abort">Trajectory 2: Abort<a class="anchor-link" href="#trajectory-2-abort">¶</a></h2><p>The agent is asked to refactor the authentication module. After seeing the
+first planned step, the human realises the task conflicts with an ongoing
+security audit and calls <code>abort()</code>. The handler terminates cleanly and the
+caller can inspect the exception that was set.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=c8-st-0018">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-18">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">task2</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span>
+    <span class="n">instruction</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">"Refactor the authentication module to consolidate all login, "</span>
+        <span class="s2">"logout, and session renewal functions into a single AuthService class."</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+<span class="n">task_handler2</span> <span class="o">=</span> <span class="k">await</span> <span class="n">agent</span><span class="o">.</span><span class="n">run_supervised</span><span class="p">(</span><span class="n">task2</span><span class="p">)</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-18">task2 = Task(
+    instruction=(
+        "Refactor the authentication module to consolidate all login, "
+        "logout, and session renewal functions into a single AuthService class."
+    ),
+)
+task_handler2 = await agent.run_supervised(task2)</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c8-st-0019">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-19">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">step</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler2</span><span class="o">.</span><span class="n">get_next_step</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">step</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-19">step = await task_handler2.get_next_step(None)
+step</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[18]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>TaskStep(id_='c14e474b-986c-4b7f-b513-575df74eb097', task_id='8361095e-898f-4ce6-95e6-949c78a481f8', instruction='Refactor the authentication module to consolidate all login, logout, and session renewal functions into a single AuthService class.')</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=c8-st-0020">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-20">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="k">await</span> <span class="n">task_handler2</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span>
+    <span class="n">error</span><span class="o">=</span><span class="ne">RuntimeError</span><span class="p">(</span>
+        <span class="s2">"Refactoring auth is blocked pending the security audit. "</span>
+        <span class="s2">"Revisit after the audit completes."</span><span class="p">,</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-20">await task_handler2.abort(
+    error=RuntimeError(
+        "Refactoring auth is blocked pending the security audit. "
+        "Revisit after the audit completes.",
+    ),
+)</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c8-st-0021">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-21">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">task_handler2</span><span class="o">.</span><span class="n">exception</span><span class="p">()</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-21">task_handler2.exception()</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[20]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>RuntimeError('Refactoring auth is blocked pending the security audit. Revisit after the audit completes.')</pre>
 </div>
 </div>
 </div>
@@ -4728,44 +5052,6 @@ INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The next number in the
       
         <footer class="md-footer">
   
-    
-      
-      <nav class="md-footer__inner md-grid" aria-label="Footer" >
-        
-          
-          <a href="../ch05/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Chapter 5 — MCP Tools">
-            <div class="md-footer__button md-icon">
-              
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
-            </div>
-            <div class="md-footer__title">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              <div class="md-ellipsis">
-                Chapter 5 — MCP Tools
-              </div>
-            </div>
-          </a>
-        
-        
-          
-          <a href="../../more-examples/" class="md-footer__link md-footer__link--next" aria-label="Next: Running the Notebooks">
-            <div class="md-footer__title">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              <div class="md-ellipsis">
-                Running the Notebooks
-              </div>
-            </div>
-            <div class="md-footer__button md-icon">
-              
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
-            </div>
-          </a>
-        
-      </nav>
     
   
   <div class="md-footer-meta md-typeset">
@@ -4825,10 +5111,10 @@ INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The next number in the
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.annotate", "content.code.copy", "content.tabs.link", "navigation.footer", "navigation.indexes", "navigation.instant", "navigation.tabs", "navigation.top", "search.suggest", "search.highlight", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["content.code.annotate", "content.code.copy", "content.tabs.link", "navigation.footer", "navigation.indexes", "navigation.instant", "navigation.tabs", "navigation.top", "search.suggest", "search.highlight", "toc.follow"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>

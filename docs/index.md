@@ -168,6 +168,16 @@ points at the same JSONL file and picks up all prior episodes from disk.
 </div>
 
 <div class="landing-card landing-card--example" markdown>
+### :material-comment-question-outline: HumanInputTool Inside a Skill
+
+A `meeting-notes-summarizer` skill that asks the operator two constrained
+questions — format and detail level — before producing its output. Shows
+that HITL can be embedded in a skill, not just wired at the agent level.
+
+[Open Notebook](more-examples/ch08/skill_with_human_input.ipynb){ .md-button .md-button--primary }
+</div>
+
+<div class="landing-card landing-card--example" markdown>
 ### :material-human-edit: Supervised Trajectories
 
 Step through two `SupervisedTaskHandler` trajectories: a reject-and-revise

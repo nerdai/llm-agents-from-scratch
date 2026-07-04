@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - feat: implement end-of-loop human approval gate in `_process_loop` — adds `with_approval` param to `LLMAgent.run()`, `TaskHandler.request_approval()`, `TaskHandler._prompt_for_approval()`, `ApprovalResult` data structure, three approval template keys, and `rich>=13.9.0` dependency (#688)
 - feat: implement HumanInputTool (#685)
 
+### Changed
+
+- fix: add from_scratch__ prefix to HumanInputTool name (#704)
+
 ## [0.0.19] - 2026-06-23
 
 ### Added

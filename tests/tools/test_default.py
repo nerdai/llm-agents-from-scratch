@@ -270,7 +270,7 @@ def test_default_tools_contains_python_interpreter_tool() -> None:
 def test_human_input_tool_name() -> None:
     """Tests HumanInputTool.name."""
     tool = HumanInputTool()
-    assert tool.name == "human_input"
+    assert tool.name == "from_scratch__human_input"
 
 
 def test_human_input_tool_description() -> None:
@@ -293,7 +293,7 @@ def test_human_input_tool_returns_response() -> None:
     """Tests HumanInputTool returns the human's response as content."""
     tool = HumanInputTool()
     tool_call = ToolCall(
-        tool_name="human_input",
+        tool_name="from_scratch__human_input",
         arguments={"prompt": "What is your name?"},
     )
 
@@ -308,7 +308,7 @@ def test_human_input_tool_passes_prompt_to_input() -> None:
     """Tests HumanInputTool renders the prompt in a Panel and uses > inline."""
     tool = HumanInputTool()
     tool_call = ToolCall(
-        tool_name="human_input",
+        tool_name="from_scratch__human_input",
         arguments={"prompt": "How old are you?"},
     )
 
@@ -328,7 +328,7 @@ def test_human_input_tool_missing_prompt_defaults_to_empty() -> None:
     """Tests HumanInputTool defaults to empty string when prompt is absent."""
     tool = HumanInputTool()
     tool_call = ToolCall(
-        tool_name="human_input",
+        tool_name="from_scratch__human_input",
         arguments={},
     )
 
@@ -348,7 +348,7 @@ def test_human_input_tool_choices_passed_to_prompt() -> None:
     """Tests HumanInputTool passes choices to Prompt.ask when provided."""
     tool = HumanInputTool()
     tool_call = ToolCall(
-        tool_name="human_input",
+        tool_name="from_scratch__human_input",
         arguments={"prompt": "Pick one:", "choices": ["yes", "no"]},
     )
 
@@ -371,7 +371,7 @@ def test_human_input_tool_eof_error() -> None:
     """Tests HumanInputTool returns error result on EOFError."""
     tool = HumanInputTool()
     tool_call = ToolCall(
-        tool_name="human_input",
+        tool_name="from_scratch__human_input",
         arguments={"prompt": "Enter value:"},
     )
 
@@ -387,7 +387,7 @@ def test_human_input_tool_keyboard_interrupt() -> None:
     """Tests HumanInputTool returns error result on KeyboardInterrupt."""
     tool = HumanInputTool()
     tool_call = ToolCall(
-        tool_name="human_input",
+        tool_name="from_scratch__human_input",
         arguments={"prompt": "Enter value:"},
     )
 

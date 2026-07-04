@@ -11,7 +11,7 @@ Produce a summary of a meeting transcript provided by the user.
 
 ### 1. Ask for format preference
 
-Call `human_input` with:
+Call `from_scratch__human_input` with:
 - `prompt`: "What format would you like the summary in?"
 - `choices`: `["bullet-points", "prose"]`
 
@@ -19,7 +19,7 @@ Record the response as `format_preference`.
 
 ### 2. Ask for detail level
 
-Call `human_input` with:
+Call `from_scratch__human_input` with:
 - `prompt`: "What level of detail?"
 - `choices`: `["brief", "detailed"]`
 

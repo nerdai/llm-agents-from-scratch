@@ -21,7 +21,7 @@ class HumanInputTool(BaseTool):
     @property
     def name(self) -> str:
         """Name of the human-input tool."""
-        return "human_input"
+        return "from_scratch__human_input"
 
     @property
     def description(self) -> str:

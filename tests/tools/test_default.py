@@ -324,24 +324,26 @@ def test_human_input_tool_passes_prompt_to_input() -> None:
     )
 
 
-def test_human_input_tool_missing_prompt_defaults_to_empty() -> None:
-    """Tests HumanInputTool defaults to empty string when prompt is absent."""
+def test_human_input_tool_missing_prompt_returns_error() -> None:
+    """Tests HumanInputTool returns error when prompt is absent."""
     tool = HumanInputTool()
     tool_call = ToolCall(
         tool_name="from_scratch__human_input",
         arguments={},
     )
+    result = tool(tool_call=tool_call)
+    assert result.error is True
 
-    with (
-        patch("rich.console.Console.print"),
-        patch("rich.prompt.Prompt.ask", return_value="ok") as mock_ask,
-    ):
-        tool(tool_call=tool_call)
 
-    mock_ask.assert_called_once_with(
-        ">",
-        console=mock_ask.call_args.kwargs["console"],
+def test_human_input_tool_empty_prompt_returns_error() -> None:
+    """Tests HumanInputTool returns error when prompt is an empty string."""
+    tool = HumanInputTool()
+    tool_call = ToolCall(
+        tool_name="from_scratch__human_input",
+        arguments={"prompt": ""},
     )
+    result = tool(tool_call=tool_call)
+    assert result.error is True
 
 
 def test_human_input_tool_choices_passed_to_prompt() -> None:

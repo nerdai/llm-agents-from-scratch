@@ -19,7 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-- fix: add from_scratch__ prefix to HumanInputTool name (#704)
+- fix: guard `HumanInputTool.__call__()` against empty or absent `prompt` — returns an error `ToolCallResult` early; `"required"` in the JSON schema guarantees the key is present but not non-empty (#706)
+- fix: add `from_scratch__` prefix to `HumanInputTool.name` to match the naming convention of the other default tools (#704)
 
 ## [0.0.19] - 2026-06-23
 

@@ -80,6 +80,12 @@ class HumanInputTool(BaseTool):
             ToolCallResult: The human's response as the content.
         """
         prompt = tool_call.arguments.get("prompt", "")
+        if not prompt:
+            return ToolCallResult(
+                tool_call_id=tool_call.id_,
+                content="No prompt provided.",
+                error=True,
+            )
         choices = tool_call.arguments.get("choices")
         try:
             console = Console()

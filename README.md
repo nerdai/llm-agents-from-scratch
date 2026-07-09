@@ -51,8 +51,8 @@ core concepts to full multi-agent systems.
 | -- | ----- | -------- |
 | 5 | MCP Tools | [Ch 5](https://masfromscratch.com/notebooks/ch05/) |
 | 6 | Skills | [Ch 6](https://masfromscratch.com/notebooks/ch06/) |
-| 7 | Memory | — |
-| 8 | Human in the Loop | — |
+| 7 | Memory | [Ch 7](https://masfromscratch.com/notebooks/ch07/) |
+| 8 | Human in the Loop | [Ch 8](https://masfromscratch.com/notebooks/ch08/) |
 
 ### Part 3 — Building Multi-Agent Systems
 

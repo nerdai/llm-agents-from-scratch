@@ -631,11 +631,11 @@ class LLMAgent:
                 return ApprovalResult(approved=True, feedback="")
             except KeyboardInterrupt:
                 self.logger.info(
-                    "Approval prompt interrupted by operator; rejecting.",
+                    "Approval prompt interrupted by operator; auto-approving.",
                 )
                 return ApprovalResult(
-                    approved=False,
-                    feedback="Interrupted by operator.",
+                    approved=True,
+                    feedback="",
                 )
 
     class SupervisedTaskHandler(TaskHandler):

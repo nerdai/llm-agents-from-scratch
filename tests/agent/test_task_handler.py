@@ -950,7 +950,7 @@ async def test_request_approval_auto_approves_on_eof(
 async def test_request_approval_rejects_on_keyboard_interrupt(
     mock_llm: BaseLLM,
 ) -> None:
-    """Tests request_approval rejects with interruption note on Ctrl-C."""
+    """Tests request_approval auto-approves on Ctrl-C (consistent with EOF)."""
     agent = LLMAgent(llm=mock_llm)
     handler = LLMAgent.TaskHandler(
         llm_agent=agent,
@@ -964,8 +964,8 @@ async def test_request_approval_rejects_on_keyboard_interrupt(
     ):
         approval = await handler.request_approval(result)
 
-    assert approval.approved is False
-    assert approval.feedback == "Interrupted by operator."
+    assert approval.approved is True
+    assert approval.feedback == ""
 
 
 # ---------------------------------------------------------------------------

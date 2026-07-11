@@ -600,12 +600,12 @@ class LLMAgent:
             """
 
             def _prompt_for_approval(
-                proposed_content: str,
+                task_result: TaskResult,
             ) -> ApprovalResult:
                 console = Console()
                 console.print(
                     Panel(
-                        proposed_content,
+                        task_result.content,
                         title="Proposed Task Result",
                         border_style="cyan",
                     ),
@@ -622,7 +622,7 @@ class LLMAgent:
             try:
                 return await asyncio.to_thread(
                     _prompt_for_approval,
-                    result.content,
+                    result,
                 )
             except EOFError:
                 self.logger.info(

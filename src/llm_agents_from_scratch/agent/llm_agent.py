@@ -600,34 +600,29 @@ class LLMAgent:
             """
 
             def _prompt_for_approval(
-                proposed_content: str,
-                prompt_text: str,
-                rationale_prompt_text: str,
+                task_result: TaskResult,
             ) -> ApprovalResult:
                 console = Console()
                 console.print(
                     Panel(
-                        proposed_content,
+                        task_result.content,
                         title="Proposed Task Result",
                         border_style="cyan",
                     ),
                 )
-                approved = Confirm.ask(prompt_text, console=console)
+                approved = Confirm.ask("Approve this result?", console=console)
                 if approved:
                     return ApprovalResult(approved=True, feedback="")
-                feedback = Prompt.ask(rationale_prompt_text, console=console)
+                feedback = Prompt.ask(
+                    "Provide your correction rationale for the LLM agent to address",  # noqa: E501
+                    console=console,
+                )
                 return ApprovalResult(approved=False, feedback=feedback)
 
-            prompt_text = self.llm_agent.templates["approval_prompt"]
-            rationale_prompt_text = self.llm_agent.templates[
-                "approval_rationale_prompt"
-            ]
             try:
                 return await asyncio.to_thread(
                     _prompt_for_approval,
-                    result.content,
-                    prompt_text,
-                    rationale_prompt_text,
+                    result,
                 )
             except EOFError:
                 self.logger.info(

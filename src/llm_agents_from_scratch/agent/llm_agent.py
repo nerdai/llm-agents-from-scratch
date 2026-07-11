@@ -577,43 +577,6 @@ class LLMAgent:
             for memory in self.llm_agent.memories:
                 await memory.record(episode)
 
-        @staticmethod
-        def _prompt_for_approval(
-            proposed_content: str,
-            prompt_text: str,
-            rationale_prompt_text: str,
-        ) -> ApprovalResult:
-            """Render the proposed result and collect a yes/no approval.
-
-            Added in Chapter 8.
-
-            Synchronous helper intended to be called via ``asyncio.to_thread``.
-            Raises ``EOFError`` on closed stdin and ``KeyboardInterrupt`` on
-            operator interrupt — both are handled by the caller.
-
-            Args:
-                proposed_content: The result content to render in a ``Panel``.
-                prompt_text: The yes/no question text.
-                rationale_prompt_text: The rationale prompt shown on rejection.
-
-            Returns:
-                ApprovalResult: ``approved=True`` on yes; ``approved=False``
-                    with the rationale on no.
-            """
-            console = Console()
-            console.print(
-                Panel(
-                    proposed_content,
-                    title="Proposed Task Result",
-                    border_style="cyan",
-                ),
-            )
-            approved = Confirm.ask(prompt_text, console=console)
-            if approved:
-                return ApprovalResult(approved=True, feedback="")
-            feedback = Prompt.ask(rationale_prompt_text, console=console)
-            return ApprovalResult(approved=False, feedback=feedback)
-
         async def request_approval(
             self,
             result: TaskResult,
@@ -635,13 +598,33 @@ class LLMAgent:
             Returns:
                 ApprovalResult: The approval decision.
             """
+
+            def _prompt_for_approval(
+                proposed_content: str,
+                prompt_text: str,
+                rationale_prompt_text: str,
+            ) -> ApprovalResult:
+                console = Console()
+                console.print(
+                    Panel(
+                        proposed_content,
+                        title="Proposed Task Result",
+                        border_style="cyan",
+                    ),
+                )
+                approved = Confirm.ask(prompt_text, console=console)
+                if approved:
+                    return ApprovalResult(approved=True, feedback="")
+                feedback = Prompt.ask(rationale_prompt_text, console=console)
+                return ApprovalResult(approved=False, feedback=feedback)
+
             prompt_text = self.llm_agent.templates["approval_prompt"]
             rationale_prompt_text = self.llm_agent.templates[
                 "approval_rationale_prompt"
             ]
             try:
                 return await asyncio.to_thread(
-                    self._prompt_for_approval,
+                    _prompt_for_approval,
                     result.content,
                     prompt_text,
                     rationale_prompt_text,

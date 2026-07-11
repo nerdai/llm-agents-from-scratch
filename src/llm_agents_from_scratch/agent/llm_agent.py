@@ -588,9 +588,8 @@ class LLMAgent:
             Operator-gated human-in-the-loop pattern; unlike
             ``HumanInputTool``, the pause is not agent-initiated.
             Runs the blocking rich prompts in a thread via
-            ``asyncio.to_thread``. Auto-approves on ``EOFError``
-            (headless); rejects with an interruption note on
-            ``KeyboardInterrupt``.
+            ``asyncio.to_thread``. Auto-approves on ``EOFError`` or
+            ``KeyboardInterrupt`` (headless / interrupted terminal).
 
             Args:
                 result (TaskResult): The proposed task result to review.

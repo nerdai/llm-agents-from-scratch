@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- fix: `KeyboardInterrupt` in `request_approval()` now auto-approves (consistent with `EOFError`) instead of rejecting (#713)
 - refactor: remove `approval_prompt` and `approval_rationale_prompt` from `LLMAgentTemplates` — human-facing strings rendered by `rich`, not LLM prompts; hardcoded directly in `_prompt_for_approval()`; `TaskResult` now passed directly instead of its content string (#711)
 - refactor: move `_prompt_for_approval` inside `request_approval()` as a local function; it was only ever called from there via `asyncio.to_thread` (#709)
 - fix: guard `HumanInputTool.__call__()` against empty or absent `prompt` — returns an error `ToolCallResult` early; `"required"` in the JSON schema guarantees the key is present but not non-empty (#706)

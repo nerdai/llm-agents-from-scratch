@@ -618,16 +618,13 @@ class LLMAgent:
                 feedback = Prompt.ask(rationale_prompt_text, console=console)
                 return ApprovalResult(approved=False, feedback=feedback)
 
-            prompt_text = self.llm_agent.templates["approval_prompt"]
-            rationale_prompt_text = self.llm_agent.templates[
-                "approval_rationale_prompt"
-            ]
             try:
                 return await asyncio.to_thread(
                     _prompt_for_approval,
                     result.content,
-                    prompt_text,
-                    rationale_prompt_text,
+                    "Approve this result?",
+                    "Provide your correction rationale for the agent"
+                    " to address",
                 )
             except EOFError:
                 self.logger.info(

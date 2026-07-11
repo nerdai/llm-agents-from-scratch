@@ -5218,11 +5218,11 @@ the LLM with, represented as a dict.</p>
 </span><span id="__span-0-631"><a id="__codelineno-0-631" name="__codelineno-0-631"></a>                <span class="k">return</span> <span class="n">ApprovalResult</span><span class="p">(</span><span class="n">approved</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">feedback</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 </span><span id="__span-0-632"><a id="__codelineno-0-632" name="__codelineno-0-632"></a>            <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
 </span><span id="__span-0-633"><a id="__codelineno-0-633" name="__codelineno-0-633"></a>                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-</span><span id="__span-0-634"><a id="__codelineno-0-634" name="__codelineno-0-634"></a>                    <span class="s2">&quot;Approval prompt interrupted by operator; rejecting.&quot;</span><span class="p">,</span>
+</span><span id="__span-0-634"><a id="__codelineno-0-634" name="__codelineno-0-634"></a>                    <span class="s2">&quot;Approval prompt interrupted by operator; auto-approving.&quot;</span><span class="p">,</span>
 </span><span id="__span-0-635"><a id="__codelineno-0-635" name="__codelineno-0-635"></a>                <span class="p">)</span>
 </span><span id="__span-0-636"><a id="__codelineno-0-636" name="__codelineno-0-636"></a>                <span class="k">return</span> <span class="n">ApprovalResult</span><span class="p">(</span>
-</span><span id="__span-0-637"><a id="__codelineno-0-637" name="__codelineno-0-637"></a>                    <span class="n">approved</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-638"><a id="__codelineno-0-638" name="__codelineno-0-638"></a>                    <span class="n">feedback</span><span class="o">=</span><span class="s2">&quot;Interrupted by operator.&quot;</span><span class="p">,</span>
+</span><span id="__span-0-637"><a id="__codelineno-0-637" name="__codelineno-0-637"></a>                    <span class="n">approved</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-0-638"><a id="__codelineno-0-638" name="__codelineno-0-638"></a>                    <span class="n">feedback</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
 </span><span id="__span-0-639"><a id="__codelineno-0-639" name="__codelineno-0-639"></a>                <span class="p">)</span>
 </span><span id="__span-0-640"><a id="__codelineno-0-640" name="__codelineno-0-640"></a>
 </span><span id="__span-0-641"><a id="__codelineno-0-641" name="__codelineno-0-641"></a>    <span class="k">class</span><span class="w"> </span><span class="nc">SupervisedTaskHandler</span><span class="p">(</span><span class="n">TaskHandler</span><span class="p">):</span>
@@ -6714,11 +6714,11 @@ otherwise. Added in Chapter 6.</p>
 </span><span id="__span-0-631"><a id="__codelineno-0-631" name="__codelineno-0-631"></a>            <span class="k">return</span> <span class="n">ApprovalResult</span><span class="p">(</span><span class="n">approved</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">feedback</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 </span><span id="__span-0-632"><a id="__codelineno-0-632" name="__codelineno-0-632"></a>        <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
 </span><span id="__span-0-633"><a id="__codelineno-0-633" name="__codelineno-0-633"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-</span><span id="__span-0-634"><a id="__codelineno-0-634" name="__codelineno-0-634"></a>                <span class="s2">&quot;Approval prompt interrupted by operator; rejecting.&quot;</span><span class="p">,</span>
+</span><span id="__span-0-634"><a id="__codelineno-0-634" name="__codelineno-0-634"></a>                <span class="s2">&quot;Approval prompt interrupted by operator; auto-approving.&quot;</span><span class="p">,</span>
 </span><span id="__span-0-635"><a id="__codelineno-0-635" name="__codelineno-0-635"></a>            <span class="p">)</span>
 </span><span id="__span-0-636"><a id="__codelineno-0-636" name="__codelineno-0-636"></a>            <span class="k">return</span> <span class="n">ApprovalResult</span><span class="p">(</span>
-</span><span id="__span-0-637"><a id="__codelineno-0-637" name="__codelineno-0-637"></a>                <span class="n">approved</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-638"><a id="__codelineno-0-638" name="__codelineno-0-638"></a>                <span class="n">feedback</span><span class="o">=</span><span class="s2">&quot;Interrupted by operator.&quot;</span><span class="p">,</span>
+</span><span id="__span-0-637"><a id="__codelineno-0-637" name="__codelineno-0-637"></a>                <span class="n">approved</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-0-638"><a id="__codelineno-0-638" name="__codelineno-0-638"></a>                <span class="n">feedback</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
 </span><span id="__span-0-639"><a id="__codelineno-0-639" name="__codelineno-0-639"></a>            <span class="p">)</span>
 </span></code></pre></div></td></tr></table></div>
               </details>
@@ -8057,11 +8057,11 @@ Runs the blocking rich prompts in a thread via
 </span><span id="__span-0-631"><a id="__codelineno-0-631" name="__codelineno-0-631"></a>        <span class="k">return</span> <span class="n">ApprovalResult</span><span class="p">(</span><span class="n">approved</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">feedback</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 </span><span id="__span-0-632"><a id="__codelineno-0-632" name="__codelineno-0-632"></a>    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
 </span><span id="__span-0-633"><a id="__codelineno-0-633" name="__codelineno-0-633"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-</span><span id="__span-0-634"><a id="__codelineno-0-634" name="__codelineno-0-634"></a>            <span class="s2">&quot;Approval prompt interrupted by operator; rejecting.&quot;</span><span class="p">,</span>
+</span><span id="__span-0-634"><a id="__codelineno-0-634" name="__codelineno-0-634"></a>            <span class="s2">&quot;Approval prompt interrupted by operator; auto-approving.&quot;</span><span class="p">,</span>
 </span><span id="__span-0-635"><a id="__codelineno-0-635" name="__codelineno-0-635"></a>        <span class="p">)</span>
 </span><span id="__span-0-636"><a id="__codelineno-0-636" name="__codelineno-0-636"></a>        <span class="k">return</span> <span class="n">ApprovalResult</span><span class="p">(</span>
-</span><span id="__span-0-637"><a id="__codelineno-0-637" name="__codelineno-0-637"></a>            <span class="n">approved</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-638"><a id="__codelineno-0-638" name="__codelineno-0-638"></a>            <span class="n">feedback</span><span class="o">=</span><span class="s2">&quot;Interrupted by operator.&quot;</span><span class="p">,</span>
+</span><span id="__span-0-637"><a id="__codelineno-0-637" name="__codelineno-0-637"></a>            <span class="n">approved</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-0-638"><a id="__codelineno-0-638" name="__codelineno-0-638"></a>            <span class="n">feedback</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
 </span><span id="__span-0-639"><a id="__codelineno-0-639" name="__codelineno-0-639"></a>        <span class="p">)</span>
 </span></code></pre></div></td></tr></table></div>
             </details>

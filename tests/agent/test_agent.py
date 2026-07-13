@@ -192,6 +192,58 @@ def test_run_with_skill_with_prompt(mock_llm: BaseLLM) -> None:
     assert task.instruction == expected
 
 
+@pytest.mark.asyncio
+async def test_run_supervised_with_skill_no_prompt(mock_llm: BaseLLM) -> None:
+    """Tests run_supervised_with_skill builds instruction without prompt."""
+    agent = LLMAgent(llm=mock_llm)
+
+    with patch.object(
+        agent,
+        "run_supervised",
+        new_callable=AsyncMock,
+    ) as mock_sup:
+        await agent.run_supervised_with_skill("summarize")
+
+    task = mock_sup.call_args.kwargs["task"]
+    expected = EXPLICIT_SKILL_ACTIVATION_TEMPLATE.format(name="summarize")
+    assert task.instruction == expected
+
+
+@pytest.mark.asyncio
+async def test_run_supervised_with_skill_with_prompt(mock_llm: BaseLLM) -> None:
+    """Tests run_supervised_with_skill builds instruction with prompt."""
+    agent = LLMAgent(llm=mock_llm)
+
+    with patch.object(
+        agent,
+        "run_supervised",
+        new_callable=AsyncMock,
+    ) as mock_sup:
+        await agent.run_supervised_with_skill(
+            "summarize",
+            prompt="Summarize this doc",
+        )
+
+    task = mock_sup.call_args.kwargs["task"]
+    expected = EXPLICIT_SKILL_ACTIVATION_WITH_PROMPT_TEMPLATE.format(
+        name="summarize",
+        prompt="Summarize this doc",
+    )
+    assert task.instruction == expected
+
+
+@pytest.mark.asyncio
+async def test_run_supervised_with_skill_returns_supervised_task_handler(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests run_supervised_with_skill returns a SupervisedTaskHandler."""
+    agent = LLMAgent(llm=mock_llm)
+
+    handler = await agent.run_supervised_with_skill("summarize")
+
+    assert isinstance(handler, LLMAgent.SupervisedTaskHandler)
+
+
 # Memory record tests (Chapter 7)
 
 

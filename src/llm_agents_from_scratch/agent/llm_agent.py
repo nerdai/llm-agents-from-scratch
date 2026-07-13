@@ -899,3 +899,47 @@ class LLMAgent:
         )
         await task_handler.load_memories()
         return task_handler
+
+    async def run_supervised_with_skill(
+        self,
+        skill_name: str,
+        prompt: str | None = None,
+        skills_scopes: list[SkillScope] | None = None,
+        explicit_only_skills: set[str] | None = None,
+    ) -> SupervisedTaskHandler:
+        """Human-driven stepwise execution with a pre-loaded skill.
+
+        Added in Chapter 8. Combines ``run_with_skill()`` (skill
+        activation framing) with ``run_supervised()`` (caller-controlled
+        cadence). The named skill is embedded in the task instruction so
+        the model activates it as its first action; the caller then
+        drives execution cell-by-cell via ``get_next_step()`` and
+        ``run_step()``.
+
+        Args:
+            skill_name (str): Name of the skill to activate.
+            prompt (str | None): Optional instruction to pass alongside
+                the skill activation. Defaults to None.
+            skills_scopes (list[SkillScope] | None): Scopes to scan for
+                skills. Defaults to ``[USER, PROJECT]``.
+            explicit_only_skills (set[str] | None): Skill names to
+                exclude from the model catalog. Defaults to None.
+
+        Returns:
+            SupervisedTaskHandler: Ready for stepwise execution.
+        """
+        if prompt:
+            instruction = EXPLICIT_SKILL_ACTIVATION_WITH_PROMPT_TEMPLATE.format(
+                name=skill_name,
+                prompt=prompt,
+            )
+        else:
+            instruction = EXPLICIT_SKILL_ACTIVATION_TEMPLATE.format(
+                name=skill_name,
+            )
+        task = Task(instruction=instruction)
+        return await self.run_supervised(
+            task=task,
+            skills_scopes=skills_scopes,
+            explicit_only_skills=explicit_only_skills,
+        )

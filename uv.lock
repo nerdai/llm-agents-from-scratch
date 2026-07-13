@@ -1455,7 +1455,7 @@ wheels = [
 
 [[package]]
 name = "llm-agents-from-scratch"
-version = "0.0.19"
+version = "0.0.20"
 source = { editable = "." }
 dependencies = [
     { name = "asyncio" },

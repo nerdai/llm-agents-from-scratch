@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- ...
+
+## [0.0.20] - 2026-07-13
+
 ### Added
 
 - feat: add `LLMAgent.run_supervised_with_skill()` — combines skill-activation framing with caller-controlled stepwise execution; returns a `SupervisedTaskHandler` ready for `get_next_step()` / `run_step()` (#719)

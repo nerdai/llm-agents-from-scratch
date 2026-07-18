@@ -145,8 +145,9 @@ theme:
     - search.suggest
     - search.highlight
     - toc.follow
+  logo: assets/favicon.svg
+  favicon: assets/favicon.svg
   icon:
-    logo: material/robot
     repo: fontawesome/brands/github
   palette:
     - media: "(prefers-color-scheme: light)"

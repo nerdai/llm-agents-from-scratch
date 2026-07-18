@@ -145,7 +145,7 @@ theme:
     - search.suggest
     - search.highlight
     - toc.follow
-  logo: assets/favicon.svg
+  logo: assets/logo.svg
   favicon: assets/favicon.svg
   icon:
     repo: fontawesome/brands/github

@@ -1,9 +1,12 @@
 @startuml uml_ch08_supervised_taskhandler
 !include ../common/book-clean.puml
+left to right direction
 
 package "llm_agents_from_scratch.agent" <<Folder>> {
 
   class "LLMAgent.TaskHandler" as TaskHandler {
+    <color:#aaaaaa>...</color>
+    --
     <color:#aaaaaa>...</color>
   }
 
@@ -33,5 +36,8 @@ package "llm_agents_from_scratch.agent" <<Folder>> {
 
 ' Relations
 TaskHandler <|-- SupervisedTaskHandler : " inherits"
+
+' Layout only: keep all three on one row
+LLMAgent -[hidden]- TaskHandler
 
 @enduml

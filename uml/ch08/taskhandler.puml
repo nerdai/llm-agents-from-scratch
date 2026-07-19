@@ -1,0 +1,54 @@
+@startuml uml_ch08_taskhandler_updates
+!include ../common/book-clean.puml
+left to right direction
+
+package "llm_agents_from_scratch.data_structures" <<Folder>> {
+  class ApprovalResult {
+    +approved: bool
+    +feedback: str = ""
+  }
+
+  class RejectedTaskResult {
+    +failed_result_content: str
+    +feedback: str
+  }
+}
+
+package "llm_agents_from_scratch.agent" <<Folder>> {
+
+  class LLMAgent {
+    <color:#aaaaaa>+llm: LLM</color>
+    <color:#aaaaaa>+tools_registry: dict[str, Tool]</color>
+    <color:#aaaaaa>+templates: LLMAgentTemplates</color>
+    <color:#aaaaaa>+logger: Logger</color>
+    <color:#aaaaaa>+memories: list[Memory]</color>
+    --
+    <color:#aaaaaa>+tools: list[Tool]</color>
+    <color:#aaaaaa>+add_tool(tool: Tool): Self</color>
+    +<b>run(task: Task, ...,</b>\n\t<b>with_approval: bool = False</b>\n<b>): TaskHandler</b>
+  }
+
+  class "LLMAgent.TaskHandler" as TaskHandler {
+    <color:#aaaaaa>+llm_agent: LLMAgent</color>
+    <color:#aaaaaa>+task: Task</color>
+    <color:#aaaaaa>+rollout: str</color>
+    <color:#aaaaaa>+step_counter: int</color>
+    <color:#aaaaaa>-_background_task: ~asyncio.Task</color>
+    <color:#aaaaaa>+skills: dict[str, Skill]</color>
+    <color:#aaaaaa>-_recalled_memories: str</color>
+    --
+    +<b><<async>> get_next_step(</b>\n\t<b>previous_step_result: TaskStepResult</b>\n\t\t<b>| RejectedTaskResult | None</b>\n<b>): TaskStep | TaskResult</b>
+    <color:#aaaaaa>+<<async>> run_step(step: TaskStep): TaskStepResult</color>
+    <color:#aaaaaa>-_format_step_for_rollout()</color>
+    <color:#aaaaaa>+<<async>> load_memories(): None</color>
+    <color:#aaaaaa>+<<async>> record_memory(...): None</color>
+    +<b><<async>> request_approval(</b>\n\t<b>result: TaskResult</b>\n<b>): ApprovalResult</b>
+  }
+}
+
+' Relations
+LLMAgent *-- TaskHandler : " has"
+TaskHandler ..> ApprovalResult : " returns"
+TaskHandler ..> RejectedTaskResult : " consumes"
+
+@enduml

@@ -1,6 +1,5 @@
 @startuml uml_ch08_supervised_taskhandler
 !include ../common/book-clean.puml
-left to right direction
 
 package "llm_agents_from_scratch.agent" <<Folder>> {
 
@@ -39,6 +38,5 @@ package "llm_agents_from_scratch.agent" <<Folder>> {
 
 ' Relations
 TaskHandler <|-- SupervisedTaskHandler : " inherits"
-LLMAgent *-- SupervisedTaskHandler : " has"
 
 @enduml

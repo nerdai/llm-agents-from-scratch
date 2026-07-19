@@ -1,4 +1,4 @@
-@startuml uml_ch08_taskhandler_updates
+@startuml uml_ch08_taskhandler_llmagent_updates_for_approval_gate
 !include ../common/book-clean.puml
 left to right direction
 

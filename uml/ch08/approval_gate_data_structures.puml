@@ -1,0 +1,28 @@
+@startuml approval_gate_data_structures
+!include ../common/book-clean.puml
+
+' External dependencies
+package "external_dependencies" <<Folder>> {
+  class "pydantic.BaseModel" as BaseModel
+}
+
+package "llm_agents_from_scratch.data_structures.agent" <<Folder>> {
+
+  class ApprovalResult {
+    +approved: bool
+    +feedback: str = ""
+    --
+    +__str__(): str
+  }
+
+  class RejectedTaskResult {
+    +failed_result_content: str
+    +feedback: str
+  }
+}
+
+' Relations
+BaseModel <|-- ApprovalResult : " inherits"
+BaseModel <|-- RejectedTaskResult : " inherits"
+
+@enduml

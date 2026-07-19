@@ -30,7 +30,7 @@ package "llm_agents_from_scratch.agent" <<Folder>> {
     <color:#aaaaaa>-_format_step_for_rollout()</color>
     <color:#aaaaaa>+<<async>> load_memories(): None</color>
     <color:#aaaaaa>+<<async>> record_memory(...): None</color>
-    +<b><<async>> request_approval(</b>\n\t<b>result: TaskResult</b>\n<b>): ApprovalResult</b>
+    +<<async>> request_approval(\n\tresult: TaskResult\n): ApprovalResult
   }
 }
 

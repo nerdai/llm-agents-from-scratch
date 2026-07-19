@@ -3,6 +3,18 @@
 
 package "llm_agents_from_scratch.agent" <<Folder>> {
 
+  class "LLMAgent.TaskHandler" as TaskHandler {
+    <color:#aaaaaa>...</color>
+  }
+
+  class "LLMAgent.SupervisedTaskHandler" as SupervisedTaskHandler {
+    +<<override>> background_task\n\t{getter and setter raise TaskHandlerError}
+    --
+    +<<async>> complete(result: TaskResult): None
+    +reject(\n\tresult: TaskResult,\n\tfeedback: str\n): RejectedTaskResult
+    +<<async>> abort(\n\terror: Exception | None = None\n): None
+  }
+
   class LLMAgent {
     <color:#aaaaaa>+llm: LLM</color>
     <color:#aaaaaa>+tools_registry: dict[str, Tool]</color>
@@ -16,23 +28,6 @@ package "llm_agents_from_scratch.agent" <<Folder>> {
     <color:#aaaaaa>+run_with_skill(skill_name: str, ...): TaskHandler</color>
     +<<async>> run_supervised(\n\ttask: Task, ...\n): SupervisedTaskHandler
     +<<async>> run_supervised_with_skill(\n\tskill_name: str, prompt: str | None, ...\n): SupervisedTaskHandler
-  }
-
-  class "LLMAgent.TaskHandler" as TaskHandler {
-    <color:#aaaaaa>+background_task: ~asyncio.Task</color>
-    <color:#aaaaaa>+<<async>> get_next_step(...): TaskStep | TaskResult</color>
-    <color:#aaaaaa>+<<async>> run_step(step: TaskStep): TaskStepResult</color>
-    <color:#aaaaaa>+<<async>> request_approval(...): ApprovalResult</color>
-    <color:#aaaaaa>+<<async>> load_memories(): None</color>
-    <color:#aaaaaa>+<<async>> record_memory(...): None</color>
-  }
-
-  class "LLMAgent.SupervisedTaskHandler" as SupervisedTaskHandler {
-    +<<override>> background_task\n\t{getter and setter raise TaskHandlerError}
-    --
-    +<<async>> complete(result: TaskResult): None
-    +reject(\n\tresult: TaskResult,\n\tfeedback: str\n): RejectedTaskResult
-    +<<async>> abort(\n\terror: Exception | None = None\n): None
   }
 }
 

@@ -1,0 +1,27 @@
+@startuml uml_human_input_tool
+!include ../common/book-clean.puml
+
+package "llm_agents_from_scratch.base.tool" <<Folder>> {
+  abstract class BaseTool {
+    +name: str
+    +description: str
+    +parameters_json_schema: dict[str, Any]
+    --
+    +__call__(tool_call: ToolCall): ToolCallResult
+  }
+}
+
+package "llm_agents_from_scratch.tools.default" <<Folder>> {
+  class HumanInputTool {
+    +name: str = 'from_scratch__human_input'
+    +description: str
+    +parameters_json_schema: dict[str, Any]\n\t{prompt: str, choices: list[str] | None}
+    --
+    +__call__(tool_call: ToolCall, ...): ToolCallResult
+  }
+}
+
+' Relations
+BaseTool <|-- HumanInputTool : " inherits"
+
+@enduml

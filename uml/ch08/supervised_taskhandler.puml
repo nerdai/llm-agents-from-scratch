@@ -1,0 +1,46 @@
+@startuml uml_ch08_supervised_taskhandler
+!include ../common/book-clean.puml
+skinparam ranksep 25
+
+package "llm_agents_from_scratch.agent" <<Folder>> {
+
+  class "LLMAgent.TaskHandler" as TaskHandler {
+    <color:#aaaaaa>...</color>
+    --
+    <color:#aaaaaa>+<<async>> get_next_step(...): TaskStep | TaskResult</color>
+    <color:#aaaaaa>+<<async>> run_step(step: TaskStep): TaskStepResult</color>
+    <color:#aaaaaa>...</color>
+  }
+
+  class "LLMAgent.SupervisedTaskHandler" as SupervisedTaskHandler {
+    +<<override>> background_task\n\t{getter and setter raise TaskHandlerError}
+    --
+    +<<async>> complete(result: TaskResult): None
+    +reject(\n\tresult: TaskResult,\n\tfeedback: str\n): RejectedTaskResult
+    +<<async>> abort(\n\terror: Exception | None = None\n): None
+  }
+
+  class LLMAgent {
+    <color:#aaaaaa>+llm: LLM</color>
+    <color:#aaaaaa>+tools_registry: dict[str, Tool]</color>
+    <color:#aaaaaa>+templates: LLMAgentTemplates</color>
+    <color:#aaaaaa>+logger: Logger</color>
+    <color:#aaaaaa>+memories: list[Memory]</color>
+    --
+    <color:#aaaaaa>+tools: list[Tool]</color>
+    <color:#aaaaaa>+add_tool(tool: Tool): Self</color>
+    <color:#aaaaaa>+run(task: Task, ...): TaskHandler</color>
+    <color:#aaaaaa>+run_with_skill(skill_name: str, ...): TaskHandler</color>
+    +<<async>> run_supervised(\n\ttask: Task, ...\n): SupervisedTaskHandler
+    +<<async>> run_supervised_with_skill(\n\tskill_name: str, prompt: str | None, ...\n): SupervisedTaskHandler
+  }
+}
+
+' Relations
+TaskHandler <|-right- SupervisedTaskHandler : " inherits"
+
+' Layout only: LLMAgent centred on the row above the handlers
+LLMAgent -[hidden]- TaskHandler
+LLMAgent -[hidden]- SupervisedTaskHandler
+
+@enduml

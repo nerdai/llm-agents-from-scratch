@@ -23,11 +23,15 @@ package "llm_agents_from_scratch.agent" <<Folder>> {
     <color:#aaaaaa>+step_counter: int</color>
     <color:#aaaaaa>-_background_task: ~asyncio.Task</color>
     <color:#aaaaaa>+skills: dict[str, Skill]</color>
+    <color:#aaaaaa>-_skills_catalog: str</color>
+    <color:#aaaaaa>-_use_skill_tool: UseSkillTool | None</color>
+    <color:#aaaaaa>-_explicit_only_skills: set[str]</color>
     <color:#aaaaaa>-_recalled_memories: str</color>
     --
     +<b><<async>> get_next_step(</b>\n\t<b>previous_step_result: TaskStepResult</b>\n\t\t<b>| RejectedTaskResult | None</b>\n<b>): TaskStep | TaskResult</b>
     <color:#aaaaaa>+<<async>> run_step(step: TaskStep): TaskStepResult</color>
     <color:#aaaaaa>-_format_step_for_rollout()</color>
+    <color:#aaaaaa>-_format_memories_for_system_prompt(...): str</color>
     <color:#aaaaaa>+<<async>> load_memories(): None</color>
     <color:#aaaaaa>+<<async>> record_memory(...): None</color>
     +<<async>> request_approval(\n\tresult: TaskResult\n): ApprovalResult

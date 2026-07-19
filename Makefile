@@ -20,9 +20,14 @@ coverage-report: ## Show coverage summary in terminal
 coverage-html: ## Generate HTML coverage report
 	coverage html
 
+# PlantUML runner: prefer the `plantuml` binary (e.g. `brew install plantuml`),
+# fall back to a jar at ~/plantuml.jar. Override with `make diagrams PLANTUML=...`
+PLANTUML ?= $(shell command -v plantuml 2>/dev/null || echo "java -jar $(HOME)/plantuml.jar")
+
 diagrams:	## Generate SVG diagrams (for web)
+	@$(PLANTUML) -version > /dev/null 2>&1 || { echo "plantuml not found: install it (brew install plantuml) or set PLANTUML=..."; exit 1; }
 	@echo "Generating SVG diagrams..."
 	@mkdir -p uml/rendered
 	@find uml -name "*.puml" -not -path "uml/common/*" -exec dirname {} \; | sed 's|^uml|uml/rendered|' | sort -u | xargs mkdir -p
-	@find uml -name "*.puml" -not -path "uml/common/*" -exec sh -c 'java -jar ~/plantuml.jar -tsvg -o "$$(dirname "{}" | sed "s|^uml|$(PWD)/uml/rendered|")" "{}"' \;
+	@find uml -name "*.puml" -not -path "uml/common/*" -exec sh -c '$(PLANTUML) -tsvg -o "$$(dirname "{}" | sed "s|^uml|$(PWD)/uml/rendered|")" "{}"' \;
 	@echo "SVG diagrams generated in uml/rendered/ directory with chapter structure!"

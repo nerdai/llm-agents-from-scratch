@@ -3984,13 +3984,13 @@ can start a service by opening a terminal and running <code>ollama serve</code>.
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=c8-swhi-0004">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c8-swhi-0004">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-2">
@@ -4116,6 +4116,46 @@ ensure_ollama()</div>
 </div>
 </div>
 </div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>✓ Ollama already running at http://localhost:11434
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=22244ba6-7995-49c3-9323-bb82b3960167">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-3">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="s2">"glm-5.2:cloud"</span> <span class="k">if</span> <span class="s2">"OLLAMA_API_KEY"</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span> <span class="k">else</span> <span class="s2">"qwen3:14b"</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-3">model = "glm-5.2:cloud" if "OLLAMA_API_KEY" in os.environ else "qwen3:14b"</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=c8-swhi-0005">
@@ -4123,10 +4163,10 @@ ensure_ollama()</div>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-3">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-4">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -4146,10 +4186,10 @@ ensure_ollama()</div>
 <span class="n">enable_console_logging</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
 
 <span class="n">human_input_tool</span> <span class="o">=</span> <span class="n">HumanInputTool</span><span class="p">()</span>
-<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">,</span> <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">json_prompt_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">agent</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">human_input_tool</span><span class="p">])</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-3">import logging
+<div class="clipboard-copy-txt" id="cell-4">import logging
 
 from llm_agents_from_scratch import LLMAgent
 from llm_agents_from_scratch.llms import OllamaLLM
@@ -4159,7 +4199,7 @@ from llm_agents_from_scratch.tools.default import HumanInputTool
 enable_console_logging(logging.INFO)
 
 human_input_tool = HumanInputTool()
-llm = OllamaLLM(model="qwen3:14b", think=False)
+llm = OllamaLLM(model=model, think=False, json_prompt_mode=True)
 agent = LLMAgent(llm=llm, tools=[human_input_tool])</div>
 </div>
 </div>
@@ -4172,10 +4212,10 @@ agent = LLMAgent(llm=llm, tools=[human_input_tool])</div>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-4">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-5">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -4218,7 +4258,7 @@ agent = LLMAgent(llm=llm, tools=[human_input_tool])</div>
 <span class="s2">Meeting closed at 10:24.</span>
 <span class="s2">"""</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-4">TRANSCRIPT = """\
+<div class="clipboard-copy-txt" id="cell-5">TRANSCRIPT = """\
 Sprint 14 Planning — 2026-06-27
 
 Attendees: Priya (PM), Marcus (Lead Eng), Leila (Backend),
@@ -4272,16 +4312,16 @@ twice to collect your preferences via <code>HumanInputTool</code>:</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=c8-swhi-0007">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c8-swhi-0007">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-5">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -4297,11 +4337,162 @@ twice to collect your preferences via <code>HumanInputTool</code>:</p>
 <span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-5">result = await agent.run_with_skill(
+<div class="clipboard-copy-txt" id="cell-6">result = await agent.run_with_skill(
     "meeting-notes-summarizer",
     prompt=f"Summarise the following meeting transcript:\n\n{TRANSCRIPT}",
 )
 print(result.content)</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: This is a user-explicit skill activation. Call the from_scratch__use_skill tool with name='meeting-notes-summarizer'. Use exactly thi...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: This is a user-explicit skill activation. Call the from_scratch__use_skill tool with name='meeting-notes-summarizer'. Use exactly ...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: from_scratch__use_skill
+INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: &lt;skill_content name="meeting-notes-summarizer"&gt;
+# Meeting Notes Summarizer
+
+Produce a summary of a meeting transcript provided...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to make the following tool-calls:
+{
+    "id_": "0f43bb20-0d7d-467c-8ab4-4a3bf84718f9",
+    "tool_name": "from_scratch__human_inp...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: The previous tool call was malformed. Please correct the tool call to `from_scratch__human_input` with `prompt` set to "What format would ...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: The previous tool call was malformed. Please correct the tool call to `from_scratch__human_input` with `prompt` set to "What forma...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: from_scratch__human_input
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #808000; text-decoration-color: #808000">╭────────────────────────────────────────────────── Human Input ──────────────────────────────────────────────────╮</span>
+<span style="color: #808000; text-decoration-color: #808000">│</span> What format would you like the summary in?                                                                      <span style="color: #808000; text-decoration-color: #808000">│</span>
+<span style="color: #808000; text-decoration-color: #808000">╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">&gt; <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">[bullet-points/prose]</span>: </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: bullet-points
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to make the following tool-calls:
+{
+    "id_": "ed207fb4-bb36-4344-ad69-1895adbf35e0",
+    "tool_name": "from_scratch__human_inp...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: I need to make the following tool call(s):
+
+{
+    "id_": "ed207fb4-bb36-4344-ad69-1895adbf35e0",
+    "tool_name": "from_scratch__human_inp...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: I need to make the following tool call(s):
+
+{
+    "id_": "ed207fb4-bb36-4344-ad69-1895adbf35e0",
+    "tool_name": "from_scratch__h...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: from_scratch__human_input
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #808000; text-decoration-color: #808000">╭────────────────────────────────────────────────── Human Input ──────────────────────────────────────────────────╮</span>
+<span style="color: #808000; text-decoration-color: #808000">│</span> What level of detail?                                                                                           <span style="color: #808000; text-decoration-color: #808000">│</span>
+<span style="color: #808000; text-decoration-color: #808000">╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">&gt; <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">[brief/detailed]</span>: </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: detailed
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The user chose "detailed". Now I have both preferences:
+- Format: bullet-points
+- Detail: detailed
+
+According to the skill, bullet-poin...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      No new step required.
+INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The user chose "detailed". Now I have both preferences:
+- Format: bullet-points
+- Detail: detailed
+
+According to the skill, bullet-p...[TRUNCATED]
+The user chose "detailed". Now I have both preferences:
+- Format: bullet-points
+- Detail: detailed
+
+According to the skill, bullet-points + detailed should produce: "Structured bullet points with sub-bullets covering all discussion topics, decisions, and action items."
+
+Let me create the summary based on the transcript provided.The user has chosen **bullet-points** format with **detailed** detail level. Now I'll produce a structured summary with sub-bullets covering all discussion topics, decisions, and action items.
+
+---
+
+# Sprint 14 Planning Meeting Summary — 2026-06-27
+
+**Attendees:** Priya (PM), Marcus (Lead Eng), Leila (Backend), Tom (Frontend), Ana (QA)
+
+## Sprint 13 Review
+- **Velocity:** 42 points delivered against a 45-point target
+- **Rollover stories:**
+  - Pagination refactor (8 pts) — high priority for Sprint 14
+  - Email digest feature (5 pts) — high priority for Sprint 14
+
+## Dependency Risk &amp; Mitigation
+- **Risk identified:** Pagination refactor depends on a database migration scheduled for Tuesday; a slip would block the merge
+- **Decision:** Move the migration to Monday to de-risk the refactor
+
+## Email Digest Feature Plan
+- **Backend:** Leila volunteered, estimated 3 days of work
+- **Frontend:** Tom needs 1 day once Leila's API is ready
+- **QA:** Ana will write the test plan today, ready for review by Wednesday
+
+## Sprint 14 Commitments (44 points total)
+- **Pagination refactor** (8 pts) — Marcus, Leila
+- **Email digest** (5 pts) — Leila, Tom
+- **Auth token refresh** (3 pts) — Leila
+- **Dashboard chart improvements** (13 pts) — Tom
+- **Automated regression suite** (8 pts) — Ana
+- **Performance monitoring alerts** (7 pts) — Marcus
+
+## Release Timeline
+- **Release date:** July 11
+- **Deadline:** All Sprint 14 work must be merged and QA-approved by July 9
+
+## Action Items
+- **Marcus:** Move database migration to Monday; own performance monitoring alerts (7 pts)
+- **Marcus &amp; Leila:** Complete pagination refactor (8 pts)
+- **Leila:** Begin email digest backend work (3 days); own auth token refresh (3 pts)
+- **Tom:** Complete frontend for email digest (1 day after API ready); own dashboard chart improvements (13 pts)
+- **Ana:** Write email digest test plan today (ready for review Wednesday); own automated regression suite (8 pts)
+
+**Meeting closed:** 10:24
+</pre>
 </div>
 </div>
 </div>

@@ -107,6 +107,71 @@ async def test_structured_output(mock_async_client_class: MagicMock) -> None:
 
 @pytest.mark.asyncio
 @patch("llm_agents_from_scratch.llms.ollama.llm.AsyncClient")
+async def test_structured_output_json_prompt_mode(
+    mock_async_client_class: MagicMock,
+) -> None:
+    """Test structured_output delegates to json-prompt path when flag is set."""
+
+    class Pet(BaseModel):
+        animal: str
+        name: str
+
+    mock_instance = MagicMock()
+    mock_chat = AsyncMock()
+    mock_chat.return_value = ChatResponse(
+        model="glm-5.2",
+        message=OllamaMessage(
+            role="assistant",
+            content=Pet(animal="cat", name="whiskers").model_dump_json(),
+        ),
+    )
+    mock_instance.chat = mock_chat
+    mock_async_client_class.return_value = mock_instance
+
+    llm = OllamaLLM(model="glm-5.2", json_prompt_mode=True)
+    new_pet = await llm.structured_output("Generate a pet.", mdl=Pet)
+
+    assert isinstance(new_pet, Pet)
+    assert new_pet.animal == "cat"
+    assert new_pet.name == "whiskers"
+    # must NOT have passed format= kwarg
+    call_kwargs = mock_chat.call_args.kwargs
+    assert "format" not in call_kwargs
+
+
+@pytest.mark.asyncio
+@patch("llm_agents_from_scratch.llms.ollama.llm.AsyncClient")
+async def test_structured_output_json_prompt_mode_strips_fences(
+    mock_async_client_class: MagicMock,
+) -> None:
+    """Test _structured_output_json_prompt strips markdown fences."""
+
+    class Pet(BaseModel):
+        animal: str
+        name: str
+
+    mock_instance = MagicMock()
+    mock_chat = AsyncMock()
+    fenced = (
+        "```json\n" + Pet(animal="dog", name="rex").model_dump_json() + "\n```"
+    )
+    mock_chat.return_value = ChatResponse(
+        model="glm-5.2",
+        message=OllamaMessage(role="assistant", content=fenced),
+    )
+    mock_instance.chat = mock_chat
+    mock_async_client_class.return_value = mock_instance
+
+    llm = OllamaLLM(model="glm-5.2", json_prompt_mode=True)
+    new_pet = await llm.structured_output("Generate a pet.", mdl=Pet)
+
+    assert isinstance(new_pet, Pet)
+    assert new_pet.animal == "dog"
+    assert new_pet.name == "rex"
+
+
+@pytest.mark.asyncio
+@patch("llm_agents_from_scratch.llms.ollama.llm.AsyncClient")
 async def test_chat(mock_async_client_class: MagicMock) -> None:
     """Test chat method."""
     # arrange mocks

@@ -1,5 +1,7 @@
 """Ollama LLM integration."""
 
+import json
+import re
 from typing import Any, Sequence
 
 from ollama import AsyncClient
@@ -31,6 +33,7 @@ class OllamaLLM(LLM):
         host: str | None = None,
         *,
         think: bool = False,
+        json_prompt_mode: bool = False,  # not included in the book
         **kwargs: Any,
     ) -> None:
         """Create an OllamaLLM instance.
@@ -39,12 +42,17 @@ class OllamaLLM(LLM):
             model (str): The name of the LLM model.
             host (str | None): Host of running Ollama service. Defaults to None.
             think (bool): Enable/disable thinking mode. Defaults to False.
+            json_prompt_mode (bool): Use prompt-level JSON coercion for
+                structured output instead of the Ollama format parameter.
+                Useful for cloud models that ignore the format parameter.
+                Defaults to False. NOTE not included in the book.
             **kwargs (Any): Additional keyword arguments.
         """
         super().__init__(**kwargs)
         self.model = model
         self._client = AsyncClient(host=host)
         self.think = think
+        self.json_prompt_mode = json_prompt_mode
 
     async def complete(self, prompt: str, **kwargs: Any) -> CompleteResult:
         """Complete a prompt with an Ollama LLM.
@@ -83,6 +91,12 @@ class OllamaLLM(LLM):
             StructuredOutputType: The structured output as the specified `mdl`
                 type.
         """
+        if self.json_prompt_mode:  # not included in the book
+            return await self._structured_output_json_prompt(
+                prompt,
+                mdl,
+                **kwargs,
+            )
         o_messages = [
             chat_message_to_ollama_message(
                 ChatMessage(role="user", content=prompt),
@@ -190,3 +204,50 @@ class OllamaLLM(LLM):
         )
 
         return tool_messages, ollama_message_to_chat_message(o_result.message)
+
+    async def _structured_output_json_prompt(
+        self,
+        prompt: str,
+        mdl: type[StructuredOutputType],
+        **kwargs: Any,
+    ) -> StructuredOutputType:
+        """Structured output via prompt-level JSON coercion.
+
+        NOTE: this is not included in the book since its a workaround for an
+        issue on Ollama side not using JSON mode with structured output API.
+
+        Wraps the prompt with explicit JSON instructions and parses the
+        response text directly — no reliance on the Ollama format parameter.
+
+        Args:
+            prompt (str): The original prompt.
+            mdl (type[StructuredOutputType]): The ~pydantic.BaseModel to output.
+            **kwargs (Any): Additional keyword arguments.
+
+        Returns:
+            StructuredOutputType: The structured output as the specified `mdl`
+                type.
+        """
+        schema_str = json.dumps(mdl.model_json_schema(), indent=2)
+        wrapped = (
+            f"{prompt}\n\n"
+            f"Respond with a JSON object that strictly matches this schema:\n"
+            f"{schema_str}\n\n"
+            f"Return only the JSON object, no markdown fences or extra text."
+        )
+        o_messages = [
+            chat_message_to_ollama_message(
+                ChatMessage(role="user", content=wrapped),
+            ),
+        ]
+        result = await self._client.chat(
+            model=self.model,
+            messages=o_messages,
+            think=self.think,
+            **kwargs,
+        )
+        raw = result.message.content or ""
+        # strip optional ```json ... ``` fences the model may add anyway
+        raw = re.sub(r"^```(?:json)?\s*", "", raw.strip())
+        raw = re.sub(r"\s*```$", "", raw)
+        return mdl.model_validate_json(raw.strip())

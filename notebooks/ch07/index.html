@@ -4277,7 +4277,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Ollama did not start within </span><span class="si">{</span><span class="n">timeout</span><span class="si">}</span><span class="s2">s"</span><span class="p">)</span>
 
 
-<span class="n">ensure_ollama</span><span class="p">()</span>
+<span class="n">use_cloud</span> <span class="o">=</span> <span class="s2">"OLLAMA_API_KEY"</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span>
+<span class="n">ensure_ollama</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">use_cloud</span> <span class="k">else</span> <span class="nb">print</span><span class="p">(</span><span class="s2">"✓ Using Ollama Cloud"</span><span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-2">import os, shutil, subprocess, time, urllib.request, urllib.error
 
@@ -4328,7 +4329,8 @@ def ensure_ollama(host="http://localhost:11434", timeout=15):
     raise RuntimeError(f"Ollama did not start within {timeout}s")
 
 
-ensure_ollama()</div>
+use_cloud = "OLLAMA_API_KEY" in os.environ
+ensure_ollama() if not use_cloud else print("✓ Using Ollama Cloud")</div>
 </div>
 </div>
 </div>
@@ -4340,7 +4342,7 @@ ensure_ollama()</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>✓ Ollama already running at http://localhost:11434
+<pre>✓ Using Ollama Cloud
 </pre>
 </div>
 </div>
@@ -4441,14 +4443,14 @@ print(episode.format(mode=EpisodeFormatMode.CONCAT))</div>
     &lt;task&gt;Compute the Hailstone sequence for 6.&lt;/task&gt;
     &lt;result&gt;6 → 3 → 10 → 5 → 16 → 8 → 4 → 2 → 1&lt;/result&gt;
     &lt;reflection&gt;Always use the hailstone tool.&lt;/reflection&gt;
-    &lt;completed_at&gt;2026-06-21 23:15:50&lt;/completed_at&gt;
+    &lt;completed_at&gt;2026-07-23 04:49:00&lt;/completed_at&gt;
   &lt;/episode&gt;
 
 === CONCAT ===
 task: Compute the Hailstone sequence for 6.
 result: 6 → 3 → 10 → 5 → 16 → 8 → 4 → 2 → 1
 reflection: Always use the hailstone tool.
-completed_at: 2026-06-21 23:15:50
+completed_at: 2026-07-23 04:49:00
 </pre>
 </div>
 </div>
@@ -4571,18 +4573,6 @@ for ep in episodes:
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Downloading (incomplete total...): 0.00B [00:00, ?B/s]</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Fetching 5 files:   0%|          | 0/5 [00:00&lt;?, ?it/s]</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>count: 1
 count: 2
 </pre>
@@ -4651,7 +4641,7 @@ print(results[0].format())</div>
     &lt;task&gt;Compute the Hailstone sequence for 6.&lt;/task&gt;
     &lt;result&gt;6 → 3 → 10 → 5 → 16 → 8 → 4 → 2 → 1&lt;/result&gt;
     &lt;steps&gt;8&lt;/steps&gt;
-    &lt;completed_at&gt;2026-06-21 23:15:54&lt;/completed_at&gt;
+    &lt;completed_at&gt;2026-07-23 04:49:01&lt;/completed_at&gt;
   &lt;/episode&gt;
 </pre>
 </div>
@@ -4777,7 +4767,7 @@ print(recalled)</div>
   &lt;episode&gt;
     &lt;task&gt;Compute the Hailstone sequence for 6.&lt;/task&gt;
     &lt;result&gt;6 → 3 → 10 → 5 → 16 → 8 → 4 → 2 → 1&lt;/result&gt;
-    &lt;completed_at&gt;2026-06-21 23:17:09&lt;/completed_at&gt;
+    &lt;completed_at&gt;2026-07-23 04:49:05&lt;/completed_at&gt;
   &lt;/episode&gt;
 
 Recalled episode (enriched by step_counter_fn at write time):
@@ -4785,7 +4775,7 @@ Recalled episode (enriched by step_counter_fn at write time):
     &lt;task&gt;Compute the Hailstone sequence for 6.&lt;/task&gt;
     &lt;result&gt;6 → 3 → 10 → 5 → 16 → 8 → 4 → 2 → 1&lt;/result&gt;
     &lt;steps&gt;9&lt;/steps&gt;
-    &lt;completed_at&gt;2026-06-21 23:17:09&lt;/completed_at&gt;
+    &lt;completed_at&gt;2026-07-23 04:49:05&lt;/completed_at&gt;
   &lt;/episode&gt;
 </pre>
 </div>
@@ -4841,9 +4831,10 @@ Recalled episode (enriched by step_counter_fn at write time):
 <span class="w">    </span><span class="sd">"""Returns the next number in the stop-at-one sequence."""</span>
     <span class="k">return</span> <span class="n">n</span> <span class="o">//</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span>
 
-
+<span class="n">model</span> <span class="o">=</span> <span class="s2">"qwen3.5:397b-cloud"</span> <span class="k">if</span> <span class="n">use_cloud</span> <span class="k">else</span> <span class="s2">"qwen3:14b"</span>
+<span class="n">host</span> <span class="o">=</span> <span class="s2">"https://ollama.com"</span> <span class="k">if</span> <span class="n">use_cloud</span> <span class="k">else</span> <span class="kc">None</span>
 <span class="n">next_number_tool</span> <span class="o">=</span> <span class="n">SimpleFunctionTool</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">next_number</span><span class="p">)</span>
-<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">,</span> <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">json_prompt_mode</span><span class="o">=</span><span class="n">use_cloud</span><span class="p">)</span>
 <span class="n">memory</span> <span class="o">=</span> <span class="n">similarity_memory</span><span class="p">(</span><span class="n">max_results</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">agent</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">next_number_tool</span><span class="p">],</span> <span class="n">memories</span><span class="o">=</span><span class="p">[</span><span class="n">memory</span><span class="p">])</span>
 </pre></div>
@@ -4865,11 +4856,51 @@ def next_number(n: int) -&gt; int:
     """Returns the next number in the stop-at-one sequence."""
     return n // 2 if n % 2 == 0 else 3 * n + 1
 
-
+model = "qwen3.5:397b-cloud" if use_cloud else "qwen3:14b"
+host = "https://ollama.com" if use_cloud else None
 next_number_tool = SimpleFunctionTool(func=next_number)
-llm = OllamaLLM(model="qwen3:14b", think=False)
+llm = OllamaLLM(host=host, model=model, think=False, json_prompt_mode=use_cloud)
 memory = similarity_memory(max_results=1)
 agent = LLMAgent(llm=llm, tools=[next_number_tool], memories=[memory])</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=d29d9bc5-c2dd-4e12-a3af-5ee9e58de747">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-8">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">agent</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">model</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-8">agent.llm.model</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[7]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>'qwen3.5:397b-cloud'</pre>
 </div>
 </div>
 </div>
@@ -4881,10 +4912,10 @@ agent = LLMAgent(llm=llm, tools=[next_number_tool], memories=[memory])</div>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-8">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-9">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -4905,7 +4936,7 @@ agent = LLMAgent(llm=llm, tools=[next_number_tool], memories=[memory])</div>
 <span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">result_1</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-8"># Task 1: no memory yet — the agent computes the sequence via tools and
+<div class="clipboard-copy-txt" id="cell-9"># Task 1: no memory yet — the agent computes the sequence via tools and
 # similarity_memory records the episode in the Qdrant vector store.
 result_1 = await agent.run(
     Task(
@@ -4934,30 +4965,48 @@ INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: &lt;skill_cont
 
 Compute a full sequence from a starting number down to 1
 using the `next_num...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to compute the stop-at-one sequence for the starting number 4. Let me begin by calling the `next_number` tool with the initial v...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the `next_number` tool with the initial value of 4.
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the `next_number` tool with the initial value of 4.
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to make the following tool-calls:
+{
+    "id_": "4af3afbc-b05b-470e-ab5d-7b686b6bb5e8",
+    "tool_name": "next_number",
+    "argu...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Execute the tool call to 'next_number' with argument x=4 as indicated in the current response.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Execute the tool call to 'next_number' with argument x=4 as indicated in the current response.
 INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
 INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 2
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The result of the `next_number` tool call with the initial value of 4 is 2. I will append this to the sequence and continue the process...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the `next_number` tool with the current value of 2.
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the `next_number` tool with the current value of 2.
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to make the following tool-calls:
+{
+    "id_": "9eb58224-3f27-495d-9cb0-7e1f7a4bc5ff",
+    "tool_name": "next_number",
+    "argu...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Execute the tool call to 'next_number' with argument n=2 as indicated in the current response.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Execute the tool call to 'next_number' with argument n=2 as indicated in the current response.
 INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
 INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 1
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The result of the `next_number` tool call with the current value of 2 is 1. Since we have reached 1, the sequence is complete. 
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The tool returned `1`. Since we've reached `1`, the sequence is complete.
 
-The fu...[TRUNCATED]
+Let me compile the full sequence:
+- Starting number: 4
+- Fir...[TRUNCATED]
 INFO (llm_agents_fs.TaskHandler) :      No new step required.
-INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The result of the `next_number` tool call with the current value of 2 is 1. Since we have reached 1, the sequence is complete. 
+INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The tool returned `1`. Since we've reached `1`, the sequence is complete.
 
-The...[TRUNCATED]
-The result of the `next_number` tool call with the current value of 2 is 1. Since we have reached 1, the sequence is complete. 
+Let me compile the full sequence:
+- Starting number: 4
+- ...[TRUNCATED]
+The tool returned `1`. Since we've reached `1`, the sequence is complete.
 
-The full sequence is: 4 → 2 → 1.
+Let me compile the full sequence:
+- Starting number: 4
+- First call: 4 → 2
+- Second call: 2 → 1
 
-**Starting number**: 4  
-**Total steps taken**: 2  
-**Maximum value reached**: 4
+**Complete sequence:** 4 → 2 → 1
+
+**Summary:**
+- **Starting number:** 4
+- **Total steps taken:** 2 (two tool calls made)
+- **Maximum value reached:** 4
 </pre>
 </div>
 </div>
@@ -4970,10 +5019,10 @@ The full sequence is: 4 → 2 → 1.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-9">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-10">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -4994,7 +5043,7 @@ The full sequence is: 4 → 2 → 1.
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Memory recalled for Task 2:</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="k">await</span> <span class="n">memory</span><span class="o">.</span><span class="n">recall</span><span class="p">(</span><span class="n">task_2</span><span class="p">))</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-9"># Inspect what will be injected into the system prompt as memory for Task 2.
+<div class="clipboard-copy-txt" id="cell-10"># Inspect what will be injected into the system prompt as memory for Task 2.
 # This is the same call the agent makes internally via memory.recall() before
 # its first step — surfacing it here makes the memory context visible.
 task_2 = Task(
@@ -5019,14 +5068,20 @@ print(await memory.recall(task_2))</div>
 
   &lt;episode&gt;
     &lt;task&gt;Compute the stop-at-one sequence for 4&lt;/task&gt;
-    &lt;result&gt;The result of the `next_number` tool call with the current value of 2 is 1. Since we have reached 1, the sequence is complete. 
+    &lt;result&gt;The tool returned `1`. Since we've reached `1`, the sequence is complete.
 
-The full sequence is: 4 → 2 → 1.
+Let me compile the full sequence:
+- Starting number: 4
+- First call: 4 → 2
+- Second call: 2 → 1
 
-**Starting number**: 4  
-**Total steps taken**: 2  
-**Maximum value reached**: 4&lt;/result&gt;
-    &lt;completed_at&gt;2026-06-21 23:18:20&lt;/completed_at&gt;
+**Complete sequence:** 4 → 2 → 1
+
+**Summary:**
+- **Starting number:** 4
+- **Total steps taken:** 2 (two tool calls made)
+- **Maximum value reached:** 4&lt;/result&gt;
+    &lt;completed_at&gt;2026-07-23 04:49:32&lt;/completed_at&gt;
   &lt;/episode&gt;
 </pre>
 </div>
@@ -5040,10 +5095,10 @@ The full sequence is: 4 → 2 → 1.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-10">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-11">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -5060,7 +5115,7 @@ The full sequence is: 4 → 2 → 1.
 <span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">result_2</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-10"># Task 2: the episode from Task 1 is recalled by similarity search and
+<div class="clipboard-copy-txt" id="cell-11"># Task 2: the episode from Task 1 is recalled by similarity search and
 # injected into the system prompt — the agent answers directly from memory.
 result_2 = await agent.run(
     task_2,
@@ -5079,50 +5134,22 @@ print(result_2.content)</div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: What is the stop-at-one sequence for 4?
 INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: What is the stop-at-one sequence for 4?
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The stop-at-one sequence for 4 is: 4 → 2 → 1.
-
-**Starting number**: 4  
-**Total steps taken**: 2  
-**Maximum value reached**: 4
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to compute the stop-at-one sequence for 4. Looking at the memories, I can see there's already a completed episode that computed ...[TRUNCATED]
 INFO (llm_agents_fs.TaskHandler) :      No new step required.
-INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The stop-at-one sequence for 4 is: 4 → 2 → 1.
+INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: I need to compute the stop-at-one sequence for 4. Looking at the memories, I can see there's already a completed episode that comput...[TRUNCATED]
+I need to compute the stop-at-one sequence for 4. Looking at the memories, I can see there's already a completed episode that computed this exact sequence!
 
-**Starting number**: 4  
-**Total steps taken**: 2  
-**Maximum value reached**: 4
-The stop-at-one sequence for 4 is: 4 → 2 → 1.
+According to the past episode:
+- Starting number: 4
+- First call: 4 → 2
+- Second call: 2 → 1
 
-**Starting number**: 4  
-**Total steps taken**: 2  
-**Maximum value reached**: 4
+**Complete sequence:** 4 → 2 → 1
+
+The sequence took 2 steps (two tool calls) to reach 1, and the maximum value reached was 4 (the starting number).
+
+So the stop-at-one sequence for 4 is: **4 → 2 → 1**
 </pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=365be0b6-e65e-4e1d-96ee-4efb43e4e882">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-11">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-11"></div>
 </div>
 </div>
 </div>

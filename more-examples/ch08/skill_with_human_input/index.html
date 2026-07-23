@@ -3990,7 +3990,7 @@ can start a service by opening a terminal and running <code>ollama serve</code>.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-2">
@@ -4056,7 +4056,8 @@ can start a service by opening a terminal and running <code>ollama serve</code>.
     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Ollama did not start within </span><span class="si">{</span><span class="n">timeout</span><span class="si">}</span><span class="s2">s"</span><span class="p">)</span>
 
 
-<span class="n">ensure_ollama</span><span class="p">()</span>
+<span class="n">use_cloud</span> <span class="o">=</span> <span class="s2">"OLLAMA_API_KEY"</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span>
+<span class="n">ensure_ollama</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">use_cloud</span> <span class="k">else</span> <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\u2713</span><span class="s2"> Using Ollama Cloud"</span><span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-2">import os
 import shutil
@@ -4111,7 +4112,8 @@ def ensure_ollama(host="http://localhost:11434", timeout=15):
     raise RuntimeError(f"Ollama did not start within {timeout}s")
 
 
-ensure_ollama()</div>
+use_cloud = "OLLAMA_API_KEY" in os.environ
+ensure_ollama() if not use_cloud else print("\u2713 Using Ollama Cloud")</div>
 </div>
 </div>
 </div>
@@ -4123,7 +4125,7 @@ ensure_ollama()</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>✓ Ollama already running at http://localhost:11434
+<pre>✓ Using Ollama Cloud
 </pre>
 </div>
 </div>
@@ -4136,7 +4138,7 @@ ensure_ollama()</div>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-3">
@@ -4149,9 +4151,11 @@ ensure_ollama()</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="s2">"glm-5.2:cloud"</span> <span class="k">if</span> <span class="s2">"OLLAMA_API_KEY"</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span> <span class="k">else</span> <span class="s2">"qwen3:14b"</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="s2">"qwen3.5:397b-cloud"</span> <span class="k">if</span> <span class="n">use_cloud</span> <span class="k">else</span> <span class="s2">"qwen3:14b"</span>
+<span class="n">host</span> <span class="o">=</span> <span class="s2">"https://ollama.com"</span> <span class="k">if</span> <span class="n">use_cloud</span> <span class="k">else</span> <span class="kc">None</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-3">model = "glm-5.2:cloud" if "OLLAMA_API_KEY" in os.environ else "qwen3:14b"</div>
+<div class="clipboard-copy-txt" id="cell-3">model = "qwen3.5:397b-cloud" if use_cloud else "qwen3:14b"
+host = "https://ollama.com" if use_cloud else None</div>
 </div>
 </div>
 </div>
@@ -4163,7 +4167,7 @@ ensure_ollama()</div>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-4">
@@ -4186,7 +4190,7 @@ ensure_ollama()</div>
 <span class="n">enable_console_logging</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
 
 <span class="n">human_input_tool</span> <span class="o">=</span> <span class="n">HumanInputTool</span><span class="p">()</span>
-<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">json_prompt_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">json_prompt_mode</span><span class="o">=</span><span class="n">use_cloud</span><span class="p">)</span>
 <span class="n">agent</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">human_input_tool</span><span class="p">])</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-4">import logging
@@ -4199,7 +4203,7 @@ from llm_agents_from_scratch.tools.default import HumanInputTool
 enable_console_logging(logging.INFO)
 
 human_input_tool = HumanInputTool()
-llm = OllamaLLM(model=model, think=False, json_prompt_mode=True)
+llm = OllamaLLM(host=host, model=model, think=False, json_prompt_mode=use_cloud)
 agent = LLMAgent(llm=llm, tools=[human_input_tool])</div>
 </div>
 </div>
@@ -4212,7 +4216,7 @@ agent = LLMAgent(llm=llm, tools=[human_input_tool])</div>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-5">
@@ -4318,7 +4322,7 @@ twice to collect your preferences via <code>HumanInputTool</code>:</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
@@ -4362,10 +4366,10 @@ INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: &lt;skill_cont
 Produce a summary of a meeting transcript provided...[TRUNCATED]
 INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to make the following tool-calls:
 {
-    "id_": "0f43bb20-0d7d-467c-8ab4-4a3bf84718f9",
+    "id_": "0c458dea-bfae-4fb6-8643-32ce2e4dc870",
     "tool_name": "from_scratch__human_inp...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: The previous tool call was malformed. Please correct the tool call to `from_scratch__human_input` with `prompt` set to "What format would ...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: The previous tool call was malformed. Please correct the tool call to `from_scratch__human_input` with `prompt` set to "What forma...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Execute the tool call to from_scratch__human_input with the prompt 'What format would you like the summary in?' and choices ['bullet-point...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Execute the tool call to from_scratch__human_input with the prompt 'What format would you like the summary in?' and choices ['bull...[TRUNCATED]
 INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: from_scratch__human_input
 </pre>
 </div>
@@ -4394,18 +4398,10 @@ INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: from_scratc
 <pre>INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: bullet-points
 INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to make the following tool-calls:
 {
-    "id_": "ed207fb4-bb36-4344-ad69-1895adbf35e0",
+    "id_": "d1ccfed2-e10f-4afb-8e0b-094123909b89",
     "tool_name": "from_scratch__human_inp...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: I need to make the following tool call(s):
-
-{
-    "id_": "ed207fb4-bb36-4344-ad69-1895adbf35e0",
-    "tool_name": "from_scratch__human_inp...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: I need to make the following tool call(s):
-
-{
-    "id_": "ed207fb4-bb36-4344-ad69-1895adbf35e0",
-    "tool_name": "from_scratch__h...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Execute the tool call to from_scratch__human_input with the prompt 'What level of detail?' and choices ['brief', 'detailed'] as specified ...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Execute the tool call to from_scratch__human_input with the prompt 'What level of detail?' and choices ['brief', 'detailed'] as sp...[TRUNCATED]
 INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: from_scratch__human_input
 </pre>
 </div>
@@ -4432,47 +4428,53 @@ INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: from_scratc
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: detailed
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The user chose "detailed". Now I have both preferences:
-- Format: bullet-points
-- Detail: detailed
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I now have both preferences from the user:
+- Format preference: **bullet-points**
+- Detail preference: **detailed**
 
-According to the skill, bullet-poin...[TRUNCATED]
+According to the s...[TRUNCATED]
 INFO (llm_agents_fs.TaskHandler) :      No new step required.
-INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The user chose "detailed". Now I have both preferences:
-- Format: bullet-points
-- Detail: detailed
+INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: I now have both preferences from the user:
+- Format preference: **bullet-points**
+- Detail preference: **detailed**
 
-According to the skill, bullet-p...[TRUNCATED]
-The user chose "detailed". Now I have both preferences:
-- Format: bullet-points
-- Detail: detailed
+According to th...[TRUNCATED]
+I now have both preferences from the user:
+- Format preference: **bullet-points**
+- Detail preference: **detailed**
 
-According to the skill, bullet-points + detailed should produce: "Structured bullet points with sub-bullets covering all discussion topics, decisions, and action items."
+According to the skill instructions, for "bullet-points + detailed", I need to produce structured bullet points with sub-bullets covering all discussion topics, decisions, and action items.
 
-Let me create the summary based on the transcript provided.The user has chosen **bullet-points** format with **detailed** detail level. Now I'll produce a structured summary with sub-bullets covering all discussion topics, decisions, and action items.
+Let me summarize the meeting transcript accordingly:
 
 ---
 
-# Sprint 14 Planning Meeting Summary — 2026-06-27
+## Sprint 14 Planning Meeting Summary — 2026-06-27
 
-**Attendees:** Priya (PM), Marcus (Lead Eng), Leila (Backend), Tom (Frontend), Ana (QA)
+### Meeting Overview
+- **Attendees**: Priya (PM), Marcus (Lead Eng), Leila (Backend), Tom (Frontend), Ana (QA)
+- **Meeting closed**: 10:24
 
-## Sprint 13 Review
-- **Velocity:** 42 points delivered against a 45-point target
-- **Rollover stories:**
-  - Pagination refactor (8 pts) — high priority for Sprint 14
-  - Email digest feature (5 pts) — high priority for Sprint 14
+### Sprint 13 Review
+- **Velocity**: 42 points delivered against a target of 45
+- **Rolled over stories**:
+  - Pagination refactor (8 pts)
+  - Email digest feature (5 pts)
+- Both rolled-over stories are high priority for Sprint 14
 
-## Dependency Risk &amp; Mitigation
-- **Risk identified:** Pagination refactor depends on a database migration scheduled for Tuesday; a slip would block the merge
-- **Decision:** Move the migration to Monday to de-risk the refactor
+### Key Discussion Topics &amp; Decisions
+- **Dependency Risk Identified**:
+  - Pagination refactor depends on a database migration scheduled for next Tuesday
+  - Risk: If migration slips, the refactor cannot be merged
+  - **Decision**: Move migration to Monday to de-risk
 
-## Email Digest Feature Plan
-- **Backend:** Leila volunteered, estimated 3 days of work
-- **Frontend:** Tom needs 1 day once Leila's API is ready
-- **QA:** Ana will write the test plan today, ready for review by Wednesday
+- **Task Assignments &amp; Estimates**:
+  - Email digest feature:
+    - Leila: 3 days of backend work
+    - Tom: 1 day of frontend work (once Leila's API is ready)
+  - Ana will write the test plan today, ready for review by Wednesday
 
-## Sprint 14 Commitments (44 points total)
+### Sprint 14 Commitments (44 points total)
 - **Pagination refactor** (8 pts) — Marcus, Leila
 - **Email digest** (5 pts) — Leila, Tom
 - **Auth token refresh** (3 pts) — Leila
@@ -4480,18 +4482,13 @@ Let me create the summary based on the transcript provided.The user has chosen *
 - **Automated regression suite** (8 pts) — Ana
 - **Performance monitoring alerts** (7 pts) — Marcus
 
-## Release Timeline
-- **Release date:** July 11
-- **Deadline:** All Sprint 14 work must be merged and QA-approved by July 9
+### Important Deadlines
+- **Release date**: July 11
+- **All Sprint 14 work must be merged and QA-approved by**: July 9
 
-## Action Items
-- **Marcus:** Move database migration to Monday; own performance monitoring alerts (7 pts)
-- **Marcus &amp; Leila:** Complete pagination refactor (8 pts)
-- **Leila:** Begin email digest backend work (3 days); own auth token refresh (3 pts)
-- **Tom:** Complete frontend for email digest (1 day after API ready); own dashboard chart improvements (13 pts)
-- **Ana:** Write email digest test plan today (ready for review Wednesday); own automated regression suite (8 pts)
+---
 
-**Meeting closed:** 10:24
+This summary covers all discussion topics, decisions made, and action items with their owners in a structured bullet-point format with detailed sub-bullets.
 </pre>
 </div>
 </div>

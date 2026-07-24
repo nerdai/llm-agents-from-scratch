@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+## [0.0.21] - 2026-07-23
+
+### Added
+
 - feat: add `json_prompt_mode` flag to `OllamaLLM` — prompt-level JSON coercion for structured output, working around cloud models that ignore the Ollama `format` parameter; not covered in the book (#735)
 
 ## [0.0.20] - 2026-07-13

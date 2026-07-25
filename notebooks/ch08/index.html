@@ -5181,6 +5181,64 @@ We have successfully computed the full Hailstone sequence until reaching 1.
 </div>
 </div>
 </div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0008-0000-0000-000000000011">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<hr/>
+<blockquote>
+<p><strong>Note — Agent Inspector</strong></p>
+<p>The agent above can also be driven step-by-step through a browser UI using
+the <strong>Agent Inspector</strong>
+(<a href="https://github.com/nerdai/llm-agents-from-scratch-inspector"><code>llm-agents-from-scratch-inspector</code></a>).
+Install it with <code>pip install llm-agents-from-scratch-inspector</code>, then create
+a launch script that exposes an <code>agent_builder</code> at module scope:</p>
+</blockquote>
+<div class="highlight"><pre><span></span><span class="c1"># main.py</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMAgentBuilder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">Task</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleFunctionTool</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">next_number</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+
+
+<span class="n">agent_builder</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">LLMAgentBuilder</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">with_llm</span><span class="p">(</span><span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">with_tool</span><span class="p">(</span><span class="n">SimpleFunctionTool</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">next_number</span><span class="p">))</span>
+<span class="p">)</span>
+
+<span class="n">default_task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span>
+    <span class="n">instruction</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">"Compute the full Hailstone sequence starting from 4, "</span>
+        <span class="s2">"step by step using next_number, until you reach 1."</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+<blockquote>
+<p>Then launch:</p>
+<div class="highlight"><pre><span></span>agent-inspector<span class="w"> </span>launch<span class="w"> </span>main.py
+</pre></div>
+<p>This requires an Ollama server running locally (<code>ollama serve</code>). Alternatively,
+point the agent at an Ollama cloud model by setting <code>OLLAMA_API_KEY</code> in your
+environment and passing <code>host="https://ollama.com"</code> and <code>json_prompt_mode=True</code>
+to <code>OllamaLLM</code> — the Inspector works the same either way.</p>
+<p>A browser tab opens where you can enter a task, create a session, and step
+through <code>get_next_step()</code> / <code>run_step()</code> interactively. See the
+<a href="https://github.com/nerdai/llm-agents-from-scratch-inspector">Inspector repository</a>
+for full usage instructions.</p>
+</blockquote>
+</div>
+</div>
+</div>
+</div>
 </div> <!-- jp-Notebook -->
 </div> <!-- jupyter-wrapper -->
 

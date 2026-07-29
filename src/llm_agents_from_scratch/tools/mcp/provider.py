@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
-from mcp.client.streamable_http import streamablehttp_client
+from mcp.client.streamable_http import streamable_http_client
 
 from llm_agents_from_scratch.errors import (
     MCPWarning,
@@ -94,7 +94,7 @@ class MCPToolProvider:
                     # Wait for shutdown signal
                     await self._shutdown_event.wait()
         else:
-            async with streamablehttp_client(  # noqa: SIM117
+            async with streamable_http_client(  # noqa: SIM117
                 self.streamable_http_url,
                 self.streamable_http_headers,
             ) as (
@@ -161,7 +161,7 @@ class MCPToolProvider:
                 provider=self,
                 name=f"mcp__{self.name}__{tool.name}",
                 desc=tool.description,
-                params_json_schema=tool.inputSchema,
+                params_json_schema=tool.input_schema,
                 additional_annotations=tool.annotations,
             )
             for tool in response.tools

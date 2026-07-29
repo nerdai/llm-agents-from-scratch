@@ -37,7 +37,7 @@ def mock_client_session() -> Callable[..., AsyncContextManager[AsyncMock]]:
             Tool(
                 name="mock_tool",
                 description="mock_desc",
-                inputSchema={"param1": {"type": "number"}},
+                input_schema={"param1": {"type": "number"}},
             ),
         ],
     )
@@ -64,11 +64,11 @@ def mock_client_session() -> Callable[..., AsyncContextManager[AsyncMock]]:
 
 
 @pytest.mark.asyncio
-@patch("llm_agents_from_scratch.tools.mcp.provider.streamablehttp_client")
+@patch("llm_agents_from_scratch.tools.mcp.provider.streamable_http_client")
 @patch("llm_agents_from_scratch.tools.mcp.provider.ClientSession")
 async def test_tool_call(
     mock_client_session_cls: AsyncMock,
-    mock_streamablehttp_client: AsyncMock,
+    mock_streamable_http_client: AsyncMock,
     mock_streamable_http_client_transport: Callable[
         ...,
         AsyncContextManager[Any],
@@ -77,7 +77,7 @@ async def test_tool_call(
 ) -> None:
     """Tests tool call."""
     # Set up the mock to return the async context manager
-    mock_streamablehttp_client.side_effect = (
+    mock_streamable_http_client.side_effect = (
         mock_streamable_http_client_transport
     )
     mock_client_session_cls.side_effect = mock_client_session

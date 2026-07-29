@@ -89,5 +89,5 @@ class MCPTool(AsyncBaseTool):
         return ToolCallResult(
             tool_call_id=tool_call.id_,
             content=[el.model_dump() for el in result.content],
-            error=result.isError,
+            error=result.is_error,
         )

@@ -80,7 +80,7 @@ def mock_client_session() -> Callable[..., AsyncContextManager[AsyncMock]]:
                 Tool(
                     name="mock_tool",
                     description="mock_desc",
-                    inputSchema={"param1": {"type": "number"}},
+                    input_schema={"param1": {"type": "number"}},
                 ),
             ],
         )
@@ -121,11 +121,11 @@ async def test_session_creation(
 
 
 @pytest.mark.asyncio
-@patch("llm_agents_from_scratch.tools.mcp.provider.streamablehttp_client")
+@patch("llm_agents_from_scratch.tools.mcp.provider.streamable_http_client")
 @patch("llm_agents_from_scratch.tools.mcp.provider.ClientSession")
 async def test_session_creation_streamable_http(
     mock_client_session_cls: AsyncMock,
-    mock_streamablehttp_client: AsyncMock,
+    mock_streamable_http_client: AsyncMock,
     mock_streamable_http_client_transport: Callable[
         ...,
         AsyncContextManager[Any],
@@ -134,7 +134,7 @@ async def test_session_creation_streamable_http(
 ) -> None:
     """Tests creation of sessions."""
     # Set up the mock to return the async context manager
-    mock_streamablehttp_client.side_effect = (
+    mock_streamable_http_client.side_effect = (
         mock_streamable_http_client_transport
     )
     mock_client_session_cls.side_effect = mock_client_session
@@ -146,7 +146,7 @@ async def test_session_creation_streamable_http(
 
     await streamablehttp_provider.session()
 
-    mock_streamablehttp_client.assert_called_once()
+    mock_streamable_http_client.assert_called_once()
     mock_client_session_cls.assert_called_once()
     assert streamablehttp_provider._session_ready.is_set()
 

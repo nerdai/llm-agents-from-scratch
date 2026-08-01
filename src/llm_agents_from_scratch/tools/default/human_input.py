@@ -1,13 +1,39 @@
-"""Human in the loop via HumanInputTool."""
+"""Human in the loop via HumanInputTool and SharedConsoleHumanInputTool."""
 
-from typing import Any
+import asyncio
+from typing import Any, cast
 
 from rich.console import Console
 from rich.panel import Panel
 from rich.prompt import Prompt
 
-from ...base.tool import BaseTool
+from ...base.tool import AsyncBaseTool, BaseTool
 from ...data_structures import ToolCall, ToolCallResult
+
+_PANEL_BORDER = "yellow"
+_PROMPT_MARKER = ">"
+
+
+def _prompt_human(
+    prompt: str,
+    choices: list[str] | None,
+    owner: str | None = None,
+) -> str:
+    """Render a human-input panel and return the operator's response.
+
+    Raises:
+        EOFError: If stdin is closed.
+        KeyboardInterrupt: If the operator interrupts.
+    """
+    console = Console()
+    title = f"Human Input — {owner}" if owner else "Human Input"
+    console.print(Panel(prompt, title=title, border_style=_PANEL_BORDER))
+    if choices:
+        return cast(
+            str,
+            Prompt.ask(_PROMPT_MARKER, choices=choices, console=console),
+        )
+    return cast(str, Prompt.ask(_PROMPT_MARKER, console=console))
 
 
 class HumanInputTool(BaseTool):
@@ -88,14 +114,7 @@ class HumanInputTool(BaseTool):
             )
         choices = tool_call.arguments.get("choices")
         try:
-            console = Console()
-            console.print(
-                Panel(prompt, title="Human Input", border_style="yellow"),
-            )
-            if choices:
-                response = Prompt.ask(">", choices=choices, console=console)
-            else:
-                response = Prompt.ask(">", console=console)
+            response = _prompt_human(prompt, choices)
         except EOFError:
             return ToolCallResult(
                 tool_call_id=tool_call.id_,
@@ -108,7 +127,132 @@ class HumanInputTool(BaseTool):
                 content="Human declined to provide input (KeyboardInterrupt).",
                 error=True,
             )
+        return ToolCallResult(
+            tool_call_id=tool_call.id_,
+            content=response,
+        )
 
+
+class SharedConsoleHumanInputTool(AsyncBaseTool):
+    """Async human-input tool safe under concurrent tool execution.
+
+    Drop-in async replacement for ``HumanInputTool`` for use in
+    multi-agent systems where ``asyncio.gather`` may run tools
+    concurrently. The class-level lock serializes all prompts to a
+    single stdin so concurrent agents take turns rather than racing.
+
+    The optional ``owner`` label is rendered in the panel title so the
+    operator knows which sub-agent is asking. Typically set to
+    ``SubAgentSpec.name`` at construction.
+
+    Attributes:
+        owner (str | None): Label shown in the panel title, e.g.
+            ``"Human Input — researcher"``. ``None`` renders the
+            default ``"Human Input"`` title.
+    """
+
+    # Class-level lock: all instances share one stdin, so one lock.
+    # Binds to the running event loop on first use — fine for single-loop use.
+    _console_lock: asyncio.Lock = asyncio.Lock()
+
+    def __init__(self, owner: str | None = None) -> None:
+        """Initialise with an optional owner label.
+
+        Args:
+            owner (str | None): Sub-agent name rendered in the panel
+                title. Defaults to None.
+        """
+        self.owner = owner
+
+    @property
+    def name(self) -> str:
+        """Name of the shared-console human-input tool."""
+        return "from_scratch__human_input"
+
+    @property
+    def description(self) -> str:
+        """Description of the shared-console human-input tool."""
+        return (
+            "Ask the human operator a question and wait for their response. "
+            "Use this tool when you need clarification or additional "
+            "information that is not available from the task context. "
+            "Optionally provide a list of choices to constrain the response."
+        )
+
+    @property
+    def parameters_json_schema(self) -> dict[str, Any]:
+        """JSON schema for human input parameters."""
+        return {
+            "type": "object",
+            "properties": {
+                "prompt": {
+                    "type": "string",
+                    "description": (
+                        "The question or prompt to present to the human."
+                    ),
+                },
+                "choices": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "description": (
+                        "Optional list of valid responses. When provided, "
+                        "the human is re-prompted until they enter one of "
+                        "the listed values."
+                    ),
+                },
+            },
+            "required": ["prompt"],
+        }
+
+    async def __call__(
+        self,
+        tool_call: ToolCall,
+        *args: Any,
+        **kwargs: Any,
+    ) -> ToolCallResult:
+        """Acquire the console lock, then prompt the human in a thread.
+
+        Serializes concurrent prompts via ``_console_lock`` and runs
+        ``_prompt_human`` in a worker thread so the event loop stays free
+        while waiting for stdin.
+
+        Args:
+            tool_call (ToolCall): The tool call containing the ``prompt``
+                argument and optional ``choices`` list.
+            *args (Any): Additional positional arguments (unused).
+            **kwargs (Any): Additional keyword arguments (unused).
+
+        Returns:
+            ToolCallResult: The human's response as the content.
+        """
+        prompt = tool_call.arguments.get("prompt", "")
+        if not prompt:
+            return ToolCallResult(
+                tool_call_id=tool_call.id_,
+                content="No prompt provided.",
+                error=True,
+            )
+        choices = tool_call.arguments.get("choices")
+        try:
+            async with self._console_lock:
+                response = await asyncio.to_thread(
+                    _prompt_human,
+                    prompt,
+                    choices,
+                    self.owner,
+                )
+        except EOFError:
+            return ToolCallResult(
+                tool_call_id=tool_call.id_,
+                content="No input received (stdin closed).",
+                error=True,
+            )
+        except KeyboardInterrupt:
+            return ToolCallResult(
+                tool_call_id=tool_call.id_,
+                content="Human declined to provide input (KeyboardInterrupt).",
+                error=True,
+            )
         return ToolCallResult(
             tool_call_id=tool_call.id_,
             content=response,

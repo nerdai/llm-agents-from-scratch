@@ -107,7 +107,7 @@ class LLMAgent:
         self.tools_registry[tool.name] = tool
         return self
 
-    class TaskHandler(asyncio.Future):
+    class TaskHandler(asyncio.Future[TaskResult]):
         """Handler for processing tasks.
 
         Attributes:

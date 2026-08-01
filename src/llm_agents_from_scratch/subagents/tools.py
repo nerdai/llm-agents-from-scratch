@@ -9,6 +9,7 @@ from llm_agents_from_scratch.data_structures import (
     ToolCall,
     ToolCallResult,
 )
+from llm_agents_from_scratch.errors import SubAgentNotFoundError
 
 from .spec import SubAgentSpec
 
@@ -121,20 +122,12 @@ class UseSubAgentTool(AsyncBaseTool):
                     },
                 ),
             )
-        if subagent_name not in self._subagents:
-            return ToolCallResult(
-                tool_call_id=tool_call.id_,
-                error=True,
-                content=json.dumps(
-                    {
-                        "error_type": "ValueError",
-                        "message": (f"Sub-agent '{subagent_name}' not found."),
-                    },
-                ),
-            )
-
-        spec = self._subagents[subagent_name]
+        spec = self._subagents.get(subagent_name)
         try:
+            if spec is None:
+                raise SubAgentNotFoundError(
+                    f"Sub-agent '{subagent_name}' not found.",
+                )
             task_handler = spec.agent.run(
                 Task(instruction=task_instruction),
                 max_steps=spec.max_steps,

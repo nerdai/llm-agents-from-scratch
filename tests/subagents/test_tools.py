@@ -172,6 +172,7 @@ async def test_use_subagent_tool_unknown_name(mock_llm: BaseLLM) -> None:
 
     assert result.error is True
     details = json.loads(result.content)
+    assert details["error_type"] == "SubAgentNotFoundError"
     assert "not found" in details["message"]
 
 

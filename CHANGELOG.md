@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- feat(ch09): `UseSubAgentTool` — async tool dispatching tasks to named sub-agents; catches all exceptions (incl. `MaxStepsReachedError`) as error results (#755)
 - feat(ch09): `SubAgentSpec` — Pydantic model registering a named sub-agent (name, description, agent, max_steps) in the `subagents/` package (#754)
 
 ### Changed

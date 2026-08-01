@@ -473,15 +473,11 @@ class LLMAgent:
                         )
                     return tool_call_result
 
-                # independent tool calls in one LLM response have no ordering
-                # dependency — run them concurrently; gather preserves order
-                tool_call_results = list(
-                    await asyncio.gather(
-                        *[
-                            _execute_tool_call(tc)
-                            for tc in response_message.tool_calls
-                        ],
-                    ),
+                tool_call_results = await asyncio.gather(
+                    *[
+                        _execute_tool_call(tc)
+                        for tc in response_message.tool_calls
+                    ],
                 )
 
                 # send tool call results back to llm to get result

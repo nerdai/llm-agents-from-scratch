@@ -112,7 +112,7 @@ class HumanInputTool(BaseTool):
                 content="No prompt provided.",
                 error=True,
             )
-        choices = tool_call.arguments.get("choices")
+        choices: list[str] | None = tool_call.arguments.get("choices")
         try:
             response = _prompt_human(prompt, choices)
         except EOFError:
@@ -152,8 +152,9 @@ class SharedConsoleHumanInputTool(AsyncBaseTool):
     """
 
     # Class-level lock: all instances share one stdin, so one lock.
-    # Binds to the running event loop on first use — fine for single-loop use.
-    _console_lock: asyncio.Lock = asyncio.Lock()
+    # Initialized lazily inside __call__ so it binds to the running event loop,
+    # not to the import-time default loop.
+    _console_lock: asyncio.Lock | None = None
 
     def __init__(self, owner: str | None = None) -> None:
         """Initialise with an optional owner label.
@@ -232,9 +233,11 @@ class SharedConsoleHumanInputTool(AsyncBaseTool):
                 content="No prompt provided.",
                 error=True,
             )
-        choices = tool_call.arguments.get("choices")
+        choices: list[str] | None = tool_call.arguments.get("choices")
+        if SharedConsoleHumanInputTool._console_lock is None:
+            SharedConsoleHumanInputTool._console_lock = asyncio.Lock()
         try:
-            async with self._console_lock:
+            async with SharedConsoleHumanInputTool._console_lock:
                 response = await asyncio.to_thread(
                     _prompt_human,
                     prompt,

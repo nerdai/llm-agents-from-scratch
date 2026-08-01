@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- feat(ch09): `SubAgentSpec` — Pydantic model registering a named sub-agent (name, description, agent, max_steps) in the `subagents/` package (#752)
+
 ### Changed
 
 - feat(ch04-retro): concurrent tool execution in `run_step` via `asyncio.gather` — async tools run concurrently; sync tools wrapped in `asyncio.to_thread`; result ordering preserved (#751)

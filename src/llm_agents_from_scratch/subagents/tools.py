@@ -128,11 +128,10 @@ class UseSubAgentTool(AsyncBaseTool):
                 raise SubAgentNotFoundError(
                     f"Sub-agent '{subagent_name}' not found.",
                 )
-            task_handler = spec.agent.run(
+            result = await spec.agent.run(
                 Task(instruction=task_instruction),
                 max_steps=spec.max_steps,
             )
-            result = await task_handler
         except Exception as e:
             return ToolCallResult(
                 tool_call_id=tool_call.id_,

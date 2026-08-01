@@ -186,7 +186,7 @@ def test_use_skill_tool_call_returns_error_when_skill_missing_from_registry(
 ) -> None:
     """Tests __call__ guard when skill passes enum but is absent from registry.
 
-    Simulates a case where _skills and _visible diverge — the guard in
+    Simulates a case where _skills_registry and _visible diverge — the guard in
     __call__ catches this before _build_skill_content raises a KeyError.
     run_with_skill() piggybacks on this guard for unknown skill names.
     """

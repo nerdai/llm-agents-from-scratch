@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- feat(ch09): `SharedConsoleHumanInputTool` — async sibling to `HumanInputTool` safe under concurrent tool execution; class-level `asyncio.Lock` serializes all prompts to a single stdin; optional `owner` label rendered in the panel title; extracts `_prompt_human` module-level helper shared by both classes (#747)
 - feat(ch09): `LLMAgent.subagents_registry` param, `TaskHandler._use_subagent_tool`, `TaskHandler._subagents_catalog`, and `DEFAULT_SUBAGENTS_CATALOG` template — wires sub-agent registry and `<available_subagents>` catalog into the coordinator; `LLMAgentBuilder.with_subagent()` / `with_subagents()` fluent methods (#756, #746)
 - feat(ch09): `SubAgentSpec.catalog()` and `CATALOG_SPEC_TEMPLATE` — XML catalog entry for a sub-agent, mirroring `Skill.catalog()` / `CATALOG_SKILL_TEMPLATE` from Ch06 (#756)
 - feat(ch09): `UseSubAgentTool` — async tool dispatching tasks to named sub-agents; catches all exceptions (incl. `MaxStepsReachedError`) as error results (#755)

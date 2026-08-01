@@ -1,6 +1,7 @@
 """Agent Module."""
 
 import asyncio
+import json
 from typing import Any
 
 from rich.console import Console
@@ -20,6 +21,7 @@ from llm_agents_from_scratch.data_structures import (
     TaskResult,
     TaskStep,
     TaskStepResult,
+    ToolCall,
     ToolCallResult,
 )
 from llm_agents_from_scratch.data_structures.memory import Episode
@@ -349,7 +351,7 @@ class LLMAgent:
 
             return retval
 
-        async def run_step(self, step: TaskStep) -> TaskStepResult:  # noqa: PLR0912
+        async def run_step(self, step: TaskStep) -> TaskStepResult:  # noqa: PLR0912, PLR0915
             """Run next step of a given task.
 
             A single step is executed through a single-turn conversation that
@@ -426,8 +428,10 @@ class LLMAgent:
 
             # check if there are tool calls
             if response_message.tool_calls:
-                tool_call_results = []
-                for tool_call in response_message.tool_calls:
+
+                async def _execute_tool_call(
+                    tool_call: ToolCall,
+                ) -> ToolCallResult:
                     self.logger.info(
                         f"🛠️ Executing Tool Call: {tool_call.tool_name}",
                     )
@@ -442,15 +446,41 @@ class LLMAgent:
                             else None
                         )
                     ):
-                        if isinstance(tool, AsyncBaseTool):
-                            tool_call_result = await tool(tool_call=tool_call)
+                        try:
+                            if isinstance(tool, AsyncBaseTool):
+                                tool_call_result = await tool(
+                                    tool_call=tool_call,
+                                )
+                            else:
+                                # run sync tools in a thread so the event loop
+                                # stays free for concurrent async tool calls
+                                tool_call_result = await asyncio.to_thread(
+                                    tool,
+                                    tool_call=tool_call,
+                                )
+                        except Exception as e:
+                            error_details = {
+                                "error_type": e.__class__.__name__,
+                                "message": (
+                                    f"Internal error while executing "
+                                    f"tool: {e!s}"
+                                ),
+                            }
+                            tool_call_result = ToolCallResult(
+                                tool_call_id=tool_call.id_,
+                                error=True,
+                                content=json.dumps(error_details),
+                            )
+                        if tool_call_result.error:
+                            self.logger.info(
+                                "❌ Tool Call Failure: "
+                                f"{tool_call_result.content}",
+                            )
                         else:
-                            tool_call_result = tool(tool_call=tool_call)
-                        msg = (
-                            "✅ Successful Tool Call: "
-                            f"{tool_call_result.content}"
-                        )
-                        self.logger.info(msg)
+                            self.logger.info(
+                                "✅ Successful Tool Call: "
+                                f"{tool_call_result.content}",
+                            )
                     else:
                         error_msg = (
                             f"Tool with name {tool_call.tool_name} "
@@ -464,7 +494,14 @@ class LLMAgent:
                         self.logger.info(
                             f"❌ Tool Call Failure: {tool_call_result.content}",
                         )
-                    tool_call_results.append(tool_call_result)
+                    return tool_call_result
+
+                tool_call_results = await asyncio.gather(
+                    *[
+                        _execute_tool_call(tc)
+                        for tc in response_message.tool_calls
+                    ],
+                )
 
                 # send tool call results back to llm to get result
                 (

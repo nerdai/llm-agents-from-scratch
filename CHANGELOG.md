@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+### Changed
+
+- feat(ch04-retro): concurrent tool execution in `run_step` via `asyncio.gather` — async tools run concurrently; sync tools wrapped in `asyncio.to_thread`; result ordering preserved (#751)
+
 ## [0.0.21] - 2026-07-23
 
 ### Added

@@ -4426,7 +4426,7 @@ ensure_ollama()</div>
 
 <span class="n">task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span><span class="n">instruction</span><span class="o">=</span><span class="s2">"placeholder"</span><span class="p">)</span>
 <span class="n">handler</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="o">.</span><span class="n">TaskHandler</span><span class="p">(</span><span class="n">llm_agent</span><span class="o">=</span><span class="n">agent</span><span class="p">,</span> <span class="n">task</span><span class="o">=</span><span class="n">task</span><span class="p">)</span>
-<span class="n">skill</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">skills</span><span class="p">[</span><span class="s2">"word-frequency"</span><span class="p">]</span>
+<span class="n">skill</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">skills_registry</span><span class="p">[</span><span class="s2">"word-frequency"</span><span class="p">]</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Name:      </span><span class="si">{</span><span class="n">skill</span><span class="o">.</span><span class="n">frontmatter</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Scope:     </span><span class="si">{</span><span class="n">skill</span><span class="o">.</span><span class="n">scope</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
@@ -4446,7 +4446,7 @@ agent = LLMAgent(llm=llm)
 
 task = Task(instruction="placeholder")
 handler = LLMAgent.TaskHandler(llm_agent=agent, task=task)
-skill = handler.skills["word-frequency"]
+skill = handler.skills_registry["word-frequency"]
 
 print(f"Name:      {skill.frontmatter.name}")
 print(f"Scope:     {skill.scope}")

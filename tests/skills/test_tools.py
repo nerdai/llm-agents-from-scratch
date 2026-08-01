@@ -27,13 +27,13 @@ def make_skill(
 
 def test_use_skill_tool_name() -> None:
     """Tests UseSkillTool.name returns 'use_skill'."""
-    tool = UseSkillTool(skills={})
+    tool = UseSkillTool(skills_registry={})
     assert tool.name == "from_scratch__use_skill"
 
 
 def test_use_skill_tool_description() -> None:
     """Tests UseSkillTool.description mentions activation."""
-    tool = UseSkillTool(skills={})
+    tool = UseSkillTool(skills_registry={})
     assert "activate" in tool.description.lower()
 
 
@@ -43,7 +43,7 @@ def test_use_skill_tool_parameters_json_schema_enum() -> None:
         "skill-a": make_skill(name="skill-a"),
         "skill-b": make_skill(name="skill-b"),
     }
-    tool = UseSkillTool(skills=skills)
+    tool = UseSkillTool(skills_registry=skills)
 
     enum = tool.parameters_json_schema["properties"]["name"]["enum"]
     assert "skill-a" in enum
@@ -56,7 +56,7 @@ def test_use_skill_tool_parameters_json_schema_excludes_explicit_only() -> None:
         "visible": make_skill(name="visible"),
         "hidden": make_skill(name="hidden"),
     }
-    tool = UseSkillTool(skills=skills, explicit_only_skills={"hidden"})
+    tool = UseSkillTool(skills_registry=skills, explicit_only_skills={"hidden"})
 
     enum = tool.parameters_json_schema["properties"]["name"]["enum"]
     assert "visible" in enum
@@ -80,7 +80,7 @@ def test_use_skill_tool_build_skill_content_without_resources(
         location=skill_md,
         scope=SkillScope.PROJECT,
     )
-    tool = UseSkillTool(skills={"my-skill": skill})
+    tool = UseSkillTool(skills_registry={"my-skill": skill})
 
     content = tool._build_skill_content("my-skill")
 
@@ -110,7 +110,7 @@ def test_use_skill_tool_build_skill_content_with_resources(
         location=skill_md,
         scope=SkillScope.PROJECT,
     )
-    tool = UseSkillTool(skills={"my-skill": skill})
+    tool = UseSkillTool(skills_registry={"my-skill": skill})
 
     content = tool._build_skill_content("my-skill")
 
@@ -141,7 +141,7 @@ def test_use_skill_tool_call_returns_skill_content(tmp_path: Path) -> None:
         location=skill_md,
         scope=SkillScope.PROJECT,
     )
-    tool = UseSkillTool(skills={"my-skill": skill})
+    tool = UseSkillTool(skills_registry={"my-skill": skill})
     tool_call = ToolCall(tool_name="use_skill", arguments={"name": "my-skill"})
 
     result = tool(tool_call=tool_call)
@@ -170,7 +170,7 @@ def test_use_skill_tool_call_returns_error_on_invalid_name(
         location=skill_md,
         scope=SkillScope.PROJECT,
     )
-    tool = UseSkillTool(skills={"my-skill": skill})
+    tool = UseSkillTool(skills_registry={"my-skill": skill})
     tool_call = ToolCall(
         tool_name="use_skill",
         arguments={"name": "nonexistent"},
@@ -202,10 +202,10 @@ def test_use_skill_tool_call_returns_error_when_skill_missing_from_registry(
         location=skill_md,
         scope=SkillScope.PROJECT,
     )
-    tool = UseSkillTool(skills={"my-skill": skill})
+    tool = UseSkillTool(skills_registry={"my-skill": skill})
     # simulate divergence: name still in enum (_visible) but removed
     # from registry
-    del tool._skills["my-skill"]
+    del tool._skills_registry["my-skill"]
     tool_call = ToolCall(
         tool_name="use_skill",
         arguments={"name": "my-skill"},
@@ -219,7 +219,7 @@ def test_use_skill_tool_call_returns_error_when_skill_missing_from_registry(
 
 def test_use_skill_tool_call_returns_error_when_name_is_not_string() -> None:
     """Tests __call__ returns error when 'name' argument is not a string."""
-    tool = UseSkillTool(skills={})
+    tool = UseSkillTool(skills_registry={})
     tool_call = ToolCall(
         tool_name="use_skill",
         arguments={"name": 42},

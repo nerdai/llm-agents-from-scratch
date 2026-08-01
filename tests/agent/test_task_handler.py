@@ -66,7 +66,7 @@ async def test_task_handler_init_discovers_skills(
         )
 
     mock_discover.assert_called_once_with([SkillScope.PROJECT])
-    assert handler.skills == mock_skills
+    assert handler.skills_registry == mock_skills
 
 
 @pytest.mark.asyncio
@@ -743,7 +743,7 @@ async def test_skills_catalog_returns_catalog_xml(mock_llm: BaseLLM) -> None:
         llm_agent=llm_agent,
         task=Task(instruction="mock instruction"),
     )
-    handler.skills = {"my-skill": mock_skill}
+    handler.skills_registry = {"my-skill": mock_skill}
 
     expected = default_templates["skills_catalog"].format(
         skills="<skill><name>my-skill</name></skill>",
@@ -763,7 +763,7 @@ async def test_skills_catalog_excludes_explicit_only_skills(
         llm_agent=llm_agent,
         task=Task(instruction="mock instruction"),
     )
-    handler.skills = {"my-skill": mock_skill}
+    handler.skills_registry = {"my-skill": mock_skill}
     handler._explicit_only_skills = {"my-skill"}
 
     assert handler._skills_catalog == ""
@@ -787,7 +787,7 @@ async def test_run_step_injects_skills_catalog() -> None:
         llm_agent=llm_agent,
         task=Task(instruction="mock instruction"),
     )
-    handler.skills = {"my-skill": mock_skill}
+    handler.skills_registry = {"my-skill": mock_skill}
 
     step = TaskStep(
         task_id=handler.task.id_,

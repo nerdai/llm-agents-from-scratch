@@ -137,8 +137,8 @@ class LLMAgent:
             rollout: The execution log of the task.
             step_counter: The number of TaskSteps executed.
             logger: TaskHandler logger.
-            skills (dict[str, Skill]): Skills discovered at the start of
-                each run, keyed by name. Added in Chapter 6.
+            skills_registry (dict[str, Skill]): Skills discovered at the
+                start of each run, keyed by name. Added in Chapter 6.
             _explicit_only_skills (set[str]): Skill names excluded from the
                 model-visible catalog for this run. They remain loadable via
                 ``run_with_skill()``. Added in Chapter 6.
@@ -187,14 +187,14 @@ class LLMAgent:
                 if skills_scopes is not None
                 else [SkillScope.USER, SkillScope.PROJECT]
             )
-            self.skills: dict[str, Skill] = discover_skills(_scopes)
+            self.skills_registry: dict[str, Skill] = discover_skills(_scopes)
             self._explicit_only_skills: set[str] = explicit_only_skills or set()
             self._use_skill_tool: UseSkillTool | None = (
                 UseSkillTool(
-                    skills=self.skills,
+                    skills_registry=self.skills_registry,
                     explicit_only_skills=self._explicit_only_skills,
                 )
-                if self.skills
+                if self.skills_registry
                 else None
             )
             # added in ch07
@@ -244,7 +244,7 @@ class LLMAgent:
             """
             visible = [
                 skill
-                for name, skill in self.skills.items()
+                for name, skill in self.skills_registry.items()
                 if name not in self._explicit_only_skills
             ]
             if not visible:

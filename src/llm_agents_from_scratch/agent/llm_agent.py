@@ -20,6 +20,7 @@ from llm_agents_from_scratch.data_structures import (
     TaskResult,
     TaskStep,
     TaskStepResult,
+    ToolCall,
     ToolCallResult,
 )
 from llm_agents_from_scratch.data_structures.memory import Episode
@@ -426,8 +427,10 @@ class LLMAgent:
 
             # check if there are tool calls
             if response_message.tool_calls:
-                tool_call_results = []
-                for tool_call in response_message.tool_calls:
+
+                async def _execute_tool_call(
+                    tool_call: ToolCall,
+                ) -> ToolCallResult:
                     self.logger.info(
                         f"🛠️ Executing Tool Call: {tool_call.tool_name}",
                     )
@@ -445,12 +448,16 @@ class LLMAgent:
                         if isinstance(tool, AsyncBaseTool):
                             tool_call_result = await tool(tool_call=tool_call)
                         else:
-                            tool_call_result = tool(tool_call=tool_call)
-                        msg = (
+                            # run sync tools in a thread so the event loop
+                            # stays free for concurrent async tool calls
+                            tool_call_result = await asyncio.to_thread(
+                                tool,
+                                tool_call=tool_call,
+                            )
+                        self.logger.info(
                             "✅ Successful Tool Call: "
-                            f"{tool_call_result.content}"
+                            f"{tool_call_result.content}",
                         )
-                        self.logger.info(msg)
                     else:
                         error_msg = (
                             f"Tool with name {tool_call.tool_name} "
@@ -464,7 +471,18 @@ class LLMAgent:
                         self.logger.info(
                             f"❌ Tool Call Failure: {tool_call_result.content}",
                         )
-                    tool_call_results.append(tool_call_result)
+                    return tool_call_result
+
+                # independent tool calls in one LLM response have no ordering
+                # dependency — run them concurrently; gather preserves order
+                tool_call_results = list(
+                    await asyncio.gather(
+                        *[
+                            _execute_tool_call(tc)
+                            for tc in response_message.tool_calls
+                        ],
+                    ),
+                )
 
                 # send tool call results back to llm to get result
                 (

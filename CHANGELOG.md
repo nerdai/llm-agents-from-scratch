@@ -10,10 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- feat(ch09): `UseSubAgentTool` — async tool dispatching tasks to named sub-agents; catches all exceptions (incl. `MaxStepsReachedError`) as error results (#755)
 - feat(ch09): `SubAgentSpec` — Pydantic model registering a named sub-agent (name, description, agent, max_steps) in the `subagents/` package (#754)
 
 ### Changed
 
+- fix: `TaskHandler` parameterized as `asyncio.Future[TaskResult]` — `await agent.run(task)` now resolves to `TaskResult` rather than `Any` (#755)
 - feat(ch04-retro): concurrent tool execution in `run_step` via `asyncio.gather` — async tools run concurrently; sync tools wrapped in `asyncio.to_thread`; result ordering preserved (#751)
 
 ## [0.0.21] - 2026-07-23

@@ -109,6 +109,7 @@ nav:
       - Constants: api_reference/skills/constants.md
     - Subagents:
       - SubAgentSpec: api_reference/subagents/spec.md
+      - UseSubAgentTool: api_reference/subagents/tools.md
     - Errors: api_reference/errors/index.md
 plugins:
   - search

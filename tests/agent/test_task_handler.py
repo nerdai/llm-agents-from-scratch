@@ -1215,18 +1215,18 @@ async def test_llm_agent_init_with_subagents(mock_llm: BaseLLM) -> None:
     )
     agent = LLMAgent(llm=mock_llm, subagents=[spec])
 
-    assert "researcher" in agent.subagents
-    assert agent.subagents["researcher"] is spec
+    assert "researcher" in agent.subagents_registry
+    assert agent.subagents_registry["researcher"] is spec
 
 
 @pytest.mark.asyncio
 async def test_llm_agent_init_no_subagents_defaults_to_empty_dict(
     mock_llm: BaseLLM,
 ) -> None:
-    """Tests LLMAgent.subagents defaults to empty dict when not provided."""
+    """Tests LLMAgent.subagents_registry defaults to empty dict."""
     agent = LLMAgent(llm=mock_llm)
 
-    assert agent.subagents == {}
+    assert agent.subagents_registry == {}
 
 
 @pytest.mark.asyncio

@@ -58,8 +58,9 @@ class LLMAgent:
             the LLM with, represented as a dict.
         templates (LLMAgentTemplates): Prompt templates for LLM Agent.
         logger (logging.Logger): LLMAgent logger.
-        subagents (dict[str, SubAgentSpec]): Sub-agent registry, keyed by
-            name. Built from the constructor list. Added in Chapter 9.
+        subagents_registry (dict[str, SubAgentSpec]): Sub-agent registry,
+            keyed by name. Built from the constructor list. Added in
+            Chapter 9.
     """
 
     def __init__(
@@ -99,13 +100,13 @@ class LLMAgent:
         # added in ch07
         self.memories = memories or []
         # added in ch09
-        _subagents = subagents or []
-        if len({s.name for s in _subagents}) < len(_subagents):
+        subagents = subagents or []
+        if len({s.name for s in subagents}) < len(subagents):
             raise LLMAgentError(
                 "Provided subagent list contains duplicate names.",
             )
-        self.subagents: dict[str, SubAgentSpec] = {
-            s.name: s for s in _subagents
+        self.subagents_registry: dict[str, SubAgentSpec] = {
+            s.name: s for s in subagents
         }
 
     @property
@@ -200,13 +201,13 @@ class LLMAgent:
             self._recalled_memories: str = ""
             # added in ch09
             self._use_subagent_tool: "UseSubAgentTool | None"
-            if self.llm_agent.subagents:
+            if self.llm_agent.subagents_registry:
                 from llm_agents_from_scratch.subagents.tools import (  # noqa: PLC0415
                     UseSubAgentTool,
                 )
 
                 self._use_subagent_tool = UseSubAgentTool(
-                    subagents=self.llm_agent.subagents,
+                    subagents=self.llm_agent.subagents_registry,
                 )
             else:
                 self._use_subagent_tool = None
@@ -264,7 +265,7 @@ class LLMAgent:
             sub-agents are configured so callers can append it
             unconditionally without adding noise.
             """
-            specs = self.llm_agent.subagents.values()
+            specs = self.llm_agent.subagents_registry.values()
             if not specs:
                 return ""
             entries = "\n".join(s.catalog() for s in specs)

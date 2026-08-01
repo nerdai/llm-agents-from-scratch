@@ -177,8 +177,8 @@ async def test_build_passes_subagents_to_agent(mock_llm: BaseLLM) -> None:
     )
     agent = await LLMAgentBuilder(llm=mock_llm).with_subagent(spec).build()
 
-    assert "researcher" in agent.subagents
-    assert agent.subagents["researcher"] is spec
+    assert "researcher" in agent.subagents_registry
+    assert agent.subagents_registry["researcher"] is spec
 
 
 @pytest.mark.asyncio

@@ -1,6 +1,7 @@
 """Agent Module."""
 
 import asyncio
+import json
 from typing import Any
 
 from rich.console import Console
@@ -458,13 +459,17 @@ class LLMAgent:
                                     tool_call=tool_call,
                                 )
                         except Exception as e:
+                            error_details = {
+                                "error_type": e.__class__.__name__,
+                                "message": (
+                                    f"Internal error while executing "
+                                    f"tool: {e!s}"
+                                ),
+                            }
                             tool_call_result = ToolCallResult(
                                 tool_call_id=tool_call.id_,
                                 error=True,
-                                content=(
-                                    f"Unexpected error in tool "
-                                    f"'{tool_call.tool_name}': {e}"
-                                ),
+                                content=json.dumps(error_details),
                             )
                         if tool_call_result.error:
                             self.logger.info(

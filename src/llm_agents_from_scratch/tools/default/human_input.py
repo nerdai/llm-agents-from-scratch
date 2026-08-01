@@ -152,9 +152,9 @@ class SharedConsoleHumanInputTool(AsyncBaseTool):
     """
 
     # Class-level lock: all instances share one stdin, so one lock.
-    # Initialized lazily inside __call__ so it binds to the running event loop,
-    # not to the import-time default loop.
-    _console_lock: asyncio.Lock | None = None
+    # In Python 3.10+ asyncio.Lock binds to the running loop on first
+    # acquire(), not at construction, so this is safe to initialise here.
+    _console_lock: asyncio.Lock = asyncio.Lock()
 
     def __init__(self, owner: str | None = None) -> None:
         """Initialise with an optional owner label.
@@ -234,8 +234,6 @@ class SharedConsoleHumanInputTool(AsyncBaseTool):
                 error=True,
             )
         choices: list[str] | None = tool_call.arguments.get("choices")
-        if SharedConsoleHumanInputTool._console_lock is None:
-            SharedConsoleHumanInputTool._console_lock = asyncio.Lock()
         try:
             async with SharedConsoleHumanInputTool._console_lock:
                 response = await asyncio.to_thread(

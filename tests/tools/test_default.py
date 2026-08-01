@@ -1,5 +1,6 @@
 """Unit tests for default tools."""
 
+import asyncio
 from pathlib import Path
 from unittest.mock import patch
 
@@ -19,9 +20,9 @@ from llm_agents_from_scratch.tools.default.human_input import _prompt_human
 @pytest.fixture(autouse=True)
 def reset_console_lock() -> None:
     """Reset the class-level lock between tests to avoid event-loop binding."""
-    SharedConsoleHumanInputTool._console_lock = None
+    SharedConsoleHumanInputTool._console_lock = asyncio.Lock()
     yield
-    SharedConsoleHumanInputTool._console_lock = None
+    SharedConsoleHumanInputTool._console_lock = asyncio.Lock()
 
 
 def test_read_file_tool_name() -> None:
@@ -475,22 +476,11 @@ def test_shared_console_human_input_tool_owner_stored() -> None:
     assert tool.owner == "researcher"
 
 
-@pytest.mark.asyncio
-async def test_shared_console_human_input_tool_lock_is_class_level() -> None:
-    """Tests all instances share the same _console_lock after initialization."""
+def test_shared_console_human_input_tool_lock_is_class_level() -> None:
+    """Tests all instances share the same _console_lock."""
     a = SharedConsoleHumanInputTool(owner="researcher")
     b = SharedConsoleHumanInputTool(owner="coder")
-    tool_call = ToolCall(
-        tool_name="from_scratch__human_input",
-        arguments={"prompt": "Hello?"},
-    )
-    with patch(
-        "llm_agents_from_scratch.tools.default.human_input._prompt_human",
-        return_value="yes",
-    ):
-        await a(tool_call=tool_call)
 
-    assert SharedConsoleHumanInputTool._console_lock is not None
     assert a._console_lock is b._console_lock
     assert a._console_lock is SharedConsoleHumanInputTool._console_lock
 

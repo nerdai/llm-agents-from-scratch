@@ -1,5 +1,7 @@
 import asyncio
 import contextlib
+import json
+from typing import Any
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
@@ -7,6 +9,7 @@ import pytest
 from llm_agents_from_scratch.agent import LLMAgent
 from llm_agents_from_scratch.agent.templates import default_templates
 from llm_agents_from_scratch.base.llm import BaseLLM
+from llm_agents_from_scratch.base.tool import AsyncBaseTool, BaseTool
 from llm_agents_from_scratch.data_structures import (
     ChatMessage,
     ChatRole,
@@ -17,6 +20,7 @@ from llm_agents_from_scratch.data_structures import (
     TaskStep,
     TaskStepResult,
     ToolCall,
+    ToolCallResult,
 )
 from llm_agents_from_scratch.data_structures.skill import SkillScope
 from llm_agents_from_scratch.errors import TaskHandlerError
@@ -415,6 +419,128 @@ async def test_run_step() -> None:
     mock_llm.continue_chat_with_tool_results.assert_awaited_once()
     assert step_result.task_step_id == step.id_
     assert step_result.content == "The final response."
+
+
+@pytest.mark.asyncio
+async def test_run_step_async_tool_raises_exception() -> None:
+    """Tests run_step converts an unhandled async tool exception to error."""
+
+    class RaisingAsyncTool(AsyncBaseTool):
+        @property
+        def name(self) -> str:
+            return "raising_async_tool"
+
+        @property
+        def description(self) -> str:
+            return "always raises"
+
+        @property
+        def parameters_json_schema(self) -> dict[str, Any]:
+            return {}
+
+        async def __call__(
+            self,
+            tool_call: ToolCall,
+            *args: Any,
+            **kwargs: Any,
+        ) -> ToolCallResult:
+            raise ValueError("async boom")
+
+    mock_llm = AsyncMock()
+    tool_call = ToolCall(tool_name="raising_async_tool", arguments={})
+    mock_llm.chat.return_value = (
+        ChatMessage(role=ChatRole.USER, content="do it"),
+        ChatMessage(
+            role=ChatRole.ASSISTANT,
+            content="",
+            tool_calls=[tool_call],
+        ),
+    )
+    mock_llm.continue_chat_with_tool_results.return_value = (
+        [ChatMessage(role=ChatRole.TOOL, content="err")],
+        ChatMessage(role=ChatRole.ASSISTANT, content="done"),
+    )
+
+    llm_agent = LLMAgent(llm=mock_llm, tools=[RaisingAsyncTool()])
+    handler = LLMAgent.TaskHandler(
+        llm_agent=llm_agent,
+        task=Task(instruction="mock instruction"),
+    )
+    step = TaskStep(
+        task_id=handler.task.id_,
+        instruction="do it",
+    )
+
+    step_result = await handler.run_step(step)
+
+    assert step_result.content == "done"
+    _, kwargs = mock_llm.continue_chat_with_tool_results.call_args
+    (result,) = kwargs["tool_call_results"]
+    assert result.error is True
+    error_details = json.loads(result.content)
+    assert error_details["error_type"] == "ValueError"
+    assert "async boom" in error_details["message"]
+
+
+@pytest.mark.asyncio
+async def test_run_step_sync_tool_raises_exception() -> None:
+    """Tests run_step converts an unhandled sync tool exception to error."""
+
+    class RaisingSyncTool(BaseTool):
+        @property
+        def name(self) -> str:
+            return "raising_sync_tool"
+
+        @property
+        def description(self) -> str:
+            return "always raises"
+
+        @property
+        def parameters_json_schema(self) -> dict[str, Any]:
+            return {}
+
+        def __call__(
+            self,
+            tool_call: ToolCall,
+            *args: Any,
+            **kwargs: Any,
+        ) -> ToolCallResult:
+            raise RuntimeError("sync boom")
+
+    mock_llm = AsyncMock()
+    tool_call = ToolCall(tool_name="raising_sync_tool", arguments={})
+    mock_llm.chat.return_value = (
+        ChatMessage(role=ChatRole.USER, content="do it"),
+        ChatMessage(
+            role=ChatRole.ASSISTANT,
+            content="",
+            tool_calls=[tool_call],
+        ),
+    )
+    mock_llm.continue_chat_with_tool_results.return_value = (
+        [ChatMessage(role=ChatRole.TOOL, content="err")],
+        ChatMessage(role=ChatRole.ASSISTANT, content="done"),
+    )
+
+    llm_agent = LLMAgent(llm=mock_llm, tools=[RaisingSyncTool()])
+    handler = LLMAgent.TaskHandler(
+        llm_agent=llm_agent,
+        task=Task(instruction="mock instruction"),
+    )
+    step = TaskStep(
+        task_id=handler.task.id_,
+        instruction="do it",
+    )
+
+    step_result = await handler.run_step(step)
+
+    assert step_result.content == "done"
+    _, kwargs = mock_llm.continue_chat_with_tool_results.call_args
+    (result,) = kwargs["tool_call_results"]
+    assert result.error is True
+    error_details = json.loads(result.content)
+    assert error_details["error_type"] == "RuntimeError"
+    assert "sync boom" in error_details["message"]
 
 
 @pytest.mark.asyncio

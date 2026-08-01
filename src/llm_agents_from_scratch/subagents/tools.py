@@ -28,18 +28,18 @@ class UseSubAgentTool(AsyncBaseTool):
     re-plan rather than crash.
 
     Attributes:
-        subagents (dict[str, SubAgentSpec]): Registered sub-agents, keyed by
-            name.
+        subagents_registry (dict[str, SubAgentSpec]): Registered sub-agents,
+            keyed by name.
     """
 
-    def __init__(self, subagents: dict[str, SubAgentSpec]) -> None:
+    def __init__(self, subagents_registry: dict[str, SubAgentSpec]) -> None:
         """Initialise with a registry of sub-agents.
 
         Args:
-            subagents (dict[str, SubAgentSpec]): Sub-agents to register, keyed
-                by name.
+            subagents_registry (dict[str, SubAgentSpec]): Sub-agents to
+                register, keyed by name.
         """
-        self._subagents = subagents
+        self._subagents_registry = subagents_registry
 
     @property
     def name(self) -> str:
@@ -67,7 +67,7 @@ class UseSubAgentTool(AsyncBaseTool):
             "properties": {
                 "name": {
                     "type": "string",
-                    "enum": sorted(self._subagents),
+                    "enum": sorted(self._subagents_registry),
                     "description": (
                         "Name of the sub-agent to dispatch the task to."
                     ),
@@ -122,7 +122,7 @@ class UseSubAgentTool(AsyncBaseTool):
                     },
                 ),
             )
-        spec = self._subagents.get(subagent_name)
+        spec = self._subagents_registry.get(subagent_name)
         try:
             if spec is None:
                 raise SubAgentNotFoundError(

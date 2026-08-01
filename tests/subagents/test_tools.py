@@ -30,13 +30,13 @@ def make_spec(
 
 def test_use_subagent_tool_name(mock_llm: BaseLLM) -> None:
     """Tests UseSubAgentTool.name."""
-    tool = UseSubAgentTool(subagents={})
+    tool = UseSubAgentTool(subagents_registry={})
     assert tool.name == "from_scratch__use_subagent"
 
 
 def test_use_subagent_tool_description(mock_llm: BaseLLM) -> None:
     """Tests UseSubAgentTool.description mentions dispatch."""
-    tool = UseSubAgentTool(subagents={})
+    tool = UseSubAgentTool(subagents_registry={})
     assert "dispatch" in tool.description.lower()
 
 
@@ -46,7 +46,7 @@ def test_use_subagent_tool_schema_enum(mock_llm: BaseLLM) -> None:
         "researcher": make_spec("researcher", mock_llm),
         "coder": make_spec("coder", mock_llm),
     }
-    tool = UseSubAgentTool(subagents=subagents)
+    tool = UseSubAgentTool(subagents_registry=subagents)
     enum = tool.parameters_json_schema["properties"]["name"]["enum"]
     assert "researcher" in enum
     assert "coder" in enum
@@ -54,7 +54,7 @@ def test_use_subagent_tool_schema_enum(mock_llm: BaseLLM) -> None:
 
 def test_use_subagent_tool_schema_required(mock_llm: BaseLLM) -> None:
     """Tests parameters_json_schema requires both name and task."""
-    tool = UseSubAgentTool(subagents={})
+    tool = UseSubAgentTool(subagents_registry={})
     required = tool.parameters_json_schema["required"]
     assert "name" in required
     assert "task" in required
@@ -71,7 +71,7 @@ async def test_use_subagent_tool_dispatches_task(mock_llm: BaseLLM) -> None:
 
     spec = make_spec("researcher", mock_llm)
     with patch.object(spec.agent, "run", return_value=future) as mock_run:
-        tool = UseSubAgentTool(subagents={"researcher": spec})
+        tool = UseSubAgentTool(subagents_registry={"researcher": spec})
         tool_call = ToolCall(
             tool_name="from_scratch__use_subagent",
             arguments={"name": "researcher", "task": "What is the answer?"},
@@ -97,7 +97,7 @@ async def test_use_subagent_tool_passes_max_steps(mock_llm: BaseLLM) -> None:
 
     spec = make_spec("coder", mock_llm, max_steps=MAX_STEPS_CODER)
     with patch.object(spec.agent, "run", return_value=future) as mock_run:
-        tool = UseSubAgentTool(subagents={"coder": spec})
+        tool = UseSubAgentTool(subagents_registry={"coder": spec})
         tool_call = ToolCall(
             tool_name="from_scratch__use_subagent",
             arguments={"name": "coder", "task": "Write a sort function."},
@@ -119,7 +119,7 @@ async def test_use_subagent_tool_catches_max_steps_error(
 
     spec = make_spec("researcher", mock_llm)
     with patch.object(spec.agent, "run", return_value=future):
-        tool = UseSubAgentTool(subagents={"researcher": spec})
+        tool = UseSubAgentTool(subagents_registry={"researcher": spec})
         tool_call = ToolCall(
             tool_name="from_scratch__use_subagent",
             arguments={"name": "researcher", "task": "Find everything."},
@@ -144,7 +144,7 @@ async def test_use_subagent_tool_catches_unexpected_error(
 
     spec = make_spec("coder", mock_llm)
     with patch.object(spec.agent, "run", return_value=future):
-        tool = UseSubAgentTool(subagents={"coder": spec})
+        tool = UseSubAgentTool(subagents_registry={"coder": spec})
         tool_call = ToolCall(
             tool_name="from_scratch__use_subagent",
             arguments={"name": "coder", "task": "Do something."},
@@ -162,7 +162,7 @@ async def test_use_subagent_tool_catches_unexpected_error(
 async def test_use_subagent_tool_unknown_name(mock_llm: BaseLLM) -> None:
     """Tests unknown subagent name returns error result."""
     tool = UseSubAgentTool(
-        subagents={"researcher": make_spec("researcher", mock_llm)},
+        subagents_registry={"researcher": make_spec("researcher", mock_llm)},
     )
     tool_call = ToolCall(
         tool_name="from_scratch__use_subagent",
@@ -179,7 +179,7 @@ async def test_use_subagent_tool_unknown_name(mock_llm: BaseLLM) -> None:
 @pytest.mark.asyncio
 async def test_use_subagent_tool_missing_name_arg(mock_llm: BaseLLM) -> None:
     """Tests missing name argument returns error result."""
-    tool = UseSubAgentTool(subagents={})
+    tool = UseSubAgentTool(subagents_registry={})
     tool_call = ToolCall(
         tool_name="from_scratch__use_subagent",
         arguments={"task": "Do something."},
@@ -194,7 +194,7 @@ async def test_use_subagent_tool_missing_name_arg(mock_llm: BaseLLM) -> None:
 @pytest.mark.asyncio
 async def test_use_subagent_tool_missing_task_arg(mock_llm: BaseLLM) -> None:
     """Tests missing task argument returns error result."""
-    tool = UseSubAgentTool(subagents={})
+    tool = UseSubAgentTool(subagents_registry={})
     tool_call = ToolCall(
         tool_name="from_scratch__use_subagent",
         arguments={"name": "researcher"},

@@ -10,11 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- feat(ch09): `LLMAgent.subagents_registry` param, `TaskHandler._use_subagent_tool`, `TaskHandler._subagents_catalog`, and `DEFAULT_SUBAGENTS_CATALOG` template — wires sub-agent registry and `<available_subagents>` catalog into the coordinator; `LLMAgentBuilder.with_subagent()` / `with_subagents()` fluent methods (#756, #746)
+- feat(ch09): `SubAgentSpec.catalog()` and `CATALOG_SPEC_TEMPLATE` — XML catalog entry for a sub-agent, mirroring `Skill.catalog()` / `CATALOG_SKILL_TEMPLATE` from Ch06 (#756)
 - feat(ch09): `UseSubAgentTool` — async tool dispatching tasks to named sub-agents; catches all exceptions (incl. `MaxStepsReachedError`) as error results (#755)
 - feat(ch09): `SubAgentSpec` — Pydantic model registering a named sub-agent (name, description, agent, max_steps) in the `subagents/` package (#754)
 
 ### Changed
 
+- refactor: rename `UseSubAgentTool` constructor param `subagents` → `subagents_registry`; rename stored attribute to `_subagents_registry` — consistent with the `_registry` suffix convention for dict-keyed stores
+- refactor: rename `LLMAgent.subagents` attribute → `subagents_registry` — consistent with `tools_registry` naming convention (#756)
 - fix: `TaskHandler` parameterized as `asyncio.Future[TaskResult]` — `await agent.run(task)` now resolves to `TaskResult` rather than `Any` (#755)
 - feat(ch04-retro): concurrent tool execution in `run_step` via `asyncio.gather` — async tools run concurrently; sync tools wrapped in `asyncio.to_thread`; result ordering preserved (#751)
 

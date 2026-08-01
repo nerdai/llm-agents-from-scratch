@@ -13,6 +13,7 @@ from .defaults import (
     DEFAULT_STEP_ROLLOUT_CHAT_MESSAGE,
     DEFAULT_STEP_ROLLOUT_CONTENT_INSTRUCTION,
     DEFAULT_STEP_ROLLOUT_CONTENT_TOOL_CALL_REQUEST,
+    DEFAULT_SUBAGENTS_CATALOG,
     DEFAULT_SYSTEM_MESSAGE,
 )
 
@@ -35,6 +36,8 @@ class LLMAgentTemplates(TypedDict):
     memories: str
     # added in ch08
     approval_rejection_feedback: str
+    # added in ch09
+    subagents_catalog: str
 
 
 default_templates = LLMAgentTemplates(
@@ -52,4 +55,6 @@ default_templates = LLMAgentTemplates(
     memories=DEFAULT_MEMORIES_BLOCK,
     # added in ch08
     approval_rejection_feedback=DEFAULT_APPROVAL_REJECTION_FEEDBACK,
+    # added in ch09
+    subagents_catalog=DEFAULT_SUBAGENTS_CATALOG,
 )

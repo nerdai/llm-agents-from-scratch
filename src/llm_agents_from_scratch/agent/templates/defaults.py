@@ -99,6 +99,14 @@ result directly unless instructed otherwise.
 {memories}
 </memories>""".strip()
 
+DEFAULT_SUBAGENTS_CATALOG = """The following sub-agents are available. To \
+dispatch a task to one, call the `from_scratch__use_subagent` tool with the \
+sub-agent name and a task instruction.
+
+<available_subagents>
+{subagents}
+</available_subagents>""".strip()
+
 DEFAULT_APPROVAL_REJECTION_FEEDBACK = """The human operator REJECTED your \
 proposed task result. Revise your approach and try again.
 

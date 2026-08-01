@@ -107,6 +107,8 @@ nav:
       - Discovery: api_reference/skills/discovery.md
       - UseSkillTool: api_reference/skills/tools.md
       - Constants: api_reference/skills/constants.md
+    - Subagents:
+      - SubAgentSpec: api_reference/subagents/spec.md
     - Errors: api_reference/errors/index.md
 plugins:
   - search

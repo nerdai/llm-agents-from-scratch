@@ -2,7 +2,7 @@
 
 import asyncio
 import json
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from rich.console import Console
 from rich.panel import Panel
@@ -44,6 +44,10 @@ from llm_agents_from_scratch.skills.tools import UseSkillTool
 
 from .templates import LLMAgentTemplates, default_templates
 
+if TYPE_CHECKING:
+    from llm_agents_from_scratch.subagents.spec import SubAgentSpec
+    from llm_agents_from_scratch.subagents.tools import UseSubAgentTool
+
 
 class LLMAgent:
     """A simple LLM Agent Class.
@@ -54,6 +58,8 @@ class LLMAgent:
             the LLM with, represented as a dict.
         templates (LLMAgentTemplates): Prompt templates for LLM Agent.
         logger (logging.Logger): LLMAgent logger.
+        subagents (dict[str, SubAgentSpec]): Registered sub-agents, keyed by
+            name. Added in Chapter 9.
     """
 
     def __init__(
@@ -63,6 +69,8 @@ class LLMAgent:
         templates: LLMAgentTemplates = default_templates,
         # added in ch07
         memories: list[Memory] | None = None,
+        # added in ch09
+        subagents: "dict[str, SubAgentSpec] | None" = None,
     ):
         """Initialize an LLMAgent.
 
@@ -74,6 +82,9 @@ class LLMAgent:
             memories (list[Memory] | None): Episodic memory backends
                 to consult at task start and update at task end. Defaults
                 to None (no memory). Added in Chapter 7.
+            subagents (dict[str, SubAgentSpec] | None): Sub-agents this
+                coordinator can delegate to. Defaults to None (no
+                sub-agents). Added in Chapter 9.
         """
         self.llm = llm
         tools = tools or []
@@ -87,6 +98,8 @@ class LLMAgent:
         self.logger = get_logger(self.__class__.__name__)
         # added in ch07
         self.memories = memories or []
+        # added in ch09
+        self.subagents: dict[str, SubAgentSpec] = subagents or {}
 
     @property
     def tools(self) -> list[Tool]:
@@ -124,6 +137,9 @@ class LLMAgent:
             _use_skill_tool (UseSkillTool | None): Task-scoped skill
                 activation tool. Set when skills are discovered; ``None``
                 otherwise. Added in Chapter 6.
+            _use_subagent_tool (UseSubAgentTool | None): Task-scoped
+                sub-agent dispatch tool. Set when sub-agents are registered
+                on the agent; ``None`` otherwise. Added in Chapter 9.
         """
 
         def __init__(
@@ -175,6 +191,18 @@ class LLMAgent:
             )
             # added in ch07
             self._recalled_memories: str = ""
+            # added in ch09
+            self._use_subagent_tool: "UseSubAgentTool | None"
+            if self.llm_agent.subagents:
+                from llm_agents_from_scratch.subagents.tools import (  # noqa: PLC0415
+                    UseSubAgentTool as _UseSubAgentTool,
+                )
+
+                self._use_subagent_tool = _UseSubAgentTool(
+                    subagents=self.llm_agent.subagents,
+                )
+            else:
+                self._use_subagent_tool = None
 
         @property
         def background_task(self) -> asyncio.Task:
@@ -216,6 +244,31 @@ class LLMAgent:
             entries = "\n".join(skill.catalog() for skill in visible)
             return self.llm_agent.templates["skills_catalog"].format(
                 skills=entries,
+            )
+
+        @property
+        def _subagents_catalog(self) -> str:
+            """Return formatted sub-agents catalog, or empty string.
+
+            Added in Chapter 9.
+
+            Builds the ``<available_subagents>`` XML block from sub-agents
+            registered on the coordinator. Returns an empty string when no
+            sub-agents are configured so callers can append it
+            unconditionally without adding noise.
+            """
+            specs = self.llm_agent.subagents.values()
+            if not specs:
+                return ""
+            entries = "\n".join(
+                f"  <subagent>"
+                f"<name>{s.name}</name>"
+                f"<description>{s.description}</description>"
+                f"</subagent>"
+                for s in specs
+            )
+            return self.llm_agent.templates["subagents_catalog"].format(
+                subagents=entries,
             )
 
         def _format_step_for_rollout(
@@ -404,6 +457,13 @@ class LLMAgent:
                     content=f"{system_message.content}\n\n{catalog}",
                 )
 
+            # added in ch09: bolt on sub-agents catalog when registered
+            if catalog := self._subagents_catalog:
+                system_message = ChatMessage(
+                    role=ChatRole.SYSTEM,
+                    content=f"{system_message.content}\n\n{catalog}",
+                )
+
             self.logger.debug(f"💬 SYSTEM: {system_message.content}")
 
             # fictitious user's input
@@ -416,8 +476,11 @@ class LLMAgent:
 
             # start single-turn conversation
             # added in ch06: include use_skill tool when skills are available
-            all_tools = self.llm_agent.tools + (
-                [self._use_skill_tool] if self._use_skill_tool else []
+            # added in ch09: include use_subagent tool when registered
+            all_tools = (
+                self.llm_agent.tools
+                + ([self._use_skill_tool] if self._use_skill_tool else [])
+                + ([self._use_subagent_tool] if self._use_subagent_tool else [])
             )
             user_message, response_message = await self.llm_agent.llm.chat(
                 input=user_input,
@@ -443,6 +506,13 @@ class LLMAgent:
                             self._use_skill_tool
                             if self._use_skill_tool
                             and tool_call.tool_name == self._use_skill_tool.name
+                            else None
+                        )
+                        or (
+                            self._use_subagent_tool
+                            if self._use_subagent_tool
+                            and tool_call.tool_name
+                            == self._use_subagent_tool.name
                             else None
                         )
                     ):

@@ -24,6 +24,7 @@ from llm_agents_from_scratch.data_structures.skill import SkillScope
 from llm_agents_from_scratch.errors import TaskHandlerError
 from llm_agents_from_scratch.memory.memory import Memory
 from llm_agents_from_scratch.skills.skill import Skill
+from llm_agents_from_scratch.subagents import SubAgentSpec, UseSubAgentTool
 from llm_agents_from_scratch.tools.simple_function import (
     AsyncSimpleFunctionTool,
     SimpleFunctionTool,
@@ -1197,3 +1198,131 @@ async def test_supervised_handler_complete_raises_on_non_task_result(
 
     with pytest.raises(TaskHandlerError, match="TaskResult"):
         await handler.complete(step)  # type: ignore[arg-type]
+
+
+# ---------------------------------------------------------------------------
+# Subagents tests (Chapter 9)
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.asyncio
+async def test_llm_agent_init_with_subagents(mock_llm: BaseLLM) -> None:
+    """Tests LLMAgent stores provided subagents dict."""
+    spec = SubAgentSpec(
+        name="researcher",
+        description="Looks things up.",
+        agent=LLMAgent(llm=mock_llm),
+    )
+    agent = LLMAgent(llm=mock_llm, subagents={"researcher": spec})
+
+    assert "researcher" in agent.subagents
+    assert agent.subagents["researcher"] is spec
+
+
+@pytest.mark.asyncio
+async def test_llm_agent_init_no_subagents_defaults_to_empty_dict(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests LLMAgent.subagents defaults to empty dict when not provided."""
+    agent = LLMAgent(llm=mock_llm)
+
+    assert agent.subagents == {}
+
+
+@pytest.mark.asyncio
+async def test_task_handler_use_subagent_tool_set_when_subagents_registered(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests _use_subagent_tool is set when subagents are registered."""
+    spec = SubAgentSpec(
+        name="coder",
+        description="Writes code.",
+        agent=LLMAgent(llm=mock_llm),
+    )
+    agent = LLMAgent(llm=mock_llm, subagents={"coder": spec})
+    handler = LLMAgent.TaskHandler(
+        llm_agent=agent,
+        task=Task(instruction="mock instruction"),
+    )
+
+    assert handler._use_subagent_tool is not None
+    assert isinstance(handler._use_subagent_tool, UseSubAgentTool)
+    assert handler._use_subagent_tool.name == "from_scratch__use_subagent"
+
+
+@pytest.mark.asyncio
+async def test_task_handler_use_subagent_tool_none_when_no_subagents(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests _use_subagent_tool is None when no subagents are registered."""
+    agent = LLMAgent(llm=mock_llm)
+    handler = LLMAgent.TaskHandler(
+        llm_agent=agent,
+        task=Task(instruction="mock instruction"),
+    )
+
+    assert handler._use_subagent_tool is None
+
+
+@pytest.mark.asyncio
+async def test_subagents_catalog_empty_when_no_subagents(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests _subagents_catalog returns empty string when none registered."""
+    agent = LLMAgent(llm=mock_llm)
+    handler = LLMAgent.TaskHandler(
+        llm_agent=agent,
+        task=Task(instruction="mock instruction"),
+    )
+
+    assert handler._subagents_catalog == ""
+
+
+@pytest.mark.asyncio
+async def test_subagents_catalog_returns_catalog_xml(mock_llm: BaseLLM) -> None:
+    """Tests _subagents_catalog returns formatted XML for registered agents."""
+    spec = SubAgentSpec(
+        name="researcher",
+        description="Looks things up.",
+        agent=LLMAgent(llm=mock_llm),
+    )
+    agent = LLMAgent(llm=mock_llm, subagents={"researcher": spec})
+    handler = LLMAgent.TaskHandler(
+        llm_agent=agent,
+        task=Task(instruction="mock instruction"),
+    )
+
+    catalog = handler._subagents_catalog
+
+    assert "<available_subagents>" in catalog
+    assert "<name>researcher</name>" in catalog
+    assert "<description>Looks things up.</description>" in catalog
+
+
+@pytest.mark.asyncio
+async def test_run_step_injects_subagents_catalog() -> None:
+    """Tests run_step appends subagents catalog to system message when set."""
+    mock_llm = AsyncMock()
+    mock_llm.chat.return_value = (
+        ChatMessage(role=ChatRole.USER, content="Some instruction."),
+        ChatMessage(role=ChatRole.ASSISTANT, content="Done."),
+    )
+
+    spec = SubAgentSpec(
+        name="coder",
+        description="Writes code.",
+        agent=LLMAgent(llm=mock_llm),
+    )
+    agent = LLMAgent(llm=mock_llm, subagents={"coder": spec})
+    handler = LLMAgent.TaskHandler(
+        llm_agent=agent,
+        task=Task(instruction="mock instruction"),
+    )
+
+    step = TaskStep(task_id=handler.task.id_, instruction="Some instruction.")
+    await handler.run_step(step)
+
+    call_kwargs = mock_llm.chat.call_args
+    system_msg = call_kwargs.kwargs["chat_history"][0]
+    assert "<available_subagents>" in system_msg.content
+    assert "<name>coder</name>" in system_msg.content

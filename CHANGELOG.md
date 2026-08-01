@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
-- feat(ch09): `SubAgentSpec` — Pydantic model registering a named sub-agent (name, description, agent, max_steps) in the `subagents/` package (#752)
+- feat(ch09): `SubAgentSpec` — Pydantic model registering a named sub-agent (name, description, agent, max_steps) in the `subagents/` package (#754)
 
 ### Changed
 

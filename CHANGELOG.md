@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- refactor: rename `TaskHandler.skills` → `skills_registry` and `UseSkillTool` param `skills` → `skills_registry` — consistent with the `_registry` suffix convention for dict-keyed stores; updates `examples/ch06.ipynb` and affected `more-examples/ch06/` notebooks (#758)
 - refactor: rename `UseSubAgentTool` constructor param `subagents` → `subagents_registry`; rename stored attribute to `_subagents_registry` — consistent with the `_registry` suffix convention for dict-keyed stores
 - refactor: rename `LLMAgent.subagents` attribute → `subagents_registry` — consistent with `tools_registry` naming convention (#756)
 - fix: `TaskHandler` parameterized as `asyncio.Future[TaskResult]` — `await agent.run(task)` now resolves to `TaskResult` rather than `Any` (#755)

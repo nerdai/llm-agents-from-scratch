@@ -5,9 +5,13 @@ from unittest.mock import AsyncMock, MagicMock
 import pytest
 
 from llm_agents_from_scratch import LLMAgentBuilder
+from llm_agents_from_scratch.agent import LLMAgent
 from llm_agents_from_scratch.agent.templates import default_templates
-from llm_agents_from_scratch.errors import LLMAgentBuilderError
+from llm_agents_from_scratch.base.llm import BaseLLM
+from llm_agents_from_scratch.data_structures import Task
+from llm_agents_from_scratch.errors import LLMAgentBuilderError, LLMAgentError
 from llm_agents_from_scratch.memory.memory import Memory
+from llm_agents_from_scratch.subagents import SubAgentSpec, UseSubAgentTool
 from llm_agents_from_scratch.tools.mcp.tool import MCPTool
 
 
@@ -115,3 +119,103 @@ async def test_build_raises_error_with_no_llm_set() -> None:
 
     with pytest.raises(LLMAgentBuilderError, match="`llm` must be set"):
         await LLMAgentBuilder().with_tool(mock_tool).build()
+
+
+# ---------------------------------------------------------------------------
+# Subagents tests (Chapter 9)
+# ---------------------------------------------------------------------------
+
+
+def test_init_with_subagents(mock_llm: BaseLLM) -> None:
+    """Tests builder init stores subagents list."""
+    spec = SubAgentSpec(
+        name="researcher",
+        description="Looks things up.",
+        agent=LLMAgent(llm=mock_llm),
+    )
+    builder = LLMAgentBuilder(subagents=[spec])
+
+    assert builder.subagents == [spec]
+
+
+def test_with_subagent_fluent(mock_llm: BaseLLM) -> None:
+    """Tests with_subagent() appends a spec and returns self."""
+    spec = SubAgentSpec(
+        name="coder",
+        description="Writes code.",
+        agent=LLMAgent(llm=mock_llm),
+    )
+    builder = LLMAgentBuilder().with_subagent(spec)
+
+    assert builder.subagents == [spec]
+
+
+def test_with_subagents_fluent(mock_llm: BaseLLM) -> None:
+    """Tests with_subagents() extends specs and returns self."""
+    spec_a = SubAgentSpec(
+        name="researcher",
+        description="Looks things up.",
+        agent=LLMAgent(llm=mock_llm),
+    )
+    spec_b = SubAgentSpec(
+        name="coder",
+        description="Writes code.",
+        agent=LLMAgent(llm=mock_llm),
+    )
+    builder = LLMAgentBuilder().with_subagents([spec_a, spec_b])
+
+    assert builder.subagents == [spec_a, spec_b]
+
+
+@pytest.mark.asyncio
+async def test_build_passes_subagents_to_agent(mock_llm: BaseLLM) -> None:
+    """Tests build() wires subagents registry into LLMAgent."""
+    spec = SubAgentSpec(
+        name="researcher",
+        description="Looks things up.",
+        agent=LLMAgent(llm=mock_llm),
+    )
+    agent = await LLMAgentBuilder(llm=mock_llm).with_subagent(spec).build()
+
+    assert "researcher" in agent.subagents
+    assert agent.subagents["researcher"] is spec
+
+
+@pytest.mark.asyncio
+async def test_build_use_subagent_tool_present(mock_llm: BaseLLM) -> None:
+    """Tests build() with subagents makes UseSubAgentTool available in run."""
+    spec = SubAgentSpec(
+        name="coder",
+        description="Writes code.",
+        agent=LLMAgent(llm=mock_llm),
+    )
+    agent = await LLMAgentBuilder(llm=mock_llm).with_subagent(spec).build()
+
+    handler = LLMAgent.TaskHandler(
+        llm_agent=agent,
+        task=Task(instruction="test"),
+    )
+    assert isinstance(handler._use_subagent_tool, UseSubAgentTool)
+
+
+@pytest.mark.asyncio
+async def test_build_raises_on_duplicate_subagent_names(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests build() raises LLMAgentBuilderError on duplicate subagent names."""
+    spec_a = SubAgentSpec(
+        name="researcher",
+        description="First.",
+        agent=LLMAgent(llm=mock_llm),
+    )
+    spec_b = SubAgentSpec(
+        name="researcher",
+        description="Second.",
+        agent=LLMAgent(llm=mock_llm),
+    )
+    with pytest.raises(LLMAgentError, match="duplicate"):
+        await (
+            LLMAgentBuilder(llm=mock_llm)
+            .with_subagents([spec_a, spec_b])
+            .build()
+        )

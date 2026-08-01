@@ -54,3 +54,16 @@ def test_subagentspec_requires_description(mock_llm: BaseLLM) -> None:
             name="coder",
             agent=LLMAgent(llm=mock_llm),
         )
+
+
+def test_subagentspec_catalog(mock_llm: BaseLLM) -> None:
+    """Tests catalog() returns the XML entry for the spec."""
+    spec = SubAgentSpec(
+        name="researcher",
+        description="Searches the web.",
+        agent=LLMAgent(llm=mock_llm),
+    )
+    entry = spec.catalog()
+
+    assert "<name>researcher</name>" in entry
+    assert "<description>Searches the web.</description>" in entry

@@ -2,6 +2,7 @@
 
 import asyncio
 from itertools import chain
+from typing import TYPE_CHECKING
 
 from typing_extensions import Self
 
@@ -18,6 +19,9 @@ from llm_agents_from_scratch.tools.mcp import MCPToolProvider
 
 from .llm_agent import LLMAgent
 
+if TYPE_CHECKING:
+    from llm_agents_from_scratch.subagents.spec import SubAgentSpec
+
 
 class LLMAgentBuilder:
     """A builder for LLM Agents.
@@ -29,9 +33,11 @@ class LLMAgentBuilder:
         mcp_providers (list[MCPToolProvider]): MCP providers for tool
             discovery.
         memories (list[Memory]): Memory backends for the agent.
+        subagents (list[SubAgentSpec]): Sub-agent specs for the agent.
+            Added in Chapter 9.
     """
 
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         llm: LLM | None = None,
         tools: list[Tool] | None = None,
@@ -39,6 +45,8 @@ class LLMAgentBuilder:
         mcp_providers: list[MCPToolProvider] | None = None,
         # added in ch07
         memories: list[Memory] | None = None,
+        # added in ch09
+        subagents: "list[SubAgentSpec] | None" = None,
     ) -> None:
         """Initialize an LLMAgentBuilder.
 
@@ -54,6 +62,7 @@ class LLMAgentBuilder:
                     .with_tool(my_tool)
                     .with_mcp_provider(provider)
                     .with_memory(my_memory)
+                    .with_subagent(spec)
                     .build()
                 )
 
@@ -64,6 +73,7 @@ class LLMAgentBuilder:
                     tools=[my_tool],
                     mcp_providers=[provider],
                     memories=[my_memory],
+                    subagents=[spec],
                 ).build()
 
         Args:
@@ -79,6 +89,9 @@ class LLMAgentBuilder:
             memories (list[Memory] | None, optional): Memory backends
                 for the agent. No default implementation is provided — the
                 caller must supply a concrete subclass. Defaults to None.
+            subagents (list[SubAgentSpec] | None, optional): Sub-agent specs
+                to register on the agent. Defaults to None. Added in
+                Chapter 9.
         """
         self.llm = llm
         self.templates = templates
@@ -86,6 +99,8 @@ class LLMAgentBuilder:
         self.tools = tools or []
         # added in ch07
         self.memories: list[Memory] = memories or []
+        # added in ch09
+        self.subagents: list[SubAgentSpec] = subagents or []
 
     def with_llm(self, llm: LLM) -> Self:
         """Set llm of builder."""
@@ -127,6 +142,24 @@ class LLMAgentBuilder:
         self.memories.extend(memories)
         return self
 
+    def with_subagent(self, spec: "SubAgentSpec") -> Self:
+        """Add a sub-agent spec to builder. Added in Chapter 9.
+
+        Args:
+            spec (SubAgentSpec): The sub-agent spec to add.
+        """
+        self.subagents.append(spec)
+        return self
+
+    def with_subagents(self, specs: "list[SubAgentSpec]") -> Self:
+        """Add sub-agent specs to builder. Added in Chapter 9.
+
+        Args:
+            specs (list[SubAgentSpec]): The sub-agent specs to add.
+        """
+        self.subagents.extend(specs)
+        return self
+
     async def build(self) -> LLMAgent:
         """Build an LLMAgent with configured tools and MCP providers.
 
@@ -164,4 +197,5 @@ class LLMAgentBuilder:
             tools=self.tools + mcp_tools,
             templates=self.templates,
             memories=self.memories,  # added in ch07
+            subagents=self.subagents,  # added in ch09
         )

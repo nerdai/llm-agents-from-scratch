@@ -4,6 +4,8 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from llm_agents_from_scratch.agent import LLMAgent
 
+from .constants import CATALOG_SPEC_TEMPLATE
+
 
 class SubAgentSpec(BaseModel):
     """Specification for a named sub-agent in a multi-agent system.
@@ -51,3 +53,10 @@ class SubAgentSpec(BaseModel):
             "None uses the agent's own default."
         ),
     )
+
+    def catalog(self) -> str:
+        """Return XML entry for this spec in the sub-agents catalog."""
+        return CATALOG_SPEC_TEMPLATE.format(
+            name=self.name,
+            description=self.description,
+        )

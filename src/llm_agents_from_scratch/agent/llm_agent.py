@@ -58,8 +58,8 @@ class LLMAgent:
             the LLM with, represented as a dict.
         templates (LLMAgentTemplates): Prompt templates for LLM Agent.
         logger (logging.Logger): LLMAgent logger.
-        subagents (dict[str, SubAgentSpec]): Registered sub-agents, keyed by
-            name. Added in Chapter 9.
+        subagents (dict[str, SubAgentSpec]): Sub-agent registry, keyed by
+            name. Built from the constructor list. Added in Chapter 9.
     """
 
     def __init__(
@@ -70,7 +70,7 @@ class LLMAgent:
         # added in ch07
         memories: list[Memory] | None = None,
         # added in ch09
-        subagents: "dict[str, SubAgentSpec] | None" = None,
+        subagents: "list[SubAgentSpec] | None" = None,
     ):
         """Initialize an LLMAgent.
 
@@ -82,7 +82,7 @@ class LLMAgent:
             memories (list[Memory] | None): Episodic memory backends
                 to consult at task start and update at task end. Defaults
                 to None (no memory). Added in Chapter 7.
-            subagents (dict[str, SubAgentSpec] | None): Sub-agents this
+            subagents (list[SubAgentSpec] | None): Sub-agents this
                 coordinator can delegate to. Defaults to None (no
                 sub-agents). Added in Chapter 9.
         """
@@ -99,7 +99,14 @@ class LLMAgent:
         # added in ch07
         self.memories = memories or []
         # added in ch09
-        self.subagents: dict[str, SubAgentSpec] = subagents or {}
+        _subagents = subagents or []
+        if len({s.name for s in _subagents}) < len(_subagents):
+            raise LLMAgentError(
+                "Provided subagent list contains duplicate names.",
+            )
+        self.subagents: dict[str, SubAgentSpec] = {
+            s.name: s for s in _subagents
+        }
 
     @property
     def tools(self) -> list[Tool]:
@@ -195,10 +202,10 @@ class LLMAgent:
             self._use_subagent_tool: "UseSubAgentTool | None"
             if self.llm_agent.subagents:
                 from llm_agents_from_scratch.subagents.tools import (  # noqa: PLC0415
-                    UseSubAgentTool as _UseSubAgentTool,
+                    UseSubAgentTool,
                 )
 
-                self._use_subagent_tool = _UseSubAgentTool(
+                self._use_subagent_tool = UseSubAgentTool(
                     subagents=self.llm_agent.subagents,
                 )
             else:
@@ -260,13 +267,7 @@ class LLMAgent:
             specs = self.llm_agent.subagents.values()
             if not specs:
                 return ""
-            entries = "\n".join(
-                f"  <subagent>"
-                f"<name>{s.name}</name>"
-                f"<description>{s.description}</description>"
-                f"</subagent>"
-                for s in specs
-            )
+            entries = "\n".join(s.catalog() for s in specs)
             return self.llm_agent.templates["subagents_catalog"].format(
                 subagents=entries,
             )

@@ -350,7 +350,7 @@ class LLMAgent:
 
             return retval
 
-        async def run_step(self, step: TaskStep) -> TaskStepResult:  # noqa: PLR0912
+        async def run_step(self, step: TaskStep) -> TaskStepResult:  # noqa: PLR0912, PLR0915
             """Run next step of a given task.
 
             A single step is executed through a single-turn conversation that
@@ -445,19 +445,37 @@ class LLMAgent:
                             else None
                         )
                     ):
-                        if isinstance(tool, AsyncBaseTool):
-                            tool_call_result = await tool(tool_call=tool_call)
-                        else:
-                            # run sync tools in a thread so the event loop
-                            # stays free for concurrent async tool calls
-                            tool_call_result = await asyncio.to_thread(
-                                tool,
-                                tool_call=tool_call,
+                        try:
+                            if isinstance(tool, AsyncBaseTool):
+                                tool_call_result = await tool(
+                                    tool_call=tool_call,
+                                )
+                            else:
+                                # run sync tools in a thread so the event loop
+                                # stays free for concurrent async tool calls
+                                tool_call_result = await asyncio.to_thread(
+                                    tool,
+                                    tool_call=tool_call,
+                                )
+                        except Exception as e:
+                            tool_call_result = ToolCallResult(
+                                tool_call_id=tool_call.id_,
+                                error=True,
+                                content=(
+                                    f"Unexpected error in tool "
+                                    f"'{tool_call.tool_name}': {e}"
+                                ),
                             )
-                        self.logger.info(
-                            "✅ Successful Tool Call: "
-                            f"{tool_call_result.content}",
-                        )
+                        if tool_call_result.error:
+                            self.logger.info(
+                                "❌ Tool Call Failure: "
+                                f"{tool_call_result.content}",
+                            )
+                        else:
+                            self.logger.info(
+                                "✅ Successful Tool Call: "
+                                f"{tool_call_result.content}",
+                            )
                     else:
                         error_msg = (
                             f"Tool with name {tool_call.tool_name} "

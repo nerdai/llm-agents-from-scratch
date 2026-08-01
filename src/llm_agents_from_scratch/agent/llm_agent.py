@@ -207,7 +207,7 @@ class LLMAgent:
                 )
 
                 self._use_subagent_tool = UseSubAgentTool(
-                    subagents=self.llm_agent.subagents_registry,
+                    subagents_registry=self.llm_agent.subagents_registry,
                 )
             else:
                 self._use_subagent_tool = None

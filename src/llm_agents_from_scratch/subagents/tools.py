@@ -66,7 +66,7 @@ class UseSubAgentTool(AsyncBaseTool):
             "properties": {
                 "name": {
                     "type": "string",
-                    "enum": list(self._subagents),
+                    "enum": sorted(self._subagents),
                     "description": (
                         "Name of the sub-agent to dispatch the task to."
                     ),

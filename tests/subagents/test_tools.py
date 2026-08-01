@@ -65,7 +65,7 @@ async def test_use_subagent_tool_dispatches_task(mock_llm: BaseLLM) -> None:
     """Tests successful dispatch returns sub-agent result.content."""
     task_result = TaskResult(task_id="t1", content="42 is the answer")
     future: asyncio.Future[TaskResult] = (
-        asyncio.get_event_loop().create_future()
+        asyncio.get_running_loop().create_future()
     )
     future.set_result(task_result)
 
@@ -91,7 +91,7 @@ async def test_use_subagent_tool_dispatches_task(mock_llm: BaseLLM) -> None:
 async def test_use_subagent_tool_passes_max_steps(mock_llm: BaseLLM) -> None:
     """Tests max_steps from SubAgentSpec is forwarded to agent.run()."""
     future: asyncio.Future[TaskResult] = (
-        asyncio.get_event_loop().create_future()
+        asyncio.get_running_loop().create_future()
     )
     future.set_result(TaskResult(task_id="t1", content="done"))
 
@@ -113,7 +113,7 @@ async def test_use_subagent_tool_catches_max_steps_error(
 ) -> None:
     """Tests MaxStepsReachedError is caught and returned as error result."""
     future: asyncio.Future[TaskResult] = (
-        asyncio.get_event_loop().create_future()
+        asyncio.get_running_loop().create_future()
     )
     future.set_exception(MaxStepsReachedError("Max steps reached."))
 
@@ -138,7 +138,7 @@ async def test_use_subagent_tool_catches_unexpected_error(
 ) -> None:
     """Tests unexpected sub-agent exceptions are caught as error results."""
     future: asyncio.Future[TaskResult] = (
-        asyncio.get_event_loop().create_future()
+        asyncio.get_running_loop().create_future()
     )
     future.set_exception(RuntimeError("boom"))
 

@@ -417,8 +417,8 @@ def test_human_input_tool_keyboard_interrupt() -> None:
 # --- _prompt_human ---
 
 
-def test_prompt_human_with_owner_sets_panel_title() -> None:
-    """Tests _prompt_human includes the owner in the panel title."""
+def test_prompt_human_with_agent_name_sets_panel_title() -> None:
+    """Tests _prompt_human includes the agent_name in the panel title."""
     with (
         patch("rich.console.Console.print") as mock_print,
         patch("rich.prompt.Prompt.ask", return_value="answer"),
@@ -430,8 +430,8 @@ def test_prompt_human_with_owner_sets_panel_title() -> None:
     assert "researcher" in str(panel.title)
 
 
-def test_prompt_human_without_owner_uses_default_title() -> None:
-    """Tests _prompt_human uses 'Human Input' title when owner is None."""
+def test_prompt_human_without_agent_name_uses_default_title() -> None:
+    """Tests _prompt_human uses 'Human Input' title when agent_name is None."""
     with (
         patch("rich.console.Console.print") as mock_print,
         patch("rich.prompt.Prompt.ask", return_value="answer"),
@@ -465,21 +465,21 @@ def test_shared_console_human_input_tool_parameters_json_schema() -> None:
     assert schema["required"] == ["prompt"]
 
 
-def test_shared_console_human_input_tool_owner_defaults_to_none() -> None:
-    """Tests SharedConsoleHumanInputTool.owner defaults to None."""
-    assert SharedConsoleHumanInputTool().owner is None
+def test_shared_console_human_input_tool_agent_name_defaults_to_none() -> None:
+    """Tests SharedConsoleHumanInputTool.agent_name defaults to None."""
+    assert SharedConsoleHumanInputTool().agent_name is None
 
 
-def test_shared_console_human_input_tool_owner_stored() -> None:
-    """Tests SharedConsoleHumanInputTool stores the owner label."""
-    tool = SharedConsoleHumanInputTool(owner="researcher")
-    assert tool.owner == "researcher"
+def test_shared_console_human_input_tool_agent_name_stored() -> None:
+    """Tests SharedConsoleHumanInputTool stores the agent_name label."""
+    tool = SharedConsoleHumanInputTool(agent_name="researcher")
+    assert tool.agent_name == "researcher"
 
 
 def test_shared_console_human_input_tool_lock_is_class_level() -> None:
     """Tests all instances share the same _console_lock."""
-    a = SharedConsoleHumanInputTool(owner="researcher")
-    b = SharedConsoleHumanInputTool(owner="coder")
+    a = SharedConsoleHumanInputTool(agent_name="researcher")
+    b = SharedConsoleHumanInputTool(agent_name="coder")
 
     assert a._console_lock is b._console_lock
     assert a._console_lock is SharedConsoleHumanInputTool._console_lock
@@ -504,9 +504,9 @@ async def test_shared_console_human_input_tool_returns_response() -> None:
 
 
 @pytest.mark.asyncio
-async def test_shared_console_human_input_tool_passes_owner_to_prompt() -> None:
-    """Tests SharedConsoleHumanInputTool passes owner to _prompt_human."""
-    tool = SharedConsoleHumanInputTool(owner="researcher")
+async def test_shared_console_human_input_tool_passes_agent_name() -> None:
+    """Tests SharedConsoleHumanInputTool passes agent_name to _prompt_human."""
+    tool = SharedConsoleHumanInputTool(agent_name="researcher")
     tool_call = ToolCall(
         tool_name="from_scratch__human_input",
         arguments={"prompt": "Help?"},

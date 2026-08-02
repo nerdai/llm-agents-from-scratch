@@ -1,7 +1,7 @@
 """Human in the loop via HumanInputTool and SharedConsoleHumanInputTool."""
 
 import asyncio
-from typing import Any, cast
+from typing import Any
 
 from rich.console import Console
 from rich.panel import Panel
@@ -10,14 +10,11 @@ from rich.prompt import Prompt
 from ...base.tool import AsyncBaseTool, BaseTool
 from ...data_structures import ToolCall, ToolCallResult
 
-_PANEL_BORDER = "yellow"
-_PROMPT_MARKER = ">"
-
 
 def _prompt_human(
     prompt: str,
     choices: list[str] | None,
-    owner: str | None = None,
+    agent_name: str | None = None,
 ) -> str:
     """Render a human-input panel and return the operator's response.
 
@@ -26,14 +23,11 @@ def _prompt_human(
         KeyboardInterrupt: If the operator interrupts.
     """
     console = Console()
-    title = f"Human Input — {owner}" if owner else "Human Input"
-    console.print(Panel(prompt, title=title, border_style=_PANEL_BORDER))
+    title = f"Human Input — {agent_name}" if agent_name else "Human Input"
+    console.print(Panel(prompt, title=title, border_style="yellow"))
     if choices:
-        return cast(
-            str,
-            Prompt.ask(_PROMPT_MARKER, choices=choices, console=console),
-        )
-    return cast(str, Prompt.ask(_PROMPT_MARKER, console=console))
+        return Prompt.ask(">", choices=choices, console=console)
+    return Prompt.ask(">", console=console)
 
 
 class HumanInputTool(BaseTool):
@@ -141,8 +135,8 @@ class SharedConsoleHumanInputTool(AsyncBaseTool):
     concurrently. The class-level lock serializes all prompts to a
     single stdin so concurrent agents take turns rather than racing.
 
-    The optional ``owner`` label is rendered in the panel title so the
-    operator knows which sub-agent is asking. Typically set to
+    The optional ``agent_name`` label is rendered in the panel title so
+    the operator knows which sub-agent is asking. Typically set to
     ``SubAgentSpec.name`` at construction.
 
     The class-level ``_console_lock`` is shared by all instances, so
@@ -169,7 +163,7 @@ class SharedConsoleHumanInputTool(AsyncBaseTool):
     autouse fixture that handles 3.10-3.11 test isolation.
 
     Attributes:
-        owner (str | None): Label shown in the panel title, e.g.
+        agent_name (str | None): Label shown in the panel title, e.g.
             ``"Human Input — researcher"``. ``None`` renders the
             default ``"Human Input"`` title.
     """
@@ -179,14 +173,14 @@ class SharedConsoleHumanInputTool(AsyncBaseTool):
     # behaviour.
     _console_lock: asyncio.Lock = asyncio.Lock()
 
-    def __init__(self, owner: str | None = None) -> None:
-        """Initialise with an optional owner label.
+    def __init__(self, agent_name: str | None = None) -> None:
+        """Initialise with an optional agent-name label.
 
         Args:
-            owner (str | None): Sub-agent name rendered in the panel
-                title. Defaults to None.
+            agent_name (str | None): Sub-agent name rendered in the
+                panel title. Defaults to None.
         """
-        self.owner = owner
+        self.agent_name = agent_name
 
     @property
     def name(self) -> str:
@@ -263,7 +257,7 @@ class SharedConsoleHumanInputTool(AsyncBaseTool):
                     _prompt_human,
                     prompt,
                     choices,
-                    self.owner,
+                    self.agent_name,
                 )
         except EOFError:
             return ToolCallResult(

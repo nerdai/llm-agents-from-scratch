@@ -151,9 +151,23 @@ class SharedConsoleHumanInputTool(AsyncBaseTool):
             default ``"Human Input"`` title.
     """
 
-    # Class-level lock: all instances share one stdin, so one lock.
-    # In Python 3.10+ asyncio.Lock binds to the running loop on first
-    # acquire(), not at construction, so this is safe to initialise here.
+    # Class-level lock — all instances share one stdin, so one lock suffices.
+    #
+    # asyncio.Lock behaviour by Python version:
+    #   ≤3.9  : __init__ called get_event_loop() at construction, binding the
+    #           lock to the import-time loop.  Class-level creation was unsafe.
+    #   3.10–3.11 : _LoopBoundMixin defers binding to the first acquire().
+    #           Construction is safe; the lock binds on first use and then
+    #           rejects any other event loop.  Tests that spin up a fresh loop
+    #           per function must reset this attribute to a new asyncio.Lock()
+    #           in an autouse fixture so each test gets an unbound lock.
+    #   3.12+ : _LoopBoundMixin removed; every acquire() calls
+    #           get_running_loop() fresh — no caching, no cross-loop errors.
+    #
+    # This project requires >=3.10, so class-level creation is safe in
+    # production (all agents run as create_task() coroutines within a single
+    # asyncio.run()).  See tests/tools/test_default.py::reset_console_lock for
+    # the autouse fixture that handles 3.10–3.11 test isolation.
     _console_lock: asyncio.Lock = asyncio.Lock()
 
     def __init__(self, owner: str | None = None) -> None:

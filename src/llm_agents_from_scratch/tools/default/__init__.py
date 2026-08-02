@@ -1,7 +1,7 @@
 """Default tools included with every LLMAgent."""
 
 from ...base.tool import BaseTool
-from .human_input import HumanInputTool
+from .human_input import HumanInputTool, SharedConsoleHumanInputTool
 from .interpreter import PythonInterpreterTool
 from .read_file import ReadFileTool
 
@@ -12,4 +12,5 @@ __all__ = [
     "HumanInputTool",
     "PythonInterpreterTool",
     "ReadFileTool",
+    "SharedConsoleHumanInputTool",
 ]

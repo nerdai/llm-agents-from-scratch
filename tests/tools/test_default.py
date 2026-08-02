@@ -1,7 +1,10 @@
 """Unit tests for default tools."""
 
+import asyncio
 from pathlib import Path
 from unittest.mock import patch
+
+import pytest
 
 from llm_agents_from_scratch.data_structures import ToolCall
 from llm_agents_from_scratch.tools.default import (
@@ -9,7 +12,17 @@ from llm_agents_from_scratch.tools.default import (
     HumanInputTool,
     PythonInterpreterTool,
     ReadFileTool,
+    SharedConsoleHumanInputTool,
 )
+from llm_agents_from_scratch.tools.default.human_input import _prompt_human
+
+
+@pytest.fixture(autouse=True)
+def reset_console_lock() -> None:
+    """Reset the class-level lock between tests to avoid event-loop binding."""
+    SharedConsoleHumanInputTool._console_lock = asyncio.Lock()
+    yield
+    SharedConsoleHumanInputTool._console_lock = asyncio.Lock()
 
 
 def test_read_file_tool_name() -> None:
@@ -398,4 +411,191 @@ def test_human_input_tool_keyboard_interrupt() -> None:
 
     assert result.error is True
     assert result.content is not None
+    assert "declined" in result.content.lower()
+
+
+# --- _prompt_human ---
+
+
+def test_prompt_human_with_agent_name_sets_panel_title() -> None:
+    """Tests _prompt_human includes the agent_name in the panel title."""
+    with (
+        patch("rich.console.Console.print") as mock_print,
+        patch("rich.prompt.Prompt.ask", return_value="answer"),
+    ):
+        result = _prompt_human("Ask something?", None, "researcher")
+
+    assert result == "answer"
+    panel = mock_print.call_args[0][0]
+    assert "researcher" in str(panel.title)
+
+
+def test_prompt_human_without_agent_name_uses_default_title() -> None:
+    """Tests _prompt_human uses 'Human Input' title when agent_name is None."""
+    with (
+        patch("rich.console.Console.print") as mock_print,
+        patch("rich.prompt.Prompt.ask", return_value="answer"),
+    ):
+        result = _prompt_human("Ask something?", None)
+
+    assert result == "answer"
+    panel = mock_print.call_args[0][0]
+    assert panel.title == "Human Input"
+
+
+# --- SharedConsoleHumanInputTool ---
+
+
+def test_shared_console_human_input_tool_name() -> None:
+    """Tests SharedConsoleHumanInputTool.name matches HumanInputTool."""
+    assert SharedConsoleHumanInputTool().name == "from_scratch__human_input"
+
+
+def test_shared_console_human_input_tool_description() -> None:
+    """Tests SharedConsoleHumanInputTool.description mentions human."""
+    assert "human" in SharedConsoleHumanInputTool().description.lower()
+
+
+def test_shared_console_human_input_tool_parameters_json_schema() -> None:
+    """Tests SharedConsoleHumanInputTool schema matches HumanInputTool."""
+    schema = SharedConsoleHumanInputTool().parameters_json_schema
+    assert schema["type"] == "object"
+    assert "prompt" in schema["properties"]
+    assert "choices" in schema["properties"]
+    assert schema["required"] == ["prompt"]
+
+
+def test_shared_console_human_input_tool_agent_name_defaults_to_none() -> None:
+    """Tests SharedConsoleHumanInputTool.agent_name defaults to None."""
+    assert SharedConsoleHumanInputTool().agent_name is None
+
+
+def test_shared_console_human_input_tool_agent_name_stored() -> None:
+    """Tests SharedConsoleHumanInputTool stores the agent_name label."""
+    tool = SharedConsoleHumanInputTool(agent_name="researcher")
+    assert tool.agent_name == "researcher"
+
+
+def test_shared_console_human_input_tool_lock_is_class_level() -> None:
+    """Tests all instances share the same _console_lock."""
+    a = SharedConsoleHumanInputTool(agent_name="researcher")
+    b = SharedConsoleHumanInputTool(agent_name="coder")
+
+    assert a._console_lock is b._console_lock
+    assert a._console_lock is SharedConsoleHumanInputTool._console_lock
+
+
+@pytest.mark.asyncio
+async def test_shared_console_human_input_tool_returns_response() -> None:
+    """Tests SharedConsoleHumanInputTool returns the human's response."""
+    tool = SharedConsoleHumanInputTool()
+    tool_call = ToolCall(
+        tool_name="from_scratch__human_input",
+        arguments={"prompt": "What is your name?"},
+    )
+    with patch(
+        "llm_agents_from_scratch.tools.default.human_input._prompt_human",
+        return_value="Alice",
+    ):
+        result = await tool(tool_call=tool_call)
+
+    assert result.error is False
+    assert result.content == "Alice"
+
+
+@pytest.mark.asyncio
+async def test_shared_console_human_input_tool_passes_agent_name() -> None:
+    """Tests SharedConsoleHumanInputTool passes agent_name to _prompt_human."""
+    tool = SharedConsoleHumanInputTool(agent_name="researcher")
+    tool_call = ToolCall(
+        tool_name="from_scratch__human_input",
+        arguments={"prompt": "Help?"},
+    )
+    with patch(
+        "llm_agents_from_scratch.tools.default.human_input._prompt_human",
+        return_value="yes",
+    ) as mock_prompt:
+        await tool(tool_call=tool_call)
+
+    mock_prompt.assert_called_once_with("Help?", None, "researcher")
+
+
+@pytest.mark.asyncio
+async def test_shared_console_human_input_tool_missing_prompt_error() -> None:
+    """Tests SharedConsoleHumanInputTool returns error when prompt is absent."""
+    tool = SharedConsoleHumanInputTool()
+    tool_call = ToolCall(
+        tool_name="from_scratch__human_input",
+        arguments={},
+    )
+    result = await tool(tool_call=tool_call)
+    assert result.error is True
+
+
+@pytest.mark.asyncio
+async def test_shared_console_human_input_tool_empty_prompt_returns_error() -> (
+    None
+):
+    """Tests SharedConsoleHumanInputTool returns error for empty prompt."""
+    tool = SharedConsoleHumanInputTool()
+    tool_call = ToolCall(
+        tool_name="from_scratch__human_input",
+        arguments={"prompt": ""},
+    )
+    result = await tool(tool_call=tool_call)
+    assert result.error is True
+
+
+@pytest.mark.asyncio
+async def test_shared_console_human_input_tool_choices_passed() -> None:
+    """Tests SharedConsoleHumanInputTool passes choices to _prompt_human."""
+    tool = SharedConsoleHumanInputTool()
+    tool_call = ToolCall(
+        tool_name="from_scratch__human_input",
+        arguments={"prompt": "Pick one:", "choices": ["yes", "no"]},
+    )
+    with patch(
+        "llm_agents_from_scratch.tools.default.human_input._prompt_human",
+        return_value="yes",
+    ) as mock_prompt:
+        result = await tool(tool_call=tool_call)
+
+    mock_prompt.assert_called_once_with("Pick one:", ["yes", "no"], None)
+    assert result.error is False
+    assert result.content == "yes"
+
+
+@pytest.mark.asyncio
+async def test_shared_console_human_input_tool_eof_error() -> None:
+    """Tests SharedConsoleHumanInputTool returns error on EOFError."""
+    tool = SharedConsoleHumanInputTool()
+    tool_call = ToolCall(
+        tool_name="from_scratch__human_input",
+        arguments={"prompt": "Enter value:"},
+    )
+    with patch(
+        "llm_agents_from_scratch.tools.default.human_input._prompt_human",
+        side_effect=EOFError,
+    ):
+        result = await tool(tool_call=tool_call)
+
+    assert result.error is True
+    assert "stdin" in result.content.lower()
+
+
+@pytest.mark.asyncio
+async def test_shared_console_human_input_tool_keyboard_interrupt() -> None:
+    """Tests SharedConsoleHumanInputTool returns error on KeyboardInterrupt."""
+    tool = SharedConsoleHumanInputTool()
+    tool_call = ToolCall(
+        tool_name="from_scratch__human_input",
+        arguments={"prompt": "Enter value:"},
+    )
+    with patch(
+        "llm_agents_from_scratch.tools.default.human_input._prompt_human",
+        side_effect=KeyboardInterrupt,
+    ):
+        result = await tool(tool_call=tool_call)
+
+    assert result.error is True
     assert "declined" in result.content.lower()

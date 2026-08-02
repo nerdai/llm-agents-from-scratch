@@ -18,6 +18,17 @@ def _prompt_human(
 ) -> str:
     """Render a human-input panel and return the operator's response.
 
+    Args:
+        prompt (str): The question or prompt to present to the human.
+        choices (list[str] | None): Optional list of valid responses.
+            When provided, the human is re-prompted until they enter
+            one of the listed values.
+        agent_name (str | None): Name of the coordinator or sub-agent
+            rendered in the panel title. Defaults to None.
+
+    Returns:
+        str: The human's response.
+
     Raises:
         EOFError: If stdin is closed.
         KeyboardInterrupt: If the operator interrupts.
@@ -136,8 +147,9 @@ class SharedConsoleHumanInputTool(AsyncBaseTool):
     single stdin so concurrent agents take turns rather than racing.
 
     The optional ``agent_name`` label is rendered in the panel title so
-    the operator knows which sub-agent is asking. Typically set to
-    ``SubAgentSpec.name`` at construction.
+    the operator knows which agent is asking — the coordinator or one
+    of its sub-agents. Typically set to ``SubAgentSpec.name`` for a
+    sub-agent, or left ``None`` for the coordinator.
 
     The class-level ``_console_lock`` is shared by all instances, so
     concurrent agents take turns at a single stdin rather than racing.
@@ -177,8 +189,9 @@ class SharedConsoleHumanInputTool(AsyncBaseTool):
         """Initialise with an optional agent-name label.
 
         Args:
-            agent_name (str | None): Sub-agent name rendered in the
-                panel title. Defaults to None.
+            agent_name (str | None): Name of the coordinator or
+                sub-agent rendered in the panel title. Defaults to
+                None.
         """
         self.agent_name = agent_name
 

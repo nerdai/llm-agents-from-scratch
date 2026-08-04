@@ -219,3 +219,50 @@ async def test_build_raises_on_duplicate_subagent_names(
             .with_subagents([spec_a, spec_b])
             .build()
         )
+
+
+def test_with_default_subagents_inherits_builder_llm(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests with_default_subagents() inherits the builder's own llm."""
+    builder = LLMAgentBuilder(llm=mock_llm).with_default_subagents()
+
+    names = {spec.name for spec in builder.subagents}
+    assert names == {"general", "explore"}
+    for spec in builder.subagents:
+        assert spec.agent.llm is mock_llm
+
+
+def test_with_default_subagents_explicit_llm_overrides_builder(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests with_default_subagents(llm=...) overrides the builder's llm."""
+    other_llm = MagicMock(spec=BaseLLM)
+    builder = LLMAgentBuilder(llm=mock_llm).with_default_subagents(
+        llm=other_llm,
+    )
+
+    for spec in builder.subagents:
+        assert spec.agent.llm is other_llm
+
+
+def test_with_default_subagents_raises_without_llm() -> None:
+    """Tests with_default_subagents() raises when no llm is available."""
+    with pytest.raises(LLMAgentBuilderError, match="llm"):
+        LLMAgentBuilder().with_default_subagents()
+
+
+def test_with_default_subagents_returns_self(mock_llm: BaseLLM) -> None:
+    """Tests with_default_subagents() returns the builder for chaining."""
+    builder = LLMAgentBuilder(llm=mock_llm)
+    result = builder.with_default_subagents()
+
+    assert result is builder
+
+
+@pytest.mark.asyncio
+async def test_build_with_default_subagents(mock_llm: BaseLLM) -> None:
+    """Tests build() wires default subagents into the agent's registry."""
+    agent = await LLMAgentBuilder(llm=mock_llm).with_default_subagents().build()
+
+    assert set(agent.subagents_registry) == {"general", "explore"}

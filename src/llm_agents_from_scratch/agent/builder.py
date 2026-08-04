@@ -160,6 +160,41 @@ class LLMAgentBuilder:
         self.subagents.extend(specs)
         return self
 
+    def with_default_subagents(self, llm: LLM | None = None) -> Self:
+        """Add the default `general` + `explore` subagent specs.
+
+        Added in Chapter 9.
+
+        Args:
+            llm (LLM | None, optional): Backbone LLM for both default
+                subagents. Defaults to None, which inherits the
+                builder's own `llm`.
+
+        Raises:
+            LLMAgentBuilderError: If neither `llm` nor the builder's
+                own `llm` is set.
+        """
+        resolved_llm = llm or self.llm
+        if not resolved_llm:
+            raise LLMAgentBuilderError(
+                "`llm` must be set on the builder or passed explicitly "
+                "to `with_default_subagents()`",
+            )
+
+        # deferred import: subagents/defaults.py imports LLMAgent, which
+        # would cycle back to this module at import time  # noqa: PLC0415
+        from llm_agents_from_scratch.subagents.defaults import (  # noqa: PLC0415
+            explore_subagent_spec,
+            general_subagent_spec,
+        )
+
+        return self.with_subagents(
+            [
+                general_subagent_spec(resolved_llm),
+                explore_subagent_spec(resolved_llm),
+            ],
+        )
+
     async def build(self) -> LLMAgent:
         """Build an LLMAgent with configured tools and MCP providers.
 

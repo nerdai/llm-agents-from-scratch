@@ -15,6 +15,9 @@ wheels/
 # book notes
 REQUIRED_BOOK_UPDATES.md
 
+# local learnings
+learnings/
+
 # local dev
 .ipynb_checkpoints
 .__pycache__

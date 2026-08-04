@@ -1,4 +1,4 @@
-"""Default tools included with every LLMAgent."""
+"""Ready-to-use tools shipped with the framework, opt-in via `tools=...`."""
 
 from ...base.tool import Tool
 from .human_input import HumanInputTool, SharedConsoleHumanInputTool

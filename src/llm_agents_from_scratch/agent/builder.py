@@ -181,17 +181,17 @@ class LLMAgentBuilder:
                 "to `with_default_subagents()`",
             )
 
-        # deferred import: subagents/defaults.py imports LLMAgent, which
+        # deferred import: subagents/recipes.py imports LLMAgent, which
         # would cycle back to this module at import time  # noqa: PLC0415
-        from llm_agents_from_scratch.subagents.defaults import (  # noqa: PLC0415
-            explore_subagent_spec,
-            general_subagent_spec,
+        from llm_agents_from_scratch.subagents.recipes import (  # noqa: PLC0415
+            explore_subagent,
+            general_subagent,
         )
 
         return self.with_subagents(
             [
-                general_subagent_spec(resolved_llm),
-                explore_subagent_spec(resolved_llm),
+                general_subagent(resolved_llm),
+                explore_subagent(resolved_llm),
             ],
         )
 

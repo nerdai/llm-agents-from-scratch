@@ -1,4 +1,4 @@
-"""Default subagent specs.
+"""Standard subagent recipes for common default rosters.
 
 Factories, not module-level constants: a ``SubAgentSpec`` wraps a live
 ``LLMAgent``, which needs an LLM — there is no zero-config answer the
@@ -12,19 +12,22 @@ from llm_agents_from_scratch.base.llm import LLM
 from llm_agents_from_scratch.memory import Memory
 from llm_agents_from_scratch.tools.default import DEFAULT_TOOLS, ReadFileTool
 
+from .constants import (
+    EXPLORE_MAX_STEPS,
+    EXPLORE_NAME,
+    GENERAL_MAX_STEPS,
+    GENERAL_NAME,
+)
 from .spec import SubAgentSpec
 
-GENERAL_MAX_STEPS = 20
-EXPLORE_MAX_STEPS = 10
 
-
-def general_subagent_spec(
+def general_subagent(
     llm: LLM,
-    name: str = "general",
+    name: str = GENERAL_NAME,
     max_steps: int = GENERAL_MAX_STEPS,
     memories: list[Memory] | None = None,
 ) -> SubAgentSpec:
-    """Build a general-purpose subagent spec.
+    """Return a general-purpose subagent spec.
 
     Equipped with ``DEFAULT_TOOLS``. Suited to open-ended, multi-step,
     context-heavy side work — the same profile as the coordinator minus
@@ -33,7 +36,7 @@ def general_subagent_spec(
     Args:
         llm (LLM): Backbone LLM for the subagent.
         name (str, optional): Registry key / dispatch enum value.
-            Defaults to "general".
+            Defaults to `GENERAL_NAME`.
         max_steps (int, optional): Cap on steps per dispatch. Defaults
             to `GENERAL_MAX_STEPS`.
         memories (list[Memory] | None, optional): Memory backends for
@@ -54,12 +57,12 @@ def general_subagent_spec(
     )
 
 
-def explore_subagent_spec(
+def explore_subagent(
     llm: LLM,
-    name: str = "explore",
+    name: str = EXPLORE_NAME,
     max_steps: int = EXPLORE_MAX_STEPS,
 ) -> SubAgentSpec:
-    """Build a read-only, lookup-tuned subagent spec.
+    """Return a read-only, lookup-tuned subagent spec.
 
     Equipped with only ``ReadFileTool`` — read-only by construction:
     the tool subset itself is the permission boundary, no separate
@@ -69,9 +72,9 @@ def explore_subagent_spec(
     Args:
         llm (LLM): Backbone LLM for the subagent.
         name (str, optional): Registry key / dispatch enum value.
-            Defaults to "explore".
+            Defaults to `EXPLORE_NAME`.
         max_steps (int, optional): Cap on steps per dispatch. Lower
-            than `general_subagent_spec`'s default since lookups need
+            than `general_subagent`'s default since lookups need
             fewer steps. Defaults to `EXPLORE_MAX_STEPS`.
 
     Returns:

@@ -9,6 +9,7 @@ import pytest
 from llm_agents_from_scratch.agent import LLMAgent
 from llm_agents_from_scratch.base.llm import BaseLLM
 from llm_agents_from_scratch.data_structures import Task, TaskResult, ToolCall
+from llm_agents_from_scratch.data_structures.skill import SkillScope
 from llm_agents_from_scratch.errors import MaxStepsReachedError
 from llm_agents_from_scratch.logger import current_subagent_name
 from llm_agents_from_scratch.subagents import SubAgentSpec, UseSubAgentTool
@@ -20,12 +21,16 @@ def make_spec(
     name: str,
     mock_llm: BaseLLM,
     max_steps: int | None = None,
+    skills_scopes: list[SkillScope] | None = None,
+    explicit_only_skills: set[str] | None = None,
 ) -> SubAgentSpec:
     return SubAgentSpec(
         name=name,
         description=f"Sub-agent: {name}",
         agent=LLMAgent(llm=mock_llm),
         max_steps=max_steps,
+        skills_scopes=skills_scopes,
+        explicit_only_skills=explicit_only_skills,
     )
 
 
@@ -86,6 +91,8 @@ async def test_use_subagent_tool_dispatches_task(mock_llm: BaseLLM) -> None:
     assert isinstance(call_args.args[0], Task)
     assert call_args.args[0].instruction == "What is the answer?"
     assert call_args.kwargs.get("max_steps") is None
+    assert call_args.kwargs.get("skills_scopes") is None
+    assert call_args.kwargs.get("explicit_only_skills") is None
 
 
 @pytest.mark.asyncio
@@ -106,6 +113,62 @@ async def test_use_subagent_tool_passes_max_steps(mock_llm: BaseLLM) -> None:
         await tool(tool_call=tool_call)
 
     assert mock_run.call_args.kwargs.get("max_steps") == MAX_STEPS_CODER
+
+
+@pytest.mark.asyncio
+async def test_use_subagent_tool_passes_skills_scopes(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests skills_scopes from SubAgentSpec is forwarded to agent.run()."""
+    future: asyncio.Future[TaskResult] = (
+        asyncio.get_running_loop().create_future()
+    )
+    future.set_result(TaskResult(task_id="t1", content="done"))
+
+    spec = make_spec(
+        "coder",
+        mock_llm,
+        skills_scopes=[SkillScope.PROJECT],
+    )
+    with patch.object(spec.agent, "run", return_value=future) as mock_run:
+        tool = UseSubAgentTool(subagents_registry={"coder": spec})
+        tool_call = ToolCall(
+            tool_name="from_scratch__use_subagent",
+            arguments={"name": "coder", "task": "Write a sort function."},
+        )
+        await tool(tool_call=tool_call)
+
+    assert mock_run.call_args.kwargs.get("skills_scopes") == [
+        SkillScope.PROJECT,
+    ]
+
+
+@pytest.mark.asyncio
+async def test_use_subagent_tool_passes_explicit_only_skills(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests explicit_only_skills is forwarded to agent.run()."""
+    future: asyncio.Future[TaskResult] = (
+        asyncio.get_running_loop().create_future()
+    )
+    future.set_result(TaskResult(task_id="t1", content="done"))
+
+    spec = make_spec(
+        "coder",
+        mock_llm,
+        explicit_only_skills={"stop-at-one"},
+    )
+    with patch.object(spec.agent, "run", return_value=future) as mock_run:
+        tool = UseSubAgentTool(subagents_registry={"coder": spec})
+        tool_call = ToolCall(
+            tool_name="from_scratch__use_subagent",
+            arguments={"name": "coder", "task": "Write a sort function."},
+        )
+        await tool(tool_call=tool_call)
+
+    assert mock_run.call_args.kwargs.get("explicit_only_skills") == {
+        "stop-at-one",
+    }
 
 
 @pytest.mark.asyncio

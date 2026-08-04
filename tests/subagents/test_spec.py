@@ -5,6 +5,7 @@ from pydantic import ValidationError
 
 from llm_agents_from_scratch.agent import LLMAgent
 from llm_agents_from_scratch.base.llm import BaseLLM
+from llm_agents_from_scratch.data_structures.skill import SkillScope
 from llm_agents_from_scratch.subagents import SubAgentSpec
 
 MAX_STEPS = 10
@@ -23,6 +24,34 @@ def test_subagentspec_init(mock_llm: BaseLLM) -> None:
     assert spec.description == "Searches the web and summarises findings."
     assert spec.agent is agent
     assert spec.max_steps is None
+    assert spec.skills_scopes is None
+    assert spec.explicit_only_skills is None
+
+
+def test_subagentspec_skills_scopes(mock_llm: BaseLLM) -> None:
+    """Tests SubAgentSpec stores an explicit skills_scopes value."""
+    agent = LLMAgent(llm=mock_llm)
+    spec = SubAgentSpec(
+        name="coder",
+        description="Writes and runs Python code.",
+        agent=agent,
+        skills_scopes=[SkillScope.PROJECT],
+    )
+
+    assert spec.skills_scopes == [SkillScope.PROJECT]
+
+
+def test_subagentspec_explicit_only_skills(mock_llm: BaseLLM) -> None:
+    """Tests SubAgentSpec stores an explicit explicit_only_skills value."""
+    agent = LLMAgent(llm=mock_llm)
+    spec = SubAgentSpec(
+        name="coder",
+        description="Writes and runs Python code.",
+        agent=agent,
+        explicit_only_skills={"stop-at-one"},
+    )
+
+    assert spec.explicit_only_skills == {"stop-at-one"}
 
 
 def test_subagentspec_max_steps(mock_llm: BaseLLM) -> None:

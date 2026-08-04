@@ -151,6 +151,8 @@ class UseSubAgentTool(AsyncBaseTool):
             result = await spec.agent.run(
                 Task(instruction=task_instruction),
                 max_steps=spec.max_steps,
+                skills_scopes=spec.skills_scopes,
+                explicit_only_skills=spec.explicit_only_skills,
             )
         except Exception as e:
             return ToolCallResult(

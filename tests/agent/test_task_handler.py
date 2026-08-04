@@ -421,6 +421,108 @@ async def test_run_step() -> None:
 
 
 @pytest.mark.asyncio
+async def test_run_step_preserves_tool_call_order() -> None:
+    """Tests concurrent tool call results preserve submission order.
+
+    The first-submitted tool artificially delays so it completes last;
+    asyncio.gather must still return results in submission order, not
+    completion order.
+    """
+
+    async def slow_tool(arg1: int) -> int:
+        await asyncio.sleep(0.05)
+        return arg1
+
+    def fast_tool(arg1: int) -> int:
+        return arg1
+
+    mock_llm = AsyncMock()
+    tool_calls = [
+        ToolCall(tool_name="slow_tool", arguments={"arg1": 1}),
+        ToolCall(tool_name="fast_tool", arguments={"arg1": 2}),
+    ]
+    mock_llm.chat.return_value = (
+        ChatMessage(role=ChatRole.USER, content="do it"),
+        ChatMessage(
+            role=ChatRole.ASSISTANT,
+            content="",
+            tool_calls=tool_calls,
+        ),
+    )
+    mock_llm.continue_chat_with_tool_results.return_value = (
+        [
+            ChatMessage(role=ChatRole.TOOL, content="1"),
+            ChatMessage(role=ChatRole.TOOL, content="2"),
+        ],
+        ChatMessage(role=ChatRole.ASSISTANT, content="done"),
+    )
+
+    llm_agent = LLMAgent(
+        llm=mock_llm,
+        tools=[
+            AsyncSimpleFunctionTool(func=slow_tool),
+            SimpleFunctionTool(func=fast_tool),
+        ],
+    )
+    handler = LLMAgent.TaskHandler(
+        llm_agent=llm_agent,
+        task=Task(instruction="mock instruction"),
+    )
+
+    await handler.run_step(
+        TaskStep(task_id=handler.task.id_, instruction="do it"),
+    )
+
+    _, kwargs = mock_llm.continue_chat_with_tool_results.call_args
+    results = kwargs["tool_call_results"]
+    assert [r.tool_call_id for r in results] == [
+        tool_calls[0].id_,
+        tool_calls[1].id_,
+    ]
+
+
+@pytest.mark.asyncio
+async def test_run_step_sync_tool_runs_via_to_thread() -> None:
+    """Tests sync tools execute via asyncio.to_thread, not inline."""
+
+    def sync_tool(arg1: int) -> int:
+        return arg1 + 1
+
+    mock_llm = AsyncMock()
+    tool_call = ToolCall(tool_name="sync_tool", arguments={"arg1": 1})
+    mock_llm.chat.return_value = (
+        ChatMessage(role=ChatRole.USER, content="do it"),
+        ChatMessage(
+            role=ChatRole.ASSISTANT,
+            content="",
+            tool_calls=[tool_call],
+        ),
+    )
+    mock_llm.continue_chat_with_tool_results.return_value = (
+        [ChatMessage(role=ChatRole.TOOL, content="2")],
+        ChatMessage(role=ChatRole.ASSISTANT, content="done"),
+    )
+
+    sync_function_tool = SimpleFunctionTool(func=sync_tool)
+    llm_agent = LLMAgent(llm=mock_llm, tools=[sync_function_tool])
+    handler = LLMAgent.TaskHandler(
+        llm_agent=llm_agent,
+        task=Task(instruction="mock instruction"),
+    )
+
+    with patch(
+        "llm_agents_from_scratch.agent.llm_agent.asyncio.to_thread",
+        wraps=asyncio.to_thread,
+    ) as mock_to_thread:
+        await handler.run_step(
+            TaskStep(task_id=handler.task.id_, instruction="do it"),
+        )
+
+    mock_to_thread.assert_awaited_once()
+    assert mock_to_thread.call_args.args[0] is sync_function_tool
+
+
+@pytest.mark.asyncio
 async def test_run_step_async_tool_raises_exception() -> None:
     """Tests run_step converts an unhandled async tool exception to error."""
     mock_tool = AsyncMock(spec=AsyncBaseTool)

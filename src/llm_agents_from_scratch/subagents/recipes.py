@@ -9,7 +9,7 @@ the intersection of the subagent rosters shipped by other harnesses
 
 from llm_agents_from_scratch.agent import LLMAgent
 from llm_agents_from_scratch.base.llm import LLM
-from llm_agents_from_scratch.memory import Memory
+from llm_agents_from_scratch.memory.memory import Memory
 from llm_agents_from_scratch.tools.default import DEFAULT_TOOLS, ReadFileTool
 
 from .constants import (

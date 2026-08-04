@@ -3,6 +3,7 @@
 from pydantic import BaseModel, ConfigDict, Field
 
 from llm_agents_from_scratch.agent import LLMAgent
+from llm_agents_from_scratch.data_structures.skill import SkillScope
 
 from .constants import CATALOG_SPEC_TEMPLATE
 
@@ -27,6 +28,13 @@ class SubAgentSpec(BaseModel):
         max_steps: Optional cap on the number of steps the sub-agent may
             take per dispatch. Passed to ``agent.run()`` to bound runaway
             executions. ``None`` uses the agent's own default.
+        skills_scopes: Optional scopes to scan for skills on this
+            sub-agent's dispatches. Passed to ``agent.run()``. ``None``
+            uses the agent's own default (``[USER, PROJECT]``).
+        explicit_only_skills: Optional skill names to exclude from this
+            sub-agent's model catalog on dispatch. Passed to
+            ``agent.run()``. ``None`` uses the agent's own default (no
+            exclusions).
     """
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
@@ -51,6 +59,20 @@ class SubAgentSpec(BaseModel):
         description=(
             "Optional cap on sub-agent steps per dispatch. "
             "None uses the agent's own default."
+        ),
+    )
+    skills_scopes: list[SkillScope] | None = Field(
+        default=None,
+        description=(
+            "Optional scopes to scan for skills on this sub-agent's "
+            "dispatches. None uses the agent's own default."
+        ),
+    )
+    explicit_only_skills: set[str] | None = Field(
+        default=None,
+        description=(
+            "Optional skill names to exclude from this sub-agent's model "
+            "catalog on dispatch. None uses the agent's own default."
         ),
     )
 

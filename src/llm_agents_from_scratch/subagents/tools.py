@@ -89,6 +89,24 @@ class UseSubAgentTool(AsyncBaseTool):
     ) -> ToolCallResult:
         """Dispatch a task to the named sub-agent and return its result.
 
+        Sets ``current_subagent_name`` before calling ``spec.agent.run()``
+        so the ``asyncio.Task`` it creates copies a context with the name
+        already set, and resets it once the dispatch settles. This is the
+        only call site that ever sets ``current_subagent_name``.
+
+        Safe under normal usage: ``run_step()`` always reaches this method
+        through ``asyncio.gather`` (even for a single tool call), so the
+        context mutated here is already a fork of the coordinator's own
+        context, never the coordinator's context itself — concurrent or
+        nested dispatches can't collide, since each fork owns an
+        independent copy from the moment it's created, before any
+        ``set()`` runs. Calling this tool directly, bypassing
+        ``run_step()`` (e.g. for a manual dispatch demo), is the one path
+        where ``set()`` lands on whatever context the caller happens to
+        be in — still safe as long as nothing else concurrently shares
+        that context, which the ``try``/``finally`` reset below
+        guarantees for this call in isolation.
+
         Args:
             tool_call (ToolCall): The tool call to execute.
             *args (Any): Additional positional arguments.
@@ -124,20 +142,6 @@ class UseSubAgentTool(AsyncBaseTool):
                 ),
             )
         spec = self._subagents_registry.get(subagent_name)
-        # set before spec.agent.run() so the task it creates copies a
-        # context with the name already set — reset once it settles.
-        #
-        # Safe under normal usage: this is the only call site that ever
-        # sets current_subagent_name, and run_step() always reaches it
-        # through asyncio.gather (even for a single tool call), so the
-        # context mutated here is already a fork of the coordinator's own
-        # context, never the coordinator's context itself — concurrent or
-        # nested dispatches can't collide (see learnings/LEARNING-001).
-        # Calling this tool directly, bypassing run_step (e.g. for manual
-        # dispatch demos), is the one path where set() lands on whatever
-        # context the caller happens to be in — still safe as long as
-        # nothing else concurrently shares that same context, which the
-        # try/finally reset here guarantees for this call in isolation.
         token = current_subagent_name.set(subagent_name)
         try:
             if spec is None:

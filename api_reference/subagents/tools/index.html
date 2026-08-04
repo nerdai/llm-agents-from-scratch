@@ -3785,7 +3785,9 @@ keyed by name.</p>
 <span class="normal"><a href="#__codelineno-0-171">171</a></span>
 <span class="normal"><a href="#__codelineno-0-172">172</a></span>
 <span class="normal"><a href="#__codelineno-0-173">173</a></span>
-<span class="normal"><a href="#__codelineno-0-174">174</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="k">class</span><span class="w"> </span><span class="nc">UseSubAgentTool</span><span class="p">(</span><span class="n">AsyncBaseTool</span><span class="p">):</span>
+<span class="normal"><a href="#__codelineno-0-174">174</a></span>
+<span class="normal"><a href="#__codelineno-0-175">175</a></span>
+<span class="normal"><a href="#__codelineno-0-176">176</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="k">class</span><span class="w"> </span><span class="nc">UseSubAgentTool</span><span class="p">(</span><span class="n">AsyncBaseTool</span><span class="p">):</span>
 </span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Async tool that dispatches a task to a registered sub-agent.</span>
 </span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a>
 </span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="sd">    Each sub-agent registered with the parent coordinator is callable via this</span>
@@ -3921,27 +3923,29 @@ keyed by name.</p>
 </span><span id="__span-0-151"><a id="__codelineno-0-151" name="__codelineno-0-151"></a>            <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">spec</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
 </span><span id="__span-0-152"><a id="__codelineno-0-152" name="__codelineno-0-152"></a>                <span class="n">Task</span><span class="p">(</span><span class="n">instruction</span><span class="o">=</span><span class="n">task_instruction</span><span class="p">),</span>
 </span><span id="__span-0-153"><a id="__codelineno-0-153" name="__codelineno-0-153"></a>                <span class="n">max_steps</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">max_steps</span><span class="p">,</span>
-</span><span id="__span-0-154"><a id="__codelineno-0-154" name="__codelineno-0-154"></a>            <span class="p">)</span>
-</span><span id="__span-0-155"><a id="__codelineno-0-155" name="__codelineno-0-155"></a>        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span id="__span-0-156"><a id="__codelineno-0-156" name="__codelineno-0-156"></a>            <span class="k">return</span> <span class="n">ToolCallResult</span><span class="p">(</span>
-</span><span id="__span-0-157"><a id="__codelineno-0-157" name="__codelineno-0-157"></a>                <span class="n">tool_call_id</span><span class="o">=</span><span class="n">tool_call</span><span class="o">.</span><span class="n">id_</span><span class="p">,</span>
-</span><span id="__span-0-158"><a id="__codelineno-0-158" name="__codelineno-0-158"></a>                <span class="n">error</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-</span><span id="__span-0-159"><a id="__codelineno-0-159" name="__codelineno-0-159"></a>                <span class="n">content</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span>
-</span><span id="__span-0-160"><a id="__codelineno-0-160" name="__codelineno-0-160"></a>                    <span class="p">{</span>
-</span><span id="__span-0-161"><a id="__codelineno-0-161" name="__codelineno-0-161"></a>                        <span class="s2">&quot;error_type&quot;</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
-</span><span id="__span-0-162"><a id="__codelineno-0-162" name="__codelineno-0-162"></a>                        <span class="s2">&quot;subagent&quot;</span><span class="p">:</span> <span class="n">subagent_name</span><span class="p">,</span>
-</span><span id="__span-0-163"><a id="__codelineno-0-163" name="__codelineno-0-163"></a>                        <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span>
-</span><span id="__span-0-164"><a id="__codelineno-0-164" name="__codelineno-0-164"></a>                    <span class="p">},</span>
-</span><span id="__span-0-165"><a id="__codelineno-0-165" name="__codelineno-0-165"></a>                <span class="p">),</span>
-</span><span id="__span-0-166"><a id="__codelineno-0-166" name="__codelineno-0-166"></a>            <span class="p">)</span>
-</span><span id="__span-0-167"><a id="__codelineno-0-167" name="__codelineno-0-167"></a>        <span class="k">finally</span><span class="p">:</span>
-</span><span id="__span-0-168"><a id="__codelineno-0-168" name="__codelineno-0-168"></a>            <span class="n">current_subagent_name</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
-</span><span id="__span-0-169"><a id="__codelineno-0-169" name="__codelineno-0-169"></a>
-</span><span id="__span-0-170"><a id="__codelineno-0-170" name="__codelineno-0-170"></a>        <span class="k">return</span> <span class="n">ToolCallResult</span><span class="p">(</span>
-</span><span id="__span-0-171"><a id="__codelineno-0-171" name="__codelineno-0-171"></a>            <span class="n">tool_call_id</span><span class="o">=</span><span class="n">tool_call</span><span class="o">.</span><span class="n">id_</span><span class="p">,</span>
-</span><span id="__span-0-172"><a id="__codelineno-0-172" name="__codelineno-0-172"></a>            <span class="n">error</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-173"><a id="__codelineno-0-173" name="__codelineno-0-173"></a>            <span class="n">content</span><span class="o">=</span><span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="p">,</span>
-</span><span id="__span-0-174"><a id="__codelineno-0-174" name="__codelineno-0-174"></a>        <span class="p">)</span>
+</span><span id="__span-0-154"><a id="__codelineno-0-154" name="__codelineno-0-154"></a>                <span class="n">skills_scopes</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">skills_scopes</span><span class="p">,</span>
+</span><span id="__span-0-155"><a id="__codelineno-0-155" name="__codelineno-0-155"></a>                <span class="n">explicit_only_skills</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">explicit_only_skills</span><span class="p">,</span>
+</span><span id="__span-0-156"><a id="__codelineno-0-156" name="__codelineno-0-156"></a>            <span class="p">)</span>
+</span><span id="__span-0-157"><a id="__codelineno-0-157" name="__codelineno-0-157"></a>        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="__span-0-158"><a id="__codelineno-0-158" name="__codelineno-0-158"></a>            <span class="k">return</span> <span class="n">ToolCallResult</span><span class="p">(</span>
+</span><span id="__span-0-159"><a id="__codelineno-0-159" name="__codelineno-0-159"></a>                <span class="n">tool_call_id</span><span class="o">=</span><span class="n">tool_call</span><span class="o">.</span><span class="n">id_</span><span class="p">,</span>
+</span><span id="__span-0-160"><a id="__codelineno-0-160" name="__codelineno-0-160"></a>                <span class="n">error</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-0-161"><a id="__codelineno-0-161" name="__codelineno-0-161"></a>                <span class="n">content</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span>
+</span><span id="__span-0-162"><a id="__codelineno-0-162" name="__codelineno-0-162"></a>                    <span class="p">{</span>
+</span><span id="__span-0-163"><a id="__codelineno-0-163" name="__codelineno-0-163"></a>                        <span class="s2">&quot;error_type&quot;</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+</span><span id="__span-0-164"><a id="__codelineno-0-164" name="__codelineno-0-164"></a>                        <span class="s2">&quot;subagent&quot;</span><span class="p">:</span> <span class="n">subagent_name</span><span class="p">,</span>
+</span><span id="__span-0-165"><a id="__codelineno-0-165" name="__codelineno-0-165"></a>                        <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span>
+</span><span id="__span-0-166"><a id="__codelineno-0-166" name="__codelineno-0-166"></a>                    <span class="p">},</span>
+</span><span id="__span-0-167"><a id="__codelineno-0-167" name="__codelineno-0-167"></a>                <span class="p">),</span>
+</span><span id="__span-0-168"><a id="__codelineno-0-168" name="__codelineno-0-168"></a>            <span class="p">)</span>
+</span><span id="__span-0-169"><a id="__codelineno-0-169" name="__codelineno-0-169"></a>        <span class="k">finally</span><span class="p">:</span>
+</span><span id="__span-0-170"><a id="__codelineno-0-170" name="__codelineno-0-170"></a>            <span class="n">current_subagent_name</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+</span><span id="__span-0-171"><a id="__codelineno-0-171" name="__codelineno-0-171"></a>
+</span><span id="__span-0-172"><a id="__codelineno-0-172" name="__codelineno-0-172"></a>        <span class="k">return</span> <span class="n">ToolCallResult</span><span class="p">(</span>
+</span><span id="__span-0-173"><a id="__codelineno-0-173" name="__codelineno-0-173"></a>            <span class="n">tool_call_id</span><span class="o">=</span><span class="n">tool_call</span><span class="o">.</span><span class="n">id_</span><span class="p">,</span>
+</span><span id="__span-0-174"><a id="__codelineno-0-174" name="__codelineno-0-174"></a>            <span class="n">error</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-175"><a id="__codelineno-0-175" name="__codelineno-0-175"></a>            <span class="n">content</span><span class="o">=</span><span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="p">,</span>
+</span><span id="__span-0-176"><a id="__codelineno-0-176" name="__codelineno-0-176"></a>        <span class="p">)</span>
 </span></code></pre></div></td></tr></table></div>
               </details>
 
@@ -4318,7 +4322,9 @@ an error result if the sub-agent raises for any reason.</p>
 <span class="normal"><a href="#__codelineno-0-171">171</a></span>
 <span class="normal"><a href="#__codelineno-0-172">172</a></span>
 <span class="normal"><a href="#__codelineno-0-173">173</a></span>
-<span class="normal"><a href="#__codelineno-0-174">174</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-84"><a id="__codelineno-0-84" name="__codelineno-0-84"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span>
+<span class="normal"><a href="#__codelineno-0-174">174</a></span>
+<span class="normal"><a href="#__codelineno-0-175">175</a></span>
+<span class="normal"><a href="#__codelineno-0-176">176</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-84"><a id="__codelineno-0-84" name="__codelineno-0-84"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span>
 </span><span id="__span-0-85"><a id="__codelineno-0-85" name="__codelineno-0-85"></a>    <span class="bp">self</span><span class="p">,</span>
 </span><span id="__span-0-86"><a id="__codelineno-0-86" name="__codelineno-0-86"></a>    <span class="n">tool_call</span><span class="p">:</span> <span class="n">ToolCall</span><span class="p">,</span>
 </span><span id="__span-0-87"><a id="__codelineno-0-87" name="__codelineno-0-87"></a>    <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
@@ -4388,27 +4394,29 @@ an error result if the sub-agent raises for any reason.</p>
 </span><span id="__span-0-151"><a id="__codelineno-0-151" name="__codelineno-0-151"></a>        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">spec</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
 </span><span id="__span-0-152"><a id="__codelineno-0-152" name="__codelineno-0-152"></a>            <span class="n">Task</span><span class="p">(</span><span class="n">instruction</span><span class="o">=</span><span class="n">task_instruction</span><span class="p">),</span>
 </span><span id="__span-0-153"><a id="__codelineno-0-153" name="__codelineno-0-153"></a>            <span class="n">max_steps</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">max_steps</span><span class="p">,</span>
-</span><span id="__span-0-154"><a id="__codelineno-0-154" name="__codelineno-0-154"></a>        <span class="p">)</span>
-</span><span id="__span-0-155"><a id="__codelineno-0-155" name="__codelineno-0-155"></a>    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span id="__span-0-156"><a id="__codelineno-0-156" name="__codelineno-0-156"></a>        <span class="k">return</span> <span class="n">ToolCallResult</span><span class="p">(</span>
-</span><span id="__span-0-157"><a id="__codelineno-0-157" name="__codelineno-0-157"></a>            <span class="n">tool_call_id</span><span class="o">=</span><span class="n">tool_call</span><span class="o">.</span><span class="n">id_</span><span class="p">,</span>
-</span><span id="__span-0-158"><a id="__codelineno-0-158" name="__codelineno-0-158"></a>            <span class="n">error</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-</span><span id="__span-0-159"><a id="__codelineno-0-159" name="__codelineno-0-159"></a>            <span class="n">content</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span>
-</span><span id="__span-0-160"><a id="__codelineno-0-160" name="__codelineno-0-160"></a>                <span class="p">{</span>
-</span><span id="__span-0-161"><a id="__codelineno-0-161" name="__codelineno-0-161"></a>                    <span class="s2">&quot;error_type&quot;</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
-</span><span id="__span-0-162"><a id="__codelineno-0-162" name="__codelineno-0-162"></a>                    <span class="s2">&quot;subagent&quot;</span><span class="p">:</span> <span class="n">subagent_name</span><span class="p">,</span>
-</span><span id="__span-0-163"><a id="__codelineno-0-163" name="__codelineno-0-163"></a>                    <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span>
-</span><span id="__span-0-164"><a id="__codelineno-0-164" name="__codelineno-0-164"></a>                <span class="p">},</span>
-</span><span id="__span-0-165"><a id="__codelineno-0-165" name="__codelineno-0-165"></a>            <span class="p">),</span>
-</span><span id="__span-0-166"><a id="__codelineno-0-166" name="__codelineno-0-166"></a>        <span class="p">)</span>
-</span><span id="__span-0-167"><a id="__codelineno-0-167" name="__codelineno-0-167"></a>    <span class="k">finally</span><span class="p">:</span>
-</span><span id="__span-0-168"><a id="__codelineno-0-168" name="__codelineno-0-168"></a>        <span class="n">current_subagent_name</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
-</span><span id="__span-0-169"><a id="__codelineno-0-169" name="__codelineno-0-169"></a>
-</span><span id="__span-0-170"><a id="__codelineno-0-170" name="__codelineno-0-170"></a>    <span class="k">return</span> <span class="n">ToolCallResult</span><span class="p">(</span>
-</span><span id="__span-0-171"><a id="__codelineno-0-171" name="__codelineno-0-171"></a>        <span class="n">tool_call_id</span><span class="o">=</span><span class="n">tool_call</span><span class="o">.</span><span class="n">id_</span><span class="p">,</span>
-</span><span id="__span-0-172"><a id="__codelineno-0-172" name="__codelineno-0-172"></a>        <span class="n">error</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-173"><a id="__codelineno-0-173" name="__codelineno-0-173"></a>        <span class="n">content</span><span class="o">=</span><span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="p">,</span>
-</span><span id="__span-0-174"><a id="__codelineno-0-174" name="__codelineno-0-174"></a>    <span class="p">)</span>
+</span><span id="__span-0-154"><a id="__codelineno-0-154" name="__codelineno-0-154"></a>            <span class="n">skills_scopes</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">skills_scopes</span><span class="p">,</span>
+</span><span id="__span-0-155"><a id="__codelineno-0-155" name="__codelineno-0-155"></a>            <span class="n">explicit_only_skills</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">explicit_only_skills</span><span class="p">,</span>
+</span><span id="__span-0-156"><a id="__codelineno-0-156" name="__codelineno-0-156"></a>        <span class="p">)</span>
+</span><span id="__span-0-157"><a id="__codelineno-0-157" name="__codelineno-0-157"></a>    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="__span-0-158"><a id="__codelineno-0-158" name="__codelineno-0-158"></a>        <span class="k">return</span> <span class="n">ToolCallResult</span><span class="p">(</span>
+</span><span id="__span-0-159"><a id="__codelineno-0-159" name="__codelineno-0-159"></a>            <span class="n">tool_call_id</span><span class="o">=</span><span class="n">tool_call</span><span class="o">.</span><span class="n">id_</span><span class="p">,</span>
+</span><span id="__span-0-160"><a id="__codelineno-0-160" name="__codelineno-0-160"></a>            <span class="n">error</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-0-161"><a id="__codelineno-0-161" name="__codelineno-0-161"></a>            <span class="n">content</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span>
+</span><span id="__span-0-162"><a id="__codelineno-0-162" name="__codelineno-0-162"></a>                <span class="p">{</span>
+</span><span id="__span-0-163"><a id="__codelineno-0-163" name="__codelineno-0-163"></a>                    <span class="s2">&quot;error_type&quot;</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+</span><span id="__span-0-164"><a id="__codelineno-0-164" name="__codelineno-0-164"></a>                    <span class="s2">&quot;subagent&quot;</span><span class="p">:</span> <span class="n">subagent_name</span><span class="p">,</span>
+</span><span id="__span-0-165"><a id="__codelineno-0-165" name="__codelineno-0-165"></a>                    <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span>
+</span><span id="__span-0-166"><a id="__codelineno-0-166" name="__codelineno-0-166"></a>                <span class="p">},</span>
+</span><span id="__span-0-167"><a id="__codelineno-0-167" name="__codelineno-0-167"></a>            <span class="p">),</span>
+</span><span id="__span-0-168"><a id="__codelineno-0-168" name="__codelineno-0-168"></a>        <span class="p">)</span>
+</span><span id="__span-0-169"><a id="__codelineno-0-169" name="__codelineno-0-169"></a>    <span class="k">finally</span><span class="p">:</span>
+</span><span id="__span-0-170"><a id="__codelineno-0-170" name="__codelineno-0-170"></a>        <span class="n">current_subagent_name</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+</span><span id="__span-0-171"><a id="__codelineno-0-171" name="__codelineno-0-171"></a>
+</span><span id="__span-0-172"><a id="__codelineno-0-172" name="__codelineno-0-172"></a>    <span class="k">return</span> <span class="n">ToolCallResult</span><span class="p">(</span>
+</span><span id="__span-0-173"><a id="__codelineno-0-173" name="__codelineno-0-173"></a>        <span class="n">tool_call_id</span><span class="o">=</span><span class="n">tool_call</span><span class="o">.</span><span class="n">id_</span><span class="p">,</span>
+</span><span id="__span-0-174"><a id="__codelineno-0-174" name="__codelineno-0-174"></a>        <span class="n">error</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-175"><a id="__codelineno-0-175" name="__codelineno-0-175"></a>        <span class="n">content</span><span class="o">=</span><span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="p">,</span>
+</span><span id="__span-0-176"><a id="__codelineno-0-176" name="__codelineno-0-176"></a>    <span class="p">)</span>
 </span></code></pre></div></td></tr></table></div>
             </details>
     </div>

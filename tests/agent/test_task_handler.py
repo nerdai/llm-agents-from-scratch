@@ -1340,3 +1340,145 @@ async def test_run_step_injects_subagents_catalog() -> None:
     system_msg = call_kwargs.kwargs["chat_history"][0]
     assert "<available_subagents>" in system_msg.content
     assert "<name>coder</name>" in system_msg.content
+
+
+# ---------------------------------------------------------------------------
+# Subagents through SupervisedTaskHandler tests (Chapter 9)
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.asyncio
+async def test_supervised_handler_use_subagent_tool_set_when_registered(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests _use_subagent_tool is set on a SupervisedTaskHandler."""
+    spec = SubAgentSpec(
+        name="coder",
+        description="Writes code.",
+        agent=LLMAgent(llm=mock_llm),
+    )
+    agent = LLMAgent(llm=mock_llm, subagents=[spec])
+    task = Task(instruction="mock instruction")
+
+    handler = await agent.run_supervised(task)
+
+    assert handler._use_subagent_tool is not None
+    assert isinstance(handler._use_subagent_tool, UseSubAgentTool)
+    assert handler._use_subagent_tool.name == "from_scratch__use_subagent"
+
+
+@pytest.mark.asyncio
+async def test_supervised_handler_use_subagent_tool_none_without_subagents(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests _use_subagent_tool is None on a SupervisedTaskHandler."""
+    agent = LLMAgent(llm=mock_llm)
+    task = Task(instruction="mock instruction")
+
+    handler = await agent.run_supervised(task)
+
+    assert handler._use_subagent_tool is None
+
+
+@pytest.mark.asyncio
+async def test_supervised_handler_subagents_catalog_returns_catalog_xml(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests _subagents_catalog returns XML on SupervisedTaskHandler."""
+    spec = SubAgentSpec(
+        name="researcher",
+        description="Looks things up.",
+        agent=LLMAgent(llm=mock_llm),
+    )
+    agent = LLMAgent(llm=mock_llm, subagents=[spec])
+    task = Task(instruction="mock instruction")
+
+    handler = await agent.run_supervised(task)
+    catalog = handler._subagents_catalog
+
+    assert "<available_subagents>" in catalog
+    assert "<name>researcher</name>" in catalog
+    assert "<description>Looks things up.</description>" in catalog
+
+
+@pytest.mark.asyncio
+async def test_supervised_run_step_injects_subagents_catalog() -> None:
+    """Tests a manual get_next_step/run_step cycle injects the catalog."""
+    mock_llm = AsyncMock()
+    mock_llm.chat.return_value = (
+        ChatMessage(role=ChatRole.USER, content="mock instruction"),
+        ChatMessage(role=ChatRole.ASSISTANT, content="Done."),
+    )
+
+    spec = SubAgentSpec(
+        name="coder",
+        description="Writes code.",
+        agent=LLMAgent(llm=mock_llm),
+    )
+    agent = LLMAgent(llm=mock_llm, subagents=[spec])
+    task = Task(instruction="mock instruction")
+
+    handler = await agent.run_supervised(task)
+    step = await handler.get_next_step(None)
+    assert isinstance(step, TaskStep)
+    await handler.run_step(step)
+
+    call_kwargs = mock_llm.chat.call_args
+    system_msg = call_kwargs.kwargs["chat_history"][0]
+    assert "<available_subagents>" in system_msg.content
+    assert "<name>coder</name>" in system_msg.content
+
+
+@pytest.mark.asyncio
+async def test_supervised_run_step_dispatches_to_subagent() -> None:
+    """Tests a manual run_step actually dispatches to a registered subagent."""
+    coordinator_llm = AsyncMock()
+    subagent_llm = AsyncMock()
+
+    dispatch_call = ToolCall(
+        tool_name="from_scratch__use_subagent",
+        arguments={"name": "coder", "task": "Write a hello-world function."},
+    )
+    coordinator_llm.chat.return_value = (
+        ChatMessage(role=ChatRole.USER, content="mock instruction"),
+        ChatMessage(
+            role=ChatRole.ASSISTANT,
+            content="",
+            tool_calls=[dispatch_call],
+        ),
+    )
+    coordinator_llm.continue_chat_with_tool_results.return_value = (
+        [ChatMessage(role=ChatRole.TOOL, content="def hello(): ...")],
+        ChatMessage(role=ChatRole.ASSISTANT, content="Delegated and done."),
+    )
+
+    subagent_llm.chat.return_value = (
+        ChatMessage(
+            role=ChatRole.USER,
+            content="Write a hello-world function.",
+        ),
+        ChatMessage(role=ChatRole.ASSISTANT, content="def hello(): ..."),
+    )
+    # subagent's own run() loop calls get_next_step() a second time after
+    # its first step, which resolves via structured_output — signal
+    # completion so the subagent's background loop terminates.
+    subagent_llm.structured_output.return_value = NextStepDecision(
+        kind="final_result",
+        content="",
+    )
+
+    spec = SubAgentSpec(
+        name="coder",
+        description="Writes code.",
+        agent=LLMAgent(llm=subagent_llm),
+    )
+    coordinator = LLMAgent(llm=coordinator_llm, subagents=[spec])
+    task = Task(instruction="mock instruction")
+
+    handler = await coordinator.run_supervised(task)
+    step = await handler.get_next_step(None)
+    assert isinstance(step, TaskStep)
+    step_result = await handler.run_step(step)
+
+    subagent_llm.chat.assert_awaited_once()
+    assert step_result.content == "Delegated and done."

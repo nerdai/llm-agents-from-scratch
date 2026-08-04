@@ -107,7 +107,7 @@ from core concepts to full multi-agent systems:
 
 | Ch | Title | Notebook |
 | -- | ----- | -------- |
-| 9 | Multi-Agent Systems with Agent2Agent | — |
+| 9 | Building MAS with Subagents | [Ch 9](notebooks/ch09.ipynb) |
 
 ---
 

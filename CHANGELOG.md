@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+## [0.0.22] - 2026-08-04
+
+### Added
+
 - feat(ch09): `SubAgentSpec.skills_scopes` and `SubAgentSpec.explicit_only_skills` — per-sub-agent skill scope control, mirroring `max_steps`; `UseSubAgentTool` forwards both to `spec.agent.run()`; `None` (default) preserves prior behaviour (#781)
 - feat(ch09): `current_subagent_name` — `contextvars.ContextVar` set by `UseSubAgentTool` around a dispatched sub-agent's `run()`; `ColoredFormatter` prepends `[name]` to every log line emitted while that sub-agent is in flight, so console output distinguishes coordinator logs from sub-agent logs (#775)
 - feat(ch09): `subagents/recipes.py` — `general_subagent()` (`DEFAULT_TOOLS`-equipped) and `explore_subagent()` (`ReadFileTool`-only, lower `max_steps`) default subagent factories, mirroring `memory/recipes.py`; use directly with `with_subagents([general_subagent(llm), ...])`, no builder sugar (#765)

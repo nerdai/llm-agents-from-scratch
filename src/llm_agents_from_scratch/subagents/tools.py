@@ -10,6 +10,7 @@ from llm_agents_from_scratch.data_structures import (
     ToolCallResult,
 )
 from llm_agents_from_scratch.errors import SubAgentNotFoundError
+from llm_agents_from_scratch.logger import current_subagent_name
 
 from .spec import SubAgentSpec
 
@@ -88,6 +89,24 @@ class UseSubAgentTool(AsyncBaseTool):
     ) -> ToolCallResult:
         """Dispatch a task to the named sub-agent and return its result.
 
+        Sets ``current_subagent_name`` before calling ``spec.agent.run()``
+        so the ``asyncio.Task`` it creates copies a context with the name
+        already set, and resets it once the dispatch settles. This is the
+        only call site that ever sets ``current_subagent_name``.
+
+        Safe under normal usage: ``run_step()`` always reaches this method
+        through ``asyncio.gather`` (even for a single tool call), so the
+        context mutated here is already a fork of the coordinator's own
+        context, never the coordinator's context itself — concurrent or
+        nested dispatches can't collide, since each fork owns an
+        independent copy from the moment it's created, before any
+        ``set()`` runs. Calling this tool directly, bypassing
+        ``run_step()`` (e.g. for a manual dispatch demo), is the one path
+        where ``set()`` lands on whatever context the caller happens to
+        be in — still safe as long as nothing else concurrently shares
+        that context, which the ``try``/``finally`` reset below
+        guarantees for this call in isolation.
+
         Args:
             tool_call (ToolCall): The tool call to execute.
             *args (Any): Additional positional arguments.
@@ -123,6 +142,7 @@ class UseSubAgentTool(AsyncBaseTool):
                 ),
             )
         spec = self._subagents_registry.get(subagent_name)
+        token = current_subagent_name.set(subagent_name)
         try:
             if spec is None:
                 raise SubAgentNotFoundError(
@@ -144,6 +164,8 @@ class UseSubAgentTool(AsyncBaseTool):
                     },
                 ),
             )
+        finally:
+            current_subagent_name.reset(token)
 
         return ToolCallResult(
             tool_call_id=tool_call.id_,

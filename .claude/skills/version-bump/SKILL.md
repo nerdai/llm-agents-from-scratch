@@ -1,6 +1,6 @@
 ---
 name: version-bump
-description: Bump the package version (major, minor, or patch), then sync CITATION.cff, src/_version.py, and CHANGELOG.md. Use when asked to cut a release or bump the version.
+description: Bump the package version (major, minor, or patch), then sync CITATION.cff (version + date-released), src/_version.py, and CHANGELOG.md. Use when asked to cut a release or bump the version.
 ---
 
 # Version Bump
@@ -35,10 +35,11 @@ Capture the new version from the output (e.g. `0.0.15`). Strip the leading `v` i
 
 ### 2. Update `CITATION.cff`
 
-In `CITATION.cff`, replace the `version:` line with the new version:
+In `CITATION.cff`, replace the `version:` line with the new version, and replace the `date-released:` line with today's date in `YYYY-MM-DD` format:
 
 ```yaml
 version: "<new_version>"
+date-released: "<today_date>"
 ```
 
 ### 3. Update `src/llm_agents_from_scratch/_version.py`

@@ -61,6 +61,7 @@ def explore_subagent(
     llm: LLM,
     name: str = EXPLORE_NAME,
     max_steps: int = EXPLORE_MAX_STEPS,
+    memories: list[Memory] | None = None,
 ) -> SubAgentSpec:
     """Return a read-only, lookup-tuned subagent spec.
 
@@ -76,6 +77,8 @@ def explore_subagent(
         max_steps (int, optional): Cap on steps per dispatch. Lower
             than `general_subagent`'s default since lookups need
             fewer steps. Defaults to `EXPLORE_MAX_STEPS`.
+        memories (list[Memory] | None, optional): Memory backends for
+            the subagent. Defaults to None.
 
     Returns:
         SubAgentSpec: A spec wrapping a `ReadFileTool`-only agent.
@@ -86,6 +89,6 @@ def explore_subagent(
             "Read-only subagent for quickly finding and reading files. "
             "Use for lookups and fact-finding, not multi-step work."
         ),
-        agent=LLMAgent(llm=llm, tools=[ReadFileTool()]),
+        agent=LLMAgent(llm=llm, tools=[ReadFileTool()], memories=memories),
         max_steps=max_steps,
     )

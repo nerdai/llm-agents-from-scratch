@@ -1,6 +1,9 @@
 """Unit tests for default subagent recipes."""
 
+from unittest.mock import MagicMock
+
 from llm_agents_from_scratch.base.llm import BaseLLM
+from llm_agents_from_scratch.memory.memory import Memory
 from llm_agents_from_scratch.subagents.constants import (
     EXPLORE_MAX_STEPS,
     EXPLORE_NAME,
@@ -47,6 +50,14 @@ def test_general_subagent_custom_name_and_max_steps(
     assert spec.max_steps == CUSTOM_MAX_STEPS_GENERAL
 
 
+def test_general_subagent_passes_memories(mock_llm: BaseLLM) -> None:
+    """Tests general_subagent forwards memories to the agent."""
+    memory = MagicMock(spec=Memory)
+    spec = general_subagent(mock_llm, memories=[memory])
+
+    assert spec.agent.memories == [memory]
+
+
 def test_explore_subagent_defaults(mock_llm: BaseLLM) -> None:
     """Tests explore_subagent applies default name and max_steps."""
     spec = explore_subagent(mock_llm)
@@ -77,6 +88,14 @@ def test_explore_subagent_custom_name_and_max_steps(
 
     assert spec.name == "scout"
     assert spec.max_steps == CUSTOM_MAX_STEPS_EXPLORE
+
+
+def test_explore_subagent_passes_memories(mock_llm: BaseLLM) -> None:
+    """Tests explore_subagent forwards memories to the agent."""
+    memory = MagicMock(spec=Memory)
+    spec = explore_subagent(mock_llm, memories=[memory])
+
+    assert spec.agent.memories == [memory]
 
 
 def test_explore_max_steps_lower_than_general() -> None:

@@ -10,6 +10,7 @@ from llm_agents_from_scratch.data_structures import (
     ToolCallResult,
 )
 from llm_agents_from_scratch.errors import SubAgentNotFoundError
+from llm_agents_from_scratch.logger import current_subagent_name
 
 from .spec import SubAgentSpec
 
@@ -123,6 +124,9 @@ class UseSubAgentTool(AsyncBaseTool):
                 ),
             )
         spec = self._subagents_registry.get(subagent_name)
+        # set before spec.agent.run() so the task it creates copies a
+        # context with the name already set — reset once it settles
+        token = current_subagent_name.set(subagent_name)
         try:
             if spec is None:
                 raise SubAgentNotFoundError(
@@ -144,6 +148,8 @@ class UseSubAgentTool(AsyncBaseTool):
                     },
                 ),
             )
+        finally:
+            current_subagent_name.reset(token)
 
         return ToolCallResult(
             tool_call_id=tool_call.id_,

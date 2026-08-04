@@ -58,7 +58,7 @@ core concepts to full multi-agent systems.
 
 | Ch | Title | Notebook |
 | -- | ----- | -------- |
-| 9 | Multi-Agent Systems with Agent2Agent | — |
+| 9 | Multi-Agent Systems with Agent2Agent | [Ch 9](https://masfromscratch.com/notebooks/ch09/) |
 
 ---
 

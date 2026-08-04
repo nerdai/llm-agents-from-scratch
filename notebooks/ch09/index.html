@@ -835,6 +835,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#example-4-parallel-fan-out" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 4: Parallel Fan-Out
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3507,6 +3518,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#example-4-parallel-fan-out" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 4: Parallel Fan-Out
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -4608,58 +4630,61 @@ print(result.content)</div>
 [hailstone] INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 16
 [hailstone] INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to make the following tool-calls:
 {
-    "id_": "7287279b-7841-4c89-8a4f-3b771f9a15db",
+    "id_": "c6e9e798-5603-45ca-9444-79688bfb5c35",
     "tool_name": "next_number",
     "argu...[TRUNCATED]
-[hailstone] INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Execute the tool call with id '7287279b-7841-4c89-8a4f-3b771f9a15db' using the next_number tool with argument x=16.
-[hailstone] INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Execute the tool call with id '7287279b-7841-4c89-8a4f-3b771f9a15db' using the next_number tool with argument x=16.
+[hailstone] INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Execute the tool call with id 'c6e9e798-5603-45ca-9444-79688bfb5c35' using the 'next_number' tool with argument x=16.
+[hailstone] INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Execute the tool call with id 'c6e9e798-5603-45ca-9444-79688bfb5c35' using the 'next_number' tool with argument x=16.
 [hailstone] INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
 [hailstone] INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 8
 [hailstone] INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to make the following tool-calls:
 {
-    "id_": "fd8fd9f3-89f8-4c1b-9072-21291aedbecb",
+    "id_": "d19cf9ff-cfa4-4ba7-a7c1-0f30ad751632",
     "tool_name": "next_number",
     "argu...[TRUNCATED]
-[hailstone] INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Execute the tool call with id 'fd8fd9f3-89f8-4c1b-9072-21291aedbecb' using the next_number tool with argument x=8.
-[hailstone] INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Execute the tool call with id 'fd8fd9f3-89f8-4c1b-9072-21291aedbecb' using the next_number tool with argument x=8.
+[hailstone] INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Execute the tool call with id 'd19cf9ff-cfa4-4ba7-a7c1-0f30ad751632' using the 'next_number' tool with argument x=8.
+[hailstone] INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Execute the tool call with id 'd19cf9ff-cfa4-4ba7-a7c1-0f30ad751632' using the 'next_number' tool with argument x=8.
 [hailstone] INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
 [hailstone] INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 4
 [hailstone] INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to make the following tool-calls:
 {
-    "id_": "1025f898-7c19-498a-8557-3c7a0f39f486",
+    "id_": "9faa2bf3-3b35-4948-b8fa-4b074636621c",
     "tool_name": "next_number",
     "argu...[TRUNCATED]
-[hailstone] INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Execute the tool call with id '1025f898-7c19-498a-8557-3c7a0f39f486' using the next_number tool with argument x=4.
-[hailstone] INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Execute the tool call with id '1025f898-7c19-498a-8557-3c7a0f39f486' using the next_number tool with argument x=4.
+[hailstone] INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Execute the tool call with id '9faa2bf3-3b35-4948-b8fa-4b074636621c' using the 'next_number' tool with argument x=4.
+[hailstone] INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Execute the tool call with id '9faa2bf3-3b35-4948-b8fa-4b074636621c' using the 'next_number' tool with argument x=4.
 [hailstone] INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
 [hailstone] INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 2
 [hailstone] INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to make the following tool-calls:
 {
-    "id_": "8cc7d4bf-ea7f-46ec-9600-8cfeccce2227",
+    "id_": "250d4697-93e2-4462-b9e6-ce07035c8969",
     "tool_name": "next_number",
     "argu...[TRUNCATED]
-[hailstone] INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Execute the tool call with id '8cc7d4bf-ea7f-46ec-9600-8cfeccce2227' using the next_number tool with argument x=2.
-[hailstone] INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Execute the tool call with id '8cc7d4bf-ea7f-46ec-9600-8cfeccce2227' using the next_number tool with argument x=2.
+[hailstone] INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Execute the tool call with id '250d4697-93e2-4462-b9e6-ce07035c8969' using the 'next_number' tool with argument x=2.
+[hailstone] INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Execute the tool call with id '250d4697-93e2-4462-b9e6-ce07035c8969' using the 'next_number' tool with argument x=2.
 [hailstone] INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
 [hailstone] INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 1
-[hailstone] INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The next_number tool returned 1, which means we've reached the end of the Hailstone sequence.
+[hailstone] INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The sequence has reached 1. Let me trace through the full Hailstone sequence for 5:
 
-Let me trace back through all the steps:...[TRUNCATED]
+1. Start: 5
+2. next_number(5) = 16 (step 1)
+3. nex...[TRUNCATED]
 [hailstone] INFO (llm_agents_fs.TaskHandler) :      No new step required.
-[hailstone] INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The next_number tool returned 1, which means we've reached the end of the Hailstone sequence.
+[hailstone] INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The sequence has reached 1. Let me trace through the full Hailstone sequence for 5:
 
-Let me trace back through all the ste...[TRUNCATED]
-The next_number tool returned 1, which means we've reached the end of the Hailstone sequence.
+1. Start: 5
+2. next_number(5) = 16 (step 1)
+3. ...[TRUNCATED]
+The sequence has reached 1. Let me trace through the full Hailstone sequence for 5:
 
-Let me trace back through all the steps:
-- Start: 5
-- Step 1: 5 → 16 (odd, so 3*5+1=16)
-- Step 2: 16 → 8 (even, so 16/2=8)
-- Step 3: 8 → 4 (even, so 8/2=4)
-- Step 4: 4 → 2 (even, so 4/2=2)
-- Step 5: 2 → 1 (even, so 2/2=1)
+1. Start: 5
+2. next_number(5) = 16 (step 1)
+3. next_number(16) = 8 (step 2)
+4. next_number(8) = 4 (step 3)
+5. next_number(4) = 2 (step 4)
+6. next_number(2) = 1 (step 5)
 
-The full Hailstone sequence for 5 is: 5 → 16 → 8 → 4 → 2 → 1
+The full sequence is: 5 → 16 → 8 → 4 → 2 → 1
 
 It took **5 steps** to reach 1 from the starting number 5.
 </pre>
@@ -4701,12 +4726,14 @@ It took **5 steps** to reach 1 from the starting number 5.
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMAgentBuilder</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.subagents.recipes</span><span class="w"> </span><span class="kn">import</span> <span class="n">explore_subagent</span><span class="p">,</span> <span class="n">general_subagent</span>
 
-<span class="n">worker_llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">,</span> <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="c1"># explore only does lookups, so a small local model is plenty; general</span>
+<span class="c1"># does open-ended computation, so it shares the coordinator's own model</span>
+<span class="n">slm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:8b"</span><span class="p">,</span> <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
 <span class="n">coordinator</span> <span class="o">=</span> <span class="k">await</span> <span class="p">(</span>
     <span class="n">LLMAgentBuilder</span><span class="p">()</span>
     <span class="o">.</span><span class="n">with_llm</span><span class="p">(</span><span class="n">llm</span><span class="p">)</span>  <span class="c1"># the bigger model from Example 1</span>
-    <span class="o">.</span><span class="n">with_subagents</span><span class="p">([</span><span class="n">general_subagent</span><span class="p">(</span><span class="n">worker_llm</span><span class="p">),</span> <span class="n">explore_subagent</span><span class="p">(</span><span class="n">worker_llm</span><span class="p">)])</span>
+    <span class="o">.</span><span class="n">with_subagents</span><span class="p">([</span><span class="n">general_subagent</span><span class="p">(</span><span class="n">llm</span><span class="p">),</span> <span class="n">explore_subagent</span><span class="p">(</span><span class="n">slm</span><span class="p">)])</span>
     <span class="o">.</span><span class="n">build</span><span class="p">()</span>
 <span class="p">)</span>
 
@@ -4715,12 +4742,14 @@ It took **5 steps** to reach 1 from the starting number 5.
 <div class="clipboard-copy-txt" id="cell-4">from llm_agents_from_scratch import LLMAgentBuilder
 from llm_agents_from_scratch.subagents.recipes import explore_subagent, general_subagent
 
-worker_llm = OllamaLLM(model="qwen3:14b", think=False)
+# explore only does lookups, so a small local model is plenty; general
+# does open-ended computation, so it shares the coordinator's own model
+slm = OllamaLLM(model="qwen3:8b", think=False)
 
 coordinator = await (
     LLMAgentBuilder()
     .with_llm(llm)  # the bigger model from Example 1
-    .with_subagents([general_subagent(worker_llm), explore_subagent(worker_llm)])
+    .with_subagents([general_subagent(llm), explore_subagent(slm)])
     .build()
 )
 
@@ -4736,7 +4765,7 @@ print(coordinator.subagents_registry)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>{'general': SubAgentSpec(name='general', description='General-purpose subagent for open-ended research, multi-step tasks, or work that benefits from an isolated context. Equipped with file reading and Python execution.', agent=&lt;llm_agents_from_scratch.agent.llm_agent.LLMAgent object at 0x7e276545de50&gt;, max_steps=20), 'explore': SubAgentSpec(name='explore', description='Read-only subagent for quickly finding and reading files. Use for lookups and fact-finding, not multi-step work.', agent=&lt;llm_agents_from_scratch.agent.llm_agent.LLMAgent object at 0x7e276545c550&gt;, max_steps=10)}
+<pre>{'general': SubAgentSpec(name='general', description='General-purpose subagent for open-ended research, multi-step tasks, or work that benefits from an isolated context. Equipped with file reading and Python execution.', agent=&lt;llm_agents_from_scratch.agent.llm_agent.LLMAgent object at 0x7dcd806920d0&gt;, max_steps=20), 'explore': SubAgentSpec(name='explore', description='Read-only subagent for quickly finding and reading files. Use for lookups and fact-finding, not multi-step work.', agent=&lt;llm_agents_from_scratch.agent.llm_agent.LLMAgent object at 0x7dcd80691e50&gt;, max_steps=10)}
 </pre>
 </div>
 </div>
@@ -4816,22 +4845,186 @@ INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: from_scratc
 [explore] INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: {
   "6": {"sequence": [6, 3, 10, 5, 16, 8, 4, 2, 1], "steps": 8},
   "12": {"sequence": [12, 6, 3, 10, 5, 16, 8, 4, 2, 1], "ste...[TRUNCATED]
-[explore] INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The Hailstone sequence for the number 6 is [6, 3, 10, 5, 16, 8, 4, 2, 1], and it takes 8 steps to reach 1.
+[explore] INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The Hailstone sequence for the number 6 is: [6, 3, 10, 5, 16, 8, 4, 2, 1]. It takes 8 steps to reach 1.
 [explore] INFO (llm_agents_fs.TaskHandler) :      No new step required.
-[explore] INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The Hailstone sequence for the number 6 is [6, 3, 10, 5, 16, 8, 4, 2, 1], and it takes 8 steps to reach 1.
-INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: The Hailstone sequence for the number 6 is [6, 3, 10, 5, 16, 8, 4, 2, 1], and it takes 8 steps to reach 1.
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The explore sub-agent found the file and retrieved the information. The Hailstone sequence for 6 is:
+[explore] INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The Hailstone sequence for the number 6 is: [6, 3, 10, 5, 16, 8, 4, 2, 1]. It takes 8 steps to reach 1.
+INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: The Hailstone sequence for the number 6 is: [6, 3, 10, 5, 16, 8, 4, 2, 1]. It takes 8 steps to reach 1.
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The Hailstone sequence for 6 is: **[6, 3, 10, 5, 16, 8, 4, 2, 1]**
 
-**[6, 3, 10, 5, 16, 8, 4, 2, 1]**...[TRUNCATED]
+It takes 8 steps to reach 1.
 INFO (llm_agents_fs.TaskHandler) :      No new step required.
-INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The explore sub-agent found the file and retrieved the information. The Hailstone sequence for 6 is:
+INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The Hailstone sequence for 6 is: **[6, 3, 10, 5, 16, 8, 4, 2, 1]**
 
-**[6, 3, 10, 5, 16, 8, 4, 2, 1...[TRUNCATED]
-The explore sub-agent found the file and retrieved the information. The Hailstone sequence for 6 is:
+It takes 8 steps to reach 1.
+The Hailstone sequence for 6 is: **[6, 3, 10, 5, 16, 8, 4, 2, 1]**
 
-**[6, 3, 10, 5, 16, 8, 4, 2, 1]**
+It takes 8 steps to reach 1.
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0009-0000-0000-000000000014">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="example-4-parallel-fan-out">Example 4: Parallel Fan-Out<a class="anchor-link" href="#example-4-parallel-fan-out">¶</a></h3>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0009-0000-0000-000000000015">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">task_fanout</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span>
+    <span class="n">instruction</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">"Dispatch three sub-agent calls in the same response so they run "</span>
+        <span class="s2">"concurrently: use general to compute the Hailstone sequence for "</span>
+        <span class="s2">"4, use general to compute it for 8, and use explore to look up "</span>
+        <span class="s2">"the sequence for 12 in hailstone_known_sequences.json. Report "</span>
+        <span class="s2">"which of the three starting numbers took the most steps."</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+<span class="c1"># gather() runs the three dispatches concurrently, but wall-clock</span>
+<span class="c1"># speedup isn't guaranteed: a single local Ollama instance queues</span>
+<span class="c1"># concurrent requests to the *same* model unless OLLAMA_NUM_PARALLEL is</span>
+<span class="c1"># raised. Cloud models parallelize for free.</span>
+<span class="n">result_fanout</span> <span class="o">=</span> <span class="k">await</span> <span class="n">coordinator</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task_fanout</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result_fanout</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-6">task_fanout = Task(
+    instruction=(
+        "Dispatch three sub-agent calls in the same response so they run "
+        "concurrently: use general to compute the Hailstone sequence for "
+        "4, use general to compute it for 8, and use explore to look up "
+        "the sequence for 12 in hailstone_known_sequences.json. Report "
+        "which of the three starting numbers took the most steps."
+    ),
+)
+# gather() runs the three dispatches concurrently, but wall-clock
+# speedup isn't guaranteed: a single local Ollama instance queues
+# concurrent requests to the *same* model unless OLLAMA_NUM_PARALLEL is
+# raised. Cloud models parallelize for free.
+result_fanout = await coordinator.run(task_fanout)
+print(result_fanout.content)</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: Dispatch three sub-agent calls in the same response so they run concurrently: use general to compute the Hailstone sequence for 4, us...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Dispatch three sub-agent calls in the same response so they run concurrently: use general to compute the Hailstone sequence for 4,...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: from_scratch__use_subagent
+INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: from_scratch__use_subagent
+INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: from_scratch__use_subagent
+[explore] INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: Look up the Hailstone sequence for starting number 12 in the file hailstone_known_sequences.json. Report the sequence and the number ...[TRUNCATED]
+[explore] INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Look up the Hailstone sequence for starting number 12 in the file hailstone_known_sequences.json. Report the sequence and the numb...[TRUNCATED]
+[general] INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: Compute the Hailstone sequence for starting number 4. The Hailstone sequence (also known as Collatz conjecture) follows these rules: ...[TRUNCATED]
+[general] INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Compute the Hailstone sequence for starting number 4. The Hailstone sequence (also known as Collatz conjecture) follows these rule...[TRUNCATED]
+[general] INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: Compute the Hailstone sequence for starting number 8. The Hailstone sequence (also known as Collatz conjecture) follows these rules: ...[TRUNCATED]
+[general] INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Compute the Hailstone sequence for starting number 8. The Hailstone sequence (also known as Collatz conjecture) follows these rule...[TRUNCATED]
+[explore] INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: from_scratch__read_file
+[explore] INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: {
+  "6": {"sequence": [6, 3, 10, 5, 16, 8, 4, 2, 1], "steps": 8},
+  "12": {"sequence": [12, 6, 3, 10, 5, 16, 8, 4, 2, 1], "ste...[TRUNCATED]
+[general] INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: from_scratch__python_interpreter
+[general] INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: Sequence: [4, 2, 1]
+Number of steps: 2
 
-This sequence takes 8 steps to reach 1.
+[general] INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: from_scratch__python_interpreter
+[general] INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: Sequence: [8, 4, 2, 1]
+Number of steps: 3
+
+[explore] INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The Hailstone sequence for the starting number 12 is:
+
+**Sequence:** [12, 6, 3, 10, 5, 16, 8, 4, 2, 1]  
+**Number of steps:** 9
+[general] INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: Perfect! The computation confirms my manual calculation.
+
+**Results for the Hailstone sequence starting with 4:**
+
+- **Full sequence:**...[TRUNCATED]
+[general] INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The Hailstone sequence for starting number 8 is:
+
+**Sequence:** 8 → 4 → 2 → 1
+
+**Number of steps:** 3
+
+The sequence is quite short beca...[TRUNCATED]
+[general] INFO (llm_agents_fs.TaskHandler) :      No new step required.
+[general] INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: Perfect! The computation confirms my manual calculation.
+
+**Results for the Hailstone sequence starting with 4:**
+
+- **Full sequence...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: Perfect! The computation confirms my manual calculation.
+
+**Results for the Hailstone sequence starting with 4:**
+
+- **Full se...[TRUNCATED]
+[explore] INFO (llm_agents_fs.TaskHandler) :      No new step required.
+[explore] INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The Hailstone sequence for the starting number 12 is:
+
+**Sequence:** [12, 6, 3, 10, 5, 16, 8, 4, 2, 1]  
+**Number of steps:** 9
+INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: The Hailstone sequence for the starting number 12 is:
+
+**Sequence:** [12, 6, 3, 10, 5, 16, 8, 4, 2, 1]  
+**Number of steps:** ...[TRUNCATED]
+[general] INFO (llm_agents_fs.TaskHandler) :      No new step required.
+[general] INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The Hailstone sequence for starting number 8 is:
+
+**Sequence:** 8 → 4 → 2 → 1
+
+**Number of steps:** 3
+
+The sequence is quite short b...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: The Hailstone sequence for starting number 8 is:
+
+**Sequence:** 8 → 4 → 2 → 1
+
+**Number of steps:** 3
+
+The sequence is quite s...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: All three sub-agent calls completed successfully. Let me summarize the results:
+
+1. **Starting number 4**: Sequence is 4 → 2 → 1, takin...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      No new step required.
+INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: All three sub-agent calls completed successfully. Let me summarize the results:
+
+1. **Starting number 4**: Sequence is 4 → 2 → 1, ta...[TRUNCATED]
+All three sub-agent calls completed successfully. Let me summarize the results:
+
+1. **Starting number 4**: Sequence is 4 → 2 → 1, taking **2 steps**
+2. **Starting number 8**: Sequence is 8 → 4 → 2 → 1, taking **3 steps**
+3. **Starting number 12**: Sequence is [12, 6, 3, 10, 5, 16, 8, 4, 2, 1], taking **9 steps**
+
+**Answer**: The starting number **12** took the most steps with **9 steps**, compared to 3 steps for 8 and 2 steps for 4.
 </pre>
 </div>
 </div>

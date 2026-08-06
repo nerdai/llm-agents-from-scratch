@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- feat(ch10): `a2a/` package — `A2AAgentSpec`, the registry value type for a peer A2A agent; `from_agent_card()`/`from_url()` construction, `.catalog()` with nested `<a2a_skills>`; `errors/a2a.py` — `A2AAgentCardMissingInterfaceError` (#798)
 - chore(ch10): add `a2a-sdk` core dependency; `errors/a2a.py` — `A2AError`/`A2AAgentNotFoundError`, mirroring `errors/subagents.py`'s `SubAgentsError`/`SubAgentNotFoundError` pattern (#797)
 
 ## [0.0.22] - 2026-08-04

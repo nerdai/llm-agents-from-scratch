@@ -1,4 +1,8 @@
-from .a2a import A2AAgentNotFoundError, A2AError
+from .a2a import (
+    A2AAgentCardMissingInterfaceError,
+    A2AAgentNotFoundError,
+    A2AError,
+)
 from .agent import LLMAgentBuilderError, LLMAgentError, MaxStepsReachedError
 from .core import (
     LLMAgentsFromScratchError,
@@ -36,6 +40,7 @@ __all__ = [
     # a2a
     "A2AError",
     "A2AAgentNotFoundError",
+    "A2AAgentCardMissingInterfaceError",
     # memory store
     "MemoryStoreError",
     "MemoryStoreWarning",

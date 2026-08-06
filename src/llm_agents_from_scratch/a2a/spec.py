@@ -7,6 +7,8 @@ from a2a.client import A2ACardResolver
 from a2a.types import AgentCard
 from pydantic import BaseModel, ConfigDict, Field
 
+from llm_agents_from_scratch.errors import A2AAgentCardMissingInterfaceError
+
 from .constants import (
     CATALOG_A2A_SKILL_TEMPLATE,
     CATALOG_A2A_SKILLS_TEMPLATE,
@@ -31,13 +33,26 @@ class A2AAgentSpec(BaseModel):
     fresh on each dispatch from this spec's ``url``/``headers``/
     ``agent_card``.
 
+    ``url`` is likewise derived from the card rather than passed
+    independently: it should match
+    ``agent_card.supported_interfaces[0].url``, not the URL ``from_url``
+    fetched the card from — the two can legitimately differ (that's the
+    reason ``supported_interfaces`` exists as a separate list rather than
+    a single top-level field). A card declaring more than one interface is
+    a real possibility the protocol allows for, but this spec doesn't
+    attempt to disambiguate between them — it always takes the first. Our
+    own server (``LLMAgentA2AExecutor``, see #787) only ever publishes
+    one, so this is a deliberate simplification, not an oversight.
+
     Attributes:
         name: Registry key for this A2A agent, taken from
             ``agent_card.name``. Appears as an enum value in
             ``UseA2AAgentTool``'s dispatch schema.
-        url: Base URL of the remote A2A peer.
+        url: Base URL of the remote A2A peer. Should match
+            ``agent_card.supported_interfaces[0].url``.
         headers: Optional HTTP headers (e.g. auth) sent on requests to this
-            peer, both for card resolution and for dispatch.
+            peer, both for card resolution and for dispatch. Excluded from
+            repr since it may carry credentials.
         agent_card: The peer's resolved ``AgentCard``, fetched eagerly at
             construction time.
     """
@@ -51,12 +66,20 @@ class A2AAgentSpec(BaseModel):
             "schema."
         ),
     )
-    url: str = Field(description="Base URL of the remote A2A peer.")
+    url: str = Field(
+        description=(
+            "Base URL of the remote A2A peer. Should match "
+            "agent_card.supported_interfaces[0].url."
+        ),
+    )
     headers: dict[str, str] | None = Field(
         default=None,
+        repr=False,
         description=(
             "Optional HTTP headers sent on requests to this peer, both "
-            "for card resolution and for dispatch."
+            "for card resolution and for dispatch. May carry credentials "
+            "(e.g. Authorization); excluded from repr so an accidental "
+            "print/log/traceback of the spec doesn't leak them."
         ),
     )
     agent_card: AgentCard = Field(
@@ -66,7 +89,6 @@ class A2AAgentSpec(BaseModel):
     @classmethod
     def from_agent_card(
         cls,
-        url: str,
         agent_card: AgentCard,
         headers: dict[str, str] | None = None,
     ) -> A2AAgentSpec:
@@ -76,16 +98,24 @@ class A2AAgentSpec(BaseModel):
         with no network access performed here.
 
         Args:
-            url: Base URL of the remote A2A peer.
             agent_card: The peer's already-resolved ``AgentCard``.
             headers: Optional HTTP headers sent on requests to this peer.
 
         Returns:
             A2AAgentSpec: The constructed spec.
+
+        Raises:
+            A2AAgentCardMissingInterfaceError: If ``agent_card`` declares
+                no ``supported_interfaces`` to derive a dispatch URL from.
         """
+        if not agent_card.supported_interfaces:
+            raise A2AAgentCardMissingInterfaceError(
+                f"AgentCard '{agent_card.name}' declares no "
+                "supported_interfaces; cannot determine a dispatch URL.",
+            )
         return cls(
             name=agent_card.name,
-            url=url,
+            url=agent_card.supported_interfaces[0].url,
             agent_card=agent_card,
             headers=headers,
         )
@@ -101,16 +131,24 @@ class A2AAgentSpec(BaseModel):
 
         Async — resolves the card over the wire via ``A2ACardResolver``
         before delegating to ``from_agent_card``. An unreachable peer
-        raises the underlying ``httpx`` error to the caller.
+        raises the underlying ``httpx`` error to the caller. ``url`` here
+        is only the card-resolution endpoint — the constructed spec's own
+        ``url`` comes from the fetched card's ``supported_interfaces``
+        instead, which can legitimately differ.
 
         Args:
-            url: Base URL of the remote A2A peer.
+            url: Base URL to resolve the peer's well-known ``AgentCard``
+                from.
             headers: Optional HTTP headers sent on requests to this peer.
             agent_card_path: Optional override for the well-known agent
                 card path. ``None`` uses the SDK's own default.
 
         Returns:
             A2AAgentSpec: The constructed spec.
+
+        Raises:
+            A2AAgentCardMissingInterfaceError: If the fetched card
+                declares no ``supported_interfaces``.
         """
         async with httpx.AsyncClient(headers=headers) as httpx_client:
             resolver_kwargs: dict[str, str] = {}
@@ -124,7 +162,6 @@ class A2AAgentSpec(BaseModel):
             agent_card = await resolver.get_agent_card()
 
         return cls.from_agent_card(
-            url=url,
             agent_card=agent_card,
             headers=headers,
         )

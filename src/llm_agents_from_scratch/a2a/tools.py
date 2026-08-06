@@ -1,13 +1,12 @@
 """UseA2AAgentTool — dispatches a task to a named A2A peer agent."""
 
 import json
-from collections.abc import Iterable
 from typing import Any
 
 import httpx
 from a2a.client import ClientConfig, create_client
 from a2a.helpers import new_text_message
-from a2a.types import Part, Role, SendMessageRequest, Task, TaskState
+from a2a.types import Role, SendMessageRequest, Task, TaskState
 
 from llm_agents_from_scratch.base.tool import AsyncBaseTool
 from llm_agents_from_scratch.data_structures import ToolCall, ToolCallResult
@@ -15,17 +14,7 @@ from llm_agents_from_scratch.errors import A2AAgentNotFoundError
 
 from .constants import A2A_INPUT_REQUIRED_TEMPLATE
 from .spec import A2AAgentSpec
-
-
-def _parts_text(parts: Iterable[Part]) -> str:
-    """Join the text of every text Part, skipping non-text parts."""
-    return "\n".join(p.text for p in parts if p.text)
-
-
-def _task_content(task: Task) -> str:
-    """Concatenate text from every artifact on a completed Task."""
-    parts = [p for artifact in task.artifacts for p in artifact.parts]
-    return _parts_text(parts)
+from .utils import parts_text, task_content
 
 
 class UseA2AAgentTool(AsyncBaseTool):
@@ -263,7 +252,7 @@ class UseA2AAgentTool(AsyncBaseTool):
             return ToolCallResult(
                 tool_call_id=tool_call_id,
                 error=False,
-                content=_parts_text(response.message.parts),
+                content=parts_text(response.message.parts),
             )
 
         if kind == "task":
@@ -310,12 +299,12 @@ class UseA2AAgentTool(AsyncBaseTool):
             return ToolCallResult(
                 tool_call_id=tool_call_id,
                 error=False,
-                content=_task_content(task),
+                content=task_content(task),
             )
 
         if state == "TASK_STATE_INPUT_REQUIRED":
-            question = _parts_text(task.status.message.parts) or (
-                _task_content(task)
+            question = parts_text(task.status.message.parts) or (
+                task_content(task)
             )
             return ToolCallResult(
                 tool_call_id=tool_call_id,
@@ -330,7 +319,7 @@ class UseA2AAgentTool(AsyncBaseTool):
         # any other state (FAILED, CANCELED, REJECTED, AUTH_REQUIRED, or
         # an unexpected non-terminal state from a non-streaming response)
         # is an error the coordinator should re-plan around
-        message_text = _parts_text(task.status.message.parts) or (
+        message_text = parts_text(task.status.message.parts) or (
             f"Task ended in state {state}."
         )
         return ToolCallResult(

@@ -43,6 +43,7 @@ nav:
     - Chapter 7: notebooks/ch07.ipynb
     - Chapter 8: notebooks/ch08.ipynb
     - Chapter 9: notebooks/ch09.ipynb
+    - Chapter 10: notebooks/ch10.ipynb
   - More Examples:
     - more-examples/index.md
     # Symlinked from more-examples/ — do not copy directly.

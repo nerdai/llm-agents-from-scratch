@@ -58,7 +58,8 @@ core concepts to full multi-agent systems.
 
 | Ch | Title | Notebook |
 | -- | ----- | -------- |
-| 9 | Building MAS with Subagents | [Ch 9](https://masfromscratch.com/notebooks/ch09/) |
+| 9 | Assembling MAS with Subagents | [Ch 9](https://masfromscratch.com/notebooks/ch09/) |
+| 10 | Assembling Interoperable MAS with A2A | [Ch 10](https://masfromscratch.com/notebooks/ch10/) |
 
 ---
 

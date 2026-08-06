@@ -3,8 +3,10 @@
 from unittest.mock import AsyncMock, MagicMock
 
 import pytest
+from a2a.types import AgentCard, AgentInterface
 
 from llm_agents_from_scratch import LLMAgentBuilder
+from llm_agents_from_scratch.a2a import A2AAgentSpec
 from llm_agents_from_scratch.agent import LLMAgent
 from llm_agents_from_scratch.agent.templates import default_templates
 from llm_agents_from_scratch.base.llm import BaseLLM
@@ -217,5 +219,69 @@ async def test_build_raises_on_duplicate_subagent_names(
         await (
             LLMAgentBuilder(llm=mock_llm)
             .with_subagents([spec_a, spec_b])
+            .build()
+        )
+
+
+# ---------------------------------------------------------------------------
+# A2A tests (Chapter 10)
+# ---------------------------------------------------------------------------
+
+
+def _a2a_spec(name: str) -> A2AAgentSpec:
+    card = AgentCard(
+        name=name,
+        description="A peer agent.",
+        supported_interfaces=[AgentInterface(url="http://peer:9999")],
+    )
+    return A2AAgentSpec.from_agent_card(agent_card=card)
+
+
+def test_init_with_a2a_agents() -> None:
+    """Tests builder init stores a2a_agents list."""
+    spec = _a2a_spec("researcher")
+    builder = LLMAgentBuilder(a2a_agents=[spec])
+
+    assert builder.a2a_agents == [spec]
+
+
+def test_with_a2a_agent_fluent() -> None:
+    """Tests with_a2a_agent() appends a spec and returns self."""
+    spec = _a2a_spec("coder")
+    builder = LLMAgentBuilder().with_a2a_agent(spec)
+
+    assert builder.a2a_agents == [spec]
+
+
+def test_with_a2a_agents_fluent() -> None:
+    """Tests with_a2a_agents() extends specs and returns self."""
+    spec_a = _a2a_spec("researcher")
+    spec_b = _a2a_spec("coder")
+    builder = LLMAgentBuilder().with_a2a_agents([spec_a, spec_b])
+
+    assert builder.a2a_agents == [spec_a, spec_b]
+
+
+@pytest.mark.asyncio
+async def test_build_passes_a2a_agents_to_agent(mock_llm: BaseLLM) -> None:
+    """Tests build() wires a2a_agents registry into LLMAgent."""
+    spec = _a2a_spec("researcher")
+    agent = await LLMAgentBuilder(llm=mock_llm).with_a2a_agent(spec).build()
+
+    assert "a2a__researcher" in agent.a2a_agents_registry
+    assert agent.a2a_agents_registry["a2a__researcher"] is spec
+
+
+@pytest.mark.asyncio
+async def test_build_raises_on_duplicate_a2a_agent_names(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests build() raises LLMAgentError on duplicate a2a_agent names."""
+    spec_a = _a2a_spec("researcher")
+    spec_b = _a2a_spec("researcher")
+    with pytest.raises(LLMAgentError, match="duplicate"):
+        await (
+            LLMAgentBuilder(llm=mock_llm)
+            .with_a2a_agents([spec_a, spec_b])
             .build()
         )

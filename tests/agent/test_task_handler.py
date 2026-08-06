@@ -4,7 +4,9 @@ import json
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
+from a2a.types import AgentCard, AgentInterface
 
+from llm_agents_from_scratch.a2a import A2AAgentSpec
 from llm_agents_from_scratch.agent import LLMAgent
 from llm_agents_from_scratch.agent.templates import default_templates
 from llm_agents_from_scratch.base.llm import BaseLLM
@@ -1343,6 +1345,50 @@ async def test_llm_agent_init_raises_on_duplicate_subagent_names(
     )
     with pytest.raises(LLMAgentError, match="duplicate"):
         LLMAgent(llm=mock_llm, subagents=[spec, spec])
+
+
+# ---------------------------------------------------------------------------
+# A2A tests (Chapter 10)
+# ---------------------------------------------------------------------------
+
+
+def _a2a_spec(name: str) -> A2AAgentSpec:
+    card = AgentCard(
+        name=name,
+        description="A peer agent.",
+        supported_interfaces=[AgentInterface(url="http://peer:9999")],
+    )
+    return A2AAgentSpec.from_agent_card(agent_card=card)
+
+
+@pytest.mark.asyncio
+async def test_llm_agent_init_with_a2a_agents(mock_llm: BaseLLM) -> None:
+    """Tests LLMAgent stores provided a2a_agents dict, namespaced by name."""
+    spec = _a2a_spec("researcher")
+    agent = LLMAgent(llm=mock_llm, a2a_agents=[spec])
+
+    assert "a2a__researcher" in agent.a2a_agents_registry
+    assert agent.a2a_agents_registry["a2a__researcher"] is spec
+
+
+@pytest.mark.asyncio
+async def test_llm_agent_init_no_a2a_agents_defaults_to_empty_dict(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests LLMAgent.a2a_agents_registry defaults to empty dict."""
+    agent = LLMAgent(llm=mock_llm)
+
+    assert agent.a2a_agents_registry == {}
+
+
+@pytest.mark.asyncio
+async def test_llm_agent_init_raises_on_duplicate_a2a_agent_names(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests LLMAgent raises LLMAgentError on duplicate a2a_agent names."""
+    spec = _a2a_spec("researcher")
+    with pytest.raises(LLMAgentError, match="duplicate"):
+        LLMAgent(llm=mock_llm, a2a_agents=[spec, spec])
 
 
 @pytest.mark.asyncio

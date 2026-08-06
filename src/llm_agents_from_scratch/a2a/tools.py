@@ -1,6 +1,5 @@
 """UseA2AAgentTool — dispatches a task to a named A2A peer agent."""
 
-import contextlib
 import json
 from typing import Any
 
@@ -228,7 +227,9 @@ class UseA2AAgentTool(AsyncBaseTool):
                 # result already computed above, keeping the "all
                 # exceptions are caught" guarantee true during cleanup.
                 if client is not None:
-                    with contextlib.suppress(Exception):
+                    try:  # noqa: SIM105
                         await client.close()
+                    except Exception:
+                        pass
 
         return build_result(response, agent_name, tool_call.id_)

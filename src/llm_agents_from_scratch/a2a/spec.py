@@ -165,9 +165,9 @@ class A2AAgentSpec(BaseModel):
             headers: Optional HTTP headers sent on requests to this peer.
             agent_card_path: Optional override for the well-known agent
                 card path. ``None`` uses the SDK's own default.
-            timeout: Seconds ``UseA2AAgentTool`` allows a dispatch to
-                this peer before timing out. Also applied to this card
-                resolution itself.
+            timeout: Timeout in seconds, applied both to this card
+                resolution and, via the returned spec, to every future
+                ``UseA2AAgentTool`` dispatch to this peer.
 
         Returns:
             A2AAgentSpec: The constructed spec.

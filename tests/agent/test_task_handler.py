@@ -1363,7 +1363,7 @@ def _a2a_spec(name: str) -> A2AAgentSpec:
 
 @pytest.mark.asyncio
 async def test_llm_agent_init_with_a2a_agents(mock_llm: BaseLLM) -> None:
-    """Tests LLMAgent stores provided a2a_agents dict, keyed by name."""
+    """Tests LLMAgent builds a2a_agents_registry from the provided list."""
     spec = _a2a_spec("researcher")
     agent = LLMAgent(llm=mock_llm, a2a_agents=[spec])
 

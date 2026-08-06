@@ -65,7 +65,9 @@ class A2AAgentSpec(BaseModel):
             peer before timing out. Defaults to 60.0 rather than
             ``httpx``'s own default (5.0s, applied to connect/read/
             write/pool combined) — too low for a peer that makes one or
-            more LLM calls per task.
+            more LLM calls per task. Explicitly setting this to
+            ``None`` disables the timeout entirely (unbounded), since
+            it is passed straight through to ``httpx.AsyncClient``.
     """
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
@@ -99,8 +101,8 @@ class A2AAgentSpec(BaseModel):
         default=60.0,
         description=(
             "Seconds UseA2AAgentTool allows a dispatch to this peer "
-            "before timing out. None falls back to httpx's own default "
-            "(5.0s combined), which is too low for most peers."
+            "before timing out. Explicitly setting this to None "
+            "disables the timeout entirely (unbounded)."
         ),
     )
 

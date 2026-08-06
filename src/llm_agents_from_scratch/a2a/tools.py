@@ -170,6 +170,7 @@ class UseA2AAgentTool(AsyncBaseTool):
             )
 
         spec = self._a2a_agents_registry.get(agent_name)
+        httpx_client: httpx.AsyncClient | None = None
         client = None
         try:
             if spec is None:
@@ -208,7 +209,18 @@ class UseA2AAgentTool(AsyncBaseTool):
                 ),
             )
         finally:
-            if client is not None:
-                await client.close()
+            # client.close() also closes httpx_client (it owns the
+            # transport that wraps it); only close httpx_client directly
+            # when create_client() itself failed and never took it over.
+            # Swallow close-time errors so they never override a result
+            # already computed above, keeping the "all exceptions are
+            # caught" guarantee true even during cleanup.
+            try:
+                if client is not None:
+                    await client.close()
+                elif httpx_client is not None:
+                    await httpx_client.aclose()
+            except Exception:
+                pass
 
         return build_result(response, agent_name, tool_call.id_)

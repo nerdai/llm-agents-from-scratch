@@ -4,6 +4,7 @@ import json
 from typing import Any, AsyncIterator
 from unittest.mock import AsyncMock, MagicMock, patch
 
+import httpx
 import pytest
 from a2a.types import (
     AgentCard,
@@ -331,3 +332,60 @@ async def test_use_a2a_agent_tool_closes_client_on_error() -> None:
         await tool(tool_call=tool_call)
 
     client.close.assert_awaited_once()
+
+
+@pytest.mark.asyncio
+async def test_use_a2a_agent_tool_closes_httpx_client_on_create_failure() -> (
+    None
+):
+    """Tests the raw httpx client is closed if create_client() itself fails."""
+    created_httpx_clients: list[MagicMock] = []
+
+    class _TrackedAsyncClient(httpx.AsyncClient):
+        def __init__(self, *args: Any, **kwargs: Any) -> None:
+            super().__init__(*args, **kwargs)
+            created_httpx_clients.append(self)
+
+    with (
+        patch(
+            "llm_agents_from_scratch.a2a.tools.httpx.AsyncClient",
+            new=_TrackedAsyncClient,
+        ),
+        patch(
+            "llm_agents_from_scratch.a2a.tools.create_client",
+            new=AsyncMock(side_effect=RuntimeError("boom")),
+        ),
+    ):
+        tool = UseA2AAgentTool(a2a_agents_registry={"researcher": _spec()})
+        tool_call = ToolCall(
+            tool_name=TOOL_NAME,
+            arguments={"name": "researcher", "task": "do it"},
+        )
+        result = await tool(tool_call=tool_call)
+
+    assert result.error is True
+    assert len(created_httpx_clients) == 1
+    assert created_httpx_clients[0].is_closed
+
+
+@pytest.mark.asyncio
+async def test_use_a2a_agent_tool_suppresses_close_error() -> None:
+    """Tests a close()-time exception doesn't override a computed result."""
+    task = Task(
+        id="t5",
+        status=TaskStatus(state=TaskState.TASK_STATE_COMPLETED),
+        artifacts=[Artifact(artifact_id="a1", parts=[Part(text="42")])],
+    )
+    client = _fake_client(StreamResponse(task=task))
+    client.close = AsyncMock(side_effect=RuntimeError("close boom"))
+
+    with _patch_create_client(client):
+        tool = UseA2AAgentTool(a2a_agents_registry={"researcher": _spec()})
+        tool_call = ToolCall(
+            tool_name=TOOL_NAME,
+            arguments={"name": "researcher", "task": "do it"},
+        )
+        result = await tool(tool_call=tool_call)
+
+    assert result.error is False
+    assert result.content == "42"

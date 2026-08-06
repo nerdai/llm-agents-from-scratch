@@ -118,6 +118,25 @@ def test_a2a_task_to_tool_call_result_completed() -> None:
     assert result.content == "42"
 
 
+def test_a2a_task_to_tool_call_result_completed_falls_back() -> None:
+    """Tests completed falls back to status message when no artifacts."""
+    task = Task(
+        id="t1",
+        status=TaskStatus(
+            state=TaskState.TASK_STATE_COMPLETED,
+            message=Message(
+                role=Role.ROLE_AGENT,
+                parts=[Part(text="Done, no artifact needed.")],
+            ),
+        ),
+    )
+
+    result = a2a_task_to_tool_call_result(task, "researcher", "tc1")
+
+    assert result.error is False
+    assert result.content == "Done, no artifact needed."
+
+
 def test_a2a_task_to_tool_call_result_input_required() -> None:
     """Tests wraps the peer's question and task id."""
     task = Task(

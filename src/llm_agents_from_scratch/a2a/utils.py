@@ -112,9 +112,10 @@ def a2a_task_to_tool_call_result(
         tool_call_id (str): The originating tool call's id.
 
     Returns:
-        ToolCallResult: Success with the task's artifact content, an
-            ``A2A_INPUT_REQUIRED_TEMPLATE``-wrapped result, or an error
-            result for any other terminal state.
+        ToolCallResult: Success with the task's artifact content
+            (falling back to ``task.status.message`` text if there are
+            no artifacts), an ``A2A_INPUT_REQUIRED_TEMPLATE``-wrapped
+            result, or an error result for any other terminal state.
     """
     try:
         state = TaskState.Name(task.status.state)
@@ -125,10 +126,13 @@ def a2a_task_to_tool_call_result(
         state = f"TASK_STATE_UNKNOWN_{task.status.state}"
 
     if state == "TASK_STATE_COMPLETED":
+        content = a2a_artifacts_text(task.artifacts) or a2a_parts_text(
+            task.status.message.parts,
+        )
         return ToolCallResult(
             tool_call_id=tool_call_id,
             error=False,
-            content=a2a_artifacts_text(task.artifacts),
+            content=content,
         )
 
     if state == "TASK_STATE_INPUT_REQUIRED":

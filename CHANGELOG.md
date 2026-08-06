@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- chore(ch10): add `a2a-sdk` core dependency; `errors/a2a.py` — `A2AError`/`A2AAgentNotFoundError`, mirroring `errors/subagents.py`'s `SubAgentsError`/`SubAgentNotFoundError` pattern (#797)
+
 ## [0.0.22] - 2026-08-04
 
 ### Added

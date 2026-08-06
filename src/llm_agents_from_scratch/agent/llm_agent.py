@@ -63,10 +63,13 @@ class LLMAgent:
             keyed by name. Built from the constructor list. Added in
             Chapter 9.
         a2a_agents_registry (dict[str, A2AAgentSpec]): A2A peer registry,
-            keyed by ``a2a__<name>`` (namespaced to avoid collisions with
-            other registries, mirroring `MCPToolProvider`'s
-            ``mcp__{name}__{tool_name}``). Built from the constructor
-            list. Added in Chapter 10.
+            keyed by name. Built from the constructor list. Unlike
+            `MCPToolProvider` (`mcp__{name}__{tool_name}`), no namespace
+            prefix: A2A peers dispatch through one generic tool with
+            `name` as an enum value, not as a standalone callable tool
+            name, so there's no flat-tool-namespace collision to guard
+            against. Mirrors `subagents_registry`'s plain-name keying.
+            Added in Chapter 10.
     """
 
     def __init__(  # noqa: PLR0913
@@ -126,7 +129,7 @@ class LLMAgent:
                 "Provided a2a_agents list contains duplicate names.",
             )
         self.a2a_agents_registry: dict[str, A2AAgentSpec] = {
-            f"a2a__{s.name}": s for s in a2a_agents
+            s.name: s for s in a2a_agents
         }
 
     @property

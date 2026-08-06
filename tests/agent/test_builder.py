@@ -268,8 +268,8 @@ async def test_build_passes_a2a_agents_to_agent(mock_llm: BaseLLM) -> None:
     spec = _a2a_spec("researcher")
     agent = await LLMAgentBuilder(llm=mock_llm).with_a2a_agent(spec).build()
 
-    assert "a2a__researcher" in agent.a2a_agents_registry
-    assert agent.a2a_agents_registry["a2a__researcher"] is spec
+    assert "researcher" in agent.a2a_agents_registry
+    assert agent.a2a_agents_registry["researcher"] is spec
 
 
 @pytest.mark.asyncio

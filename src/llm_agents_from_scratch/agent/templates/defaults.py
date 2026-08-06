@@ -107,6 +107,17 @@ sub-agent name and a task instruction.
 {subagents}
 </available_subagents>""".strip()
 
+DEFAULT_A2A_AGENTS_CATALOG = """The following A2A peer agents are \
+available. To dispatch a task to one, call the \
+`from_scratch__use_a2a_agent` tool with the peer name and a task \
+instruction. If a peer's result asks for more information, retry the \
+tool with the requested information as `task` and the returned \
+`task_id`, to resume that same remote task.
+
+<available_a2a_agents>
+{a2a_agents}
+</available_a2a_agents>""".strip()
+
 DEFAULT_APPROVAL_REJECTION_FEEDBACK = """The human operator REJECTED your \
 proposed task result. Revise your approach and try again.
 

@@ -10,6 +10,7 @@ from rich.prompt import Confirm, Prompt
 from typing_extensions import Self
 
 from llm_agents_from_scratch.a2a.spec import A2AAgentSpec
+from llm_agents_from_scratch.a2a.tools import UseA2AAgentTool
 from llm_agents_from_scratch.base.llm import LLM
 from llm_agents_from_scratch.base.tool import AsyncBaseTool, Tool
 from llm_agents_from_scratch.data_structures import (
@@ -171,6 +172,9 @@ class LLMAgent:
             _use_subagent_tool (UseSubAgentTool | None): Task-scoped
                 sub-agent dispatch tool. Set when sub-agents are registered
                 on the agent; ``None`` otherwise. Added in Chapter 9.
+            _use_a2a_agent_tool (UseA2AAgentTool | None): Task-scoped A2A
+                peer dispatch tool. Set when A2A peers are registered on
+                the agent; ``None`` otherwise. Added in Chapter 10.
         """
 
         def __init__(
@@ -234,6 +238,14 @@ class LLMAgent:
                 )
             else:
                 self._use_subagent_tool = None
+            # added in ch10
+            self._use_a2a_agent_tool: UseA2AAgentTool | None = (
+                UseA2AAgentTool(
+                    a2a_agents_registry=self.llm_agent.a2a_agents_registry,
+                )
+                if self.llm_agent.a2a_agents_registry
+                else None
+            )
 
         @property
         def background_task(self) -> asyncio.Task:
@@ -294,6 +306,25 @@ class LLMAgent:
             entries = "\n".join(s.catalog() for s in specs)
             return self.llm_agent.templates["subagents_catalog"].format(
                 subagents=entries,
+            )
+
+        @property
+        def _a2a_agents_catalog(self) -> str:
+            """Return formatted A2A agents catalog, or empty string.
+
+            Added in Chapter 10.
+
+            Builds the ``<available_a2a_agents>`` XML block from A2A peers
+            registered on the coordinator. Returns an empty string when no
+            peers are configured so callers can append it unconditionally
+            without adding noise.
+            """
+            specs = self.llm_agent.a2a_agents_registry.values()
+            if not specs:
+                return ""
+            entries = "\n".join(s.catalog() for s in specs)
+            return self.llm_agent.templates["a2a_agents_catalog"].format(
+                a2a_agents=entries,
             )
 
         def _format_step_for_rollout(
@@ -489,6 +520,13 @@ class LLMAgent:
                     content=f"{system_message.content}\n\n{catalog}",
                 )
 
+            # added in ch10: bolt on A2A agents catalog when registered
+            if catalog := self._a2a_agents_catalog:
+                system_message = ChatMessage(
+                    role=ChatRole.SYSTEM,
+                    content=f"{system_message.content}\n\n{catalog}",
+                )
+
             self.logger.debug(f"💬 SYSTEM: {system_message.content}")
 
             # fictitious user's input
@@ -502,10 +540,16 @@ class LLMAgent:
             # start single-turn conversation
             # added in ch06: include use_skill tool when skills are available
             # added in ch09: include use_subagent tool when registered
+            # added in ch10: include use_a2a_agent tool when registered
             all_tools = (
                 self.llm_agent.tools
                 + ([self._use_skill_tool] if self._use_skill_tool else [])
                 + ([self._use_subagent_tool] if self._use_subagent_tool else [])
+                + (
+                    [self._use_a2a_agent_tool]
+                    if self._use_a2a_agent_tool
+                    else []
+                )
             )
             user_message, response_message = await self.llm_agent.llm.chat(
                 input=user_input,
@@ -538,6 +582,13 @@ class LLMAgent:
                             if self._use_subagent_tool
                             and tool_call.tool_name
                             == self._use_subagent_tool.name
+                            else None
+                        )
+                        or (
+                            self._use_a2a_agent_tool
+                            if self._use_a2a_agent_tool
+                            and tool_call.tool_name
+                            == self._use_a2a_agent_tool.name
                             else None
                         )
                     ):

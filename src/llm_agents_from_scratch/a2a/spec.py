@@ -41,8 +41,8 @@ class A2AAgentSpec(BaseModel):
     a single top-level field). A card declaring more than one interface is
     a real possibility the protocol allows for, but this spec doesn't
     attempt to disambiguate between them — it always takes the first. Our
-    own server (``LLMAgentA2AExecutor``, see #787) only ever publishes
-    one, so this is a deliberate simplification, not an oversight.
+    own server (``LLMAgentA2AExecutor``) only ever publishes one, so
+    this is a deliberate simplification, not an oversight.
 
     Attributes:
         name: Registry key for this A2A agent, taken from

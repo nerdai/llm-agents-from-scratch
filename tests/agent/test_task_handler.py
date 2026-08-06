@@ -4,7 +4,15 @@ import json
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
+from a2a.types import AgentCard, AgentInterface
+from a2a.types import Artifact as A2AArtifact
+from a2a.types import Part as A2APart
+from a2a.types import StreamResponse as A2AStreamResponse
+from a2a.types import Task as A2ATask
+from a2a.types import TaskState as A2ATaskState
+from a2a.types import TaskStatus as A2ATaskStatus
 
+from llm_agents_from_scratch.a2a import A2AAgentSpec, UseA2AAgentTool
 from llm_agents_from_scratch.agent import LLMAgent
 from llm_agents_from_scratch.agent.templates import default_templates
 from llm_agents_from_scratch.base.llm import BaseLLM
@@ -1540,4 +1548,159 @@ async def test_supervised_run_step_dispatches_to_subagent() -> None:
     step_result = await handler.run_step(step)
 
     subagent_llm.chat.assert_awaited_once()
+    assert step_result.content == "Delegated and done."
+
+
+# ---------------------------------------------------------------------------
+# A2A tests (Chapter 10)
+# ---------------------------------------------------------------------------
+
+
+def _a2a_spec(name: str = "researcher") -> A2AAgentSpec:
+    card = AgentCard(
+        name=name,
+        description="A peer agent.",
+        supported_interfaces=[AgentInterface(url="http://peer:9999")],
+    )
+    return A2AAgentSpec.from_agent_card(agent_card=card)
+
+
+@pytest.mark.asyncio
+async def test_task_handler_use_a2a_agent_tool_set_when_registered(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests _use_a2a_agent_tool is set when A2A peers are registered."""
+    agent = LLMAgent(llm=mock_llm, a2a_agents=[_a2a_spec("researcher")])
+    handler = LLMAgent.TaskHandler(
+        llm_agent=agent,
+        task=Task(instruction="mock instruction"),
+    )
+
+    assert handler._use_a2a_agent_tool is not None
+    assert isinstance(handler._use_a2a_agent_tool, UseA2AAgentTool)
+    assert handler._use_a2a_agent_tool.name == "from_scratch__use_a2a_agent"
+
+
+@pytest.mark.asyncio
+async def test_task_handler_use_a2a_agent_tool_none_when_none_registered(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests _use_a2a_agent_tool is None when no A2A peers are registered."""
+    agent = LLMAgent(llm=mock_llm)
+    handler = LLMAgent.TaskHandler(
+        llm_agent=agent,
+        task=Task(instruction="mock instruction"),
+    )
+
+    assert handler._use_a2a_agent_tool is None
+
+
+@pytest.mark.asyncio
+async def test_a2a_agents_catalog_empty_when_none_registered(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests _a2a_agents_catalog returns empty string when none registered."""
+    agent = LLMAgent(llm=mock_llm)
+    handler = LLMAgent.TaskHandler(
+        llm_agent=agent,
+        task=Task(instruction="mock instruction"),
+    )
+
+    assert handler._a2a_agents_catalog == ""
+
+
+@pytest.mark.asyncio
+async def test_a2a_agents_catalog_returns_catalog_xml(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests _a2a_agents_catalog returns formatted XML for registered peers."""
+    agent = LLMAgent(llm=mock_llm, a2a_agents=[_a2a_spec("researcher")])
+    handler = LLMAgent.TaskHandler(
+        llm_agent=agent,
+        task=Task(instruction="mock instruction"),
+    )
+
+    catalog = handler._a2a_agents_catalog
+
+    assert "<available_a2a_agents>" in catalog
+    assert "<name>researcher</name>" in catalog
+    assert "<description>A peer agent.</description>" in catalog
+
+
+@pytest.mark.asyncio
+async def test_run_step_injects_a2a_agents_catalog() -> None:
+    """Tests run_step appends the A2A catalog to system message when set."""
+    mock_llm = AsyncMock()
+    mock_llm.chat.return_value = (
+        ChatMessage(role=ChatRole.USER, content="Some instruction."),
+        ChatMessage(role=ChatRole.ASSISTANT, content="Done."),
+    )
+
+    agent = LLMAgent(llm=mock_llm, a2a_agents=[_a2a_spec("researcher")])
+    handler = LLMAgent.TaskHandler(
+        llm_agent=agent,
+        task=Task(instruction="mock instruction"),
+    )
+
+    step = TaskStep(task_id=handler.task.id_, instruction="Some instruction.")
+    await handler.run_step(step)
+
+    call_kwargs = mock_llm.chat.call_args
+    system_msg = call_kwargs.kwargs["chat_history"][0]
+    assert "<available_a2a_agents>" in system_msg.content
+    assert "<name>researcher</name>" in system_msg.content
+
+
+@pytest.mark.asyncio
+async def test_run_step_dispatches_to_a2a_agent() -> None:
+    """Tests a run_step actually dispatches to a registered A2A peer."""
+    coordinator_llm = AsyncMock()
+
+    dispatch_call = ToolCall(
+        tool_name="from_scratch__use_a2a_agent",
+        arguments={"name": "researcher", "task": "What is the answer?"},
+    )
+    coordinator_llm.chat.return_value = (
+        ChatMessage(role=ChatRole.USER, content="mock instruction"),
+        ChatMessage(
+            role=ChatRole.ASSISTANT,
+            content="",
+            tool_calls=[dispatch_call],
+        ),
+    )
+    coordinator_llm.continue_chat_with_tool_results.return_value = (
+        [ChatMessage(role=ChatRole.TOOL, content="42")],
+        ChatMessage(role=ChatRole.ASSISTANT, content="Delegated and done."),
+    )
+
+    a2a_task = A2ATask(
+        id="t1",
+        status=A2ATaskStatus(state=A2ATaskState.TASK_STATE_COMPLETED),
+        artifacts=[
+            A2AArtifact(artifact_id="a1", parts=[A2APart(text="42")]),
+        ],
+    )
+
+    async def fake_send_message(request: object) -> object:
+        yield A2AStreamResponse(task=a2a_task)
+
+    fake_client = MagicMock()
+    fake_client.send_message = fake_send_message
+    fake_client.close = AsyncMock()
+
+    coordinator = LLMAgent(
+        llm=coordinator_llm,
+        a2a_agents=[_a2a_spec("researcher")],
+    )
+    task = Task(instruction="mock instruction")
+
+    with patch(
+        "llm_agents_from_scratch.a2a.tools.create_client",
+        new=AsyncMock(return_value=fake_client),
+    ):
+        handler = await coordinator.run_supervised(task)
+        step = await handler.get_next_step(None)
+        assert isinstance(step, TaskStep)
+        step_result = await handler.run_step(step)
+
     assert step_result.content == "Delegated and done."

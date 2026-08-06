@@ -9,6 +9,7 @@ from rich.panel import Panel
 from rich.prompt import Confirm, Prompt
 from typing_extensions import Self
 
+from llm_agents_from_scratch.a2a.spec import A2AAgentSpec
 from llm_agents_from_scratch.base.llm import LLM
 from llm_agents_from_scratch.base.tool import AsyncBaseTool, Tool
 from llm_agents_from_scratch.data_structures import (
@@ -61,9 +62,17 @@ class LLMAgent:
         subagents_registry (dict[str, SubAgentSpec]): Sub-agent registry,
             keyed by name. Built from the constructor list. Added in
             Chapter 9.
+        a2a_agents_registry (dict[str, A2AAgentSpec]): A2A peer registry,
+            keyed by name. Built from the constructor list. Unlike
+            `MCPToolProvider` (`mcp__{name}__{tool_name}`), no namespace
+            prefix: A2A peers dispatch through one generic tool with
+            `name` as an enum value, not as a standalone callable tool
+            name, so there's no flat-tool-namespace collision to guard
+            against. Mirrors `subagents_registry`'s plain-name keying.
+            Added in Chapter 10.
     """
 
-    def __init__(
+    def __init__(  # noqa: PLR0913, PLR0917
         self,
         llm: LLM,
         tools: list[Tool] | None = None,
@@ -72,6 +81,8 @@ class LLMAgent:
         memories: list[Memory] | None = None,
         # added in ch09
         subagents: "list[SubAgentSpec] | None" = None,
+        # added in ch10
+        a2a_agents: list[A2AAgentSpec] | None = None,
     ):
         """Initialize an LLMAgent.
 
@@ -86,6 +97,9 @@ class LLMAgent:
             subagents (list[SubAgentSpec] | None): Sub-agents this
                 coordinator can delegate to. Defaults to None (no
                 sub-agents). Added in Chapter 9.
+            a2a_agents (list[A2AAgentSpec] | None): A2A peer agents this
+                coordinator can dispatch to. Defaults to None (no A2A
+                peers). Added in Chapter 10.
         """
         self.llm = llm
         tools = tools or []
@@ -107,6 +121,15 @@ class LLMAgent:
             )
         self.subagents_registry: dict[str, SubAgentSpec] = {
             s.name: s for s in subagents
+        }
+        # added in ch10
+        a2a_agents = a2a_agents or []
+        if len({s.name for s in a2a_agents}) < len(a2a_agents):
+            raise LLMAgentError(
+                "Provided a2a_agents list contains duplicate names.",
+            )
+        self.a2a_agents_registry: dict[str, A2AAgentSpec] = {
+            s.name: s for s in a2a_agents
         }
 
     @property

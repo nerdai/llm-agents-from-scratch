@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING
 
 from typing_extensions import Self
 
+from llm_agents_from_scratch.a2a.spec import A2AAgentSpec
 from llm_agents_from_scratch.agent.templates import (
     LLMAgentTemplates,
     default_templates,
@@ -35,6 +36,8 @@ class LLMAgentBuilder:
         memories (list[Memory]): Memory backends for the agent.
         subagents (list[SubAgentSpec]): Sub-agent specs for the agent.
             Added in Chapter 9.
+        a2a_agents (list[A2AAgentSpec]): A2A peer specs for the agent.
+            Added in Chapter 10.
     """
 
     def __init__(  # noqa: PLR0913
@@ -47,6 +50,8 @@ class LLMAgentBuilder:
         memories: list[Memory] | None = None,
         # added in ch09
         subagents: "list[SubAgentSpec] | None" = None,
+        # added in ch10
+        a2a_agents: list[A2AAgentSpec] | None = None,
     ) -> None:
         """Initialize an LLMAgentBuilder.
 
@@ -63,6 +68,7 @@ class LLMAgentBuilder:
                     .with_mcp_provider(provider)
                     .with_memory(my_memory)
                     .with_subagent(spec)
+                    .with_a2a_agent(a2a_spec)
                     .build()
                 )
 
@@ -74,6 +80,7 @@ class LLMAgentBuilder:
                     mcp_providers=[provider],
                     memories=[my_memory],
                     subagents=[spec],
+                    a2a_agents=[a2a_spec],
                 ).build()
 
         Args:
@@ -92,6 +99,9 @@ class LLMAgentBuilder:
             subagents (list[SubAgentSpec] | None, optional): Sub-agent specs
                 to register on the agent. Defaults to None. Added in
                 Chapter 9.
+            a2a_agents (list[A2AAgentSpec] | None, optional): A2A peer
+                specs to register on the agent. Defaults to None. Added
+                in Chapter 10.
         """
         self.llm = llm
         self.templates = templates
@@ -101,6 +111,8 @@ class LLMAgentBuilder:
         self.memories: list[Memory] = memories or []
         # added in ch09
         self.subagents: list[SubAgentSpec] = subagents or []
+        # added in ch10
+        self.a2a_agents: list[A2AAgentSpec] = a2a_agents or []
 
     def with_llm(self, llm: LLM) -> Self:
         """Set llm of builder."""
@@ -160,6 +172,24 @@ class LLMAgentBuilder:
         self.subagents.extend(specs)
         return self
 
+    def with_a2a_agent(self, spec: A2AAgentSpec) -> Self:
+        """Add an A2A peer spec to builder. Added in Chapter 10.
+
+        Args:
+            spec (A2AAgentSpec): The A2A peer spec to add.
+        """
+        self.a2a_agents.append(spec)
+        return self
+
+    def with_a2a_agents(self, specs: list[A2AAgentSpec]) -> Self:
+        """Add A2A peer specs to builder. Added in Chapter 10.
+
+        Args:
+            specs (list[A2AAgentSpec]): The A2A peer specs to add.
+        """
+        self.a2a_agents.extend(specs)
+        return self
+
     async def build(self) -> LLMAgent:
         """Build an LLMAgent with configured tools and MCP providers.
 
@@ -198,4 +228,5 @@ class LLMAgentBuilder:
             templates=self.templates,
             memories=self.memories,  # added in ch07
             subagents=self.subagents,  # added in ch09
+            a2a_agents=self.a2a_agents,  # added in ch10
         )

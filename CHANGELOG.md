@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- feat(ch10): `LLMAgent.a2a_agents_registry` (keyed by plain peer name, unlike `MCPToolProvider`'s prefixed tool names — A2A dispatch is one generic tool with `name` as an enum value); `LLMAgentBuilder.with_a2a_agent()`/`with_a2a_agents()` fluent methods and `build()` pass-through (#799)
 - feat(ch10): `a2a/` package — `A2AAgentSpec`, the registry value type for a peer A2A agent; `from_agent_card()`/`from_url()` construction, `.catalog()` with nested `<a2a_skills>`; `errors/a2a.py` — `A2AAgentCardMissingInterfaceError` (#798)
 - chore(ch10): add `a2a-sdk` core dependency; `errors/a2a.py` — `A2AError`/`A2AAgentNotFoundError`, mirroring `errors/subagents.py`'s `SubAgentsError`/`SubAgentNotFoundError` pattern (#797)
 

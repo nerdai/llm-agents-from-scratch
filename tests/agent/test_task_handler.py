@@ -21,7 +21,7 @@ from llm_agents_from_scratch.data_structures import (
     ToolCall,
 )
 from llm_agents_from_scratch.data_structures.skill import SkillScope
-from llm_agents_from_scratch.errors import LLMAgentError, TaskHandlerError
+from llm_agents_from_scratch.errors import TaskHandlerError
 from llm_agents_from_scratch.memory.memory import Memory
 from llm_agents_from_scratch.skills.skill import Skill
 from llm_agents_from_scratch.subagents import SubAgentSpec, UseSubAgentTool
@@ -1300,49 +1300,6 @@ async def test_supervised_handler_complete_raises_on_non_task_result(
 
     with pytest.raises(TaskHandlerError, match="TaskResult"):
         await handler.complete(step)  # type: ignore[arg-type]
-
-
-# ---------------------------------------------------------------------------
-# Subagents tests (Chapter 9)
-# ---------------------------------------------------------------------------
-
-
-@pytest.mark.asyncio
-async def test_llm_agent_init_with_subagents(mock_llm: BaseLLM) -> None:
-    """Tests LLMAgent stores provided subagents dict."""
-    spec = SubAgentSpec(
-        name="researcher",
-        description="Looks things up.",
-        agent=LLMAgent(llm=mock_llm),
-    )
-    agent = LLMAgent(llm=mock_llm, subagents=[spec])
-
-    assert "researcher" in agent.subagents_registry
-    assert agent.subagents_registry["researcher"] is spec
-
-
-@pytest.mark.asyncio
-async def test_llm_agent_init_no_subagents_defaults_to_empty_dict(
-    mock_llm: BaseLLM,
-) -> None:
-    """Tests LLMAgent.subagents_registry defaults to empty dict."""
-    agent = LLMAgent(llm=mock_llm)
-
-    assert agent.subagents_registry == {}
-
-
-@pytest.mark.asyncio
-async def test_llm_agent_init_raises_on_duplicate_subagent_names(
-    mock_llm: BaseLLM,
-) -> None:
-    """Tests LLMAgent raises LLMAgentError on duplicate subagent names."""
-    spec = SubAgentSpec(
-        name="researcher",
-        description="Looks things up.",
-        agent=LLMAgent(llm=mock_llm),
-    )
-    with pytest.raises(LLMAgentError, match="duplicate"):
-        LLMAgent(llm=mock_llm, subagents=[spec, spec])
 
 
 @pytest.mark.asyncio

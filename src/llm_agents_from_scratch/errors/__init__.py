@@ -1,3 +1,4 @@
+from .a2a import A2AAgentNotFoundError, A2AError
 from .agent import LLMAgentBuilderError, LLMAgentError, MaxStepsReachedError
 from .core import (
     LLMAgentsFromScratchError,
@@ -32,6 +33,9 @@ __all__ = [
     "LLMAgentsFromScratchError",
     "LLMAgentsFromScratchWarning",
     "MissingExtraError",
+    # a2a
+    "A2AError",
+    "A2AAgentNotFoundError",
     # memory store
     "MemoryStoreError",
     "MemoryStoreWarning",

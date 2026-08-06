@@ -9,8 +9,8 @@ from rich.panel import Panel
 from rich.prompt import Confirm, Prompt
 from typing_extensions import Self
 
-from llm_agents_from_scratch.a2a.spec import A2AAgentSpec
-from llm_agents_from_scratch.a2a.tools import UseA2AAgentTool
+from llm_agents_from_scratch.a2a.client.spec import A2AAgentSpec
+from llm_agents_from_scratch.a2a.client.tools import UseA2AAgentTool
 from llm_agents_from_scratch.base.llm import LLM
 from llm_agents_from_scratch.base.tool import AsyncBaseTool, Tool
 from llm_agents_from_scratch.data_structures import (

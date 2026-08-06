@@ -100,7 +100,7 @@ async def test_a2aagentspec_from_url() -> None:
     card = _agent_card(name="researcher")
 
     with patch(
-        "llm_agents_from_scratch.a2a.spec.A2ACardResolver.get_agent_card",
+        "llm_agents_from_scratch.a2a.client.spec.A2ACardResolver.get_agent_card",
         new_callable=AsyncMock,
         return_value=card,
     ) as mock_get_agent_card:
@@ -125,11 +125,11 @@ async def test_a2aagentspec_from_url_passes_headers_and_card_path() -> None:
 
     with (
         patch(
-            "llm_agents_from_scratch.a2a.spec.A2ACardResolver.__init__",
+            "llm_agents_from_scratch.a2a.client.spec.A2ACardResolver.__init__",
             new=_capturing_init,
         ),
         patch(
-            "llm_agents_from_scratch.a2a.spec.A2ACardResolver.get_agent_card",
+            "llm_agents_from_scratch.a2a.client.spec.A2ACardResolver.get_agent_card",
             new_callable=AsyncMock,
             return_value=card,
         ),
@@ -158,7 +158,7 @@ async def test_a2aagentspec_from_url_passes_timeout_to_httpx_client() -> None:
     with (
         patch.object(httpx.AsyncClient, "__init__", new=_capturing_init),
         patch(
-            "llm_agents_from_scratch.a2a.spec.A2ACardResolver.get_agent_card",
+            "llm_agents_from_scratch.a2a.client.spec.A2ACardResolver.get_agent_card",
             new_callable=AsyncMock,
             return_value=card,
         ),
@@ -177,7 +177,7 @@ async def test_a2aagentspec_from_url_propagates_connection_error() -> None:
     """Tests an unreachable peer raises to the caller (Decision #783/#8)."""
     with (
         patch(
-            "llm_agents_from_scratch.a2a.spec.A2ACardResolver.get_agent_card",
+            "llm_agents_from_scratch.a2a.client.spec.A2ACardResolver.get_agent_card",
             new_callable=AsyncMock,
             side_effect=httpx.ConnectError("unreachable"),
         ),

@@ -1695,7 +1695,7 @@ async def test_run_step_dispatches_to_a2a_agent() -> None:
     task = Task(instruction="mock instruction")
 
     with patch(
-        "llm_agents_from_scratch.a2a.tools.create_client",
+        "llm_agents_from_scratch.a2a.client.tools.create_client",
         new=AsyncMock(return_value=fake_client),
     ):
         handler = await coordinator.run_supervised(task)

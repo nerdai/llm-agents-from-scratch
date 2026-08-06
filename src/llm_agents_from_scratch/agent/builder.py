@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 
 from typing_extensions import Self
 
-from llm_agents_from_scratch.a2a.spec import A2AAgentSpec
+from llm_agents_from_scratch.a2a.client.spec import A2AAgentSpec
 from llm_agents_from_scratch.agent.templates import (
     LLMAgentTemplates,
     default_templates,

@@ -2,8 +2,8 @@
 
 from unittest.mock import AsyncMock, patch
 
+import httpx
 import pytest
-from a2a.client import A2ACardResolver
 from a2a.types import AgentCard
 
 from llm_agents_from_scratch.a2a import A2AAgentSpec
@@ -80,11 +80,9 @@ async def test_a2aagentspec_from_url_passes_headers_and_card_path() -> None:
     """Tests A2AAgentSpec.from_url forwards headers and agent_card_path."""
     card = _agent_card()
     captured: dict[str, object] = {}
-    original_init = A2ACardResolver.__init__
 
     def _capturing_init(self, *args: object, **kwargs: object) -> None:
         captured["kwargs"] = kwargs
-        original_init(self, *args, **kwargs)
 
     with (
         patch(
@@ -115,9 +113,9 @@ async def test_a2aagentspec_from_url_propagates_connection_error() -> None:
         patch(
             "llm_agents_from_scratch.a2a.spec.A2ACardResolver.get_agent_card",
             new_callable=AsyncMock,
-            side_effect=ConnectionError("unreachable"),
+            side_effect=httpx.ConnectError("unreachable"),
         ),
-        pytest.raises(ConnectionError, match="unreachable"),
+        pytest.raises(httpx.ConnectError, match="unreachable"),
     ):
         await A2AAgentSpec.from_url(
             name="researcher",

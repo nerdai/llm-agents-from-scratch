@@ -30,7 +30,7 @@ class A2AAgentSpec(BaseModel):
 
     The spec is pure data: it never constructs or holds a live SDK
     ``Client``. Connecting to the peer is ``UseA2AAgentTool``'s job, done
-    fresh on each dispatch from this spec's ``url``/``headers``/
+    fresh on each dispatch from this spec's ``url``/``auth_headers``/
     ``agent_card``.
 
     ``url`` is likewise derived from the card rather than passed
@@ -50,9 +50,9 @@ class A2AAgentSpec(BaseModel):
             ``UseA2AAgentTool``'s dispatch schema.
         url: Base URL of the remote A2A peer. Should match
             ``agent_card.supported_interfaces[0].url``.
-        headers: Optional HTTP headers (e.g. auth) sent on requests to this
-            peer, both for card resolution and for dispatch. Excluded from
-            repr since it may carry credentials.
+        auth_headers: Optional auth headers (e.g. Authorization) sent on
+            requests to this peer, both for card resolution and for
+            dispatch.
         agent_card: The peer's resolved ``AgentCard``, fetched eagerly at
             construction time.
     """
@@ -72,15 +72,14 @@ class A2AAgentSpec(BaseModel):
             "agent_card.supported_interfaces[0].url."
         ),
     )
-    headers: dict[str, SecretStr] | None = Field(
+    auth_headers: dict[str, SecretStr] | None = Field(
         default=None,
         description=(
-            "Optional HTTP headers sent on requests to this peer, both "
-            "for card resolution and for dispatch. Values are SecretStr: "
-            "masked in repr(), model_dump(), and model_dump_json() alike, "
-            "since this may carry credentials (e.g. Authorization). Call "
-            "sites that hand headers to httpx must unwrap with "
-            "get_secret_value()."
+            "Optional auth headers (e.g. Authorization) sent on requests "
+            "to this peer, both for card resolution and for dispatch. "
+            "Values are SecretStr: masked in repr(), model_dump(), and "
+            "model_dump_json() alike. Call sites that hand these to "
+            "httpx must unwrap with get_secret_value()."
         ),
     )
     agent_card: AgentCard = Field(
@@ -91,7 +90,7 @@ class A2AAgentSpec(BaseModel):
     def from_agent_card(
         cls,
         agent_card: AgentCard,
-        headers: dict[str, str] | None = None,
+        auth_headers: dict[str, str] | None = None,
     ) -> A2AAgentSpec:
         """Builds a spec from an ``AgentCard`` already in hand.
 
@@ -100,7 +99,8 @@ class A2AAgentSpec(BaseModel):
 
         Args:
             agent_card: The peer's already-resolved ``AgentCard``.
-            headers: Optional HTTP headers sent on requests to this peer.
+            auth_headers: Optional auth headers sent on requests to this
+                peer.
 
         Returns:
             A2AAgentSpec: The constructed spec.
@@ -118,14 +118,14 @@ class A2AAgentSpec(BaseModel):
             name=agent_card.name,
             url=agent_card.supported_interfaces[0].url,
             agent_card=agent_card,
-            headers=headers,
+            auth_headers=auth_headers,
         )
 
     @classmethod
     async def from_url(
         cls,
         url: str,
-        headers: dict[str, str] | None = None,
+        auth_headers: dict[str, str] | None = None,
         agent_card_path: str | None = None,
     ) -> A2AAgentSpec:
         """Fetches the peer's ``AgentCard`` from ``url``, then builds a spec.
@@ -140,7 +140,8 @@ class A2AAgentSpec(BaseModel):
         Args:
             url: Base URL to resolve the peer's well-known ``AgentCard``
                 from.
-            headers: Optional HTTP headers sent on requests to this peer.
+            auth_headers: Optional auth headers sent on requests to this
+                peer.
             agent_card_path: Optional override for the well-known agent
                 card path. ``None`` uses the SDK's own default.
 
@@ -151,7 +152,7 @@ class A2AAgentSpec(BaseModel):
             A2AAgentCardMissingInterfaceError: If the fetched card
                 declares no ``supported_interfaces``.
         """
-        async with httpx.AsyncClient(headers=headers) as httpx_client:
+        async with httpx.AsyncClient(headers=auth_headers) as httpx_client:
             resolver_kwargs: dict[str, str] = {}
             if agent_card_path is not None:
                 resolver_kwargs["agent_card_path"] = agent_card_path
@@ -164,7 +165,7 @@ class A2AAgentSpec(BaseModel):
 
         return cls.from_agent_card(
             agent_card=agent_card,
-            headers=headers,
+            auth_headers=auth_headers,
         )
 
     def catalog(self) -> str:

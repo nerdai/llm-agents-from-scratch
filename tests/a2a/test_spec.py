@@ -36,28 +36,29 @@ def test_a2aagentspec_from_agent_card() -> None:
     assert spec.name == "researcher"
     assert spec.url == DISPATCH_URL
     assert spec.agent_card == card
-    assert spec.headers is None
+    assert spec.auth_headers is None
 
 
-def test_a2aagentspec_from_agent_card_with_headers() -> None:
-    """Tests A2AAgentSpec.from_agent_card stores headers as SecretStr."""
+def test_a2aagentspec_from_agent_card_with_auth_headers() -> None:
+    """Tests A2AAgentSpec.from_agent_card stores auth_headers as SecretStr."""
     card = _agent_card()
     spec = A2AAgentSpec.from_agent_card(
         agent_card=card,
-        headers={"Authorization": "Bearer token"},
+        auth_headers={"Authorization": "Bearer token"},
     )
 
-    assert spec.headers is not None
-    assert spec.headers["Authorization"].get_secret_value() == "Bearer token"
-    assert "Bearer token" not in repr(spec.headers["Authorization"])
+    assert spec.auth_headers is not None
+    value = spec.auth_headers["Authorization"]
+    assert value.get_secret_value() == "Bearer token"
+    assert "Bearer token" not in repr(value)
 
 
-def test_a2aagentspec_headers_masked_in_repr_and_dump() -> None:
+def test_a2aagentspec_auth_headers_masked_in_repr_and_dump() -> None:
     """Tests a bearer token never appears in cleartext in repr/model_dump."""
     card = _agent_card()
     spec = A2AAgentSpec.from_agent_card(
         agent_card=card,
-        headers={"Authorization": "Bearer super-secret-token"},
+        auth_headers={"Authorization": "Bearer super-secret-token"},
     )
 
     assert "super-secret-token" not in repr(spec)
@@ -93,7 +94,7 @@ def test_a2aagentspec_has_no_client_field() -> None:
     assert set(A2AAgentSpec.model_fields.keys()) == {
         "name",
         "url",
-        "headers",
+        "auth_headers",
         "agent_card",
     }
 
@@ -118,8 +119,8 @@ async def test_a2aagentspec_from_url() -> None:
 
 
 @pytest.mark.asyncio
-async def test_a2aagentspec_from_url_passes_headers_and_card_path() -> None:
-    """Tests A2AAgentSpec.from_url forwards headers and agent_card_path."""
+async def test_a2aagentspec_from_url_passes_auth_headers_and_path() -> None:
+    """Tests A2AAgentSpec.from_url forwards auth_headers/agent_card_path."""
     card = _agent_card()
     captured: dict[str, object] = {}
 
@@ -139,7 +140,7 @@ async def test_a2aagentspec_from_url_passes_headers_and_card_path() -> None:
     ):
         await A2AAgentSpec.from_url(
             url="http://127.0.0.1:9999",
-            headers={"Authorization": "Bearer token"},
+            auth_headers={"Authorization": "Bearer token"},
             agent_card_path="/custom/card.json",
         )
 

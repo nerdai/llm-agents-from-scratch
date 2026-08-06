@@ -1,12 +1,13 @@
 """UseA2AAgentTool — dispatches a task to a named A2A peer agent."""
 
 import json
+from collections.abc import Iterable
 from typing import Any
 
 import httpx
 from a2a.client import ClientConfig, create_client
 from a2a.helpers import new_text_message
-from a2a.types import Role, SendMessageRequest, Task, TaskState
+from a2a.types import Part, Role, SendMessageRequest, Task, TaskState
 
 from llm_agents_from_scratch.base.tool import AsyncBaseTool
 from llm_agents_from_scratch.data_structures import ToolCall, ToolCallResult
@@ -16,7 +17,7 @@ from .constants import A2A_INPUT_REQUIRED_TEMPLATE
 from .spec import A2AAgentSpec
 
 
-def _parts_text(parts: Any) -> str:
+def _parts_text(parts: Iterable[Part]) -> str:
     """Join the text of every text Part, skipping non-text parts."""
     return "\n".join(p.text for p in parts if p.text)
 

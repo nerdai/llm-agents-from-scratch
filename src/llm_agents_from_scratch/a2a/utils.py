@@ -1,7 +1,7 @@
 """A2A data-conversion utilities."""
 
 import json
-from collections.abc import Iterable
+from collections.abc import Sequence
 
 from a2a.types import Artifact, Part, StreamResponse, TaskState
 from a2a.types import Task as A2ATask
@@ -11,11 +11,11 @@ from llm_agents_from_scratch.data_structures import ToolCallResult
 from .constants import A2A_INPUT_REQUIRED_TEMPLATE
 
 
-def a2a_parts_text(parts: Iterable[Part]) -> str:
+def a2a_parts_text(parts: Sequence[Part]) -> str:
     """Join the text of every text Part, skipping non-text parts.
 
     Args:
-        parts (Iterable[Part]): Parts to extract text from.
+        parts (Sequence[Part]): Parts to extract text from.
 
     Returns:
         str: The joined text, newline-separated.
@@ -23,11 +23,11 @@ def a2a_parts_text(parts: Iterable[Part]) -> str:
     return "\n".join(p.text for p in parts if p.text)
 
 
-def a2a_artifacts_text(artifacts: Iterable[Artifact]) -> str:
+def a2a_artifacts_text(artifacts: Sequence[Artifact]) -> str:
     """Join the text of every Part across a collection of Artifacts.
 
     Args:
-        artifacts (Iterable[Artifact]): Artifacts to extract text from.
+        artifacts (Sequence[Artifact]): Artifacts to extract text from.
 
     Returns:
         str: The joined text across all artifacts, newline-separated.

@@ -14,7 +14,7 @@ from llm_agents_from_scratch.data_structures import ToolCall, ToolCallResult
 from llm_agents_from_scratch.errors import A2AAgentNotFoundError
 
 from .spec import A2AAgentSpec
-from .utils import build_result
+from .utils import a2a_response_to_tool_call_result
 
 
 def _validate_arguments(tool_call: ToolCall) -> ToolCallResult | None:
@@ -267,7 +267,11 @@ class UseA2AAgentTool(AsyncBaseTool):
                         pass
 
         try:
-            return build_result(response, agent_name, tool_call.id_)
+            return a2a_response_to_tool_call_result(
+                response,
+                agent_name,
+                tool_call.id_,
+            )
         except Exception as e:
             return ToolCallResult(
                 tool_call_id=tool_call.id_,

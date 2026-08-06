@@ -36,7 +36,7 @@ def task_content(task: A2ATask) -> str:
     return parts_text(parts)
 
 
-def build_result(
+def a2a_response_to_tool_call_result(
     response: StreamResponse | None,
     agent_name: str,
     tool_call_id: str,
@@ -79,7 +79,11 @@ def build_result(
         )
 
     if kind == "task":
-        return build_task_result(response.task, agent_name, tool_call_id)
+        return a2a_task_to_tool_call_result(
+            response.task,
+            agent_name,
+            tool_call_id,
+        )
 
     return ToolCallResult(
         tool_call_id=tool_call_id,
@@ -94,7 +98,7 @@ def build_result(
     )
 
 
-def build_task_result(
+def a2a_task_to_tool_call_result(
     task: A2ATask,
     agent_name: str,
     tool_call_id: str,

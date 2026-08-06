@@ -14,8 +14,8 @@ from a2a.types import (
 )
 
 from llm_agents_from_scratch.a2a.utils import (
-    build_result,
-    build_task_result,
+    a2a_response_to_tool_call_result,
+    a2a_task_to_tool_call_result,
     parts_text,
     task_content,
 )
@@ -64,38 +64,42 @@ def test_task_content_no_artifacts() -> None:
     assert task_content(task) == ""
 
 
-def test_build_result_none_response_is_error() -> None:
-    """Tests build_result returns an error for a None response."""
-    result = build_result(None, "researcher", "tc1")
+def test_a2a_response_to_tool_call_result_none_response_is_error() -> None:
+    """Tests returns an error for a None response."""
+    result = a2a_response_to_tool_call_result(None, "researcher", "tc1")
 
     assert result.error is True
     details = json.loads(result.content)
     assert details["error_type"] == "A2AEmptyResponseError"
 
 
-def test_build_result_message_payload() -> None:
-    """Tests build_result returns success for a plain Message payload."""
+def test_a2a_response_to_tool_call_result_message_payload() -> None:
+    """Tests returns success for a plain Message payload."""
     response = StreamResponse(
         message=Message(role=Role.ROLE_AGENT, parts=[Part(text="hi")]),
     )
 
-    result = build_result(response, "researcher", "tc1")
+    result = a2a_response_to_tool_call_result(response, "researcher", "tc1")
 
     assert result.error is False
     assert result.content == "hi"
 
 
-def test_build_result_unset_payload_is_error() -> None:
-    """Tests build_result returns an error when no oneof field is set."""
-    result = build_result(StreamResponse(), "researcher", "tc1")
+def test_a2a_response_to_tool_call_result_unset_payload_is_error() -> None:
+    """Tests returns an error when no oneof field is set."""
+    result = a2a_response_to_tool_call_result(
+        StreamResponse(),
+        "researcher",
+        "tc1",
+    )
 
     assert result.error is True
     details = json.loads(result.content)
     assert details["error_type"] == "A2AEmptyResponseError"
 
 
-def test_build_result_task_payload_delegates_to_build_task_result() -> None:
-    """Tests build_result delegates a Task payload to build_task_result."""
+def test_a2a_response_to_tool_call_result_task_payload_delegates() -> None:
+    """Tests delegates a Task payload to a2a_task_to_tool_call_result."""
     task = Task(
         id="t1",
         status=TaskStatus(state=TaskState.TASK_STATE_COMPLETED),
@@ -103,28 +107,28 @@ def test_build_result_task_payload_delegates_to_build_task_result() -> None:
     )
     response = StreamResponse(task=task)
 
-    result = build_result(response, "researcher", "tc1")
+    result = a2a_response_to_tool_call_result(response, "researcher", "tc1")
 
     assert result.error is False
     assert result.content == "42"
 
 
-def test_build_task_result_completed() -> None:
-    """Tests build_task_result returns success with artifact content."""
+def test_a2a_task_to_tool_call_result_completed() -> None:
+    """Tests returns success with artifact content."""
     task = Task(
         id="t1",
         status=TaskStatus(state=TaskState.TASK_STATE_COMPLETED),
         artifacts=[Artifact(artifact_id="a1", parts=[Part(text="42")])],
     )
 
-    result = build_task_result(task, "researcher", "tc1")
+    result = a2a_task_to_tool_call_result(task, "researcher", "tc1")
 
     assert result.error is False
     assert result.content == "42"
 
 
-def test_build_task_result_input_required() -> None:
-    """Tests build_task_result wraps the peer's question and task id."""
+def test_a2a_task_to_tool_call_result_input_required() -> None:
+    """Tests wraps the peer's question and task id."""
     task = Task(
         id="t2",
         status=TaskStatus(
@@ -136,7 +140,7 @@ def test_build_task_result_input_required() -> None:
         ),
     )
 
-    result = build_task_result(task, "researcher", "tc1")
+    result = a2a_task_to_tool_call_result(task, "researcher", "tc1")
 
     assert result.error is False
     assert "What city?" in result.content
@@ -144,7 +148,7 @@ def test_build_task_result_input_required() -> None:
     assert "researcher" in result.content
 
 
-def test_build_task_result_input_required_falls_back_to_task_content() -> None:
+def test_a2a_task_to_tool_call_result_falls_back_to_task_content() -> None:
     """Tests input_required uses task_content when status.message is empty."""
     task = Task(
         id="t3",
@@ -154,13 +158,13 @@ def test_build_task_result_input_required_falls_back_to_task_content() -> None:
         ],
     )
 
-    result = build_task_result(task, "researcher", "tc1")
+    result = a2a_task_to_tool_call_result(task, "researcher", "tc1")
 
     assert "Which city?" in result.content
 
 
-def test_build_task_result_failed_returns_error_with_message() -> None:
-    """Tests build_task_result maps FAILED to the shared error JSON shape."""
+def test_a2a_task_to_tool_call_result_failed_with_message() -> None:
+    """Tests maps FAILED to the shared error JSON shape."""
     task = Task(
         id="t4",
         status=TaskStatus(
@@ -172,7 +176,7 @@ def test_build_task_result_failed_returns_error_with_message() -> None:
         ),
     )
 
-    result = build_task_result(task, "researcher", "tc1")
+    result = a2a_task_to_tool_call_result(task, "researcher", "tc1")
 
     assert result.error is True
     details = json.loads(result.content)
@@ -181,22 +185,22 @@ def test_build_task_result_failed_returns_error_with_message() -> None:
     assert details["message"] == "Something went wrong."
 
 
-def test_build_task_result_failed_without_message_uses_generic_text() -> None:
-    """Tests build_task_result falls back to a generic message when unset."""
+def test_a2a_task_to_tool_call_result_failed_generic_text() -> None:
+    """Tests falls back to a generic message when unset."""
     task = Task(id="t5", status=TaskStatus(state=TaskState.TASK_STATE_FAILED))
 
-    result = build_task_result(task, "researcher", "tc1")
+    result = a2a_task_to_tool_call_result(task, "researcher", "tc1")
 
     assert result.error is True
     details = json.loads(result.content)
     assert "TASK_STATE_FAILED" in details["message"]
 
 
-def test_build_task_result_unrecognized_state_does_not_raise() -> None:
+def test_a2a_task_to_tool_call_result_unrecognized_state() -> None:
     """Tests an unrecognized TaskState.state value is handled, not raised."""
     task = Task(id="t6", status=TaskStatus(state=999))
 
-    result = build_task_result(task, "researcher", "tc1")
+    result = a2a_task_to_tool_call_result(task, "researcher", "tc1")
 
     assert result.error is True
     details = json.loads(result.content)

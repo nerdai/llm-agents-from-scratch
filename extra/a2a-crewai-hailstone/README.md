@@ -32,7 +32,9 @@ uv sync
 ```
 
 Requires a running Ollama instance (`ollama serve`) with the configured
-model pulled — defaults to `qwen3:14b`.
+model pulled — defaults to `qwen3:14b` (`ollama pull qwen3:14b`). The
+`ollama/` prefix in `OLLAMA_MODEL` below is `crewai.LLM`'s own litellm
+provider-routing syntax, not part of the model tag itself.
 
 ## Usage
 

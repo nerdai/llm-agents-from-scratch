@@ -3,6 +3,7 @@
 from typing import TypedDict
 
 from .defaults import (
+    DEFAULT_A2A_AGENTS_CATALOG,
     DEFAULT_APPROVAL_REJECTION_FEEDBACK,
     DEFAULT_GET_NEXT_INSTRUCTION_PROMPT,
     DEFAULT_MEMORIES_BLOCK,
@@ -38,6 +39,8 @@ class LLMAgentTemplates(TypedDict):
     approval_rejection_feedback: str
     # added in ch09
     subagents_catalog: str
+    # added in ch10
+    a2a_agents_catalog: str
 
 
 default_templates = LLMAgentTemplates(
@@ -57,4 +60,6 @@ default_templates = LLMAgentTemplates(
     approval_rejection_feedback=DEFAULT_APPROVAL_REJECTION_FEEDBACK,
     # added in ch09
     subagents_catalog=DEFAULT_SUBAGENTS_CATALOG,
+    # added in ch10
+    a2a_agents_catalog=DEFAULT_A2A_AGENTS_CATALOG,
 )

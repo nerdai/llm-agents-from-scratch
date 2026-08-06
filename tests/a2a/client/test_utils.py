@@ -13,7 +13,7 @@ from a2a.types import (
     TaskStatus,
 )
 
-from llm_agents_from_scratch.a2a.utils import (
+from llm_agents_from_scratch.a2a.client.utils import (
     a2a_artifacts_text,
     a2a_parts_text,
     a2a_response_to_tool_call_result,

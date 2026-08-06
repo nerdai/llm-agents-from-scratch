@@ -50,7 +50,7 @@ def _fake_client(*responses: StreamResponse) -> MagicMock:
 
 def _patch_create_client(client: MagicMock) -> Any:
     return patch(
-        "llm_agents_from_scratch.a2a.tools.create_client",
+        "llm_agents_from_scratch.a2a.client.tools.create_client",
         new=AsyncMock(return_value=client),
     )
 
@@ -300,7 +300,7 @@ async def test_use_a2a_agent_tool_passes_task_id_to_resume() -> None:
 async def test_use_a2a_agent_tool_catches_unexpected_error() -> None:
     """Tests an exception raised during dispatch is caught as an error."""
     with patch(
-        "llm_agents_from_scratch.a2a.tools.create_client",
+        "llm_agents_from_scratch.a2a.client.tools.create_client",
         new=AsyncMock(side_effect=RuntimeError("boom")),
     ):
         tool = UseA2AAgentTool(a2a_agents_registry={"researcher": _spec()})
@@ -348,11 +348,11 @@ async def test_use_a2a_agent_tool_closes_httpx_client_on_create_failure() -> (
 
     with (
         patch(
-            "llm_agents_from_scratch.a2a.tools.httpx.AsyncClient",
+            "llm_agents_from_scratch.a2a.client.tools.httpx.AsyncClient",
             new=_TrackedAsyncClient,
         ),
         patch(
-            "llm_agents_from_scratch.a2a.tools.create_client",
+            "llm_agents_from_scratch.a2a.client.tools.create_client",
             new=AsyncMock(side_effect=RuntimeError("boom")),
         ),
     ):
@@ -390,7 +390,7 @@ async def test_use_a2a_agent_tool_passes_spec_timeout() -> None:
 
     with (
         patch(
-            "llm_agents_from_scratch.a2a.tools.httpx.AsyncClient",
+            "llm_agents_from_scratch.a2a.client.tools.httpx.AsyncClient",
             new=_TrackedAsyncClient,
         ),
         _patch_create_client(client),
@@ -440,7 +440,7 @@ async def test_use_a2a_agent_tool_catches_response_conversion_error() -> None:
     with (
         _patch_create_client(client),
         patch(
-            "llm_agents_from_scratch.a2a.tools.a2a_response_to_tool_call_result",
+            "llm_agents_from_scratch.a2a.client.tools.a2a_response_to_tool_call_result",
             side_effect=RuntimeError("boom"),
         ),
     ):

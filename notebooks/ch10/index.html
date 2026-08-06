@@ -882,6 +882,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#example-2-building-and-manually-calling-usea2aagenttool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 2: Building and Manually Calling UseA2AAgentTool
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3582,6 +3593,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#example-2-building-and-manually-calling-usea2aagenttool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 2: Building and Manually Calling UseA2AAgentTool
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -4865,6 +4887,7 @@ skills {
 <span class="n">spec_hand_built</span> <span class="o">=</span> <span class="n">A2AAgentSpec</span><span class="o">.</span><span class="n">from_agent_card</span><span class="p">(</span><span class="n">agent_card</span><span class="o">=</span><span class="n">hand_built_card</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"spec name: </span><span class="si">{</span><span class="n">spec_hand_built</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"spec url: </span><span class="si">{</span><span class="n">spec_hand_built</span><span class="o">.</span><span class="n">url</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"spec catalog:</span><span class="se">\n</span><span class="si">{</span><span class="n">spec_hand_built</span><span class="o">.</span><span class="n">catalog</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-5">from a2a.types import AgentCapabilities, AgentCard, AgentInterface, AgentSkill
 from a2a.utils.constants import PROTOCOL_VERSION_1_0, TransportProtocol
@@ -4898,7 +4921,7 @@ hand_built_card = AgentCard(
 spec_hand_built = A2AAgentSpec.from_agent_card(agent_card=hand_built_card)
 print(f"spec name: {spec_hand_built.name}")
 print(f"spec url: {spec_hand_built.url}")
-</div>
+print(f"spec catalog:\n{spec_hand_built.catalog()}")</div>
 </div>
 </div>
 </div>
@@ -4912,6 +4935,91 @@ print(f"spec url: {spec_hand_built.url}")
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>spec name: crewai-hailstone
 spec url: http://localhost:9200
+spec catalog:
+&lt;a2a_agent&gt;
+    &lt;name&gt;crewai-hailstone&lt;/name&gt;
+    &lt;description&gt;Computes the full Hailstone (Collatz) sequence.&lt;/description&gt;
+    &lt;a2a_skills&gt;
+      &lt;a2a_skill&gt;hailstone_sequence&lt;/a2a_skill&gt;
+    &lt;/a2a_skills&gt;
+  &lt;/a2a_agent&gt;
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=8ef53d34">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="example-2-building-and-manually-calling-usea2aagenttool">Example 2: Building and Manually Calling UseA2AAgentTool<a class="anchor-link" href="#example-2-building-and-manually-calling-usea2aagenttool">¶</a></h3>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=8e5a08db">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.a2a</span><span class="w"> </span><span class="kn">import</span> <span class="n">UseA2AAgentTool</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolCall</span>
+
+<span class="n">tool</span> <span class="o">=</span> <span class="n">UseA2AAgentTool</span><span class="p">(</span><span class="n">a2a_agents_registry</span><span class="o">=</span><span class="p">{</span><span class="n">spec</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">spec</span><span class="p">})</span>
+
+<span class="n">tool_call</span> <span class="o">=</span> <span class="n">ToolCall</span><span class="p">(</span>
+    <span class="n">tool_name</span><span class="o">=</span><span class="s2">"from_scratch__use_a2a_agent"</span><span class="p">,</span>
+    <span class="n">arguments</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="n">spec</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="s2">"task"</span><span class="p">:</span> <span class="s2">"Give me the hailstone sequence starting at 4."</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">tool</span><span class="p">(</span><span class="n">tool_call</span><span class="o">=</span><span class="n">tool_call</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-6">from llm_agents_from_scratch.a2a import UseA2AAgentTool
+from llm_agents_from_scratch.data_structures import ToolCall
+
+tool = UseA2AAgentTool(a2a_agents_registry={spec.name: spec})
+
+tool_call = ToolCall(
+    tool_name="from_scratch__use_a2a_agent",
+    arguments={
+        "name": spec.name,
+        "task": "Give me the hailstone sequence starting at 4.",
+    },
+)
+result = await tool(tool_call=tool_call)
+print(result.content)</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>4,2,1
 </pre>
 </div>
 </div>
@@ -4935,10 +5043,10 @@ spec url: http://localhost:9200
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-7">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -4955,7 +5063,7 @@ spec url: http://localhost:9200
 <span class="k">else</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"A2A server wasn't started by this notebook -- leaving it running"</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-6">if a2a_server_process is not None:
+<div class="clipboard-copy-txt" id="cell-7">if a2a_server_process is not None:
     a2a_server_process.terminate()
     a2a_server_process.wait(timeout=5)
     print("✓ Stopped CrewAI Hailstone A2A server")

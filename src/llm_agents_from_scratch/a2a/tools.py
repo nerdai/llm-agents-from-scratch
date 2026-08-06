@@ -45,6 +45,21 @@ class UseA2AAgentTool(AsyncBaseTool):
     ``TASK_STATE_FAILED``/``TASK_STATE_CANCELED``/``TASK_STATE_REJECTED``
     result from the peer is mapped into the same error JSON shape.
 
+    No streaming, no push notifications: dispatch is always
+    ``ClientConfig(streaming=False)``, one ``ToolCallResult`` per call.
+    This isn't A2A-specific — ``run_step``'s tool-calling loop is
+    synchronous request/response with no event bus a tool could push
+    incremental updates through mid-turn, so real streaming would need
+    a framework-level change, not one scoped to this tool. Push
+    notifications are out of scope for a different reason: they target
+    tasks that outlive a single request/response cycle, and nothing in
+    this framework's task model persists state to receive a callback
+    after the dispatching run has already finished. See #784 for the
+    full writeup. Note this is a client-side-only limitation — the
+    server side (``LLMAgentA2AExecutor``, #787) isn't constrained the
+    same way, since the SDK's ``AgentExecutor``/``EventQueue`` pattern
+    is decoupled from this loop.
+
     Attributes:
         a2a_agents_registry (dict[str, A2AAgentSpec]): Registered A2A
             peers, keyed by name.

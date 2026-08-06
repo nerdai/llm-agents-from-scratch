@@ -72,7 +72,7 @@ class LLMAgent:
             Added in Chapter 10.
     """
 
-    def __init__(  # noqa: PLR0913
+    def __init__(  # noqa: PLR0913, PLR0917
         self,
         llm: LLM,
         tools: list[Tool] | None = None,

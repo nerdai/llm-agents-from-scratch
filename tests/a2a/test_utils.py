@@ -14,9 +14,9 @@ from a2a.types import (
 )
 
 from llm_agents_from_scratch.a2a.utils import (
+    a2a_artifacts_text,
     a2a_parts_text,
     a2a_response_to_tool_call_result,
-    a2a_task_content,
     a2a_task_to_tool_call_result,
 )
 
@@ -40,28 +40,19 @@ def test_a2a_parts_text_empty() -> None:
     assert a2a_parts_text([]) == ""
 
 
-def test_a2a_task_content_concatenates_across_artifacts() -> None:
-    """Tests a2a_task_content flattens text across multiple artifacts."""
-    task = Task(
-        id="t1",
-        status=TaskStatus(state=TaskState.TASK_STATE_COMPLETED),
-        artifacts=[
-            Artifact(artifact_id="a1", parts=[Part(text="first")]),
-            Artifact(artifact_id="a2", parts=[Part(text="second")]),
-        ],
-    )
+def test_a2a_artifacts_text_concatenates_across_artifacts() -> None:
+    """Tests a2a_artifacts_text flattens text across multiple artifacts."""
+    artifacts = [
+        Artifact(artifact_id="a1", parts=[Part(text="first")]),
+        Artifact(artifact_id="a2", parts=[Part(text="second")]),
+    ]
 
-    assert a2a_task_content(task) == "first\nsecond"
+    assert a2a_artifacts_text(artifacts) == "first\nsecond"
 
 
-def test_a2a_task_content_no_artifacts() -> None:
-    """Tests a2a_task_content returns an empty string for no artifacts."""
-    task = Task(
-        id="t1",
-        status=TaskStatus(state=TaskState.TASK_STATE_COMPLETED),
-    )
-
-    assert a2a_task_content(task) == ""
+def test_a2a_artifacts_text_no_artifacts() -> None:
+    """Tests a2a_artifacts_text returns an empty string for no artifacts."""
+    assert a2a_artifacts_text([]) == ""
 
 
 def test_a2a_response_to_tool_call_result_none_response_is_error() -> None:
@@ -148,8 +139,8 @@ def test_a2a_task_to_tool_call_result_input_required() -> None:
     assert "researcher" in result.content
 
 
-def test_a2a_task_to_tool_call_result_falls_back_to_task_content() -> None:
-    """Tests input_required falls back to a2a_task_content when unset."""
+def test_a2a_task_to_tool_call_result_falls_back_to_artifacts_text() -> None:
+    """Tests input_required falls back to a2a_artifacts_text when unset."""
     task = Task(
         id="t3",
         status=TaskStatus(state=TaskState.TASK_STATE_INPUT_REQUIRED),

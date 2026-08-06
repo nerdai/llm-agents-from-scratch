@@ -3,7 +3,7 @@
 import json
 from collections.abc import Iterable
 
-from a2a.types import Part, StreamResponse, TaskState
+from a2a.types import Artifact, Part, StreamResponse, TaskState
 from a2a.types import Task as A2ATask
 
 from llm_agents_from_scratch.data_structures import ToolCallResult
@@ -23,16 +23,16 @@ def a2a_parts_text(parts: Iterable[Part]) -> str:
     return "\n".join(p.text for p in parts if p.text)
 
 
-def a2a_task_content(task: A2ATask) -> str:
-    """Concatenate text from every artifact on a completed A2ATask.
+def a2a_artifacts_text(artifacts: Iterable[Artifact]) -> str:
+    """Join the text of every Part across a collection of Artifacts.
 
     Args:
-        task (A2ATask): The task to extract artifact text from.
+        artifacts (Iterable[Artifact]): Artifacts to extract text from.
 
     Returns:
         str: The joined text across all artifacts, newline-separated.
     """
-    parts = [p for artifact in task.artifacts for p in artifact.parts]
+    parts = [p for artifact in artifacts for p in artifact.parts]
     return a2a_parts_text(parts)
 
 
@@ -128,14 +128,14 @@ def a2a_task_to_tool_call_result(
         return ToolCallResult(
             tool_call_id=tool_call_id,
             error=False,
-            content=a2a_task_content(task),
+            content=a2a_artifacts_text(task.artifacts),
         )
 
     if state == "TASK_STATE_INPUT_REQUIRED":
         question = a2a_parts_text(
             task.status.message.parts,
-        ) or a2a_task_content(
-            task,
+        ) or a2a_artifacts_text(
+            task.artifacts,
         )
         return ToolCallResult(
             tool_call_id=tool_call_id,

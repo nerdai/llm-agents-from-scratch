@@ -36,8 +36,8 @@ class UseA2AAgentTool(AsyncBaseTool):
     ``UseSubAgentTool`` is.
 
     Stateless over the SDK client too: ``A2AAgentSpec`` never holds a
-    live client (see #783), so this tool calls ``create_client()`` fresh
-    on every dispatch and always closes it before returning.
+    live client, so this tool calls ``create_client()`` fresh on every
+    dispatch and always closes it before returning.
 
     All exceptions — connection errors, an unknown ``task_id``, etc. —
     are caught and returned as ``ToolCallResult(error=True)`` so the
@@ -54,11 +54,11 @@ class UseA2AAgentTool(AsyncBaseTool):
     notifications are out of scope for a different reason: they target
     tasks that outlive a single request/response cycle, and nothing in
     this framework's task model persists state to receive a callback
-    after the dispatching run has already finished. See #784 for the
-    full writeup. Note this is a client-side-only limitation — the
-    server side (``LLMAgentA2AExecutor``, #787) isn't constrained the
-    same way, since the SDK's ``AgentExecutor``/``EventQueue`` pattern
-    is decoupled from this loop.
+    after the dispatching run has already finished. This is a
+    client-side-only limitation — the server side
+    (``LLMAgentA2AExecutor``) isn't constrained the same way, since the
+    SDK's ``AgentExecutor``/``EventQueue`` pattern is decoupled from
+    this loop.
 
     Attributes:
         a2a_agents_registry (dict[str, A2AAgentSpec]): Registered A2A

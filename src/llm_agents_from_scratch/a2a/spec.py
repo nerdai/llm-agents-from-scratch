@@ -5,7 +5,7 @@ from __future__ import annotations
 import httpx
 from a2a.client import A2ACardResolver
 from a2a.types import AgentCard
-from pydantic import BaseModel, ConfigDict, Field, SecretStr
+from pydantic import BaseModel, ConfigDict, Field
 
 from llm_agents_from_scratch.errors import A2AAgentCardMissingInterfaceError
 
@@ -30,7 +30,7 @@ class A2AAgentSpec(BaseModel):
 
     The spec is pure data: it never constructs or holds a live SDK
     ``Client``. Connecting to the peer is ``UseA2AAgentTool``'s job, done
-    fresh on each dispatch from this spec's ``url``/``auth_headers``/
+    fresh on each dispatch from this spec's ``url``/``headers``/
     ``agent_card``.
 
     ``url`` is likewise derived from the card rather than passed
@@ -50,9 +50,15 @@ class A2AAgentSpec(BaseModel):
             ``UseA2AAgentTool``'s dispatch schema.
         url: Base URL of the remote A2A peer. Should match
             ``agent_card.supported_interfaces[0].url``.
-        auth_headers: Optional auth headers (e.g. Authorization) sent on
-            requests to this peer, both for card resolution and for
-            dispatch.
+        headers: Optional HTTP headers (e.g. auth) sent on requests to
+            this peer, both for card resolution and for dispatch, mirroring
+            ``MCPToolProvider.streamable_http_headers``. May carry
+            credentials (e.g. ``Authorization``); stored as a plain
+            ``str``, not masked. Production use should wrap values in
+            pydantic's ``SecretStr`` so a stray repr/log/dump can't leak
+            them — left as a callout rather than built in, to keep this
+            an educational framework rather than a production-hardened
+            one.
         agent_card: The peer's resolved ``AgentCard``, fetched eagerly at
             construction time.
     """
@@ -72,14 +78,13 @@ class A2AAgentSpec(BaseModel):
             "agent_card.supported_interfaces[0].url."
         ),
     )
-    auth_headers: dict[str, SecretStr] | None = Field(
+    headers: dict[str, str] | None = Field(
         default=None,
         description=(
-            "Optional auth headers (e.g. Authorization) sent on requests "
-            "to this peer, both for card resolution and for dispatch. "
-            "Values are SecretStr: masked in repr(), model_dump(), and "
-            "model_dump_json() alike. Call sites that hand these to "
-            "httpx must unwrap with get_secret_value()."
+            "Optional HTTP headers sent on requests to this peer, both "
+            "for card resolution and for dispatch. May carry credentials "
+            "(e.g. Authorization); not masked — production use should "
+            "wrap values in pydantic's SecretStr."
         ),
     )
     agent_card: AgentCard = Field(
@@ -90,7 +95,7 @@ class A2AAgentSpec(BaseModel):
     def from_agent_card(
         cls,
         agent_card: AgentCard,
-        auth_headers: dict[str, str] | None = None,
+        headers: dict[str, str] | None = None,
     ) -> A2AAgentSpec:
         """Builds a spec from an ``AgentCard`` already in hand.
 
@@ -99,8 +104,7 @@ class A2AAgentSpec(BaseModel):
 
         Args:
             agent_card: The peer's already-resolved ``AgentCard``.
-            auth_headers: Optional auth headers sent on requests to this
-                peer.
+            headers: Optional HTTP headers sent on requests to this peer.
 
         Returns:
             A2AAgentSpec: The constructed spec.
@@ -118,14 +122,14 @@ class A2AAgentSpec(BaseModel):
             name=agent_card.name,
             url=agent_card.supported_interfaces[0].url,
             agent_card=agent_card,
-            auth_headers=auth_headers,
+            headers=headers,
         )
 
     @classmethod
     async def from_url(
         cls,
         url: str,
-        auth_headers: dict[str, str] | None = None,
+        headers: dict[str, str] | None = None,
         agent_card_path: str | None = None,
     ) -> A2AAgentSpec:
         """Fetches the peer's ``AgentCard`` from ``url``, then builds a spec.
@@ -140,8 +144,7 @@ class A2AAgentSpec(BaseModel):
         Args:
             url: Base URL to resolve the peer's well-known ``AgentCard``
                 from.
-            auth_headers: Optional auth headers sent on requests to this
-                peer.
+            headers: Optional HTTP headers sent on requests to this peer.
             agent_card_path: Optional override for the well-known agent
                 card path. ``None`` uses the SDK's own default.
 
@@ -152,7 +155,7 @@ class A2AAgentSpec(BaseModel):
             A2AAgentCardMissingInterfaceError: If the fetched card
                 declares no ``supported_interfaces``.
         """
-        async with httpx.AsyncClient(headers=auth_headers) as httpx_client:
+        async with httpx.AsyncClient(headers=headers) as httpx_client:
             resolver_kwargs: dict[str, str] = {}
             if agent_card_path is not None:
                 resolver_kwargs["agent_card_path"] = agent_card_path
@@ -165,7 +168,7 @@ class A2AAgentSpec(BaseModel):
 
         return cls.from_agent_card(
             agent_card=agent_card,
-            auth_headers=auth_headers,
+            headers=headers,
         )
 
     def catalog(self) -> str:

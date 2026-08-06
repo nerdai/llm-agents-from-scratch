@@ -40,14 +40,28 @@ def test_a2aagentspec_from_agent_card() -> None:
 
 
 def test_a2aagentspec_from_agent_card_with_headers() -> None:
-    """Tests A2AAgentSpec.from_agent_card stores explicit headers."""
+    """Tests A2AAgentSpec.from_agent_card stores headers as SecretStr."""
     card = _agent_card()
     spec = A2AAgentSpec.from_agent_card(
         agent_card=card,
         headers={"Authorization": "Bearer token"},
     )
 
-    assert spec.headers == {"Authorization": "Bearer token"}
+    assert spec.headers is not None
+    assert spec.headers["Authorization"].get_secret_value() == "Bearer token"
+    assert "Bearer token" not in repr(spec.headers["Authorization"])
+
+
+def test_a2aagentspec_headers_masked_in_repr_and_dump() -> None:
+    """Tests a bearer token never appears in cleartext in repr/model_dump."""
+    card = _agent_card()
+    spec = A2AAgentSpec.from_agent_card(
+        agent_card=card,
+        headers={"Authorization": "Bearer super-secret-token"},
+    )
+
+    assert "super-secret-token" not in repr(spec)
+    assert "super-secret-token" not in str(spec.model_dump())
 
 
 def test_a2aagentspec_from_agent_card_uses_first_interface() -> None:

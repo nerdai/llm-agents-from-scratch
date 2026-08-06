@@ -5,7 +5,7 @@ from __future__ import annotations
 import httpx
 from a2a.client import A2ACardResolver
 from a2a.types import AgentCard
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, SecretStr
 
 from llm_agents_from_scratch.errors import A2AAgentCardMissingInterfaceError
 
@@ -72,14 +72,15 @@ class A2AAgentSpec(BaseModel):
             "agent_card.supported_interfaces[0].url."
         ),
     )
-    headers: dict[str, str] | None = Field(
+    headers: dict[str, SecretStr] | None = Field(
         default=None,
-        repr=False,
         description=(
             "Optional HTTP headers sent on requests to this peer, both "
-            "for card resolution and for dispatch. May carry credentials "
-            "(e.g. Authorization); excluded from repr so an accidental "
-            "print/log/traceback of the spec doesn't leak them."
+            "for card resolution and for dispatch. Values are SecretStr: "
+            "masked in repr(), model_dump(), and model_dump_json() alike, "
+            "since this may carry credentials (e.g. Authorization). Call "
+            "sites that hand headers to httpx must unwrap with "
+            "get_secret_value()."
         ),
     )
     agent_card: AgentCard = Field(
@@ -117,7 +118,11 @@ class A2AAgentSpec(BaseModel):
             name=agent_card.name,
             url=agent_card.supported_interfaces[0].url,
             agent_card=agent_card,
-            headers=headers,
+            headers=(
+                {k: SecretStr(v) for k, v in headers.items()}
+                if headers
+                else None
+            ),
         )
 
     @classmethod

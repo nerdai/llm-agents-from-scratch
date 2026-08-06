@@ -1,5 +1,6 @@
 """UseA2AAgentTool — dispatches a task to a named A2A peer agent."""
 
+import contextlib
 import json
 from typing import Any
 
@@ -170,57 +171,64 @@ class UseA2AAgentTool(AsyncBaseTool):
             )
 
         spec = self._a2a_agents_registry.get(agent_name)
-        httpx_client: httpx.AsyncClient | None = None
-        client = None
-        try:
-            if spec is None:
-                raise A2AAgentNotFoundError(
-                    f"A2A agent '{agent_name}' not found.",
-                )
-
-            httpx_client = httpx.AsyncClient(headers=spec.headers)
-            client = await create_client(
-                agent=spec.agent_card,
-                client_config=ClientConfig(
-                    streaming=False,
-                    httpx_client=httpx_client,
-                ),
-            )
-            message = new_text_message(
-                text=task_instruction,
-                task_id=task_id,
-                role=A2ARole.ROLE_USER,
-            )
-            request = SendMessageRequest(message=message)
-
-            response: StreamResponse | None = None
-            async for chunk in client.send_message(request):
-                response = chunk
-        except Exception as e:
+        if spec is None:
             return ToolCallResult(
                 tool_call_id=tool_call.id_,
                 error=True,
                 content=json.dumps(
                     {
-                        "error_type": type(e).__name__,
+                        "error_type": A2AAgentNotFoundError.__name__,
                         "a2a_agent": agent_name,
-                        "message": str(e),
+                        "message": f"A2A agent '{agent_name}' not found.",
                     },
                 ),
             )
-        finally:
-            # client.close() also closes httpx_client (it owns the
-            # transport that wraps it); only close httpx_client directly
-            # when create_client() itself failed and never took it over.
-            # Swallow close-time errors so they never override a result
-            # already computed above, keeping the "all exceptions are
-            # caught" guarantee true even during cleanup.
+
+        # The context manager guarantees httpx_client is closed even if
+        # create_client() itself raises. client.close() is still called
+        # separately below for transport-level cleanup beyond httpx —
+        # e.g. the gRPC transport's close() releases its own channel,
+        # not httpx_client. A harmless double-close of httpx_client can
+        # happen on transports that do route through it (aclose() is
+        # idempotent).
+        async with httpx.AsyncClient(headers=spec.headers) as httpx_client:
+            client = None
             try:
+                client = await create_client(
+                    agent=spec.agent_card,
+                    client_config=ClientConfig(
+                        streaming=False,
+                        httpx_client=httpx_client,
+                    ),
+                )
+                message = new_text_message(
+                    text=task_instruction,
+                    task_id=task_id,
+                    role=A2ARole.ROLE_USER,
+                )
+                request = SendMessageRequest(message=message)
+
+                response: StreamResponse | None = None
+                async for chunk in client.send_message(request):
+                    response = chunk
+            except Exception as e:
+                return ToolCallResult(
+                    tool_call_id=tool_call.id_,
+                    error=True,
+                    content=json.dumps(
+                        {
+                            "error_type": type(e).__name__,
+                            "a2a_agent": agent_name,
+                            "message": str(e),
+                        },
+                    ),
+                )
+            finally:
+                # Swallow close-time errors so they can't override a
+                # result already computed above, keeping the "all
+                # exceptions are caught" guarantee true during cleanup.
                 if client is not None:
-                    await client.close()
-                elif httpx_client is not None:
-                    await httpx_client.aclose()
-            except Exception:
-                pass
+                    with contextlib.suppress(Exception):
+                        await client.close()
 
         return build_result(response, agent_name, tool_call.id_)

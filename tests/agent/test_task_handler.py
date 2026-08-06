@@ -4,9 +4,7 @@ import json
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
-from a2a.types import AgentCard, AgentInterface
 
-from llm_agents_from_scratch.a2a import A2AAgentSpec
 from llm_agents_from_scratch.agent import LLMAgent
 from llm_agents_from_scratch.agent.templates import default_templates
 from llm_agents_from_scratch.base.llm import BaseLLM
@@ -23,7 +21,7 @@ from llm_agents_from_scratch.data_structures import (
     ToolCall,
 )
 from llm_agents_from_scratch.data_structures.skill import SkillScope
-from llm_agents_from_scratch.errors import LLMAgentError, TaskHandlerError
+from llm_agents_from_scratch.errors import TaskHandlerError
 from llm_agents_from_scratch.memory.memory import Memory
 from llm_agents_from_scratch.skills.skill import Skill
 from llm_agents_from_scratch.subagents import SubAgentSpec, UseSubAgentTool
@@ -1302,93 +1300,6 @@ async def test_supervised_handler_complete_raises_on_non_task_result(
 
     with pytest.raises(TaskHandlerError, match="TaskResult"):
         await handler.complete(step)  # type: ignore[arg-type]
-
-
-# ---------------------------------------------------------------------------
-# Subagents tests (Chapter 9)
-# ---------------------------------------------------------------------------
-
-
-@pytest.mark.asyncio
-async def test_llm_agent_init_with_subagents(mock_llm: BaseLLM) -> None:
-    """Tests LLMAgent stores provided subagents dict."""
-    spec = SubAgentSpec(
-        name="researcher",
-        description="Looks things up.",
-        agent=LLMAgent(llm=mock_llm),
-    )
-    agent = LLMAgent(llm=mock_llm, subagents=[spec])
-
-    assert "researcher" in agent.subagents_registry
-    assert agent.subagents_registry["researcher"] is spec
-
-
-@pytest.mark.asyncio
-async def test_llm_agent_init_no_subagents_defaults_to_empty_dict(
-    mock_llm: BaseLLM,
-) -> None:
-    """Tests LLMAgent.subagents_registry defaults to empty dict."""
-    agent = LLMAgent(llm=mock_llm)
-
-    assert agent.subagents_registry == {}
-
-
-@pytest.mark.asyncio
-async def test_llm_agent_init_raises_on_duplicate_subagent_names(
-    mock_llm: BaseLLM,
-) -> None:
-    """Tests LLMAgent raises LLMAgentError on duplicate subagent names."""
-    spec = SubAgentSpec(
-        name="researcher",
-        description="Looks things up.",
-        agent=LLMAgent(llm=mock_llm),
-    )
-    with pytest.raises(LLMAgentError, match="duplicate"):
-        LLMAgent(llm=mock_llm, subagents=[spec, spec])
-
-
-# ---------------------------------------------------------------------------
-# A2A tests (Chapter 10)
-# ---------------------------------------------------------------------------
-
-
-def _a2a_spec(name: str) -> A2AAgentSpec:
-    card = AgentCard(
-        name=name,
-        description="A peer agent.",
-        supported_interfaces=[AgentInterface(url="http://peer:9999")],
-    )
-    return A2AAgentSpec.from_agent_card(agent_card=card)
-
-
-@pytest.mark.asyncio
-async def test_llm_agent_init_with_a2a_agents(mock_llm: BaseLLM) -> None:
-    """Tests LLMAgent builds a2a_agents_registry from the provided list."""
-    spec = _a2a_spec("researcher")
-    agent = LLMAgent(llm=mock_llm, a2a_agents=[spec])
-
-    assert "researcher" in agent.a2a_agents_registry
-    assert agent.a2a_agents_registry["researcher"] is spec
-
-
-@pytest.mark.asyncio
-async def test_llm_agent_init_no_a2a_agents_defaults_to_empty_dict(
-    mock_llm: BaseLLM,
-) -> None:
-    """Tests LLMAgent.a2a_agents_registry defaults to empty dict."""
-    agent = LLMAgent(llm=mock_llm)
-
-    assert agent.a2a_agents_registry == {}
-
-
-@pytest.mark.asyncio
-async def test_llm_agent_init_raises_on_duplicate_a2a_agent_names(
-    mock_llm: BaseLLM,
-) -> None:
-    """Tests LLMAgent raises LLMAgentError on duplicate a2a_agent names."""
-    spec = _a2a_spec("researcher")
-    with pytest.raises(LLMAgentError, match="duplicate"):
-        LLMAgent(llm=mock_llm, a2a_agents=[spec, spec])
 
 
 @pytest.mark.asyncio

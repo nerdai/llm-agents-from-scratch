@@ -16,32 +16,32 @@ from a2a.types import (
 from llm_agents_from_scratch.a2a.utils import (
     a2a_response_to_tool_call_result,
     a2a_task_to_tool_call_result,
-    parts_text,
-    task_content,
+    format_a2a_parts,
+    format_a2a_task,
 )
 
 
-def test_parts_text_joins_text_parts() -> None:
-    """Tests parts_text joins text across multiple Parts."""
+def test_format_a2a_parts_joins_text_parts() -> None:
+    """Tests format_a2a_parts joins text across multiple Parts."""
     parts = [Part(text="hello"), Part(text="world")]
 
-    assert parts_text(parts) == "hello\nworld"
+    assert format_a2a_parts(parts) == "hello\nworld"
 
 
-def test_parts_text_skips_non_text_parts() -> None:
-    """Tests parts_text skips parts with no text."""
+def test_format_a2a_parts_skips_non_text_parts() -> None:
+    """Tests format_a2a_parts skips parts with no text."""
     parts = [Part(text="hello"), Part(), Part(text="world")]
 
-    assert parts_text(parts) == "hello\nworld"
+    assert format_a2a_parts(parts) == "hello\nworld"
 
 
-def test_parts_text_empty() -> None:
-    """Tests parts_text returns an empty string for no parts."""
-    assert parts_text([]) == ""
+def test_format_a2a_parts_empty() -> None:
+    """Tests format_a2a_parts returns an empty string for no parts."""
+    assert format_a2a_parts([]) == ""
 
 
-def test_task_content_concatenates_across_artifacts() -> None:
-    """Tests task_content flattens text across multiple artifacts."""
+def test_format_a2a_task_concatenates_across_artifacts() -> None:
+    """Tests format_a2a_task flattens text across multiple artifacts."""
     task = Task(
         id="t1",
         status=TaskStatus(state=TaskState.TASK_STATE_COMPLETED),
@@ -51,17 +51,17 @@ def test_task_content_concatenates_across_artifacts() -> None:
         ],
     )
 
-    assert task_content(task) == "first\nsecond"
+    assert format_a2a_task(task) == "first\nsecond"
 
 
-def test_task_content_no_artifacts() -> None:
-    """Tests task_content returns an empty string for no artifacts."""
+def test_format_a2a_task_no_artifacts() -> None:
+    """Tests format_a2a_task returns an empty string for no artifacts."""
     task = Task(
         id="t1",
         status=TaskStatus(state=TaskState.TASK_STATE_COMPLETED),
     )
 
-    assert task_content(task) == ""
+    assert format_a2a_task(task) == ""
 
 
 def test_a2a_response_to_tool_call_result_none_response_is_error() -> None:
@@ -149,7 +149,7 @@ def test_a2a_task_to_tool_call_result_input_required() -> None:
 
 
 def test_a2a_task_to_tool_call_result_falls_back_to_task_content() -> None:
-    """Tests input_required uses task_content when status.message is empty."""
+    """Tests input_required falls back to format_a2a_task when unset."""
     task = Task(
         id="t3",
         status=TaskStatus(state=TaskState.TASK_STATE_INPUT_REQUIRED),

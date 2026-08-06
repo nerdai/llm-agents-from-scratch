@@ -11,7 +11,7 @@ from llm_agents_from_scratch.data_structures import ToolCallResult
 from .constants import A2A_INPUT_REQUIRED_TEMPLATE
 
 
-def parts_text(parts: Iterable[Part]) -> str:
+def format_a2a_parts(parts: Iterable[Part]) -> str:
     """Join the text of every text Part, skipping non-text parts.
 
     Args:
@@ -23,7 +23,7 @@ def parts_text(parts: Iterable[Part]) -> str:
     return "\n".join(p.text for p in parts if p.text)
 
 
-def task_content(task: A2ATask) -> str:
+def format_a2a_task(task: A2ATask) -> str:
     """Concatenate text from every artifact on a completed A2ATask.
 
     Args:
@@ -33,7 +33,7 @@ def task_content(task: A2ATask) -> str:
         str: The joined text across all artifacts, newline-separated.
     """
     parts = [p for artifact in task.artifacts for p in artifact.parts]
-    return parts_text(parts)
+    return format_a2a_parts(parts)
 
 
 def a2a_response_to_tool_call_result(
@@ -75,7 +75,7 @@ def a2a_response_to_tool_call_result(
         return ToolCallResult(
             tool_call_id=tool_call_id,
             error=False,
-            content=parts_text(response.message.parts),
+            content=format_a2a_parts(response.message.parts),
         )
 
     if kind == "task":
@@ -128,11 +128,13 @@ def a2a_task_to_tool_call_result(
         return ToolCallResult(
             tool_call_id=tool_call_id,
             error=False,
-            content=task_content(task),
+            content=format_a2a_task(task),
         )
 
     if state == "TASK_STATE_INPUT_REQUIRED":
-        question = parts_text(task.status.message.parts) or task_content(
+        question = format_a2a_parts(
+            task.status.message.parts,
+        ) or format_a2a_task(
             task,
         )
         return ToolCallResult(
@@ -149,7 +151,7 @@ def a2a_task_to_tool_call_result(
     # unexpected non-terminal state from a non-streaming response) is an
     # error the coordinator should re-plan around
     message_text = (
-        parts_text(
+        format_a2a_parts(
             task.status.message.parts,
         )
         or f"Task ended in state {state}."

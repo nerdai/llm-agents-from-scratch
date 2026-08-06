@@ -389,3 +389,33 @@ async def test_use_a2a_agent_tool_suppresses_close_error() -> None:
 
     assert result.error is False
     assert result.content == "42"
+
+
+@pytest.mark.asyncio
+async def test_use_a2a_agent_tool_catches_build_result_error() -> None:
+    """Tests an exception from build_result() never escapes __call__."""
+    task = Task(
+        id="t6",
+        status=TaskStatus(state=TaskState.TASK_STATE_COMPLETED),
+    )
+    client = _fake_client(StreamResponse(task=task))
+
+    with (
+        _patch_create_client(client),
+        patch(
+            "llm_agents_from_scratch.a2a.tools.build_result",
+            side_effect=RuntimeError("boom"),
+        ),
+    ):
+        tool = UseA2AAgentTool(a2a_agents_registry={"researcher": _spec()})
+        tool_call = ToolCall(
+            tool_name=TOOL_NAME,
+            arguments={"name": "researcher", "task": "do it"},
+        )
+        result = await tool(tool_call=tool_call)
+
+    assert result.error is True
+    details = json.loads(result.content)
+    assert details["error_type"] == "RuntimeError"
+    assert details["a2a_agent"] == "researcher"
+    assert "boom" in details["message"]

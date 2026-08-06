@@ -190,3 +190,14 @@ def test_build_task_result_failed_without_message_uses_generic_text() -> None:
     assert result.error is True
     details = json.loads(result.content)
     assert "TASK_STATE_FAILED" in details["message"]
+
+
+def test_build_task_result_unrecognized_state_does_not_raise() -> None:
+    """Tests an unrecognized TaskState.state value is handled, not raised."""
+    task = Task(id="t6", status=TaskStatus(state=999))
+
+    result = build_task_result(task, "researcher", "tc1")
+
+    assert result.error is True
+    details = json.loads(result.content)
+    assert "999" in details["error_type"]

@@ -112,7 +112,13 @@ def build_task_result(
             ``A2A_INPUT_REQUIRED_TEMPLATE``-wrapped result, or an error
             result for any other terminal state.
     """
-    state = TaskState.Name(task.status.state)
+    try:
+        state = TaskState.Name(task.status.state)
+    except ValueError:
+        # A peer running a newer SDK/protocol version than ours could
+        # report a state we don't recognize. Fall through to the
+        # generic error branch below rather than raising.
+        state = f"TASK_STATE_UNKNOWN_{task.status.state}"
 
     if state == "TASK_STATE_COMPLETED":
         return ToolCallResult(

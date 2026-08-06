@@ -17,6 +17,56 @@ from .spec import A2AAgentSpec
 from .utils import build_result
 
 
+def _validate_arguments(tool_call: ToolCall) -> ToolCallResult | None:
+    """Checks the ``name``/``task``/``task_id`` argument types.
+
+    Args:
+        tool_call (ToolCall): The tool call whose arguments to validate.
+
+    Returns:
+        ToolCallResult | None: An error result if an argument has the
+            wrong type, else ``None``.
+    """
+    agent_name = tool_call.arguments.get("name")
+    task_instruction = tool_call.arguments.get("task")
+    task_id = tool_call.arguments.get("task_id")
+
+    if not isinstance(agent_name, str):
+        return ToolCallResult(
+            tool_call_id=tool_call.id_,
+            error=True,
+            content=json.dumps(
+                {
+                    "error_type": "ValueError",
+                    "message": "'name' argument must be a string.",
+                },
+            ),
+        )
+    if not isinstance(task_instruction, str):
+        return ToolCallResult(
+            tool_call_id=tool_call.id_,
+            error=True,
+            content=json.dumps(
+                {
+                    "error_type": "ValueError",
+                    "message": "'task' argument must be a string.",
+                },
+            ),
+        )
+    if task_id is not None and not isinstance(task_id, str):
+        return ToolCallResult(
+            tool_call_id=tool_call.id_,
+            error=True,
+            content=json.dumps(
+                {
+                    "error_type": "ValueError",
+                    "message": "'task_id' argument must be a string.",
+                },
+            ),
+        )
+    return None
+
+
 class UseA2AAgentTool(AsyncBaseTool):
     """Async tool that dispatches a task to a registered A2A peer agent.
 
@@ -146,43 +196,12 @@ class UseA2AAgentTool(AsyncBaseTool):
                 peer needs more information, or an error result if
                 dispatch fails for any reason.
         """
-        agent_name = tool_call.arguments.get("name")
-        task_instruction = tool_call.arguments.get("task")
-        task_id = tool_call.arguments.get("task_id")
+        if validation_error := _validate_arguments(tool_call):
+            return validation_error
 
-        if not isinstance(agent_name, str):
-            return ToolCallResult(
-                tool_call_id=tool_call.id_,
-                error=True,
-                content=json.dumps(
-                    {
-                        "error_type": "ValueError",
-                        "message": "'name' argument must be a string.",
-                    },
-                ),
-            )
-        if not isinstance(task_instruction, str):
-            return ToolCallResult(
-                tool_call_id=tool_call.id_,
-                error=True,
-                content=json.dumps(
-                    {
-                        "error_type": "ValueError",
-                        "message": "'task' argument must be a string.",
-                    },
-                ),
-            )
-        if task_id is not None and not isinstance(task_id, str):
-            return ToolCallResult(
-                tool_call_id=tool_call.id_,
-                error=True,
-                content=json.dumps(
-                    {
-                        "error_type": "ValueError",
-                        "message": "'task_id' argument must be a string.",
-                    },
-                ),
-            )
+        agent_name = tool_call.arguments["name"]
+        task_instruction = tool_call.arguments["task"]
+        task_id = tool_call.arguments.get("task_id")
 
         spec = self._a2a_agents_registry.get(agent_name)
         if spec is None:
@@ -247,4 +266,17 @@ class UseA2AAgentTool(AsyncBaseTool):
                     except Exception:
                         pass
 
-        return build_result(response, agent_name, tool_call.id_)
+        try:
+            return build_result(response, agent_name, tool_call.id_)
+        except Exception as e:
+            return ToolCallResult(
+                tool_call_id=tool_call.id_,
+                error=True,
+                content=json.dumps(
+                    {
+                        "error_type": type(e).__name__,
+                        "a2a_agent": agent_name,
+                        "message": str(e),
+                    },
+                ),
+            )

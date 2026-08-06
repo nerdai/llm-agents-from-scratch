@@ -37,6 +37,7 @@ def test_a2aagentspec_from_agent_card() -> None:
     assert spec.url == DISPATCH_URL
     assert spec.agent_card == card
     assert spec.headers is None
+    assert spec.timeout == 60.0  # noqa: PLR2004
 
 
 def test_a2aagentspec_from_agent_card_with_headers() -> None:
@@ -48,6 +49,14 @@ def test_a2aagentspec_from_agent_card_with_headers() -> None:
     )
 
     assert spec.headers == {"Authorization": "Bearer token"}
+
+
+def test_a2aagentspec_from_agent_card_with_timeout() -> None:
+    """Tests A2AAgentSpec.from_agent_card stores an explicit timeout."""
+    card = _agent_card()
+    spec = A2AAgentSpec.from_agent_card(agent_card=card, timeout=120.0)
+
+    assert spec.timeout == 120.0  # noqa: PLR2004
 
 
 def test_a2aagentspec_from_agent_card_uses_first_interface() -> None:
@@ -81,6 +90,7 @@ def test_a2aagentspec_has_no_client_field() -> None:
         "url",
         "headers",
         "agent_card",
+        "timeout",
     }
 
 
@@ -101,6 +111,7 @@ async def test_a2aagentspec_from_url() -> None:
     assert spec.agent_card == card
     # spec.url comes from the card's own interface, not the resolution url.
     assert spec.url == DISPATCH_URL
+    assert spec.timeout == 60.0  # noqa: PLR2004
 
 
 @pytest.mark.asyncio
@@ -131,6 +142,34 @@ async def test_a2aagentspec_from_url_passes_headers_and_card_path() -> None:
 
     assert captured["kwargs"]["base_url"] == "http://127.0.0.1:9999"
     assert captured["kwargs"]["agent_card_path"] == "/custom/card.json"
+
+
+@pytest.mark.asyncio
+async def test_a2aagentspec_from_url_passes_timeout_to_httpx_client() -> None:
+    """Tests from_url's card-resolution client receives spec.timeout."""
+    card = _agent_card()
+    captured_kwargs: dict[str, object] = {}
+    real_init = httpx.AsyncClient.__init__
+
+    def _capturing_init(self: httpx.AsyncClient, **kwargs: object) -> None:
+        captured_kwargs.update(kwargs)
+        real_init(self, **kwargs)
+
+    with (
+        patch.object(httpx.AsyncClient, "__init__", new=_capturing_init),
+        patch(
+            "llm_agents_from_scratch.a2a.spec.A2ACardResolver.get_agent_card",
+            new_callable=AsyncMock,
+            return_value=card,
+        ),
+    ):
+        spec = await A2AAgentSpec.from_url(
+            url="http://127.0.0.1:9999",
+            timeout=99.0,
+        )
+
+    assert captured_kwargs["timeout"] == 99.0  # noqa: PLR2004
+    assert spec.timeout == 99.0  # noqa: PLR2004
 
 
 @pytest.mark.asyncio

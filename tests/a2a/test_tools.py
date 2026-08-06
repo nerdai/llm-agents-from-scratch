@@ -369,6 +369,43 @@ async def test_use_a2a_agent_tool_closes_httpx_client_on_create_failure() -> (
 
 
 @pytest.mark.asyncio
+async def test_use_a2a_agent_tool_passes_spec_timeout() -> None:
+    """Tests spec.timeout reaches the dispatch httpx.AsyncClient."""
+    captured_kwargs: dict[str, Any] = {}
+
+    class _TrackedAsyncClient(httpx.AsyncClient):
+        def __init__(self, *args: Any, **kwargs: Any) -> None:
+            captured_kwargs.update(kwargs)
+            super().__init__(*args, **kwargs)
+
+    client = _fake_client(StreamResponse(message=Message(role=Role.ROLE_AGENT)))
+    spec = A2AAgentSpec.from_agent_card(
+        agent_card=AgentCard(
+            name="researcher",
+            description="A peer agent.",
+            supported_interfaces=[AgentInterface(url="http://peer:9999")],
+        ),
+        timeout=123.0,
+    )
+
+    with (
+        patch(
+            "llm_agents_from_scratch.a2a.tools.httpx.AsyncClient",
+            new=_TrackedAsyncClient,
+        ),
+        _patch_create_client(client),
+    ):
+        tool = UseA2AAgentTool(a2a_agents_registry={"researcher": spec})
+        tool_call = ToolCall(
+            tool_name=TOOL_NAME,
+            arguments={"name": "researcher", "task": "do it"},
+        )
+        await tool(tool_call=tool_call)
+
+    assert captured_kwargs["timeout"] == 123.0  # noqa: PLR2004
+
+
+@pytest.mark.asyncio
 async def test_use_a2a_agent_tool_suppresses_close_error() -> None:
     """Tests a close()-time exception doesn't override a computed result."""
     task = Task(

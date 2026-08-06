@@ -7,7 +7,7 @@ from a2a.client import A2ACardResolver
 from a2a.types import AgentCard
 from pydantic import BaseModel, ConfigDict, Field
 
-from .constants import CATALOG_SPEC_TEMPLATE
+from .constants import CATALOG_A2A_SKILL_TEMPLATE, CATALOG_SPEC_TEMPLATE
 
 
 class A2AAgentSpec(BaseModel):
@@ -128,8 +128,22 @@ class A2AAgentSpec(BaseModel):
         )
 
     def catalog(self) -> str:
-        """Returns XML structured string for cataloging this A2A agent."""
+        """Returns XML structured string for cataloging this A2A agent.
+
+        Nests the peer's declared ``AgentSkill``s (its ``agent_card.skills``)
+        as an ``<a2a_skills>`` block, giving the coordinator finer-grained
+        routing signal than the top-level description alone. Omitted
+        entirely when the peer declares no skills.
+        """
+        skills = "\n".join(
+            CATALOG_A2A_SKILL_TEMPLATE.format(name=skill.name)
+            for skill in self.agent_card.skills
+        )
+        skills_block = (
+            f"\n    <a2a_skills>\n{skills}\n    </a2a_skills>" if skills else ""
+        )
         return CATALOG_SPEC_TEMPLATE.format(
             name=self.name,
             description=self.agent_card.description,
+            skills=skills_block,
         )

@@ -4,7 +4,7 @@ from unittest.mock import AsyncMock, patch
 
 import httpx
 import pytest
-from a2a.types import AgentCard
+from a2a.types import AgentCard, AgentSkill
 
 from llm_agents_from_scratch.a2a import A2AAgentSpec
 
@@ -12,8 +12,13 @@ from llm_agents_from_scratch.a2a import A2AAgentSpec
 def _agent_card(
     name: str = "peer",
     description: str = "does things",
+    skills: list[AgentSkill] | None = None,
 ) -> AgentCard:
-    return AgentCard(name=name, description=description)
+    return AgentCard(
+        name=name,
+        description=description,
+        skills=skills or [],
+    )
 
 
 def test_a2aagentspec_from_agent_card() -> None:
@@ -138,3 +143,34 @@ def test_a2aagentspec_catalog() -> None:
 
     assert "<name>researcher</name>" in catalog
     assert "<description>Searches the web.</description>" in catalog
+
+
+def test_a2aagentspec_catalog_omits_skills_block_when_empty() -> None:
+    """Tests catalog has no <a2a_skills> block when the card has none."""
+    spec = A2AAgentSpec.from_agent_card(
+        name="researcher",
+        url="http://127.0.0.1:9999",
+        agent_card=_agent_card(),
+    )
+
+    assert "<a2a_skills>" not in spec.catalog()
+
+
+def test_a2aagentspec_catalog_lists_skills() -> None:
+    """Tests catalog nests each declared AgentSkill's name."""
+    spec = A2AAgentSpec.from_agent_card(
+        name="researcher",
+        url="http://127.0.0.1:9999",
+        agent_card=_agent_card(
+            skills=[
+                AgentSkill(id="1", name="web_search", description="..."),
+                AgentSkill(id="2", name="pdf_summarize", description="..."),
+            ],
+        ),
+    )
+
+    catalog = spec.catalog()
+
+    assert "<a2a_skills>" in catalog
+    assert "<a2a_skill>web_search</a2a_skill>" in catalog
+    assert "<a2a_skill>pdf_summarize</a2a_skill>" in catalog

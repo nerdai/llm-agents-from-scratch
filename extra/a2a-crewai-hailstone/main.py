@@ -46,11 +46,11 @@ def hailstone_step_fn(x: int) -> str:
 
 
 def build_crew(instruction: str) -> Crew:
-    """Builds a single-agent Crew that performs one hailstone step.
+    """Builds a single-agent Crew that computes a full hailstone sequence.
 
     Args:
         instruction: The raw task instruction from the A2A caller,
-            expected to name the integer to step from.
+            expected to name the positive integer to start from.
 
     Returns:
         Crew: A crew ready to be kicked off with this instruction.
@@ -59,13 +59,15 @@ def build_crew(instruction: str) -> Crew:
     agent = Agent(
         role="Hailstone Sequence Calculator",
         goal=(
-            "Compute a single step of the Collatz/Hailstone sequence for "
-            "the integer named in the task."
+            "Compute the full Collatz/Hailstone sequence for the positive "
+            "integer named in the task, by repeatedly calling the "
+            "hailstone_step tool on each result until it reaches 1."
         ),
         backstory=(
-            "An expert on the Collatz conjecture who applies the "
-            "hailstone step rule precisely, one step at a time, always "
-            "using the hailstone_step tool rather than computing by hand."
+            "An expert on the Collatz conjecture who never computes a "
+            "step by hand — always calls the hailstone_step tool once "
+            "per step, feeding each result back in as the next call's "
+            "input, until the sequence reaches 1."
         ),
         tools=[hailstone_step_fn],
         llm=llm,
@@ -73,7 +75,9 @@ def build_crew(instruction: str) -> Crew:
     task = Task(
         description=instruction,
         expected_output=(
-            "The integer result of the hailstone step, and nothing else."
+            "The full hailstone sequence as a comma-separated list of "
+            "integers, starting with the input value and ending at 1, "
+            "and nothing else."
         ),
         agent=agent,
     )
@@ -146,8 +150,8 @@ def build_app() -> FastAPI:
     agent_card = AgentCard(
         name="crewai-hailstone",
         description=(
-            "Computes one step of the Hailstone (Collatz) sequence via a "
-            "CrewAI agent."
+            "Computes the full Hailstone (Collatz) sequence for a "
+            "positive integer via a CrewAI agent."
         ),
         supported_interfaces=[
             AgentInterface(
@@ -162,11 +166,12 @@ def build_app() -> FastAPI:
         default_output_modes=["text/plain"],
         skills=[
             AgentSkill(
-                id="hailstone_step",
-                name="hailstone_step",
+                id="hailstone_sequence",
+                name="hailstone_sequence",
                 description=(
-                    "Compute one hailstone step for an integer x: x / 2 "
-                    "if even, else 3x + 1."
+                    "Compute the full hailstone sequence for a positive "
+                    "integer x, repeatedly applying x / 2 (if even) or "
+                    "3x + 1 (if odd) until reaching 1."
                 ),
                 tags=["math"],
             ),

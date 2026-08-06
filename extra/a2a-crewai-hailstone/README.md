@@ -1,24 +1,28 @@
 # A2A CrewAI Hailstone
 
-A CrewAI agent, served over A2A (Agent2Agent protocol), that exposes the
-Hailstone tool built in earlier chapters as an A2A skill. Built with a
-different agent stack (CrewAI) than the rest of this repo on purpose — it's
-a genuine external peer for Chapter 10's A2A examples, not another
-`LLMAgent`.
+A CrewAI agent, served over A2A (Agent2Agent protocol), that computes the
+full Hailstone sequence for a positive integer. Built with a different
+agent stack (CrewAI) than the rest of this repo on purpose — it's a genuine
+external peer for Chapter 10's A2A examples, not another `LLMAgent`.
 
 ## Overview
 
-The server exposes a single skill, `hailstone_step`, that performs one step
-of the [Collatz conjecture](https://en.wikipedia.org/wiki/Collatz_conjecture)
-(Hailstone sequence):
+The server exposes a single skill, `hailstone_sequence`, that computes the
+full [Collatz conjecture](https://en.wikipedia.org/wiki/Collatz_conjecture)
+(Hailstone) sequence for a positive integer, one step at a time, until it
+reaches 1:
 
-- If `x` is even: return `x / 2`
-- If `x` is odd: return `3x + 1`
+- If `x` is even: next value is `x / 2`
+- If `x` is odd: next value is `3x + 1`
 
-A CrewAI `Agent` (backed by an Ollama model via `crewai.LLM`) receives the
-caller's task instruction, extracts the integer, and calls the
-`hailstone_step` tool to compute the result — the LLM does the parsing, the
-tool does the arithmetic.
+Like `extra/mcp-hailstone`, the underlying `hailstone_step` primitive only
+computes a single step. The difference here is who does the looping: a
+CrewAI `Agent` (backed by an Ollama model via `crewai.LLM`) receives the
+caller's task instruction, extracts the starting integer, then calls
+`hailstone_step` repeatedly — feeding each result back in as the next
+call's input — until the sequence reaches 1, the same way the book's
+`LLMAgent` drives repeated tool calls itself rather than looping in the
+tool.
 
 ## Installation
 
@@ -68,6 +72,6 @@ agent = (
 
 ## Skill
 
-| Name | Description | Parameters |
-|---|---|---|
-| `hailstone_step` | Performs a single step of the Hailstone sequence | task instruction naming the integer `x` |
+| Name                 | Description                                            | Parameters                                    |
+|----------------------|----------------------------------------------------------|--------------------------------------------------|
+| `hailstone_sequence` | Computes the full Hailstone sequence for a positive integer, ending at 1 | task instruction naming the starting integer `x` |

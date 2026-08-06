@@ -61,6 +61,13 @@ class A2AAgentSpec(BaseModel):
             one.
         agent_card: The peer's resolved ``AgentCard``, fetched eagerly at
             construction time.
+        timeout: Seconds ``UseA2AAgentTool`` allows a dispatch to this
+            peer before timing out. Defaults to 60.0 rather than
+            ``httpx``'s own default (5.0s, applied to connect/read/
+            write/pool combined) — too low for a peer that makes one or
+            more LLM calls per task. Explicitly setting this to
+            ``None`` disables the timeout entirely (unbounded), since
+            it is passed straight through to ``httpx.AsyncClient``.
     """
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
@@ -90,12 +97,21 @@ class A2AAgentSpec(BaseModel):
     agent_card: AgentCard = Field(
         description="The peer's resolved AgentCard.",
     )
+    timeout: float | None = Field(
+        default=60.0,
+        description=(
+            "Seconds UseA2AAgentTool allows a dispatch to this peer "
+            "before timing out. Explicitly setting this to None "
+            "disables the timeout entirely (unbounded)."
+        ),
+    )
 
     @classmethod
     def from_agent_card(
         cls,
         agent_card: AgentCard,
         headers: dict[str, str] | None = None,
+        timeout: float | None = 60.0,
     ) -> A2AAgentSpec:
         """Builds a spec from an ``AgentCard`` already in hand.
 
@@ -105,6 +121,8 @@ class A2AAgentSpec(BaseModel):
         Args:
             agent_card: The peer's already-resolved ``AgentCard``.
             headers: Optional HTTP headers sent on requests to this peer.
+            timeout: Seconds ``UseA2AAgentTool`` allows a dispatch to
+                this peer before timing out.
 
         Returns:
             A2AAgentSpec: The constructed spec.
@@ -123,6 +141,7 @@ class A2AAgentSpec(BaseModel):
             url=agent_card.supported_interfaces[0].url,
             agent_card=agent_card,
             headers=headers,
+            timeout=timeout,
         )
 
     @classmethod
@@ -131,6 +150,7 @@ class A2AAgentSpec(BaseModel):
         url: str,
         headers: dict[str, str] | None = None,
         agent_card_path: str | None = None,
+        timeout: float | None = 60.0,
     ) -> A2AAgentSpec:
         """Fetches the peer's ``AgentCard`` from ``url``, then builds a spec.
 
@@ -147,6 +167,9 @@ class A2AAgentSpec(BaseModel):
             headers: Optional HTTP headers sent on requests to this peer.
             agent_card_path: Optional override for the well-known agent
                 card path. ``None`` uses the SDK's own default.
+            timeout: Timeout in seconds, applied both to this card
+                resolution and, via the returned spec, to every future
+                ``UseA2AAgentTool`` dispatch to this peer.
 
         Returns:
             A2AAgentSpec: The constructed spec.
@@ -155,7 +178,10 @@ class A2AAgentSpec(BaseModel):
             A2AAgentCardMissingInterfaceError: If the fetched card
                 declares no ``supported_interfaces``.
         """
-        async with httpx.AsyncClient(headers=headers) as httpx_client:
+        async with httpx.AsyncClient(
+            headers=headers,
+            timeout=timeout,
+        ) as httpx_client:
             resolver_kwargs: dict[str, str] = {}
             if agent_card_path is not None:
                 resolver_kwargs["agent_card_path"] = agent_card_path
@@ -169,6 +195,7 @@ class A2AAgentSpec(BaseModel):
         return cls.from_agent_card(
             agent_card=agent_card,
             headers=headers,
+            timeout=timeout,
         )
 
     def catalog(self) -> str:

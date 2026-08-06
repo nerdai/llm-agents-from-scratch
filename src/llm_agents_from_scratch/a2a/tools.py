@@ -224,7 +224,10 @@ class UseA2AAgentTool(AsyncBaseTool):
         # not httpx_client. A harmless double-close of httpx_client can
         # happen on transports that do route through it (aclose() is
         # idempotent).
-        async with httpx.AsyncClient(headers=spec.headers) as httpx_client:
+        async with httpx.AsyncClient(
+            headers=spec.headers,
+            timeout=spec.timeout,
+        ) as httpx_client:
             client = None
             try:
                 client = await create_client(

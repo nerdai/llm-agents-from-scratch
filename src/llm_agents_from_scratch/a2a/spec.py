@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from xml.sax.saxutils import escape
-
 import httpx
 from a2a.client import A2ACardResolver
 from a2a.types import AgentCard
@@ -132,6 +130,6 @@ class A2AAgentSpec(BaseModel):
     def catalog(self) -> str:
         """Returns XML structured string for cataloging this A2A agent."""
         return CATALOG_SPEC_TEMPLATE.format(
-            name=escape(self.name),
-            description=escape(self.agent_card.description),
+            name=self.name,
+            description=self.agent_card.description,
         )

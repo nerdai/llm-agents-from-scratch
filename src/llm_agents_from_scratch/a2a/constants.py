@@ -8,3 +8,8 @@ CATALOG_SPEC_TEMPLATE = """
 """.strip()
 
 CATALOG_A2A_SKILL_TEMPLATE = "      <a2a_skill>{name}</a2a_skill>"
+
+CATALOG_A2A_SKILLS_TEMPLATE = """
+    <a2a_skills>
+{skills}
+    </a2a_skills>"""

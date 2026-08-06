@@ -7,7 +7,11 @@ from a2a.client import A2ACardResolver
 from a2a.types import AgentCard
 from pydantic import BaseModel, ConfigDict, Field
 
-from .constants import CATALOG_A2A_SKILL_TEMPLATE, CATALOG_SPEC_TEMPLATE
+from .constants import (
+    CATALOG_A2A_SKILL_TEMPLATE,
+    CATALOG_A2A_SKILLS_TEMPLATE,
+    CATALOG_SPEC_TEMPLATE,
+)
 
 
 class A2AAgentSpec(BaseModel):
@@ -140,7 +144,7 @@ class A2AAgentSpec(BaseModel):
             for skill in self.agent_card.skills
         )
         skills_block = (
-            f"\n    <a2a_skills>\n{skills}\n    </a2a_skills>" if skills else ""
+            CATALOG_A2A_SKILLS_TEMPLATE.format(skills=skills) if skills else ""
         )
         return CATALOG_SPEC_TEMPLATE.format(
             name=self.name,

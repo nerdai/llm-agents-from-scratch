@@ -118,11 +118,7 @@ class A2AAgentSpec(BaseModel):
             name=agent_card.name,
             url=agent_card.supported_interfaces[0].url,
             agent_card=agent_card,
-            headers=(
-                {k: SecretStr(v) for k, v in headers.items()}
-                if headers
-                else None
-            ),
+            headers=headers,
         )
 
     @classmethod

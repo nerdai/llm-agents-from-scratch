@@ -197,4 +197,4 @@ app = build_app()
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host=A2A_HOST, port=A2A_PORT)  # pragma: no cover
+    uvicorn.run(app, host=A2A_HOST, port=A2A_PORT)

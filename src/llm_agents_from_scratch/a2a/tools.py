@@ -6,15 +6,15 @@ from typing import Any
 import httpx
 from a2a.client import ClientConfig, create_client
 from a2a.helpers import new_text_message
-from a2a.types import Role, SendMessageRequest, Task, TaskState
+from a2a.types import Role as A2ARole
+from a2a.types import SendMessageRequest, StreamResponse
 
 from llm_agents_from_scratch.base.tool import AsyncBaseTool
 from llm_agents_from_scratch.data_structures import ToolCall, ToolCallResult
 from llm_agents_from_scratch.errors import A2AAgentNotFoundError
 
-from .constants import A2A_INPUT_REQUIRED_TEMPLATE
 from .spec import A2AAgentSpec
-from .utils import parts_text, task_content
+from .utils import build_result
 
 
 class UseA2AAgentTool(AsyncBaseTool):
@@ -188,11 +188,11 @@ class UseA2AAgentTool(AsyncBaseTool):
             message = new_text_message(
                 text=task_instruction,
                 task_id=task_id,
-                role=Role.ROLE_USER,
+                role=A2ARole.ROLE_USER,
             )
             request = SendMessageRequest(message=message)
 
-            response = None
+            response: StreamResponse | None = None
             async for chunk in client.send_message(request):
                 response = chunk
         except Exception as e:
@@ -211,125 +211,4 @@ class UseA2AAgentTool(AsyncBaseTool):
             if client is not None:
                 await client.close()
 
-        return self._build_result(response, agent_name, tool_call.id_)
-
-    def _build_result(
-        self,
-        response: Any,
-        agent_name: str,
-        tool_call_id: str,
-    ) -> ToolCallResult:
-        """Turn the final ``StreamResponse`` chunk into a ``ToolCallResult``.
-
-        Args:
-            response: The last chunk yielded by ``client.send_message()``,
-                or ``None`` if the peer yielded nothing.
-            agent_name: The dispatched-to peer's registry name, for error
-                JSON and the input-required template.
-            tool_call_id: The originating tool call's id.
-
-        Returns:
-            ToolCallResult: Success with the peer's content, an
-                ``A2A_INPUT_REQUIRED_TEMPLATE``-wrapped result, or an
-                error result.
-        """
-        if response is None:
-            return ToolCallResult(
-                tool_call_id=tool_call_id,
-                error=True,
-                content=json.dumps(
-                    {
-                        "error_type": "A2AEmptyResponseError",
-                        "a2a_agent": agent_name,
-                        "message": "Peer returned no task or message.",
-                    },
-                ),
-            )
-
-        kind = response.WhichOneof("payload")
-
-        if kind == "message":
-            return ToolCallResult(
-                tool_call_id=tool_call_id,
-                error=False,
-                content=parts_text(response.message.parts),
-            )
-
-        if kind == "task":
-            return self._build_task_result(
-                response.task,
-                agent_name,
-                tool_call_id,
-            )
-
-        return ToolCallResult(
-            tool_call_id=tool_call_id,
-            error=True,
-            content=json.dumps(
-                {
-                    "error_type": "A2AEmptyResponseError",
-                    "a2a_agent": agent_name,
-                    "message": "Peer returned no task or message.",
-                },
-            ),
-        )
-
-    def _build_task_result(
-        self,
-        task: Task,
-        agent_name: str,
-        tool_call_id: str,
-    ) -> ToolCallResult:
-        """Turn a peer's final ``Task`` into a ``ToolCallResult``.
-
-        Args:
-            task: The peer's final ``Task`` state.
-            agent_name: The dispatched-to peer's registry name, for error
-                JSON and the input-required template.
-            tool_call_id: The originating tool call's id.
-
-        Returns:
-            ToolCallResult: Success with the task's artifact content, an
-                ``A2A_INPUT_REQUIRED_TEMPLATE``-wrapped result, or an
-                error result for any other terminal state.
-        """
-        state = TaskState.Name(task.status.state)
-
-        if state == "TASK_STATE_COMPLETED":
-            return ToolCallResult(
-                tool_call_id=tool_call_id,
-                error=False,
-                content=task_content(task),
-            )
-
-        if state == "TASK_STATE_INPUT_REQUIRED":
-            question = parts_text(task.status.message.parts) or (
-                task_content(task)
-            )
-            return ToolCallResult(
-                tool_call_id=tool_call_id,
-                error=False,
-                content=A2A_INPUT_REQUIRED_TEMPLATE.format(
-                    name=agent_name,
-                    question=question,
-                    task_id=task.id,
-                ),
-            )
-
-        # any other state (FAILED, CANCELED, REJECTED, AUTH_REQUIRED, or
-        # an unexpected non-terminal state from a non-streaming response)
-        # is an error the coordinator should re-plan around
-        message_text = parts_text(task.status.message.parts) or (
-            f"Task ended in state {state}."
-        )
-        return ToolCallResult(
-            tool_call_id=tool_call_id,
-            error=True,
-            content=json.dumps(
-                {
-                    "error_type": state,
-                    "a2a_agent": agent_name,
-                    "message": message_text,
-                },
-            ),
-        )
+        return build_result(response, agent_name, tool_call.id_)

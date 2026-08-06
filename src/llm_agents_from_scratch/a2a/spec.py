@@ -17,14 +17,14 @@ from .constants import (
 class A2AAgentSpec(BaseModel):
     """Specification for a registered A2A peer agent.
 
-    Each ``A2AAgentSpec`` entry registers a remote A2A-compliant peer.
-    ``agent_card.name`` serves as the registry key on the coordinator and
-    as the enum value ``UseA2AAgentTool`` presents to the LLM for dispatch
-    — there is no separate local alias, mirroring how ``Skill`` uses
-    ``frontmatter.name`` directly rather than duplicating it as its own
-    field. Discovery (fetching the peer's ``AgentCard``) is eager, at spec
-    construction — the spec holds a fully resolved card, not a lazy
-    reference to one.
+    Each ``A2AAgentSpec`` entry registers a remote A2A-compliant peer under
+    ``name``, derived directly from ``agent_card.name`` — there is no
+    separate local alias, since the card is remote/peer-controlled data
+    like the rest of the spec's inputs. ``name`` serves as the registry key
+    on the coordinator and as the enum value ``UseA2AAgentTool`` presents
+    to the LLM for dispatch. Discovery (fetching the peer's ``AgentCard``)
+    is eager, at spec construction — the spec holds a fully resolved card,
+    not a lazy reference to one.
 
     The spec is pure data: it never constructs or holds a live SDK
     ``Client``. Connecting to the peer is ``UseA2AAgentTool``'s job, done
@@ -32,15 +32,25 @@ class A2AAgentSpec(BaseModel):
     ``agent_card``.
 
     Attributes:
+        name: Registry key for this A2A agent, taken from
+            ``agent_card.name``. Appears as an enum value in
+            ``UseA2AAgentTool``'s dispatch schema.
         url: Base URL of the remote A2A peer.
         headers: Optional HTTP headers (e.g. auth) sent on requests to this
             peer, both for card resolution and for dispatch.
         agent_card: The peer's resolved ``AgentCard``, fetched eagerly at
-            construction time. ``agent_card.name`` is the registry key.
+            construction time.
     """
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
+    name: str = Field(
+        description=(
+            "Registry key for this A2A agent, taken from agent_card.name. "
+            "Appears as an enum value in UseA2AAgentTool's dispatch "
+            "schema."
+        ),
+    )
     url: str = Field(description="Base URL of the remote A2A peer.")
     headers: dict[str, str] | None = Field(
         default=None,
@@ -50,10 +60,7 @@ class A2AAgentSpec(BaseModel):
         ),
     )
     agent_card: AgentCard = Field(
-        description=(
-            "The peer's resolved AgentCard. agent_card.name is the "
-            "registry key."
-        ),
+        description="The peer's resolved AgentCard.",
     )
 
     @classmethod
@@ -77,6 +84,7 @@ class A2AAgentSpec(BaseModel):
             A2AAgentSpec: The constructed spec.
         """
         return cls(
+            name=agent_card.name,
             url=url,
             agent_card=agent_card,
             headers=headers,
@@ -137,7 +145,7 @@ class A2AAgentSpec(BaseModel):
             CATALOG_A2A_SKILLS_TEMPLATE.format(skills=skills) if skills else ""
         )
         return CATALOG_SPEC_TEMPLATE.format(
-            name=self.agent_card.name,
+            name=self.name,
             description=self.agent_card.description,
             skills=skills_block,
         )

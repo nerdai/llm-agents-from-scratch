@@ -29,7 +29,7 @@ def test_a2aagentspec_from_agent_card() -> None:
         agent_card=card,
     )
 
-    assert spec.agent_card.name == "researcher"
+    assert spec.name == "researcher"
     assert spec.url == "http://127.0.0.1:9999"
     assert spec.agent_card == card
     assert spec.headers is None
@@ -50,6 +50,7 @@ def test_a2aagentspec_from_agent_card_with_headers() -> None:
 def test_a2aagentspec_has_no_client_field() -> None:
     """Tests A2AAgentSpec never holds a live SDK client (Decision #783)."""
     assert set(A2AAgentSpec.model_fields.keys()) == {
+        "name",
         "url",
         "headers",
         "agent_card",
@@ -69,7 +70,7 @@ async def test_a2aagentspec_from_url() -> None:
         spec = await A2AAgentSpec.from_url(url="http://127.0.0.1:9999")
 
     mock_get_agent_card.assert_awaited_once()
-    assert spec.agent_card.name == "researcher"
+    assert spec.name == "researcher"
     assert spec.url == "http://127.0.0.1:9999"
     assert spec.agent_card == card
 

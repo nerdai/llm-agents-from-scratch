@@ -1,0 +1,14 @@
+[project]
+name = "a2a-crewai-hailstone"
+version = "0.1.0"
+description = "A CrewAI Hailstone agent served over A2A."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+  "a2a-sdk[fastapi]>=1.1.2",
+  "crewai>=1.0.0",
+  "uvicorn>=0.30"
+]
+authors = [
+  {name = "Andrei Fajardo", email = "andrei@nerdai.io"}
+]

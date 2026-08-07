@@ -19,7 +19,6 @@ def build_agent_card(  # noqa: PLR0913, PLR0917
     url: str,
     version: str = "0.1.0",
     skills: list[AgentSkill] | None = None,
-    capabilities: AgentCapabilities | None = None,
     provider: AgentProvider | None = None,
     documentation_url: str | None = None,
     security_schemes: dict[str, SecurityScheme] | None = None,
@@ -30,16 +29,24 @@ def build_agent_card(  # noqa: PLR0913, PLR0917
     """Builds an ``AgentCard`` for serving an ``LLMAgent`` over A2A.
 
     A plain function returning the SDK's own type rather than a class
-    of ours, so readers keep the protocol's vocabulary. Mirrors every
-    ``AgentCard`` field except ``supported_interfaces`` and the
-    default I/O modes, which this framework genuinely constrains
-    rather than merely defaults: ``supported_interfaces`` is always a
-    single JSON-RPC/v1.0 entry at ``url`` (the only transport
-    ``DefaultRequestHandler``/``LLMAgentA2AExecutor`` speak), and
+    of ours, so readers keep the protocol's vocabulary. Necessarily
+    opinionated, not a neutral general-purpose ``AgentCard``
+    constructor: its job is a card that's honest about what
+    ``LLMAgentA2AExecutor`` specifically does, so every field
+    describing executor *behavior* is fixed rather than exposed as a
+    parameter — ``supported_interfaces`` is always a single
+    JSON-RPC/v1.0 entry at ``url`` (the only transport
+    ``DefaultRequestHandler``/``LLMAgentA2AExecutor`` speak),
     ``default_input_modes``/``default_output_modes`` are always
-    ``["text/plain"]`` (``LLMAgentA2AExecutor.execute()`` only extracts
-    text via ``context.get_user_input()`` and only emits text via
-    ``new_text_part``).
+    ``["text/plain"]`` (``execute()`` only extracts text via
+    ``context.get_user_input()`` and only emits text via
+    ``new_text_part``), and ``capabilities`` is always
+    ``AgentCapabilities(streaming=False)`` (``execute()`` publishes
+    only the final terminal state, no incremental updates — see the
+    streaming executor variant tracked as a follow-up, issue #814).
+    Everything else — pure descriptive metadata that doesn't claim
+    anything about what the executor *does* — mirrors ``AgentCard``
+    directly.
 
     Args:
         name (str): The agent's name, shown to peers.
@@ -52,12 +59,6 @@ def build_agent_card(  # noqa: PLR0913, PLR0917
             ``"0.1.0"``.
         skills (list[AgentSkill] | None): The agent's declared skills.
             Defaults to an empty list.
-        capabilities (AgentCapabilities | None): The agent's declared
-            capabilities. Defaults to ``AgentCapabilities(streaming=
-            False)`` — ``LLMAgentA2AExecutor`` doesn't currently
-            publish incremental status/artifact updates mid-task, so
-            that's an honest default, not a restriction; pass your own
-            ``AgentCapabilities`` to declare otherwise.
         provider (AgentProvider | None): The agent's provider
             organisation. Defaults to unset.
         documentation_url (str | None): URL to the agent's
@@ -78,7 +79,8 @@ def build_agent_card(  # noqa: PLR0913, PLR0917
             transport at ``url``.
     """
     return AgentCard(
-        # constrained by this framework's implementation, not passed thru as is
+        # fixed: describes LLMAgentA2AExecutor's actual behavior, not
+        # passed through as a parameter
         supported_interfaces=[
             AgentInterface(
                 url=url,
@@ -88,11 +90,11 @@ def build_agent_card(  # noqa: PLR0913, PLR0917
         ],
         default_input_modes=["text/plain"],
         default_output_modes=["text/plain"],
-        # unconstrained -- mirrors AgentCard directly
+        capabilities=AgentCapabilities(streaming=False),
+        # descriptive metadata only -- mirrors AgentCard directly
         name=name,
         description=description,
         version=version,
-        capabilities=capabilities or AgentCapabilities(streaming=False),
         skills=skills or [],
         provider=provider,
         documentation_url=documentation_url,

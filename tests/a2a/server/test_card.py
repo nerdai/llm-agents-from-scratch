@@ -1,7 +1,8 @@
 """Unit tests for build_agent_card."""
 
+import inspect
+
 from a2a.types import (
-    AgentCapabilities,
     AgentCardSignature,
     AgentProvider,
     AgentSkill,
@@ -67,16 +68,15 @@ def test_build_agent_card_version_and_skills() -> None:
     assert list(card.skills) == [skill]
 
 
-def test_build_agent_card_explicit_capabilities_overrides_default() -> None:
-    """Tests a caller-supplied AgentCapabilities isn't restricted to False."""
-    card = build_agent_card(
-        name="my-agent",
-        description="Does things.",
-        url="http://localhost:9999",
-        capabilities=AgentCapabilities(streaming=True),
-    )
+def test_build_agent_card_capabilities_not_a_parameter() -> None:
+    """Tests capabilities can't be overridden -- it describes real behavior.
 
-    assert card.capabilities.streaming is True
+    Unlike pure metadata fields (provider, icon_url, ...),
+    capabilities.streaming describes what LLMAgentA2AExecutor actually
+    does. Letting a caller override it to streaming=True would produce
+    a card that lies about the executor it's paired with.
+    """
+    assert "capabilities" not in inspect.signature(build_agent_card).parameters
 
 
 def test_build_agent_card_metadata_fields_pass_through() -> None:

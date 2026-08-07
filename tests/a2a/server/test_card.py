@@ -12,7 +12,7 @@ from a2a.types import (
 )
 from a2a.utils.constants import PROTOCOL_VERSION_1_0, TransportProtocol
 
-from llm_agents_from_scratch.a2a.server.card import build_agent_card
+from llm_agents_from_scratch.a2a.server.executor import build_agent_card
 
 
 def test_build_agent_card_defaults() -> None:

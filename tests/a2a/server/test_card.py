@@ -1,6 +1,6 @@
 """Unit tests for build_agent_card."""
 
-from a2a.types import AgentSkill
+from a2a.types import AgentCapabilities, AgentSkill
 from a2a.utils.constants import PROTOCOL_VERSION_1_0, TransportProtocol
 
 from llm_agents_from_scratch.a2a.server.card import build_agent_card
@@ -57,3 +57,15 @@ def test_build_agent_card_version_and_skills() -> None:
 
     assert card.version == "1.2.3"
     assert list(card.skills) == [skill]
+
+
+def test_build_agent_card_explicit_capabilities_overrides_default() -> None:
+    """Tests a caller-supplied AgentCapabilities isn't restricted to False."""
+    card = build_agent_card(
+        name="my-agent",
+        description="Does things.",
+        url="http://localhost:9999",
+        capabilities=AgentCapabilities(streaming=True),
+    )
+
+    assert card.capabilities.streaming is True

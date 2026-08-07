@@ -4,12 +4,13 @@ from a2a.types import AgentCapabilities, AgentCard, AgentInterface, AgentSkill
 from a2a.utils.constants import PROTOCOL_VERSION_1_0, TransportProtocol
 
 
-def build_agent_card(
+def build_agent_card(  # noqa: PLR0913
     name: str,
     description: str,
     url: str,
     version: str = "0.1.0",
     skills: list[AgentSkill] | None = None,
+    capabilities: AgentCapabilities | None = None,
 ) -> AgentCard:
     """Builds an ``AgentCard`` for serving an ``LLMAgent`` over A2A.
 
@@ -27,15 +28,17 @@ def build_agent_card(
             ``"0.1.0"``.
         skills (list[AgentSkill] | None): The agent's declared skills.
             Defaults to an empty list.
+        capabilities (AgentCapabilities | None): The agent's declared
+            capabilities. Defaults to ``AgentCapabilities(streaming=
+            False)`` — ``LLMAgentA2AExecutor`` doesn't currently
+            publish incremental status/artifact updates mid-task, so
+            that's an honest default, not a restriction; pass your own
+            ``AgentCapabilities`` to declare otherwise.
 
     Returns:
         AgentCard: The constructed card, with a single
             ``supported_interfaces`` entry advertising the JSON-RPC
-            transport at ``url``, and streaming disabled — dispatch
-            through this framework is always ``ClientConfig
-            (streaming=False)`` on the client side (see
-            ``UseA2AAgentTool``), so advertising streaming support here
-            would be misleading.
+            transport at ``url``.
     """
     return AgentCard(
         name=name,
@@ -48,7 +51,7 @@ def build_agent_card(
             ),
         ],
         version=version,
-        capabilities=AgentCapabilities(streaming=False),
+        capabilities=capabilities or AgentCapabilities(streaming=False),
         default_input_modes=["text/plain"],
         default_output_modes=["text/plain"],
         skills=skills or [],

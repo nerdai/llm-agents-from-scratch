@@ -1,0 +1,20 @@
+[project]
+name = "a2a-from-scratch-hailstone"
+version = "0.1.0"
+description = "This framework's own LLMAgent, served over A2A."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+  "a2a-sdk[fastapi]>=1.1.2",
+  # No PyPI release has A2A support yet (still under "Unreleased" in
+  # CHANGELOG.md as of this writing) -- installed from source below
+  # until one is cut, then this should become a version constraint.
+  "llm-agents-from-scratch",
+  "uvicorn>=0.30"
+]
+authors = [
+  {name = "Andrei Fajardo", email = "andrei@nerdai.io"}
+]
+
+[tool.uv.sources]
+llm-agents-from-scratch = {path = "../..", editable = true}

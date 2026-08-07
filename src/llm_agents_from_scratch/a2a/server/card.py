@@ -78,8 +78,7 @@ def build_agent_card(  # noqa: PLR0913, PLR0917
             transport at ``url``.
     """
     return AgentCard(
-        # constrained by this framework's implementation, not passed
-        # through as-is
+        # constrained by this framework's implementation, not passed thru as is
         supported_interfaces=[
             AgentInterface(
                 url=url,

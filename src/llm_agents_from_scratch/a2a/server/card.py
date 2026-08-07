@@ -13,7 +13,7 @@ from a2a.types import (
 from a2a.utils.constants import PROTOCOL_VERSION_1_0, TransportProtocol
 
 
-def build_agent_card(  # noqa: PLR0913
+def build_agent_card(  # noqa: PLR0913, PLR0917
     name: str,
     description: str,
     url: str,
@@ -78,8 +78,8 @@ def build_agent_card(  # noqa: PLR0913
             transport at ``url``.
     """
     return AgentCard(
-        name=name,
-        description=description,
+        # constrained by this framework's implementation, not passed
+        # through as-is
         supported_interfaces=[
             AgentInterface(
                 url=url,
@@ -87,10 +87,13 @@ def build_agent_card(  # noqa: PLR0913
                 protocol_version=PROTOCOL_VERSION_1_0,
             ),
         ],
-        version=version,
-        capabilities=capabilities or AgentCapabilities(streaming=False),
         default_input_modes=["text/plain"],
         default_output_modes=["text/plain"],
+        # unconstrained -- mirrors AgentCard directly
+        name=name,
+        description=description,
+        version=version,
+        capabilities=capabilities or AgentCapabilities(streaming=False),
         skills=skills or [],
         provider=provider,
         documentation_url=documentation_url,

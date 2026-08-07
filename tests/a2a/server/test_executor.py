@@ -173,6 +173,40 @@ async def test_cancel_raises_task_not_found_for_unknown_id(
 
 
 @pytest.mark.asyncio
+async def test_cancel_raises_on_missing_task_id(mock_llm: BaseLLM) -> None:
+    """Tests a missing task_id raises before any lookup."""
+    executor = LLMAgentA2AExecutor(agent=LLMAgent(llm=mock_llm))
+    context = _context(task_id=None)  # type: ignore[arg-type]
+
+    with pytest.raises(ValueError, match="task_id or context_id"):
+        await executor.cancel(context, EventQueueLegacy())
+
+
+@pytest.mark.asyncio
+async def test_execute_returns_quietly_when_cancelled_mid_run(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests execute() returns cleanly when cancel() interrupts its await."""
+    agent = LLMAgent(llm=mock_llm)
+    executor = LLMAgentA2AExecutor(agent=agent)
+    queue = EventQueueLegacy()
+    context = _context()
+
+    async def _hang(*args: object, **kwargs: object) -> None:
+        await asyncio.sleep(300)
+
+    with patch.object(LLMAgent.TaskHandler, "get_next_step") as mock_next_step:
+        mock_next_step.side_effect = _hang
+        execute_task = asyncio.create_task(executor.execute(context, queue))
+        await asyncio.sleep(0.1)
+
+        await executor.cancel(context, EventQueueLegacy())
+        await asyncio.wait_for(execute_task, timeout=1)
+
+    assert execute_task.exception() is None
+
+
+@pytest.mark.asyncio
 async def test_cancel_cancels_in_flight_task(mock_llm: BaseLLM) -> None:
     """Tests cancel() settles the tracked TaskHandler and publishes CANCELED."""
     agent = LLMAgent(llm=mock_llm)

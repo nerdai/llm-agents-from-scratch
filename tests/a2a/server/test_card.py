@@ -1,6 +1,14 @@
 """Unit tests for build_agent_card."""
 
-from a2a.types import AgentCapabilities, AgentSkill
+from a2a.types import (
+    AgentCapabilities,
+    AgentCardSignature,
+    AgentProvider,
+    AgentSkill,
+    HTTPAuthSecurityScheme,
+    SecurityRequirement,
+    SecurityScheme,
+)
 from a2a.utils.constants import PROTOCOL_VERSION_1_0, TransportProtocol
 
 from llm_agents_from_scratch.a2a.server.card import build_agent_card
@@ -69,3 +77,32 @@ def test_build_agent_card_explicit_capabilities_overrides_default() -> None:
     )
 
     assert card.capabilities.streaming is True
+
+
+def test_build_agent_card_metadata_fields_pass_through() -> None:
+    """Tests provider/documentation_url/security/signatures/icon_url."""
+    provider = AgentProvider(url="https://example.com", organization="Acme")
+    scheme = SecurityScheme(
+        http_auth_security_scheme=HTTPAuthSecurityScheme(scheme="bearer"),
+    )
+    requirement = SecurityRequirement(schemes={})
+    signature = AgentCardSignature(protected="hdr", signature="sig")
+
+    card = build_agent_card(
+        name="my-agent",
+        description="Does things.",
+        url="http://localhost:9999",
+        provider=provider,
+        documentation_url="https://example.com/docs",
+        security_schemes={"bearer": scheme},
+        security_requirements=[requirement],
+        signatures=[signature],
+        icon_url="https://example.com/icon.png",
+    )
+
+    assert card.provider == provider
+    assert card.documentation_url == "https://example.com/docs"
+    assert dict(card.security_schemes) == {"bearer": scheme}
+    assert list(card.security_requirements) == [requirement]
+    assert list(card.signatures) == [signature]
+    assert card.icon_url == "https://example.com/icon.png"

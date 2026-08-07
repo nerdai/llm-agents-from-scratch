@@ -2,6 +2,7 @@
 
 import asyncio
 import os
+import re
 
 import uvicorn
 from a2a.helpers import new_task_from_user_message, new_text_part
@@ -32,6 +33,24 @@ OLLAMA_BASE_URL = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434")
 A2A_HOST = os.environ.get("A2A_HOST", "0.0.0.0")
 A2A_PORT = int(os.environ.get("A2A_PORT", "9200"))
 A2A_URL = os.environ.get("A2A_URL", f"http://localhost:{A2A_PORT}")
+
+
+def _extract_starting_integer(instruction: str) -> int | None:
+    """Pulls the first integer named in a task instruction, if any.
+
+    A deliberately simple, deterministic check rather than asking the
+    CrewAI agent itself whether the instruction is ambiguous -- keeps
+    the input_required path predictable for the notebook demo instead
+    of depending on a free-text judgment call from the model.
+
+    Args:
+        instruction: The raw task instruction text.
+
+    Returns:
+        The first integer found, or None if the instruction names none.
+    """
+    match = re.search(r"\d+", instruction)
+    return int(match.group()) if match else None
 
 
 @tool("hailstone_step")
@@ -92,7 +111,13 @@ class CrewAIHailstoneExecutor(AgentExecutor):
         context: RequestContext,
         event_queue: EventQueue,
     ) -> None:
-        """Runs one hailstone step for the caller's instruction.
+        """Computes the full hailstone sequence for the caller's instruction.
+
+        Asks for clarification (``TASK_STATE_INPUT_REQUIRED``) instead
+        of guessing when the instruction names no starting integer --
+        on the follow-up call, the resumed message's text (not the
+        original instruction) is checked, since a peer only sees the
+        newest message per call.
 
         Args:
             context: The request context containing the task instruction.
@@ -117,7 +142,23 @@ class CrewAIHailstoneExecutor(AgentExecutor):
         await updater.start_work()
 
         instruction = context.get_user_input()
-        crew = build_crew(instruction)
+        starting_value = _extract_starting_integer(instruction)
+        if starting_value is None:
+            await updater.requires_input(
+                message=updater.new_agent_message(
+                    [
+                        new_text_part(
+                            "Which positive integer should I start the "
+                            "hailstone sequence from?",
+                        ),
+                    ],
+                ),
+            )
+            return
+
+        crew = build_crew(
+            f"Compute the hailstone sequence starting at {starting_value}.",
+        )
         result = await asyncio.to_thread(crew.kickoff)
 
         await updater.add_artifact(
@@ -168,7 +209,9 @@ def build_app() -> FastAPI:
                 description=(
                     "Compute the full hailstone sequence for a positive "
                     "integer x, repeatedly applying x / 2 (if even) or "
-                    "3x + 1 (if odd) until reaching 1."
+                    "3x + 1 (if odd) until reaching 1. Asks for "
+                    "clarification if the task doesn't name a starting "
+                    "integer."
                 ),
                 tags=["math"],
             ),

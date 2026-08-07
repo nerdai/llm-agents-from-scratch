@@ -832,6 +832,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#the-from-scratch-hailstone-a2a-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The from-scratch Hailstone A2A server
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#examples" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -945,10 +956,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#4a-standing-up-the-server" class="md-nav__link">
+  <a href="#4a-building-llmagenta2aexecutor-and-build_agent_card" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4a. Standing Up the Server
+        4a. Building LLMAgentA2AExecutor and build_agent_card()
       
     </span>
   </a>
@@ -956,10 +967,32 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#4b-dispatching-a-hailstone-task-to-it" class="md-nav__link">
+  <a href="#4b-discovering-the-server" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4b. Dispatching a Hailstone Task to It
+        4b. Discovering the Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4c-dispatching-via-the-coordinator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4c. Dispatching via the Coordinator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4d-the-servers-own-log-stream" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4d. The Server's Own Log Stream
       
     </span>
   </a>
@@ -3803,6 +3836,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#the-from-scratch-hailstone-a2a-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The from-scratch Hailstone A2A server
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#examples" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3916,10 +3960,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#4a-standing-up-the-server" class="md-nav__link">
+  <a href="#4a-building-llmagenta2aexecutor-and-build_agent_card" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4a. Standing Up the Server
+        4a. Building LLMAgentA2AExecutor and build_agent_card()
       
     </span>
   </a>
@@ -3927,10 +3971,32 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#4b-dispatching-a-hailstone-task-to-it" class="md-nav__link">
+  <a href="#4b-discovering-the-server" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4b. Dispatching a Hailstone Task to It
+        4b. Discovering the Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4c-dispatching-via-the-coordinator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4c. Dispatching via the Coordinator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4d-the-servers-own-log-stream" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4d. The Server's Own Log Stream
       
     </span>
   </a>
@@ -4729,7 +4795,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-1">
@@ -4896,7 +4962,7 @@ ensure_ollama() if not use_cloud else print("✓ Using Ollama Cloud")</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>✓ Using Ollama Cloud
+<pre>✓ Ollama already running at http://localhost:11434
 </pre>
 </div>
 </div>
@@ -5047,7 +5113,248 @@ a2a_server_process = ensure_a2a_crewai_hailstone()</div>
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Starting CrewAI Hailstone A2A server at http://localhost:9200...
-✓ CrewAI Hailstone A2A server up at http://localhost:9200
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>✓ CrewAI Hailstone A2A server up at http://localhost:9200
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=cf953a45">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="the-from-scratch-hailstone-a2a-server">The from-scratch Hailstone A2A server<a class="anchor-link" href="#the-from-scratch-hailstone-a2a-server">¶</a></h2><p>A second peer, alongside the CrewAI one, this time using this framework's own <code>LLMAgent</code> instead of a different stack. It's a standalone app under <code>extra/a2a-from-scratch-hailstone/</code>, not something built inline in this notebook: a genuine A2A peer is remote, an out-of-process black box with its own log stream, not a co-routine sharing the caller's process. This notebook launches it as a background process the same way as the CrewAI peer, with its own console-formatted logs captured to <code>from_scratch_hailstone_server.log</code> so its log stream stays genuinely separate from the coordinator's.</p>
+<p>The code for this A2A server is located at: <a href="https://github.com/nerdai/llm-agents-from-scratch/blob/main/extra/a2a-from-scratch-hailstone/main.py">https://github.com/nerdai/llm-agents-from-scratch/blob/main/extra/a2a-from-scratch-hailstone/main.py</a></p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=69150cb3">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-4">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span><span class="o">,</span><span class="w"> </span><span class="nn">time</span><span class="o">,</span><span class="w"> </span><span class="nn">urllib.request</span><span class="o">,</span><span class="w"> </span><span class="nn">urllib.error</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlparse</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">ensure_from_scratch_hailstone</span><span class="p">(</span>
+    <span class="n">host</span><span class="o">=</span><span class="s2">"http://127.0.0.1:9300"</span><span class="p">,</span>
+    <span class="n">timeout</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+    <span class="n">log_path</span><span class="o">=</span><span class="s2">"from_scratch_hailstone_server.log"</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Start the from-scratch Hailstone A2A server if not already running.</span>
+
+<span class="sd">    Returns the Popen handle if this call started the server, or</span>
+<span class="sd">    None if it was already running (so we know not to tear it down).</span>
+
+<span class="sd">    Runs in its own session (start_new_session=True) so Cleanup can</span>
+<span class="sd">    kill the whole process group -- confirmed live that terminating</span>
+<span class="sd">    only the `uv run` wrapper process can leave the actual uvicorn</span>
+<span class="sd">    process orphaned and still bound to the port, the same way the</span>
+<span class="sd">    CrewAI helper's Popen handle could in principle (untested there</span>
+<span class="sd">    since it hasn't come up, but the risk is the same).</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_up</span><span class="p">():</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">/.well-known/agent-card.json"</span><span class="p">,</span>
+                <span class="n">timeout</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="p">):</span>
+                <span class="k">pass</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="p">(</span><span class="n">urllib</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">URLError</span><span class="p">,</span> <span class="ne">ConnectionError</span><span class="p">,</span> <span class="ne">TimeoutError</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="n">_up</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✓ from-scratch-hailstone A2A server already running at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">server_path</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">"extra/a2a-from-scratch-hailstone"</span>
+    <span class="n">port</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">host</span><span class="p">)</span><span class="o">.</span><span class="n">port</span> <span class="ow">or</span> <span class="mi">80</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Starting from-scratch-hailstone A2A server at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">..."</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">log_path</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">log_file</span><span class="p">:</span>
+        <span class="n">process</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
+            <span class="p">[</span><span class="s2">"uv"</span><span class="p">,</span> <span class="s2">"run"</span><span class="p">,</span> <span class="s2">"uvicorn"</span><span class="p">,</span> <span class="s2">"main:app"</span><span class="p">,</span> <span class="s2">"--host"</span><span class="p">,</span> <span class="s2">"0.0.0.0"</span><span class="p">,</span> <span class="s2">"--port"</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">port</span><span class="p">)],</span>
+            <span class="n">cwd</span><span class="o">=</span><span class="n">server_path</span><span class="p">,</span>
+            <span class="n">stdout</span><span class="o">=</span><span class="n">log_file</span><span class="p">,</span>
+            <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">STDOUT</span><span class="p">,</span>
+            <span class="n">start_new_session</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="n">deadline</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="n">timeout</span>
+    <span class="k">while</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">deadline</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">_up</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✓ from-scratch-hailstone A2A server up at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">process</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="n">stop_from_scratch_hailstone</span><span class="p">(</span><span class="n">process</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"A2A server did not start within </span><span class="si">{</span><span class="n">timeout</span><span class="si">}</span><span class="s2">s"</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">stop_from_scratch_hailstone</span><span class="p">(</span><span class="n">process</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Kills the whole process group started by ensure_from_scratch_hailstone().</span>
+
+<span class="sd">    `process.terminate()` alone only signals the `uv run` wrapper --</span>
+<span class="sd">    confirmed live to leave the actual uvicorn process orphaned and</span>
+<span class="sd">    still bound to the port. `start_new_session=True` above put the</span>
+<span class="sd">    whole tree in its own process group, so signaling that group</span>
+<span class="sd">    (negative pid) reaches every descendant. Falls back to SIGKILL</span>
+<span class="sd">    if the group doesn't exit promptly on SIGTERM.</span>
+<span class="sd">    """</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">signal</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_signal</span><span class="p">(</span><span class="n">sig</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">killpg</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getpgid</span><span class="p">(</span><span class="n">process</span><span class="o">.</span><span class="n">pid</span><span class="p">),</span> <span class="n">sig</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ProcessLookupError</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+    <span class="n">_signal</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGTERM</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">process</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">TimeoutExpired</span><span class="p">:</span>
+        <span class="n">_signal</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGKILL</span><span class="p">)</span>
+        <span class="n">process</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+
+<span class="n">own_server_process</span> <span class="o">=</span> <span class="n">ensure_from_scratch_hailstone</span><span class="p">()</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-4">import subprocess, time, urllib.request, urllib.error
+from pathlib import Path
+from urllib.parse import urlparse
+
+
+def ensure_from_scratch_hailstone(
+    host="http://127.0.0.1:9300",
+    timeout=15,
+    log_path="from_scratch_hailstone_server.log",
+):
+    """Start the from-scratch Hailstone A2A server if not already running.
+
+    Returns the Popen handle if this call started the server, or
+    None if it was already running (so we know not to tear it down).
+
+    Runs in its own session (start_new_session=True) so Cleanup can
+    kill the whole process group -- confirmed live that terminating
+    only the `uv run` wrapper process can leave the actual uvicorn
+    process orphaned and still bound to the port, the same way the
+    CrewAI helper's Popen handle could in principle (untested there
+    since it hasn't come up, but the risk is the same).
+    """
+
+    def _up():
+        try:
+            with urllib.request.urlopen(
+                f"{host}/.well-known/agent-card.json",
+                timeout=1,
+            ):
+                pass
+            return True
+        except (urllib.error.URLError, ConnectionError, TimeoutError):
+            return False
+
+    if _up():
+        print(f"✓ from-scratch-hailstone A2A server already running at {host}")
+        return None
+
+    server_path = Path.cwd().parent / "extra/a2a-from-scratch-hailstone"
+    port = urlparse(host).port or 80
+    print(f"Starting from-scratch-hailstone A2A server at {host}...")
+    with open(log_path, "w") as log_file:
+        process = subprocess.Popen(
+            ["uv", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", str(port)],
+            cwd=server_path,
+            stdout=log_file,
+            stderr=subprocess.STDOUT,
+            start_new_session=True,
+        )
+
+    deadline = time.time() + timeout
+    while time.time() &lt; deadline:
+        if _up():
+            print(f"✓ from-scratch-hailstone A2A server up at {host}")
+            return process
+        time.sleep(0.5)
+
+    stop_from_scratch_hailstone(process)
+    raise RuntimeError(f"A2A server did not start within {timeout}s")
+
+
+def stop_from_scratch_hailstone(process):
+    """Kills the whole process group started by ensure_from_scratch_hailstone().
+
+    `process.terminate()` alone only signals the `uv run` wrapper --
+    confirmed live to leave the actual uvicorn process orphaned and
+    still bound to the port. `start_new_session=True` above put the
+    whole tree in its own process group, so signaling that group
+    (negative pid) reaches every descendant. Falls back to SIGKILL
+    if the group doesn't exit promptly on SIGTERM.
+    """
+    import os
+    import signal
+
+    def _signal(sig):
+        try:
+            os.killpg(os.getpgid(process.pid), sig)
+        except ProcessLookupError:
+            pass
+
+    _signal(signal.SIGTERM)
+    try:
+        process.wait(timeout=5)
+    except subprocess.TimeoutExpired:
+        _signal(signal.SIGKILL)
+        process.wait(timeout=5)
+
+
+own_server_process = ensure_from_scratch_hailstone()</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Starting from-scratch-hailstone A2A server at http://127.0.0.1:9300...
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>✓ from-scratch-hailstone A2A server up at http://127.0.0.1:9300
 </pre>
 </div>
 </div>
@@ -5093,10 +5400,10 @@ a2a_server_process = ensure_a2a_crewai_hailstone()</div>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-4">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-5">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -5115,7 +5422,7 @@ a2a_server_process = ensure_a2a_crewai_hailstone()</div>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"timeout: </span><span class="si">{</span><span class="n">spec</span><span class="o">.</span><span class="n">timeout</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">agent_card</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-4">from llm_agents_from_scratch.a2a import A2AAgentSpec
+<div class="clipboard-copy-txt" id="cell-5">from llm_agents_from_scratch.a2a import A2AAgentSpec
 
 spec = await A2AAgentSpec.from_url("http://localhost:9200")
 
@@ -5134,10 +5441,46 @@ print(spec.agent_card)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>name: crewai-hailstone
-url: http://localhost:9200
-timeout: 60.0
-name: "crewai-hailstone"
+<pre>name: crewai-hailstone</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>url: http://localhost:9200</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>timeout: 60.0</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>name: "crewai-hailstone"
 description: "Computes the full Hailstone (Collatz) sequence for a positive integer via a CrewAI agent."
 supported_interfaces {
   url: "http://localhost:9200"
@@ -5156,7 +5499,13 @@ skills {
   description: "Compute the full hailstone sequence for a positive integer x, repeatedly applying x / 2 (if even) or 3x + 1 (if odd) until reaching 1. Asks for clarification if the task doesn\'t name a starting integer."
   tags: "math"
 }
-
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
 </pre>
 </div>
 </div>
@@ -5180,10 +5529,10 @@ skills {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-5">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -5227,7 +5576,7 @@ skills {
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"spec url: </span><span class="si">{</span><span class="n">spec_hand_built</span><span class="o">.</span><span class="n">url</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"spec catalog:</span><span class="se">\n</span><span class="si">{</span><span class="n">spec_hand_built</span><span class="o">.</span><span class="n">catalog</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-5">from a2a.types import AgentCapabilities, AgentCard, AgentInterface, AgentSkill
+<div class="clipboard-copy-txt" id="cell-6">from a2a.types import AgentCapabilities, AgentCard, AgentInterface, AgentSkill
 from a2a.utils.constants import PROTOCOL_VERSION_1_0, TransportProtocol
 
 # hand-built, no network call -- useful for tests, fixtures, or a peer
@@ -5271,16 +5620,46 @@ print(f"spec catalog:\n{spec_hand_built.catalog()}")</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>spec name: crewai-hailstone
-spec url: http://localhost:9200
-spec catalog:
+<pre>spec name: crewai-hailstone</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>spec url: http://localhost:9200</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>spec catalog:
 &lt;a2a_agent&gt;
     &lt;name&gt;crewai-hailstone&lt;/name&gt;
     &lt;description&gt;Computes the full Hailstone (Collatz) sequence.&lt;/description&gt;
     &lt;a2a_skills&gt;
       &lt;a2a_skill&gt;hailstone_sequence&lt;/a2a_skill&gt;
     &lt;/a2a_skills&gt;
-  &lt;/a2a_agent&gt;
+  &lt;/a2a_agent&gt;</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
 </pre>
 </div>
 </div>
@@ -5307,7 +5686,7 @@ spec catalog:
 <div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-7">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -5332,7 +5711,7 @@ spec catalog:
 <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">tool</span><span class="p">(</span><span class="n">tool_call</span><span class="o">=</span><span class="n">tool_call</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-6">from llm_agents_from_scratch.a2a import UseA2AAgentTool
+<div class="clipboard-copy-txt" id="cell-7">from llm_agents_from_scratch.a2a import UseA2AAgentTool
 from llm_agents_from_scratch.data_structures import ToolCall
 
 tool = UseA2AAgentTool(a2a_agents_registry={spec.name: spec})
@@ -5357,7 +5736,13 @@ print(result.content)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>4,2,1
+<pre>4,2,1</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
 </pre>
 </div>
 </div>
@@ -5406,7 +5791,7 @@ print(result.content)</div>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-7">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-8">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -5431,7 +5816,7 @@ print(result.content)</div>
 <span class="n">input_required_result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">tool</span><span class="p">(</span><span class="n">tool_call</span><span class="o">=</span><span class="n">ambiguous_call</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">input_required_result</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-7">from llm_agents_from_scratch.a2a import UseA2AAgentTool
+<div class="clipboard-copy-txt" id="cell-8">from llm_agents_from_scratch.a2a import UseA2AAgentTool
 from llm_agents_from_scratch.data_structures import ToolCall
 
 tool = UseA2AAgentTool(a2a_agents_registry={spec.name: spec})
@@ -5460,7 +5845,13 @@ print(input_required_result.content)</div>
 
 Which positive integer should I start the hailstone sequence from?
 
-To continue, call `from_scratch__use_a2a_agent` again with name='crewai-hailstone', task_id='8e865813-a695-4110-b4ee-69daf3d2e2a0', and `task` set to the requested information. This resumes the same remote task rather than starting a new one.
+To continue, call `from_scratch__use_a2a_agent` again with name='crewai-hailstone', task_id='3e306310-6a72-4f8a-afc6-928ff39232ec', and `task` set to the requested information. This resumes the same remote task rather than starting a new one.</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
 </pre>
 </div>
 </div>
@@ -5498,7 +5889,7 @@ To continue, call `from_scratch__use_a2a_agent` again with name='crewai-hailston
 <div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-8">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-9">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -5539,7 +5930,7 @@ To continue, call `from_scratch__use_a2a_agent` again with name='crewai-hailston
 <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">handler</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-8">from llm_agents_from_scratch import LLMAgentBuilder
+<div class="clipboard-copy-txt" id="cell-9">from llm_agents_from_scratch import LLMAgentBuilder
 from llm_agents_from_scratch.data_structures import Task
 from llm_agents_from_scratch.llms import OllamaLLM
 
@@ -5580,14 +5971,13 @@ print(result.content)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>The crewai-hailstone agent has successfully computed the hailstone sequence starting at 4. The result is "4,2,1".
-
-This makes sense because:
-- Starting at 4 (even number): 4 ÷ 2 = 2
-- At 2 (even number): 2 ÷ 2 = 1
-- At 1: we stop (the sequence ends when we reach 1)
-
-The task has been completed successfully. The hailstone sequence starting at 4 is: 4 → 2 → 1.
+<pre>The hailstone sequence starting at the number four is: 4, 2, 1.</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
 </pre>
 </div>
 </div>
@@ -5614,7 +6004,7 @@ The task has been completed successfully. The hailstone sequence starting at 4 i
 <div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-9">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-10">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -5626,7 +6016,7 @@ The task has been completed successfully. The hailstone sequence starting at 4 i
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">handler</span><span class="o">.</span><span class="n">rollout</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-9">print(handler.rollout)</div>
+<div class="clipboard-copy-txt" id="cell-10">print(handler.rollout)</div>
 </div>
 </div>
 </div>
@@ -5645,7 +6035,7 @@ The task has been completed successfully. The hailstone sequence starting at 4 i
 💬 assistant: I need to make the following tool call(s):
 
 {
-    "id_": "e9ff78c0-ffdc-47f8-9932-eb0549466068",
+    "id_": "3373b9d5-2171-4306-8465-0140da2ecbac",
     "tool_name": "from_scratch__use_a2a_agent",
     "arguments": {
         "name": "crewai-hailstone",
@@ -5654,57 +6044,53 @@ The task has been completed successfully. The hailstone sequence starting at 4 i
 }.
 
 🔧 tool: {
-    "tool_call_id": "e9ff78c0-ffdc-47f8-9932-eb0549466068",
-    "content": "The A2A agent 'crewai-hailstone' needs more information before it can continue:\n\nWhich positive integer should I start the hailstone sequence from?\n\nTo continue, call `from_scratch__use_a2a_agent` again with name='crewai-hailstone', task_id='5a0e42ab-d03b-4791-ba7d-282a952f454a', and `task` set to the requested information. This resumes the same remote task rather than starting a new one.",
+    "tool_call_id": "3373b9d5-2171-4306-8465-0140da2ecbac",
+    "content": "The A2A agent 'crewai-hailstone' needs more information before it can continue:\n\nWhich positive integer should I start the hailstone sequence from?\n\nTo continue, call `from_scratch__use_a2a_agent` again with name='crewai-hailstone', task_id='8fb7e481-8408-40ed-9332-d28aed5bb93f', and `task` set to the requested information. This resumes the same remote task rather than starting a new one.",
     "error": false
 }
 
-💬 assistant: I need to make the following tool call(s):
-
-{
-    "id_": "c3622366-1a2b-4d5f-a15e-2ed7e4092934",
-    "tool_name": "from_scratch__use_a2a_agent",
-    "arguments": {
-        "name": "crewai-hailstone",
-        "task": "4",
-        "task_id": "5a0e42ab-d03b-4791-ba7d-282a952f454a"
-    }
-}.
+💬 assistant: {"name": "from_scratch__use_a2a_agent", "arguments": {"name":"crewai-hailstone","task_id":"8fb7e481-8408-40ed-9332-d28aed5bb93f","task":"4"}}
 
 === Task Step End ===
 
 === Task Step Start ===
 
-💬 assistant: My current instruction is 'Execute the tool call to resume the 'crewai-hailstone' agent task with task_id '5a0e42ab-d03b-4791-ba7d-282a952f454a' and provide '4' as the starting number.'
+💬 assistant: My current instruction is 'The assistant should continue by providing the necessary input to the 'crewai-hailstone' agent to compute the hailstone sequence starting at the number four.'
+
+💬 assistant: I need to call the `from_scratch__use_a2a_agent` tool with the name "crewai-hailstone" and the task set to "4" to provide the necessary input for computing the hailstone sequence starting at the number four.
+
+=== Task Step End ===
+
+=== Task Step Start ===
+
+💬 assistant: My current instruction is 'Call the `from_scratch__use_a2a_agent` tool with the name 'crewai-hailstone' and the task set to '4' to provide the necessary input for computing the hailstone sequence starting at the number four.'
 
 💬 assistant: I need to make the following tool call(s):
 
 {
-    "id_": "624cce28-9cef-4e80-909e-9cef4309037d",
+    "id_": "c373ca55-0afd-4fe7-a4a8-156e6b3af1d4",
     "tool_name": "from_scratch__use_a2a_agent",
     "arguments": {
         "name": "crewai-hailstone",
-        "task": "4",
-        "task_id": "5a0e42ab-d03b-4791-ba7d-282a952f454a"
+        "task": "4"
     }
 }.
 
 🔧 tool: {
-    "tool_call_id": "624cce28-9cef-4e80-909e-9cef4309037d",
+    "tool_call_id": "c373ca55-0afd-4fe7-a4a8-156e6b3af1d4",
     "content": "4,2,1",
     "error": false
 }
 
-💬 assistant: The crewai-hailstone agent has successfully computed the hailstone sequence starting at 4. The result is "4,2,1".
+💬 assistant: The hailstone sequence starting at the number four is: 4, 2, 1.
 
-This makes sense because:
-- Starting at 4 (even number): 4 ÷ 2 = 2
-- At 2 (even number): 2 ÷ 2 = 1
-- At 1: we stop (the sequence ends when we reach 1)
-
-The task has been completed successfully. The hailstone sequence starting at 4 is: 4 → 2 → 1.
-
-=== Task Step End ===
+=== Task Step End ===</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
 </pre>
 </div>
 </div>
@@ -5712,7 +6098,7 @@ The task has been completed successfully. The hailstone sequence starting at 4 i
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=93a949c8">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5c8c8ba1">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -5723,65 +6109,34 @@ The task has been completed successfully. The hailstone sequence starting at 4 i
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c2120bc6">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ca015881">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Flips to the server side: wrap an <code>LLMAgent</code> in <code>LLMAgentA2AExecutor</code>, serve it over A2A, then dispatch to it like any other peer -- a loopback demo, back to the Hailstone domain from Ch6/Ch9. Needs <code>a2a-sdk[fastapi]</code> and <code>uvicorn</code>, which aren't core dependencies:</p>
-<div class="highlight"><pre><span></span>!uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">"a2a-sdk[fastapi]"</span><span class="w"> </span>uvicorn
-</pre></div>
+<p>First, purely for demonstration, builds the same <code>LLMAgentA2AExecutor</code> + <code>build_agent_card()</code> construction <code>extra/a2a-from-scratch-hailstone/main.py</code> uses to actually serve this agent (already running, started above) -- nothing here is wired into a running server. The rest of this example dispatches to that real server, a genuinely separate OS process, no different from dispatching to the CrewAI peer in Examples 1-2.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d5f6ee4e">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h4 id="4a-building-llmagenta2aexecutor-and-build_agent_card">4a. Building LLMAgentA2AExecutor and build_agent_card()<a class="anchor-link" href="#4a-building-llmagenta2aexecutor-and-build_agent_card">¶</a></h4>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=320918af-afe2-4534-9b9f-d0c324a855e3">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=9c05ab67">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-10">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="err">!</span><span class="n">uv</span> <span class="n">pip</span> <span class="n">install</span> <span class="s2">"a2a-sdk[fastapi]"</span> <span class="n">uvicorn</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-10">!uv pip install "a2a-sdk[fastapi]" uvicorn</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Audited 2 packages in 1ms
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=47d89b2e">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-11">
@@ -5794,178 +6149,110 @@ The task has been completed successfully. The hailstone sequence starting at 4 i
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMAgent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.a2a</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMAgentA2AExecutor</span><span class="p">,</span> <span class="n">build_agent_card</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleFunctionTool</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">httpx</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">uvicorn</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">a2a.server.request_handlers</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultRequestHandler</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">a2a.server.routes</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">add_a2a_routes_to_fastapi</span><span class="p">,</span>
-    <span class="n">create_agent_card_routes</span><span class="p">,</span>
-    <span class="n">create_jsonrpc_routes</span><span class="p">,</span>
-    <span class="n">create_rest_routes</span><span class="p">,</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">next_number</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+
+
+<span class="n">model</span> <span class="o">=</span> <span class="s2">"qwen3.5:397b-cloud"</span> <span class="k">if</span> <span class="n">use_cloud</span> <span class="k">else</span> <span class="s2">"qwen3:14b"</span>
+<span class="n">demo_host</span> <span class="o">=</span> <span class="s2">"https://ollama.com"</span> <span class="k">if</span> <span class="n">use_cloud</span> <span class="k">else</span> <span class="kc">None</span>
+<span class="n">demo_llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="n">demo_host</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">json_prompt_mode</span><span class="o">=</span><span class="n">use_cloud</span><span class="p">)</span>
+
+<span class="n">hailstone_agent</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">demo_llm</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">SimpleFunctionTool</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">next_number</span><span class="p">)])</span>
+<span class="n">demo_executor</span> <span class="o">=</span> <span class="n">LLMAgentA2AExecutor</span><span class="p">(</span><span class="n">agent</span><span class="o">=</span><span class="n">hailstone_agent</span><span class="p">)</span>
+<span class="n">demo_card</span> <span class="o">=</span> <span class="n">build_agent_card</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"from-scratch-hailstone"</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">"Computes the full Hailstone (Collatz) sequence for a positive integer."</span><span class="p">,</span>
+    <span class="n">url</span><span class="o">=</span><span class="s2">"http://127.0.0.1:9300"</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">a2a.server.tasks</span><span class="w"> </span><span class="kn">import</span> <span class="n">InMemoryTaskStore</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.a2a</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMAgentA2AExecutor</span>
-
-
-<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">ensure_own_a2a_server</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="n">card</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s2">"127.0.0.1"</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">9300</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">15</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Serve `agent` over A2A via LLMAgentA2AExecutor, if not already running.</span>
-
-<span class="sd">    Returns the (Server, Task) pair if this call started the server, or</span>
-<span class="sd">    None if it was already running (so we know not to tear it down).</span>
-<span class="sd">    """</span>
-    <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"http://</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">"</span>
-
-    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_up</span><span class="p">():</span>
-        <span class="c1"># An async client, not a blocking one -- a blocking call here</span>
-        <span class="c1"># would starve this same coroutine's event loop turn, so a</span>
-        <span class="c1"># server we ourselves just started could never actually</span>
-        <span class="c1"># respond to it.</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">async</span> <span class="k">with</span> <span class="n">httpx</span><span class="o">.</span><span class="n">AsyncClient</span><span class="p">()</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
-                <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">/.well-known/agent-card.json"</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">except</span> <span class="n">httpx</span><span class="o">.</span><span class="n">HTTPError</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
-
-    <span class="k">if</span> <span class="k">await</span> <span class="n">_up</span><span class="p">():</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✓ from-scratch-hailstone A2A server already running at </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">None</span>
-
-    <span class="n">request_handler</span> <span class="o">=</span> <span class="n">DefaultRequestHandler</span><span class="p">(</span>
-        <span class="n">agent_executor</span><span class="o">=</span><span class="n">LLMAgentA2AExecutor</span><span class="p">(</span><span class="n">agent</span><span class="o">=</span><span class="n">agent</span><span class="p">),</span>
-        <span class="n">task_store</span><span class="o">=</span><span class="n">InMemoryTaskStore</span><span class="p">(),</span>
-        <span class="n">agent_card</span><span class="o">=</span><span class="n">card</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
-    <span class="n">add_a2a_routes_to_fastapi</span><span class="p">(</span>
-        <span class="n">app</span><span class="p">,</span>
-        <span class="n">agent_card_routes</span><span class="o">=</span><span class="n">create_agent_card_routes</span><span class="p">(</span><span class="n">card</span><span class="p">),</span>
-        <span class="n">jsonrpc_routes</span><span class="o">=</span><span class="n">create_jsonrpc_routes</span><span class="p">(</span><span class="n">request_handler</span><span class="p">,</span> <span class="n">rpc_url</span><span class="o">=</span><span class="s2">"/"</span><span class="p">),</span>
-        <span class="n">rest_routes</span><span class="o">=</span><span class="n">create_rest_routes</span><span class="p">(</span><span class="n">request_handler</span><span class="p">),</span>
-    <span class="p">)</span>
-
-    <span class="n">server</span> <span class="o">=</span> <span class="n">uvicorn</span><span class="o">.</span><span class="n">Server</span><span class="p">(</span>
-        <span class="n">uvicorn</span><span class="o">.</span><span class="n">Config</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="s2">"warning"</span><span class="p">),</span>
-    <span class="p">)</span>
-    <span class="n">task</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">server</span><span class="o">.</span><span class="n">serve</span><span class="p">())</span>
-
-    <span class="c1"># server.started, not an HTTP ping -- polling via HTTP here would</span>
-    <span class="c1"># block this same coroutine's event loop turn, starving the very</span>
-    <span class="c1"># task that needs to run to accept the request.</span>
-    <span class="n">deadline</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="n">timeout</span>
-    <span class="k">while</span> <span class="ow">not</span> <span class="n">server</span><span class="o">.</span><span class="n">started</span> <span class="ow">and</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">deadline</span><span class="p">:</span>
-        <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">server</span><span class="o">.</span><span class="n">started</span><span class="p">:</span>
-        <span class="n">server</span><span class="o">.</span><span class="n">should_exit</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="k">await</span> <span class="n">task</span>
-        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"A2A server did not start within </span><span class="si">{</span><span class="n">timeout</span><span class="si">}</span><span class="s2">s"</span><span class="p">)</span>
-
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✓ from-scratch-hailstone A2A server up at </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">server</span><span class="p">,</span> <span class="n">task</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">demo_card</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-11">import asyncio
-import time
+<div class="clipboard-copy-txt" id="cell-11">from llm_agents_from_scratch import LLMAgent
+from llm_agents_from_scratch.a2a import LLMAgentA2AExecutor, build_agent_card
+from llm_agents_from_scratch.llms import OllamaLLM
+from llm_agents_from_scratch.tools import SimpleFunctionTool
 
-import httpx
-import uvicorn
-from a2a.server.request_handlers import DefaultRequestHandler
-from a2a.server.routes import (
-    add_a2a_routes_to_fastapi,
-    create_agent_card_routes,
-    create_jsonrpc_routes,
-    create_rest_routes,
+
+def next_number(x: int) -&gt; int:
+    if x % 2 == 0:
+        return x // 2
+    return 3 * x + 1
+
+
+model = "qwen3.5:397b-cloud" if use_cloud else "qwen3:14b"
+demo_host = "https://ollama.com" if use_cloud else None
+demo_llm = OllamaLLM(host=demo_host, model=model, think=False, json_prompt_mode=use_cloud)
+
+hailstone_agent = LLMAgent(llm=demo_llm, tools=[SimpleFunctionTool(func=next_number)])
+demo_executor = LLMAgentA2AExecutor(agent=hailstone_agent)
+demo_card = build_agent_card(
+    name="from-scratch-hailstone",
+    description="Computes the full Hailstone (Collatz) sequence for a positive integer.",
+    url="http://127.0.0.1:9300",
 )
-from a2a.server.tasks import InMemoryTaskStore
-from fastapi import FastAPI
-
-from llm_agents_from_scratch.a2a import LLMAgentA2AExecutor
-
-
-async def ensure_own_a2a_server(agent, card, host="127.0.0.1", port=9300, timeout=15):
-    """Serve `agent` over A2A via LLMAgentA2AExecutor, if not already running.
-
-    Returns the (Server, Task) pair if this call started the server, or
-    None if it was already running (so we know not to tear it down).
-    """
-    url = f"http://{host}:{port}"
-
-    async def _up():
-        # An async client, not a blocking one -- a blocking call here
-        # would starve this same coroutine's event loop turn, so a
-        # server we ourselves just started could never actually
-        # respond to it.
-        try:
-            async with httpx.AsyncClient() as client:
-                await client.get(f"{url}/.well-known/agent-card.json", timeout=1)
-            return True
-        except httpx.HTTPError:
-            return False
-
-    if await _up():
-        print(f"✓ from-scratch-hailstone A2A server already running at {url}")
-        return None
-
-    request_handler = DefaultRequestHandler(
-        agent_executor=LLMAgentA2AExecutor(agent=agent),
-        task_store=InMemoryTaskStore(),
-        agent_card=card,
-    )
-    app = FastAPI()
-    add_a2a_routes_to_fastapi(
-        app,
-        agent_card_routes=create_agent_card_routes(card),
-        jsonrpc_routes=create_jsonrpc_routes(request_handler, rpc_url="/"),
-        rest_routes=create_rest_routes(request_handler),
-    )
-
-    server = uvicorn.Server(
-        uvicorn.Config(app, host=host, port=port, log_level="warning"),
-    )
-    task = asyncio.create_task(server.serve())
-
-    # server.started, not an HTTP ping -- polling via HTTP here would
-    # block this same coroutine's event loop turn, starving the very
-    # task that needs to run to accept the request.
-    deadline = time.time() + timeout
-    while not server.started and time.time() &lt; deadline:
-        await asyncio.sleep(0.1)
-
-    if not server.started:
-        server.should_exit = True
-        await task
-        raise RuntimeError(f"A2A server did not start within {timeout}s")
-
-    print(f"✓ from-scratch-hailstone A2A server up at {url}")
-    return server, task</div>
+print(demo_card)</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>name: "from-scratch-hailstone"
+description: "Computes the full Hailstone (Collatz) sequence for a positive integer."
+supported_interfaces {
+  url: "http://127.0.0.1:9300"
+  protocol_binding: "JSONRPC"
+  protocol_version: "1.0"
+}
+version: "0.1.0"
+capabilities {
+  streaming: false
+}
+default_input_modes: "text/plain"
+default_output_modes: "text/plain"
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f1a51e2b">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=add97904">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="4a-standing-up-the-server">4a. Standing Up the Server<a class="anchor-link" href="#4a-standing-up-the-server">¶</a></h4>
+<h4 id="4b-discovering-the-server">4b. Discovering the Server<a class="anchor-link" href="#4b-discovering-the-server">¶</a></h4>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=e5bb7949">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=687ceacb">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-12">
@@ -5978,100 +6265,53 @@ async def ensure_own_a2a_server(agent, card, host="127.0.0.1", port=9300, timeou
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMAgent</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.a2a</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_agent_card</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleFunctionTool</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.a2a</span><span class="w"> </span><span class="kn">import</span> <span class="n">A2AAgentSpec</span>
 
-
-<span class="k">def</span><span class="w"> </span><span class="nf">next_number</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-    <span class="k">if</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">x</span> <span class="o">//</span> <span class="mi">2</span>
-    <span class="k">return</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
-
-
-<span class="n">model</span> <span class="o">=</span> <span class="s2">"qwen3.5:397b-cloud"</span> <span class="k">if</span> <span class="n">use_cloud</span> <span class="k">else</span> <span class="s2">"qwen3:14b"</span>
-<span class="n">ollama_host</span> <span class="o">=</span> <span class="s2">"https://ollama.com"</span> <span class="k">if</span> <span class="n">use_cloud</span> <span class="k">else</span> <span class="kc">None</span>
-<span class="n">server_llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="n">ollama_host</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">json_prompt_mode</span><span class="o">=</span><span class="n">use_cloud</span><span class="p">)</span>
-
-<span class="n">hailstone_agent</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">server_llm</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">SimpleFunctionTool</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">next_number</span><span class="p">)])</span>
-<span class="n">own_card</span> <span class="o">=</span> <span class="n">build_agent_card</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">"from-scratch-hailstone"</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s2">"Computes the full Hailstone (Collatz) sequence for a positive integer."</span><span class="p">,</span>
-    <span class="n">url</span><span class="o">=</span><span class="s2">"http://127.0.0.1:9300"</span><span class="p">,</span>
+<span class="n">own_spec</span> <span class="o">=</span> <span class="k">await</span> <span class="n">A2AAgentSpec</span><span class="o">.</span><span class="n">from_url</span><span class="p">(</span>
+    <span class="s2">"http://127.0.0.1:9300"</span><span class="p">,</span>
+    <span class="n">timeout</span><span class="o">=</span><span class="mf">120.0</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">own_server_handle</span> <span class="o">=</span> <span class="k">await</span> <span class="n">ensure_own_a2a_server</span><span class="p">(</span><span class="n">hailstone_agent</span><span class="p">,</span> <span class="n">own_card</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-12">from llm_agents_from_scratch import LLMAgent
-from llm_agents_from_scratch.a2a import build_agent_card
-from llm_agents_from_scratch.llms import OllamaLLM
-from llm_agents_from_scratch.tools import SimpleFunctionTool
+<div class="clipboard-copy-txt" id="cell-12">from llm_agents_from_scratch.a2a import A2AAgentSpec
 
-
-def next_number(x: int) -&gt; int:
-    if x % 2 == 0:
-        return x // 2
-    return 3 * x + 1
-
-
-model = "qwen3.5:397b-cloud" if use_cloud else "qwen3:14b"
-ollama_host = "https://ollama.com" if use_cloud else None
-server_llm = OllamaLLM(host=ollama_host, model=model, think=False, json_prompt_mode=use_cloud)
-
-hailstone_agent = LLMAgent(llm=server_llm, tools=[SimpleFunctionTool(func=next_number)])
-own_card = build_agent_card(
-    name="from-scratch-hailstone",
-    description="Computes the full Hailstone (Collatz) sequence for a positive integer.",
-    url="http://127.0.0.1:9300",
-)
-own_server_handle = await ensure_own_a2a_server(hailstone_agent, own_card)</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>✓ from-scratch-hailstone A2A server up at http://127.0.0.1:9300
-</pre>
+own_spec = await A2AAgentSpec.from_url(
+    "http://127.0.0.1:9300",
+    timeout=120.0,
+)</div>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f9524a0d">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=cb870138">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="4b-dispatching-a-hailstone-task-to-it">4b. Dispatching a Hailstone Task to It<a class="anchor-link" href="#4b-dispatching-a-hailstone-task-to-it">¶</a></h4>
+<h4 id="4c-dispatching-via-the-coordinator">4c. Dispatching via the Coordinator<a class="anchor-link" href="#4c-dispatching-via-the-coordinator">¶</a></h4>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=98a41434">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4166c12a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Reuses the coordinator from Example 3 rather than dispatching manually -- registering the new peer is just adding it to <code>a2a_agents_registry</code>, same dict <code>with_a2a_agent()</code> builds.</p>
+<p>Reuses the coordinator from Example 3 rather than dispatching manually -- registering the new peer is just adding it to <code>a2a_agents_registry</code>, same dict <code>with_a2a_agent()</code> builds. Console logging is enabled here so the coordinator's own step-by-step logs print live, right in this process -- genuinely separate from the served agent's own log stream in <code>from_scratch_hailstone_server.log</code>, seen next.</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=87f5f605">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=64dd7124">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-13">
@@ -6084,35 +6324,41 @@ own_server_handle = await ensure_own_a2a_server(hailstone_agent, own_card)</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.a2a</span><span class="w"> </span><span class="kn">import</span> <span class="n">A2AAgentSpec</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">Task</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
-<span class="n">own_spec</span> <span class="o">=</span> <span class="k">await</span> <span class="n">A2AAgentSpec</span><span class="o">.</span><span class="n">from_url</span><span class="p">(</span><span class="s2">"http://127.0.0.1:9300"</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">Task</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_console_logging</span>
+
+<span class="n">enable_console_logging</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+
 <span class="n">coordinator</span><span class="o">.</span><span class="n">a2a_agents_registry</span><span class="p">[</span><span class="n">own_spec</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">own_spec</span>
 
 <span class="n">hailstone_task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span>
     <span class="n">instruction</span><span class="o">=</span><span class="p">(</span>
         <span class="s2">"Ask the from-scratch-hailstone peer agent to compute the "</span>
-        <span class="s2">"hailstone sequence starting at 6."</span>
+        <span class="s2">"hailstone sequence starting at 8, until it reaches 1."</span>
     <span class="p">),</span>
 <span class="p">)</span>
-<span class="n">hailstone_handler</span> <span class="o">=</span> <span class="n">coordinator</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">hailstone_task</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">hailstone_handler</span> <span class="o">=</span> <span class="n">coordinator</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">hailstone_task</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 <span class="n">hailstone_result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">hailstone_handler</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">hailstone_result</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-13">from llm_agents_from_scratch.a2a import A2AAgentSpec
-from llm_agents_from_scratch.data_structures import Task
+<div class="clipboard-copy-txt" id="cell-13">import logging
 
-own_spec = await A2AAgentSpec.from_url("http://127.0.0.1:9300")
+from llm_agents_from_scratch.data_structures import Task
+from llm_agents_from_scratch.logger import enable_console_logging
+
+enable_console_logging(logging.INFO)
+
 coordinator.a2a_agents_registry[own_spec.name] = own_spec
 
 hailstone_task = Task(
     instruction=(
         "Ask the from-scratch-hailstone peer agent to compute the "
-        "hailstone sequence starting at 6."
+        "hailstone sequence starting at 8, until it reaches 1."
     ),
 )
-hailstone_handler = coordinator.run(hailstone_task, max_steps=4)
+hailstone_handler = coordinator.run(hailstone_task, max_steps=15)
 hailstone_result = await hailstone_handler
 print(hailstone_result.content)</div>
 </div>
@@ -6126,18 +6372,230 @@ print(hailstone_result.content)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>The `from-scratch-hailstone` peer agent has successfully computed the hailstone sequence starting at 6.
-
-**Result:**
-- **Complete hailstone sequence:** 6 → 3 → 10 → 5 → 16 → 8 → 4 → 2 → 1
-- **Starting number:** 6
-- **Total steps taken:** 8
-- **Maximum value reached:** 16
-
-The sequence follows the Collatz conjecture rules:
-- If the number is even, divide by 2
-- If the number is odd, multiply by 3 and add 1
-- Continue until reaching 1
+<pre>INFO</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre> (llm_agents_fs.LLMAgent) :      🚀 Starting task: Ask the from-scratch-hailstone peer agent to compute the hailstone sequence starting at 8, until it reaches 1.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre> (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Ask the from-scratch-hailstone peer agent to compute the hailstone sequence starting at 8, until it reaches 1.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre> (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: from_scratch__use_a2a_agent
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre> (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: The next number in the hailstone sequence starting at 2 is 1. The sequence has now reached 1, so the process is complete. The ...[TRUNCATED]
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre> (llm_agents_fs.TaskHandler) :      ✅ Step Result: The hailstone sequence starting at 8 is: 8, 4, 2, 1. The process is now complete as it has reached 1.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre> (llm_agents_fs.TaskHandler) :      No new step required.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre> (llm_agents_fs.LLMAgent) :      🏁 Task completed: The hailstone sequence starting at 8 is: 8, 4, 2, 1. The process is now complete as it has reached 1.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>The hailstone sequence starting at 8 is: 8, 4, 2, 1. The process is now complete as it has reached 1.</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=8ad5e159">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h4 id="4d-the-servers-own-log-stream">4d. The Server's Own Log Stream<a class="anchor-link" href="#4d-the-servers-own-log-stream">¶</a></h4>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=44b61fad">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Two different processes, two different log streams: the coordinator's logs just printed above came from <em>this</em> notebook's own kernel process; the server's own logs went to <code>from_scratch_hailstone_server.log</code> the whole time, in its own process.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=ec16f077">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-14">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">"from_scratch_hailstone_server.log"</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-14">print(open("from_scratch_hailstone_server.log").read())</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>warning</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>:</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre> </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>`VIRTUAL_ENV=/home/nerdai/.cache/uv/builds-v0/.tmpQnfGOT` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+INFO:     Started server process [323186]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:9300 (Press CTRL+C to quit)
+INFO:     127.0.0.1:55760 - "GET /.well-known/agent-card.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50442 - "GET /.well-known/agent-card.json HTTP/1.1" 200 OK
+INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: Compute the hailstone sequence starting at 8, until it reaches 1.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Compute the hailstone sequence starting at 8, until it reaches 1.
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to call the next_number tool with x = 8.
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the next_number tool with x = 8.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the next_number tool with x = 8.
+INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
+INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 4
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The next number in the hailstone sequence starting at 8 is 4. I will now compute the subsequent numbers in the sequence until it reache...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Compute the next number in the hailstone sequence starting at 4.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Compute the next number in the hailstone sequence starting at 4.
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to call the next_number tool with x = 4.
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the next_number tool with x = 4.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the next_number tool with x = 4.
+INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
+INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 2
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The next number in the hailstone sequence starting at 4 is 2. I will now compute the subsequent numbers in the sequence until it reache...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Compute the next number in the hailstone sequence starting at 2.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Compute the next number in the hailstone sequence starting at 2.
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to call the next_number tool with x = 2.
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the next_number tool with x = 2.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the next_number tool with x = 2.
+INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
+INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 1
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The next number in the hailstone sequence starting at 2 is 1. The sequence has now reached 1, so the process is complete. The full hail...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      No new step required.
+INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The next number in the hailstone sequence starting at 2 is 1. The sequence has now reached 1, so the process is complete. The full h...[TRUNCATED]
+INFO:     127.0.0.1:48856 - "POST / HTTP/1.1" 200 OK
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
 </pre>
 </div>
 </div>
@@ -6164,7 +6622,7 @@ The sequence follows the Collatz conjecture rules:
 <div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-14">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-15">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -6174,17 +6632,22 @@ The sequence follows the Collatz conjecture rules:
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="k">if</span> <span class="n">a2a_server_process</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+
+
+<span class="k">if</span> <span class="n">a2a_server_process</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">a2a_server_process</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
-    <span class="n">a2a_server_process</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">a2a_server_process</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">TimeoutExpired</span><span class="p">:</span>
+        <span class="n">a2a_server_process</span><span class="o">.</span><span class="n">kill</span><span class="p">()</span>
+        <span class="n">a2a_server_process</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"✓ Stopped CrewAI Hailstone A2A server"</span><span class="p">)</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"A2A server wasn't started by this notebook -- leaving it running"</span><span class="p">)</span>
 
-<span class="k">if</span> <span class="n">own_server_handle</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="n">own_server</span><span class="p">,</span> <span class="n">own_server_task</span> <span class="o">=</span> <span class="n">own_server_handle</span>
-    <span class="n">own_server</span><span class="o">.</span><span class="n">should_exit</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="k">await</span> <span class="n">own_server_task</span>
+<span class="k">if</span> <span class="n">own_server_process</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">stop_from_scratch_hailstone</span><span class="p">(</span><span class="n">own_server_process</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"✓ Stopped from-scratch-hailstone A2A server"</span><span class="p">)</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span>
@@ -6192,17 +6655,22 @@ The sequence follows the Collatz conjecture rules:
         <span class="s2">"this notebook -- leaving it running"</span><span class="p">,</span>
     <span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-14">if a2a_server_process is not None:
+<div class="clipboard-copy-txt" id="cell-15">import subprocess
+
+
+if a2a_server_process is not None:
     a2a_server_process.terminate()
-    a2a_server_process.wait(timeout=5)
+    try:
+        a2a_server_process.wait(timeout=5)
+    except subprocess.TimeoutExpired:
+        a2a_server_process.kill()
+        a2a_server_process.wait(timeout=5)
     print("✓ Stopped CrewAI Hailstone A2A server")
 else:
     print("A2A server wasn't started by this notebook -- leaving it running")
 
-if own_server_handle is not None:
-    own_server, own_server_task = own_server_handle
-    own_server.should_exit = True
-    await own_server_task
+if own_server_process is not None:
+    stop_from_scratch_hailstone(own_server_process)
     print("✓ Stopped from-scratch-hailstone A2A server")
 else:
     print(
@@ -6220,8 +6688,26 @@ else:
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>✓ Stopped CrewAI Hailstone A2A server
-✓ Stopped from-scratch-hailstone A2A server
+<pre>✓ Stopped CrewAI Hailstone A2A server</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>✓ Stopped from-scratch-hailstone A2A server</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
 </pre>
 </div>
 </div>

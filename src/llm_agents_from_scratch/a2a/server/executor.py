@@ -199,7 +199,7 @@ def build_agent_card(  # noqa: PLR0913, PLR0917
     signatures: list[AgentCardSignature] | None = None,
     icon_url: str | None = None,
 ) -> AgentCard:
-    """Builds an ``AgentCard`` for serving an ``LLMAgent`` over A2A.
+    """Builds an ``AgentCard`` for serving an ``LLMAgentA2AExecutor``.
 
     A plain function returning the SDK's own type rather than a class
     of ours, so readers keep the protocol's vocabulary. Necessarily

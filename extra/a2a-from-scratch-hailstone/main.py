@@ -49,9 +49,11 @@ def build_app() -> FastAPI:
         FastAPI: The app, with A2A agent-card, JSON-RPC, and REST
             routes mounted.
     """
-    json_prompt_mode = OLLAMA_HOST is not None and OLLAMA_HOST.startswith(
-        "https://ollama.com",
-    )
+    # Exact match, not a prefix/substring check -- OLLAMA_HOST is only
+    # ever unset (local) or exactly "https://ollama.com" per this
+    # app's README, and a substring/prefix check would incorrectly
+    # match a host like "https://ollama.com.evil.com".
+    json_prompt_mode = OLLAMA_HOST == "https://ollama.com"
     llm = OllamaLLM(
         host=OLLAMA_HOST,
         model=OLLAMA_MODEL,

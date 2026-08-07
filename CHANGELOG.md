@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- feat(ch10): `a2a/server/streaming_executor.py` — `StreamingLLMAgentA2AExecutor` (streaming-capable sibling to `LLMAgentA2AExecutor`, self-contained, drives `LLMAgent.run_supervised()`'s caller-controlled `get_next_step()`/`run_step()` loop directly, publishing two `TASK_STATE_WORKING` updates per step instead of only a final terminal state) and `build_streaming_agent_card()` (mirrors `build_agent_card()`, differing only in `capabilities=AgentCapabilities(streaming=True)`); `a2a/server/__init__.py`/`a2a/__init__.py` re-export both (#817)
 - feat(ch10): `a2a/server/` — `LLMAgentA2AExecutor` (bridges inbound A2A tasks to an `LLMAgent`; `cancel()` settles both `TaskHandler.background_task` and the `TaskHandler` future itself, since the latter never resolves on its own) and `build_agent_card()` (plain function returning an `a2a.types.AgentCard`, no composite wrapper class); `a2a/__init__.py` re-exports both alongside the existing client-side names (#787)
 - feat(ch10): `A2AAgentSpec.timeout` (default 60.0) — configurable per-peer dispatch timeout for `UseA2AAgentTool`, passed through to `httpx.AsyncClient`; overridable via `from_agent_card()`/`from_url()` (#807)
 - feat(ch10): `UseA2AAgentTool` — dispatch schema `name` + `task` + optional `task_id` to resume a peer task parked in `TASK_STATE_INPUT_REQUIRED`; creates an SDK client fresh per dispatch and always closes it; `TaskHandler._use_a2a_agent_tool`/`_a2a_agents_catalog` wired into `run_step` (#800)

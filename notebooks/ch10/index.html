@@ -893,6 +893,45 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#example-3-resuming-a-peer-task-parked-in-input_required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3: Resuming a Peer Task Parked in input_required
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example 3: Resuming a Peer Task Parked in input_required">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3a-manually-inspecting-the-wrapped-response" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3a. Manually Inspecting the Wrapped Response
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3b-letting-an-llmagent-resume-the-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3b. Letting an LLMAgent Resume the Task
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3786,6 +3825,45 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#example-3-resuming-a-peer-task-parked-in-input_required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3: Resuming a Peer Task Parked in input_required
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example 3: Resuming a Peer Task Parked in input_required">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3a-manually-inspecting-the-wrapped-response" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3a. Manually Inspecting the Wrapped Response
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3b-letting-an-llmagent-resume-the-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3b. Letting an LLMAgent Resume the Task
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -4740,7 +4818,7 @@ ensure_ollama() if not use_cloud else print("✓ Using Ollama Cloud")</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>✓ Using Ollama Cloud
+<pre>✓ Ollama already running at http://localhost:11434
 </pre>
 </div>
 </div>
@@ -4997,7 +5075,7 @@ default_output_modes: "text/plain"
 skills {
   id: "hailstone_sequence"
   name: "hailstone_sequence"
-  description: "Compute the full hailstone sequence for a positive integer x, repeatedly applying x / 2 (if even) or 3x + 1 (if odd) until reaching 1."
+  description: "Compute the full hailstone sequence for a positive integer x, repeatedly applying x / 2 (if even) or 3x + 1 (if odd) until reaching 1. Asks for clarification if the task doesn\'t name a starting integer."
   tags: "math"
 }
 
@@ -5209,18 +5287,40 @@ print(result.content)</div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b56ed568">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0d0db273">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="cleanup">Cleanup<a class="anchor-link" href="#cleanup">¶</a></h2>
+<h3 id="example-3-resuming-a-peer-task-parked-in-input_required">Example 3: Resuming a Peer Task Parked in input_required<a class="anchor-link" href="#example-3-resuming-a-peer-task-parked-in-input_required">¶</a></h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0d463e9c">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><code>CrewAIHailstoneExecutor</code>'s ambiguity check is a plain regex for a digit -- a spelled-out number like <em>"four"</em> triggers <code>TASK_STATE_INPUT_REQUIRED</code> organically, not as a CrewAI judgment call.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=bf7db2b0">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h4 id="3a-manually-inspecting-the-wrapped-response">3a. Manually Inspecting the Wrapped Response<a class="anchor-link" href="#3a-manually-inspecting-the-wrapped-response">¶</a></h4>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=0b3a7624">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=3416d475">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -5238,6 +5338,329 @@ print(result.content)</div>
 </div>
 </clipboard-copy>
 </div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.a2a</span><span class="w"> </span><span class="kn">import</span> <span class="n">UseA2AAgentTool</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolCall</span>
+
+<span class="n">tool</span> <span class="o">=</span> <span class="n">UseA2AAgentTool</span><span class="p">(</span><span class="n">a2a_agents_registry</span><span class="o">=</span><span class="p">{</span><span class="n">spec</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">spec</span><span class="p">})</span>
+
+<span class="n">ambiguous_call</span> <span class="o">=</span> <span class="n">ToolCall</span><span class="p">(</span>
+    <span class="n">tool_name</span><span class="o">=</span><span class="s2">"from_scratch__use_a2a_agent"</span><span class="p">,</span>
+    <span class="n">arguments</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="n">spec</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="s2">"task"</span><span class="p">:</span> <span class="s2">"Compute the hailstone sequence starting at the number four."</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+<span class="n">input_required_result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">tool</span><span class="p">(</span><span class="n">tool_call</span><span class="o">=</span><span class="n">ambiguous_call</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">input_required_result</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-7">from llm_agents_from_scratch.a2a import UseA2AAgentTool
+from llm_agents_from_scratch.data_structures import ToolCall
+
+tool = UseA2AAgentTool(a2a_agents_registry={spec.name: spec})
+
+ambiguous_call = ToolCall(
+    tool_name="from_scratch__use_a2a_agent",
+    arguments={
+        "name": spec.name,
+        "task": "Compute the hailstone sequence starting at the number four.",
+    },
+)
+input_required_result = await tool(tool_call=ambiguous_call)
+print(input_required_result.content)</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>The A2A agent 'crewai-hailstone' needs more information before it can continue:
+
+Which positive integer should I start the hailstone sequence from?
+
+To continue, call `from_scratch__use_a2a_agent` again with name='crewai-hailstone', task_id='a8ccf684-e38e-422d-a81a-ef43b0576f52', and `task` set to the requested information. This resumes the same remote task rather than starting a new one.
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=87c05e53">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h4 id="3b-letting-an-llmagent-resume-the-task">3b. Letting an LLMAgent Resume the Task<a class="anchor-link" href="#3b-letting-an-llmagent-resume-the-task">¶</a></h4>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=79635db2">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Needs a larger model than the rest of this notebook -- smaller local models (e.g. <code>qwen3:14b</code>) were observed to <em>narrate</em> making the resume call without ever actually issuing it. Requires <code>ollama signin</code> or <code>OLLAMA_API_KEY</code> set.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=742693b2">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-8">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMAgentBuilder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">Task</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
+
+<span class="n">coordinator_host</span> <span class="o">=</span> <span class="s2">"https://ollama.com"</span> <span class="k">if</span> <span class="n">use_cloud</span> <span class="k">else</span> <span class="kc">None</span>
+<span class="n">coordinator_llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span>
+    <span class="n">host</span><span class="o">=</span><span class="n">coordinator_host</span><span class="p">,</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">"qwen3.5:397b-cloud"</span><span class="p">,</span>
+    <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">json_prompt_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">coordinator</span> <span class="o">=</span> <span class="k">await</span> <span class="p">(</span>
+    <span class="n">LLMAgentBuilder</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">with_llm</span><span class="p">(</span><span class="n">coordinator_llm</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">with_a2a_agent</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">build</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="n">resume_task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span>
+    <span class="n">instruction</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">"Pass the following task to the crewai-hailstone peer agent, "</span>
+        <span class="s2">"and ensure it completes the task successfully. "</span>
+        <span class="s2">"Task: Compute the hailstone sequence starting at the number four."</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+<span class="n">handler</span> <span class="o">=</span> <span class="n">coordinator</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">resume_task</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">handler</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-8">from llm_agents_from_scratch import LLMAgentBuilder
+from llm_agents_from_scratch.data_structures import Task
+from llm_agents_from_scratch.llms import OllamaLLM
+
+coordinator_host = "https://ollama.com" if use_cloud else None
+coordinator_llm = OllamaLLM(
+    host=coordinator_host,
+    model="qwen3.5:397b-cloud",
+    think=False,
+    json_prompt_mode=True,
+)
+
+coordinator = await (
+    LLMAgentBuilder()
+    .with_llm(coordinator_llm)
+    .with_a2a_agent(spec)
+    .build()
+)
+
+resume_task = Task(
+    instruction=(
+        "Pass the following task to the crewai-hailstone peer agent, "
+        "and ensure it completes the task successfully. "
+        "Task: Compute the hailstone sequence starting at the number four."
+    ),
+)
+handler = coordinator.run(resume_task, max_steps=6)
+result = await handler
+print(result.content)</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>The crewai-hailstone agent has successfully completed the task. It computed the hailstone sequence starting at the number 4, which is: **4, 2, 1**.
+
+This makes sense because:
+- Start with 4 (even) → divide by 2 → 2
+- 2 (even) → divide by 2 → 1
+- 1 is the end of the sequence (the Collatz conjecture states all sequences eventually reach 1)
+
+The task has been completed successfully.
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4b7006b6">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><code>handler.rollout</code> confirms the coordinator genuinely made both calls -- the ambiguous dispatch with the word "four", the peer's <code>input_required</code> question, and the resumed call with the digit <code>4</code> -- not a lucky single guess:</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=1e7e8b06">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-9">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">handler</span><span class="o">.</span><span class="n">rollout</span><span class="p">)</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-9">print(handler.rollout)</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>=== Task Step Start ===
+
+💬 assistant: My current instruction is 'Pass the following task to the crewai-hailstone peer agent, and ensure it completes the task successfully. Task: Compute the hailstone sequence starting at the number four.'
+
+💬 assistant: I need to make the following tool call(s):
+
+{
+    "id_": "92a77925-4dcd-4d8c-a2e7-6c9db0314d6d",
+    "tool_name": "from_scratch__use_a2a_agent",
+    "arguments": {
+        "name": "crewai-hailstone",
+        "task": "Compute the hailstone sequence starting at the number four."
+    }
+}.
+
+🔧 tool: {
+    "tool_call_id": "92a77925-4dcd-4d8c-a2e7-6c9db0314d6d",
+    "content": "The A2A agent 'crewai-hailstone' needs more information before it can continue:\n\nWhich positive integer should I start the hailstone sequence from?\n\nTo continue, call `from_scratch__use_a2a_agent` again with name='crewai-hailstone', task_id='72440cd0-46ae-4e41-8d67-2fbc87dcc7c8', and `task` set to the requested information. This resumes the same remote task rather than starting a new one.",
+    "error": false
+}
+
+💬 assistant: I need to make the following tool call(s):
+
+{
+    "id_": "03b44fa2-62bb-4101-9a87-360bcb4d149b",
+    "tool_name": "from_scratch__use_a2a_agent",
+    "arguments": {
+        "name": "crewai-hailstone",
+        "task": "Start the hailstone sequence from the number 4.",
+        "task_id": "72440cd0-46ae-4e41-8d67-2fbc87dcc7c8"
+    }
+}.
+
+=== Task Step End ===
+
+=== Task Step Start ===
+
+💬 assistant: My current instruction is 'Execute the tool call to resume the 'crewai-hailstone' agent task with the specific instruction to start the sequence from the number 4, using the provided task_id.'
+
+💬 assistant: I need to make the following tool call(s):
+
+{
+    "id_": "c9913b4a-558b-49ac-970b-1a7de985f735",
+    "tool_name": "from_scratch__use_a2a_agent",
+    "arguments": {
+        "name": "crewai-hailstone",
+        "task": "Start the hailstone sequence from the number 4.",
+        "task_id": "72440cd0-46ae-4e41-8d67-2fbc87dcc7c8"
+    }
+}.
+
+🔧 tool: {
+    "tool_call_id": "c9913b4a-558b-49ac-970b-1a7de985f735",
+    "content": "4,2,1",
+    "error": false
+}
+
+💬 assistant: The crewai-hailstone agent has successfully completed the task. It computed the hailstone sequence starting at the number 4, which is: **4, 2, 1**.
+
+This makes sense because:
+- Start with 4 (even) → divide by 2 → 2
+- 2 (even) → divide by 2 → 1
+- 1 is the end of the sequence (the Collatz conjecture states all sequences eventually reach 1)
+
+The task has been completed successfully.
+
+=== Task Step End ===
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b56ed568">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="cleanup">Cleanup<a class="anchor-link" href="#cleanup">¶</a></h2>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=0b3a7624">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-10">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="k">if</span> <span class="n">a2a_server_process</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">a2a_server_process</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
     <span class="n">a2a_server_process</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
@@ -5245,7 +5668,7 @@ print(result.content)</div>
 <span class="k">else</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"A2A server wasn't started by this notebook -- leaving it running"</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-7">if a2a_server_process is not None:
+<div class="clipboard-copy-txt" id="cell-10">if a2a_server_process is not None:
     a2a_server_process.terminate()
     a2a_server_process.wait(timeout=5)
     print("✓ Stopped CrewAI Hailstone A2A server")

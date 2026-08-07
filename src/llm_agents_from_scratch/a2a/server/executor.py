@@ -58,26 +58,23 @@ class LLMAgentA2AExecutor(AgentExecutor):
             event_queue (EventQueue): The queue to publish task
                 status/artifact events to.
         """
-        if context.task_id is None or context.context_id is None:
-            raise ValueError(
-                "RequestContext is missing a task_id or context_id.",
-            )
-        if context.current_task is None:
+        if context.current_task:
+            task = context.current_task
+        else:
             if context.message is None:
                 raise ValueError(
                     "RequestContext is missing the user's Message.",
                 )
-            await event_queue.enqueue_event(
-                new_task_from_user_message(context.message),
-            )
+            task = new_task_from_user_message(context.message)
+            await event_queue.enqueue_event(task)
 
-        updater = TaskUpdater(event_queue, context.task_id, context.context_id)
+        updater = TaskUpdater(event_queue, task.id, task.context_id)
         await updater.submit()
         await updater.start_work()
 
         instruction = context.get_user_input()
         task_handler = self.agent.run(Task(instruction=instruction))
-        self._task_handlers[context.task_id] = task_handler
+        self._task_handlers[task.id] = task_handler
         try:
             result = await task_handler
         except asyncio.CancelledError:
@@ -90,7 +87,7 @@ class LLMAgentA2AExecutor(AgentExecutor):
             )
             return
         finally:
-            self._task_handlers.pop(context.task_id, None)
+            self._task_handlers.pop(task.id, None)
 
         await updater.add_artifact(
             parts=[new_text_part(result.content)],

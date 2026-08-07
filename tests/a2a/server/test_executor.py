@@ -5,7 +5,9 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 from a2a.server.events import EventQueueLegacy
-from a2a.types import Message, Part, Role, TaskState
+from a2a.types import Message, Part, TaskState, TaskStatus
+from a2a.types import Role as A2ARole
+from a2a.types import Task as A2ATask
 from a2a.utils.errors import TaskNotFoundError
 
 from llm_agents_from_scratch import LLMAgent
@@ -25,7 +27,7 @@ def _context(
     context.context_id = context_id
     context.current_task = current_task
     context.message = Message(
-        role=Role.ROLE_USER,
+        role=A2ARole.ROLE_USER,
         parts=[Part(text=instruction)],
         task_id=task_id,
         context_id=context_id,
@@ -103,7 +105,12 @@ async def test_execute_skips_new_task_when_current_task_set(
     agent = LLMAgent(llm=mock_llm)
     executor = LLMAgentA2AExecutor(agent=agent)
     queue = EventQueueLegacy()
-    context = _context(current_task=MagicMock())
+    existing_task = A2ATask(
+        id="t1",
+        context_id="c1",
+        status=TaskStatus(state=TaskState.TASK_STATE_SUBMITTED),
+    )
+    context = _context(current_task=existing_task)
 
     with patch.object(LLMAgent.TaskHandler, "get_next_step") as mock_next_step:
         mock_next_step.side_effect = [
@@ -116,16 +123,6 @@ async def test_execute_skips_new_task_when_current_task_set(
 
     task_events = [e for e in events if type(e).__name__ == "Task"]
     assert len(task_events) == 0
-
-
-@pytest.mark.asyncio
-async def test_execute_raises_on_missing_task_id(mock_llm: BaseLLM) -> None:
-    """Tests a missing task_id raises before any dispatch."""
-    executor = LLMAgentA2AExecutor(agent=LLMAgent(llm=mock_llm))
-    context = _context(task_id=None)  # type: ignore[arg-type]
-
-    with pytest.raises(ValueError, match="task_id or context_id"):
-        await executor.execute(context, EventQueueLegacy())
 
 
 @pytest.mark.asyncio

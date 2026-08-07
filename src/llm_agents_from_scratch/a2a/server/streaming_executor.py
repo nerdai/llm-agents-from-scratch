@@ -1,7 +1,5 @@
 """StreamingLLMAgentA2AExecutor — streaming variant of LLMAgentA2AExecutor."""
 
-import asyncio
-
 from a2a.helpers import new_task_from_user_message, new_text_part
 from a2a.server.agent_execution import AgentExecutor, RequestContext
 from a2a.server.events import EventQueue
@@ -78,6 +76,17 @@ class StreamingLLMAgentA2AExecutor(AgentExecutor):
     ) -> None:
         """Runs the agent step by step, publishing an update per step.
 
+        Only ``Exception`` is caught below, deliberately not
+        ``BaseException``: ``asyncio.CancelledError`` (raised here when
+        the SDK cancels the producer task running this coroutine, per
+        ``cancel()`` below) must propagate uncaught. The SDK's own
+        producer loop wrapping this call has its own
+        ``except CancelledError`` that closes the event queue and lets
+        the producer task actually terminate. Catching and returning
+        normally here instead would make ``execute()`` look like it
+        finished successfully, leaving that producer task running —
+        parked awaiting a request that will never come.
+
         Args:
             context (RequestContext): The request context containing
                 the task instruction.
@@ -124,16 +133,6 @@ class StreamingLLMAgentA2AExecutor(AgentExecutor):
                         )
                     case TaskResult():
                         await task_handler.complete(next_step)
-        except asyncio.CancelledError:
-            # Not caught by except Exception below (CancelledError is a
-            # BaseException, not an Exception) -- this clause is purely
-            # explicit documentation of that fact, not a behavior
-            # change: it must propagate uncaught so the SDK's own
-            # producer-loop cleanup (which closes event_queue and lets
-            # the producer task actually terminate) still runs. The
-            # finally block below still settles _task_handlers either
-            # way.
-            raise
         except Exception as e:
             await updater.update_status(
                 TaskState.TASK_STATE_FAILED,

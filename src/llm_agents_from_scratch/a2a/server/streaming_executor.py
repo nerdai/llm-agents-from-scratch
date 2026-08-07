@@ -1,5 +1,7 @@
 """StreamingLLMAgentA2AExecutor — streaming variant of LLMAgentA2AExecutor."""
 
+import asyncio
+
 from a2a.helpers import new_task_from_user_message, new_text_part
 from a2a.server.agent_execution import AgentExecutor, RequestContext
 from a2a.server.events import EventQueue
@@ -122,6 +124,16 @@ class StreamingLLMAgentA2AExecutor(AgentExecutor):
                         )
                     case TaskResult():
                         await task_handler.complete(next_step)
+        except asyncio.CancelledError:
+            # Not caught by except Exception below (CancelledError is a
+            # BaseException, not an Exception) -- this clause is purely
+            # explicit documentation of that fact, not a behavior
+            # change: it must propagate uncaught so the SDK's own
+            # producer-loop cleanup (which closes event_queue and lets
+            # the producer task actually terminate) still runs. The
+            # finally block below still settles _task_handlers either
+            # way.
+            raise
         except Exception as e:
             await updater.update_status(
                 TaskState.TASK_STATE_FAILED,

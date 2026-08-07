@@ -1,6 +1,7 @@
 """Unit tests for StreamingLLMAgentA2AExecutor."""
 
 import asyncio
+from collections.abc import Callable
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -48,6 +49,11 @@ async def _drain(queue: EventQueueLegacy, timeout: float = 0.5) -> list:
     except asyncio.TimeoutError:
         pass
     return events
+
+
+async def _wait_until(predicate: Callable[[], bool]) -> None:
+    while not predicate():
+        await asyncio.sleep(0.01)
 
 
 @pytest.mark.asyncio
@@ -213,15 +219,22 @@ async def test_execute_propagates_cancellation_mid_run(
     with patch.object(LLMAgent.TaskHandler, "get_next_step") as mock_next_step:
         mock_next_step.side_effect = _hang
         execute_task = asyncio.create_task(executor.execute(context, queue))
-        await asyncio.sleep(0.1)
+        await asyncio.wait_for(
+            _wait_until(lambda: "t1" in executor._task_handlers),
+            timeout=1,
+        )
 
         execute_task.cancel()
-        await executor.cancel(context, EventQueueLegacy())
+        await executor.cancel(context, queue)
         with pytest.raises(asyncio.CancelledError):
             await asyncio.wait_for(execute_task, timeout=1)
 
     assert execute_task.cancelled()
     assert "t1" not in executor._task_handlers
+
+    events = await _drain(queue)
+    statuses = [e.status.state for e in events if hasattr(e, "status")]
+    assert TaskState.TASK_STATE_CANCELED in statuses
 
 
 @pytest.mark.asyncio

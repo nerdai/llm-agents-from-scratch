@@ -32,6 +32,18 @@ class LLMAgentA2AExecutor(AgentExecutor):
     in ``input_required`` is a different, much cheaper problem, and is
     in scope there.
 
+    No concurrency limit: the SDK invokes ``execute()`` once per
+    task_id with no cap on how many run at once — two clients dispatching
+    at the same moment get two independent ``ActiveTask``s and two
+    genuinely concurrent calls into this executor (the SDK only
+    serializes repeat calls for the *same* task_id, not across
+    different ones). Nothing here bounds how many concurrent
+    ``agent.run()`` calls fan out to the backing LLM. Production use
+    serving real traffic should guard this — e.g. an ``asyncio.
+    Semaphore`` acquired at the top of ``execute()`` — left as a
+    callout rather than built in, to keep this an educational
+    framework rather than a production-hardened one.
+
     Attributes:
         agent (LLMAgent): The agent this executor serves.
     """
@@ -51,6 +63,16 @@ class LLMAgentA2AExecutor(AgentExecutor):
         event_queue: EventQueue,
     ) -> None:
         """Runs the agent on the caller's instruction to completion.
+
+        Only ``Exception`` is caught below, deliberately not
+        ``BaseException``: ``asyncio.CancelledError`` (raised here when
+        ``cancel()`` cancels ``task_handler``) must propagate uncaught.
+        The SDK's own producer loop wrapping this call has its own
+        ``except CancelledError`` that closes the event queue and lets
+        the producer task actually terminate. Catching and returning
+        normally here instead would make ``execute()`` look like it
+        finished successfully, leaving that producer task running —
+        parked awaiting a request that will never come.
 
         Args:
             context (RequestContext): The request context containing
@@ -77,9 +99,6 @@ class LLMAgentA2AExecutor(AgentExecutor):
         self._task_handlers[task.id] = task_handler
         try:
             result = await task_handler
-        except asyncio.CancelledError:
-            # cancel() already published TASK_STATE_CANCELED.
-            return
         except Exception as e:
             await updater.update_status(
                 TaskState.TASK_STATE_FAILED,
@@ -122,6 +141,18 @@ class LLMAgentA2AExecutor(AgentExecutor):
                 f"No in-flight task found for id '{context.task_id}'.",
             )
 
+        # Publish CANCELED before actually cancelling task_handler.
+        # Cancelling task_handler first would wake execute()'s
+        # `await task_handler` immediately, propagating
+        # CancelledError and triggering the SDK's own producer-loop
+        # cleanup, which closes this same event_queue -- racing our
+        # own enqueue below and sometimes winning, silently dropping
+        # the terminal status update (confirmed live: the queue
+        # closing mid-enqueue leaves the task's persisted state stuck
+        # at its last non-terminal value instead of CANCELED).
+        updater = TaskUpdater(event_queue, context.task_id, context.context_id)
+        await updater.cancel()
+
         # TaskHandler is a plain asyncio.Future manually driven by
         # _process_loop -- cancelling background_task alone stops the
         # work but never settles task_handler itself (its except
@@ -134,6 +165,3 @@ class LLMAgentA2AExecutor(AgentExecutor):
             pass
         if not task_handler.done():
             task_handler.cancel()
-
-        updater = TaskUpdater(event_queue, context.task_id, context.context_id)
-        await updater.cancel()

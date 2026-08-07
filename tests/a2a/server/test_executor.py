@@ -180,10 +180,16 @@ async def test_cancel_raises_on_missing_task_id(mock_llm: BaseLLM) -> None:
 
 
 @pytest.mark.asyncio
-async def test_execute_returns_quietly_when_cancelled_mid_run(
+async def test_execute_propagates_cancellation_mid_run(
     mock_llm: BaseLLM,
 ) -> None:
-    """Tests execute() returns cleanly when cancel() interrupts its await."""
+    """Tests execute() re-raises when cancel() interrupts its await.
+
+    Must not swallow it: the SDK's own producer loop wrapping
+    execute() relies on the exception propagating to close the event
+    queue and let the producer task actually terminate, rather than
+    looking like execute() finished successfully.
+    """
     agent = LLMAgent(llm=mock_llm)
     executor = LLMAgentA2AExecutor(agent=agent)
     queue = EventQueueLegacy()
@@ -198,9 +204,11 @@ async def test_execute_returns_quietly_when_cancelled_mid_run(
         await asyncio.sleep(0.1)
 
         await executor.cancel(context, EventQueueLegacy())
-        await asyncio.wait_for(execute_task, timeout=1)
+        with pytest.raises(asyncio.CancelledError):
+            await asyncio.wait_for(execute_task, timeout=1)
 
-    assert execute_task.exception() is None
+    assert execute_task.cancelled()
+    assert "t1" not in executor._task_handlers
 
 
 @pytest.mark.asyncio

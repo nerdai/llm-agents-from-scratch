@@ -24,6 +24,12 @@ call's input — until the sequence reaches 1, the same way the book's
 `LLMAgent` drives repeated tool calls itself rather than looping in the
 tool.
 
+If the instruction names no starting integer, the executor parks the
+task in `TASK_STATE_INPUT_REQUIRED` and asks for one instead of
+guessing. Resume by sending another message to the same `task_id` with
+the missing integer — the same client-side pattern
+`UseA2AAgentTool`'s `task_id` parameter supports for any peer.
+
 ## Installation
 
 ```bash

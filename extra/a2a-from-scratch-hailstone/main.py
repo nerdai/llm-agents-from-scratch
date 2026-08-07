@@ -49,7 +49,15 @@ def build_app() -> FastAPI:
         FastAPI: The app, with A2A agent-card, JSON-RPC, and REST
             routes mounted.
     """
-    llm = OllamaLLM(host=OLLAMA_HOST, model=OLLAMA_MODEL, think=False)
+    json_prompt_mode = OLLAMA_HOST is not None and OLLAMA_HOST.startswith(
+        "https://ollama.com",
+    )
+    llm = OllamaLLM(
+        host=OLLAMA_HOST,
+        model=OLLAMA_MODEL,
+        think=False,
+        json_prompt_mode=json_prompt_mode,
+    )
     agent = LLMAgent(llm=llm, tools=[SimpleFunctionTool(func=next_number)])
     card = build_agent_card(
         name="from-scratch-hailstone",

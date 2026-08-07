@@ -112,6 +112,11 @@ nav:
     - Subagents:
       - SubAgentSpec: api_reference/subagents/spec.md
       - UseSubAgentTool: api_reference/subagents/tools.md
+    - A2A:
+      - A2AAgentSpec: api_reference/a2a/spec.md
+      - UseA2AAgentTool: api_reference/a2a/tools.md
+      - LLMAgentA2AExecutor: api_reference/a2a/executor.md
+      - StreamingLLMAgentA2AExecutor: api_reference/a2a/streaming_executor.md
     - Errors: api_reference/errors/index.md
 plugins:
   - search

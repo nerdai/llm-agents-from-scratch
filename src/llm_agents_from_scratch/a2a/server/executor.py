@@ -46,6 +46,14 @@ class LLMAgentA2AExecutor(AgentExecutor):
 
     Attributes:
         agent (LLMAgent): The agent this executor serves.
+        _task_handlers (dict[str, LLMAgent.TaskHandler]): In-flight
+            runs, keyed by task_id. ``execute()`` and ``cancel()`` are
+            separate calls with no shared local state connecting
+            them — this registry is what lets ``cancel()`` find the
+            specific ``TaskHandler`` a concurrent ``execute()`` call
+            (for a different task_id) is driving. Entries are added
+            when a run starts and removed in ``execute()``'s
+            ``finally`` once that task settles.
     """
 
     def __init__(self, agent: LLMAgent) -> None:

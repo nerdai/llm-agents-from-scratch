@@ -65,11 +65,15 @@ def hailstone_step_fn(x: int) -> str:
 
 
 def build_crew(instruction: str) -> Crew:
-    """Builds a single-agent Crew that computes a full hailstone sequence.
+    """Builds a single-agent Crew that computes a hailstone sequence.
 
     Args:
         instruction: The raw task instruction from the A2A caller,
-            expected to name the positive integer to start from.
+            expected to name the positive integer to start from and,
+            optionally, a stopping point other than 1 (e.g. "run 3
+            steps then stop") -- used by the relay demo in Chapter
+            10's Example 5, where this peer only carries the sequence
+            partway before handing off to another agent.
 
     Returns:
         Crew: A crew ready to be kicked off with this instruction.
@@ -78,15 +82,17 @@ def build_crew(instruction: str) -> Crew:
     agent = Agent(
         role="Hailstone Sequence Calculator",
         goal=(
-            "Compute the full Collatz/Hailstone sequence for the positive "
-            "integer named in the task, by repeatedly calling the "
-            "hailstone_step tool on each result until it reaches 1."
+            "Compute the Collatz/Hailstone sequence described in the "
+            "task, by repeatedly calling the hailstone_step tool on "
+            "each result. Continue until the sequence reaches 1, "
+            "unless the task names a different stopping point (e.g. a "
+            "fixed number of steps), in which case stop there instead."
         ),
         backstory=(
             "An expert on the Collatz conjecture who never computes a "
             "step by hand — always calls the hailstone_step tool once "
             "per step, feeding each result back in as the next call's "
-            "input, until the sequence reaches 1."
+            "input, and stops exactly where the task says to."
         ),
         tools=[hailstone_step_fn],
         llm=llm,
@@ -94,9 +100,9 @@ def build_crew(instruction: str) -> Crew:
     task = Task(
         description=instruction,
         expected_output=(
-            "The full hailstone sequence as a comma-separated list of "
-            "integers, starting with the input value and ending at 1, "
-            "and nothing else."
+            "The computed hailstone sequence as a comma-separated list "
+            "of integers, starting with the input value, and nothing "
+            "else."
         ),
         agent=agent,
     )
@@ -156,9 +162,7 @@ class CrewAIHailstoneExecutor(AgentExecutor):
             )
             return
 
-        crew = build_crew(
-            f"Compute the hailstone sequence starting at {starting_value}.",
-        )
+        crew = build_crew(instruction)
         result = await asyncio.to_thread(crew.kickoff)
 
         await updater.add_artifact(

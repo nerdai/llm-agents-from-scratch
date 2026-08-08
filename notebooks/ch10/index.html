@@ -1004,6 +1004,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#example-5-a-relay-hailstone-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 5: A Relay Hailstone Task
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -4008,6 +4019,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#example-5-a-relay-hailstone-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 5: A Relay Hailstone Task
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -5440,6 +5462,14 @@ print(spec.agent_card)</div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>/home/nerdai/Projects/llm-agents-from-scratch/.venv/lib/python3.13/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+  from .autonotebook import tqdm as notebook_tqdm
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>name: crewai-hailstone</pre>
 </div>
@@ -5845,7 +5875,7 @@ print(input_required_result.content)</div>
 
 Which positive integer should I start the hailstone sequence from?
 
-To continue, call `from_scratch__use_a2a_agent` again with name='crewai-hailstone', task_id='3e306310-6a72-4f8a-afc6-928ff39232ec', and `task` set to the requested information. This resumes the same remote task rather than starting a new one.</pre>
+To continue, call `from_scratch__use_a2a_agent` again with name='crewai-hailstone', task_id='b6562cab-54b5-4934-b386-634c07e02370', and `task` set to the requested information. This resumes the same remote task rather than starting a new one.</pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
@@ -5971,7 +6001,7 @@ print(result.content)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>The hailstone sequence starting at the number four is: 4, 2, 1.</pre>
+<pre>The hailstone sequence starting at the number 4 is: 4, 2, 1.</pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
@@ -6035,7 +6065,7 @@ print(result.content)</div>
 💬 assistant: I need to make the following tool call(s):
 
 {
-    "id_": "3373b9d5-2171-4306-8465-0140da2ecbac",
+    "id_": "92ea669f-43c2-4863-8241-a443c543b4da",
     "tool_name": "from_scratch__use_a2a_agent",
     "arguments": {
         "name": "crewai-hailstone",
@@ -6044,31 +6074,31 @@ print(result.content)</div>
 }.
 
 🔧 tool: {
-    "tool_call_id": "3373b9d5-2171-4306-8465-0140da2ecbac",
-    "content": "The A2A agent 'crewai-hailstone' needs more information before it can continue:\n\nWhich positive integer should I start the hailstone sequence from?\n\nTo continue, call `from_scratch__use_a2a_agent` again with name='crewai-hailstone', task_id='8fb7e481-8408-40ed-9332-d28aed5bb93f', and `task` set to the requested information. This resumes the same remote task rather than starting a new one.",
+    "tool_call_id": "92ea669f-43c2-4863-8241-a443c543b4da",
+    "content": "The A2A agent 'crewai-hailstone' needs more information before it can continue:\n\nWhich positive integer should I start the hailstone sequence from?\n\nTo continue, call `from_scratch__use_a2a_agent` again with name='crewai-hailstone', task_id='09967e28-722d-4c11-b8a1-379b18d3816d', and `task` set to the requested information. This resumes the same remote task rather than starting a new one.",
     "error": false
 }
 
-💬 assistant: {"name": "from_scratch__use_a2a_agent", "arguments": {"name":"crewai-hailstone","task_id":"8fb7e481-8408-40ed-9332-d28aed5bb93f","task":"4"}}
+💬 assistant: {"name": "from_scratch__use_a2a_agent", "arguments": {"name":"crewai-hailstone","task_id":"09967e28-722d-4c11-b8a1-379b18d3816d","task":"4"}}
 
 === Task Step End ===
 
 === Task Step Start ===
 
-💬 assistant: My current instruction is 'The assistant should continue by providing the necessary input to the 'crewai-hailstone' agent to compute the hailstone sequence starting at the number four.'
+💬 assistant: My current instruction is 'The assistant should continue by providing the number '4' as the starting point for the hailstone sequence to the 'crewai-hailstone' agent.'
 
-💬 assistant: I need to call the `from_scratch__use_a2a_agent` tool with the name "crewai-hailstone" and the task set to "4" to provide the necessary input for computing the hailstone sequence starting at the number four.
+💬 assistant: I need to call the `from_scratch__use_a2a_agent` tool with the name 'crewai-hailstone' and the task set to '4' to provide the starting point for the hailstone sequence.
 
 === Task Step End ===
 
 === Task Step Start ===
 
-💬 assistant: My current instruction is 'Call the `from_scratch__use_a2a_agent` tool with the name 'crewai-hailstone' and the task set to '4' to provide the necessary input for computing the hailstone sequence starting at the number four.'
+💬 assistant: My current instruction is 'I need to call the `from_scratch__use_a2a_agent` tool with the name 'crewai-hailstone' and the task set to '4' to provide the starting point for the hailstone sequence.'
 
 💬 assistant: I need to make the following tool call(s):
 
 {
-    "id_": "c373ca55-0afd-4fe7-a4a8-156e6b3af1d4",
+    "id_": "92a53230-8653-41eb-bdc9-01dd7e38db82",
     "tool_name": "from_scratch__use_a2a_agent",
     "arguments": {
         "name": "crewai-hailstone",
@@ -6077,12 +6107,12 @@ print(result.content)</div>
 }.
 
 🔧 tool: {
-    "tool_call_id": "c373ca55-0afd-4fe7-a4a8-156e6b3af1d4",
+    "tool_call_id": "92a53230-8653-41eb-bdc9-01dd7e38db82",
     "content": "4,2,1",
     "error": false
 }
 
-💬 assistant: The hailstone sequence starting at the number four is: 4, 2, 1.
+💬 assistant: The hailstone sequence starting at the number 4 is: 4, 2, 1.
 
 === Task Step End ===</pre>
 </div>
@@ -6417,7 +6447,7 @@ print(hailstone_result.content)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre> (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: The next number in the hailstone sequence starting at 2 is 1. The sequence has now reached 1, so the process is complete. The ...[TRUNCATED]
+<pre> (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: The next number in the hailstone sequence starting at 2 is 1. The sequence has now reached 1, so the computation is complete. ...[TRUNCATED]
 </pre>
 </div>
 </div>
@@ -6430,7 +6460,7 @@ print(hailstone_result.content)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre> (llm_agents_fs.TaskHandler) :      ✅ Step Result: The hailstone sequence starting at 8 is: 8, 4, 2, 1. The process is now complete as it has reached 1.
+<pre> (llm_agents_fs.TaskHandler) :      ✅ Step Result: The hailstone sequence starting at 8 is: 8, 4, 2, 1. The computation is complete as it has reached 1.
 </pre>
 </div>
 </div>
@@ -6456,14 +6486,14 @@ print(hailstone_result.content)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre> (llm_agents_fs.LLMAgent) :      🏁 Task completed: The hailstone sequence starting at 8 is: 8, 4, 2, 1. The process is now complete as it has reached 1.
+<pre> (llm_agents_fs.LLMAgent) :      🏁 Task completed: The hailstone sequence starting at 8 is: 8, 4, 2, 1. The computation is complete as it has reached 1.
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>The hailstone sequence starting at 8 is: 8, 4, 2, 1. The process is now complete as it has reached 1.</pre>
+<pre>The hailstone sequence starting at 8 is: 8, 4, 2, 1. The computation is complete as it has reached 1.</pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
@@ -6549,47 +6579,440 @@ print(hailstone_result.content)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>`VIRTUAL_ENV=/home/nerdai/.cache/uv/builds-v0/.tmpQnfGOT` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead</pre>
+<pre>`VIRTUAL_ENV=/home/nerdai/Projects/llm-agents-from-scratch/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead</pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>
-INFO:     Started server process [323186]
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Uninstalled </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>1 package</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre> </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>in 0.26ms</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Installed </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>1 package</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre> </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>in 0.95ms</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+INFO:     Started server process [338576]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:9300 (Press CTRL+C to quit)
-INFO:     127.0.0.1:55760 - "GET /.well-known/agent-card.json HTTP/1.1" 200 OK
-INFO:     127.0.0.1:50442 - "GET /.well-known/agent-card.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38922 - "GET /.well-known/agent-card.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38750 - "GET /.well-known/agent-card.json HTTP/1.1" 200 OK
 INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: Compute the hailstone sequence starting at 8, until it reaches 1.
 INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Compute the hailstone sequence starting at 8, until it reaches 1.
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to call the next_number tool with x = 8.
-INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the next_number tool with x = 8.
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the next_number tool with x = 8.
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to call the next_number tool with x=8.
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the next_number tool with x=8.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the next_number tool with x=8.
 INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
 INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 4
 INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The next number in the hailstone sequence starting at 8 is 4. I will now compute the subsequent numbers in the sequence until it reache...[TRUNCATED]
 INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Compute the next number in the hailstone sequence starting at 4.
 INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Compute the next number in the hailstone sequence starting at 4.
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to call the next_number tool with x = 4.
-INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the next_number tool with x = 4.
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the next_number tool with x = 4.
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to call the next_number tool with x=4.
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the next_number tool with x=4.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the next_number tool with x=4.
 INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
 INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 2
 INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The next number in the hailstone sequence starting at 4 is 2. I will now compute the subsequent numbers in the sequence until it reache...[TRUNCATED]
 INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Compute the next number in the hailstone sequence starting at 2.
 INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Compute the next number in the hailstone sequence starting at 2.
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to call the next_number tool with x = 2.
-INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the next_number tool with x = 2.
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the next_number tool with x = 2.
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to call the next_number tool with x=2.
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the next_number tool with x=2.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the next_number tool with x=2.
 INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
 INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 1
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The next number in the hailstone sequence starting at 2 is 1. The sequence has now reached 1, so the process is complete. The full hail...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The next number in the hailstone sequence starting at 2 is 1. The sequence has now reached 1, so the computation is complete. The full ...[TRUNCATED]
 INFO (llm_agents_fs.TaskHandler) :      No new step required.
-INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The next number in the hailstone sequence starting at 2 is 1. The sequence has now reached 1, so the process is complete. The full h...[TRUNCATED]
-INFO:     127.0.0.1:48856 - "POST / HTTP/1.1" 200 OK
+INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The next number in the hailstone sequence starting at 2 is 1. The sequence has now reached 1, so the computation is complete. The fu...[TRUNCATED]
+INFO:     127.0.0.1:60898 - "POST / HTTP/1.1" 200 OK
 </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3407e0e5">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="example-5-a-relay-hailstone-task">Example 5: A Relay Hailstone Task<a class="anchor-link" href="#example-5-a-relay-hailstone-task">¶</a></h3>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=e52422f3">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-15">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">relay_task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span>
+    <span class="n">instruction</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">"Ask the crewai-hailstone peer agent to compute the hailstone "</span>
+        <span class="s2">"sequence starting at 20, run 3 steps then stop. Take the last "</span>
+        <span class="s2">"number it reports, then ask the from-scratch-hailstone peer "</span>
+        <span class="s2">"agent to continue the hailstone sequence from that number "</span>
+        <span class="s2">"until it reaches 1. Report the full sequence from 20 to 1."</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+<span class="n">relay_handler</span> <span class="o">=</span> <span class="n">coordinator</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">relay_task</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">relay_result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">relay_handler</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">relay_result</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-15">relay_task = Task(
+    instruction=(
+        "Ask the crewai-hailstone peer agent to compute the hailstone "
+        "sequence starting at 20, run 3 steps then stop. Take the last "
+        "number it reports, then ask the from-scratch-hailstone peer "
+        "agent to continue the hailstone sequence from that number "
+        "until it reaches 1. Report the full sequence from 20 to 1."
+    ),
+)
+relay_handler = coordinator.run(relay_task, max_steps=10)
+relay_result = await relay_handler
+print(relay_result.content)</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre> (llm_agents_fs.LLMAgent) :      🚀 Starting task: Ask the crewai-hailstone peer agent to compute the hailstone sequence starting at 20, run 3 steps then stop. Take the last number it ...[TRUNCATED]
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre> (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Ask the crewai-hailstone peer agent to compute the hailstone sequence starting at 20, run 3 steps then stop. Take the last number ...[TRUNCATED]
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre> (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: from_scratch__use_a2a_agent
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre> (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 20,10,5,16
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre> (llm_agents_fs.TaskHandler) :      ✅ Step Result: The last number reported by the crewai-hailstone agent is 16. I will now ask the from-scratch-hailstone agent to continue the hailstone...[TRUNCATED]
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre> (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the from-scratch-hailstone agent with the task: 'Continue the hailstone sequence from 16 until it reaches 1.'
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre> (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the from-scratch-hailstone agent with the task: 'Continue the hailstone sequence from 16 until it reaches 1.'
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre> (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: from_scratch__use_a2a_agent
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre> (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: Starting with 16, I will continue the hailstone sequence step by step until it reaches 1. 
+
+1. 16 is even, so the next number ...[TRUNCATED]
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre> (llm_agents_fs.TaskHandler) :      ✅ Step Result: The full hailstone sequence from 20 to 1 is: 20 → 10 → 5 → 16 → 8 → 4 → 2 → 1.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre> (llm_agents_fs.TaskHandler) :      No new step required.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre> (llm_agents_fs.LLMAgent) :      🏁 Task completed: The full hailstone sequence from 20 to 1 is: 20 → 10 → 5 → 16 → 8 → 4 → 2 → 1.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>The full hailstone sequence from 20 to 1 is: 20 → 10 → 5 → 16 → 8 → 4 → 2 → 1.</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=6306e73a">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-16">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">relay_handler</span><span class="o">.</span><span class="n">rollout</span><span class="p">)</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-16">print(relay_handler.rollout)</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>=== Task Step Start ===
+
+💬 assistant: My current instruction is 'Ask the crewai-hailstone peer agent to compute the hailstone sequence starting at 20, run 3 steps then stop. Take the last number it reports, then ask the from-scratch-hailstone peer agent to continue the hailstone sequence from that number until it reaches 1. Report the full sequence from 20 to 1.'
+
+💬 assistant: I need to make the following tool call(s):
+
+{
+    "id_": "f5fea94c-ab0e-4534-9307-758395519367",
+    "tool_name": "from_scratch__use_a2a_agent",
+    "arguments": {
+        "name": "crewai-hailstone",
+        "task": "Compute the hailstone sequence starting at 20, run 3 steps then stop."
+    }
+}.
+
+🔧 tool: {
+    "tool_call_id": "f5fea94c-ab0e-4534-9307-758395519367",
+    "content": "20,10,5,16",
+    "error": false
+}
+
+💬 assistant: The last number reported by the crewai-hailstone agent is 16. I will now ask the from-scratch-hailstone agent to continue the hailstone sequence from 16 until it reaches 1.
+
+=== Task Step End ===
+
+=== Task Step Start ===
+
+💬 assistant: My current instruction is 'Call the from-scratch-hailstone agent with the task: 'Continue the hailstone sequence from 16 until it reaches 1.''
+
+💬 assistant: I need to make the following tool call(s):
+
+{
+    "id_": "b60e378e-5ba1-4828-bafa-57dccda17c0a",
+    "tool_name": "from_scratch__use_a2a_agent",
+    "arguments": {
+        "name": "from-scratch-hailstone",
+        "task": "Continue the hailstone sequence from 16 until it reaches 1."
+    }
+}.
+
+🔧 tool: {
+    "tool_call_id": "b60e378e-5ba1-4828-bafa-57dccda17c0a",
+    "content": "Starting with 16, I will continue the hailstone sequence step by step until it reaches 1. \n\n1. 16 is even, so the next number is $16 / 2 = 8$.\n2. 8 is even, so the next number is $8 / 2 = 4$.\n3. 4 is even, so the next number is $4 / 2 = 2$.\n4. 2 is even, so the next number is $2 / 2 = 1$.\n\nThe sequence from 16 until it reaches 1 is: 16 → 8 → 4 → 2 → 1.",
+    "error": false
+}
+
+💬 assistant: The full hailstone sequence from 20 to 1 is: 20 → 10 → 5 → 16 → 8 → 4 → 2 → 1.
+
+=== Task Step End ===</pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
@@ -6619,10 +7042,10 @@ INFO:     127.0.0.1:48856 - "POST / HTTP/1.1" 200 OK
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-15">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-17">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -6655,7 +7078,7 @@ INFO:     127.0.0.1:48856 - "POST / HTTP/1.1" 200 OK
         <span class="s2">"this notebook -- leaving it running"</span><span class="p">,</span>
     <span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-15">import subprocess
+<div class="clipboard-copy-txt" id="cell-17">import subprocess
 
 
 if a2a_server_process is not None:

@@ -30,6 +30,12 @@ guessing. Resume by sending another message to the same `task_id` with
 the missing integer — the same client-side pattern
 `UseA2AAgentTool`'s `task_id` parameter supports for any peer.
 
+An instruction can also name a step budget (e.g. "run 3 steps then
+stop"), in which case the crew stops after exactly that many calls to
+`hailstone_step` instead of continuing to 1 — used by Chapter 10's
+Example 5 to hand a partially-computed sequence off to another peer.
+Without a step budget, behavior is unchanged: the crew runs to 1.
+
 ## Installation
 
 ```bash

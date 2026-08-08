@@ -53,6 +53,27 @@ def _extract_starting_integer(instruction: str) -> int | None:
     return int(match.group()) if match else None
 
 
+def _extract_step_budget(instruction: str) -> int | None:
+    r"""Pulls a "run N steps" style step budget out of an instruction.
+
+    Matched separately from ``_extract_starting_integer()`` (a bare
+    ``\d+``) so a phrase like "starting at 8, run 3 steps then stop"
+    doesn't confuse the two integers. Absent, ``execute()`` falls back
+    to the original full-sequence-to-1 behavior, so every prior
+    example's instruction (which never names a step count) is
+    unaffected.
+
+    Args:
+        instruction: The raw task instruction text.
+
+    Returns:
+        The requested step count, or None if the instruction names
+        none.
+    """
+    match = re.search(r"(\d+)\s+steps?", instruction)
+    return int(match.group(1)) if match else None
+
+
 @tool("hailstone_step")
 def hailstone_step_fn(x: int) -> str:
     """Performs a single step of the Hailstone sequence.
@@ -64,40 +85,77 @@ def hailstone_step_fn(x: int) -> str:
     return str(3 * x + 1)
 
 
-def build_crew(instruction: str) -> Crew:
-    """Builds a single-agent Crew that computes a full hailstone sequence.
+def build_crew(starting_value: int, step_budget: int | None = None) -> Crew:
+    """Builds a single-agent Crew that computes a hailstone sequence.
 
     Args:
-        instruction: The raw task instruction from the A2A caller,
-            expected to name the positive integer to start from.
+        starting_value: The positive integer to start the sequence
+            from.
+        step_budget: If given, the crew stops after exactly this many
+            steps rather than continuing to 1 -- used by the relay
+            demo in Chapter 10's Example 5, where this peer only
+            carries the sequence partway before handing off to
+            another agent. Defaults to None (run to completion).
 
     Returns:
-        Crew: A crew ready to be kicked off with this instruction.
+        Crew: A crew ready to be kicked off.
     """
     llm = LLM(model=OLLAMA_MODEL, base_url=OLLAMA_BASE_URL)
-    agent = Agent(
-        role="Hailstone Sequence Calculator",
-        goal=(
+    if step_budget is None:
+        goal = (
             "Compute the full Collatz/Hailstone sequence for the positive "
             "integer named in the task, by repeatedly calling the "
             "hailstone_step tool on each result until it reaches 1."
-        ),
-        backstory=(
+        )
+        backstory = (
             "An expert on the Collatz conjecture who never computes a "
             "step by hand — always calls the hailstone_step tool once "
             "per step, feeding each result back in as the next call's "
             "input, until the sequence reaches 1."
-        ),
+        )
+        description = (
+            f"Compute the hailstone sequence starting at {starting_value}."
+        )
+        expected_output = (
+            "The full hailstone sequence as a comma-separated list of "
+            "integers, starting with the input value and ending at 1, "
+            "and nothing else."
+        )
+    else:
+        goal = (
+            "Compute a partial Collatz/Hailstone sequence for the positive "
+            "integer named in the task, by calling the hailstone_step "
+            "tool exactly the number of times given, then stopping even "
+            "if the sequence hasn't reached 1 yet."
+        )
+        backstory = (
+            "An expert on the Collatz conjecture who never computes a "
+            "step by hand — always calls the hailstone_step tool once "
+            "per step, feeding each result back in as the next call's "
+            "input, and stops as soon as the requested number of calls "
+            "has been made."
+        )
+        description = (
+            f"Starting at {starting_value}, call hailstone_step exactly "
+            f"{step_budget} times, feeding each result into the next "
+            f"call as input. Stop after exactly {step_budget} calls, "
+            "even if the sequence hasn't reached 1 yet."
+        )
+        expected_output = (
+            f"The sequence of {step_budget + 1} integers from "
+            f"{starting_value} through the value after {step_budget} "
+            "steps, as a comma-separated list, and nothing else."
+        )
+    agent = Agent(
+        role="Hailstone Sequence Calculator",
+        goal=goal,
+        backstory=backstory,
         tools=[hailstone_step_fn],
         llm=llm,
     )
     task = Task(
-        description=instruction,
-        expected_output=(
-            "The full hailstone sequence as a comma-separated list of "
-            "integers, starting with the input value and ending at 1, "
-            "and nothing else."
-        ),
+        description=description,
+        expected_output=expected_output,
         agent=agent,
     )
     return Crew(agents=[agent], tasks=[task])
@@ -156,9 +214,8 @@ class CrewAIHailstoneExecutor(AgentExecutor):
             )
             return
 
-        crew = build_crew(
-            f"Compute the hailstone sequence starting at {starting_value}.",
-        )
+        step_budget = _extract_step_budget(instruction)
+        crew = build_crew(starting_value, step_budget)
         result = await asyncio.to_thread(crew.kickoff)
 
         await updater.add_artifact(

@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-- refactor(ch09): `SubAgentSpec.agent: LLMAgent` → `SubAgentSpec.builder: LLMAgentBuilder` — the spec is now pure data holding a build recipe, not a live agent, mirroring `A2AAgentSpec`'s rule; `UseSubAgentTool` builds a fresh `LLMAgent` from the recipe on every dispatch, reusing whatever the builder was given directly (memory stores, MCP providers) across builds (#829)
+- refactor(ch09): `SubAgentSpec.agent: LLMAgent` → `SubAgentSpec.builder: LLMAgentBuilder` — the spec is now pure data holding a build recipe, not a live agent, mirroring `A2AAgentSpec`'s rule; `UseSubAgentTool` builds a fresh `LLMAgent` from the recipe on every dispatch, reusing whatever the builder was given directly (memory stores, MCP providers) across builds (#830)
 
 ## [0.0.23] - 2026-08-07
 

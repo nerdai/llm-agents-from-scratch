@@ -89,8 +89,15 @@ class UseSubAgentTool(AsyncBaseTool):
     ) -> ToolCallResult:
         """Dispatch a task to the named sub-agent and return its result.
 
-        Sets ``current_subagent_name`` before calling ``spec.agent.run()``
-        so the ``asyncio.Task`` it creates copies a context with the name
+        Builds a fresh ``LLMAgent`` from ``spec.builder`` on every call —
+        the spec holds a recipe, not a live agent (mirrors
+        ``A2AAgentSpec`` connecting fresh on every dispatch rather than
+        holding a live client). Whatever the builder was given directly
+        (memory stores, MCP providers) is reused as-is; only the agent
+        shell is rebuilt.
+
+        Sets ``current_subagent_name`` before calling ``agent.run()`` so
+        the ``asyncio.Task`` it creates copies a context with the name
         already set, and resets it once the dispatch settles. This is the
         only call site that ever sets ``current_subagent_name``.
 
@@ -148,7 +155,8 @@ class UseSubAgentTool(AsyncBaseTool):
                 raise SubAgentNotFoundError(
                     f"Sub-agent '{subagent_name}' not found.",
                 )
-            result = await spec.agent.run(
+            agent = await spec.builder.build()
+            result = await agent.run(
                 Task(instruction=task_instruction),
                 max_steps=spec.max_steps,
                 skills_scopes=spec.skills_scopes,

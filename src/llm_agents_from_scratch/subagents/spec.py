@@ -2,7 +2,7 @@
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from llm_agents_from_scratch.agent import LLMAgent
+from llm_agents_from_scratch.agent import LLMAgentBuilder
 from llm_agents_from_scratch.data_structures.skill import SkillScope
 
 from .constants import CATALOG_SPEC_TEMPLATE
@@ -11,10 +11,20 @@ from .constants import CATALOG_SPEC_TEMPLATE
 class SubAgentSpec(BaseModel):
     """Specification for a named sub-agent in a multi-agent system.
 
-    Each ``SubAgentSpec`` entry registers a fully-built ``LLMAgent`` under a
-    human-readable name. The name serves as the registry key on the parent
-    coordinator and as the enum value the coordinator's ``UseSubAgentTool``
-    presents to the LLM for dispatch.
+    Each ``SubAgentSpec`` entry registers a build recipe for a sub-agent
+    under a human-readable name. The name serves as the registry key on
+    the parent coordinator and as the enum value the coordinator's
+    ``UseSubAgentTool`` presents to the LLM for dispatch.
+
+    Mirrors ``A2AAgentSpec``'s rule that a spec is pure data: it never
+    constructs or holds a live agent. ``UseSubAgentTool`` builds a fresh
+    ``LLMAgent`` from ``builder`` on every dispatch, the same way
+    ``A2AAgentSpec`` connects to its peer fresh on every dispatch rather
+    than holding a live client. Whatever the builder was given directly
+    (an ``LLM``, ``Memory`` stores, ``MCPToolProvider`` instances) is
+    reused as-is across builds — only the ``LLMAgent`` shell itself is
+    rebuilt each time, mirroring the existing fresh-``TaskHandler``-per-
+    ``run()`` pattern.
 
     Attributes:
         name: Unique registry key for this sub-agent. Appears as an enum
@@ -23,7 +33,8 @@ class SubAgentSpec(BaseModel):
         description: Short routing signal shown to the coordinator LLM in
             the ``<available_subagents>`` catalog. Should describe capability,
             not implementation.
-        agent: The fully-built sub-agent. Held as a live object; Pydantic's
+        builder: The recipe used to build this sub-agent fresh on every
+            dispatch. Held as a live object; Pydantic's
             ``arbitrary_types_allowed`` is required for this field.
         max_steps: Optional cap on the number of steps the sub-agent may
             take per dispatch. Passed to ``agent.run()`` to bound runaway
@@ -51,8 +62,8 @@ class SubAgentSpec(BaseModel):
             "<available_subagents> catalog."
         ),
     )
-    agent: LLMAgent = Field(
-        description="The fully-built sub-agent to dispatch tasks to.",
+    builder: LLMAgentBuilder = Field(
+        description="The recipe used to build this sub-agent per dispatch.",
     )
     max_steps: int | None = Field(
         default=None,

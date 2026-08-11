@@ -13,7 +13,7 @@ from a2a.types import TaskState as A2ATaskState
 from a2a.types import TaskStatus as A2ATaskStatus
 
 from llm_agents_from_scratch.a2a import A2AAgentSpec, UseA2AAgentTool
-from llm_agents_from_scratch.agent import LLMAgent
+from llm_agents_from_scratch.agent import LLMAgent, LLMAgentBuilder
 from llm_agents_from_scratch.agent.templates import default_templates
 from llm_agents_from_scratch.base.llm import BaseLLM
 from llm_agents_from_scratch.base.tool import AsyncBaseTool, BaseTool
@@ -1318,7 +1318,7 @@ async def test_task_handler_use_subagent_tool_set_when_subagents_registered(
     spec = SubAgentSpec(
         name="coder",
         description="Writes code.",
-        agent=LLMAgent(llm=mock_llm),
+        builder=LLMAgentBuilder(llm=mock_llm),
     )
     agent = LLMAgent(llm=mock_llm, subagents=[spec])
     handler = LLMAgent.TaskHandler(
@@ -1365,7 +1365,7 @@ async def test_subagents_catalog_returns_catalog_xml(mock_llm: BaseLLM) -> None:
     spec = SubAgentSpec(
         name="researcher",
         description="Looks things up.",
-        agent=LLMAgent(llm=mock_llm),
+        builder=LLMAgentBuilder(llm=mock_llm),
     )
     agent = LLMAgent(llm=mock_llm, subagents=[spec])
     handler = LLMAgent.TaskHandler(
@@ -1392,7 +1392,7 @@ async def test_run_step_injects_subagents_catalog() -> None:
     spec = SubAgentSpec(
         name="coder",
         description="Writes code.",
-        agent=LLMAgent(llm=mock_llm),
+        builder=LLMAgentBuilder(llm=mock_llm),
     )
     agent = LLMAgent(llm=mock_llm, subagents=[spec])
     handler = LLMAgent.TaskHandler(
@@ -1422,7 +1422,7 @@ async def test_supervised_handler_use_subagent_tool_set_when_registered(
     spec = SubAgentSpec(
         name="coder",
         description="Writes code.",
-        agent=LLMAgent(llm=mock_llm),
+        builder=LLMAgentBuilder(llm=mock_llm),
     )
     agent = LLMAgent(llm=mock_llm, subagents=[spec])
     task = Task(instruction="mock instruction")
@@ -1455,7 +1455,7 @@ async def test_supervised_handler_subagents_catalog_returns_catalog_xml(
     spec = SubAgentSpec(
         name="researcher",
         description="Looks things up.",
-        agent=LLMAgent(llm=mock_llm),
+        builder=LLMAgentBuilder(llm=mock_llm),
     )
     agent = LLMAgent(llm=mock_llm, subagents=[spec])
     task = Task(instruction="mock instruction")
@@ -1480,7 +1480,7 @@ async def test_supervised_run_step_injects_subagents_catalog() -> None:
     spec = SubAgentSpec(
         name="coder",
         description="Writes code.",
-        agent=LLMAgent(llm=mock_llm),
+        builder=LLMAgentBuilder(llm=mock_llm),
     )
     agent = LLMAgent(llm=mock_llm, subagents=[spec])
     task = Task(instruction="mock instruction")
@@ -1537,7 +1537,7 @@ async def test_supervised_run_step_dispatches_to_subagent() -> None:
     spec = SubAgentSpec(
         name="coder",
         description="Writes code.",
-        agent=LLMAgent(llm=subagent_llm),
+        builder=LLMAgentBuilder(llm=subagent_llm),
     )
     coordinator = LLMAgent(llm=coordinator_llm, subagents=[spec])
     task = Task(instruction="mock instruction")

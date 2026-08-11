@@ -4756,7 +4756,7 @@ ensure_ollama() if not use_cloud else print("✓ Using Ollama Cloud")</div>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMAgent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMAgentBuilder</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolCall</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_console_logging</span>
@@ -4777,12 +4777,11 @@ ensure_ollama() if not use_cloud else print("✓ Using Ollama Cloud")</div>
 
 
 <span class="n">next_number_tool</span> <span class="o">=</span> <span class="n">SimpleFunctionTool</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">next_number</span><span class="p">)</span>
-<span class="n">hailstone_agent</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">next_number_tool</span><span class="p">])</span>
 
 <span class="n">spec</span> <span class="o">=</span> <span class="n">SubAgentSpec</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">"hailstone"</span><span class="p">,</span>
     <span class="n">description</span><span class="o">=</span><span class="s2">"Computes Hailstone sequences using next_number."</span><span class="p">,</span>
-    <span class="n">agent</span><span class="o">=</span><span class="n">hailstone_agent</span><span class="p">,</span>
+    <span class="n">builder</span><span class="o">=</span><span class="n">LLMAgentBuilder</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">next_number_tool</span><span class="p">]),</span>
     <span class="n">max_steps</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">tool</span> <span class="o">=</span> <span class="n">UseSubAgentTool</span><span class="p">(</span><span class="n">subagents_registry</span><span class="o">=</span><span class="p">{</span><span class="n">spec</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">spec</span><span class="p">})</span>
@@ -4803,7 +4802,7 @@ ensure_ollama() if not use_cloud else print("✓ Using Ollama Cloud")</div>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-3">import logging
 
-from llm_agents_from_scratch import LLMAgent
+from llm_agents_from_scratch import LLMAgentBuilder
 from llm_agents_from_scratch.data_structures import ToolCall
 from llm_agents_from_scratch.llms import OllamaLLM
 from llm_agents_from_scratch.logger import enable_console_logging
@@ -4824,12 +4823,11 @@ def next_number(x: int) -&gt; int:
 
 
 next_number_tool = SimpleFunctionTool(func=next_number)
-hailstone_agent = LLMAgent(llm=llm, tools=[next_number_tool])
 
 spec = SubAgentSpec(
     name="hailstone",
     description="Computes Hailstone sequences using next_number.",
-    agent=hailstone_agent,
+    builder=LLMAgentBuilder(llm=llm, tools=[next_number_tool]),
     max_steps=20,
 )
 tool = UseSubAgentTool(subagents_registry={spec.name: spec})
@@ -4996,7 +4994,7 @@ print(coordinator.subagents_registry)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>{'general': SubAgentSpec(name='general', description='General-purpose subagent for open-ended research, multi-step tasks, or work that benefits from an isolated context. Equipped with file reading and Python execution.', agent=&lt;llm_agents_from_scratch.agent.llm_agent.LLMAgent object at 0x7a7ebc57a350&gt;, max_steps=20, skills_scopes=None, explicit_only_skills=None), 'explore': SubAgentSpec(name='explore', description='Read-only subagent for quickly finding and reading files. Use for lookups and fact-finding, not multi-step work.', agent=&lt;llm_agents_from_scratch.agent.llm_agent.LLMAgent object at 0x7a7ebc57a5d0&gt;, max_steps=10, skills_scopes=None, explicit_only_skills=None)}
+<pre>{'general': SubAgentSpec(name='general', description='General-purpose subagent for open-ended research, multi-step tasks, or work that benefits from an isolated context. Equipped with file reading and Python execution.', builder=&lt;llm_agents_from_scratch.agent.builder.LLMAgentBuilder object at 0x7a7ebc57a350&gt;, max_steps=20, skills_scopes=None, explicit_only_skills=None), 'explore': SubAgentSpec(name='explore', description='Read-only subagent for quickly finding and reading files. Use for lookups and fact-finding, not multi-step work.', builder=&lt;llm_agents_from_scratch.agent.builder.LLMAgentBuilder object at 0x7a7ebc57a5d0&gt;, max_steps=10, skills_scopes=None, explicit_only_skills=None)}
 </pre>
 </div>
 </div>
@@ -5300,23 +5298,24 @@ Comparing the number of steps:
 <span class="c1"># share it. Dispatched concurrently, their prompts serialize instead</span>
 <span class="c1"># of racing for stdin.</span>
 <span class="n">hailstone_input_tool</span> <span class="o">=</span> <span class="n">SharedConsoleHumanInputTool</span><span class="p">(</span><span class="n">agent_name</span><span class="o">=</span><span class="s2">"hailstone"</span><span class="p">)</span>
-<span class="n">hailstone_agent</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">slm</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">next_number_tool</span><span class="p">,</span> <span class="n">hailstone_input_tool</span><span class="p">])</span>
 <span class="n">hailstone_spec</span> <span class="o">=</span> <span class="n">SubAgentSpec</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">"hailstone"</span><span class="p">,</span>
     <span class="n">description</span><span class="o">=</span><span class="p">(</span>
         <span class="s2">"Asks the human operator for a starting number, then computes "</span>
         <span class="s2">"its Hailstone sequence."</span>
     <span class="p">),</span>
-    <span class="n">agent</span><span class="o">=</span><span class="n">hailstone_agent</span><span class="p">,</span>
+    <span class="n">builder</span><span class="o">=</span><span class="n">LLMAgentBuilder</span><span class="p">(</span>
+        <span class="n">llm</span><span class="o">=</span><span class="n">slm</span><span class="p">,</span>
+        <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">next_number_tool</span><span class="p">,</span> <span class="n">hailstone_input_tool</span><span class="p">],</span>
+    <span class="p">),</span>
     <span class="n">max_steps</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">greeter_input_tool</span> <span class="o">=</span> <span class="n">SharedConsoleHumanInputTool</span><span class="p">(</span><span class="n">agent_name</span><span class="o">=</span><span class="s2">"greeter"</span><span class="p">)</span>
-<span class="n">greeter_agent</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">slm</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">greeter_input_tool</span><span class="p">])</span>
 <span class="n">greeter_spec</span> <span class="o">=</span> <span class="n">SubAgentSpec</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">"greeter"</span><span class="p">,</span>
     <span class="n">description</span><span class="o">=</span><span class="s2">"Asks the human operator for their name, then greets them."</span><span class="p">,</span>
-    <span class="n">agent</span><span class="o">=</span><span class="n">greeter_agent</span><span class="p">,</span>
+    <span class="n">builder</span><span class="o">=</span><span class="n">LLMAgentBuilder</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">slm</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">greeter_input_tool</span><span class="p">]),</span>
     <span class="n">max_steps</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
 <span class="p">)</span>
 
@@ -5350,23 +5349,24 @@ Comparing the number of steps:
 # share it. Dispatched concurrently, their prompts serialize instead
 # of racing for stdin.
 hailstone_input_tool = SharedConsoleHumanInputTool(agent_name="hailstone")
-hailstone_agent = LLMAgent(llm=slm, tools=[next_number_tool, hailstone_input_tool])
 hailstone_spec = SubAgentSpec(
     name="hailstone",
     description=(
         "Asks the human operator for a starting number, then computes "
         "its Hailstone sequence."
     ),
-    agent=hailstone_agent,
+    builder=LLMAgentBuilder(
+        llm=slm,
+        tools=[next_number_tool, hailstone_input_tool],
+    ),
     max_steps=20,
 )
 
 greeter_input_tool = SharedConsoleHumanInputTool(agent_name="greeter")
-greeter_agent = LLMAgent(llm=slm, tools=[greeter_input_tool])
 greeter_spec = SubAgentSpec(
     name="greeter",
     description="Asks the human operator for their name, then greets them.",
-    agent=greeter_agent,
+    builder=LLMAgentBuilder(llm=slm, tools=[greeter_input_tool]),
     max_steps=5,
 )
 

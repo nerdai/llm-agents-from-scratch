@@ -16,15 +16,13 @@ class SubAgentSpec(BaseModel):
     the parent coordinator and as the enum value the coordinator's
     ``UseSubAgentTool`` presents to the LLM for dispatch.
 
-    Mirrors ``A2AAgentSpec``'s rule that a spec is pure data: it never
-    constructs or holds a live agent. ``UseSubAgentTool`` builds a fresh
-    ``LLMAgent`` from ``builder`` on every dispatch, the same way
-    ``A2AAgentSpec`` connects to its peer fresh on every dispatch rather
-    than holding a live client. Whatever the builder was given directly
-    (an ``LLM``, ``Memory`` stores, ``MCPToolProvider`` instances) is
-    reused as-is across builds — only the ``LLMAgent`` shell itself is
-    rebuilt each time, mirroring the existing fresh-``TaskHandler``-per-
-    ``run()`` pattern.
+    The spec is pure data: it never constructs or holds a live agent.
+    ``UseSubAgentTool`` builds a fresh ``LLMAgent`` from ``builder`` on
+    every dispatch. Whatever the builder was given directly (an
+    ``LLM``, ``Memory`` stores, ``MCPToolProvider`` instances) is reused
+    as-is across builds — only the ``LLMAgent`` shell itself is rebuilt
+    each time, mirroring the existing fresh-``TaskHandler``-per-``run()``
+    pattern.
 
     Attributes:
         name: Unique registry key for this sub-agent. Appears as an enum

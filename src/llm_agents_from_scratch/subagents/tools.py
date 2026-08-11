@@ -90,11 +90,9 @@ class UseSubAgentTool(AsyncBaseTool):
         """Dispatch a task to the named sub-agent and return its result.
 
         Builds a fresh ``LLMAgent`` from ``spec.builder`` on every call —
-        the spec holds a recipe, not a live agent (mirrors
-        ``A2AAgentSpec`` connecting fresh on every dispatch rather than
-        holding a live client). Whatever the builder was given directly
-        (memory stores, MCP providers) is reused as-is; only the agent
-        shell is rebuilt.
+        the spec holds a recipe, not a live agent. Whatever the builder
+        was given directly (memory stores, MCP providers) is reused
+        as-is; only the agent shell is rebuilt.
 
         Sets ``current_subagent_name`` before calling ``agent.run()`` so
         the ``asyncio.Task`` it creates copies a context with the name

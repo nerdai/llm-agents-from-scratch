@@ -44,8 +44,14 @@ def patched_dispatch(
     mock_llm: BaseLLM,
     **run_kwargs: object,
 ) -> Iterator[tuple[LLMAgent, MagicMock]]:
-    """Patches spec.builder.build() to return a fresh LLMAgent, and patches
-    that agent's run() per run_kwargs (forwarded to patch.object).
+    """Patches spec.builder.build() to return one pre-built LLMAgent for
+    the duration of this context, and patches that agent's run() per
+    run_kwargs (forwarded to patch.object).
+
+    Not for tests exercising multiple dispatches in one context: build()
+    returns the *same* agent instance on every call here, not a fresh
+    one per dispatch -- see
+    test_use_subagent_tool_builds_fresh_agent_per_dispatch for that.
     """
     agent = LLMAgent(llm=mock_llm)
     with (

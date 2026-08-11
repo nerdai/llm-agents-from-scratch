@@ -1,13 +1,14 @@
 """Standard subagent recipes for common default rosters.
 
-Factories, not module-level constants: a ``SubAgentSpec`` wraps a live
-``LLMAgent``, which needs an LLM — there is no zero-config answer the
-way ``DEFAULT_TOOLS`` is for tools. Roster is ``general`` + ``explore``,
-the intersection of the subagent rosters shipped by other harnesses
-(a full-tools generalist and a read-only, cheap-to-run lookup agent).
+Factories, not module-level constants: a ``SubAgentSpec`` wraps an
+``LLMAgentBuilder`` recipe, which needs an LLM — there is no zero-config
+answer the way ``DEFAULT_TOOLS`` is for tools. Roster is ``general`` +
+``explore``, the intersection of the subagent rosters shipped by other
+harnesses (a full-tools generalist and a read-only, cheap-to-run lookup
+agent).
 """
 
-from llm_agents_from_scratch.agent import LLMAgent
+from llm_agents_from_scratch.agent import LLMAgentBuilder
 from llm_agents_from_scratch.base.llm import LLM
 from llm_agents_from_scratch.memory.memory import Memory
 from llm_agents_from_scratch.tools.default import DEFAULT_TOOLS, ReadFileTool
@@ -43,7 +44,7 @@ def general_subagent(
             the subagent. Defaults to None.
 
     Returns:
-        SubAgentSpec: A spec wrapping a `DEFAULT_TOOLS`-equipped agent.
+        SubAgentSpec: A spec wrapping a `DEFAULT_TOOLS`-equipped builder.
     """
     return SubAgentSpec(
         name=name,
@@ -52,7 +53,11 @@ def general_subagent(
             "multi-step tasks, or work that benefits from an isolated "
             "context. Equipped with file reading and Python execution."
         ),
-        agent=LLMAgent(llm=llm, tools=DEFAULT_TOOLS, memories=memories),
+        builder=LLMAgentBuilder(
+            llm=llm,
+            tools=DEFAULT_TOOLS,
+            memories=memories,
+        ),
         max_steps=max_steps,
     )
 
@@ -81,7 +86,7 @@ def explore_subagent(
             the subagent. Defaults to None.
 
     Returns:
-        SubAgentSpec: A spec wrapping a `ReadFileTool`-only agent.
+        SubAgentSpec: A spec wrapping a `ReadFileTool`-only builder.
     """
     return SubAgentSpec(
         name=name,
@@ -89,6 +94,10 @@ def explore_subagent(
             "Read-only subagent for quickly finding and reading files. "
             "Use for lookups and fact-finding, not multi-step work."
         ),
-        agent=LLMAgent(llm=llm, tools=[ReadFileTool()], memories=memories),
+        builder=LLMAgentBuilder(
+            llm=llm,
+            tools=[ReadFileTool()],
+            memories=memories,
+        ),
         max_steps=max_steps,
     )

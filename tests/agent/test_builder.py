@@ -133,7 +133,7 @@ def test_init_with_subagents(mock_llm: BaseLLM) -> None:
     spec = SubAgentSpec(
         name="researcher",
         description="Looks things up.",
-        agent=LLMAgent(llm=mock_llm),
+        builder=LLMAgentBuilder(llm=mock_llm),
     )
     builder = LLMAgentBuilder(subagents=[spec])
 
@@ -145,7 +145,7 @@ def test_with_subagent_fluent(mock_llm: BaseLLM) -> None:
     spec = SubAgentSpec(
         name="coder",
         description="Writes code.",
-        agent=LLMAgent(llm=mock_llm),
+        builder=LLMAgentBuilder(llm=mock_llm),
     )
     builder = LLMAgentBuilder().with_subagent(spec)
 
@@ -157,12 +157,12 @@ def test_with_subagents_fluent(mock_llm: BaseLLM) -> None:
     spec_a = SubAgentSpec(
         name="researcher",
         description="Looks things up.",
-        agent=LLMAgent(llm=mock_llm),
+        builder=LLMAgentBuilder(llm=mock_llm),
     )
     spec_b = SubAgentSpec(
         name="coder",
         description="Writes code.",
-        agent=LLMAgent(llm=mock_llm),
+        builder=LLMAgentBuilder(llm=mock_llm),
     )
     builder = LLMAgentBuilder().with_subagents([spec_a, spec_b])
 
@@ -175,7 +175,7 @@ async def test_build_passes_subagents_to_agent(mock_llm: BaseLLM) -> None:
     spec = SubAgentSpec(
         name="researcher",
         description="Looks things up.",
-        agent=LLMAgent(llm=mock_llm),
+        builder=LLMAgentBuilder(llm=mock_llm),
     )
     agent = await LLMAgentBuilder(llm=mock_llm).with_subagent(spec).build()
 
@@ -189,7 +189,7 @@ async def test_build_use_subagent_tool_present(mock_llm: BaseLLM) -> None:
     spec = SubAgentSpec(
         name="coder",
         description="Writes code.",
-        agent=LLMAgent(llm=mock_llm),
+        builder=LLMAgentBuilder(llm=mock_llm),
     )
     agent = await LLMAgentBuilder(llm=mock_llm).with_subagent(spec).build()
 
@@ -208,12 +208,12 @@ async def test_build_raises_on_duplicate_subagent_names(
     spec_a = SubAgentSpec(
         name="researcher",
         description="First.",
-        agent=LLMAgent(llm=mock_llm),
+        builder=LLMAgentBuilder(llm=mock_llm),
     )
     spec_b = SubAgentSpec(
         name="researcher",
         description="Second.",
-        agent=LLMAgent(llm=mock_llm),
+        builder=LLMAgentBuilder(llm=mock_llm),
     )
     with pytest.raises(LLMAgentError, match="duplicate"):
         await (

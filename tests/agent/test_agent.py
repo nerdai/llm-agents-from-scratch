@@ -6,7 +6,7 @@ import pytest
 from a2a.types import AgentCard, AgentInterface
 
 from llm_agents_from_scratch.a2a import A2AAgentSpec
-from llm_agents_from_scratch.agent import LLMAgent
+from llm_agents_from_scratch.agent import LLMAgent, LLMAgentBuilder
 from llm_agents_from_scratch.base.llm import BaseLLM
 from llm_agents_from_scratch.base.tool import BaseTool
 from llm_agents_from_scratch.data_structures import (
@@ -473,7 +473,7 @@ def test_llm_agent_init_with_subagents(mock_llm: BaseLLM) -> None:
     spec = SubAgentSpec(
         name="researcher",
         description="Looks things up.",
-        agent=LLMAgent(llm=mock_llm),
+        builder=LLMAgentBuilder(llm=mock_llm),
     )
     agent = LLMAgent(llm=mock_llm, subagents=[spec])
 
@@ -497,7 +497,7 @@ def test_llm_agent_init_raises_on_duplicate_subagent_names(
     spec = SubAgentSpec(
         name="researcher",
         description="Looks things up.",
-        agent=LLMAgent(llm=mock_llm),
+        builder=LLMAgentBuilder(llm=mock_llm),
     )
     with pytest.raises(LLMAgentError, match="duplicate"):
         LLMAgent(llm=mock_llm, subagents=[spec, spec])

@@ -86,7 +86,7 @@ class SubAgentSpec:
         self.explicit_only_skills = explicit_only_skills
 
     def __repr__(self) -> str:
-        """Readable repr, mirroring the fields pydantic would have shown."""
+        """Readable repr listing every field."""
         return (
             f"{type(self).__name__}("
             f"name={self.name!r}, "

@@ -95,9 +95,7 @@ def test_subagentspec_catalog(mock_llm: BaseLLM) -> None:
 
 
 def test_subagentspec_repr(mock_llm: BaseLLM) -> None:
-    """Tests __repr__ surfaces every field, plain-class replacement for
-    pydantic's auto-generated repr.
-    """
+    """Tests __repr__ surfaces every field."""
     spec = SubAgentSpec(
         name="researcher",
         description="Searches the web.",

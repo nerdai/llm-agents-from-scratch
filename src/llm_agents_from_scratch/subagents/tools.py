@@ -1,4 +1,4 @@
-"""UseSubAgentTool — dispatches a task to a named sub-agent."""
+"""UseSubAgentTool — dispatches a task to a named subagent."""
 
 import json
 from typing import Any
@@ -16,43 +16,43 @@ from .spec import SubAgentSpec
 
 
 class UseSubAgentTool(AsyncBaseTool):
-    """Async tool that dispatches a task to a registered sub-agent.
+    """Async tool that dispatches a task to a registered subagent.
 
-    Each sub-agent registered with the parent coordinator is callable via this
-    single tool. The LLM selects a sub-agent by name (constrained to an enum
+    Each subagent registered with the parent coordinator is callable via this
+    single tool. The LLM selects a subagent by name (constrained to an enum
     of registered names) and provides a free-text task instruction. The tool
-    runs the sub-agent to completion and returns only ``result.content``,
+    runs the subagent to completion and returns only ``result.content``,
     keeping trajectories isolated.
 
-    All sub-agent exceptions — including ``MaxStepsReachedError`` — are caught
+    All subagent exceptions — including ``MaxStepsReachedError`` — are caught
     and returned as ``ToolCallResult(error=True)`` so the coordinator can
     re-plan rather than crash.
 
     Attributes:
-        subagents_registry (dict[str, SubAgentSpec]): Registered sub-agents,
+        subagents_registry (dict[str, SubAgentSpec]): Registered subagents,
             keyed by name.
     """
 
     def __init__(self, subagents_registry: dict[str, SubAgentSpec]) -> None:
-        """Initialise with a registry of sub-agents.
+        """Initialise with a registry of subagents.
 
         Args:
-            subagents_registry (dict[str, SubAgentSpec]): Sub-agents to
+            subagents_registry (dict[str, SubAgentSpec]): Subagents to
                 register, keyed by name.
         """
         self._subagents_registry = subagents_registry
 
     @property
     def name(self) -> str:
-        """Name of the sub-agent dispatch tool."""
+        """Name of the subagent dispatch tool."""
         return "from_scratch__use_subagent"
 
     @property
     def description(self) -> str:
-        """Description of the sub-agent dispatch tool."""
+        """Description of the subagent dispatch tool."""
         return (
-            "Dispatch a task to a named sub-agent and return its result. "
-            "Only call this tool with a sub-agent name from the "
+            "Dispatch a task to a named subagent and return its result. "
+            "Only call this tool with a subagent name from the "
             "<available_subagents> catalog."
         )
 
@@ -60,7 +60,7 @@ class UseSubAgentTool(AsyncBaseTool):
     def parameters_json_schema(self) -> dict[str, Any]:
         """JSON schema for tool parameters.
 
-        The ``name`` field is constrained to an enum of registered sub-agent
+        The ``name`` field is constrained to an enum of registered subagent
         names so the LLM can only dispatch to agents that exist.
         """
         return {
@@ -70,12 +70,12 @@ class UseSubAgentTool(AsyncBaseTool):
                     "type": "string",
                     "enum": sorted(self._subagents_registry),
                     "description": (
-                        "Name of the sub-agent to dispatch the task to."
+                        "Name of the subagent to dispatch the task to."
                     ),
                 },
                 "task": {
                     "type": "string",
-                    "description": "The task instruction for the sub-agent.",
+                    "description": "The task instruction for the subagent.",
                 },
             },
             "required": ["name", "task"],
@@ -87,7 +87,7 @@ class UseSubAgentTool(AsyncBaseTool):
         *args: Any,
         **kwargs: Any,
     ) -> ToolCallResult:
-        """Dispatch a task to the named sub-agent and return its result.
+        """Dispatch a task to the named subagent and return its result.
 
         Builds a fresh ``LLMAgent`` from ``spec.builder`` on every call —
         the spec holds a recipe, not a live agent. Whatever the builder
@@ -118,8 +118,8 @@ class UseSubAgentTool(AsyncBaseTool):
             **kwargs (Any): Additional keyword arguments.
 
         Returns:
-            ToolCallResult: The sub-agent's ``result.content`` on success, or
-                an error result if the sub-agent raises for any reason.
+            ToolCallResult: The subagent's ``result.content`` on success, or
+                an error result if the subagent raises for any reason.
         """
         subagent_name = tool_call.arguments.get("name")
         task_instruction = tool_call.arguments.get("task")
@@ -151,7 +151,7 @@ class UseSubAgentTool(AsyncBaseTool):
         try:
             if spec is None:
                 raise SubAgentNotFoundError(
-                    f"Sub-agent '{subagent_name}' not found.",
+                    f"Subagent '{subagent_name}' not found.",
                 )
             agent = await spec.builder.build()
             result = await agent.run(

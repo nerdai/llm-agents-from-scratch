@@ -1,7 +1,6 @@
 """Unit tests for SubAgentSpec."""
 
 import pytest
-from pydantic import ValidationError
 
 from llm_agents_from_scratch.agent import LLMAgentBuilder
 from llm_agents_from_scratch.base.llm import BaseLLM
@@ -65,8 +64,8 @@ def test_subagentspec_max_steps(mock_llm: BaseLLM) -> None:
 
 
 def test_subagentspec_requires_name(mock_llm: BaseLLM) -> None:
-    """Tests SubAgentSpec raises ValidationError when name is missing."""
-    with pytest.raises(ValidationError):
+    """Tests SubAgentSpec raises TypeError when name is missing."""
+    with pytest.raises(TypeError):
         SubAgentSpec(  # type: ignore[call-arg]
             description="no name provided",
             builder=LLMAgentBuilder(llm=mock_llm),
@@ -74,8 +73,8 @@ def test_subagentspec_requires_name(mock_llm: BaseLLM) -> None:
 
 
 def test_subagentspec_requires_description(mock_llm: BaseLLM) -> None:
-    """Tests SubAgentSpec raises ValidationError when description is missing."""
-    with pytest.raises(ValidationError):
+    """Tests SubAgentSpec raises TypeError when description is missing."""
+    with pytest.raises(TypeError):
         SubAgentSpec(  # type: ignore[call-arg]
             name="coder",
             builder=LLMAgentBuilder(llm=mock_llm),
@@ -93,3 +92,22 @@ def test_subagentspec_catalog(mock_llm: BaseLLM) -> None:
 
     assert "<name>researcher</name>" in entry
     assert "<description>Searches the web.</description>" in entry
+
+
+def test_subagentspec_repr(mock_llm: BaseLLM) -> None:
+    """Tests __repr__ surfaces every field."""
+    spec = SubAgentSpec(
+        name="researcher",
+        description="Searches the web.",
+        builder=LLMAgentBuilder(llm=mock_llm),
+        max_steps=MAX_STEPS,
+    )
+    text = repr(spec)
+
+    assert text.startswith("SubAgentSpec(")
+    assert "name='researcher'" in text
+    assert "description='Searches the web.'" in text
+    assert "builder=" in text
+    assert f"max_steps={MAX_STEPS}" in text
+    assert "skills_scopes=None" in text
+    assert "explicit_only_skills=None" in text

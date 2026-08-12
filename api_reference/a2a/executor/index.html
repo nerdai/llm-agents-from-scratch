@@ -3781,7 +3781,7 @@
 messages for communication and artifacts for outputs.</p>
 <p>Every dispatch runs to completion or failure in one shot; there is
 no <code>input_required</code> support on this (server) side. §8.5's channel
-problem was already answered in Ch9 by dissolution (sub-agents run
+problem was already answered in Ch9 by dissolution (subagents run
 in-process, same terminal), so implementing a non-terminal
 <code>SendMessage</code> return here would mostly pay off a forward
 reference already paid — a named skip, alongside streaming,
@@ -4022,7 +4022,7 @@ when a run starts and removed in <code>execute()</code>'s
 </span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a>
 </span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="sd">    Every dispatch runs to completion or failure in one shot; there is</span>
 </span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="sd">    no ``input_required`` support on this (server) side. §8.5&#39;s channel</span>
-</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">    problem was already answered in Ch9 by dissolution (sub-agents run</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">    problem was already answered in Ch9 by dissolution (subagents run</span>
 </span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">    in-process, same terminal), so implementing a non-terminal</span>
 </span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">    ``SendMessage`` return here would mostly pay off a forward</span>
 </span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">    reference already paid — a named skip, alongside streaming,</span>

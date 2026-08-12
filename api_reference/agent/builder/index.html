@@ -4068,7 +4068,7 @@ discovery.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Sub-agent specs for the agent.
+                <p>Subagent specs for the agent.
 Added in Chapter 9.</p>
               </div>
             </td>
@@ -4312,7 +4312,7 @@ Added in Chapter 10.</p>
 </span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="sd">        mcp_providers (list[MCPToolProvider]): MCP providers for tool</span>
 </span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="sd">            discovery.</span>
 </span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="sd">        memories (list[Memory]): Memory backends for the agent.</span>
-</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">        subagents (list[SubAgentSpec]): Sub-agent specs for the agent.</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">        subagents (list[SubAgentSpec]): Subagent specs for the agent.</span>
 </span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">            Added in Chapter 9.</span>
 </span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">        a2a_agents (list[A2AAgentSpec]): A2A peer specs for the agent.</span>
 </span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">            Added in Chapter 10.</span>
@@ -4374,7 +4374,7 @@ Added in Chapter 10.</p>
 </span><span id="__span-0-96"><a id="__codelineno-0-96" name="__codelineno-0-96"></a><span class="sd">            memories (list[Memory] | None, optional): Memory backends</span>
 </span><span id="__span-0-97"><a id="__codelineno-0-97" name="__codelineno-0-97"></a><span class="sd">                for the agent. No default implementation is provided — the</span>
 </span><span id="__span-0-98"><a id="__codelineno-0-98" name="__codelineno-0-98"></a><span class="sd">                caller must supply a concrete subclass. Defaults to None.</span>
-</span><span id="__span-0-99"><a id="__codelineno-0-99" name="__codelineno-0-99"></a><span class="sd">            subagents (list[SubAgentSpec] | None, optional): Sub-agent specs</span>
+</span><span id="__span-0-99"><a id="__codelineno-0-99" name="__codelineno-0-99"></a><span class="sd">            subagents (list[SubAgentSpec] | None, optional): Subagent specs</span>
 </span><span id="__span-0-100"><a id="__codelineno-0-100" name="__codelineno-0-100"></a><span class="sd">                to register on the agent. Defaults to None. Added in</span>
 </span><span id="__span-0-101"><a id="__codelineno-0-101" name="__codelineno-0-101"></a><span class="sd">                Chapter 9.</span>
 </span><span id="__span-0-102"><a id="__codelineno-0-102" name="__codelineno-0-102"></a><span class="sd">            a2a_agents (list[A2AAgentSpec] | None, optional): A2A peer</span>
@@ -4433,19 +4433,19 @@ Added in Chapter 10.</p>
 </span><span id="__span-0-155"><a id="__codelineno-0-155" name="__codelineno-0-155"></a>        <span class="k">return</span> <span class="bp">self</span>
 </span><span id="__span-0-156"><a id="__codelineno-0-156" name="__codelineno-0-156"></a>
 </span><span id="__span-0-157"><a id="__codelineno-0-157" name="__codelineno-0-157"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">with_subagent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="s2">&quot;SubAgentSpec&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
-</span><span id="__span-0-158"><a id="__codelineno-0-158" name="__codelineno-0-158"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a sub-agent spec to builder. Added in Chapter 9.</span>
+</span><span id="__span-0-158"><a id="__codelineno-0-158" name="__codelineno-0-158"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a subagent spec to builder. Added in Chapter 9.</span>
 </span><span id="__span-0-159"><a id="__codelineno-0-159" name="__codelineno-0-159"></a>
 </span><span id="__span-0-160"><a id="__codelineno-0-160" name="__codelineno-0-160"></a><span class="sd">        Args:</span>
-</span><span id="__span-0-161"><a id="__codelineno-0-161" name="__codelineno-0-161"></a><span class="sd">            spec (SubAgentSpec): The sub-agent spec to add.</span>
+</span><span id="__span-0-161"><a id="__codelineno-0-161" name="__codelineno-0-161"></a><span class="sd">            spec (SubAgentSpec): The subagent spec to add.</span>
 </span><span id="__span-0-162"><a id="__codelineno-0-162" name="__codelineno-0-162"></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="__span-0-163"><a id="__codelineno-0-163" name="__codelineno-0-163"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">subagents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
 </span><span id="__span-0-164"><a id="__codelineno-0-164" name="__codelineno-0-164"></a>        <span class="k">return</span> <span class="bp">self</span>
 </span><span id="__span-0-165"><a id="__codelineno-0-165" name="__codelineno-0-165"></a>
 </span><span id="__span-0-166"><a id="__codelineno-0-166" name="__codelineno-0-166"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">with_subagents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">specs</span><span class="p">:</span> <span class="s2">&quot;list[SubAgentSpec]&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
-</span><span id="__span-0-167"><a id="__codelineno-0-167" name="__codelineno-0-167"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Add sub-agent specs to builder. Added in Chapter 9.</span>
+</span><span id="__span-0-167"><a id="__codelineno-0-167" name="__codelineno-0-167"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Add subagent specs to builder. Added in Chapter 9.</span>
 </span><span id="__span-0-168"><a id="__codelineno-0-168" name="__codelineno-0-168"></a>
 </span><span id="__span-0-169"><a id="__codelineno-0-169" name="__codelineno-0-169"></a><span class="sd">        Args:</span>
-</span><span id="__span-0-170"><a id="__codelineno-0-170" name="__codelineno-0-170"></a><span class="sd">            specs (list[SubAgentSpec]): The sub-agent specs to add.</span>
+</span><span id="__span-0-170"><a id="__codelineno-0-170" name="__codelineno-0-170"></a><span class="sd">            specs (list[SubAgentSpec]): The subagent specs to add.</span>
 </span><span id="__span-0-171"><a id="__codelineno-0-171" name="__codelineno-0-171"></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="__span-0-172"><a id="__codelineno-0-172" name="__codelineno-0-172"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">subagents</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">specs</span><span class="p">)</span>
 </span><span id="__span-0-173"><a id="__codelineno-0-173" name="__codelineno-0-173"></a>        <span class="k">return</span> <span class="bp">self</span>
@@ -4682,7 +4682,7 @@ caller must supply a concrete subclass. Defaults to None.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Sub-agent specs
+                <p>Subagent specs
 to register on the agent. Defaults to None. Added in
 Chapter 9.</p>
               </div>
@@ -4843,7 +4843,7 @@ in Chapter 10.</p>
 </span><span id="__span-0-96"><a id="__codelineno-0-96" name="__codelineno-0-96"></a><span class="sd">        memories (list[Memory] | None, optional): Memory backends</span>
 </span><span id="__span-0-97"><a id="__codelineno-0-97" name="__codelineno-0-97"></a><span class="sd">            for the agent. No default implementation is provided — the</span>
 </span><span id="__span-0-98"><a id="__codelineno-0-98" name="__codelineno-0-98"></a><span class="sd">            caller must supply a concrete subclass. Defaults to None.</span>
-</span><span id="__span-0-99"><a id="__codelineno-0-99" name="__codelineno-0-99"></a><span class="sd">        subagents (list[SubAgentSpec] | None, optional): Sub-agent specs</span>
+</span><span id="__span-0-99"><a id="__codelineno-0-99" name="__codelineno-0-99"></a><span class="sd">        subagents (list[SubAgentSpec] | None, optional): Subagent specs</span>
 </span><span id="__span-0-100"><a id="__codelineno-0-100" name="__codelineno-0-100"></a><span class="sd">            to register on the agent. Defaults to None. Added in</span>
 </span><span id="__span-0-101"><a id="__codelineno-0-101" name="__codelineno-0-101"></a><span class="sd">            Chapter 9.</span>
 </span><span id="__span-0-102"><a id="__codelineno-0-102" name="__codelineno-0-102"></a><span class="sd">        a2a_agents (list[A2AAgentSpec] | None, optional): A2A peer</span>
@@ -5127,7 +5127,7 @@ in Chapter 10.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Add a sub-agent spec to builder. Added in Chapter 9.</p>
+        <p>Add a subagent spec to builder. Added in Chapter 9.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -5150,7 +5150,7 @@ in Chapter 10.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The sub-agent spec to add.</p>
+                <p>The subagent spec to add.</p>
               </div>
             </td>
             <td>
@@ -5171,10 +5171,10 @@ in Chapter 10.</p>
 <span class="normal"><a href="#__codelineno-0-162">162</a></span>
 <span class="normal"><a href="#__codelineno-0-163">163</a></span>
 <span class="normal"><a href="#__codelineno-0-164">164</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-157"><a id="__codelineno-0-157" name="__codelineno-0-157"></a><span class="k">def</span><span class="w"> </span><span class="nf">with_subagent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="s2">&quot;SubAgentSpec&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
-</span><span id="__span-0-158"><a id="__codelineno-0-158" name="__codelineno-0-158"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a sub-agent spec to builder. Added in Chapter 9.</span>
+</span><span id="__span-0-158"><a id="__codelineno-0-158" name="__codelineno-0-158"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a subagent spec to builder. Added in Chapter 9.</span>
 </span><span id="__span-0-159"><a id="__codelineno-0-159" name="__codelineno-0-159"></a>
 </span><span id="__span-0-160"><a id="__codelineno-0-160" name="__codelineno-0-160"></a><span class="sd">    Args:</span>
-</span><span id="__span-0-161"><a id="__codelineno-0-161" name="__codelineno-0-161"></a><span class="sd">        spec (SubAgentSpec): The sub-agent spec to add.</span>
+</span><span id="__span-0-161"><a id="__codelineno-0-161" name="__codelineno-0-161"></a><span class="sd">        spec (SubAgentSpec): The subagent spec to add.</span>
 </span><span id="__span-0-162"><a id="__codelineno-0-162" name="__codelineno-0-162"></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="__span-0-163"><a id="__codelineno-0-163" name="__codelineno-0-163"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">subagents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
 </span><span id="__span-0-164"><a id="__codelineno-0-164" name="__codelineno-0-164"></a>    <span class="k">return</span> <span class="bp">self</span>
@@ -5197,7 +5197,7 @@ in Chapter 10.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Add sub-agent specs to builder. Added in Chapter 9.</p>
+        <p>Add subagent specs to builder. Added in Chapter 9.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -5220,7 +5220,7 @@ in Chapter 10.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The sub-agent specs to add.</p>
+                <p>The subagent specs to add.</p>
               </div>
             </td>
             <td>
@@ -5241,10 +5241,10 @@ in Chapter 10.</p>
 <span class="normal"><a href="#__codelineno-0-171">171</a></span>
 <span class="normal"><a href="#__codelineno-0-172">172</a></span>
 <span class="normal"><a href="#__codelineno-0-173">173</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-166"><a id="__codelineno-0-166" name="__codelineno-0-166"></a><span class="k">def</span><span class="w"> </span><span class="nf">with_subagents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">specs</span><span class="p">:</span> <span class="s2">&quot;list[SubAgentSpec]&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
-</span><span id="__span-0-167"><a id="__codelineno-0-167" name="__codelineno-0-167"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Add sub-agent specs to builder. Added in Chapter 9.</span>
+</span><span id="__span-0-167"><a id="__codelineno-0-167" name="__codelineno-0-167"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Add subagent specs to builder. Added in Chapter 9.</span>
 </span><span id="__span-0-168"><a id="__codelineno-0-168" name="__codelineno-0-168"></a>
 </span><span id="__span-0-169"><a id="__codelineno-0-169" name="__codelineno-0-169"></a><span class="sd">    Args:</span>
-</span><span id="__span-0-170"><a id="__codelineno-0-170" name="__codelineno-0-170"></a><span class="sd">        specs (list[SubAgentSpec]): The sub-agent specs to add.</span>
+</span><span id="__span-0-170"><a id="__codelineno-0-170" name="__codelineno-0-170"></a><span class="sd">        specs (list[SubAgentSpec]): The subagent specs to add.</span>
 </span><span id="__span-0-171"><a id="__codelineno-0-171" name="__codelineno-0-171"></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="__span-0-172"><a id="__codelineno-0-172" name="__codelineno-0-172"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">subagents</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">specs</span><span class="p">)</span>
 </span><span id="__span-0-173"><a id="__codelineno-0-173" name="__codelineno-0-173"></a>    <span class="k">return</span> <span class="bp">self</span>

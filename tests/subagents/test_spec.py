@@ -109,6 +109,7 @@ def test_subagentspec_repr(mock_llm: BaseLLM) -> None:
     assert text.startswith("SubAgentSpec(")
     assert "name='researcher'" in text
     assert "description='Searches the web.'" in text
+    assert "builder=" in text
     assert f"max_steps={MAX_STEPS}" in text
     assert "skills_scopes=None" in text
     assert "explicit_only_skills=None" in text

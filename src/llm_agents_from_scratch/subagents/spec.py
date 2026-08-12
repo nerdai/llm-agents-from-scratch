@@ -22,19 +22,6 @@ class SubAgentSpec:
     each time, mirroring the existing fresh-``TaskHandler``-per-``run()``
     pattern.
 
-    Not in ``data_structures/``: that package is the zero-dependency
-    bottom layer (stdlib/pydantic imports only, no framework
-    cross-references), reserved for passive records like
-    ``SkillFrontmatter``. ``builder`` holds a live ``LLMAgentBuilder``
-    and ``catalog()`` is real behavior — this spec matches ``Skill``'s
-    shape, not ``SkillFrontmatter``'s. Moving it would also create a
-    real import cycle: ``LLMAgent`` only imports ``SubAgentSpec`` under
-    ``TYPE_CHECKING`` today precisely to avoid
-    ``agent.llm_agent`` → ``subagents.spec`` → ``agent.builder`` →
-    ``agent.llm_agent``; ``data_structures/`` is imported eagerly
-    everywhere, so that guard would stop working. See
-    ``A2AAgentSpec`` for the same reasoning, spelled out in full.
-
     A plain class, not a pydantic ``BaseModel``, for the same reason
     ``Skill``/``Memory``/``LLMAgentBuilder`` are plain classes: those
     are reserved for behavior-bearing objects that wrap a live

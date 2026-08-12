@@ -23,7 +23,7 @@ def _prompt_human(
         choices (list[str] | None): Optional list of valid responses.
             When provided, the human is re-prompted until they enter
             one of the listed values.
-        agent_name (str | None): Name of the coordinator or sub-agent
+        agent_name (str | None): Name of the coordinator or subagent
             rendered in the panel title. Defaults to None.
 
     Returns:
@@ -148,8 +148,8 @@ class SharedConsoleHumanInputTool(AsyncBaseTool):
 
     The optional ``agent_name`` label is rendered in the panel title so
     the operator knows which agent is asking — the coordinator or one
-    of its sub-agents. Typically set to ``SubAgentSpec.name`` for a
-    sub-agent, or left ``None`` for the coordinator.
+    of its subagents. Typically set to ``SubAgentSpec.name`` for a
+    subagent, or left ``None`` for the coordinator.
 
     The class-level ``_console_lock`` is shared by all instances, so
     concurrent agents take turns at a single stdin rather than racing.
@@ -190,7 +190,7 @@ class SharedConsoleHumanInputTool(AsyncBaseTool):
 
         Args:
             agent_name (str | None): Name of the coordinator or
-                sub-agent rendered in the panel title. Defaults to
+                subagent rendered in the panel title. Defaults to
                 None.
         """
         self.agent_name = agent_name

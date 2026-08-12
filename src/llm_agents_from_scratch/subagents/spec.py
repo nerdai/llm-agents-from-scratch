@@ -1,4 +1,4 @@
-"""SubAgentSpec — specification for a named sub-agent."""
+"""SubAgentSpec — specification for a named subagent."""
 
 from llm_agents_from_scratch.agent import LLMAgentBuilder
 from llm_agents_from_scratch.data_structures.skill import SkillScope
@@ -7,9 +7,9 @@ from .constants import CATALOG_SPEC_TEMPLATE
 
 
 class SubAgentSpec:
-    """Specification for a named sub-agent in a multi-agent system.
+    """Specification for a named subagent in a multi-agent system.
 
-    Each ``SubAgentSpec`` entry registers a build recipe for a sub-agent
+    Each ``SubAgentSpec`` entry registers a build recipe for a subagent
     under a human-readable name. The name serves as the registry key on
     the parent coordinator and as the enum value the coordinator's
     ``UseSubAgentTool`` presents to the LLM for dispatch.
@@ -32,22 +32,22 @@ class SubAgentSpec:
     non-pydantic type.
 
     Attributes:
-        name: Unique registry key for this sub-agent. Appears as an enum
+        name: Unique registry key for this subagent. Appears as an enum
             value in ``UseSubAgentTool``'s dispatch schema — must be
             human-readable and stable.
         description: Short routing signal shown to the coordinator LLM in
             the ``<available_subagents>`` catalog. Should describe capability,
             not implementation.
-        builder: The recipe used to build this sub-agent fresh on every
+        builder: The recipe used to build this subagent fresh on every
             dispatch.
-        max_steps: Optional cap on the number of steps the sub-agent may
+        max_steps: Optional cap on the number of steps the subagent may
             take per dispatch. Passed to ``agent.run()`` to bound runaway
             executions. ``None`` uses the agent's own default.
         skills_scopes: Optional scopes to scan for skills on this
-            sub-agent's dispatches. Passed to ``agent.run()``. ``None``
+            subagent's dispatches. Passed to ``agent.run()``. ``None``
             uses the agent's own default (``[USER, PROJECT]``).
         explicit_only_skills: Optional skill names to exclude from this
-            sub-agent's model catalog on dispatch. Passed to
+            subagent's model catalog on dispatch. Passed to
             ``agent.run()``. ``None`` uses the agent's own default (no
             exclusions).
     """
@@ -61,21 +61,21 @@ class SubAgentSpec:
         skills_scopes: list[SkillScope] | None = None,
         explicit_only_skills: set[str] | None = None,
     ) -> None:
-        """Initialise a SubAgentSpec.
+        """Initialize a SubAgentSpec.
 
         Args:
-            name: Unique registry key for this sub-agent.
+            name: Unique registry key for this subagent.
             description: Routing signal shown to the coordinator LLM in
                 the ``<available_subagents>`` catalog.
-            builder: The recipe used to build this sub-agent per
+            builder: The recipe used to build this subagent per
                 dispatch.
-            max_steps: Optional cap on sub-agent steps per dispatch.
+            max_steps: Optional cap on subagent steps per dispatch.
                 Defaults to ``None`` (agent's own default).
             skills_scopes: Optional scopes to scan for skills on this
-                sub-agent's dispatches. Defaults to ``None`` (agent's
+                subagent's dispatches. Defaults to ``None`` (agent's
                 own default).
             explicit_only_skills: Optional skill names to exclude from
-                this sub-agent's model catalog on dispatch. Defaults to
+                this subagent's model catalog on dispatch. Defaults to
                 ``None`` (agent's own default).
         """
         self.name = name
@@ -98,7 +98,7 @@ class SubAgentSpec:
         )
 
     def catalog(self) -> str:
-        """Return XML entry for this spec in the sub-agents catalog."""
+        """Return XML entry for this spec in the subagents catalog."""
         return CATALOG_SPEC_TEMPLATE.format(
             name=self.name,
             description=self.description,

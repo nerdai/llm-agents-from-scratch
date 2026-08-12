@@ -10,6 +10,6 @@ class SubAgentsError(LLMAgentsFromScratchError):
 
 
 class SubAgentNotFoundError(SubAgentsError):
-    """Raised when a named sub-agent is not in the registry."""
+    """Raised when a named subagent is not in the registry."""
 
     pass

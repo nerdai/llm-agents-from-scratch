@@ -34,7 +34,7 @@ class LLMAgentA2AExecutor(AgentExecutor):
 
     Every dispatch runs to completion or failure in one shot; there is
     no ``input_required`` support on this (server) side. §8.5's channel
-    problem was already answered in Ch9 by dissolution (sub-agents run
+    problem was already answered in Ch9 by dissolution (subagents run
     in-process, same terminal), so implementing a non-terminal
     ``SendMessage`` return here would mostly pay off a forward
     reference already paid — a named skip, alongside streaming,

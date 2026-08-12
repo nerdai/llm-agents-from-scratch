@@ -60,7 +60,7 @@ class LLMAgent:
             the LLM with, represented as a dict.
         templates (LLMAgentTemplates): Prompt templates for LLM Agent.
         logger (logging.Logger): LLMAgent logger.
-        subagents_registry (dict[str, SubAgentSpec]): Sub-agent registry,
+        subagents_registry (dict[str, SubAgentSpec]): subagent registry,
             keyed by name. Built from the constructor list. Added in
             Chapter 9.
         a2a_agents_registry (dict[str, A2AAgentSpec]): A2A peer registry,
@@ -95,9 +95,9 @@ class LLMAgent:
             memories (list[Memory] | None): Episodic memory backends
                 to consult at task start and update at task end. Defaults
                 to None (no memory). Added in Chapter 7.
-            subagents (list[SubAgentSpec] | None): Sub-agents this
+            subagents (list[SubAgentSpec] | None): subagents this
                 coordinator can delegate to. Defaults to None (no
-                sub-agents). Added in Chapter 9.
+                subagents). Added in Chapter 9.
             a2a_agents (list[A2AAgentSpec] | None): A2A peer agents this
                 coordinator can dispatch to. Defaults to None (no A2A
                 peers). Added in Chapter 10.
@@ -170,7 +170,7 @@ class LLMAgent:
                 activation tool. Set when skills are discovered; ``None``
                 otherwise. Added in Chapter 6.
             _use_subagent_tool (UseSubAgentTool | None): Task-scoped
-                sub-agent dispatch tool. Set when sub-agents are registered
+                subagent dispatch tool. Set when subagents are registered
                 on the agent; ``None`` otherwise. Added in Chapter 9.
             _use_a2a_agent_tool (UseA2AAgentTool | None): Task-scoped A2A
                 peer dispatch tool. Set when A2A peers are registered on
@@ -291,13 +291,13 @@ class LLMAgent:
 
         @property
         def _subagents_catalog(self) -> str:
-            """Return formatted sub-agents catalog, or empty string.
+            """Return formatted subagents catalog, or empty string.
 
             Added in Chapter 9.
 
-            Builds the ``<available_subagents>`` XML block from sub-agents
+            Builds the ``<available_subagents>`` XML block from subagents
             registered on the coordinator. Returns an empty string when no
-            sub-agents are configured so callers can append it
+            subagents are configured so callers can append it
             unconditionally without adding noise.
             """
             specs = self.llm_agent.subagents_registry.values()
@@ -513,7 +513,7 @@ class LLMAgent:
                     content=f"{system_message.content}\n\n{catalog}",
                 )
 
-            # added in ch09: bolt on sub-agents catalog when registered
+            # added in ch09: bolt on subagents catalog when registered
             if catalog := self._subagents_catalog:
                 system_message = ChatMessage(
                     role=ChatRole.SYSTEM,

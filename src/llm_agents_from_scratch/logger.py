@@ -14,8 +14,8 @@ ROOT_LOGGER_NAME = "llm_agents_fs"
 DEFAULT_LOG_LEVEL = logging.INFO
 DEFAULT_MSG_MAX_LENGTH = 150
 
-# Set by UseSubAgentTool around a dispatched sub-agent's run() so every log
-# line emitted from within that run — coordinator and sub-agent share the
+# Set by UseSubAgentTool around a dispatched subagent's run() so every log
+# line emitted from within that run — coordinator and subagent share the
 # same logger names — can be tagged with which agent it came from.
 current_subagent_name: ContextVar[str | None] = ContextVar(
     "current_subagent_name",

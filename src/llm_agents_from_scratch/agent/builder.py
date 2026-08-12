@@ -34,7 +34,7 @@ class LLMAgentBuilder:
         mcp_providers (list[MCPToolProvider]): MCP providers for tool
             discovery.
         memories (list[Memory]): Memory backends for the agent.
-        subagents (list[SubAgentSpec]): Sub-agent specs for the agent.
+        subagents (list[SubAgentSpec]): subagent specs for the agent.
             Added in Chapter 9.
         a2a_agents (list[A2AAgentSpec]): A2A peer specs for the agent.
             Added in Chapter 10.
@@ -96,7 +96,7 @@ class LLMAgentBuilder:
             memories (list[Memory] | None, optional): Memory backends
                 for the agent. No default implementation is provided — the
                 caller must supply a concrete subclass. Defaults to None.
-            subagents (list[SubAgentSpec] | None, optional): Sub-agent specs
+            subagents (list[SubAgentSpec] | None, optional): subagent specs
                 to register on the agent. Defaults to None. Added in
                 Chapter 9.
             a2a_agents (list[A2AAgentSpec] | None, optional): A2A peer
@@ -155,19 +155,19 @@ class LLMAgentBuilder:
         return self
 
     def with_subagent(self, spec: "SubAgentSpec") -> Self:
-        """Add a sub-agent spec to builder. Added in Chapter 9.
+        """Add a subagent spec to builder. Added in Chapter 9.
 
         Args:
-            spec (SubAgentSpec): The sub-agent spec to add.
+            spec (SubAgentSpec): The subagent spec to add.
         """
         self.subagents.append(spec)
         return self
 
     def with_subagents(self, specs: "list[SubAgentSpec]") -> Self:
-        """Add sub-agent specs to builder. Added in Chapter 9.
+        """Add subagent specs to builder. Added in Chapter 9.
 
         Args:
-            specs (list[SubAgentSpec]): The sub-agent specs to add.
+            specs (list[SubAgentSpec]): The subagent specs to add.
         """
         self.subagents.extend(specs)
         return self

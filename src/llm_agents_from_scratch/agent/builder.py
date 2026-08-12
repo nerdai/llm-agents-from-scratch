@@ -34,7 +34,7 @@ class LLMAgentBuilder:
         mcp_providers (list[MCPToolProvider]): MCP providers for tool
             discovery.
         memories (list[Memory]): Memory backends for the agent.
-        subagents (list[SubAgentSpec]): subagent specs for the agent.
+        subagents (list[SubAgentSpec]): Subagent specs for the agent.
             Added in Chapter 9.
         a2a_agents (list[A2AAgentSpec]): A2A peer specs for the agent.
             Added in Chapter 10.
@@ -96,7 +96,7 @@ class LLMAgentBuilder:
             memories (list[Memory] | None, optional): Memory backends
                 for the agent. No default implementation is provided — the
                 caller must supply a concrete subclass. Defaults to None.
-            subagents (list[SubAgentSpec] | None, optional): subagent specs
+            subagents (list[SubAgentSpec] | None, optional): Subagent specs
                 to register on the agent. Defaults to None. Added in
                 Chapter 9.
             a2a_agents (list[A2AAgentSpec] | None, optional): A2A peer

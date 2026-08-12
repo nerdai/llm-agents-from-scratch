@@ -37,7 +37,7 @@ class UseSubAgentTool(AsyncBaseTool):
         """Initialise with a registry of subagents.
 
         Args:
-            subagents_registry (dict[str, SubAgentSpec]): subagents to
+            subagents_registry (dict[str, SubAgentSpec]): Subagents to
                 register, keyed by name.
         """
         self._subagents_registry = subagents_registry
@@ -151,7 +151,7 @@ class UseSubAgentTool(AsyncBaseTool):
         try:
             if spec is None:
                 raise SubAgentNotFoundError(
-                    f"subagent '{subagent_name}' not found.",
+                    f"Subagent '{subagent_name}' not found.",
                 )
             agent = await spec.builder.build()
             result = await agent.run(

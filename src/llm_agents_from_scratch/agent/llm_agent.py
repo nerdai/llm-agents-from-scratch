@@ -60,7 +60,7 @@ class LLMAgent:
             the LLM with, represented as a dict.
         templates (LLMAgentTemplates): Prompt templates for LLM Agent.
         logger (logging.Logger): LLMAgent logger.
-        subagents_registry (dict[str, SubAgentSpec]): subagent registry,
+        subagents_registry (dict[str, SubAgentSpec]): Subagent registry,
             keyed by name. Built from the constructor list. Added in
             Chapter 9.
         a2a_agents_registry (dict[str, A2AAgentSpec]): A2A peer registry,
@@ -95,7 +95,7 @@ class LLMAgent:
             memories (list[Memory] | None): Episodic memory backends
                 to consult at task start and update at task end. Defaults
                 to None (no memory). Added in Chapter 7.
-            subagents (list[SubAgentSpec] | None): subagents this
+            subagents (list[SubAgentSpec] | None): Subagents this
                 coordinator can delegate to. Defaults to None (no
                 subagents). Added in Chapter 9.
             a2a_agents (list[A2AAgentSpec] | None): A2A peer agents this

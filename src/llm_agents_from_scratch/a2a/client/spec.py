@@ -33,6 +33,21 @@ class A2AAgentSpec(BaseModel):
     fresh on each dispatch from this spec's ``url``/``headers``/
     ``agent_card``.
 
+    Not in ``data_structures/``, despite being "pure data" in the sense
+    above: that package is the framework's zero-dependency bottom layer
+    — every file there imports only stdlib/pydantic and cross-references
+    only each other, so anything can import from it without a
+    circularity risk. This spec doesn't qualify: ``agent_card`` is an
+    SDK ``AgentCard``, a protobuf message rather than a pydantic model,
+    which is why ``arbitrary_types_allowed=True`` is needed, and
+    ``catalog()`` is real behavior, not just a validated record. The
+    same distinction already exists in the framework: ``SkillFrontmatter``
+    (pure parsed metadata, zero framework imports) lives in
+    ``data_structures/``, but ``Skill`` (behavior, holds a live
+    filesystem location) lives in ``skills/`` instead. This spec
+    matches ``Skill``'s shape, not ``SkillFrontmatter``'s — same
+    reasoning ``SubAgentSpec`` follows for holding an ``LLMAgentBuilder``.
+
     ``url`` is likewise derived from the card rather than passed
     independently: it should match
     ``agent_card.supported_interfaces[0].url``, not the URL ``from_url``

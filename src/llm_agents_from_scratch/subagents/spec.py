@@ -24,6 +24,20 @@ class SubAgentSpec(BaseModel):
     each time, mirroring the existing fresh-``TaskHandler``-per-``run()``
     pattern.
 
+    Not in ``data_structures/``: that package is the zero-dependency
+    bottom layer (stdlib/pydantic imports only, no framework
+    cross-references), reserved for passive records like
+    ``SkillFrontmatter``. ``builder`` holds a live ``LLMAgentBuilder``
+    (why ``arbitrary_types_allowed=True`` is needed) and ``catalog()``
+    is real behavior — this spec matches ``Skill``'s shape, not
+    ``SkillFrontmatter``'s. Moving it would also create a real import
+    cycle: ``LLMAgent`` only imports ``SubAgentSpec`` under
+    ``TYPE_CHECKING`` today precisely to avoid
+    ``agent.llm_agent`` → ``subagents.spec`` → ``agent.builder`` →
+    ``agent.llm_agent``; ``data_structures/`` is imported eagerly
+    everywhere, so that guard would stop working. See
+    ``A2AAgentSpec`` for the same reasoning, spelled out in full.
+
     Attributes:
         name: Unique registry key for this sub-agent. Appears as an enum
             value in ``UseSubAgentTool``'s dispatch schema — must be

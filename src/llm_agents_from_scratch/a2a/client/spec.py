@@ -5,7 +5,6 @@ from __future__ import annotations
 import httpx
 from a2a.client import A2ACardResolver
 from a2a.types import AgentCard
-from pydantic import BaseModel, ConfigDict, Field
 
 from llm_agents_from_scratch.errors import A2AAgentCardMissingInterfaceError
 
@@ -16,7 +15,7 @@ from .constants import (
 )
 
 
-class A2AAgentSpec(BaseModel):
+class A2AAgentSpec:
     """Specification for a registered A2A peer agent.
 
     Each ``A2AAgentSpec`` entry registers a remote A2A-compliant peer under
@@ -32,6 +31,28 @@ class A2AAgentSpec(BaseModel):
     ``Client``. Connecting to the peer is ``UseA2AAgentTool``'s job, done
     fresh on each dispatch from this spec's ``url``/``headers``/
     ``agent_card``.
+
+    Not in ``data_structures/``: that package is the zero-dependency
+    bottom layer (stdlib/pydantic imports only, no framework
+    cross-references), reserved for passive records like
+    ``SkillFrontmatter``. ``agent_card`` is an SDK ``AgentCard``, a
+    protobuf message rather than a pydantic model, and ``catalog()`` is
+    real behavior, not just a validated record. The same distinction
+    already exists in the framework: ``SkillFrontmatter`` (pure parsed
+    metadata, zero framework imports) lives in ``data_structures/``, but
+    ``Skill`` (behavior, holds a live filesystem location) lives in
+    ``skills/`` instead. This spec matches ``Skill``'s shape, not
+    ``SkillFrontmatter``'s — same reasoning ``SubAgentSpec`` follows for
+    holding an ``LLMAgentBuilder``.
+
+    A plain class, not a pydantic ``BaseModel``, for the same reason
+    ``Skill``/``Memory``/``LLMAgentBuilder`` are plain classes: those are
+    reserved for behavior-bearing objects, not passive serializable
+    data. ``BaseModel`` would only have bought required-field validation
+    (a plain ``__init__`` already raises ``TypeError`` on missing
+    required args) at the cost of needing
+    ``arbitrary_types_allowed=True`` for ``agent_card``, a non-pydantic
+    type.
 
     ``url`` is likewise derived from the card rather than passed
     independently: it should match
@@ -50,6 +71,8 @@ class A2AAgentSpec(BaseModel):
             ``UseA2AAgentTool``'s dispatch schema.
         url: Base URL of the remote A2A peer. Should match
             ``agent_card.supported_interfaces[0].url``.
+        agent_card: The peer's resolved ``AgentCard``, fetched eagerly at
+            construction time.
         headers: Optional HTTP headers (e.g. auth) sent on requests to
             this peer, both for card resolution and for dispatch, mirroring
             ``MCPToolProvider.streamable_http_headers``. May carry
@@ -59,8 +82,6 @@ class A2AAgentSpec(BaseModel):
             them — left as a callout rather than built in, to keep this
             an educational framework rather than a production-hardened
             one.
-        agent_card: The peer's resolved ``AgentCard``, fetched eagerly at
-            construction time.
         timeout: Seconds ``UseA2AAgentTool`` allows a dispatch to this
             peer before timing out. Defaults to 60.0 rather than
             ``httpx``'s own default (5.0s, applied to connect/read/
@@ -70,41 +91,43 @@ class A2AAgentSpec(BaseModel):
             it is passed straight through to ``httpx.AsyncClient``.
     """
 
-    model_config = ConfigDict(arbitrary_types_allowed=True)
+    def __init__(
+        self,
+        name: str,
+        url: str,
+        agent_card: AgentCard,
+        headers: dict[str, str] | None = None,
+        timeout: float | None = 60.0,
+    ) -> None:
+        """Initialise an A2AAgentSpec.
 
-    name: str = Field(
-        description=(
-            "Registry key for this A2A agent, taken from agent_card.name. "
-            "Appears as an enum value in UseA2AAgentTool's dispatch "
-            "schema."
-        ),
-    )
-    url: str = Field(
-        description=(
-            "Base URL of the remote A2A peer. Should match "
-            "agent_card.supported_interfaces[0].url."
-        ),
-    )
-    headers: dict[str, str] | None = Field(
-        default=None,
-        description=(
-            "Optional HTTP headers sent on requests to this peer, both "
-            "for card resolution and for dispatch. May carry credentials "
-            "(e.g. Authorization); not masked — production use should "
-            "wrap values in pydantic's SecretStr."
-        ),
-    )
-    agent_card: AgentCard = Field(
-        description="The peer's resolved AgentCard.",
-    )
-    timeout: float | None = Field(
-        default=60.0,
-        description=(
-            "Seconds UseA2AAgentTool allows a dispatch to this peer "
-            "before timing out. Explicitly setting this to None "
-            "disables the timeout entirely (unbounded)."
-        ),
-    )
+        Args:
+            name: Registry key for this A2A agent, taken from
+                ``agent_card.name``.
+            url: Base URL of the remote A2A peer.
+            agent_card: The peer's resolved ``AgentCard``.
+            headers: Optional HTTP headers sent on requests to this
+                peer. Defaults to ``None``.
+            timeout: Seconds ``UseA2AAgentTool`` allows a dispatch to
+                this peer before timing out. ``None`` disables the
+                timeout entirely. Defaults to ``60.0``.
+        """
+        self.name = name
+        self.url = url
+        self.agent_card = agent_card
+        self.headers = headers
+        self.timeout = timeout
+
+    def __repr__(self) -> str:
+        """Readable repr listing every field."""
+        return (
+            f"{type(self).__name__}("
+            f"name={self.name!r}, "
+            f"url={self.url!r}, "
+            f"agent_card={self.agent_card!r}, "
+            f"headers={self.headers!r}, "
+            f"timeout={self.timeout!r})"
+        )
 
     @classmethod
     def from_agent_card(

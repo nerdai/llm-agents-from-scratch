@@ -85,13 +85,31 @@ def test_a2aagentspec_from_agent_card_raises_on_no_interfaces() -> None:
 
 def test_a2aagentspec_has_no_client_field() -> None:
     """Tests A2AAgentSpec never holds a live SDK client (Decision #783)."""
-    assert set(A2AAgentSpec.model_fields.keys()) == {
+    card = _agent_card()
+    spec = A2AAgentSpec.from_agent_card(agent_card=card)
+
+    assert set(vars(spec).keys()) == {
         "name",
         "url",
         "headers",
         "agent_card",
         "timeout",
     }
+
+
+def test_a2aagentspec_repr() -> None:
+    """Tests __repr__ surfaces every field."""
+    card = _agent_card(name="researcher")
+    spec = A2AAgentSpec.from_agent_card(agent_card=card, timeout=99.0)
+
+    text = repr(spec)
+
+    assert text.startswith("A2AAgentSpec(")
+    assert "name='researcher'" in text
+    assert f"url={DISPATCH_URL!r}" in text
+    assert "agent_card=" in text
+    assert "headers=None" in text
+    assert "timeout=99.0" in text
 
 
 @pytest.mark.asyncio

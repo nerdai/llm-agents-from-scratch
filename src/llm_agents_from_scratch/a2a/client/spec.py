@@ -124,8 +124,8 @@ class A2AAgentSpec:
             f"{type(self).__name__}("
             f"name={self.name!r}, "
             f"url={self.url!r}, "
-            f"agent_card={self.agent_card!r}, "
             f"headers={self.headers!r}, "
+            f"agent_card={self.agent_card!r}, "
             f"timeout={self.timeout!r})"
         )
 

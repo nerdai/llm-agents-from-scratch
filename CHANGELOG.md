@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- refactor(ch10): `A2AAgentSpec` — plain class instead of a pydantic `BaseModel`, same reasoning as `SubAgentSpec` (#833): `agent_card` is an SDK `AgentCard`, actually a protobuf message rather than a pydantic type, so `arbitrary_types_allowed=True` was the only thing pydantic bought here; same constructor signature, `from_agent_card()`/`from_url()`/`catalog()` unchanged, hand-written `__repr__` (#835)
 - refactor(ch09): `SubAgentSpec` — plain class instead of a pydantic `BaseModel`, matching `Skill`/`Memory`/`LLMAgentBuilder`'s pattern for objects that wrap a live collaborator (`arbitrary_types_allowed=True` was the only thing pydantic bought here); same constructor signature, `catalog()` unchanged, hand-written `__repr__` (#833)
 - refactor(ch09): `SubAgentSpec.agent: LLMAgent` → `SubAgentSpec.builder: LLMAgentBuilder` — the spec is now pure data holding a build recipe, not a live agent, mirroring `A2AAgentSpec`'s rule; `UseSubAgentTool` builds a fresh `LLMAgent` from the recipe on every dispatch, reusing whatever the builder was given directly (memory stores, MCP providers) across builds (#830)
 

@@ -32,27 +32,9 @@ class A2AAgentSpec:
     fresh on each dispatch from this spec's ``url``/``headers``/
     ``agent_card``.
 
-    Not in ``data_structures/``: that package is the zero-dependency
-    bottom layer (stdlib/pydantic imports only, no framework
-    cross-references), reserved for passive records like
-    ``SkillFrontmatter``. ``agent_card`` is an SDK ``AgentCard``, a
-    protobuf message rather than a pydantic model, and ``catalog()`` is
-    real behavior, not just a validated record. The same distinction
-    already exists in the framework: ``SkillFrontmatter`` (pure parsed
-    metadata, zero framework imports) lives in ``data_structures/``, but
-    ``Skill`` (behavior, holds a live filesystem location) lives in
-    ``skills/`` instead. This spec matches ``Skill``'s shape, not
-    ``SkillFrontmatter``'s — same reasoning ``SubAgentSpec`` follows for
-    holding an ``LLMAgentBuilder``.
-
-    A plain class, not a pydantic ``BaseModel``, for the same reason
-    ``Skill``/``Memory``/``LLMAgentBuilder`` are plain classes: those are
-    reserved for behavior-bearing objects, not passive serializable
-    data. ``BaseModel`` would only have bought required-field validation
-    (a plain ``__init__`` already raises ``TypeError`` on missing
-    required args) at the cost of needing
-    ``arbitrary_types_allowed=True`` for ``agent_card``, a non-pydantic
-    type.
+    A plain class, not a pydantic ``BaseModel``: ``agent_card`` is a
+    non-pydantic SDK type, so ``BaseModel`` bought only
+    ``arbitrary_types_allowed=True`` overhead here.
 
     ``url`` is likewise derived from the card rather than passed
     independently: it should match

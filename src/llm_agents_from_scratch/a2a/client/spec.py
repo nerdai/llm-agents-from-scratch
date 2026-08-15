@@ -202,7 +202,7 @@ class A2AAgentSpec:
         )
 
     def catalog(self) -> str:
-        """Returns XML structured string for cataloging this A2A agent.
+        """Return XML entry for this spec in the a2a agents catalog.
 
         Nests the peer's declared ``AgentSkill``s (its ``agent_card.skills``)
         as an ``<a2a_skills>`` block, giving the coordinator finer-grained

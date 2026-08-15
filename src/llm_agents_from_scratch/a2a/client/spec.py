@@ -209,13 +209,13 @@ class A2AAgentSpec:
         routing signal than the top-level description alone. Omitted
         entirely when the peer declares no skills.
         """
-        skills = "\n".join(
-            CATALOG_INDIVIDUAL_A2A_SKILL_TEMPLATE.format(name=skill.name)
-            for skill in self.agent_card.skills
-        )
-        skills_block = (
-            CATALOG_A2A_SKILLS_TEMPLATE.format(skills=skills) if skills else ""
-        )
+        skills_block = ""
+        if self.agent_card.skills:
+            entries = "\n".join(
+                CATALOG_INDIVIDUAL_A2A_SKILL_TEMPLATE.format(name=skill.name)
+                for skill in self.agent_card.skills
+            )
+            skills_block = CATALOG_A2A_SKILLS_TEMPLATE.format(skills=entries)
         return CATALOG_SPEC_TEMPLATE.format(
             name=self.name,
             description=self.agent_card.description,

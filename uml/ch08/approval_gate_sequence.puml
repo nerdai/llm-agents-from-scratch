@@ -10,6 +10,7 @@ human -> agent : run(task)
 agent -> agent : creates task_handler
 agent -> agent : schedules _process_loop()\nas background task
 agent --> human : returns task_handler
+destroy agent
 
 loop until done()
 

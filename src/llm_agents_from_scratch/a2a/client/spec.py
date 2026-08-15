@@ -1,7 +1,5 @@
 """A2AAgentSpec — specification for a registered A2A peer agent."""
 
-from __future__ import annotations
-
 import httpx
 from a2a.client import A2ACardResolver
 from a2a.types import AgentCard
@@ -117,7 +115,7 @@ class A2AAgentSpec:
         agent_card: AgentCard,
         headers: dict[str, str] | None = None,
         timeout: float | None = 60.0,
-    ) -> A2AAgentSpec:
+    ) -> "A2AAgentSpec":
         """Builds a spec from an ``AgentCard`` already in hand.
 
         Sync — covers cached cards, self-built cards, and test fixtures,
@@ -156,7 +154,7 @@ class A2AAgentSpec:
         headers: dict[str, str] | None = None,
         agent_card_path: str | None = None,
         timeout: float | None = 60.0,
-    ) -> A2AAgentSpec:
+    ) -> "A2AAgentSpec":
         """Fetches the peer's ``AgentCard`` from ``url``, then builds a spec.
 
         Async — resolves the card over the wire via ``A2ACardResolver``

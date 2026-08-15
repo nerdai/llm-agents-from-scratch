@@ -3,7 +3,7 @@
 title Result Approval Gate — Sequence
 
 actor "human operator" as human
-participant "<img:../common/assets/drone.png{scale=0.12}>\ntask_handler: TaskHandler" as TaskHandler
+participant "task_handler: TaskHandler" as TaskHandler
 
 ref over TaskHandler
   TaskStep loop (get_next_step / run_step)

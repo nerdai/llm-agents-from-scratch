@@ -35,13 +35,13 @@ loop until done()
 
         alt approved
             handler -> handler : record_memory()
-            hnote right #lightblue: 3a
+            hnote left #lightblue: 3a
             handler -> handler : set_result()
             note right: done() becomes true
         else rejected
             handler -> handler : creates RejectedTaskResult
-            note left: → becomes previous_step_result
-            hnote right #lightblue: 3b
+            hnote left #lightblue: 3b
+            note right: → becomes previous_step_result
         end
     end
 end

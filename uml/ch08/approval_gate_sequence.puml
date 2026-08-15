@@ -7,7 +7,7 @@ participant "agent: LLMAgent" as agent
 participant "handler: TaskHandler" as handler
 
 human -> agent : run(task)
-hnote right #lightblue: 0 starts the task
+hnote right #lightblue: 0
 agent -> agent : creates task_handler
 agent -> agent : schedules _process_loop()\nas background task
 agent --> human : returns task_handler
@@ -29,23 +29,31 @@ loop until done()
 
     else TaskResult
         handler -> human : request_approval(result)
-        hnote right #lightblue: 1 ask the human for approval
+        hnote right #lightblue: 1
         human --> handler : approved / feedback
-        hnote right #lightblue: 2 human decides
+        hnote right #lightblue: 2
 
         alt approved
             handler -> handler : record_memory()
-            hnote left #lightblue: 3a close the loop
+            hnote left #lightblue: 3a
             handler -> handler : set_result()
             note right: done() becomes true
         else rejected
             handler -> handler : creates RejectedTaskResult
-            hnote left #lightblue: 3b feedback for retry
+            hnote left #lightblue: 3b
             note right: → becomes previous_step_result
         end
     end
 end
 
 handler --> human : resolves to TaskResult\n(await task_handler)
+
+legend top right
+  <b>0</b>  starts the task
+  <b>1</b>  ask the human for approval
+  <b>2</b>  human decides
+  <b>3a</b> close the loop
+  <b>3b</b> feedback for retry
+endlegend
 
 @enduml

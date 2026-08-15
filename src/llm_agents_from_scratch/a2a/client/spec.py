@@ -79,7 +79,7 @@ class A2AAgentSpec:
         headers: dict[str, str] | None = None,
         timeout: float | None = 60.0,
     ) -> None:
-        """Initialise an A2AAgentSpec.
+        """Initialize an A2AAgentSpec.
 
         Args:
             name: Registry key for this A2A agent, taken from

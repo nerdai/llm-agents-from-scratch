@@ -49,10 +49,13 @@ DEFAULT_AGENT_SCRIPT = REPO_ROOT / "examples" / "demo.py"
 # TaskHandler's attribute is `skills_registry` (renamed pre-0.1.3).
 # Already fixed on the inspector repo's `main` branch, just not
 # released yet -- installing from git unblocks capture in the
-# meantime. Swap back to "llm-agents-from-scratch-inspector" once a
-# fixed version ships.
+# meantime. Pinned to a specific commit (rather than a bare `@main`)
+# so captures stay reproducible even if that branch moves in a
+# breaking way later. Swap back to "llm-agents-from-scratch-inspector"
+# once a fixed version ships to PyPI.
 DEFAULT_INSPECTOR_SOURCE = (
     "git+https://github.com/nerdai/llm-agents-from-scratch-inspector"
+    "@fde25ef025a034fd50ddf0d719e6902d6020c10e"
 )
 # Manuscript figures live in each user's own local `figures_path` (see
 # `scripts/prepare_book_figures.py` / `book_figures.yml`), never
@@ -65,6 +68,8 @@ VIEWPORT = {"width": 1440, "height": 900}
 DEVICE_SCALE_FACTOR = 2  # crisp @2x captures for print
 SERVER_STARTUP_TIMEOUT_SECONDS = 60
 STEP_POLL_INTERVAL_SECONDS = 0.5
+CALLING_BACKEND_TIMEOUT_SECONDS = 120  # generous for real Ollama inference
+LOOP_TIMEOUT_SECONDS = 600  # overall bound on driving to the approval gate
 
 
 def _wait_for_server(url: str, timeout_seconds: float) -> None:
@@ -91,11 +96,28 @@ def _phase_badge(page: Page):
     return page.locator("header").get_by_text(_PHASE_BADGE_RE)
 
 
+def _wait_until_settled(
+    page: Page,
+    timeout_seconds: float = CALLING_BACKEND_TIMEOUT_SECONDS,
+) -> None:
+    """Wait for the phase badge to leave "Calling backend...", bounded.
+
+    Without a deadline, a hung backend (Ollama down, a stuck request)
+    would spin this loop forever instead of failing loudly.
+    """
+    deadline = time.monotonic() + timeout_seconds
+    while "Calling backend" in (_phase_badge(page).text_content() or ""):
+        if time.monotonic() > deadline:
+            raise TimeoutError(
+                f"Backend call did not settle within {timeout_seconds}s.",
+            )
+        time.sleep(STEP_POLL_INTERVAL_SECONDS)
+
+
 def _click_and_wait(page: Page, button_name: str) -> None:
     page.get_by_role("button", name=button_name).click()
     _phase_badge(page).wait_for(state="visible")
-    while "Calling backend" in (_phase_badge(page).text_content() or ""):
-        time.sleep(STEP_POLL_INTERVAL_SECONDS)
+    _wait_until_settled(page)
 
 
 def _wait_for_session_created(page: Page, timeout_seconds: float = 30) -> None:
@@ -125,6 +147,9 @@ def run(
     base_url = f"http://127.0.0.1:{port}"
 
     print(f"Launching Agent Inspector on {base_url} ...")
+    # Inherits the parent's stdout/stderr rather than piping -- an
+    # unconsumed PIPE can fill its OS buffer and block the server
+    # process once it logs enough output, hanging the whole capture.
     server = subprocess.Popen(  # noqa: S603
         [
             "uvx",
@@ -137,9 +162,6 @@ def run(
             "--port",
             str(port),
         ],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        text=True,
     )
     try:
         _wait_for_server(base_url, SERVER_STARTUP_TIMEOUT_SECONDS)
@@ -167,15 +189,20 @@ def run(
             page.get_by_role("button", name="run_step(step)").click()
             time.sleep(STEP_POLL_INTERVAL_SECONDS)
             _capture(page, output_dir, "agent-inspector-step-in-flight")
-            while "Calling backend" in (
-                _phase_badge(page).text_content() or ""
-            ):
-                time.sleep(STEP_POLL_INTERVAL_SECONDS)
+            _wait_until_settled(page)
 
-            # Drive the rest of the loop to the approval gate.
+            # Drive the rest of the loop to the approval gate, bounded
+            # overall so a pathological agent (never reaching a final
+            # result) can't hang the script indefinitely.
+            loop_deadline = time.monotonic() + LOOP_TIMEOUT_SECONDS
             while "Awaiting approval" not in (
                 _phase_badge(page).text_content() or ""
             ):
+                if time.monotonic() > loop_deadline:
+                    raise TimeoutError(
+                        "Session did not reach the approval gate within "
+                        f"{LOOP_TIMEOUT_SECONDS}s.",
+                    )
                 phase = _phase_badge(page).text_content() or ""
                 if "run_step" in phase or "Awaiting run_step" in phase:
                     _click_and_wait(page, "run_step(step)")

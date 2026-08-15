@@ -30,14 +30,27 @@ from pathlib import Path
 DEFAULT_MAX_WIDTH_IN = 5.6
 DEFAULT_MAX_HEIGHT_IN = 7.0
 MIN_PRINT_DPI = 300
+PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
+PNG_HEADER_MIN_LENGTH = 24  # 8-byte signature + 4-byte length + IHDR fields
 
 
 def _png_dimensions(png_bytes: bytes) -> tuple[int, int]:
     # PNG: 8-byte signature, then an IHDR chunk whose first 8 bytes
     # (after the 4-byte length + "IHDR" type) are width/height as
     # big-endian uint32 -- no need for a Pillow dependency just to
-    # read this.
+    # read this. Validated explicitly (signature, chunk type, and
+    # non-zero dimensions) so a truncated/corrupt file raises a clear
+    # ValueError instead of a low-signal struct.error, or a silent
+    # divide-by-zero later when computing aspect ratio.
+    if (
+        len(png_bytes) < PNG_HEADER_MIN_LENGTH
+        or png_bytes[:8] != PNG_SIGNATURE
+        or png_bytes[12:16] != b"IHDR"
+    ):
+        raise ValueError("Not a valid PNG file (bad signature/IHDR chunk).")
     width, height = struct.unpack(">II", png_bytes[16:24])
+    if width == 0 or height == 0:
+        raise ValueError(f"PNG has zero dimensions ({width}x{height}).")
     return width, height
 
 

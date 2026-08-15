@@ -7,7 +7,7 @@ participant "agent: LLMAgent" as agent
 participant "handler: TaskHandler" as handler
 
 human -> agent : run(task)
-hnote right #lightblue: 0 one-time handshake
+hnote right #lightblue: 0 starts the task
 agent -> agent : creates task_handler
 agent -> agent : schedules _process_loop()\nas background task
 agent --> human : returns task_handler
@@ -29,7 +29,7 @@ loop until done()
 
     else TaskResult
         handler -> human : request_approval(result)
-        hnote right #lightblue: 1 ask the human
+        hnote right #lightblue: 1 ask the human for approval
         human --> handler : approved / feedback
         hnote right #lightblue: 2 human decides
 
@@ -40,7 +40,7 @@ loop until done()
             note right: done() becomes true
         else rejected
             handler -> handler : creates RejectedTaskResult
-            hnote left #lightblue: 3b feed back for retry
+            hnote left #lightblue: 3b feedback for retry
             note right: → becomes previous_step_result
         end
     end

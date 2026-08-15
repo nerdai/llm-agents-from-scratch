@@ -3,6 +3,7 @@
 import httpx
 from a2a.client import A2ACardResolver
 from a2a.types import AgentCard
+from typing_extensions import Self
 
 from llm_agents_from_scratch.errors import A2AAgentCardMissingInterfaceError
 
@@ -115,7 +116,7 @@ class A2AAgentSpec:
         agent_card: AgentCard,
         headers: dict[str, str] | None = None,
         timeout: float | None = 60.0,
-    ) -> "A2AAgentSpec":
+    ) -> Self:
         """Builds a spec from an ``AgentCard`` already in hand.
 
         Sync — covers cached cards, self-built cards, and test fixtures,
@@ -154,7 +155,7 @@ class A2AAgentSpec:
         headers: dict[str, str] | None = None,
         agent_card_path: str | None = None,
         timeout: float | None = 60.0,
-    ) -> "A2AAgentSpec":
+    ) -> Self:
         """Fetches the peer's ``AgentCard`` from ``url``, then builds a spec.
 
         Async — resolves the card over the wire via ``A2ACardResolver``

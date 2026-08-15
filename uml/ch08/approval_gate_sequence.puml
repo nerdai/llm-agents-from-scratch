@@ -2,43 +2,43 @@
 !include ../common/book-clean.puml
 title Result Approval Gate — Sequence
 
-actor "human operator" as human
-participant "task_handler: TaskHandler" as TaskHandler
+actor "human" as human
+participant "agent: LLMAgent" as agent
+participant "handler: TaskHandler" as handler
 
-ref over TaskHandler
-  TaskStep loop (get_next_step / run_step)
-  already produced a proposed TaskResult
-  — see Ch4 sequence diagram
-end ref
+human -> agent : run(task)
+agent -> agent : creates task_handler
+agent -> agent : schedules _process_loop()\nas background task
+agent --> human : returns task_handler
 
-TaskHandler -> TaskHandler : request_approval(result: TaskResult)
-hnote left: 1
-activate TaskHandler
+loop until done()
 
-TaskHandler -> human : present result, ask "Approve?"
-hnote right: 2
-human --> TaskHandler : approved / feedback
-hnote right: 3
+    note over handler
+      previous_step_result is either:
+      TaskStepResult or RejectedTaskResult
+    end note
 
-deactivate TaskHandler
+    handler -> handler : get_next_step(previous_step_result)
 
-alt approved
-    TaskHandler -> TaskHandler : record_memory(result)
-    hnote left: 4a
-    TaskHandler -> TaskHandler : set_result(result)
-    hnote left: 4b
-else rejected
-    TaskHandler -> TaskHandler : creates RejectedTaskResult(feedback)
-    hnote left: 5a
-    TaskHandler -> TaskHandler : get_next_step(RejectedTaskResult)
-    hnote left: 5b
-    note right: deterministic —\nbypasses LLM routing entirely
-    ref over TaskHandler
-      back into the TaskStep loop
-      (get_next_step / run_step)
-      until a new TaskResult is proposed
-      — see Ch4 sequence diagram
-    end ref
+    alt TaskStep
+        handler -> handler : run_step()
+        note right: → becomes previous_step_result
+
+    else TaskResult
+        handler -> human : request_approval(result)
+        human --> handler : approved / feedback
+
+        alt approved
+            handler -> handler : record_memory()
+            handler -> handler : set_result()
+            note right: done() becomes true
+        else rejected
+            handler -> handler : creates RejectedTaskResult
+            note right: → becomes previous_step_result
+        end
+    end
 end
+
+handler --> human : resolves to TaskResult\n(await task_handler)
 
 @enduml

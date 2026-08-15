@@ -1,0 +1,51 @@
+@startuml uml_ch08_approval_gate_sequence
+!include ../common/book-clean.puml
+title Result Approval Gate — Sequence
+
+actor "human" as human
+participant "agent: LLMAgent" as agent
+participant "handler: TaskHandler" as handler
+
+human -> agent : run(task)
+hnote right #lightblue: 0
+agent -> agent : creates task_handler
+agent -> agent : schedules _process_loop()\nas background task
+agent --> human : returns task_handler
+note right of agent: not destroyed —\nsimply not referenced\nagain in this flow
+destroy agent
+
+loop until done()
+
+    note over handler
+      previous_step_result is either:
+      TaskStepResult or RejectedTaskResult
+    end note
+
+    handler -> handler : get_next_step(previous_step_result)
+
+    alt TaskStep
+        handler -> handler : run_step()
+        note right: → becomes previous_step_result
+
+    else TaskResult
+        handler -> human : request_approval(result)
+        hnote right #lightblue: 1
+        human --> handler : approved / feedback
+        hnote right #lightblue: 2
+
+        alt approved
+            handler -> handler : record_memory()
+            hnote left #lightblue: 3a
+            handler -> handler : set_result()
+            note right: done() becomes true
+        else rejected
+            handler -> handler : creates RejectedTaskResult
+            hnote left #lightblue: 3b
+            note right: → becomes previous_step_result
+        end
+    end
+end
+
+handler --> human : resolves to TaskResult\n(await task_handler)
+
+@enduml

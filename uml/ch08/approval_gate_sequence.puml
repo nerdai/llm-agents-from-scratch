@@ -28,15 +28,17 @@ loop until done()
 
     else TaskResult
         handler -> human : request_approval(result)
+        hnote right: 1
         human --> handler : approved / feedback
+        hnote right: 2
 
         alt approved
             handler -> handler : record_memory()
             handler -> handler : set_result()
-            note right: done() becomes true
+            note right: (3a) done() becomes true
         else rejected
             handler -> handler : creates RejectedTaskResult
-            note right: → becomes previous_step_result
+            note right: (3b) → becomes previous_step_result
         end
     end
 end

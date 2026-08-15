@@ -7,8 +7,8 @@ from a2a.types import AgentCard
 from llm_agents_from_scratch.errors import A2AAgentCardMissingInterfaceError
 
 from .constants import (
-    CATALOG_A2A_SKILL_TEMPLATE,
     CATALOG_A2A_SKILLS_TEMPLATE,
+    CATALOG_INDIVIDUAL_A2A_SKILL_TEMPLATE,
     CATALOG_SPEC_TEMPLATE,
 )
 
@@ -210,7 +210,7 @@ class A2AAgentSpec:
         entirely when the peer declares no skills.
         """
         skills = "\n".join(
-            CATALOG_A2A_SKILL_TEMPLATE.format(name=skill.name)
+            CATALOG_INDIVIDUAL_A2A_SKILL_TEMPLATE.format(name=skill.name)
             for skill in self.agent_card.skills
         )
         skills_block = (

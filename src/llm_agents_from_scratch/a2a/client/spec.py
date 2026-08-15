@@ -1,16 +1,15 @@
 """A2AAgentSpec — specification for a registered A2A peer agent."""
 
-from __future__ import annotations
-
 import httpx
 from a2a.client import A2ACardResolver
 from a2a.types import AgentCard
+from typing_extensions import Self
 
 from llm_agents_from_scratch.errors import A2AAgentCardMissingInterfaceError
 
 from .constants import (
-    CATALOG_A2A_SKILL_TEMPLATE,
     CATALOG_A2A_SKILLS_TEMPLATE,
+    CATALOG_INDIVIDUAL_A2A_SKILL_TEMPLATE,
     CATALOG_SPEC_TEMPLATE,
 )
 
@@ -81,7 +80,7 @@ class A2AAgentSpec:
         headers: dict[str, str] | None = None,
         timeout: float | None = 60.0,
     ) -> None:
-        """Initialise an A2AAgentSpec.
+        """Initialize an A2AAgentSpec.
 
         Args:
             name: Registry key for this A2A agent, taken from
@@ -117,7 +116,7 @@ class A2AAgentSpec:
         agent_card: AgentCard,
         headers: dict[str, str] | None = None,
         timeout: float | None = 60.0,
-    ) -> A2AAgentSpec:
+    ) -> Self:
         """Builds a spec from an ``AgentCard`` already in hand.
 
         Sync — covers cached cards, self-built cards, and test fixtures,
@@ -156,7 +155,7 @@ class A2AAgentSpec:
         headers: dict[str, str] | None = None,
         agent_card_path: str | None = None,
         timeout: float | None = 60.0,
-    ) -> A2AAgentSpec:
+    ) -> Self:
         """Fetches the peer's ``AgentCard`` from ``url``, then builds a spec.
 
         Async — resolves the card over the wire via ``A2ACardResolver``
@@ -204,20 +203,20 @@ class A2AAgentSpec:
         )
 
     def catalog(self) -> str:
-        """Returns XML structured string for cataloging this A2A agent.
+        """Return XML entry for this spec in the a2a agents catalog.
 
         Nests the peer's declared ``AgentSkill``s (its ``agent_card.skills``)
         as an ``<a2a_skills>`` block, giving the coordinator finer-grained
         routing signal than the top-level description alone. Omitted
         entirely when the peer declares no skills.
         """
-        skills = "\n".join(
-            CATALOG_A2A_SKILL_TEMPLATE.format(name=skill.name)
-            for skill in self.agent_card.skills
-        )
-        skills_block = (
-            CATALOG_A2A_SKILLS_TEMPLATE.format(skills=skills) if skills else ""
-        )
+        skills_block = ""
+        if self.agent_card.skills:
+            entries = "\n".join(
+                CATALOG_INDIVIDUAL_A2A_SKILL_TEMPLATE.format(name=skill.name)
+                for skill in self.agent_card.skills
+            )
+            skills_block = CATALOG_A2A_SKILLS_TEMPLATE.format(skills=entries)
         return CATALOG_SPEC_TEMPLATE.format(
             name=self.name,
             description=self.agent_card.description,

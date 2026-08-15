@@ -3,13 +3,13 @@
 title Result Approval Gate — Sequence
 
 actor "human operator" as human
-participant "task_handler: TaskHandler" as TaskHandler
+participant "<img:../common/assets/drone.png{scale=0.12}>\ntask_handler: TaskHandler" as TaskHandler
 
-note over TaskHandler
-  A TaskStep loop already produced
-  a proposed TaskResult
-  (see Ch4 sequence diagram)
-end note
+ref over TaskHandler
+  TaskStep loop (get_next_step / run_step)
+  already produced a proposed TaskResult
+  — see Ch4 sequence diagram
+end ref
 
 TaskHandler -> TaskHandler : request_approval(result: TaskResult)
 hnote left: 1
@@ -33,6 +33,12 @@ else rejected
     TaskHandler -> TaskHandler : get_next_step(RejectedTaskResult)
     hnote left: 5b
     note right: deterministic —\nbypasses LLM routing entirely
+    ref over TaskHandler
+      back into the TaskStep loop
+      (get_next_step / run_step)
+      until a new TaskResult is proposed
+      — see Ch4 sequence diagram
+    end ref
 end
 
 @enduml

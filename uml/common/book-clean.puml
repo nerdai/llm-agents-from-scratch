@@ -29,7 +29,6 @@ skinparam ArrowThickness 1.2
 ' Participants
 skinparam ParticipantBackgroundColor #f14fafb
 skinparam ParticipantBorderColor #222
-skinparam ParticipantPadding 6
 
 ' Lifelines
 skinparam SequenceLifeLineBackgroundColor white

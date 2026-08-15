@@ -1,0 +1,38 @@
+@startuml uml_ch08_approval_gate_sequence
+!include ../common/book-clean.puml
+title Result Approval Gate — Sequence
+
+actor "human operator" as human
+participant "task_handler: TaskHandler" as TaskHandler
+
+note over TaskHandler
+  A TaskStep loop already produced
+  a proposed TaskResult
+  (see Ch4 sequence diagram)
+end note
+
+TaskHandler -> TaskHandler : request_approval(result: TaskResult)
+hnote left: 1
+activate TaskHandler
+
+TaskHandler -> human : present result, ask "Approve?"
+hnote right: 2
+human --> TaskHandler : approved / feedback
+hnote right: 3
+
+deactivate TaskHandler
+
+alt approved
+    TaskHandler -> TaskHandler : record_memory(result)
+    hnote left: 4a
+    TaskHandler -> TaskHandler : set_result(result)
+    hnote left: 4b
+else rejected
+    TaskHandler -> TaskHandler : creates RejectedTaskResult(feedback)
+    hnote left: 5a
+    TaskHandler -> TaskHandler : get_next_step(RejectedTaskResult)
+    hnote left: 5b
+    note right: deterministic —\nbypasses LLM routing entirely
+end
+
+@enduml

@@ -25,9 +25,9 @@ Then, with `ollama serve` running and `qwen3:14b` pulled:
 
     uv run scripts/capture_inspector_screenshots.py
 
-This launches `examples/demo.py` via the Agent Inspector CLI itself
+This launches `examples/inspector_demo.py` via the Agent Inspector CLI itself
 (installed on demand via `uvx`, kept out of this repo's dependency
-tree -- see `examples/demo.py`'s own docstring), so no separate
+tree -- see `examples/inspector_demo.py`'s own docstring), so no separate
 backend needs to be running first.
 """
 
@@ -43,7 +43,7 @@ from pathlib import Path
 from playwright.sync_api import Page, sync_playwright
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_AGENT_SCRIPT = REPO_ROOT / "examples" / "demo.py"
+DEFAULT_AGENT_SCRIPT = REPO_ROOT / "examples" / "inspector_demo.py"
 # The latest PyPI release (0.1.3) 500s on session creation --
 # `create_session` still calls `session.handler.skills.items()`, but
 # TaskHandler's attribute is `skills_registry` (renamed pre-0.1.3).
@@ -243,7 +243,10 @@ def main() -> None:
         "--agent-script",
         type=Path,
         default=DEFAULT_AGENT_SCRIPT,
-        help="Path to the agent_builder script (default: examples/demo.py).",
+        help=(
+            "Path to the agent_builder script "
+            "(default: examples/inspector_demo.py)."
+        ),
     )
     parser.add_argument(
         "--output-dir",

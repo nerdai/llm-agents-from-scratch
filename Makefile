@@ -34,4 +34,5 @@ diagrams:	## Generate SVG diagrams (for web)
 	@find uml -name "*.puml" -not -path "uml/common/*" -exec sh -c '$(PLANTUML) -tsvg -o "$$(dirname "{}" | sed "s|^uml|$(PWD)/uml/rendered|")" "{}"' \;
 	@uv run python scripts/fix_svg_background.py --rendered_dir uml/rendered
 	@uv run python scripts/add_svg_legend.py --rendered_dir uml/rendered
+	@uv run python scripts/set_svg_print_size.py --rendered_dir uml/rendered
 	@echo "SVG diagrams generated in uml/rendered/ directory with chapter structure!"

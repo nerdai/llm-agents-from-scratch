@@ -19,17 +19,58 @@ in this repo (`_scripts/capture_inspector_screenshots.py`) for
 faithful SVG/UI rendering, so this reuses the same engine instead of
 a second, less-correct one.
 
+Also injects a PNG `pHYs` chunk declaring the render DPI. Playwright's
+screenshot doesn't write one, so the file's *pixel count* is the only
+size information a PNG-consuming tool (Word, etc.) has -- diagrams
+with different pixel counts (different natural size/complexity) then
+get auto-fit to a page differently, defeating the whole point of
+set_svg_print_size.py's uniform physical sizing: a diagram rendered at
+fewer total pixels looks *larger* once placed, not smaller, because
+it needs less shrinking to fit the same page width. Confirmed via a
+minimal repro (no `pHYs` chunk in the raw Playwright output). The
+`pHYs` chunk lets DPI-aware tools place the image at its true physical
+size instead of guessing from pixel count.
+
     uv run _scripts/render_diagram_pngs.py --rendered_dir uml/rendered
     playwright install chromium   # once, if not already installed
 """
 
 import argparse
+import struct
+import zlib
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
 
 DEFAULT_DPI = 300
 CSS_PX_PER_INCH = 96  # browsers treat "in" units as fixed 96 CSS px/in
+METERS_PER_INCH = 0.0254
+PNG_SIGNATURE_LEN = 8
+IHDR_CHUNK_LEN = 25  # 4 (length) + 4 (type) + 13 (data) + 4 (CRC)
+
+
+def _phys_chunk(dpi: float) -> bytes:
+    pixels_per_meter = round(dpi / METERS_PER_INCH)
+    # unit=1 -> pixels-per-meter (the only PNG spec option for a real
+    # physical unit; 0 means "unspecified aspect ratio only").
+    data = struct.pack(">IIB", pixels_per_meter, pixels_per_meter, 1)
+    chunk_type = b"pHYs"
+    crc = zlib.crc32(chunk_type + data)
+    return (
+        struct.pack(">I", len(data))
+        + chunk_type
+        + data
+        + struct.pack(">I", crc)
+    )
+
+
+def _add_dpi_metadata(png_path: Path, dpi: float) -> None:
+    png_bytes = png_path.read_bytes()
+    # pHYs must appear before the first IDAT chunk; right after IHDR
+    # (always the first chunk) is the conventional, always-valid spot.
+    insert_at = PNG_SIGNATURE_LEN + IHDR_CHUNK_LEN
+    fixed = png_bytes[:insert_at] + _phys_chunk(dpi) + png_bytes[insert_at:]
+    png_path.write_bytes(fixed)
 
 
 def main(rendered_dir: Path, dpi: int) -> None:
@@ -64,6 +105,7 @@ def main(rendered_dir: Path, dpi: int) -> None:
             png_path = svg_path.with_suffix(".png")
             page.locator("svg").screenshot(path=str(png_path))
             page.close()
+            _add_dpi_metadata(png_path, dpi)
             print(f"  wrote {png_path}")
             rendered += 1
         browser.close()

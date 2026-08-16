@@ -38,7 +38,7 @@ def main(
         include_pdf (bool): Whether or not to include .pdf version of images
 
     Examples:
-        >>> uv run python scripts/prepare_book_figures.py --figures_path "./"
+        >>> uv run python _scripts/prepare_book_figures.py --figures_path "./"
     """
     config_path = config_path or DEFAULT_CONFIG_PATH
 

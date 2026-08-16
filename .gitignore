@@ -48,6 +48,9 @@ htmlcov/
 # uml diagrams
 uml/rendered
 
+# generated screenshots (scripts/capture_inspector_screenshots.py)
+/screenshots
+
 # mkdocs build output
 site/
 

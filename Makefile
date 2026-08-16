@@ -37,5 +37,5 @@ diagrams:	## Generate SVG diagrams (for web)
 	@uv run python scripts/set_svg_print_size.py --rendered_dir uml/rendered
 	@echo "SVG diagrams generated in uml/rendered/ directory with chapter structure!"
 
-diagrams-png:	## Also render a PNG next to every diagram SVG (needs system libcairo2)
+diagrams-png:	## Also render a PNG next to every diagram SVG (needs `playwright install chromium`)
 	@uv run scripts/render_diagram_pngs.py --rendered_dir uml/rendered

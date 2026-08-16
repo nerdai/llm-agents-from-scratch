@@ -45,7 +45,10 @@ THEME_BODY_FONT_PT = 14
 
 DEFAULT_TARGET_PT = 9.0
 CLASS_TARGET_PT = 5.0
-DEFAULT_MAX_WIDTH_IN = 5.6
+# 5.5in, not the book's full 5.6in figure-box width -- matches
+# frame_svg_width.py's default frame, so no diagram needs a second,
+# separate shrink pass once it's centered in that fixed-width frame.
+DEFAULT_MAX_WIDTH_IN = 5.5
 DEFAULT_MAX_HEIGHT_IN = 7.0
 
 VIEWBOX = re.compile(r'viewBox="0 0 ([\d.]+) ([\d.]+)"')

@@ -112,7 +112,7 @@ def main(rendered_dir: Path | str, uml_dir: Path | str = "uml") -> None:
             their `*.legend.yaml` sidecar files.
 
     Examples:
-        >>> uv run python scripts/add_svg_legend.py \
+        >>> uv run python _scripts/add_svg_legend.py \
         ...     --rendered_dir uml/rendered
     """
     rendered_dir = Path(rendered_dir)

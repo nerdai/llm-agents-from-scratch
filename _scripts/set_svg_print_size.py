@@ -99,7 +99,7 @@ def main(
         max_height_in (float): Max figure height, in inches.
 
     Examples:
-        >>> uv run python scripts/set_svg_print_size.py \
+        >>> uv run python _scripts/set_svg_print_size.py \
         ...     --rendered_dir uml/rendered
     """
     rendered_dir = Path(rendered_dir)

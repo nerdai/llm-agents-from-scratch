@@ -46,7 +46,7 @@ def main(rendered_dir: Path | str) -> None:
             (recursively).
 
     Examples:
-        >>> uv run python scripts/fix_svg_background.py \
+        >>> uv run python _scripts/fix_svg_background.py \
         ...     --rendered_dir uml/rendered
     """
     rendered_dir = Path(rendered_dir)

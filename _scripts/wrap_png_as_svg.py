@@ -4,7 +4,7 @@ A screenshot can't become genuine vector art -- this doesn't attempt
 that. It solves a narrower, real problem: placing a PNG at "actual
 size" in a layout tool (Canva, InDesign) requires the file to already
 carry a physical size, or every placement is a manual, inconsistent
-resize (the same pain point `scripts/set_svg_print_size.py` fixes for
+resize (the same pain point `_scripts/set_svg_print_size.py` fixes for
 PlantUML diagrams). Wrapping the PNG in an SVG with explicit
 `width`/`height` in inches gives it that fixed physical size directly,
 without needing vector content.
@@ -17,7 +17,7 @@ at print resolution (warns if the fitted size would drop below
 
 Deliberately dependency-free (stdlib only, argparse rather than
 `fire`) so it can run via a bare `sys.executable` from any
-environment -- e.g. `scripts/capture_inspector_screenshots.py`'s own
+environment -- e.g. `_scripts/capture_inspector_screenshots.py`'s own
 isolated PEP 723 env, which has `playwright` but not this project's
 own dev dependencies.
 """
@@ -104,7 +104,7 @@ def main(
         max_height_in (float): Max figure height, in inches.
 
     Examples:
-        >>> python scripts/wrap_png_as_svg.py --png_dir screenshots
+        >>> python _scripts/wrap_png_as_svg.py --png_dir screenshots
     """
     wrapped = 0
     for png_path in sorted(png_dir.rglob("*.png")):

@@ -18,12 +18,12 @@ suite (`frontend/e2e/helpers.ts`), which proved this UI has no
 to this repo's `pyproject.toml` -- it's a one-off capture-tooling need,
 not a real project dependency. First run:
 
-    uv run scripts/capture_inspector_screenshots.py --help
+    uv run _scripts/capture_inspector_screenshots.py --help
     playwright install chromium   # once, if not already installed
 
 Then, with `ollama serve` running and `qwen3:14b` pulled:
 
-    uv run scripts/capture_inspector_screenshots.py
+    uv run _scripts/capture_inspector_screenshots.py
 
 This launches `examples/inspector_demo.py` via the Agent Inspector CLI itself
 (installed on demand via `uvx`, kept out of this repo's dependency
@@ -58,7 +58,7 @@ DEFAULT_INSPECTOR_SOURCE = (
     "@fde25ef025a034fd50ddf0d719e6902d6020c10e"
 )
 # Manuscript figures live in each user's own local `figures_path` (see
-# `scripts/prepare_book_figures.py` / `book_figures.yml`), never
+# `_scripts/prepare_book_figures.py` / `book_figures.yml`), never
 # tracked in this repo -- so the default here is a untracked scratch
 # directory, not a docs/assets path. Point --output-dir at your real
 # figures_path/ch08 when capturing for real.
@@ -228,7 +228,7 @@ def run(
     subprocess.run(  # noqa: S603
         [
             sys.executable,
-            str(REPO_ROOT / "scripts" / "wrap_png_as_svg.py"),
+            str(REPO_ROOT / "_scripts" / "wrap_png_as_svg.py"),
             "--png_dir",
             str(output_dir),
         ],

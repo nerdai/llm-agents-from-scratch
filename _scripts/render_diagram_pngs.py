@@ -4,7 +4,7 @@
 """Render a PNG alongside every rendered UML diagram SVG.
 
 `make diagrams` produces `uml/rendered/**/*.svg` with a fixed physical
-print size baked in (see `scripts/set_svg_print_size.py`). This adds
+print size baked in (see `_scripts/set_svg_print_size.py`). This adds
 a matching PNG next to each one, at a DPI that reproduces that exact
 physical size crisply in print (default 300 DPI).
 
@@ -15,11 +15,11 @@ of actual font metrics), rendering glyphs at their natural width
 instead and overflowing box boundaries -- confirmed with a minimal
 repro, text spilling out of every class-diagram box. Browsers
 implement this correctly, and Chromium is already relied on elsewhere
-in this repo (`scripts/capture_inspector_screenshots.py`) for
+in this repo (`_scripts/capture_inspector_screenshots.py`) for
 faithful SVG/UI rendering, so this reuses the same engine instead of
 a second, less-correct one.
 
-    uv run scripts/render_diagram_pngs.py --rendered_dir uml/rendered
+    uv run _scripts/render_diagram_pngs.py --rendered_dir uml/rendered
     playwright install chromium   # once, if not already installed
 """
 

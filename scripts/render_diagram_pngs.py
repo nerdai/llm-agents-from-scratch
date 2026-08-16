@@ -38,8 +38,21 @@ def main(rendered_dir: Path, dpi: int) -> None:
     Args:
         rendered_dir (Path): Directory containing rendered SVGs.
         dpi (int): Render resolution, in dots per inch.
+
+    Raises:
+        ValueError: If rendered_dir doesn't exist/isn't a directory,
+            no SVGs are found under it, or dpi isn't positive -- each
+            would otherwise fail silently (0 files rendered) or
+            produce a confusing failure later.
     """
+    if not rendered_dir.is_dir():
+        raise ValueError(f"rendered_dir does not exist: {rendered_dir}")
+    if dpi <= 0:
+        raise ValueError(f"dpi must be positive, got {dpi}")
+
     svg_paths = sorted(rendered_dir.rglob("*.svg"))
+    if not svg_paths:
+        raise ValueError(f"No .svg files found under {rendered_dir}")
     device_scale_factor = dpi / CSS_PX_PER_INCH
 
     rendered = 0

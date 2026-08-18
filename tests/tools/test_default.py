@@ -293,11 +293,12 @@ def test_human_input_tool_description() -> None:
 
 
 def test_human_input_tool_parameters_json_schema() -> None:
-    """Tests HumanInputTool schema has required prompt and optional choices."""
+    """Tests HumanInputTool schema has required, non-empty prompt."""
     tool = HumanInputTool()
     schema = tool.parameters_json_schema
     assert schema["type"] == "object"
     assert "prompt" in schema["properties"]
+    assert schema["properties"]["prompt"]["minLength"] == 1
     assert "choices" in schema["properties"]
     assert schema["required"] == ["prompt"]
 
@@ -345,6 +346,11 @@ def test_human_input_tool_missing_prompt_returns_error() -> None:
         arguments={},
     )
     result = tool(tool_call=tool_call)
+    expected_content = (
+        '{"error_type": "ValidationError", "message": "\'prompt\' is a '
+        'required property"}'
+    )
+    assert result.content == expected_content
     assert result.error is True
 
 
@@ -356,6 +362,11 @@ def test_human_input_tool_empty_prompt_returns_error() -> None:
         arguments={"prompt": ""},
     )
     result = tool(tool_call=tool_call)
+    expected_content = (
+        '{"error_type": "ValidationError", "message": "\'\' should be '
+        'non-empty"}'
+    )
+    assert result.content == expected_content
     assert result.error is True
 
 
@@ -461,6 +472,7 @@ def test_shared_console_human_input_tool_parameters_json_schema() -> None:
     schema = SharedConsoleHumanInputTool().parameters_json_schema
     assert schema["type"] == "object"
     assert "prompt" in schema["properties"]
+    assert schema["properties"]["prompt"]["minLength"] == 1
     assert "choices" in schema["properties"]
     assert schema["required"] == ["prompt"]
 
@@ -529,6 +541,11 @@ async def test_shared_console_human_input_tool_missing_prompt_error() -> None:
         arguments={},
     )
     result = await tool(tool_call=tool_call)
+    expected_content = (
+        '{"error_type": "ValidationError", "message": "\'prompt\' is a '
+        'required property"}'
+    )
+    assert result.content == expected_content
     assert result.error is True
 
 
@@ -543,6 +560,11 @@ async def test_shared_console_human_input_tool_empty_prompt_returns_error() -> (
         arguments={"prompt": ""},
     )
     result = await tool(tool_call=tool_call)
+    expected_content = (
+        '{"error_type": "ValidationError", "message": "\'\' should be '
+        'non-empty"}'
+    )
+    assert result.content == expected_content
     assert result.error is True
 
 

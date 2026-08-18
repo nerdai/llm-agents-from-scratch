@@ -1,6 +1,7 @@
 """Human in the loop via HumanInputTool and SharedConsoleHumanInputTool."""
 
 import asyncio
+import json
 from typing import Any
 
 from rich.console import Console
@@ -112,13 +113,13 @@ class HumanInputTool(BaseTool):
         Returns:
             ToolCallResult: The human's response as the content.
         """
-        if validation_error := validate_tool_call_arguments(
+        if validation_error_details := validate_tool_call_arguments(
             tool_call,
             self.parameters_json_schema,
         ):
             return ToolCallResult(
                 tool_call_id=tool_call.id_,
-                content=validation_error.model_dump_json(),
+                content=json.dumps(validation_error_details),
                 error=True,
             )
 
@@ -263,13 +264,13 @@ class SharedConsoleHumanInputTool(AsyncBaseTool):
         Returns:
             ToolCallResult: The human's response as the content.
         """
-        if validation_error := validate_tool_call_arguments(
+        if validation_error_details := validate_tool_call_arguments(
             tool_call,
             self.parameters_json_schema,
         ):
             return ToolCallResult(
                 tool_call_id=tool_call.id_,
-                content=validation_error.model_dump_json(),
+                content=json.dumps(validation_error_details),
                 error=True,
             )
 

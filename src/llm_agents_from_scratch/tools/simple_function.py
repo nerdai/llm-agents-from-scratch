@@ -122,13 +122,13 @@ class SimpleFunctionTool(BaseTool):
         Returns:
             ToolCallResult: The result of the tool call execution.
         """
-        if validation_error := validate_tool_call_arguments(
+        if validation_error_details := validate_tool_call_arguments(
             tool_call,
             self.parameters_json_schema,
         ):
             return ToolCallResult(
                 tool_call_id=tool_call.id_,
-                content=validation_error.model_dump_json(),
+                content=json.dumps(validation_error_details),
                 error=True,
             )
 
@@ -208,13 +208,13 @@ class AsyncSimpleFunctionTool(AsyncBaseTool):
         Returns:
             ToolCallResult: The result of the tool call execution.
         """
-        if validation_error := validate_tool_call_arguments(
+        if validation_error_details := validate_tool_call_arguments(
             tool_call,
             self.parameters_json_schema,
         ):
             return ToolCallResult(
                 tool_call_id=tool_call.id_,
-                content=validation_error.model_dump_json(),
+                content=json.dumps(validation_error_details),
                 error=True,
             )
 

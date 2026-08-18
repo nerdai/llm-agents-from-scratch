@@ -134,7 +134,7 @@ def test_function_tool_call_returns_validation_error() -> None:
     result = tool(tool_call=tool_call)
 
     expected_content = (
-        '{"error_type":"ValidationError","message":"\'1\' '
+        '{"error_type": "ValidationError", "message": "\'1\' '
         "is not of type 'number'\"}"
     )
     assert expected_content == result.content
@@ -205,7 +205,7 @@ async def test_async_function_tool_call_returns_validation_error() -> None:
     result = await tool(tool_call=tool_call)
 
     expected_content = (
-        '{"error_type":"ValidationError","message":"\'1\' '
+        '{"error_type": "ValidationError", "message": "\'1\' '
         "is not of type 'number'\"}"
     )
 

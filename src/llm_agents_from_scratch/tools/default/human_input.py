@@ -1,16 +1,15 @@
 """Human in the loop via HumanInputTool and SharedConsoleHumanInputTool."""
 
 import asyncio
-import json
 from typing import Any
 
-from jsonschema import SchemaError, ValidationError, validate
 from rich.console import Console
 from rich.panel import Panel
 from rich.prompt import Prompt
 
 from ...base.tool import AsyncBaseTool, BaseTool
 from ...data_structures import ToolCall, ToolCallResult
+from ..utils import validate_tool_call_arguments
 
 
 def _prompt_human(
@@ -113,18 +112,12 @@ class HumanInputTool(BaseTool):
         Returns:
             ToolCallResult: The human's response as the content.
         """
-        try:
-            validate(tool_call.arguments, schema=self.parameters_json_schema)
-        except (SchemaError, ValidationError) as e:
-            error_details = {
-                "error_type": e.__class__.__name__,
-                "message": e.message,
-            }
-            return ToolCallResult(
-                tool_call_id=tool_call.id_,
-                content=json.dumps(error_details),
-                error=True,
-            )
+        validation_error = validate_tool_call_arguments(
+            tool_call,
+            self.parameters_json_schema,
+        )
+        if validation_error:
+            return validation_error
 
         prompt = tool_call.arguments["prompt"]
         choices: list[str] | None = tool_call.arguments.get("choices")
@@ -267,18 +260,12 @@ class SharedConsoleHumanInputTool(AsyncBaseTool):
         Returns:
             ToolCallResult: The human's response as the content.
         """
-        try:
-            validate(tool_call.arguments, schema=self.parameters_json_schema)
-        except (SchemaError, ValidationError) as e:
-            error_details = {
-                "error_type": e.__class__.__name__,
-                "message": e.message,
-            }
-            return ToolCallResult(
-                tool_call_id=tool_call.id_,
-                content=json.dumps(error_details),
-                error=True,
-            )
+        validation_error = validate_tool_call_arguments(
+            tool_call,
+            self.parameters_json_schema,
+        )
+        if validation_error:
+            return validation_error
 
         prompt = tool_call.arguments["prompt"]
         choices: list[str] | None = tool_call.arguments.get("choices")

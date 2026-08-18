@@ -1,8 +1,10 @@
 """Human in the loop via HumanInputTool and SharedConsoleHumanInputTool."""
 
 import asyncio
+import json
 from typing import Any
 
+from jsonschema import SchemaError, ValidationError, validate
 from rich.console import Console
 from rich.panel import Panel
 from rich.prompt import Prompt
@@ -72,6 +74,7 @@ class HumanInputTool(BaseTool):
             "properties": {
                 "prompt": {
                     "type": "string",
+                    "minLength": 1,
                     "description": (
                         "The question or prompt to present to the human."
                     ),
@@ -110,13 +113,20 @@ class HumanInputTool(BaseTool):
         Returns:
             ToolCallResult: The human's response as the content.
         """
-        prompt = tool_call.arguments.get("prompt", "")
-        if not prompt:
+        try:
+            validate(tool_call.arguments, schema=self.parameters_json_schema)
+        except (SchemaError, ValidationError) as e:
+            error_details = {
+                "error_type": e.__class__.__name__,
+                "message": e.message,
+            }
             return ToolCallResult(
                 tool_call_id=tool_call.id_,
-                content="No prompt provided.",
+                content=json.dumps(error_details),
                 error=True,
             )
+
+        prompt = tool_call.arguments["prompt"]
         choices: list[str] | None = tool_call.arguments.get("choices")
         try:
             response = _prompt_human(prompt, choices)
@@ -218,6 +228,7 @@ class SharedConsoleHumanInputTool(AsyncBaseTool):
             "properties": {
                 "prompt": {
                     "type": "string",
+                    "minLength": 1,
                     "description": (
                         "The question or prompt to present to the human."
                     ),
@@ -256,13 +267,20 @@ class SharedConsoleHumanInputTool(AsyncBaseTool):
         Returns:
             ToolCallResult: The human's response as the content.
         """
-        prompt = tool_call.arguments.get("prompt", "")
-        if not prompt:
+        try:
+            validate(tool_call.arguments, schema=self.parameters_json_schema)
+        except (SchemaError, ValidationError) as e:
+            error_details = {
+                "error_type": e.__class__.__name__,
+                "message": e.message,
+            }
             return ToolCallResult(
                 tool_call_id=tool_call.id_,
-                content="No prompt provided.",
+                content=json.dumps(error_details),
                 error=True,
             )
+
+        prompt = tool_call.arguments["prompt"]
         choices: list[str] | None = tool_call.arguments.get("choices")
         try:
             async with SharedConsoleHumanInputTool._console_lock:

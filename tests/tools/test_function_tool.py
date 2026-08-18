@@ -104,7 +104,7 @@ def test_function_tool_init() -> None:
     assert tool.func == my_mock_fn_1
 
 
-@patch("llm_agents_from_scratch.tools.simple_function.validate")
+@patch("llm_agents_from_scratch.tools.utils.validate")
 def test_function_tool_call(mock_validate: MagicMock) -> None:
     """Tests a function tool call."""
     tool = SimpleFunctionTool(my_mock_fn_1, desc="mock desc")
@@ -174,7 +174,7 @@ def test_async_function_tool_init() -> None:
 
 
 @pytest.mark.asyncio
-@patch("llm_agents_from_scratch.tools.simple_function.validate")
+@patch("llm_agents_from_scratch.tools.utils.validate")
 async def test_async_function_tool_call(mock_validate: MagicMock) -> None:
     """Tests a function tool call."""
     tool = AsyncSimpleFunctionTool(my_mock_fn_3, desc="mock desc")

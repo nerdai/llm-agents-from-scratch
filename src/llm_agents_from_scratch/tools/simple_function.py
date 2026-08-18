@@ -4,10 +4,9 @@ import inspect
 import json
 from typing import Any, Awaitable, Callable, get_type_hints
 
-from jsonschema import SchemaError, ValidationError, validate
-
 from llm_agents_from_scratch.base.tool import AsyncBaseTool, BaseTool
 from llm_agents_from_scratch.data_structures import ToolCall, ToolCallResult
+from llm_agents_from_scratch.tools.utils import validate_tool_call_arguments
 
 
 def function_signature_to_json_schema(func: Callable) -> dict[str, Any]:
@@ -123,17 +122,13 @@ class SimpleFunctionTool(BaseTool):
         Returns:
             ToolCallResult: The result of the tool call execution.
         """
-        try:
-            # validate the arguments
-            validate(tool_call.arguments, schema=self.parameters_json_schema)
-        except (SchemaError, ValidationError) as e:
-            error_details = {
-                "error_type": e.__class__.__name__,
-                "message": e.message,
-            }
+        if validation_error_details := validate_tool_call_arguments(
+            tool_call,
+            self.parameters_json_schema,
+        ):
             return ToolCallResult(
                 tool_call_id=tool_call.id_,
-                content=json.dumps(error_details),
+                content=json.dumps(validation_error_details),
                 error=True,
             )
 
@@ -213,17 +208,13 @@ class AsyncSimpleFunctionTool(AsyncBaseTool):
         Returns:
             ToolCallResult: The result of the tool call execution.
         """
-        try:
-            # validate the arguments
-            validate(tool_call.arguments, schema=self.parameters_json_schema)
-        except (SchemaError, ValidationError) as e:
-            error_details = {
-                "error_type": e.__class__.__name__,
-                "message": e.message,
-            }
+        if validation_error_details := validate_tool_call_arguments(
+            tool_call,
+            self.parameters_json_schema,
+        ):
             return ToolCallResult(
                 tool_call_id=tool_call.id_,
-                content=json.dumps(error_details),
+                content=json.dumps(validation_error_details),
                 error=True,
             )
 

@@ -10,7 +10,7 @@ from .agent import (
 from .llm import ChatMessage, ChatRole, CompleteResult
 from .memory import Episode, EpisodeFormatMode, RecallMode
 from .skill import SkillFrontmatter
-from .tool import ToolCall, ToolCallResult
+from .tool import ToolCall, ToolCallErrorDetails, ToolCallResult
 
 __all__ = [
     # agent
@@ -33,5 +33,6 @@ __all__ = [
     "SkillFrontmatter",
     # tool
     "ToolCall",
+    "ToolCallErrorDetails",
     "ToolCallResult",
 ]

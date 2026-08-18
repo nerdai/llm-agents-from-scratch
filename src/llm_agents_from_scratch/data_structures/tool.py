@@ -32,3 +32,18 @@ class ToolCallResult(BaseModel):
     tool_call_id: str
     content: Any | None
     error: bool = False
+
+
+class ToolCallErrorDetails(BaseModel):
+    """Structured error details for a failed tool call.
+
+    Serialized via ``model_dump_json()`` into a ``ToolCallResult``'s
+    ``content`` when a tool call fails validation or execution.
+
+    Attributes:
+        error_type: The exception class name.
+        message: Human-readable error message.
+    """
+
+    error_type: str
+    message: str

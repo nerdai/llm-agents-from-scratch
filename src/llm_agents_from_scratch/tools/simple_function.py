@@ -127,7 +127,11 @@ class SimpleFunctionTool(BaseTool):
             self.parameters_json_schema,
         )
         if validation_error:
-            return validation_error
+            return ToolCallResult(
+                tool_call_id=tool_call.id_,
+                content=validation_error.model_dump_json(),
+                error=True,
+            )
 
         try:
             # execute the function
@@ -210,7 +214,11 @@ class AsyncSimpleFunctionTool(AsyncBaseTool):
             self.parameters_json_schema,
         )
         if validation_error:
-            return validation_error
+            return ToolCallResult(
+                tool_call_id=tool_call.id_,
+                content=validation_error.model_dump_json(),
+                error=True,
+            )
 
         try:
             # execute the function

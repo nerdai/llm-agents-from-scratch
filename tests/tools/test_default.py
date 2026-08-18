@@ -347,7 +347,7 @@ def test_human_input_tool_missing_prompt_returns_error() -> None:
     )
     result = tool(tool_call=tool_call)
     expected_content = (
-        '{"error_type": "ValidationError", "message": "\'prompt\' is a '
+        '{"error_type":"ValidationError","message":"\'prompt\' is a '
         'required property"}'
     )
     assert result.content == expected_content
@@ -363,8 +363,7 @@ def test_human_input_tool_empty_prompt_returns_error() -> None:
     )
     result = tool(tool_call=tool_call)
     expected_content = (
-        '{"error_type": "ValidationError", "message": "\'\' should be '
-        'non-empty"}'
+        '{"error_type":"ValidationError","message":"\'\' should be non-empty"}'
     )
     assert result.content == expected_content
     assert result.error is True
@@ -542,7 +541,7 @@ async def test_shared_console_human_input_tool_missing_prompt_error() -> None:
     )
     result = await tool(tool_call=tool_call)
     expected_content = (
-        '{"error_type": "ValidationError", "message": "\'prompt\' is a '
+        '{"error_type":"ValidationError","message":"\'prompt\' is a '
         'required property"}'
     )
     assert result.content == expected_content
@@ -561,8 +560,7 @@ async def test_shared_console_human_input_tool_empty_prompt_returns_error() -> (
     )
     result = await tool(tool_call=tool_call)
     expected_content = (
-        '{"error_type": "ValidationError", "message": "\'\' should be '
-        'non-empty"}'
+        '{"error_type":"ValidationError","message":"\'\' should be non-empty"}'
     )
     assert result.content == expected_content
     assert result.error is True

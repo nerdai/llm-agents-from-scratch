@@ -112,11 +112,10 @@ class HumanInputTool(BaseTool):
         Returns:
             ToolCallResult: The human's response as the content.
         """
-        validation_error = validate_tool_call_arguments(
+        if validation_error := validate_tool_call_arguments(
             tool_call,
             self.parameters_json_schema,
-        )
-        if validation_error:
+        ):
             return ToolCallResult(
                 tool_call_id=tool_call.id_,
                 content=validation_error.model_dump_json(),
@@ -264,11 +263,10 @@ class SharedConsoleHumanInputTool(AsyncBaseTool):
         Returns:
             ToolCallResult: The human's response as the content.
         """
-        validation_error = validate_tool_call_arguments(
+        if validation_error := validate_tool_call_arguments(
             tool_call,
             self.parameters_json_schema,
-        )
-        if validation_error:
+        ):
             return ToolCallResult(
                 tool_call_id=tool_call.id_,
                 content=validation_error.model_dump_json(),

@@ -51,6 +51,40 @@ if TYPE_CHECKING:
     from llm_agents_from_scratch.subagents.tools import UseSubAgentTool
 
 
+def _prompt_for_approval(task_result: TaskResult) -> ApprovalResult:
+    """Render a proposed task result and ask the operator to approve it.
+
+    Added in Chapter 8. Blocking `rich` prompt, run via
+    ``asyncio.to_thread`` by ``TaskHandler.request_approval``.
+
+    Args:
+        task_result (TaskResult): The proposed task result to review.
+
+    Returns:
+        ApprovalResult: The approval decision.
+
+    Raises:
+        EOFError: If stdin is closed.
+        KeyboardInterrupt: If the operator interrupts.
+    """
+    console = Console()
+    console.print(
+        Panel(
+            task_result.content,
+            title="Proposed Task Result",
+            border_style="cyan",
+        ),
+    )
+    approved = Confirm.ask("Approve this result?", console=console)
+    if approved:
+        return ApprovalResult(approved=True, feedback="")
+    feedback = Prompt.ask(
+        "Provide your correction rationale for the LLM agent to address",
+        console=console,
+    )
+    return ApprovalResult(approved=False, feedback=feedback)
+
+
 class LLMAgent:
     """A simple LLM Agent Class.
 
@@ -780,27 +814,6 @@ class LLMAgent:
             Returns:
                 ApprovalResult: The approval decision.
             """
-
-            def _prompt_for_approval(
-                task_result: TaskResult,
-            ) -> ApprovalResult:
-                console = Console()
-                console.print(
-                    Panel(
-                        task_result.content,
-                        title="Proposed Task Result",
-                        border_style="cyan",
-                    ),
-                )
-                approved = Confirm.ask("Approve this result?", console=console)
-                if approved:
-                    return ApprovalResult(approved=True, feedback="")
-                feedback = Prompt.ask(
-                    "Provide your correction rationale for the LLM agent to address",  # noqa: E501
-                    console=console,
-                )
-                return ApprovalResult(approved=False, feedback=feedback)
-
             try:
                 return await asyncio.to_thread(
                     _prompt_for_approval,

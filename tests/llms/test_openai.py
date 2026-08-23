@@ -251,6 +251,23 @@ async def test_chat_with_tool_results(
 
 
 @pytest.mark.skipif(not openai_installed, reason="openai is not installed")
+def test_tool_to_openai_tool_is_not_strict() -> None:
+    """Test converted tools opt out of strict mode.
+
+    Strict mode requires `additionalProperties: false` and every property
+    in `required`, which the library's schema generators do not emit.
+    """
+
+    def get_weather(location: str, unit: str = "celsius") -> float:
+        """Get the current weather for a location"""
+        return 42.0
+
+    openai_tool = tool_to_openai_tool(SimpleFunctionTool(get_weather))
+
+    assert openai_tool["strict"] is False
+
+
+@pytest.mark.skipif(not openai_installed, reason="openai is not installed")
 @pytest.mark.asyncio
 @patch("openai.AsyncOpenAI")
 async def test_continue_chat_with_tool_results(

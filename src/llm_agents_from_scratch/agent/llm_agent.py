@@ -794,6 +794,29 @@ class LLMAgent:
             for memory in self.llm_agent.memories:
                 await memory.record(episode)
 
+        async def try_record_memory(
+            self,
+            result: TaskResult | None = None,
+            error: Exception | None = None,
+        ) -> None:
+            """Record an episode, logging (not raising) on failure.
+
+            Added in Chapter 7.
+
+            Used on the paths that settle the handler afterwards: a failing
+            memory backend must not prevent ``set_result()`` /
+            ``set_exception()`` from running, which would leave the handler
+            — and any ``await`` on it — pending forever.
+
+            Args:
+                result (TaskResult | None): The successful task result.
+                error (Exception | None): The exception from a failed task.
+            """
+            try:
+                await self.record_memory(result=result, error=error)
+            except Exception:
+                self.logger.exception("Failed to record episode to memory.")
+
         async def request_approval(
             self,
             result: TaskResult,
@@ -996,16 +1019,18 @@ class LLMAgent:
                                         "re-entering loop with feedback.",
                                     )
                                     continue
-                            await task_handler.record_memory(
+                            # added in ch07
+                            await task_handler.try_record_memory(
                                 result=next_step,
-                            )  # added in ch07
+                            )
                             task_handler.set_result(next_step)
                             self.logger.info(
                                 f"🏁 Task completed: {next_step.content}",
                             )
 
                 except Exception as e:
-                    await task_handler.record_memory(error=e)  # added in ch07
+                    # added in ch07
+                    await task_handler.try_record_memory(error=e)
                     task_handler.set_exception(e)
 
         task_handler.background_task = asyncio.create_task(_process_loop())

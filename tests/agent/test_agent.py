@@ -325,6 +325,21 @@ async def test_run_records_episode_for_each_memory(
 
 
 @pytest.mark.asyncio
+async def test_run_sets_exception_when_recall_fails(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests a failing memory.recall settles the handler with the error."""
+    mock_memory = AsyncMock(spec=Memory)
+    mock_memory.recall.side_effect = RuntimeError("recall down")
+    task = Task(instruction="mock instruction")
+    agent = LLMAgent(llm=mock_llm, memories=[mock_memory])
+
+    handler = agent.run(task)
+    with pytest.raises(RuntimeError, match="recall down"):
+        await asyncio.wait_for(handler, timeout=1)
+
+
+@pytest.mark.asyncio
 async def test_record_memory_raises_when_called_with_no_args(
     mock_llm: BaseLLM,
 ) -> None:

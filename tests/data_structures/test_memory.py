@@ -113,7 +113,7 @@ def test_format_xml_error() -> None:
         mode=EpisodeFormatMode.XML,
         exclude=_ALL_FIELDS - {"error"},
     )
-    assert "<error>something went wrong" in text
+    assert "<error>RuntimeError: something went wrong</error>" in text
 
 
 def test_format_xml_error_omitted_when_none() -> None:

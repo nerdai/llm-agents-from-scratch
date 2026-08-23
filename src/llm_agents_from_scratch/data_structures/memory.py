@@ -51,12 +51,17 @@ class Episode(BaseModel):
     metadata: dict[str, str] = Field(default_factory=dict)
     completed_at: datetime = Field(default_factory=datetime.now)
 
-    @field_serializer("error")
-    def _serialize_error(self, error: Exception | str | None) -> str | None:
+    @staticmethod
+    def _error_as_text(error: Exception | str | None) -> str | None:
         """Render ``error`` as text; Pydantic cannot serialize Exceptions."""
         if error is None or isinstance(error, str):
             return error
         return f"{type(error).__name__}: {error}"
+
+    @field_serializer("error")
+    def _serialize_error(self, error: Exception | str | None) -> str | None:
+        """Serialize ``error`` with the same text used by ``format()``."""
+        return self._error_as_text(error)
 
     def format(
         self,
@@ -93,6 +98,8 @@ class Episode(BaseModel):
                 elif f == "completed_at":
                     ts = val.strftime("%Y-%m-%d %H:%M:%S")
                     parts.append(f"completed_at: {ts}")
+                elif f == "error":
+                    parts.append(f"error: {self._error_as_text(val)}")
                 else:
                     parts.append(f"{f}: {val}")
         return "\n".join(parts)
@@ -109,6 +116,9 @@ class Episode(BaseModel):
                 elif f == "completed_at":
                     ts = val.strftime("%Y-%m-%d %H:%M:%S")
                     lines.append(f"    <completed_at>{ts}</completed_at>")
+                elif f == "error":
+                    text = self._error_as_text(val)
+                    lines.append(f"    <error>{text}</error>")
                 else:
                     lines.append(f"    <{f}>{val}</{f}>")
         lines.append("  </episode>")

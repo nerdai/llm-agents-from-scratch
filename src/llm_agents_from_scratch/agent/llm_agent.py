@@ -899,7 +899,7 @@ class LLMAgent:
                     f"complete() requires a TaskResult, "
                     f"got {type(result).__name__}.",
                 )
-            await self.record_memory(result=result)
+            await self.try_record_memory(result=result)
             self.set_result(result)
 
         def reject(
@@ -934,7 +934,7 @@ class LLMAgent:
                     ``TaskHandlerError("Task aborted.")``.
             """
             err = error or TaskHandlerError("Task aborted.")
-            await self.record_memory(error=err)
+            await self.try_record_memory(error=err)
             self.set_exception(err)
 
     def run(

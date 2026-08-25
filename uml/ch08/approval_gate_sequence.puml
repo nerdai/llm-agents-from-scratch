@@ -1,6 +1,6 @@
 @startuml uml_ch08_approval_gate_sequence
 !include ../common/book-clean.puml
-title Result Approval Gate — Sequence
+title Result-Approval HITL — Sequence
 
 actor "human" as human
 participant "agent: LLMAgent" as agent

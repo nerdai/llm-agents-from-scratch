@@ -113,11 +113,14 @@ def tool_to_openai_tool(tool: Tool) -> "ToolParam":
     """
     from openai.types.responses import FunctionToolParam  # noqa: PLC0415
 
+    # strict mode requires `additionalProperties: false` on every object and
+    # every property listed in `required` — neither schema generator in this
+    # library produces schemas that satisfy that.
     openai_tool: FunctionToolParam = {
         "type": "function",
         "name": tool.name,
         "description": tool.description,
         "parameters": tool.parameters_json_schema,
-        "strict": True,
+        "strict": False,
     }
     return openai_tool

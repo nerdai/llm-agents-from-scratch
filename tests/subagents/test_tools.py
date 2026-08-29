@@ -342,7 +342,12 @@ async def test_use_subagent_tool_catches_build_error(mock_llm: BaseLLM) -> None:
 
 @pytest.mark.asyncio
 async def test_use_subagent_tool_unknown_name(mock_llm: BaseLLM) -> None:
-    """Tests unknown subagent name returns error result."""
+    """Tests unknown subagent name returns error result.
+
+    Caught by the ``name`` enum in ``parameters_json_schema`` before ever
+    reaching the registry lookup, so this is a ``ValidationError`` rather
+    than the more specific ``SubAgentNotFoundError``.
+    """
     tool = UseSubAgentTool(
         subagents_registry={"researcher": make_spec("researcher", mock_llm)},
     )
@@ -354,8 +359,8 @@ async def test_use_subagent_tool_unknown_name(mock_llm: BaseLLM) -> None:
 
     assert result.error is True
     details = json.loads(result.content)
-    assert details["error_type"] == "SubAgentNotFoundError"
-    assert "not found" in details["message"]
+    assert details["error_type"] == "ValidationError"
+    assert "unknown" in details["message"]
 
 
 @pytest.mark.asyncio

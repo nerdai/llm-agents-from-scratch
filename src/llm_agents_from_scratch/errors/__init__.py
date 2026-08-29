@@ -29,7 +29,6 @@ from .skill import (
     SkillValidationError,
     SkillValidationWarning,
 )
-from .subagents import SubAgentNotFoundError, SubAgentsError
 from .task_handler import RecordMemoryError, TaskHandlerError
 
 __all__ = [
@@ -69,7 +68,4 @@ __all__ = [
     # task handler
     "TaskHandlerError",
     "RecordMemoryError",
-    # subagents
-    "SubAgentsError",
-    "SubAgentNotFoundError",
 ]

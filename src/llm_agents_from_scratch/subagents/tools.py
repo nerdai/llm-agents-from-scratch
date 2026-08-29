@@ -9,8 +9,8 @@ from llm_agents_from_scratch.data_structures import (
     ToolCall,
     ToolCallResult,
 )
-from llm_agents_from_scratch.errors import SubAgentNotFoundError
 from llm_agents_from_scratch.logger import current_subagent_name
+from llm_agents_from_scratch.tools.utils import validate_tool_call_arguments
 
 from .spec import SubAgentSpec
 
@@ -121,38 +121,24 @@ class UseSubAgentTool(AsyncBaseTool):
             ToolCallResult: The subagent's ``result.content`` on success, or
                 an error result if the subagent raises for any reason.
         """
-        subagent_name = tool_call.arguments.get("name")
-        task_instruction = tool_call.arguments.get("task")
+        if validation_error_details := validate_tool_call_arguments(
+            tool_call,
+            self.parameters_json_schema,
+        ):
+            return ToolCallResult(
+                tool_call_id=tool_call.id_,
+                error=True,
+                content=json.dumps(validation_error_details),
+            )
 
-        if not isinstance(subagent_name, str):
-            return ToolCallResult(
-                tool_call_id=tool_call.id_,
-                error=True,
-                content=json.dumps(
-                    {
-                        "error_type": "ValueError",
-                        "message": "'name' argument must be a string.",
-                    },
-                ),
-            )
-        if not isinstance(task_instruction, str):
-            return ToolCallResult(
-                tool_call_id=tool_call.id_,
-                error=True,
-                content=json.dumps(
-                    {
-                        "error_type": "ValueError",
-                        "message": "'task' argument must be a string.",
-                    },
-                ),
-            )
-        spec = self._subagents_registry.get(subagent_name)
+        subagent_name: str = tool_call.arguments["name"]
+        task_instruction: str = tool_call.arguments["task"]
+        # Schema validation above already constrains `name` to this exact
+        # registry, so this should never raise KeyError under normal
+        # circumstances.
+        spec = self._subagents_registry[subagent_name]
         token = current_subagent_name.set(subagent_name)
         try:
-            if spec is None:
-                raise SubAgentNotFoundError(
-                    f"Subagent '{subagent_name}' not found.",
-                )
             agent = await spec.builder.build()
             result = await agent.run(
                 Task(instruction=task_instruction),

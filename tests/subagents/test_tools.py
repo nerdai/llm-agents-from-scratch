@@ -344,9 +344,9 @@ async def test_use_subagent_tool_catches_build_error(mock_llm: BaseLLM) -> None:
 async def test_use_subagent_tool_unknown_name(mock_llm: BaseLLM) -> None:
     """Tests unknown subagent name returns error result.
 
-    Caught by the ``name`` enum in ``parameters_json_schema`` before ever
-    reaching the registry lookup, so this is a ``ValidationError`` rather
-    than the more specific ``SubAgentNotFoundError``.
+    Caught by the ``name`` enum in ``parameters_json_schema``, which
+    lists the valid subagent names directly in the ``ValidationError``
+    message.
     """
     tool = UseSubAgentTool(
         subagents_registry={"researcher": make_spec("researcher", mock_llm)},

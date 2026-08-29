@@ -9,6 +9,7 @@ from llm_agents_from_scratch.data_structures import (
     ToolCall,
     ToolCallResult,
 )
+from llm_agents_from_scratch.errors import SubAgentNotFoundError
 from llm_agents_from_scratch.logger import current_subagent_name
 from llm_agents_from_scratch.tools.utils import validate_tool_call_arguments
 
@@ -134,9 +135,16 @@ class UseSubAgentTool(AsyncBaseTool):
         subagent_name: str = tool_call.arguments["name"]
         task_instruction: str = tool_call.arguments["task"]
         # Schema validation above already constrains `name` to this exact
-        # registry, so this should never raise KeyError under normal
-        # circumstances.
-        spec = self._subagents_registry[subagent_name]
+        # registry, so this should never be None under normal
+        # circumstances. Raised outside the try/except below so it
+        # propagates to run_step()'s generic handler and surfaces as a
+        # clearly labeled SubAgentNotFoundError, rather than being caught
+        # and reported here.
+        spec = self._subagents_registry.get(subagent_name)
+        if spec is None:
+            raise SubAgentNotFoundError(
+                f"Subagent '{subagent_name}' not found.",
+            )
         token = current_subagent_name.set(subagent_name)
         try:
             agent = await spec.builder.build()

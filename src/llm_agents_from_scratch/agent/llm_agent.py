@@ -966,7 +966,11 @@ class LLMAgent:
             step_result = None
 
             # added in ch07
-            await task_handler.load_memories()
+            try:
+                await task_handler.load_memories()
+            except Exception as e:
+                task_handler.set_exception(e)
+                return
 
             while not task_handler.done():
                 try:

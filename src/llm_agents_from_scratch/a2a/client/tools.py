@@ -216,21 +216,8 @@ class UseA2AAgentTool(AsyncBaseTool):
                     except Exception:
                         pass
 
-        try:
-            return a2a_response_to_tool_call_result(
-                response,
-                agent_name,
-                tool_call.id_,
-            )
-        except Exception as e:
-            return ToolCallResult(
-                tool_call_id=tool_call.id_,
-                error=True,
-                content=json.dumps(
-                    {
-                        "error_type": type(e).__name__,
-                        "a2a_agent": agent_name,
-                        "message": str(e),
-                    },
-                ),
-            )
+        return a2a_response_to_tool_call_result(
+            response,
+            agent_name,
+            tool_call.id_,
+        )

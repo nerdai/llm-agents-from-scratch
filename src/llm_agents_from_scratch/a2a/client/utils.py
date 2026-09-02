@@ -54,9 +54,41 @@ def a2a_response_to_tool_call_result(
     Returns:
         ToolCallResult: Success with the peer's content, an
             ``A2A_INPUT_REQUIRED_TEMPLATE``-wrapped result, or an error
-            result.
+            result. Never raises -- any exception while parsing the
+            peer's response (a malformed or unexpected shape from a
+            non-conformant peer) is caught and returned as an error
+            result instead.
     """
-    if response is None:
+    try:
+        if response is None:
+            return ToolCallResult(
+                tool_call_id=tool_call_id,
+                error=True,
+                content=json.dumps(
+                    {
+                        "error_type": "A2AEmptyResponseError",
+                        "a2a_agent": agent_name,
+                        "message": "Peer returned no task or message.",
+                    },
+                ),
+            )
+
+        kind = response.WhichOneof("payload")
+
+        if kind == "message":
+            return ToolCallResult(
+                tool_call_id=tool_call_id,
+                error=False,
+                content=a2a_parts_text(response.message.parts),
+            )
+
+        if kind == "task":
+            return a2a_task_to_tool_call_result(
+                response.task,
+                agent_name,
+                tool_call_id,
+            )
+
         return ToolCallResult(
             tool_call_id=tool_call_id,
             error=True,
@@ -68,34 +100,18 @@ def a2a_response_to_tool_call_result(
                 },
             ),
         )
-
-    kind = response.WhichOneof("payload")
-
-    if kind == "message":
+    except Exception as e:
         return ToolCallResult(
             tool_call_id=tool_call_id,
-            error=False,
-            content=a2a_parts_text(response.message.parts),
+            error=True,
+            content=json.dumps(
+                {
+                    "error_type": type(e).__name__,
+                    "a2a_agent": agent_name,
+                    "message": str(e),
+                },
+            ),
         )
-
-    if kind == "task":
-        return a2a_task_to_tool_call_result(
-            response.task,
-            agent_name,
-            tool_call_id,
-        )
-
-    return ToolCallResult(
-        tool_call_id=tool_call_id,
-        error=True,
-        content=json.dumps(
-            {
-                "error_type": "A2AEmptyResponseError",
-                "a2a_agent": agent_name,
-                "message": "Peer returned no task or message.",
-            },
-        ),
-    )
 
 
 def a2a_task_to_tool_call_result(

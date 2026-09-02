@@ -204,7 +204,12 @@ async def test_use_a2a_agent_tool_empty_response_is_error() -> None:
 
 @pytest.mark.asyncio
 async def test_use_a2a_agent_tool_unknown_name() -> None:
-    """Tests unknown peer name returns error result."""
+    """Tests unknown peer name returns error result.
+
+    Caught by the ``name`` enum in ``parameters_json_schema``, which
+    lists the valid peer names directly in the ``ValidationError``
+    message.
+    """
     tool = UseA2AAgentTool(a2a_agents_registry={"researcher": _spec()})
     tool_call = ToolCall(
         tool_name=TOOL_NAME,
@@ -214,8 +219,8 @@ async def test_use_a2a_agent_tool_unknown_name() -> None:
 
     assert result.error is True
     details = json.loads(result.content)
-    assert details["error_type"] == "A2AAgentNotFoundError"
-    assert "not found" in details["message"]
+    assert details["error_type"] == "ValidationError"
+    assert "unknown" in details["message"]
 
 
 @pytest.mark.asyncio
@@ -247,7 +252,12 @@ async def test_use_a2a_agent_tool_missing_task_arg() -> None:
 
 @pytest.mark.asyncio
 async def test_use_a2a_agent_tool_invalid_task_id_type() -> None:
-    """Tests a non-string task_id returns error result."""
+    """Tests a non-string task_id returns error result.
+
+    jsonschema's default type-violation message doesn't name the
+    property (unlike its ``required`` messages), so this checks the
+    error shape rather than a ``'task_id'`` substring.
+    """
     tool = UseA2AAgentTool(a2a_agents_registry={"researcher": _spec()})
     tool_call = ToolCall(
         tool_name=TOOL_NAME,
@@ -257,7 +267,8 @@ async def test_use_a2a_agent_tool_invalid_task_id_type() -> None:
 
     assert result.error is True
     details = json.loads(result.content)
-    assert "'task_id'" in details["message"]
+    assert details["error_type"] == "ValidationError"
+    assert "is not of type 'string'" in details["message"]
 
 
 @pytest.mark.asyncio
@@ -426,33 +437,3 @@ async def test_use_a2a_agent_tool_suppresses_close_error() -> None:
 
     assert result.error is False
     assert result.content == "42"
-
-
-@pytest.mark.asyncio
-async def test_use_a2a_agent_tool_catches_response_conversion_error() -> None:
-    """Tests an exception from response conversion never escapes __call__."""
-    task = Task(
-        id="t6",
-        status=TaskStatus(state=TaskState.TASK_STATE_COMPLETED),
-    )
-    client = _fake_client(StreamResponse(task=task))
-
-    with (
-        _patch_create_client(client),
-        patch(
-            "llm_agents_from_scratch.a2a.client.tools.a2a_response_to_tool_call_result",
-            side_effect=RuntimeError("boom"),
-        ),
-    ):
-        tool = UseA2AAgentTool(a2a_agents_registry={"researcher": _spec()})
-        tool_call = ToolCall(
-            tool_name=TOOL_NAME,
-            arguments={"name": "researcher", "task": "do it"},
-        )
-        result = await tool(tool_call=tool_call)
-
-    assert result.error is True
-    details = json.loads(result.content)
-    assert details["error_type"] == "RuntimeError"
-    assert details["a2a_agent"] == "researcher"
-    assert "boom" in details["message"]

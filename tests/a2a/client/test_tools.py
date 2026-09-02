@@ -204,7 +204,12 @@ async def test_use_a2a_agent_tool_empty_response_is_error() -> None:
 
 @pytest.mark.asyncio
 async def test_use_a2a_agent_tool_unknown_name() -> None:
-    """Tests unknown peer name returns error result."""
+    """Tests unknown peer name returns error result.
+
+    Caught by the ``name`` enum in ``parameters_json_schema``, which
+    lists the valid peer names directly in the ``ValidationError``
+    message.
+    """
     tool = UseA2AAgentTool(a2a_agents_registry={"researcher": _spec()})
     tool_call = ToolCall(
         tool_name=TOOL_NAME,
@@ -214,8 +219,8 @@ async def test_use_a2a_agent_tool_unknown_name() -> None:
 
     assert result.error is True
     details = json.loads(result.content)
-    assert details["error_type"] == "A2AAgentNotFoundError"
-    assert "not found" in details["message"]
+    assert details["error_type"] == "ValidationError"
+    assert "unknown" in details["message"]
 
 
 @pytest.mark.asyncio
@@ -247,7 +252,12 @@ async def test_use_a2a_agent_tool_missing_task_arg() -> None:
 
 @pytest.mark.asyncio
 async def test_use_a2a_agent_tool_invalid_task_id_type() -> None:
-    """Tests a non-string task_id returns error result."""
+    """Tests a non-string task_id returns error result.
+
+    jsonschema's default type-violation message doesn't name the
+    property (unlike its ``required`` messages), so this checks the
+    error shape rather than a ``'task_id'`` substring.
+    """
     tool = UseA2AAgentTool(a2a_agents_registry={"researcher": _spec()})
     tool_call = ToolCall(
         tool_name=TOOL_NAME,
@@ -257,7 +267,8 @@ async def test_use_a2a_agent_tool_invalid_task_id_type() -> None:
 
     assert result.error is True
     details = json.loads(result.content)
-    assert "'task_id'" in details["message"]
+    assert details["error_type"] == "ValidationError"
+    assert "is not of type 'string'" in details["message"]
 
 
 @pytest.mark.asyncio

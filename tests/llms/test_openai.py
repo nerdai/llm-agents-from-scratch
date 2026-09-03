@@ -345,6 +345,7 @@ async def test_continue_chat_with_tool_results(
     mock_async_client_class.assert_called_once()
 
 
+@pytest.mark.skipif(not openai_installed, reason="openai is not installed")
 def test_chat_message_to_openai_response_input_param_raises_error() -> None:
     """Tests chat_message_to_openai_response_input_param raises error.
 

@@ -6,7 +6,10 @@ from typing import TYPE_CHECKING
 
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
-from mcp.client.streamable_http import streamable_http_client
+from mcp.client.streamable_http import (
+    create_mcp_http_client,
+    streamable_http_client,
+)
 
 from llm_agents_from_scratch.errors import (
     MCPWarning,
@@ -94,21 +97,23 @@ class MCPToolProvider:
                     # Wait for shutdown signal
                     await self._shutdown_event.wait()
         else:
-            async with streamable_http_client(  # noqa: SIM117
-                self.streamable_http_url,
-                self.streamable_http_headers,
-            ) as (
-                read_stream,
-                write_stream,
-                _,
+            # headers can only be supplied through a pre-configured client
+            async with (
+                create_mcp_http_client(
+                    headers=self.streamable_http_headers,
+                ) as http_client,
+                streamable_http_client(
+                    self.streamable_http_url,
+                    http_client=http_client,
+                ) as (read_stream, write_stream),
+                ClientSession(read_stream, write_stream) as session,
             ):
-                async with ClientSession(read_stream, write_stream) as session:
-                    await session.initialize()
-                    self._session = session
-                    self._session_ready.set()
+                await session.initialize()
+                self._session = session
+                self._session_ready.set()
 
-                    # Wait for shutdown signal
-                    await self._shutdown_event.wait()
+                # Wait for shutdown signal
+                await self._shutdown_event.wait()
 
     async def session(self) -> ClientSession:
         """Get the persistent session.

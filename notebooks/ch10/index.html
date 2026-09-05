@@ -867,10 +867,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1a-from-a-url" class="md-nav__link">
+  <a href="#1a-from-an-agent-card" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1a. From a URL
+        1a. From an Agent Card
       
     </span>
   </a>
@@ -878,10 +878,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#1b-from-an-agent-card" class="md-nav__link">
+  <a href="#1b-from-a-url" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1b. From an Agent Card
+        1b. From a URL
       
     </span>
   </a>
@@ -3882,10 +3882,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1a-from-a-url" class="md-nav__link">
+  <a href="#1a-from-an-agent-card" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1a. From a URL
+        1a. From an Agent Card
       
     </span>
   </a>
@@ -3893,10 +3893,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#1b-from-an-agent-card" class="md-nav__link">
+  <a href="#1b-from-a-url" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1b. From an Agent Card
+        1b. From a URL
       
     </span>
   </a>
@@ -5412,7 +5412,7 @@ own_server_process = ensure_from_scratch_hailstone()</div>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="1a-from-a-url">1a. From a URL<a class="anchor-link" href="#1a-from-a-url">¶</a></h4>
+<h4 id="1a-from-an-agent-card">1a. From an Agent Card<a class="anchor-link" href="#1a-from-an-agent-card">¶</a></h4>
 </div>
 </div>
 </div>
@@ -5435,145 +5435,9 @@ own_server_process = ensure_from_scratch_hailstone()</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.a2a</span><span class="w"> </span><span class="kn">import</span> <span class="n">A2AAgentSpec</span>
-
-<span class="n">spec</span> <span class="o">=</span> <span class="k">await</span> <span class="n">A2AAgentSpec</span><span class="o">.</span><span class="n">from_url</span><span class="p">(</span><span class="s2">"http://localhost:9200"</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"name: </span><span class="si">{</span><span class="n">spec</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"url: </span><span class="si">{</span><span class="n">spec</span><span class="o">.</span><span class="n">url</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"timeout: </span><span class="si">{</span><span class="n">spec</span><span class="o">.</span><span class="n">timeout</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">agent_card</span><span class="p">)</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-5">from llm_agents_from_scratch.a2a import A2AAgentSpec
-
-spec = await A2AAgentSpec.from_url("http://localhost:9200")
-
-print(f"name: {spec.name}")
-print(f"url: {spec.url}")
-print(f"timeout: {spec.timeout}")
-print(spec.agent_card)</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>/home/nerdai/Projects/llm-agents-from-scratch/.venv/lib/python3.13/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
-  from .autonotebook import tqdm as notebook_tqdm
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>name: crewai-hailstone</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>url: http://localhost:9200</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>timeout: 60.0</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>name: "crewai-hailstone"
-description: "Computes the full Hailstone (Collatz) sequence for a positive integer via a CrewAI agent."
-supported_interfaces {
-  url: "http://localhost:9200"
-  protocol_binding: "JSONRPC"
-  protocol_version: "1.0"
-}
-version: "0.1.0"
-capabilities {
-  streaming: false
-}
-default_input_modes: "text/plain"
-default_output_modes: "text/plain"
-skills {
-  id: "hailstone_sequence"
-  name: "hailstone_sequence"
-  description: "Compute the full hailstone sequence for a positive integer x, repeatedly applying x / 2 (if even) or 3x + 1 (if odd) until reaching 1. Asks for clarification if the task doesn\'t name a starting integer."
-  tags: "math"
-}
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5a5dc6c0">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="1b-from-an-agent-card">1b. From an Agent Card<a class="anchor-link" href="#1b-from-an-agent-card">¶</a></h4>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=b76afc3f">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">a2a.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">AgentCapabilities</span><span class="p">,</span> <span class="n">AgentCard</span><span class="p">,</span> <span class="n">AgentInterface</span><span class="p">,</span> <span class="n">AgentSkill</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">a2a.utils.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">PROTOCOL_VERSION_1_0</span><span class="p">,</span> <span class="n">TransportProtocol</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.a2a</span><span class="w"> </span><span class="kn">import</span> <span class="n">A2AAgentSpec</span>
 
 <span class="c1"># hand-built, no network call -- useful for tests, fixtures, or a peer</span>
 <span class="c1"># whose card details you already know ahead of time</span>
@@ -5606,8 +5470,9 @@ skills {
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"spec url: </span><span class="si">{</span><span class="n">spec_hand_built</span><span class="o">.</span><span class="n">url</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"spec catalog:</span><span class="se">\n</span><span class="si">{</span><span class="n">spec_hand_built</span><span class="o">.</span><span class="n">catalog</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-6">from a2a.types import AgentCapabilities, AgentCard, AgentInterface, AgentSkill
+<div class="clipboard-copy-txt" id="cell-5">from a2a.types import AgentCapabilities, AgentCard, AgentInterface, AgentSkill
 from a2a.utils.constants import PROTOCOL_VERSION_1_0, TransportProtocol
+from llm_agents_from_scratch.a2a import A2AAgentSpec
 
 # hand-built, no network call -- useful for tests, fixtures, or a peer
 # whose card details you already know ahead of time
@@ -5684,6 +5549,135 @@ print(f"spec catalog:\n{spec_hand_built.catalog()}")</div>
       &lt;a2a_skill&gt;hailstone_sequence&lt;/a2a_skill&gt;
     &lt;/a2a_skills&gt;
   &lt;/a2a_agent&gt;</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5a5dc6c0">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h4 id="1b-from-a-url">1b. From a URL<a class="anchor-link" href="#1b-from-a-url">¶</a></h4>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=b76afc3f">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.a2a</span><span class="w"> </span><span class="kn">import</span> <span class="n">A2AAgentSpec</span>
+
+<span class="n">spec</span> <span class="o">=</span> <span class="k">await</span> <span class="n">A2AAgentSpec</span><span class="o">.</span><span class="n">from_url</span><span class="p">(</span><span class="s2">"http://localhost:9200"</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"name: </span><span class="si">{</span><span class="n">spec</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"url: </span><span class="si">{</span><span class="n">spec</span><span class="o">.</span><span class="n">url</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"timeout: </span><span class="si">{</span><span class="n">spec</span><span class="o">.</span><span class="n">timeout</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">agent_card</span><span class="p">)</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-6">from llm_agents_from_scratch.a2a import A2AAgentSpec
+
+spec = await A2AAgentSpec.from_url("http://localhost:9200")
+
+print(f"name: {spec.name}")
+print(f"url: {spec.url}")
+print(f"timeout: {spec.timeout}")
+print(spec.agent_card)</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>name: crewai-hailstone</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>url: http://localhost:9200</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>timeout: 60.0</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>name: "crewai-hailstone"
+description: "Computes the full Hailstone (Collatz) sequence for a positive integer via a CrewAI agent."
+supported_interfaces {
+  url: "http://localhost:9200"
+  protocol_binding: "JSONRPC"
+  protocol_version: "1.0"
+}
+version: "0.1.0"
+capabilities {
+  streaming: false
+}
+default_input_modes: "text/plain"
+default_output_modes: "text/plain"
+skills {
+  id: "hailstone_sequence"
+  name: "hailstone_sequence"
+  description: "Compute the full hailstone sequence for a positive integer x, repeatedly applying x / 2 (if even) or 3x + 1 (if odd) until reaching 1. Asks for clarification if the task doesn\'t name a starting integer."
+  tags: "math"
+}
+</pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">

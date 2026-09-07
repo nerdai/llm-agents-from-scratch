@@ -950,7 +950,7 @@ async def test_llm_agent_init_no_memories_defaults_to_empty_list(
 
 @pytest.mark.asyncio
 async def test_task_handler_recalled_memories_init(mock_llm: BaseLLM) -> None:
-    """Tests _recalled_memories initialises as empty string."""
+    """Tests _recalled_memories initializes as empty string."""
     handler = LLMAgent.TaskHandler(
         llm_agent=LLMAgent(llm=mock_llm),
         task=Task(instruction="mock instruction"),

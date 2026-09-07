@@ -34,7 +34,7 @@ class UseSubAgentTool(AsyncBaseTool):
     """
 
     def __init__(self, subagents_registry: dict[str, SubAgentSpec]) -> None:
-        """Initialise with a registry of subagents.
+        """Initialize with a registry of subagents.
 
         Args:
             subagents_registry (dict[str, SubAgentSpec]): Subagents to

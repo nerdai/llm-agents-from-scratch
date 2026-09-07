@@ -61,7 +61,7 @@ class StreamingLLMAgentA2AExecutor(AgentExecutor):
     """
 
     def __init__(self, agent: LLMAgent) -> None:
-        """Initialise with the agent to serve.
+        """Initialize with the agent to serve.
 
         Args:
             agent (LLMAgent): The agent to wrap inbound A2A tasks to.

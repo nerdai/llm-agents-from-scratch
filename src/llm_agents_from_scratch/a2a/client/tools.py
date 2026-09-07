@@ -66,7 +66,7 @@ class UseA2AAgentTool(AsyncBaseTool):
     """
 
     def __init__(self, a2a_agents_registry: dict[str, A2AAgentSpec]) -> None:
-        """Initialise with a registry of A2A peer agents.
+        """Initialize with a registry of A2A peer agents.
 
         Args:
             a2a_agents_registry (dict[str, A2AAgentSpec]): A2A peers to

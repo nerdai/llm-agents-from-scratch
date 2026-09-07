@@ -3736,7 +3736,7 @@
 
     <div class="doc doc-contents first">
 
-        <p>LLMAgentA2AExecutor — bridges inbound A2A tasks to an LLMAgent.</p>
+        <p>LLMAgentA2AExecutor — wraps inbound A2A tasks for an LLMAgent.</p>
 
 
 
@@ -3774,7 +3774,7 @@
 
 
 
-        <p>Bridges inbound A2A tasks to an <code>LLMAgent</code>.</p>
+        <p>Wraps inbound A2A tasks for an <code>LLMAgent</code>.</p>
 <p>Per request: <code>RequestContext</code> -&gt; <code>Task(instruction=...)</code> -&gt;
 <code>await agent.run()</code> -&gt; <code>Artifact</code>. Results live in
 <code>task.artifacts</code>, not in messages — the A2A v1.0 spec reserves
@@ -4013,7 +4013,7 @@ when a run starts and removed in <code>execute()</code>'s
 <span class="normal"><a href="#__codelineno-0-184">184</a></span>
 <span class="normal"><a href="#__codelineno-0-185">185</a></span>
 <span class="normal"><a href="#__codelineno-0-186">186</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="k">class</span><span class="w"> </span><span class="nc">LLMAgentA2AExecutor</span><span class="p">(</span><span class="n">AgentExecutor</span><span class="p">):</span>
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Bridges inbound A2A tasks to an ``LLMAgent``.</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Wraps inbound A2A tasks for an ``LLMAgent``.</span>
 </span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a>
 </span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="sd">    Per request: ``RequestContext`` -&gt; ``Task(instruction=...)`` -&gt;</span>
 </span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="sd">    ``await agent.run()`` -&gt; ``Artifact``. Results live in</span>
@@ -4056,10 +4056,10 @@ when a run starts and removed in <code>execute()</code>'s
 </span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68"></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69"></a>
 </span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">:</span> <span class="n">LLMAgent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialise with the agent to serve.</span>
+</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize with the agent to serve.</span>
 </span><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72"></a>
 </span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73"></a><span class="sd">        Args:</span>
-</span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74"></a><span class="sd">            agent (LLMAgent): The agent to bridge inbound A2A tasks to.</span>
+</span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74"></a><span class="sd">            agent (LLMAgent): The agent to wrap inbound A2A tasks for.</span>
 </span><span id="__span-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75"></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">agent</span> <span class="o">=</span> <span class="n">agent</span>
 </span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_task_handlers</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">LLMAgent</span><span class="o">.</span><span class="n">TaskHandler</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
@@ -4201,7 +4201,7 @@ when a run starts and removed in <code>execute()</code>'s
 
     <div class="doc doc-contents ">
 
-        <p>Initialise with the agent to serve.</p>
+        <p>Initialize with the agent to serve.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -4224,7 +4224,7 @@ when a run starts and removed in <code>execute()</code>'s
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The agent to bridge inbound A2A tasks to.</p>
+                <p>The agent to wrap inbound A2A tasks for.</p>
               </div>
             </td>
             <td>
@@ -4245,10 +4245,10 @@ when a run starts and removed in <code>execute()</code>'s
 <span class="normal"><a href="#__codelineno-0-75">75</a></span>
 <span class="normal"><a href="#__codelineno-0-76">76</a></span>
 <span class="normal"><a href="#__codelineno-0-77">77</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">:</span> <span class="n">LLMAgent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialise with the agent to serve.</span>
+</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize with the agent to serve.</span>
 </span><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72"></a>
 </span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73"></a><span class="sd">    Args:</span>
-</span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74"></a><span class="sd">        agent (LLMAgent): The agent to bridge inbound A2A tasks to.</span>
+</span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74"></a><span class="sd">        agent (LLMAgent): The agent to wrap inbound A2A tasks for.</span>
 </span><span id="__span-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75"></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">agent</span> <span class="o">=</span> <span class="n">agent</span>
 </span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_task_handlers</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">LLMAgent</span><span class="o">.</span><span class="n">TaskHandler</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>

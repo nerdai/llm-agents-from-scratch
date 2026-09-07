@@ -1,4 +1,4 @@
-"""LLMAgentA2AExecutor — bridges inbound A2A tasks to an LLMAgent."""
+"""LLMAgentA2AExecutor — wraps inbound A2A tasks for an LLMAgent."""
 
 import asyncio
 
@@ -25,7 +25,7 @@ from llm_agents_from_scratch.data_structures import Task
 
 
 class LLMAgentA2AExecutor(AgentExecutor):
-    """Bridges inbound A2A tasks to an ``LLMAgent``.
+    """Wraps inbound A2A tasks for an ``LLMAgent``.
 
     Per request: ``RequestContext`` -> ``Task(instruction=...)`` ->
     ``await agent.run()`` -> ``Artifact``. Results live in
@@ -68,10 +68,10 @@ class LLMAgentA2AExecutor(AgentExecutor):
     """
 
     def __init__(self, agent: LLMAgent) -> None:
-        """Initialise with the agent to serve.
+        """Initialize with the agent to serve.
 
         Args:
-            agent (LLMAgent): The agent to bridge inbound A2A tasks to.
+            agent (LLMAgent): The agent to wrap inbound A2A tasks for.
         """
         self.agent = agent
         self._task_handlers: dict[str, LLMAgent.TaskHandler] = {}

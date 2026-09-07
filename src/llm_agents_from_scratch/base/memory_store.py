@@ -37,7 +37,7 @@ class BaseMemoryStore(ABC):
         max_results: int = 5,
         recall_mode: RecallMode = RecallMode.SEARCH,
     ) -> None:
-        """Initialise shared store state.
+        """Initialize shared store state.
 
         Args:
             max_results (int): Default maximum number of episodes

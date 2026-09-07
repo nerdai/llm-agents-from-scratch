@@ -193,7 +193,7 @@ class SharedConsoleHumanInputTool(AsyncBaseTool):
     _console_lock: asyncio.Lock = asyncio.Lock()
 
     def __init__(self, agent_name: str | None = None) -> None:
-        """Initialise with an optional agent-name label.
+        """Initialize with an optional agent-name label.
 
         Args:
             agent_name (str | None): Name of the coordinator or

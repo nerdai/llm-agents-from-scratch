@@ -23,7 +23,7 @@ from llm_agents_from_scratch.data_structures import Task, TaskResult, TaskStep
 
 
 class StreamingLLMAgentA2AExecutor(AgentExecutor):
-    """Bridges inbound A2A tasks to an ``LLMAgent``, streaming updates.
+    """Wraps inbound A2A tasks to an ``LLMAgent``, streaming updates.
 
     Drives ``LLMAgent.run_supervised()`` directly instead of ``run()``:
     ``SupervisedTaskHandler`` has no background task at all — execution
@@ -64,7 +64,7 @@ class StreamingLLMAgentA2AExecutor(AgentExecutor):
         """Initialise with the agent to serve.
 
         Args:
-            agent (LLMAgent): The agent to bridge inbound A2A tasks to.
+            agent (LLMAgent): The agent to wrap inbound A2A tasks to.
         """
         self.agent = agent
         self._task_handlers: dict[str, LLMAgent.SupervisedTaskHandler] = {}

@@ -162,15 +162,21 @@ class LLMAgentA2AExecutor(AgentExecutor):
                 f"No in-flight task found for id '{context.task_id}'.",
             )
 
-        # Publish CANCELED before actually cancelling task_handler.
-        # Cancelling task_handler first would wake execute()'s
-        # `await task_handler` immediately, propagating
-        # CancelledError and triggering the SDK's own producer-loop
-        # cleanup, which closes this same event_queue -- racing our
-        # own enqueue below and sometimes winning, silently dropping
-        # the terminal status update (confirmed live: the queue
-        # closing mid-enqueue leaves the task's persisted state stuck
-        # at its last non-terminal value instead of CANCELED).
+        # Publish CANCELED before anything that can suspend. The SDK's
+        # ActiveTask.cancel() cancels its own producer task (the one
+        # running execute()) *before* calling us -- that synchronously
+        # cancels task_handler, the Future execute() is awaiting on,
+        # so the producer is already one loop-tick from its `finally`,
+        # which closes this very event_queue. Any yield in this method
+        # before the enqueue below loses the race: enqueue_event
+        # swallows the resulting QueueShutDown and drops the event
+        # silently, and the request handler doesn't validate the
+        # resulting state, so the caller just sees the task's last
+        # non-terminal status instead of CANCELED. Confirmed live via
+        # a real SDK producer loop, not a mock -- deterministic, not a
+        # race: `await updater.cancel()` below happens to yield zero
+        # times (uncontended lock, non-full queue), which is the only
+        # reason this works. Nothing that can await may precede it.
         updater = TaskUpdater(event_queue, context.task_id, context.context_id)
         await updater.cancel()
 
@@ -179,6 +185,12 @@ class LLMAgentA2AExecutor(AgentExecutor):
         # work but never settles task_handler itself (its except
         # Exception clause doesn't catch CancelledError), so anything
         # awaiting it would hang. Settle both, in order.
+        #
+        # On the current SDK's default request handler, task_handler
+        # is already cancelled by the time we get here (see above), so
+        # this is a no-op on that path. It's kept as insurance for the
+        # legacy request handler, which calls this method *before*
+        # cancelling its own producer task -- the opposite order.
         task_handler.background_task.cancel()
         try:  # noqa: SIM105
             await task_handler.background_task

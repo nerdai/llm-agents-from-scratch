@@ -190,9 +190,14 @@ class StreamingLLMAgentA2AExecutor(AgentExecutor):
         # has none) -- the SDK already cancels the producer task
         # running our own execute() before calling cancel(), which
         # interrupts whatever step is currently in-flight directly.
-        # Publish CANCELED first regardless, for the same reason as
-        # LLMAgentA2AExecutor.cancel(): avoid racing the SDK's own
-        # producer-loop cleanup over this event_queue.
+        # Publish CANCELED before anything that can suspend, for the
+        # same reason as LLMAgentA2AExecutor.cancel(): the producer is
+        # already one loop-tick from its `finally`, which closes this
+        # very event_queue, so any yield here risks the same silent
+        # drop -- not a race, deterministic once something yields
+        # ahead of the publish. Not independently verified against the
+        # real SDK producer loop the way the non-streaming executor
+        # was; the same invariant is assumed to apply here too.
         updater = TaskUpdater(event_queue, context.task_id, context.context_id)
         await updater.cancel()
 

@@ -13,10 +13,16 @@ event queue -> ``InMemoryTaskStore``), which is what actually closes
 the queue once the SDK cancels the producer running ``execute()``.
 Only the LLM is a fake, and only so a run is slow enough to cancel
 mid-step.
+
+They also check the other half of what cancel() promises, which
+test_executor.py's existing test only checks against the same bare
+queue: that the in-flight work actually stopped (background_task
+settles), not just that a status update claiming so got published.
 """
 
 import asyncio
 import contextlib
+import dataclasses
 import logging
 from typing import Any, Sequence
 
@@ -124,16 +130,36 @@ class _YieldsBeforePublishExecutor(LLMAgentA2AExecutor):
             task_handler.cancel()
 
 
+@dataclasses.dataclass
+class _CancelOutcome:
+    """Result of one send-then-cancel run.
+
+    Attributes:
+        persisted_state: The terminal ``TaskState`` name persisted to
+            the task store.
+        dropped: How many times the SDK logged its silent-drop
+            warning for an enqueue onto an already-closed queue.
+        handler_done: Whether the tracked ``TaskHandler`` Future
+            settled.
+        handler_cancelled: Whether it settled specifically via
+            cancellation.
+        background_task_done: Whether the ``asyncio.Task`` actually
+            running the agent loop finished -- the real signal that
+            the in-flight work stopped, as opposed to the Future
+            wrapper merely reporting cancelled.
+    """
+
+    persisted_state: str
+    dropped: int
+    handler_done: bool
+    handler_cancelled: bool
+    background_task_done: bool
+
+
 async def _run_and_cancel(
     executor: LLMAgentA2AExecutor,
-) -> tuple[str, int]:
-    """Sends a task through the real SDK stack, then cancels it.
-
-    Returns:
-        tuple[str, int]: The persisted terminal ``TaskState`` name, and
-            how many times the SDK logged its silent-drop warning for
-            an enqueue onto an already-closed queue.
-    """
+) -> _CancelOutcome:
+    """Sends a task through the real SDK stack, then cancels it."""
 
     class _DropWatcher(logging.Handler):
         def __init__(self) -> None:
@@ -186,6 +212,7 @@ async def _run_and_cancel(
     await asyncio.sleep(0.02)
 
     task_id = next(iter(executor._task_handlers))
+    task_handler = executor._task_handlers[task_id]
 
     try:
         await asyncio.wait_for(
@@ -205,7 +232,13 @@ async def _run_and_cancel(
     persisted_state = (
         TaskState.Name(persisted.status.state) if persisted else "MISSING"
     )
-    return persisted_state, watcher.dropped
+    return _CancelOutcome(
+        persisted_state=persisted_state,
+        dropped=watcher.dropped,
+        handler_done=task_handler.done(),
+        handler_cancelled=task_handler.cancelled(),
+        background_task_done=task_handler.background_task.done(),
+    )
 
 
 @pytest.mark.asyncio
@@ -216,14 +249,22 @@ async def test_cancel_persists_canceled_via_real_sdk_producer_loop() -> None:
     DefaultRequestHandler producer loop, which is what closes the
     event_queue once the SDK cancels execute()'s producer task --
     the mechanism cancel()'s ordering has to survive.
+
+    Checks both halves of what cancel() promises: the terminal status
+    lands (persisted_state, dropped), and the in-flight work actually
+    stopped (background_task_done) rather than being left running
+    orphaned underneath a status update that merely claims it's gone.
     """
     agent = LLMAgent(llm=_ParkingLLM())
     executor = LLMAgentA2AExecutor(agent=agent)
 
-    persisted_state, dropped = await _run_and_cancel(executor)
+    outcome = await _run_and_cancel(executor)
 
-    assert persisted_state == "TASK_STATE_CANCELED"
-    assert dropped == 0
+    assert outcome.persisted_state == "TASK_STATE_CANCELED"
+    assert outcome.dropped == 0
+    assert outcome.handler_done
+    assert outcome.handler_cancelled
+    assert outcome.background_task_done
 
 
 @pytest.mark.asyncio
@@ -233,11 +274,23 @@ async def test_cancel_drops_status_if_anything_yields_before_publish() -> None:
     Confirms the harness above would actually fail if cancel()'s
     ordering regressed -- without this, a passing positive test alone
     wouldn't prove the harness detects the failure mode it exists for.
+
+    handler_done/handler_cancelled/background_task_done still hold
+    here: the SDK's ActiveTask.cancel() cancels the producer task (and
+    so task_handler, and so background_task) *before* calling our
+    cancel() at all -- confirmed in the ordering investigation this
+    test file follows up on. A broken publish ordering only breaks
+    status *reporting*; it doesn't stop the underlying work from
+    actually being torn down, since that happens independently of
+    anything our cancel() body does on this SDK path.
     """
     agent = LLMAgent(llm=_ParkingLLM())
     executor = _YieldsBeforePublishExecutor(agent=agent)
 
-    persisted_state, dropped = await _run_and_cancel(executor)
+    outcome = await _run_and_cancel(executor)
 
-    assert persisted_state != "TASK_STATE_CANCELED"
-    assert dropped >= 1
+    assert outcome.persisted_state != "TASK_STATE_CANCELED"
+    assert outcome.dropped >= 1
+    assert outcome.handler_done
+    assert outcome.handler_cancelled
+    assert outcome.background_task_done

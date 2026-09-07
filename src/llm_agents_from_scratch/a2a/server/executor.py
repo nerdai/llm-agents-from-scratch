@@ -2,7 +2,7 @@
 
 import asyncio
 
-from a2a.helpers import new_task_from_user_message, new_text_part
+import a2a.helpers as a2a_helpers
 from a2a.server.agent_execution import AgentExecutor, RequestContext
 from a2a.server.events import EventQueue
 from a2a.server.tasks import TaskUpdater
@@ -100,35 +100,37 @@ class LLMAgentA2AExecutor(AgentExecutor):
                 status/artifact events to.
         """
         if context.current_task:
-            task = context.current_task
+            a2a_task = context.current_task
         else:
             if context.message is None:
                 raise ValueError(
                     "RequestContext is missing the user's Message.",
                 )
-            task = new_task_from_user_message(context.message)
-            await event_queue.enqueue_event(task)
+            a2a_task = a2a_helpers.new_task_from_user_message(context.message)
+            await event_queue.enqueue_event(a2a_task)
 
-        updater = TaskUpdater(event_queue, task.id, task.context_id)
+        updater = TaskUpdater(event_queue, a2a_task.id, a2a_task.context_id)
         await updater.submit()
         await updater.start_work()
 
         instruction = context.get_user_input()
         task_handler = self.agent.run(Task(instruction=instruction))
-        self._task_handlers[task.id] = task_handler
+        self._task_handlers[a2a_task.id] = task_handler
         try:
             result = await task_handler
         except Exception as e:
             await updater.update_status(
                 TaskState.TASK_STATE_FAILED,
-                message=updater.new_agent_message([new_text_part(str(e))]),
+                message=updater.new_agent_message(
+                    [a2a_helpers.new_text_part(str(e))],
+                ),
             )
             return
         finally:
-            self._task_handlers.pop(task.id, None)
+            self._task_handlers.pop(a2a_task.id, None)
 
         await updater.add_artifact(
-            parts=[new_text_part(result.content)],
+            parts=[a2a_helpers.new_text_part(result.content)],
             name="task_result",
         )
         await updater.complete()

@@ -162,12 +162,27 @@ async def _run_and_cancel(
     """Sends a task through the real SDK stack, then cancels it."""
 
     class _DropWatcher(logging.Handler):
+        """Counts enqueue-side "queue closed" drops, not exact wording.
+
+        a2a-sdk's EventQueue.enqueue_event() logs one of two slightly
+        different messages depending on *when* it discovers the queue
+        is closed ("Event will not be enqueued." vs ", during
+        enqueuing. Event dropped."), and a dequeue_event() warning
+        ("will not be dequeued") uses near-identical phrasing for an
+        unrelated event. Matching the two substrings both enqueue
+        warnings share ("closed" and "enqueu", present in "enqueued"/
+        "enqueuing" but not "dequeued") catches either wording without
+        pinning to the exact copy, which could change across SDK
+        versions, while still excluding the dequeue warning.
+        """
+
         def __init__(self) -> None:
             super().__init__(level=logging.DEBUG)
             self.dropped = 0
 
         def emit(self, record: logging.LogRecord) -> None:
-            if "Queue was closed during enqueuing" in record.getMessage():
+            message = record.getMessage()
+            if "closed" in message and "enqueu" in message:
                 self.dropped += 1
 
     watcher = _DropWatcher()
@@ -229,9 +244,16 @@ async def _run_and_cancel(
         logging.disable(previous_disable)
 
     persisted = await store.get(task_id, ctx)
-    persisted_state = (
-        TaskState.Name(persisted.status.state) if persisted else "MISSING"
-    )
+    if persisted is None:
+        # A harness failure (e.g. the task store never saw the initial
+        # submission) is not the silent-drop behavior under test --
+        # fail loudly here instead of letting a "MISSING" sentinel
+        # satisfy `!= "TASK_STATE_CANCELED"` in the negative-control
+        # test for the wrong reason.
+        raise AssertionError(
+            f"Task {task_id!r} was never persisted to the task store.",
+        )
+    persisted_state = TaskState.Name(persisted.status.state)
     return _CancelOutcome(
         persisted_state=persisted_state,
         dropped=watcher.dropped,

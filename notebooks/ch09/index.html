@@ -827,10 +827,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#example-3-routertriage" class="md-nav__link">
+  <a href="#example-3-hitl-on-the-coordinator" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example 3: Router/Triage
+        Example 3: HITL on the Coordinator
       
     </span>
   </a>
@@ -838,10 +838,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#example-4-parallel-fan-out" class="md-nav__link">
+  <a href="#example-4-routertriage" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example 4: Parallel Fan-Out
+        Example 4: Router/Triage
       
     </span>
   </a>
@@ -849,10 +849,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#example-5-hitl-on-the-coordinator" class="md-nav__link">
+  <a href="#example-5-parallel-fan-out" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example 5: HITL on the Coordinator
+        Example 5: Parallel Fan-Out
       
     </span>
   </a>
@@ -3731,10 +3731,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#example-3-routertriage" class="md-nav__link">
+  <a href="#example-3-hitl-on-the-coordinator" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example 3: Router/Triage
+        Example 3: HITL on the Coordinator
       
     </span>
   </a>
@@ -3742,10 +3742,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#example-4-parallel-fan-out" class="md-nav__link">
+  <a href="#example-4-routertriage" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example 4: Parallel Fan-Out
+        Example 4: Router/Triage
       
     </span>
   </a>
@@ -3753,10 +3753,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#example-5-hitl-on-the-coordinator" class="md-nav__link">
+  <a href="#example-5-parallel-fan-out" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example 5: HITL on the Coordinator
+        Example 5: Parallel Fan-Out
       
     </span>
   </a>
@@ -6262,23 +6262,23 @@ Let me know if you'd like to explore further!</pre>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0009-0000-0000-000000000011">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0009-0000-0000-000000000016">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="example-3-routertriage">Example 3: Router/Triage<a class="anchor-link" href="#example-3-routertriage">¶</a></h3>
+<h3 id="example-3-hitl-on-the-coordinator">Example 3: HITL on the Coordinator<a class="anchor-link" href="#example-3-hitl-on-the-coordinator">¶</a></h3>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0009-0000-0000-000000000012">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0009-0000-0000-000000000017">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-5">
@@ -6291,13 +6291,319 @@ Let me know if you'd like to explore further!</pre>
 </div>
 </clipboard-copy>
 </div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.tools.default</span><span class="w"> </span><span class="kn">import</span> <span class="n">SharedConsoleHumanInputTool</span>
+
+<span class="c1"># both subagents here do simple, tightly-scoped work, so a small</span>
+<span class="c1"># local model is plenty</span>
+<span class="n">slm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:8b"</span><span class="p">,</span> <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># two subagents, each with its own SharedConsoleHumanInputTool instance</span>
+<span class="c1"># -- but the lock is a CLASS-level asyncio.Lock, so both instances</span>
+<span class="c1"># share it. Dispatched concurrently, their prompts serialize instead</span>
+<span class="c1"># of racing for stdin.</span>
+<span class="n">hailstone_input_tool</span> <span class="o">=</span> <span class="n">SharedConsoleHumanInputTool</span><span class="p">(</span><span class="n">agent_name</span><span class="o">=</span><span class="s2">"hailstone"</span><span class="p">)</span>
+<span class="n">hailstone_spec</span> <span class="o">=</span> <span class="n">SubAgentSpec</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"hailstone"</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">"Asks the human operator for a starting number, then computes "</span>
+        <span class="s2">"its Hailstone sequence."</span>
+    <span class="p">),</span>
+    <span class="n">builder</span><span class="o">=</span><span class="n">LLMAgentBuilder</span><span class="p">(</span>
+        <span class="n">llm</span><span class="o">=</span><span class="n">slm</span><span class="p">,</span>
+        <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">next_number_tool</span><span class="p">,</span> <span class="n">hailstone_input_tool</span><span class="p">],</span>
+    <span class="p">),</span>
+    <span class="n">max_steps</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">greeter_input_tool</span> <span class="o">=</span> <span class="n">SharedConsoleHumanInputTool</span><span class="p">(</span><span class="n">agent_name</span><span class="o">=</span><span class="s2">"greeter"</span><span class="p">)</span>
+<span class="n">greeter_spec</span> <span class="o">=</span> <span class="n">SubAgentSpec</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"greeter"</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">"Asks the human operator for their name, then greets them."</span><span class="p">,</span>
+    <span class="n">builder</span><span class="o">=</span><span class="n">LLMAgentBuilder</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">slm</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">greeter_input_tool</span><span class="p">]),</span>
+    <span class="n">max_steps</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">hitl_coordinator</span> <span class="o">=</span> <span class="k">await</span> <span class="p">(</span>
+    <span class="n">LLMAgentBuilder</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">with_llm</span><span class="p">(</span><span class="n">llm</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">with_subagents</span><span class="p">([</span><span class="n">hailstone_spec</span><span class="p">,</span> <span class="n">greeter_spec</span><span class="p">])</span>
+    <span class="o">.</span><span class="n">build</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="n">task_hitl</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span>
+    <span class="n">instruction</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">"Dispatch both the hailstone and greeter subagents in the same "</span>
+        <span class="s2">"response so they run concurrently. hailstone should ask the "</span>
+        <span class="s2">"human for a starting number, then compute its Hailstone "</span>
+        <span class="s2">"sequence. greeter should ask the human for their name, then "</span>
+        <span class="s2">"return a friendly greeting. Report both results."</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+<span class="c1"># with_approval=True -- the same end-of-loop gate from Chapter 8, now</span>
+<span class="c1"># reviewing a coordinator's result instead of a single agent's. Watch</span>
+<span class="c1"># the console: the two prompts complete one at a time, never</span>
+<span class="c1"># interleaved, thanks to SharedConsoleHumanInputTool's shared lock.</span>
+<span class="n">result_hitl</span> <span class="o">=</span> <span class="k">await</span> <span class="n">hitl_coordinator</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task_hitl</span><span class="p">,</span> <span class="n">with_approval</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result_hitl</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-5">from llm_agents_from_scratch.tools.default import SharedConsoleHumanInputTool
+
+# both subagents here do simple, tightly-scoped work, so a small
+# local model is plenty
+slm = OllamaLLM(model="qwen3:8b", think=False)
+
+# two subagents, each with its own SharedConsoleHumanInputTool instance
+# -- but the lock is a CLASS-level asyncio.Lock, so both instances
+# share it. Dispatched concurrently, their prompts serialize instead
+# of racing for stdin.
+hailstone_input_tool = SharedConsoleHumanInputTool(agent_name="hailstone")
+hailstone_spec = SubAgentSpec(
+    name="hailstone",
+    description=(
+        "Asks the human operator for a starting number, then computes "
+        "its Hailstone sequence."
+    ),
+    builder=LLMAgentBuilder(
+        llm=slm,
+        tools=[next_number_tool, hailstone_input_tool],
+    ),
+    max_steps=20,
+)
+
+greeter_input_tool = SharedConsoleHumanInputTool(agent_name="greeter")
+greeter_spec = SubAgentSpec(
+    name="greeter",
+    description="Asks the human operator for their name, then greets them.",
+    builder=LLMAgentBuilder(llm=slm, tools=[greeter_input_tool]),
+    max_steps=5,
+)
+
+hitl_coordinator = await (
+    LLMAgentBuilder()
+    .with_llm(llm)
+    .with_subagents([hailstone_spec, greeter_spec])
+    .build()
+)
+
+task_hitl = Task(
+    instruction=(
+        "Dispatch both the hailstone and greeter subagents in the same "
+        "response so they run concurrently. hailstone should ask the "
+        "human for a starting number, then compute its Hailstone "
+        "sequence. greeter should ask the human for their name, then "
+        "return a friendly greeting. Report both results."
+    ),
+)
+# with_approval=True -- the same end-of-loop gate from Chapter 8, now
+# reviewing a coordinator's result instead of a single agent's. Watch
+# the console: the two prompts complete one at a time, never
+# interleaved, thanks to SharedConsoleHumanInputTool's shared lock.
+result_hitl = await hitl_coordinator.run(task_hitl, with_approval=True)
+print(result_hitl.content)</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: Dispatch both the hailstone and greeter subagents in the same response so they run concurrently. hailstone should ask the human for a...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Dispatch both the hailstone and greeter subagents in the same response so they run concurrently. hailstone should ask the human fo...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: from_scratch__use_subagent
+INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: from_scratch__use_subagent
+[hailstone] INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: Ask the human for a starting number, then compute its Hailstone sequence.
+[hailstone] INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Ask the human for a starting number, then compute its Hailstone sequence.
+[greeter] INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: Ask the human for their name, then return a friendly greeting.
+[greeter] INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Ask the human for their name, then return a friendly greeting.
+[hailstone] INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: from_scratch__human_input
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #808000; text-decoration-color: #808000">╭──────────────────────────────────────────── Human Input — hailstone ────────────────────────────────────────────╮</span>
+<span style="color: #808000; text-decoration-color: #808000">│</span> Please provide a starting number for the Hailstone sequence:                                                    <span style="color: #808000; text-decoration-color: #808000">│</span>
+<span style="color: #808000; text-decoration-color: #808000">╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">&gt; <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">[1/2/3/4/5/6/7/8/9/10]</span>: </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[greeter] INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: from_scratch__human_input
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[hailstone] INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 4
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #808000; text-decoration-color: #808000">╭───────────────────────────────────────────── Human Input — greeter ─────────────────────────────────────────────╮</span>
+<span style="color: #808000; text-decoration-color: #808000">│</span> What is your name?                                                                                              <span style="color: #808000; text-decoration-color: #808000">│</span>
+<span style="color: #808000; text-decoration-color: #808000">╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">&gt;: </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[hailstone] INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The starting number is 4. Now, I will compute its Hailstone sequence by repeatedly applying the next_number tool until the value 1 is r...[TRUNCATED]
+[hailstone] INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: 
+[hailstone] INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: 
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[greeter] INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: Andrei
+[hailstone] INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: 
+[greeter] INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: Hello, Andrei! Welcome. How can I assist you today?
+[hailstone] INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Compute the Hailstone sequence for the starting number 4 by repeatedly applying the next_number tool until the value 1 is reached.
+[hailstone] INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Compute the Hailstone sequence for the starting number 4 by repeatedly applying the next_number tool until the value 1 is reached.
+[greeter] INFO (llm_agents_fs.TaskHandler) :      No new step required.
+[greeter] INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: Hello, Andrei! Welcome. How can I assist you today?
+INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: Hello, Andrei! Welcome. How can I assist you today?
+[hailstone] INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
+[hailstone] INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 2
+[hailstone] INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The next number in the sequence is 2. I will continue applying the next_number tool to 2 until the sequence reaches 1. Let's proceed.
+[hailstone] INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: 
+[hailstone] INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: 
+[hailstone] INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
+[hailstone] INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 1
+[hailstone] INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The next number in the sequence is 1. Since we have reached the value 1, the Hailstone sequence for the starting number 4 is complete. ...[TRUNCATED]
+[hailstone] INFO (llm_agents_fs.TaskHandler) :      No new step required.
+[hailstone] INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The next number in the sequence is 1. Since we have reached the value 1, the Hailstone sequence for the starting number 4 is complet...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: The next number in the sequence is 1. Since we have reached the value 1, the Hailstone sequence for the starting number 4 is c...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: Both sub-agents have completed their tasks successfully. Let me report the results:
+
+**Hailstone Sub-agent Result:**
+- Starting number:...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      No new step required.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #008080; text-decoration-color: #008080">╭───────────────────────────────────────────── Proposed Task Result ──────────────────────────────────────────────╮</span>
+<span style="color: #008080; text-decoration-color: #008080">│</span> Both sub-agents have completed their tasks successfully. Let me report the results:                             <span style="color: #008080; text-decoration-color: #008080">│</span>
+<span style="color: #008080; text-decoration-color: #008080">│</span>                                                                                                                 <span style="color: #008080; text-decoration-color: #008080">│</span>
+<span style="color: #008080; text-decoration-color: #008080">│</span> **Hailstone Sub-agent Result:**                                                                                 <span style="color: #008080; text-decoration-color: #008080">│</span>
+<span style="color: #008080; text-decoration-color: #008080">│</span> - Starting number: 4                                                                                            <span style="color: #008080; text-decoration-color: #008080">│</span>
+<span style="color: #008080; text-decoration-color: #008080">│</span> - Hailstone sequence: 4, 2, 1                                                                                   <span style="color: #008080; text-decoration-color: #008080">│</span>
+<span style="color: #008080; text-decoration-color: #008080">│</span> - The sequence reached 1 and completed successfully.                                                            <span style="color: #008080; text-decoration-color: #008080">│</span>
+<span style="color: #008080; text-decoration-color: #008080">│</span>                                                                                                                 <span style="color: #008080; text-decoration-color: #008080">│</span>
+<span style="color: #008080; text-decoration-color: #008080">│</span> **Greeter Sub-agent Result:**                                                                                   <span style="color: #008080; text-decoration-color: #008080">│</span>
+<span style="color: #008080; text-decoration-color: #008080">│</span> - Name obtained: Andrei                                                                                         <span style="color: #008080; text-decoration-color: #008080">│</span>
+<span style="color: #008080; text-decoration-color: #008080">│</span> - Greeting returned: "Hello, Andrei! Welcome. How can I assist you today?"                                      <span style="color: #008080; text-decoration-color: #008080">│</span>
+<span style="color: #008080; text-decoration-color: #008080">│</span>                                                                                                                 <span style="color: #008080; text-decoration-color: #008080">│</span>
+<span style="color: #008080; text-decoration-color: #008080">│</span> Both sub-agents ran concurrently and completed their respective tasks - the hailstone agent computed the        <span style="color: #008080; text-decoration-color: #008080">│</span>
+<span style="color: #008080; text-decoration-color: #008080">│</span> Hailstone sequence for the number 4, and the greeter agent obtained the user's name (Andrei) and provided a     <span style="color: #008080; text-decoration-color: #008080">│</span>
+<span style="color: #008080; text-decoration-color: #008080">│</span> friendly greeting.                                                                                              <span style="color: #008080; text-decoration-color: #008080">│</span>
+<span style="color: #008080; text-decoration-color: #008080">╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Approve this result? <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">[y/n]</span>: </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: Both sub-agents have completed their tasks successfully. Let me report the results:
+
+**Hailstone Sub-agent Result:**
+- Starting numb...[TRUNCATED]
+Both sub-agents have completed their tasks successfully. Let me report the results:
+
+**Hailstone Sub-agent Result:**
+- Starting number: 4
+- Hailstone sequence: 4, 2, 1
+- The sequence reached 1 and completed successfully.
+
+**Greeter Sub-agent Result:**
+- Name obtained: Andrei
+- Greeting returned: "Hello, Andrei! Welcome. How can I assist you today?"
+
+Both sub-agents ran concurrently and completed their respective tasks - the hailstone agent computed the Hailstone sequence for the number 4, and the greeter agent obtained the user's name (Andrei) and provided a friendly greeting.
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0009-0000-0000-000000000011">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="example-4-routertriage">Example 4: Router/Triage<a class="anchor-link" href="#example-4-routertriage">¶</a></h3>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0009-0000-0000-000000000012">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">Task</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.subagents.recipes</span><span class="w"> </span><span class="kn">import</span> <span class="n">explore_subagent</span><span class="p">,</span> <span class="n">general_subagent</span>
 
-<span class="c1"># explore only does lookups, so a small local model is plenty; general</span>
-<span class="c1"># does open-ended computation, so it shares the coordinator's own model</span>
-<span class="n">slm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:8b"</span><span class="p">,</span> <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-
+<span class="c1"># explore only does lookups, so the small model from Example 3 is</span>
+<span class="c1"># plenty; general does open-ended computation, so it shares the</span>
+<span class="c1"># coordinator's own model</span>
 <span class="n">coordinator</span> <span class="o">=</span> <span class="k">await</span> <span class="p">(</span>
     <span class="n">LLMAgentBuilder</span><span class="p">()</span>
     <span class="o">.</span><span class="n">with_llm</span><span class="p">(</span><span class="n">llm</span><span class="p">)</span>  <span class="c1"># the bigger model from Example 1</span>
@@ -6317,13 +6623,12 @@ Let me know if you'd like to explore further!</pre>
 <span class="n">result_lookup</span> <span class="o">=</span> <span class="k">await</span> <span class="n">coordinator</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task_lookup</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">result_lookup</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-5">from llm_agents_from_scratch.data_structures import Task
+<div class="clipboard-copy-txt" id="cell-6">from llm_agents_from_scratch.data_structures import Task
 from llm_agents_from_scratch.subagents.recipes import explore_subagent, general_subagent
 
-# explore only does lookups, so a small local model is plenty; general
-# does open-ended computation, so it shares the coordinator's own model
-slm = OllamaLLM(model="qwen3:8b", think=False)
-
+# explore only does lookups, so the small model from Example 3 is
+# plenty; general does open-ended computation, so it shares the
+# coordinator's own model
 coordinator = await (
     LLMAgentBuilder()
     .with_llm(llm)  # the bigger model from Example 1
@@ -6732,7 +7037,7 @@ print(result_lookup.content)</div>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="example-4-parallel-fan-out">Example 4: Parallel Fan-Out<a class="anchor-link" href="#example-4-parallel-fan-out">¶</a></h3>
+<h3 id="example-5-parallel-fan-out">Example 5: Parallel Fan-Out<a class="anchor-link" href="#example-5-parallel-fan-out">¶</a></h3>
 </div>
 </div>
 </div>
@@ -6745,7 +7050,7 @@ print(result_lookup.content)</div>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-7">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -6771,7 +7076,7 @@ print(result_lookup.content)</div>
 <span class="n">result_fanout</span> <span class="o">=</span> <span class="k">await</span> <span class="n">coordinator</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task_fanout</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">result_fanout</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-6">task_fanout = Task(
+<div class="clipboard-copy-txt" id="cell-7">task_fanout = Task(
     instruction=(
         "Dispatch three sub-agent calls in the same response so they run "
         "concurrently: use general to compute the Hailstone sequence for "
@@ -6877,305 +7182,6 @@ Comparing the number of steps:
 - 12 took 9 steps
 
 **The starting number 12 took the most steps (9 steps)** to reach 1 in its Hailstone sequence.
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0009-0000-0000-000000000016">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="example-5-hitl-on-the-coordinator">Example 5: HITL on the Coordinator<a class="anchor-link" href="#example-5-hitl-on-the-coordinator">¶</a></h3>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0009-0000-0000-000000000017">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-7">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.tools.default</span><span class="w"> </span><span class="kn">import</span> <span class="n">SharedConsoleHumanInputTool</span>
-
-<span class="c1"># two subagents, each with its own SharedConsoleHumanInputTool instance</span>
-<span class="c1"># -- but the lock is a CLASS-level asyncio.Lock, so both instances</span>
-<span class="c1"># share it. Dispatched concurrently, their prompts serialize instead</span>
-<span class="c1"># of racing for stdin.</span>
-<span class="n">hailstone_input_tool</span> <span class="o">=</span> <span class="n">SharedConsoleHumanInputTool</span><span class="p">(</span><span class="n">agent_name</span><span class="o">=</span><span class="s2">"hailstone"</span><span class="p">)</span>
-<span class="n">hailstone_spec</span> <span class="o">=</span> <span class="n">SubAgentSpec</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">"hailstone"</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-        <span class="s2">"Asks the human operator for a starting number, then computes "</span>
-        <span class="s2">"its Hailstone sequence."</span>
-    <span class="p">),</span>
-    <span class="n">builder</span><span class="o">=</span><span class="n">LLMAgentBuilder</span><span class="p">(</span>
-        <span class="n">llm</span><span class="o">=</span><span class="n">slm</span><span class="p">,</span>
-        <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">next_number_tool</span><span class="p">,</span> <span class="n">hailstone_input_tool</span><span class="p">],</span>
-    <span class="p">),</span>
-    <span class="n">max_steps</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
-<span class="p">)</span>
-
-<span class="n">greeter_input_tool</span> <span class="o">=</span> <span class="n">SharedConsoleHumanInputTool</span><span class="p">(</span><span class="n">agent_name</span><span class="o">=</span><span class="s2">"greeter"</span><span class="p">)</span>
-<span class="n">greeter_spec</span> <span class="o">=</span> <span class="n">SubAgentSpec</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">"greeter"</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s2">"Asks the human operator for their name, then greets them."</span><span class="p">,</span>
-    <span class="n">builder</span><span class="o">=</span><span class="n">LLMAgentBuilder</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">slm</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">greeter_input_tool</span><span class="p">]),</span>
-    <span class="n">max_steps</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-<span class="p">)</span>
-
-<span class="n">hitl_coordinator</span> <span class="o">=</span> <span class="k">await</span> <span class="p">(</span>
-    <span class="n">LLMAgentBuilder</span><span class="p">()</span>
-    <span class="o">.</span><span class="n">with_llm</span><span class="p">(</span><span class="n">llm</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">with_subagents</span><span class="p">([</span><span class="n">hailstone_spec</span><span class="p">,</span> <span class="n">greeter_spec</span><span class="p">])</span>
-    <span class="o">.</span><span class="n">build</span><span class="p">()</span>
-<span class="p">)</span>
-
-<span class="n">task_hitl</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span>
-    <span class="n">instruction</span><span class="o">=</span><span class="p">(</span>
-        <span class="s2">"Dispatch both the hailstone and greeter subagents in the same "</span>
-        <span class="s2">"response so they run concurrently. hailstone should ask the "</span>
-        <span class="s2">"human for a starting number, then compute its Hailstone "</span>
-        <span class="s2">"sequence. greeter should ask the human for their name, then "</span>
-        <span class="s2">"return a friendly greeting. Report both results."</span>
-    <span class="p">),</span>
-<span class="p">)</span>
-<span class="c1"># with_approval=True -- the same end-of-loop gate from Chapter 8, now</span>
-<span class="c1"># reviewing a coordinator's result instead of a single agent's. Watch</span>
-<span class="c1"># the console: the two prompts complete one at a time, never</span>
-<span class="c1"># interleaved, thanks to SharedConsoleHumanInputTool's shared lock.</span>
-<span class="n">result_hitl</span> <span class="o">=</span> <span class="k">await</span> <span class="n">hitl_coordinator</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task_hitl</span><span class="p">,</span> <span class="n">with_approval</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">result_hitl</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-7">from llm_agents_from_scratch.tools.default import SharedConsoleHumanInputTool
-
-# two subagents, each with its own SharedConsoleHumanInputTool instance
-# -- but the lock is a CLASS-level asyncio.Lock, so both instances
-# share it. Dispatched concurrently, their prompts serialize instead
-# of racing for stdin.
-hailstone_input_tool = SharedConsoleHumanInputTool(agent_name="hailstone")
-hailstone_spec = SubAgentSpec(
-    name="hailstone",
-    description=(
-        "Asks the human operator for a starting number, then computes "
-        "its Hailstone sequence."
-    ),
-    builder=LLMAgentBuilder(
-        llm=slm,
-        tools=[next_number_tool, hailstone_input_tool],
-    ),
-    max_steps=20,
-)
-
-greeter_input_tool = SharedConsoleHumanInputTool(agent_name="greeter")
-greeter_spec = SubAgentSpec(
-    name="greeter",
-    description="Asks the human operator for their name, then greets them.",
-    builder=LLMAgentBuilder(llm=slm, tools=[greeter_input_tool]),
-    max_steps=5,
-)
-
-hitl_coordinator = await (
-    LLMAgentBuilder()
-    .with_llm(llm)
-    .with_subagents([hailstone_spec, greeter_spec])
-    .build()
-)
-
-task_hitl = Task(
-    instruction=(
-        "Dispatch both the hailstone and greeter subagents in the same "
-        "response so they run concurrently. hailstone should ask the "
-        "human for a starting number, then compute its Hailstone "
-        "sequence. greeter should ask the human for their name, then "
-        "return a friendly greeting. Report both results."
-    ),
-)
-# with_approval=True -- the same end-of-loop gate from Chapter 8, now
-# reviewing a coordinator's result instead of a single agent's. Watch
-# the console: the two prompts complete one at a time, never
-# interleaved, thanks to SharedConsoleHumanInputTool's shared lock.
-result_hitl = await hitl_coordinator.run(task_hitl, with_approval=True)
-print(result_hitl.content)</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: Dispatch both the hailstone and greeter subagents in the same response so they run concurrently. hailstone should ask the human for a...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Dispatch both the hailstone and greeter subagents in the same response so they run concurrently. hailstone should ask the human fo...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: from_scratch__use_subagent
-INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: from_scratch__use_subagent
-[hailstone] INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: Ask the human for a starting number, then compute its Hailstone sequence.
-[hailstone] INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Ask the human for a starting number, then compute its Hailstone sequence.
-[greeter] INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: Ask the human for their name, then return a friendly greeting.
-[greeter] INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Ask the human for their name, then return a friendly greeting.
-[hailstone] INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: from_scratch__human_input
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #808000; text-decoration-color: #808000">╭──────────────────────────────────────────── Human Input — hailstone ────────────────────────────────────────────╮</span>
-<span style="color: #808000; text-decoration-color: #808000">│</span> Please provide a starting number for the Hailstone sequence:                                                    <span style="color: #808000; text-decoration-color: #808000">│</span>
-<span style="color: #808000; text-decoration-color: #808000">╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">&gt; <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">[1/2/3/4/5/6/7/8/9/10]</span>: </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[greeter] INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: from_scratch__human_input
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[hailstone] INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 4
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #808000; text-decoration-color: #808000">╭───────────────────────────────────────────── Human Input — greeter ─────────────────────────────────────────────╮</span>
-<span style="color: #808000; text-decoration-color: #808000">│</span> What is your name?                                                                                              <span style="color: #808000; text-decoration-color: #808000">│</span>
-<span style="color: #808000; text-decoration-color: #808000">╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">&gt;: </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[hailstone] INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The starting number is 4. Now, I will compute its Hailstone sequence by repeatedly applying the next_number tool until the value 1 is r...[TRUNCATED]
-[hailstone] INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: 
-[hailstone] INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: 
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[greeter] INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: Andrei
-[hailstone] INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: 
-[greeter] INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: Hello, Andrei! Welcome. How can I assist you today?
-[hailstone] INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Compute the Hailstone sequence for the starting number 4 by repeatedly applying the next_number tool until the value 1 is reached.
-[hailstone] INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Compute the Hailstone sequence for the starting number 4 by repeatedly applying the next_number tool until the value 1 is reached.
-[greeter] INFO (llm_agents_fs.TaskHandler) :      No new step required.
-[greeter] INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: Hello, Andrei! Welcome. How can I assist you today?
-INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: Hello, Andrei! Welcome. How can I assist you today?
-[hailstone] INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
-[hailstone] INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 2
-[hailstone] INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The next number in the sequence is 2. I will continue applying the next_number tool to 2 until the sequence reaches 1. Let's proceed.
-[hailstone] INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: 
-[hailstone] INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: 
-[hailstone] INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
-[hailstone] INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 1
-[hailstone] INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The next number in the sequence is 1. Since we have reached the value 1, the Hailstone sequence for the starting number 4 is complete. ...[TRUNCATED]
-[hailstone] INFO (llm_agents_fs.TaskHandler) :      No new step required.
-[hailstone] INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The next number in the sequence is 1. Since we have reached the value 1, the Hailstone sequence for the starting number 4 is complet...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: The next number in the sequence is 1. Since we have reached the value 1, the Hailstone sequence for the starting number 4 is c...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: Both sub-agents have completed their tasks successfully. Let me report the results:
-
-**Hailstone Sub-agent Result:**
-- Starting number:...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      No new step required.
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #008080; text-decoration-color: #008080">╭───────────────────────────────────────────── Proposed Task Result ──────────────────────────────────────────────╮</span>
-<span style="color: #008080; text-decoration-color: #008080">│</span> Both sub-agents have completed their tasks successfully. Let me report the results:                             <span style="color: #008080; text-decoration-color: #008080">│</span>
-<span style="color: #008080; text-decoration-color: #008080">│</span>                                                                                                                 <span style="color: #008080; text-decoration-color: #008080">│</span>
-<span style="color: #008080; text-decoration-color: #008080">│</span> **Hailstone Sub-agent Result:**                                                                                 <span style="color: #008080; text-decoration-color: #008080">│</span>
-<span style="color: #008080; text-decoration-color: #008080">│</span> - Starting number: 4                                                                                            <span style="color: #008080; text-decoration-color: #008080">│</span>
-<span style="color: #008080; text-decoration-color: #008080">│</span> - Hailstone sequence: 4, 2, 1                                                                                   <span style="color: #008080; text-decoration-color: #008080">│</span>
-<span style="color: #008080; text-decoration-color: #008080">│</span> - The sequence reached 1 and completed successfully.                                                            <span style="color: #008080; text-decoration-color: #008080">│</span>
-<span style="color: #008080; text-decoration-color: #008080">│</span>                                                                                                                 <span style="color: #008080; text-decoration-color: #008080">│</span>
-<span style="color: #008080; text-decoration-color: #008080">│</span> **Greeter Sub-agent Result:**                                                                                   <span style="color: #008080; text-decoration-color: #008080">│</span>
-<span style="color: #008080; text-decoration-color: #008080">│</span> - Name obtained: Andrei                                                                                         <span style="color: #008080; text-decoration-color: #008080">│</span>
-<span style="color: #008080; text-decoration-color: #008080">│</span> - Greeting returned: "Hello, Andrei! Welcome. How can I assist you today?"                                      <span style="color: #008080; text-decoration-color: #008080">│</span>
-<span style="color: #008080; text-decoration-color: #008080">│</span>                                                                                                                 <span style="color: #008080; text-decoration-color: #008080">│</span>
-<span style="color: #008080; text-decoration-color: #008080">│</span> Both sub-agents ran concurrently and completed their respective tasks - the hailstone agent computed the        <span style="color: #008080; text-decoration-color: #008080">│</span>
-<span style="color: #008080; text-decoration-color: #008080">│</span> Hailstone sequence for the number 4, and the greeter agent obtained the user's name (Andrei) and provided a     <span style="color: #008080; text-decoration-color: #008080">│</span>
-<span style="color: #008080; text-decoration-color: #008080">│</span> friendly greeting.                                                                                              <span style="color: #008080; text-decoration-color: #008080">│</span>
-<span style="color: #008080; text-decoration-color: #008080">╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯</span>
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Approve this result? <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">[y/n]</span>: </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: Both sub-agents have completed their tasks successfully. Let me report the results:
-
-**Hailstone Sub-agent Result:**
-- Starting numb...[TRUNCATED]
-Both sub-agents have completed their tasks successfully. Let me report the results:
-
-**Hailstone Sub-agent Result:**
-- Starting number: 4
-- Hailstone sequence: 4, 2, 1
-- The sequence reached 1 and completed successfully.
-
-**Greeter Sub-agent Result:**
-- Name obtained: Andrei
-- Greeting returned: "Hello, Andrei! Welcome. How can I assist you today?"
-
-Both sub-agents ran concurrently and completed their respective tasks - the hailstone agent computed the Hailstone sequence for the number 4, and the greeter agent obtained the user's name (Andrei) and provided a friendly greeting.
 </pre>
 </div>
 </div>

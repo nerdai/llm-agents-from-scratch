@@ -1,6 +1,8 @@
 """Unit tests for default tools."""
 
 import asyncio
+import threading
+import time
 from pathlib import Path
 from unittest.mock import patch
 
@@ -621,3 +623,55 @@ async def test_shared_console_human_input_tool_keyboard_interrupt() -> None:
 
     assert result.error is True
     assert "declined" in result.content.lower()
+
+
+@pytest.mark.asyncio
+async def test_shared_console_human_input_tool_serializes_prompts() -> None:
+    """Tests _console_lock serializes concurrent prompts to one console.
+
+    The lock is the only reason this class exists separately from
+    HumanInputTool, so assert the behaviour and not just that the
+    attribute is shared: without it both calls sit inside _prompt_human
+    at once, interleaving their panels and racing for a single stdin.
+
+    _prompt_human runs via asyncio.to_thread, so the two calls land on
+    different worker threads and the counter needs its own threading
+    lock.
+    """
+    active = 0
+    peak = 0
+    guard = threading.Lock()
+
+    def fake_prompt(
+        prompt: str,
+        choices: list[str] | None,
+        agent_name: str | None = None,
+    ) -> str:
+        nonlocal active, peak
+        with guard:
+            active += 1
+            peak = max(peak, active)
+        time.sleep(0.05)  # hold the console, as a real operator would
+        with guard:
+            active -= 1
+        return f"reply-{agent_name}"
+
+    def make_tool_call() -> ToolCall:
+        return ToolCall(
+            tool_name="from_scratch__human_input",
+            arguments={"prompt": "Enter value:"},
+        )
+
+    first = SharedConsoleHumanInputTool(agent_name="first")
+    second = SharedConsoleHumanInputTool(agent_name="second")
+    with patch(
+        "llm_agents_from_scratch.tools.default.human_input._prompt_human",
+        side_effect=fake_prompt,
+    ):
+        results = await asyncio.gather(
+            first(tool_call=make_tool_call()),
+            second(tool_call=make_tool_call()),
+        )
+
+    assert peak == 1, f"two prompts overlapped (peak={peak}); lock not held"
+    assert {r.content for r in results} == {"reply-first", "reply-second"}

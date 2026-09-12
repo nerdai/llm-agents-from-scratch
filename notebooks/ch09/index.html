@@ -8049,20 +8049,17 @@ Both subagents ran concurrently and completed successfully. The hailstone sequen
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">Task</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMAgent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">Task</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.subagents.recipes</span><span class="w"> </span><span class="kn">import</span> <span class="n">explore_subagent</span><span class="p">,</span> <span class="n">general_subagent</span>
 
 <span class="c1"># explore only does lookups, so the small model from Example 3 is</span>
 <span class="c1"># plenty; general does open-ended computation, so it shares the</span>
 <span class="c1"># coordinator's own model</span>
-<span class="n">coordinator</span> <span class="o">=</span> <span class="k">await</span> <span class="p">(</span>
-    <span class="n">LLMAgentBuilder</span><span class="p">()</span>
-    <span class="o">.</span><span class="n">with_llm</span><span class="p">(</span><span class="n">llm</span><span class="p">)</span>  <span class="c1"># the bigger model from Example 1</span>
-    <span class="o">.</span><span class="n">with_subagents</span><span class="p">([</span><span class="n">general_subagent</span><span class="p">(</span><span class="n">llm</span><span class="p">),</span> <span class="n">explore_subagent</span><span class="p">(</span><span class="n">slm</span><span class="p">)])</span>
-    <span class="o">.</span><span class="n">build</span><span class="p">()</span>
+<span class="n">coordinator</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="p">(</span>
+    <span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span>  <span class="c1"># the bigger model from Example 1</span>
+    <span class="n">subagents</span><span class="o">=</span><span class="p">[</span><span class="n">general_subagent</span><span class="p">(</span><span class="n">llm</span><span class="p">),</span> <span class="n">explore_subagent</span><span class="p">(</span><span class="n">slm</span><span class="p">)],</span>
 <span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">coordinator</span><span class="o">.</span><span class="n">subagents_registry</span><span class="p">)</span>
 
 <span class="c1"># a lookup task — should route to explore (reads hailstone_known_sequences.json)</span>
 <span class="n">task_lookup</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span>
@@ -8074,20 +8071,17 @@ Both subagents ran concurrently and completed successfully. The hailstone sequen
 <span class="n">result_lookup</span> <span class="o">=</span> <span class="k">await</span> <span class="n">coordinator</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task_lookup</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">result_lookup</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-6">from llm_agents_from_scratch.data_structures import Task
+<div class="clipboard-copy-txt" id="cell-6">from llm_agents_from_scratch import LLMAgent
+from llm_agents_from_scratch.data_structures import Task
 from llm_agents_from_scratch.subagents.recipes import explore_subagent, general_subagent
 
 # explore only does lookups, so the small model from Example 3 is
 # plenty; general does open-ended computation, so it shares the
 # coordinator's own model
-coordinator = await (
-    LLMAgentBuilder()
-    .with_llm(llm)  # the bigger model from Example 1
-    .with_subagents([general_subagent(llm), explore_subagent(slm)])
-    .build()
+coordinator = LLMAgent(
+    llm=llm,  # the bigger model from Example 1
+    subagents=[general_subagent(llm), explore_subagent(slm)],
 )
-
-print(coordinator.subagents_registry)
 
 # a lookup task — should route to explore (reads hailstone_known_sequences.json)
 task_lookup = Task(
@@ -8106,19 +8100,6 @@ print(result_lookup.content)</div>
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>{'general': SubAgentSpec(name='general', description='General-purpose subagent for open-ended research, multi-step tasks, or work that benefits from an isolated context. Equipped with file reading and Python execution.', builder=&lt;llm_agents_from_scratch.agent.builder.LLMAgentBuilder object at 0x7073fe482780&gt;, max_steps=20, skills_scopes=None, explicit_only_skills=None), 'explore': SubAgentSpec(name='explore', description='Read-only subagent for quickly finding and reading files. Use for lookups and fact-finding, not multi-step work.', builder=&lt;llm_agents_from_scratch.agent.builder.LLMAgentBuilder object at 0x7073fe482b10&gt;, max_steps=10, skills_scopes=None, explicit_only_skills=None)}</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-</pre>
-</div>
-</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
@@ -8142,84 +8123,6 @@ print(result_lookup.content)</div>
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre> (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Look up the Hailstone sequence for 6 in hailstone_known_sequences.json and report it.
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>INFO</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre> (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to use the explore subagent to look up the Hailstone sequence for 6 in the hailstone_known_sequences.json file.
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>INFO</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre> (llm_agents_fs.TaskHandler) :      🧠 New Step: Use the explore subagent to look up the Hailstone sequence for 6 in the hailstone_known_sequences.json file.
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>INFO</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre> (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Use the explore subagent to look up the Hailstone sequence for 6 in the hailstone_known_sequences.json file.
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>INFO</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre> (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to call the explore subagent with the task instruction to look up the Hailstone sequence for 6 in the hailstone_known_sequences....[TRUNCATED]
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>INFO</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre> (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the explore subagent with the task instruction to look up the Hailstone sequence for 6 in the hailstone_known_sequences.json file.
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>INFO</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre> (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the explore subagent with the task instruction to look up the Hailstone sequence for 6 in the hailstone_known_sequences.json ...[TRUNCATED]
 </pre>
 </div>
 </div>
@@ -8257,7 +8160,7 @@ print(result_lookup.content)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre> (llm_agents_fs.LLMAgent) :      🚀 Starting task: Look up the Hailstone sequence for 6 in hailstone_known_sequences.json
+<pre> (llm_agents_fs.LLMAgent) :      🚀 Starting task: Find and read the file hailstone_known_sequences.json, then report the Hailstone sequence for the number 6.
 </pre>
 </div>
 </div>
@@ -8282,7 +8185,7 @@ print(result_lookup.content)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre> (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Look up the Hailstone sequence for 6 in hailstone_known_sequences.json
+<pre> (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Find and read the file hailstone_known_sequences.json, then report the Hailstone sequence for the number 6.
 </pre>
 </div>
 </div>
@@ -8359,7 +8262,7 @@ print(result_lookup.content)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre> (llm_agents_fs.TaskHandler) :      ✅ Step Result: The Hailstone sequence for 6 is `[6, 3, 10, 5, 16, 8, 4, 2, 1]`, and it takes 8 steps to reach 1.
+<pre> (llm_agents_fs.TaskHandler) :      ✅ Step Result: The Hailstone sequence for the number 6 is: [6, 3, 10, 5, 16, 8, 4, 2, 1]. It takes 8 steps to reach the number 1.
 </pre>
 </div>
 </div>
@@ -8409,7 +8312,7 @@ print(result_lookup.content)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre> (llm_agents_fs.LLMAgent) :      🏁 Task completed: The Hailstone sequence for 6 is `[6, 3, 10, 5, 16, 8, 4, 2, 1]`, and it takes 8 steps to reach 1.
+<pre> (llm_agents_fs.LLMAgent) :      🏁 Task completed: The Hailstone sequence for the number 6 is: [6, 3, 10, 5, 16, 8, 4, 2, 1]. It takes 8 steps to reach the number 1.
 </pre>
 </div>
 </div>
@@ -8422,7 +8325,7 @@ print(result_lookup.content)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre> (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: The Hailstone sequence for 6 is `[6, 3, 10, 5, 16, 8, 4, 2, 1]`, and it takes 8 steps to reach 1.
+<pre> (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: The Hailstone sequence for the number 6 is: [6, 3, 10, 5, 16, 8, 4, 2, 1]. It takes 8 steps to reach the number 1.
 </pre>
 </div>
 </div>
@@ -8435,7 +8338,9 @@ print(result_lookup.content)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre> (llm_agents_fs.TaskHandler) :      ✅ Step Result: The Hailstone sequence for 6 is `[6, 3, 10, 5, 16, 8, 4, 2, 1]`, and it takes 8 steps to reach 1. Let me know if you need further assis...[TRUNCATED]
+<pre> (llm_agents_fs.TaskHandler) :      ✅ Step Result: The Hailstone sequence for 6 is: **[6, 3, 10, 5, 16, 8, 4, 2, 1]**
+
+It takes 8 steps to reach the number 1.
 </pre>
 </div>
 </div>
@@ -8461,14 +8366,18 @@ print(result_lookup.content)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre> (llm_agents_fs.LLMAgent) :      🏁 Task completed: The Hailstone sequence for 6 is `[6, 3, 10, 5, 16, 8, 4, 2, 1]`, and it takes 8 steps to reach 1. Let me know if you need further as...[TRUNCATED]
+<pre> (llm_agents_fs.LLMAgent) :      🏁 Task completed: The Hailstone sequence for 6 is: **[6, 3, 10, 5, 16, 8, 4, 2, 1]**
+
+It takes 8 steps to reach the number 1.
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>The Hailstone sequence for 6 is `[6, 3, 10, 5, 16, 8, 4, 2, 1]`, and it takes 8 steps to reach 1. Let me know if you need further assistance!</pre>
+<pre>The Hailstone sequence for 6 is: **[6, 3, 10, 5, 16, 8, 4, 2, 1]**
+
+It takes 8 steps to reach the number 1.</pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">

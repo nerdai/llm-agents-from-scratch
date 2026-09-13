@@ -860,10 +860,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#example-6-sequence" class="md-nav__link">
+  <a href="#example-6-chaining" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example 6: Sequence
+        Example 6: Chaining
       
     </span>
   </a>
@@ -3775,10 +3775,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#example-6-sequence" class="md-nav__link">
+  <a href="#example-6-chaining" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example 6: Sequence
+        Example 6: Chaining
       
     </span>
   </a>
@@ -9145,7 +9145,7 @@ Comparing the step counts:
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="example-6-sequence">Example 6: Sequence<a class="anchor-link" href="#example-6-sequence">¶</a></h3>
+<h3 id="example-6-chaining">Example 6: Chaining<a class="anchor-link" href="#example-6-chaining">¶</a></h3>
 </div>
 </div>
 </div>
@@ -9170,7 +9170,7 @@ Comparing the step counts:
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">coordinator</span><span class="o">.</span><span class="n">subagents_registry</span><span class="p">[</span><span class="n">spec</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">spec</span>
 
-<span class="n">task_sequence</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span>
+<span class="n">chain_task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span>
     <span class="n">instruction</span><span class="o">=</span><span class="p">(</span>
         <span class="s2">"Ask explore to read hailstone_known_sequences.json and report "</span>
         <span class="s2">"its contents. Compare the recorded step counts yourself and "</span>
@@ -9180,13 +9180,13 @@ Comparing the step counts:
         <span class="s2">"steps than the recorded entry."</span>
     <span class="p">),</span>
 <span class="p">)</span>
-<span class="n">sequence_handler</span> <span class="o">=</span> <span class="n">coordinator</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task_sequence</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="n">result_sequence</span> <span class="o">=</span> <span class="k">await</span> <span class="n">sequence_handler</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">result_sequence</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+<span class="n">chain_handler</span> <span class="o">=</span> <span class="n">coordinator</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">chain_task</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">chain_result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">chain_handler</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">chain_result</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-8">coordinator.subagents_registry[spec.name] = spec
 
-task_sequence = Task(
+chain_task = Task(
     instruction=(
         "Ask explore to read hailstone_known_sequences.json and report "
         "its contents. Compare the recorded step counts yourself and "
@@ -9196,9 +9196,9 @@ task_sequence = Task(
         "steps than the recorded entry."
     ),
 )
-sequence_handler = coordinator.run(task_sequence, max_steps=10)
-result_sequence = await sequence_handler
-print(result_sequence.content)</div>
+chain_handler = coordinator.run(chain_task, max_steps=10)
+chain_result = await chain_handler
+print(chain_result.content)</div>
 </div>
 </div>
 </div>
@@ -11071,7 +11071,7 @@ The starting number with the most steps was **12** with 9 steps.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><code>sequence_handler.rollout</code> is what shows this really was a chain. <code>explore</code> reports what the file contains, then the coordinator picks the entry with the most steps, doubles it, and writes the result into <code>hailstone</code>'s dispatch instruction. That second dispatch could not have been issued until the first one answered, and the number in it appears nowhere in the original task. The coordinator does not just relay a value here, it transforms one.</p>
+<p><code>chain_handler.rollout</code> is what shows this really was a chain. <code>explore</code> reports what the file contains, then the coordinator picks the entry with the most steps, doubles it, and writes the result into <code>hailstone</code>'s dispatch instruction. That second dispatch could not have been issued until the first one answered, and the number in it appears nowhere in the original task. The coordinator does not just relay a value here, it transforms one.</p>
 <p>The doubling also gives us a free correctness check. Any even number <code>2n</code> steps straight down to <code>n</code>, so a doubled starting number always takes exactly one more step than the original.</p>
 </div>
 </div>
@@ -11095,9 +11095,9 @@ The starting number with the most steps was **12** with 9 steps.
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">sequence_handler</span><span class="o">.</span><span class="n">rollout</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">chain_handler</span><span class="o">.</span><span class="n">rollout</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-9">print(sequence_handler.rollout)</div>
+<div class="clipboard-copy-txt" id="cell-9">print(chain_handler.rollout)</div>
 </div>
 </div>
 </div>

@@ -624,7 +624,7 @@ wheels = [
 
 [[package]]
 name = "llm-agents-from-scratch"
-version = "0.0.22"
+version = "0.0.23"
 source = { editable = "../../" }
 dependencies = [
     { name = "a2a-sdk" },
@@ -647,7 +647,7 @@ requires-dist = [
     { name = "colorama", specifier = ">=0.4.6" },
     { name = "ipython", marker = "extra == 'notebooks'", specifier = ">=8.37.0" },
     { name = "jsonschema", specifier = ">=4.24.0" },
-    { name = "mcp", extras = ["cli"], specifier = ">=1.9.4" },
+    { name = "mcp", extras = ["cli"], specifier = ">=2.0.0" },
     { name = "ollama", specifier = ">=0.5.1" },
     { name = "openai", marker = "extra == 'openai'", specifier = ">=2.9.0" },
     { name = "pandas", marker = "extra == 'notebook-utils'", specifier = ">=2.3.3" },

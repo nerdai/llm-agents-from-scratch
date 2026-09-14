@@ -39,10 +39,15 @@ MAX_HOPS = 20
 #: safety guard, not a convenience.
 BUILD_PLAN_PREFIX = "build_plan_"
 
+#: Fill given to nodes covered in an earlier chapter, set by the `done`
+#: style class in `uml/common/build_plan_body.puml`.
+DONE_FILL = "#B8B8B8"
+
 RECT = re.compile(r"<rect[^>]*/>")
 PATH = re.compile(r'<path d="([^"]+)"[^>]*?stroke-width:([\d.]+)')
 COORD = re.compile(r"(-?[\d.]+),(-?[\d.]+)")
 STROKE_WIDTH = re.compile(r"stroke-width:([\d.]+)")
+FILL = re.compile(r'fill="([^"]+)"')
 
 
 def _rects(content: str) -> list[dict]:
@@ -71,7 +76,9 @@ def _rects(content: str) -> list[dict]:
         stroke = STROKE_WIDTH.search(tag)
         if not stroke:
             continue
+        fill = FILL.search(tag)
         box["sw"] = float(stroke.group(1))
+        box["fill"] = fill.group(1) if fill else None
         box["span"] = match.span()
         found.append(box)
     return found
@@ -164,6 +171,111 @@ def _parent_anchors(
     ]
 
 
+def _box_at(
+    point: tuple[float, float],
+    boxes: list[dict],
+) -> dict | None:
+    """Return the box with an edge midpoint at `point`, if any."""
+    for box in boxes:
+        if any(_near(edge, point) for edge in _edge_midpoints(box)):
+            return box
+    return None
+
+
+def _subtree_boxes(
+    anchor: tuple[float, float],
+    boxes: list[dict],
+    connectors: list[dict],
+) -> list[dict]:
+    """Return every box hanging below a boundless node's anchor.
+
+    `anchor` is where a part's incoming connector lands. Its children
+    hang off the opposite end of its baseline span, so this finds that
+    end, follows each connector leaving it, and recurses through the
+    boxed nodes it reaches.
+
+    Args:
+        anchor (tuple[float, float]): Where the part's incoming
+            connector terminates.
+        boxes (list[dict]): Node boxes from `_rects`.
+        connectors (list[dict]): Connectors from `_paths`.
+
+    Returns:
+        list[dict]: Boxes beneath the part, in no particular order.
+    """
+    child_side = [
+        connector["start"]
+        for connector in connectors
+        if abs(connector["start"][1] - anchor[1]) < TOLERANCE
+        and abs(connector["start"][0] - anchor[0]) > TOLERANCE
+    ]
+    found: list[dict] = []
+    frontier = list(child_side)
+    seen_points: set[tuple[float, float]] = set()
+    for _ in range(MAX_HOPS):
+        if not frontier:
+            break
+        point = frontier.pop()
+        key = (round(point[0], 1), round(point[1], 1))
+        if key in seen_points:
+            continue
+        seen_points.add(key)
+        for connector in connectors:
+            if not _near(connector["start"], point):
+                continue
+            box = _box_at(connector["end"], boxes)
+            if box is None or box in found:
+                continue
+            found.append(box)
+            middle = box["y"] + box["height"] / 2
+            for x_edge in (box["x"], box["x"] + box["width"]):
+                if not _near((x_edge, middle), connector["end"]):
+                    frontier.append((x_edge, middle))
+    return found
+
+
+def _completed_part_edges(
+    current: list[dict],
+    boxes: list[dict],
+    connectors: list[dict],
+) -> list[dict]:
+    """Return the root's edges into parts that are now complete.
+
+    A chapter whose topic is the root has no ancestor path to thicken,
+    but it is the chapter that finishes a part, and the hand-made
+    figures emphasise the edge from that part into the root. The part is
+    recognised by having no unfinished node left beneath it.
+
+    Only applies when a current node is the root, so a later chapter
+    does not re-emphasise a part it merely happens to sit after.
+
+    Args:
+        current (list[dict]): Boxes marked current.
+        boxes (list[dict]): Node boxes from `_rects`.
+        connectors (list[dict]): Connectors from `_paths`.
+
+    Returns:
+        list[dict]: Connectors to thicken; empty unless the root is
+            current and some part beneath it is fully done.
+    """
+    found = []
+    for box in current:
+        edges = _edge_midpoints(box)
+        incoming = any(
+            any(_near(connector["end"], edge) for edge in edges)
+            for connector in connectors
+        )
+        if incoming:  # not the root
+            continue
+        for connector in connectors:
+            if not any(_near(connector["start"], edge) for edge in edges):
+                continue
+            beneath = _subtree_boxes(connector["end"], boxes, connectors)
+            if beneath and all(b["fill"] == DONE_FILL for b in beneath):
+                found.append(connector)
+    return found
+
+
 def _bold_one(path: Path) -> int:
     """Double the ancestor-path connectors in a single SVG.
 
@@ -213,6 +325,9 @@ def _bold_one(path: Path) -> int:
             )
             if not anchors:
                 break
+
+    for connector in _completed_part_edges(current, boxes, connectors):
+        to_bold[connector["span"]] = connector
 
     # Every edge is rewritten, not just the ones being thickened.
     # PlantUML propagates a node's LineThickness to its *outgoing*

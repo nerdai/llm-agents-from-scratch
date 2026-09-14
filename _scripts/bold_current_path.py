@@ -221,7 +221,29 @@ def _bold_one(path: Path) -> int:
     # they do not even match. Normalising all of them guarantees exactly
     # two widths in the output and undoes that artifact where an edge is
     # not on an ancestor path.
-    edge_base = min(connector["sw"] for connector in connectors)
+    # Derive the base from connectors PlantUML has not already
+    # thickened. A current node's outgoing connectors inherit its
+    # LineThickness, so including them biases the minimum upward and
+    # would leave every edge thick.
+    current_edges = [
+        midpoint for box in current for midpoint in _edge_midpoints(box)
+    ]
+    untouched = [
+        connector["sw"]
+        for connector in connectors
+        if not any(_near(connector["start"], m) for m in current_edges)
+    ]
+    if not untouched:
+        # Every connector leaves a current node, so nothing in the file
+        # still carries the base width and it cannot be recovered.
+        # Unreachable for a build plan -- it would need every parent node
+        # to belong to one chapter -- but guessing here would set the
+        # whole diagram to the wrong width, so bail loudly instead.
+        print(
+            f"  {path.name}: skipped, no base-width connector to measure",
+        )
+        return 0
+    edge_base = min(untouched)
     for connector in sorted(connectors, key=lambda c: -c["span"][0]):
         start, end = connector["span"]
         target = edge_base * 2 if connector["span"] in to_bold else edge_base

@@ -39,19 +39,19 @@ mindmapDiagram {
 </style>
 
 * LLM Agent <<$cls(4)>>
-**_ Part 3\n<font:Times><b>Build MAS</b></font>
+**_ <font:Times><b>Build MAS</b></font>\nPart 3
 *** Subagents <<$cls(9)>>
 *** A2A <<$cls(10)>>
 
 left side
 
-**_ Part 1\n<font:Times><b>Build our first LLM Agent</b></font>
+**_ <font:Times><b>Build our first</b></font>\n<font:Times><b>LLM Agent</b></font>\nPart 1
 *** Tools <<$cls(2)>>
 **** SimpleFunction <<$cls(2)>>
 **** PydanticFunction <<$cls(2)>>
 *** LLM <<$cls(3)>>
 **** Ollama <<$cls(3)>>
-**_ Part 2\n<font:Times><b>Enhance our LLM Agent</b></font>
+**_ <font:Times><b>Enhance our</b></font>\n<font:Times><b>LLM Agent</b></font>\nPart 2
 *** MCP Tools <<$cls(5)>>
 *** Skills <<$cls(6)>>
 *** Memory <<$cls(7)>>

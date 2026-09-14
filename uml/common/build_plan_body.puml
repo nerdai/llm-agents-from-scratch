@@ -4,8 +4,12 @@
 ' as done (covered in an earlier chapter), current (this chapter's
 ' topic) or todo (still ahead).
 '
-' Mirrors uml/ch01/llm_agent_build_mental_model.puml. Keep the two in
-' sync -- that one is the unannotated version used on the docs site.
+' Tracks uml/ch01/llm_agent_build_mental_model.puml, with one
+' deliberate difference: the part labels below. That file is the
+' unannotated version served on the docs site, where the surrounding
+' page text already says what each part covers. Here the figure has to
+' stand alone, so each part carries its own label. Keep the node
+' structure of the two in sync; the labels are expected to diverge.
 '
 ' The bold border on `current` is applied here; the matching bold on
 ' the edges back to the root cannot be expressed in PlantUML (per-node
@@ -35,19 +39,19 @@ mindmapDiagram {
 </style>
 
 * LLM Agent <<$cls(4)>>
-**_ Part 3
+**_ Part 3\n<font:Times><b>Build MAS</b></font>
 *** Subagents <<$cls(9)>>
 *** A2A <<$cls(10)>>
 
 left side
 
-**_ Part 1
+**_ Part 1\n<font:Times><b>Build our first LLM Agent</b></font>
 *** Tools <<$cls(2)>>
 **** SimpleFunction <<$cls(2)>>
 **** PydanticFunction <<$cls(2)>>
 *** LLM <<$cls(3)>>
 **** Ollama <<$cls(3)>>
-**_ Part 2
+**_ Part 2\n<font:Times><b>Enhance our LLM Agent</b></font>
 *** MCP Tools <<$cls(5)>>
 *** Skills <<$cls(6)>>
 *** Memory <<$cls(7)>>

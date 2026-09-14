@@ -112,6 +112,8 @@ nav:
     - Subagents:
       - SubAgentSpec: api_reference/subagents/spec.md
       - UseSubAgentTool: api_reference/subagents/tools.md
+      - Recipes: api_reference/subagents/recipes.md
+      - Constants: api_reference/subagents/constants.md
     - A2A:
       - A2AAgentSpec: api_reference/a2a/spec.md
       - UseA2AAgentTool: api_reference/a2a/tools.md

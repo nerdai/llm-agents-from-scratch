@@ -1,0 +1,26 @@
+@startuml uml_ch10_a2a_agent_spec
+!include ../common/book-clean.puml
+
+package "llm_agents_from_scratch.a2a.client.spec" <<Folder>> {
+
+  class A2AAgentSpec {
+    +name: str
+    +url: str
+    +agent_card: AgentCard
+    +headers: dict[str, str] | None
+    +timeout: float | None = 60.0
+    --
+    +<<constructor>> __init__(\n\tname: str,\n\turl: str,\n\tagent_card: AgentCard,\n\theaders: dict[str, str] | None,\n\ttimeout: float | None\n):
+    +<<constructor>> from_agent_card(\n\tagent_card: AgentCard,\n\theaders: dict[str, str] | None,\n\ttimeout: float | None\n):
+    +<<constructor>> <<async>> from_url(\n\turl: str,\n\theaders: dict[str, str] | None,\n\tagent_card_path: str | None,\n\ttimeout: float | None\n):
+    +catalog(): str
+    +__repr__(): str
+  }
+
+  note right of A2AAgentSpec
+    Pure data — holds a resolved A2A AgentCard,
+    never a live A2A client
+  end note
+}
+
+@enduml

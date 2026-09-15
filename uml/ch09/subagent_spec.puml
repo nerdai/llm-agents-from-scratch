@@ -18,7 +18,7 @@ package "llm_agents_from_scratch.subagents.spec" <<Folder>> {
 
   note right of SubAgentSpec
     Pure data — holds a build recipe,
-    never a live agent
+    never a live LLMAgent
   end note
 }
 

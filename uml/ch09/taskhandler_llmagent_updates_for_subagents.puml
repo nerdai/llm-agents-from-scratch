@@ -1,0 +1,49 @@
+@startuml uml_ch09_taskhandler_llmagent_updates_for_subagents
+!include ../common/book-clean.puml
+left to right direction
+
+package "llm_agents_from_scratch.agent" <<Folder>> {
+
+  class LLMAgent {
+    <color:#aaaaaa>+llm: LLM</color>
+    <color:#aaaaaa>+tools_registry: dict[str, Tool]</color>
+    <color:#aaaaaa>+templates: LLMAgentTemplates</color>
+    <color:#aaaaaa>+logger: Logger</color>
+    <color:#aaaaaa>+memories: list[Memory]</color>
+    +subagents_registry: dict[str, SubAgentSpec]
+    --
+    +<b><<constructor>> __init__(...,</b>\n\t<b>subagents: list[SubAgentSpec] | None = None</b>\n<b>):</b>
+    <color:#aaaaaa>+tools: list[Tool]</color>
+    <color:#aaaaaa>+add_tool(tool: Tool): Self</color>
+    <color:#aaaaaa>+run(task: Task, ...): TaskHandler</color>
+  }
+
+  class "LLMAgent.TaskHandler" as TaskHandler {
+    <color:#aaaaaa>+llm_agent: LLMAgent</color>
+    <color:#aaaaaa>+task: Task</color>
+    <color:#aaaaaa>+rollout: str</color>
+    <color:#aaaaaa>+step_counter: int</color>
+    <color:#aaaaaa>-_background_task: ~asyncio.Task</color>
+    <color:#aaaaaa>+skills_registry: dict[str, Skill]</color>
+    <color:#aaaaaa>-_skills_catalog: str</color>
+    <color:#aaaaaa>-_use_skill_tool: UseSkillTool | None</color>
+    <color:#aaaaaa>-_explicit_only_skills: set[str]</color>
+    <color:#aaaaaa>-_recalled_memories: str</color>
+    -_use_subagent_tool: UseSubAgentTool | None
+    -_subagents_catalog: str
+    --
+    +<b><<constructor>> __init__(...)</b>\n\t<b>{builds _use_subagent_tool from</b>\n\t<b>llm_agent.subagents_registry}</b>
+    +<b><<async>> get_next_step(...): TaskStep | TaskResult</b>
+    +<b><<async>> run_step(step: TaskStep): TaskStepResult</b>
+    <color:#aaaaaa>-_format_step_for_rollout()</color>
+    <color:#aaaaaa>-_format_memories_for_system_prompt(...): str</color>
+    <color:#aaaaaa>+<<async>> load_memories(): None</color>
+    <color:#aaaaaa>+<<async>> record_memory(...): None</color>
+    <color:#aaaaaa>+<<async>> request_approval(...): ApprovalResult</color>
+  }
+}
+
+' Relations
+LLMAgent *-- TaskHandler : " has"
+
+@enduml

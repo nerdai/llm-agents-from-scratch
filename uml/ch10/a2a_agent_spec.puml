@@ -18,9 +18,8 @@ package "llm_agents_from_scratch.a2a.client.spec" <<Folder>> {
   }
 
   note right of A2AAgentSpec
-    Pure data — holds a resolved AgentCard,
-    never a live SDK Client. Discovery is
-    eager, at construction.
+    Pure data — holds a discovered A2A AgentCard,
+    never a live A2A client
   end note
 }
 

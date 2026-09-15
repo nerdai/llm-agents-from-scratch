@@ -29,7 +29,9 @@ package "llm_agents_from_scratch.tools.default" <<Folder>> {
   }
 
   class SharedConsoleHumanInputTool {
-    -{static} _console_lock: asyncio.Lock\n\t{class attribute -- one lock, every instance}
+    ' UML underlines static members. PlantUML's {static} underlines the
+    ' trailing annotation too, so the declaration is underlined by hand.
+    -<u>_console_lock: asyncio.Lock</u>\n\t{class attribute -- one lock, every instance}
     +agent_name: str | None
     <color:#aaaaaa>+name: str = 'from_scratch__human_input'</color>
     <color:#aaaaaa>+description: str</color>

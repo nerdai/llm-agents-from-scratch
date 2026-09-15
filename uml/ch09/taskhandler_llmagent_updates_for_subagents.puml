@@ -12,6 +12,7 @@ package "llm_agents_from_scratch.agent" <<Folder>> {
     <color:#aaaaaa>+memories: list[Memory]</color>
     +subagents_registry: dict[str, SubAgentSpec]
     --
+    +<b><<constructor>> __init__(...,</b>\n\t<b>subagents: list[SubAgentSpec] | None = None</b>\n<b>):</b>
     <color:#aaaaaa>+tools: list[Tool]</color>
     <color:#aaaaaa>+add_tool(tool: Tool): Self</color>
     <color:#aaaaaa>+run(task: Task, ...): TaskHandler</color>

@@ -21,13 +21,6 @@ package "llm_agents_from_scratch.subagents.tools" <<Folder>> {
     +<<constructor>> __init__(\n\tsubagents_registry: dict[str, SubAgentSpec]\n):
     +<<async>> __call__(tool_call: ToolCall, ...): ToolCallResult
   }
-
-  note right of UseSubAgentTool
-    Every subagent exception becomes
-    ToolCallResult(error=True) — a failing
-    subagent degrades the task, it never
-    kills the coordinator
-  end note
 }
 
 ' Relations

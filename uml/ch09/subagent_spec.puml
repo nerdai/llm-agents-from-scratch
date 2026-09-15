@@ -1,0 +1,25 @@
+@startuml uml_ch09_subagent_spec
+!include ../common/book-clean.puml
+
+package "llm_agents_from_scratch.subagents.spec" <<Folder>> {
+
+  class SubAgentSpec {
+    +name: str
+    +description: str
+    +builder: LLMAgentBuilder
+    +max_steps: int | None
+    +skills_scopes: list[SkillScope] | None
+    +explicit_only_skills: set[str] | None
+    --
+    +<<constructor>> __init__(\n\tname: str,\n\tdescription: str,\n\tbuilder: LLMAgentBuilder,\n\tmax_steps: int | None = None,\n\tskills_scopes: list[SkillScope] | None = None,\n\texplicit_only_skills: set[str] | None = None\n):
+    +catalog(): str
+    +__repr__(): str
+  }
+
+  note right of SubAgentSpec
+    Pure data — holds a build recipe,
+    never a live LLMAgent
+  end note
+}
+
+@enduml

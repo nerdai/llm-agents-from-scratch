@@ -1,0 +1,47 @@
+@startuml uml_ch09_shared_console_human_input_tool
+!include ../common/book-clean.puml
+
+package "llm_agents_from_scratch.base.tool" <<Folder>> {
+  abstract class BaseTool {
+    <color:#aaaaaa>+name: str</color>
+    <color:#aaaaaa>+description: str</color>
+    <color:#aaaaaa>+parameters_json_schema: dict[str, Any]</color>
+    --
+    <color:#aaaaaa>+__call__(tool_call: ToolCall): ToolCallResult</color>
+  }
+
+  abstract class AsyncBaseTool {
+    <color:#aaaaaa>+name: str</color>
+    <color:#aaaaaa>+description: str</color>
+    <color:#aaaaaa>+parameters_json_schema: dict[str, Any]</color>
+    --
+    <color:#aaaaaa>+<<async>> __call__(tool_call: ToolCall): ToolCallResult</color>
+  }
+}
+
+package "llm_agents_from_scratch.tools.default" <<Folder>> {
+  class HumanInputTool {
+    <color:#aaaaaa>+name: str = 'from_scratch__human_input'</color>
+    <color:#aaaaaa>+description: str</color>
+    <color:#aaaaaa>+parameters_json_schema: dict[str, Any]</color>\n\t<color:#aaaaaa>{prompt: str, choices: list[str] | None}</color>
+    --
+    <color:#aaaaaa>+__call__(tool_call: ToolCall, ...): ToolCallResult</color>
+  }
+
+  class SharedConsoleHumanInputTool {
+    -{static} _console_lock: asyncio.Lock\n\t{class attribute -- one lock, every instance}
+    +agent_name: str | None
+    <color:#aaaaaa>+name: str = 'from_scratch__human_input'</color>
+    <color:#aaaaaa>+description: str</color>
+    <color:#aaaaaa>+parameters_json_schema: dict[str, Any]</color>\n\t<color:#aaaaaa>{prompt: str, choices: list[str] | None}</color>
+    --
+    +<<constructor>> __init__(\n\tagent_name: str | None = None\n):
+    +<<async>> __call__(tool_call: ToolCall, ...): ToolCallResult
+  }
+}
+
+' Relations
+BaseTool <|-- HumanInputTool : " inherits"
+AsyncBaseTool <|-- SharedConsoleHumanInputTool : " inherits"
+
+@enduml

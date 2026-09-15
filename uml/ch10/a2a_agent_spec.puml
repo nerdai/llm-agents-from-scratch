@@ -18,7 +18,7 @@ package "llm_agents_from_scratch.a2a.client.spec" <<Folder>> {
   }
 
   note right of A2AAgentSpec
-    Pure data — holds a discovered A2A AgentCard,
+    Pure data — holds a resolved A2A AgentCard,
     never a live A2A client
   end note
 }

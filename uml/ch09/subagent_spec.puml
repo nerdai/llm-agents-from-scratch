@@ -1,21 +1,6 @@
 @startuml uml_ch09_subagent_spec
 !include ../common/book-clean.puml
 
-package "llm_agents_from_scratch.agent" <<Folder>> {
-  class LLMAgent
-
-  class LLMAgentBuilder {
-    +<<async>> build(): LLMAgent
-  }
-}
-
-package "llm_agents_from_scratch.data_structures.skill" <<Folder>> {
-  enum SkillScope {
-    PROJECT = 'project'
-    USER = 'user'
-  }
-}
-
 package "llm_agents_from_scratch.subagents.spec" <<Folder>> {
 
   class SubAgentSpec {
@@ -36,10 +21,5 @@ package "llm_agents_from_scratch.subagents.spec" <<Folder>> {
     never a live agent
   end note
 }
-
-' Relations
-SubAgentSpec *-- LLMAgentBuilder : " has"
-SubAgentSpec *-- SkillScope : " has"
-LLMAgentBuilder ..> LLMAgent : " creates"
 
 @enduml

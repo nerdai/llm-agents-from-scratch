@@ -3,7 +3,9 @@
 PlantUML writes two processing instructions into every SVG: a version
 tag, and `<?plantuml-src ...?>` carrying the whole diagram source
 compressed into roughly a kilobyte of text. Both sit inside the `<svg>`
-element rather than before it.
+element rather than before it. Only those two are removed -- an SVG may
+legitimately carry others, and anything left behind is reported rather
+than dropped.
 
 Canva refuses to import an SVG that contains either of them, reporting
 only that the file "is not compatible with Canva or has been
@@ -31,8 +33,16 @@ from pathlib import Path
 
 import fire
 
-#: Matches a processing instruction, but never an XML declaration.
-PROCESSING_INSTRUCTION = re.compile(r"<\?(?!xml[\s?])[^?]*\?>")
+#: Matches only PlantUML's own instructions -- `<?plantuml ...?>` and
+#: `<?plantuml-src ...?>`. Deliberately narrow: an SVG may legitimately
+#: carry others, `<?xml-stylesheet ...?>` being the obvious one, and a
+#: diagram imported from elsewhere should not silently lose styling on
+#: its way through this directory.
+PLANTUML_INSTRUCTION = re.compile(r"<\?plantuml\b.*?\?>", re.DOTALL)
+
+#: Anything left over after stripping, so a new instruction name from a
+#: future PlantUML release surfaces instead of quietly reaching Canva.
+ANY_INSTRUCTION = re.compile(r"<\?(?!xml[\s?])[\w-]+")
 
 
 def _strip_one(path: Path) -> int:
@@ -45,9 +55,16 @@ def _strip_one(path: Path) -> int:
         int: How many instructions were removed.
     """
     content = path.read_text()
-    stripped, count = PROCESSING_INSTRUCTION.subn("", content)
+    stripped, count = PLANTUML_INSTRUCTION.subn("", content)
     if count:
         path.write_text(stripped)
+    leftover = {m.group(0)[2:] for m in ANY_INSTRUCTION.finditer(stripped)}
+    if leftover:
+        print(
+            f"  {path.name}: left in place: "
+            f"{', '.join(sorted(leftover))} -- Canva rejects any "
+            f"processing instruction, so check whether these belong here",
+        )
     return count
 
 

@@ -37,7 +37,7 @@ package "llm_agents_from_scratch.tools.default" <<Folder>> {
     <color:#aaaaaa>+description: str</color>
     <color:#aaaaaa>+parameters_json_schema: dict[str, Any]</color>\n\t<color:#aaaaaa>{prompt: str, choices: list[str] | None}</color>
     --
-    +<<constructor>> __init__(\n\tagent_name: str | None = None\n):
+    +<<constructor>> __init__(\n\tagent_name: str | None\n):
     +<<async>> __call__(tool_call: ToolCall, ...): ToolCallResult
   }
 }

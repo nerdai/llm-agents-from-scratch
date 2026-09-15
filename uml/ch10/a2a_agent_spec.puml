@@ -1,0 +1,27 @@
+@startuml uml_ch10_a2a_agent_spec
+!include ../common/book-clean.puml
+
+package "llm_agents_from_scratch.a2a.client.spec" <<Folder>> {
+
+  class A2AAgentSpec {
+    +name: str
+    +url: str
+    +agent_card: AgentCard
+    +headers: dict[str, str] | None
+    +timeout: float | None
+    --
+    +<<constructor>> __init__(\n\tname: str,\n\turl: str,\n\tagent_card: AgentCard,\n\theaders: dict[str, str] | None = None,\n\ttimeout: float | None = 60.0\n):
+    +<<classmethod>> from_agent_card(\n\tagent_card: AgentCard,\n\theaders: dict[str, str] | None = None,\n\ttimeout: float | None = 60.0\n): Self
+    +<<classmethod>> <<async>> from_url(\n\turl: str,\n\theaders: dict[str, str] | None = None,\n\tagent_card_path: str | None = None,\n\ttimeout: float | None = 60.0\n): Self
+    +catalog(): str
+    +__repr__(): str
+  }
+
+  note right of A2AAgentSpec
+    Pure data — holds a resolved AgentCard,
+    never a live SDK Client. Discovery is
+    eager, at construction.
+  end note
+}
+
+@enduml

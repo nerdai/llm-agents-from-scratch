@@ -33,7 +33,7 @@ package "llm_agents_from_scratch.agent" <<Folder>> {
     -_subagents_catalog: str
     --
     +<b><<constructor>> __init__(...)</b>\n\t<b>{builds _use_subagent_tool from</b>\n\t<b>llm_agent.subagents_registry}</b>
-    +<b><<async>> get_next_step(...): TaskStep | TaskResult</b>
+    <color:#aaaaaa>+<<async>> get_next_step(...): TaskStep | TaskResult</color>
     +<b><<async>> run_step(step: TaskStep): TaskStepResult</b>
     <color:#aaaaaa>-_format_step_for_rollout()</color>
     <color:#aaaaaa>-_format_memories_for_system_prompt(...): str</color>

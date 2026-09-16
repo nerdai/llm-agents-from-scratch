@@ -83,7 +83,9 @@ def _build_legend_svg(
     col_widths = _column_widths(entries, columns)
     box_width = sum(col_widths) + PADDING * 2
     box_height = _legend_height(entries, columns)
-    x = canvas_width - box_width - MARGIN_RIGHT
+    # Right-aligned, but never off the left edge: a box wider than the
+    # canvas would otherwise be silently clipped rather than reported.
+    x = max(MARGIN_RIGHT, canvas_width - box_width - MARGIN_RIGHT)
     y = top
 
     parts = [

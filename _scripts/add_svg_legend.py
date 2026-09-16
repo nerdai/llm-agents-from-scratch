@@ -16,6 +16,13 @@ e.g. `uml/ch08/approval_gate_sequence.legend.yaml` for
     entries:
       - label: "1"
         text: ask the human for approval
+
+Busy diagrams may have no whitespace big enough to overlay a legend
+into -- a seven-entry box needs ~780 user units of clear vertical run,
+which a dense sequence diagram simply does not have at any width. Set
+`placement: below` to append the legend under the diagram instead,
+growing the canvas to make room. `top` is ignored in that mode.
+Placement defaults to `overlay` so existing sidecars are unaffected.
 """
 
 import re
@@ -42,6 +49,10 @@ def _line_length(label: str, text: str) -> float:
     return (LABEL_COLUMN_CHARS + len(text) + 1) * CHAR_WIDTH
 
 
+def _legend_height(entries: list[dict[str, Any]]) -> float:
+    return LINE_HEIGHT * len(entries) + PADDING * 2
+
+
 def _build_legend_svg(
     entries: list[dict[str, Any]],
     canvas_width: float,
@@ -49,7 +60,7 @@ def _build_legend_svg(
 ) -> str:
     box_width = max(_line_length(e["label"], e["text"]) for e in entries)
     box_width += PADDING * 2
-    box_height = LINE_HEIGHT * len(entries) + PADDING * 2
+    box_height = _legend_height(entries)
     x = canvas_width - box_width - MARGIN_RIGHT
     y = top
 
@@ -78,7 +89,7 @@ def _build_legend_svg(
 
 
 def _apply_one(svg_path: Path, legend_path: Path) -> bool:
-    """Overlay the legend described by legend_path onto svg_path.
+    """Draw the legend described by legend_path onto svg_path.
 
     Returns:
         bool: True if the SVG was modified.
@@ -88,13 +99,25 @@ def _apply_one(svg_path: Path, legend_path: Path) -> bool:
     if not viewbox_match:
         return False
     canvas_width = float(viewbox_match.group(1))
+    canvas_height = float(viewbox_match.group(2))
 
     spec = yaml.safe_load(legend_path.read_text())
-    legend_svg = _build_legend_svg(
-        spec["entries"],
-        canvas_width,
-        top=float(spec.get("top", 60)),
-    )
+    entries = spec["entries"]
+
+    if spec.get("placement", "overlay") == "below":
+        top = canvas_height + PADDING
+        # set_svg_print_size recomputes width/height from the viewBox, so
+        # growing the viewBox alone is enough to reserve the space.
+        grown = canvas_height + _legend_height(entries) + PADDING * 2
+        content = VIEWBOX.sub(
+            f'viewBox="0 0 {canvas_width:.4f} {grown:.4f}"',
+            content,
+            count=1,
+        )
+    else:
+        top = float(spec.get("top", 60))
+
+    legend_svg = _build_legend_svg(entries, canvas_width, top=top)
     fixed, count = SVG_CLOSE.subn(legend_svg + "</g></svg>", content, count=1)
     if not count:
         return False

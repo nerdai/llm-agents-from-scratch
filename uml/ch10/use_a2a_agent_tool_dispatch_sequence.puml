@@ -5,7 +5,6 @@ title UseA2AAgentTool Dispatch — Sequence
 participant "agent: LLMAgent" as agent
 participant "handler: TaskHandler" as handler
 participant "tool: UseA2AAgentTool" as tool
-participant "spec: A2AAgentSpec" as spec
 participant "A2A server" as peer
 
 agent -> handler : creates per run()
@@ -15,7 +14,7 @@ hnote right #lightblue: 1
 activate tool
 
 tool -> tool : _a2a_agents_registry[name]
-tool -> spec : reads url, headers,\nagent_card, timeout
+note right: gets the spec, reads\nurl, headers,\nagent_card, timeout
 
 tool -> tool : opens httpx.AsyncClient\nand A2A client
 

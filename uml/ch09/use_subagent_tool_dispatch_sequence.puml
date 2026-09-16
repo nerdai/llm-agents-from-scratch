@@ -32,9 +32,9 @@ deactivate subagent
 
 tool -> tool : current_subagent_name.reset(token)
 hnote left #lightblue: 7
-deactivate tool
 tool --> handler : ToolCallResult
 hnote left #lightblue: 8
+deactivate tool
 deactivate handler
 
 @enduml

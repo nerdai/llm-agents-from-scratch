@@ -1,0 +1,17 @@
+placement: below
+columns: 3
+entries:
+  - label: "1"
+    text: fresh tool per run()
+  - label: "2"
+    text: gets the spec
+  - label: "3"
+    text: opens an A2A client
+  - label: "4"
+    text: sends the task
+  - label: "5"
+    text: receives the response
+  - label: "6"
+    text: cleans up the clients
+  - label: "7"
+    text: packages a ToolCallResult

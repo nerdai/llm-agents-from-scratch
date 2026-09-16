@@ -1,0 +1,26 @@
+@startuml uml_ch10_a2a_task_lifecycle_sequence
+!include ../common/book-clean.puml
+title A2A Task Lifecycle — Sequence
+
+participant "A2A client" as client
+participant "A2A server" as server
+
+client -> server : Message
+hnote left #lightblue: 1
+note right: holds the instruction in one or more\nParts: text, bytes, a file URI, or JSON
+
+activate server
+server -> server : performs the task to\na terminal state
+hnote left #lightblue: 2
+
+server --> client : Task
+hnote left #lightblue: 3
+note right: stateful and server-hosted, with a status\nand an Artifact holding the results as Parts
+deactivate server
+
+note over client, server
+  a short interaction may come back as a
+  Message instead of a Task
+end note
+
+@enduml

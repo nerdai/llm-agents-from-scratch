@@ -1,0 +1,9 @@
+placement: below
+columns: 1
+entries:
+  - label: "1"
+    text: "Message + Part: the request, self-contained"
+  - label: "2"
+    text: completed, failed, or cancelled
+  - label: "3"
+    text: "Task + Artifact + Part: the result, referable by id"

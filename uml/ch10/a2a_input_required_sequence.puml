@@ -4,25 +4,30 @@ title A2A Input-Required Task — Sequence
 
 participant "A2A client" as client
 participant "A2A server" as server
+participant "store: TaskStore" as store
 
 client -> server : Message
 hnote left #lightblue: 1
 
 activate server
 server -> server : cannot finish without\nmore from the client
-server --> client : Task
+server -> store : save(task)
 hnote left #lightblue: 2
-note right: input_required is not terminal — the\nserver keeps the Task and waits
+note right: input_required is not terminal —\nthe Task is kept, not discarded
+server --> client : Task
 deactivate server
 
 client -> server : Message
 hnote left #lightblue: 3
-note right: carries the Task's id, so the server\nresumes it instead of starting a new one
+note right: carries the Task's id
 
 activate server
+server -> store : get(task_id)
+store --> server : the parked Task
 server -> server : performs the task to\na terminal state
-server --> client : Task
+server -> store : save(task)
 hnote left #lightblue: 4
+server --> client : Task
 deactivate server
 
 @enduml

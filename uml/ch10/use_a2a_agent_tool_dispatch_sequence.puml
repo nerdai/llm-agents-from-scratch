@@ -14,7 +14,7 @@ hnote right #lightblue: 1
 activate tool
 
 tool -> tool : _a2a_agents_registry[name]
-note right: gets the spec, reads\nurl, headers,\nagent_card, timeout
+note left of tool: gets the spec, reads\nurl, headers,\nagent_card, timeout
 
 tool -> tool : opens httpx.AsyncClient\nand A2A client
 

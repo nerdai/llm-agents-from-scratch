@@ -1,0 +1,51 @@
+@startuml uml_ch10_a2a_discovery_and_dispatch_sequence
+!include ../common/book-clean.puml
+title A2A Discovery and Dispatch — Sequence
+
+actor user
+participant "spec: A2AAgentSpec" as spec
+participant "agent: LLMAgent" as agent
+participant "handler: TaskHandler" as handler
+participant "tool: UseA2AAgentTool" as tool
+actor "A2A peer" as peer
+
+== Discovery — once, at spec construction ==
+
+user -> spec : from_url(url)
+activate spec
+spec -> peer : GET /.well-known/agent-card.json
+hnote right #lightblue: 1
+peer --> spec : AgentCard
+spec -> spec : from_agent_card(agent_card)
+note right: name and url are both\ntaken from the card
+deactivate spec
+spec --> user : spec
+
+user -> agent : LLMAgent(a2a_agents=[spec])
+agent -> agent : builds a2a_agents_registry
+
+== Dispatch — once per tool call ==
+
+agent -> handler : creates per run()
+activate handler
+handler -> tool : ~__call~__(tool_call)
+hnote right #lightblue: 2
+activate tool
+
+tool -> spec : registry lookup by name
+spec --> tool : url, headers, agent_card, timeout
+
+tool -> tool : opens httpx.AsyncClient
+hnote left #lightblue: 3
+
+tool -> peer : send_message(task, task_id?)
+hnote right #lightblue: 4
+peer --> tool : Task
+
+tool -> tool : a2a_response_to_tool_call_result()
+hnote left #lightblue: 5
+deactivate tool
+tool --> handler : ToolCallResult
+deactivate handler
+
+@enduml

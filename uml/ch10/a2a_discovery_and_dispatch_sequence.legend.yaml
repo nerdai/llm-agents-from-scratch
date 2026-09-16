@@ -1,0 +1,12 @@
+top: 1480
+entries:
+  - label: "1"
+    text: found, not configured
+  - label: "2"
+    text: fresh tool per run()
+  - label: "3"
+    text: nothing held open between dispatches
+  - label: "4"
+    text: task_id only when resuming
+  - label: "5"
+    text: every failure becomes an error result

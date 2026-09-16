@@ -14,8 +14,8 @@ handler -> tool : ~__call~__(tool_call)
 hnote right #lightblue: 1
 activate tool
 
-tool -> spec : registry lookup by name
-spec --> tool : url, headers, agent_card, timeout
+tool -> tool : _a2a_agents_registry[name]
+tool -> spec : reads url, headers,\nagent_card, timeout
 
 tool -> tool : opens httpx.AsyncClient\nand A2A client
 

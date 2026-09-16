@@ -1,0 +1,8 @@
+top: 430
+entries:
+  - label: "1"
+    text: fresh tool per run()
+  - label: "2"
+    text: nothing held open between dispatches
+  - label: "3"
+    text: every failure becomes an error result

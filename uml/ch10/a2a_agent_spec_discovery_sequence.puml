@@ -1,0 +1,24 @@
+@startuml uml_ch10_a2a_agent_spec_discovery_sequence
+!include ../common/book-clean.puml
+title A2AAgentSpec Discovery — Sequence
+
+actor user
+participant "spec: A2AAgentSpec" as spec
+participant "agent: LLMAgent" as agent
+participant "A2A server" as peer
+
+user -> spec : from_url(url)
+activate spec
+spec -> peer : GET /.well-known/agent-card.json
+hnote right #lightblue: 1
+peer --> spec : AgentCard
+spec -> spec : from_agent_card(agent_card)
+note right: name and url are both\ntaken from the card
+deactivate spec
+spec --> user : spec
+
+user -> agent : LLMAgent(a2a_agents=[spec])
+agent -> agent : builds a2a_agents_registry
+hnote right #lightblue: 2
+
+@enduml

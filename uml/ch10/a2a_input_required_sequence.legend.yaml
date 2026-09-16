@@ -1,11 +1,11 @@
 placement: below
-columns: 1
+columns: 2
 entries:
   - label: "1"
-    text: the opening request, with no Task to refer to
+    text: opening request, no Task yet
   - label: "2"
-    text: "input_required — not terminal, so the Task is kept"
+    text: input_required is not terminal
   - label: "3"
-    text: the Task id is what makes this a continuation
+    text: the Task id makes it a continuation
   - label: "4"
-    text: "completed, with an Artifact holding the results"
+    text: completed, with an Artifact

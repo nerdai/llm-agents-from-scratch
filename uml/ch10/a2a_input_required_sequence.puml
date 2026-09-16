@@ -1,0 +1,28 @@
+@startuml uml_ch10_a2a_input_required_sequence
+!include ../common/book-clean.puml
+title A2A Input-Required Task — Sequence
+
+participant "A2A client" as client
+participant "A2A server" as server
+
+client -> server : Message
+hnote left #lightblue: 1
+
+activate server
+server -> server : cannot finish without\nmore from the client
+server --> client : Task
+hnote left #lightblue: 2
+note right: input_required is not terminal — the\nserver keeps the Task and waits
+deactivate server
+
+client -> server : Message
+hnote left #lightblue: 3
+note right: carries the Task's id, so the server\nresumes it instead of starting a new one
+
+activate server
+server -> server : performs the task to\na terminal state
+server --> client : Task
+hnote left #lightblue: 4
+deactivate server
+
+@enduml

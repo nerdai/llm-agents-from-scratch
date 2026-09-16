@@ -1,0 +1,11 @@
+placement: below
+columns: 1
+entries:
+  - label: "1"
+    text: the opening request, with no Task to refer to
+  - label: "2"
+    text: "status is TASK_STATE_INPUT_REQUIRED"
+  - label: "3"
+    text: the Task id is what makes this a continuation
+  - label: "4"
+    text: "now terminal, with an Artifact holding the results"

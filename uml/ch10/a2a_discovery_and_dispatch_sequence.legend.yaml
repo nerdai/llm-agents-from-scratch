@@ -5,8 +5,10 @@ entries:
   - label: "2"
     text: fresh tool per run()
   - label: "3"
-    text: nothing held open between dispatches
+    text: built fresh from the spec
   - label: "4"
     text: task_id only when resuming
   - label: "5"
+    text: nothing held open between dispatches
+  - label: "6"
     text: every failure becomes an error result

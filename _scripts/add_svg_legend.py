@@ -23,6 +23,12 @@ which a dense sequence diagram simply does not have at any width. Set
 `placement: below` to append the legend under the diagram instead,
 growing the canvas to make room. `top` is ignored in that mode.
 Placement defaults to `overlay` so existing sidecars are unaffected.
+
+`columns: N` lays the entries out in N columns, filled row-wise, which
+trades height for width -- seven entries in three columns is three rows
+rather than seven. Useful under `placement: below`, where the diagram's
+full width is free and every extra row costs figure height. Defaults to
+1, again leaving existing sidecars alone.
 """
 
 import re
@@ -49,18 +55,34 @@ def _line_length(label: str, text: str) -> float:
     return (LABEL_COLUMN_CHARS + len(text) + 1) * CHAR_WIDTH
 
 
-def _legend_height(entries: list[dict[str, Any]]) -> float:
-    return LINE_HEIGHT * len(entries) + PADDING * 2
+def _column_widths(
+    entries: list[dict[str, Any]],
+    columns: int,
+) -> list[float]:
+    """Widest line in each column, filling row-wise."""
+    return [
+        max(_line_length(e["label"], e["text"]) for e in entries[col::columns])
+        for col in range(columns)
+    ]
+
+
+def _legend_rows(entries: list[dict[str, Any]], columns: int) -> int:
+    return -(-len(entries) // columns)
+
+
+def _legend_height(entries: list[dict[str, Any]], columns: int = 1) -> float:
+    return LINE_HEIGHT * _legend_rows(entries, columns) + PADDING * 2
 
 
 def _build_legend_svg(
     entries: list[dict[str, Any]],
     canvas_width: float,
     top: float,
+    columns: int = 1,
 ) -> str:
-    box_width = max(_line_length(e["label"], e["text"]) for e in entries)
-    box_width += PADDING * 2
-    box_height = _legend_height(entries)
+    col_widths = _column_widths(entries, columns)
+    box_width = sum(col_widths) + PADDING * 2
+    box_height = _legend_height(entries, columns)
     x = canvas_width - box_width - MARGIN_RIGHT
     y = top
 
@@ -70,10 +92,11 @@ def _build_legend_svg(
         f'rx="31.25" ry="31.25" '
         f'style="stroke:#222222;stroke-width:2.6042;"/>',
     ]
-    label_x = x + PADDING
-    text_x = label_x + LABEL_COLUMN_CHARS * CHAR_WIDTH
     for i, entry in enumerate(entries):
-        line_y = y + PADDING + LINE_HEIGHT * i + FONT_SIZE
+        row, col = divmod(i, columns)
+        label_x = x + PADDING + sum(col_widths[:col])
+        text_x = label_x + LABEL_COLUMN_CHARS * CHAR_WIDTH
+        line_y = y + PADDING + LINE_HEIGHT * row + FONT_SIZE
         label, text = str(entry["label"]), str(entry["text"])
         parts.append(
             f'<text fill="#000000" font-family="\'{FONT_FAMILY}\'" '
@@ -103,12 +126,13 @@ def _apply_one(svg_path: Path, legend_path: Path) -> bool:
 
     spec = yaml.safe_load(legend_path.read_text())
     entries = spec["entries"]
+    columns = int(spec.get("columns", 1))
 
     if spec.get("placement", "overlay") == "below":
         top = canvas_height + PADDING
         # set_svg_print_size recomputes width/height from the viewBox, so
         # growing the viewBox alone is enough to reserve the space.
-        grown = canvas_height + _legend_height(entries) + PADDING * 2
+        grown = canvas_height + _legend_height(entries, columns) + PADDING * 2
         content = VIEWBOX.sub(
             f'viewBox="0 0 {canvas_width:.4f} {grown:.4f}"',
             content,
@@ -117,7 +141,12 @@ def _apply_one(svg_path: Path, legend_path: Path) -> bool:
     else:
         top = float(spec.get("top", 60))
 
-    legend_svg = _build_legend_svg(entries, canvas_width, top=top)
+    legend_svg = _build_legend_svg(
+        entries,
+        canvas_width,
+        top=top,
+        columns=columns,
+    )
     fixed, count = SVG_CLOSE.subn(legend_svg + "</g></svg>", content, count=1)
     if not count:
         return False

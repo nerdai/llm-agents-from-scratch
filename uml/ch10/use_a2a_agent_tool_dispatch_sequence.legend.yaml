@@ -1,4 +1,5 @@
 placement: below
+columns: 3
 entries:
   - label: "1"
     text: fresh tool per run()

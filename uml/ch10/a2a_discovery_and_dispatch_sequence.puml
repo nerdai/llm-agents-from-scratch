@@ -7,7 +7,7 @@ participant "spec: A2AAgentSpec" as spec
 participant "agent: LLMAgent" as agent
 participant "handler: TaskHandler" as handler
 participant "tool: UseA2AAgentTool" as tool
-actor "A2A peer" as peer
+participant "A2A server" as peer
 
 == Discovery — once, at spec construction ==
 

@@ -17,8 +17,8 @@ package "llm_agents_from_scratch" <<Folder>> {
       +agent: LLMAgent
       --
       +<<constructor>> __init__(\n\tagent: LLMAgent\n):
-      +<<async>> execute(\n\tcontext: a2a.RequestContext,\n\tevent_queue: a2a.EventQueue\n): None\n\t{one shot: Task -> agent.run() -> Artifact,\n\tno input_required on this side}
-      +<<async>> cancel(\n\tcontext: a2a.RequestContext,\n\tevent_queue: a2a.EventQueue\n): None\n\t{updater.cancel() must come first -- nothing\n\tthat can suspend may run before it}
+      +<<async>> execute(\n\tcontext: a2a.RequestContext,\n\tevent_queue: a2a.EventQueue\n): None
+      +<<async>> cancel(\n\tcontext: a2a.RequestContext,\n\tevent_queue: a2a.EventQueue\n): None
     }
 
   }

@@ -1,0 +1,32 @@
+@startuml uml_ch10_a2a_protocol_sequence
+!include ../common/book-clean.puml
+title A2A Client and Server — Sequence
+
+participant "A2A client" as client
+participant "A2A server" as server
+participant "agent\n(any framework)" as agent
+
+== Discovery ==
+
+client -> server : HTTP GET /.well-known/agent-card.json
+note right: standardized by A2A —\na single GET at the\nserver's well-known URI
+
+server --> client : Agent Cards
+note right: one card per agent\nthe server exposes
+
+== Task execution ==
+
+client -> server : send task (JSON-RPC)
+activate server
+
+server -> agent : runs the task
+activate agent
+note right: outside the protocol —\nA2A does not specify what\nperforms the task
+agent --> server : result
+deactivate agent
+
+server --> client : result or error
+deactivate server
+note right: long-running tasks may stream\nprogress or push a completion\nnotification instead
+
+@enduml

@@ -1,0 +1,19 @@
+placement: below
+columns: 3
+entries:
+  - label: "1"
+    text: fresh tool per run()
+  - label: "2"
+    text: gets the spec
+  - label: "3"
+    text: names the subagent
+  - label: "4"
+    text: a fresh agent, per call
+  - label: "5"
+    text: dispatches the task
+  - label: "6"
+    text: receives the result
+  - label: "7"
+    text: always, even on failure
+  - label: "8"
+    text: errors come back as results

@@ -11,7 +11,7 @@ package "llm_agents_from_scratch.subagents.spec" <<Folder>> {
     +skills_scopes: list[SkillScope] | None
     +explicit_only_skills: set[str] | None
     --
-    +<<constructor>> __init__(\n\tname: str,\n\tdescription: str,\n\tbuilder: LLMAgentBuilder,\n\tmax_steps: int | None = None,\n\tskills_scopes: list[SkillScope] | None = None,\n\texplicit_only_skills: set[str] | None = None\n):
+    +<<constructor>> __init__(\n\tname: str,\n\tdescription: str,\n\tbuilder: LLMAgentBuilder,\n\tmax_steps: int | None,\n\tskills_scopes: list[SkillScope] | None,\n\texplicit_only_skills: set[str] | None\n):
     +catalog(): str
     +__repr__(): str
   }

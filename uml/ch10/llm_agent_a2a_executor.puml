@@ -1,0 +1,35 @@
+@startuml uml_ch10_llm_agent_a2a_executor
+!include ../common/book-clean.puml
+left to right direction
+
+package "external_dependencies" <<Folder>> {
+  abstract class "a2a.server.agent_execution.AgentExecutor" as AgentExecutor {
+    +<<async>> execute(\n\tcontext: a2a.RequestContext,\n\tevent_queue: a2a.EventQueue\n): None
+    +<<async>> cancel(\n\tcontext: a2a.RequestContext,\n\tevent_queue: a2a.EventQueue\n): None
+  }
+}
+
+package "llm_agents_from_scratch" <<Folder>> {
+
+  package "agent" <<Folder>> {
+    class LLMAgent
+  }
+
+  package "a2a.server.executor" <<Folder>> {
+
+    class LLMAgentA2AExecutor {
+      +agent: LLMAgent
+      --
+      +<<constructor>> __init__(\n\tagent: LLMAgent\n):
+      +<<async>> execute(\n\tcontext: a2a.RequestContext,\n\tevent_queue: a2a.EventQueue\n): None
+      +<<async>> cancel(\n\tcontext: a2a.RequestContext,\n\tevent_queue: a2a.EventQueue\n): None
+    }
+
+  }
+}
+
+' Relations
+AgentExecutor <|-- LLMAgentA2AExecutor : " inherits"
+LLMAgentA2AExecutor *-- LLMAgent : " has"
+
+@enduml

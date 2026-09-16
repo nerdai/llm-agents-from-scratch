@@ -11,19 +11,16 @@ hnote left #lightblue: 1
 
 activate server
 server -> store : save(task)
-server --> client : Task
-hnote left #lightblue: 2
-note right: created from the Message and returned\nbefore any work, so the client has its id
-
+note right: created from the Message and saved before\nany work, so it has an id from the start
 server -> server : works, then finds it needs\nmore from the client
 server -> store : save(task)
-server --> client : status update
-hnote left #lightblue: 3
-note right: input_required, carrying an agent\nMessage that asks the question
+server --> client : Task
+hnote left #lightblue: 2
+note right: status is input_required, carrying an\nagent Message that asks the question
 deactivate server
 
 client -> server : Message
-hnote left #lightblue: 4
+hnote left #lightblue: 3
 note right: carries the Task's id
 
 activate server
@@ -31,8 +28,8 @@ server -> store : get(task_id)
 store --> server : the parked Task
 server -> server : performs the task to\na terminal state
 server -> store : save(task)
-server --> client : status update
-hnote left #lightblue: 5
+server --> client : Task
+hnote left #lightblue: 4
 deactivate server
 
 @enduml

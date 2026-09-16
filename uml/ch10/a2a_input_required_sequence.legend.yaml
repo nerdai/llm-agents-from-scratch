@@ -4,10 +4,8 @@ entries:
   - label: "1"
     text: the opening request, with no Task to refer to
   - label: "2"
-    text: "status starts at submitted, then working"
-  - label: "3"
     text: "input_required — not terminal, so the Task is kept"
-  - label: "4"
+  - label: "3"
     text: the Task id is what makes this a continuation
-  - label: "5"
+  - label: "4"
     text: "completed, with an Artifact holding the results"

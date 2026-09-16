@@ -4,16 +4,12 @@ left to right direction
 
 package "external_dependencies" <<Folder>> {
   abstract class "a2a.server.agent_execution.AgentExecutor" as AgentExecutor {
-    +<<async>> execute(\n\tcontext: RequestContext,\n\tevent_queue: EventQueue\n): None
-    +<<async>> cancel(\n\tcontext: RequestContext,\n\tevent_queue: EventQueue\n): None
+    +<<async>> execute(\n\tcontext: a2a.RequestContext,\n\tevent_queue: a2a.EventQueue\n): None
+    +<<async>> cancel(\n\tcontext: a2a.RequestContext,\n\tevent_queue: a2a.EventQueue\n): None
   }
 }
 
 package "llm_agents_from_scratch" <<Folder>> {
-
-  package "agent" <<Folder>> {
-    class LLMAgent
-  }
 
   package "a2a.server.executor" <<Folder>> {
 
@@ -21,8 +17,8 @@ package "llm_agents_from_scratch" <<Folder>> {
       +agent: LLMAgent
       --
       +<<constructor>> __init__(\n\tagent: LLMAgent\n):
-      +<<async>> execute(\n\tcontext: RequestContext,\n\tevent_queue: EventQueue\n): None\n\t{one shot: Task -> agent.run() -> Artifact,\n\tno input_required on this side}
-      +<<async>> cancel(\n\tcontext: RequestContext,\n\tevent_queue: EventQueue\n): None\n\t{updater.cancel() must come first -- nothing\n\tthat can suspend may run before it}
+      +<<async>> execute(\n\tcontext: a2a.RequestContext,\n\tevent_queue: a2a.EventQueue\n): None\n\t{one shot: Task -> agent.run() -> Artifact,\n\tno input_required on this side}
+      +<<async>> cancel(\n\tcontext: a2a.RequestContext,\n\tevent_queue: a2a.EventQueue\n): None\n\t{updater.cancel() must come first -- nothing\n\tthat can suspend may run before it}
     }
 
   }
@@ -30,6 +26,5 @@ package "llm_agents_from_scratch" <<Folder>> {
 
 ' Relations
 AgentExecutor <|-- LLMAgentA2AExecutor : " inherits"
-LLMAgentA2AExecutor *-- LLMAgent : " has"
 
 @enduml

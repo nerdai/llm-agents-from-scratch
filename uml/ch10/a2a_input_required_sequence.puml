@@ -4,7 +4,7 @@ title A2A Input-Required Task — Sequence
 
 participant "A2A client" as client
 participant "A2A server" as server
-participant "store: TaskStore" as store
+participant "A2A TaskStore" as store
 
 client -> server : Message
 hnote left #lightblue: 1

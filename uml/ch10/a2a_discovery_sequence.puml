@@ -7,8 +7,10 @@ participant "A2A server" as server
 
 client -> server : HTTP GET /.well-known/agent-card.json
 note right: standardized by A2A —\na single GET at the\nserver's well-known URI
+activate server
 
 server --> client : Agent Cards
+deactivate server
 note right: one card per agent\nthe server exposes
 
 @enduml

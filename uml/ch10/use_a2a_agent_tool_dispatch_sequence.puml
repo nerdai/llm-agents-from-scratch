@@ -14,7 +14,7 @@ group#fffbe6 #FFFFFF process loop
 ...
 handler -> handler : run_step(step)
 activate handler
-note left of handler: a single run_step(step)\ninvocation
+note left of handler: tool calls, and thus A2A\ndispatches, occur in run_step()\ninvocations
 handler -> tool : ~__call~__(tool_call)
 hnote right #lightblue: 1
 activate tool
@@ -41,7 +41,7 @@ hnote left #lightblue: 7
 tool --> handler : ToolCallResult
 deactivate tool
 ...
-note over handler: run_step() carries on from here,\nand steps repeat until the task terminates
+note over handler: run_step() carries on from here, and steps repeat\nunder the process loop until the task terminates
 end
 
 @enduml

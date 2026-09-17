@@ -13,42 +13,32 @@ group#fffbe6 #FFFFFF process loop
 ...
 handler -> handler : run_step(step)
 activate handler
-note left of handler: a single run_step(step)\ninvocation
+note left of handler: tool calls, and thus subagent\ndispatches, occur in run_step()\ninvocations
 handler -> tool : ~__call~__(tool_call)
 hnote right #lightblue: 1
 activate tool
 
 tool -> tool : _subagents_registry[name]
 hnote left #lightblue: 2
-note left of tool: gets the spec: builder, max_steps,\nskills_scopes, explicit_only_skills
 
-tool -> tool : current_subagent_name.set(name)
-hnote left #lightblue: 3
 
 create participant "subagent: LLMAgent" as subagent
 tool -> subagent : spec.builder.build()
-hnote right #lightblue: 4
+hnote left #lightblue: 3
 
-tool -> subagent : run(Task(instruction), ...)
-hnote right #lightblue: 5
+tool -> subagent : run(Task(instruction))
+hnote left #lightblue: 4
 activate subagent
 
-alt task completes
-    subagent --> tool : TaskResult
-    hnote right #lightblue: 6
-else raises
-    subagent --> tool : Exception
-    hnote right #lightblue: 7
-end
+subagent --> tool : TaskResult, or raises
+hnote left #lightblue: 5
 deactivate subagent
 
-tool -> tool : current_subagent_name.reset(token)
-hnote left #lightblue: 8
 tool --> handler : ToolCallResult
-hnote left #lightblue: 9
+hnote left #lightblue: 6
 deactivate tool
 ...
-note over handler: run_step() carries on from here,\nand steps repeat until the task terminates
+note over handler: run_step() carries on from here, and steps repeat\nunder the process loop until the task terminates
 end
 
 @enduml

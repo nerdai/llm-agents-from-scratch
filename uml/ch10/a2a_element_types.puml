@@ -1,0 +1,80 @@
+@startuml uml_ch10_a2a_element_types
+!include ../common/book-clean.puml
+
+package "a2a.types" <<Folder>> {
+
+  class Task {
+    +id: str
+    +context_id: str
+    +status: TaskStatus
+    +artifacts: list[Artifact]
+    +history: list[Message]
+    +metadata: Struct
+  }
+
+  class TaskStatus {
+    +state: TaskState
+    +message: Message
+    +timestamp: Timestamp
+  }
+
+  enum TaskState {
+    TASK_STATE_UNSPECIFIED
+    TASK_STATE_SUBMITTED
+    TASK_STATE_WORKING
+    TASK_STATE_COMPLETED
+    TASK_STATE_FAILED
+    TASK_STATE_CANCELED
+    TASK_STATE_INPUT_REQUIRED
+    TASK_STATE_REJECTED
+  }
+
+  class Message {
+    +message_id: str
+    +context_id: str
+    +task_id: str
+    +role: Role
+    +parts: list[Part]
+    +metadata: Struct
+    +extensions: list[str]
+    +reference_task_ids: list[str]
+  }
+
+  class Artifact {
+    +artifact_id: str
+    +name: str
+    +description: str
+    +parts: list[Part]
+    +metadata: Struct
+    +extensions: list[str]
+  }
+
+  class Part {
+    .. oneof content ..
+    +text: str
+    +raw: bytes
+    +url: str
+    +data: Value
+    ..
+    +metadata: Struct
+    +filename: str
+    +media_type: str
+  }
+
+  note left of Part
+    Protobuf messages, not pydantic —
+    Struct, Value and Timestamp are
+    protobuf's own well-known types
+  end note
+}
+
+' Relations
+Task *-- TaskStatus : " has"
+TaskStatus *-- Message : " has"
+Task *-- Artifact : " has"
+Task *-- Message : " has"
+TaskStatus *-- TaskState : " uses"
+Message *-- Part : " has"
+Artifact *-- Part : " has"
+
+@enduml

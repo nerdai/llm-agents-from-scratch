@@ -13,7 +13,7 @@ group#fffbe6 #FFFFFF process loop
 ...
 handler -> handler : run_step(step)
 activate handler
-note left of handler: tool calls, and thus subagent\ndispatches, occur in run_step()\ninvocations
+note right of handler: tool calls, and thus subagent\ndispatches, occur in run_step()\ninvocations
 handler -> tool : ~__call~__(tool_call)
 hnote right #lightblue: 1
 activate tool

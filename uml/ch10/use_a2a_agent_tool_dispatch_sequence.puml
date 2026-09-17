@@ -1,5 +1,9 @@
 @startuml uml_ch10_use_a2a_agent_tool_dispatch_sequence
 !include ../common/book-clean.puml
+' Untagged frame: the notes below say what it is, so the
+' fragment keyword would only repeat them.
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBackgroundColor #FFFFFF
 title UseA2AAgentTool Dispatch — Sequence
 
 participant "agent: LLMAgent" as agent
@@ -10,7 +14,8 @@ participant "A2A server" as peer
 agent -> handler : creates per run()
 activate handler
 
-loop _process_loop(), until the task is done
+group
+note over handler: one run_step(step) invocation,\ninside the agent's processing loop
 handler -> handler : run_step(step)
 activate handler
 handler -> tool : ~__call~__(tool_call)
@@ -40,5 +45,6 @@ tool --> handler : ToolCallResult
 deactivate tool
 deactivate handler
 end
+note over handler: step executions continue until the\ntask completes or otherwise terminates
 
 @enduml

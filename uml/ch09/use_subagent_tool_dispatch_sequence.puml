@@ -9,7 +9,7 @@ participant "tool: UseSubAgentTool" as tool
 agent -> handler : creates per run()
 activate handler
 
-group process loop
+group#fffbe6 #FFFFFF process loop
 note over handler: a single run_step(step) invocation
 handler -> handler : run_step(step)
 activate handler
@@ -46,8 +46,7 @@ hnote left #lightblue: 8
 tool --> handler : ToolCallResult
 hnote left #lightblue: 9
 deactivate tool
-deactivate handler
-note over handler: step executions continue until the\ntask completes or otherwise terminates
+note over handler: run_step() carries on from here, feeding the\nresults back to the LLM, and step executions repeat\nuntil the task completes or otherwise terminates
 end
 
 @enduml

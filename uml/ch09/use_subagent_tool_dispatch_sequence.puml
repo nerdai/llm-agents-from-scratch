@@ -1,9 +1,5 @@
 @startuml uml_ch09_use_subagent_tool_dispatch_sequence
 !include ../common/book-clean.puml
-' Untagged frame: the notes below say what it is, so the
-' fragment keyword would only repeat them.
-skinparam SequenceGroupHeaderFontColor #FFFFFF
-skinparam SequenceGroupBackgroundColor #FFFFFF
 title UseSubAgentTool Dispatch — Sequence
 
 participant "agent: LLMAgent" as agent
@@ -13,8 +9,8 @@ participant "tool: UseSubAgentTool" as tool
 agent -> handler : creates per run()
 activate handler
 
-group
-note over handler: one run_step(step) invocation,\ninside the agent's processing loop
+group process loop
+note over handler: a single run_step(step) invocation
 handler -> handler : run_step(step)
 activate handler
 handler -> tool : ~__call~__(tool_call)
@@ -51,7 +47,7 @@ tool --> handler : ToolCallResult
 hnote left #lightblue: 9
 deactivate tool
 deactivate handler
-end
 note over handler: step executions continue until the\ntask completes or otherwise terminates
+end
 
 @enduml

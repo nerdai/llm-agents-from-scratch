@@ -10,17 +10,17 @@ agent -> handler : creates per run()
 activate handler
 
 group#fffbe6 #FFFFFF process loop
-note over handler: a single run_step(step) invocation
 ...
 handler -> handler : run_step(step)
 activate handler
+note left of handler: a single run_step(step)\ninvocation
 handler -> tool : ~__call~__(tool_call)
 hnote right #lightblue: 1
 activate tool
 
 tool -> tool : _subagents_registry[name]
 hnote left #lightblue: 2
-note left of tool: gets the spec, reads builder,\nmax_steps, skills_scopes,\nexplicit_only_skills
+note left of tool: gets the spec: builder, max_steps,\nskills_scopes, explicit_only_skills
 
 tool -> tool : current_subagent_name.set(name)
 hnote left #lightblue: 3
@@ -36,7 +36,7 @@ activate subagent
 alt task completes
     subagent --> tool : TaskResult
     hnote right #lightblue: 6
-else raises, MaxStepsReachedError included
+else raises
     subagent --> tool : Exception
     hnote right #lightblue: 7
 end
@@ -47,7 +47,8 @@ hnote left #lightblue: 8
 tool --> handler : ToolCallResult
 hnote left #lightblue: 9
 deactivate tool
-note over handler: run_step() carries on from here, feeding the\nresults back to the LLM, and step executions repeat\nuntil the task completes or otherwise terminates
+...
+note over handler: run_step() carries on from here,\nand steps repeat until the task terminates
 end
 
 @enduml

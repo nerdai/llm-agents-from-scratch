@@ -11,10 +11,10 @@ agent -> handler : creates per run()
 activate handler
 
 group#fffbe6 #FFFFFF process loop
-note over handler: a single run_step(step) invocation
 ...
 handler -> handler : run_step(step)
 activate handler
+note left of handler: a single run_step(step)\ninvocation
 handler -> tool : ~__call~__(tool_call)
 hnote right #lightblue: 1
 activate tool
@@ -40,7 +40,8 @@ tool -> tool : a2a_response_to_tool_call_result()
 hnote left #lightblue: 7
 tool --> handler : ToolCallResult
 deactivate tool
-note over handler: run_step() carries on from here, feeding the\nresults back to the LLM, and step executions repeat\nuntil the task completes or otherwise terminates
+...
+note over handler: run_step() carries on from here,\nand steps repeat until the task terminates
 end
 
 @enduml

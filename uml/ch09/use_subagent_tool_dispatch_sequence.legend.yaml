@@ -12,8 +12,10 @@ entries:
   - label: "5"
     text: dispatches the task
   - label: "6"
-    text: receives the result
+    text: the success path
   - label: "7"
-    text: always, even on failure
+    text: caught, never propagated
   - label: "8"
-    text: errors come back as results
+    text: runs on both paths
+  - label: "9"
+    text: the error flag says which

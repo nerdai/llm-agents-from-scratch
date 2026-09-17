@@ -9,6 +9,10 @@ participant "A2A server" as peer
 
 agent -> handler : creates per run()
 activate handler
+
+loop _process_loop(), until the task is done
+handler -> handler : run_step(step)
+activate handler
 handler -> tool : ~__call~__(tool_call)
 hnote right #lightblue: 1
 activate tool
@@ -35,5 +39,6 @@ hnote left #lightblue: 7
 tool --> handler : ToolCallResult
 deactivate tool
 deactivate handler
+end
 
 @enduml

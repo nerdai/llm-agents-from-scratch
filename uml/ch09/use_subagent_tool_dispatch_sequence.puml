@@ -8,6 +8,10 @@ participant "tool: UseSubAgentTool" as tool
 
 agent -> handler : creates per run()
 activate handler
+
+loop _process_loop(), until the task is done
+handler -> handler : run_step(step)
+activate handler
 handler -> tool : ~__call~__(tool_call)
 hnote right #lightblue: 1
 activate tool
@@ -42,5 +46,6 @@ tool --> handler : ToolCallResult
 hnote left #lightblue: 9
 deactivate tool
 deactivate handler
+end
 
 @enduml

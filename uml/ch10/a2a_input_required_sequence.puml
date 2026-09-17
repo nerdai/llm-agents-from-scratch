@@ -11,9 +11,13 @@ hnote left #lightblue: 1
 
 activate server
 server -> store : save(task)
+activate store
+deactivate store
 note right: created from the Message and saved before\nany work, so it has an id from the start
 server -> server : works, then finds it needs\nmore from the client
 server -> store : save(task)
+activate store
+deactivate store
 server --> client : Task
 hnote left #lightblue: 2
 note right: status is input_required, carrying an\nagent Message that asks the question
@@ -25,9 +29,13 @@ note right: carries the Task's id
 
 activate server
 server -> store : get(task_id)
+activate store
 store --> server : the parked Task
+deactivate store
 server -> server : performs the task to\na terminal state
 server -> store : save(task)
+activate store
+deactivate store
 server --> client : Task
 hnote left #lightblue: 4
 deactivate server

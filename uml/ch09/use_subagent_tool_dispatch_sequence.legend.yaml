@@ -1,0 +1,21 @@
+placement: below
+columns: 3
+entries:
+  - label: "1"
+    text: fresh tool per run()
+  - label: "2"
+    text: gets the spec
+  - label: "3"
+    text: names the subagent
+  - label: "4"
+    text: a fresh agent, per call
+  - label: "5"
+    text: dispatches the task
+  - label: "6"
+    text: the success path
+  - label: "7"
+    text: caught, never propagated
+  - label: "8"
+    text: runs on both paths
+  - label: "9"
+    text: the error flag says which

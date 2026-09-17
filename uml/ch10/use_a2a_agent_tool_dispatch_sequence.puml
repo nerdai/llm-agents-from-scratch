@@ -12,6 +12,7 @@ activate handler
 
 group#fffbe6 #FFFFFF process loop
 note over handler: a single run_step(step) invocation
+...
 handler -> handler : run_step(step)
 activate handler
 handler -> tool : ~__call~__(tool_call)

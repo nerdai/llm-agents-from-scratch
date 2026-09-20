@@ -18,10 +18,10 @@ note left: published first, before\nanything that can suspend
 
 executor -> handler : background_task.cancel()
 activate handler
-handler --> executor : stopped
+handler --> executor : stopped (CancelledError swallowed)
 deactivate handler
 
-executor -> handler : cancel()
+executor -> handler : cancel() if not done()
 note left: the background task and the\nhandler settle separately
 deactivate executor
 

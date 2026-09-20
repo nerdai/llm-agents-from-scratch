@@ -12,17 +12,20 @@ activate executor
 
 executor -> updater : submit()
 executor -> updater : start_work()
-note left: progress reaches the client as\nevents on the queue, never as\na return value from execute()
+note left: progress reaches the client\nas queue events, not as a\nreturn value
 
 executor -> agent : run(Task(instruction))
 activate agent
+note left: run() returns a TaskHandler;\nthe result comes from\nawaiting it
 agent --> executor : TaskResult, or raises
 deactivate agent
+
+executor -> executor : _task_handlers.pop(id)
 
 alt task completed
   executor -> updater : add_artifact(result.content)
   executor -> updater : complete()
-else task raised
+else raised Exception
   executor -> updater : update_status(FAILED)
 end
 deactivate executor

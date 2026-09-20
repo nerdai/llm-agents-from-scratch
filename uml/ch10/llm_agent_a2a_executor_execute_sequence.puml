@@ -1,0 +1,30 @@
+@startuml uml_ch10_llm_agent_a2a_executor_execute_sequence
+!include ../common/book-clean.puml
+title LLMAgentA2AExecutor.execute() — Sequence
+
+participant "A2A server" as server
+participant "executor: LLMAgentA2AExecutor" as executor
+participant "updater: TaskUpdater" as updater
+participant "agent: LLMAgent" as agent
+
+server -> executor : execute(context, event_queue)
+activate executor
+
+executor -> updater : submit()
+executor -> updater : start_work()
+note left: progress reaches the client as\nevents on the queue, never as\na return value from execute()
+
+executor -> agent : run(Task(instruction))
+activate agent
+agent --> executor : TaskResult, or raises
+deactivate agent
+
+alt task completed
+  executor -> updater : add_artifact(result.content)
+  executor -> updater : complete()
+else task raised
+  executor -> updater : update_status(FAILED)
+end
+deactivate executor
+
+@enduml

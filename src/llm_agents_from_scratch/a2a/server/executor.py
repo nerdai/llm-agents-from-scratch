@@ -229,8 +229,9 @@ def build_agent_card(  # noqa: PLR0913, PLR0917
     ``context.get_user_input()`` and only emits text via
     ``new_text_part``), and ``capabilities`` is always
     ``AgentCapabilities(streaming=False)`` (``execute()`` publishes
-    only the final terminal state, no incremental updates — see the
-    streaming executor variant tracked as a follow-up, issue #814).
+    only the final terminal state, no incremental updates — see
+    ``StreamingLLMAgentA2AExecutor`` for the variant that streams
+    incremental progress instead).
     Everything else — pure descriptive metadata that doesn't claim
     anything about what the executor *does* — mirrors ``AgentCard``
     directly.

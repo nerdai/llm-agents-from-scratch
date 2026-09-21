@@ -2,7 +2,7 @@ placement: below
 columns: 3
 entries:
   - label: "1"
-    text: fresh tool per run()
+    text: built once with the handler
   - label: "2"
     text: gets the spec
   - label: "3"

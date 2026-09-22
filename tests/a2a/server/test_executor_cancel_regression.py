@@ -18,12 +18,30 @@ They also check the other half of what cancel() promises, which
 test_executor.py's existing test only checks against the same bare
 queue: that the in-flight work actually stopped (background_task
 settles), not just that a status update claiming so got published.
+
+a2a-sdk 1.1.4 added a backstop for the task *store* specifically:
+``ActiveTask.cancel()`` (``a2a/server/agent_execution/active_task.py``)
+now waits for the producer to fully settle and, if the task is not
+already in a terminal state, force-writes ``TASK_STATE_CANCELED``
+straight to the task store -- bypassing the event queue entirely, so
+a dropped publish from our own ``cancel()`` no longer prevents the
+store from reaching CANCELED. Per that method's own docstring, this
+backstop covers the store only: "That write is not guaranteed to
+reach an active subscriber stream." The publish-before-anything-that-
+can-suspend ordering in our ``cancel()`` therefore stays correct
+practice -- it is what gets a live streaming subscriber the CANCELED
+status promptly, which the backstop does not provide -- but it is no
+longer load-bearing for what this test suite can observe through
+``InMemoryTaskStore``. See
+``test_cancel_drops_status_if_anything_yields_before_publish`` for
+where that shows up.
 """
 
 import asyncio
 import contextlib
 import dataclasses
 import logging
+from importlib import metadata
 from typing import Any, Sequence
 
 import pytest
@@ -52,6 +70,11 @@ from llm_agents_from_scratch.data_structures import (
     CompleteResult,
     ToolCallResult,
 )
+
+_A2A_SDK_VERSION = tuple(
+    int(part) for part in metadata.version("a2a-sdk").split(".")[:3]
+)
+_HAS_CANCEL_STORE_BACKSTOP = _A2A_SDK_VERSION >= (1, 1, 4)
 
 
 class _ParkingLLM(BaseLLM):
@@ -102,7 +125,9 @@ class _YieldsBeforePublishExecutor(LLMAgentA2AExecutor):
 
     Negative control: proves the harness below actually detects a
     broken ordering, rather than trivially passing regardless of
-    what cancel() does.
+    what cancel() does. On a2a-sdk >= 1.1.4 this no longer produces
+    an observable failure through the task store -- see this test
+    file's module docstring for why.
     """
 
     async def cancel(self, context: Any, event_queue: Any) -> None:
@@ -290,12 +315,27 @@ async def test_cancel_persists_canceled_via_real_sdk_producer_loop() -> None:
 
 
 @pytest.mark.asyncio
+@pytest.mark.xfail(
+    _HAS_CANCEL_STORE_BACKSTOP,
+    strict=True,
+    reason=(
+        "a2a-sdk >= 1.1.4's ActiveTask.cancel() force-writes "
+        "TASK_STATE_CANCELED to the task store once the producer "
+        "settles, even if our own cancel() dropped its publish -- "
+        "see this file's module docstring. strict=True so this turns "
+        "into a hard failure (XPASS) if a future a2a-sdk version "
+        "removes that backstop and the old drop becomes observable "
+        "again, which is the signal to revisit this xfail."
+    ),
+)
 async def test_cancel_drops_status_if_anything_yields_before_publish() -> None:
     """Negative control: a yield before the publish loses the status.
 
     Confirms the harness above would actually fail if cancel()'s
     ordering regressed -- without this, a passing positive test alone
     wouldn't prove the harness detects the failure mode it exists for.
+    True on a2a-sdk < 1.1.4; neutralized by the task-store backstop on
+    1.1.4+, hence the xfail above rather than deleting the test.
 
     handler_done/handler_cancelled/background_task_done still hold
     here: the SDK's ActiveTask.cancel() cancels the producer task (and

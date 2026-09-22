@@ -162,21 +162,22 @@ class LLMAgentA2AExecutor(AgentExecutor):
                 f"No in-flight task found for id '{context.task_id}'.",
             )
 
-        # Publish CANCELED before anything that can suspend. The SDK's
-        # ActiveTask.cancel() cancels its own producer task (the one
-        # running execute()) *before* calling us -- that synchronously
-        # cancels task_handler, the Future execute() is awaiting on,
-        # so the producer is already one loop-tick from its `finally`,
-        # which closes this very event_queue. Any yield in this method
-        # before the enqueue below loses the race: enqueue_event
-        # swallows the resulting QueueShutDown and drops the event
-        # silently, and the request handler doesn't validate the
-        # resulting state, so the caller just sees the task's last
-        # non-terminal status instead of CANCELED. Confirmed live via
-        # a real SDK producer loop, not a mock -- deterministic, not a
-        # race: `await updater.cancel()` below happens to yield zero
-        # times (uncontended lock, non-full queue), which is the only
-        # reason this works. Nothing that can await may precede it.
+        # Publish CANCELED before anything else, so a live streaming
+        # subscriber sees it promptly. As of a2a-sdk 1.1.4,
+        # ActiveTask.cancel() awaits this whole method to completion
+        # before it cancels its own producer task (the one running
+        # execute()) -- see its "Await the executor's cancel before
+        # cancelling the producer" comment in active_task.py -- so
+        # event_queue is not being torn down underneath this call the
+        # way it was on 1.1.2, where the producer was already
+        # cancelled before this method ran. a2a-sdk 1.1.4 also now
+        # force-writes a CANCELED fallback to the task store if the
+        # task is still non-terminal once the whole call returns, so
+        # a dropped publish here would no longer leave the caller
+        # stuck on a stale status either way. Confirmed live via a
+        # real SDK producer loop: task_handler and background_task
+        # are both still unsettled (`.done()` is False for both) at
+        # the moment this method is entered.
         updater = TaskUpdater(event_queue, context.task_id, context.context_id)
         await updater.cancel()
 
@@ -186,11 +187,12 @@ class LLMAgentA2AExecutor(AgentExecutor):
         # Exception clause doesn't catch CancelledError), so anything
         # awaiting it would hang. Settle both, in order.
         #
-        # On the current SDK's default request handler, task_handler
-        # is already cancelled by the time we get here (see above), so
-        # this is a no-op on that path. It's kept as insurance for the
-        # legacy request handler, which calls this method *before*
-        # cancelling its own producer task -- the opposite order.
+        # As of a2a-sdk 1.1.4 (see the note above), this is the call
+        # that actually stops the in-flight work: neither task_handler
+        # nor background_task has been touched by the SDK by the time
+        # this method runs, so without it the agent loop would keep
+        # running after cancel() returns, orphaned under a task the
+        # SDK is about to mark terminal regardless.
         task_handler.background_task.cancel()
         try:  # noqa: SIM105
             await task_handler.background_task

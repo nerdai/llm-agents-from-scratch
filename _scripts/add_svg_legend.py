@@ -30,6 +30,14 @@ so the entries read as a footnote strip under the figure. If the
 entries need more room than the diagram is wide, the canvas is widened
 and the diagram re-centred above the strip. Defaults to false.
 
+A full-width legend is wrapped in a `<g data-full-width-legend="1">`
+marker group so `frame_svg_width.py`, which runs later in the
+pipeline, can re-widen it again: that script pads a diagram narrower
+than the print frame up to it without rescaling anything (by design,
+for every other diagram), which would otherwise leave a full-width
+legend spanning only the pre-frame canvas -- correct at the time this
+script ran, wrong once the diagram is centred in a wider frame.
+
 `columns: N` lays the entries out in N columns, filled row-wise, which
 trades height for width -- seven entries in three columns is three rows
 rather than seven. Useful under `placement: below`, where the diagram's
@@ -123,7 +131,12 @@ def _build_legend_svg(
             f'font-size="{FONT_SIZE}" x="{text_x:.2f}" '
             f'y="{line_y:.2f}">{text}</text>',
         )
-    return "".join(parts)
+    svg = "".join(parts)
+    if full_width:
+        # See module docstring: this marker is how frame_svg_width.py
+        # finds the box to re-widen if it pads the canvas further.
+        svg = f'<g data-full-width-legend="1">{svg}</g>'
+    return svg
 
 
 def _apply_one(svg_path: Path, legend_path: Path) -> bool:

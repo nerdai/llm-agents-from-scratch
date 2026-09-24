@@ -113,7 +113,7 @@ def test_format_xml_error() -> None:
         mode=EpisodeFormatMode.XML,
         exclude=_ALL_FIELDS - {"error"},
     )
-    assert "<error>something went wrong" in text
+    assert "<error>RuntimeError: something went wrong</error>" in text
 
 
 def test_format_xml_error_omitted_when_none() -> None:
@@ -173,3 +173,24 @@ def test_episode_init() -> None:
     assert episode.task == mock_task
     assert episode.result == mock_task_result
     assert episode.rollout == mock_rollout
+
+
+def test_episode_with_error_round_trips_through_json() -> None:
+    """Tests a failed Episode can be serialized and read back."""
+    task = Task(instruction="mock instruction")
+    ep = Episode(task=task, rollout="", error=ValueError("boom"))
+
+    restored = Episode.model_validate_json(ep.model_dump_json())
+
+    assert restored.error == "ValueError: boom"
+    assert Episode.model_validate_json(restored.model_dump_json()).error == (
+        "ValueError: boom"
+    )
+
+
+def test_episode_without_error_serializes_none() -> None:
+    """Tests a successful Episode serializes ``error`` as null."""
+    task = Task(instruction="mock instruction")
+    ep = Episode(task=task, rollout="")
+
+    assert Episode.model_validate_json(ep.model_dump_json()).error is None

@@ -1,0 +1,10 @@
+placement: below
+full_width: true
+columns: 1
+entries:
+  - label: "1"
+    text: "empty until the task produces output"
+  - label: "2"
+    text: "exactly one content field is set"
+  - label: "..."
+    text: "further attributes not shown"

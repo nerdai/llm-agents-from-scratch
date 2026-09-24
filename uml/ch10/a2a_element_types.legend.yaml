@@ -1,5 +1,5 @@
 placement: below
-full_width: true
+center: true
 columns: 1
 entries:
   - label: "1"

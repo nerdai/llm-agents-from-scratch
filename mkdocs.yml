@@ -70,6 +70,12 @@ nav:
     - Chapter 7:
       - Episodic Memory (PokéAPI): more-examples/ch07/recency_memory.ipynb
       - Similarity Memory (REST Countries): more-examples/ch07/similarity_memory.ipynb
+    - Chapter 8:
+      - Approval Gate with a Skill: more-examples/ch08/approval_gate_in_skill.ipynb
+      - HumanInputTool Inside a Skill: more-examples/ch08/skill_with_human_input.ipynb
+      - Supervised Trajectories: more-examples/ch08/supervised_trajectories.ipynb
+    - Chapter 9:
+      - Subagent Failure and Recovery: more-examples/ch09/subagent_failure.ipynb
   - Capstones:
     # Symlinked from capstones/ — do not copy directly.
     - Capstone 1:

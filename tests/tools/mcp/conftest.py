@@ -1,6 +1,6 @@
 from contextlib import asynccontextmanager
 from typing import Any, AsyncContextManager, Callable
-from unittest.mock import AsyncMock, MagicMock
+from unittest.mock import AsyncMock
 
 import pytest
 
@@ -29,7 +29,6 @@ def mock_streamable_http_client_transport() -> Callable[
     async def async_context_manager(*args, **kwargs):
         mock_read = AsyncMock()
         mock_write = AsyncMock()
-        mock_id_callback = MagicMock()
-        yield (mock_read, mock_write, mock_id_callback)
+        yield (mock_read, mock_write)
 
     return async_context_manager

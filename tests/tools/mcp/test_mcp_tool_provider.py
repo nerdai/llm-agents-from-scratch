@@ -142,11 +142,18 @@ async def test_session_creation_streamable_http(
     streamablehttp_provider = MCPToolProvider(
         name="mock provider",
         streamable_http_url="http://mock-url.io",
+        streamable_http_headers={"Authorization": "Bearer mock-token"},
     )
 
     await streamablehttp_provider.session()
 
+    # headers travel on the http client, not as a positional argument
     mock_streamable_http_client.assert_called_once()
+    args, kwargs = mock_streamable_http_client.call_args
+    assert args == ("http://mock-url.io",)
+    assert kwargs["http_client"].headers["Authorization"] == (
+        "Bearer mock-token"
+    )
     mock_client_session_cls.assert_called_once()
     assert streamablehttp_provider._session_ready.is_set()
 

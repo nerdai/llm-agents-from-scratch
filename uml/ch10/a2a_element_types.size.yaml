@@ -1,0 +1,10 @@
+# Library types, not one of the dense framework class diagrams: at the
+# shared 5.0pt class target this figure prints ~2.1in wide, a third of
+# the page, for no legibility gain.
+#
+# 6.533, not 7.0, to land on the same *printed* size as the chapter's
+# sequence diagrams. set_svg_print_size.py scales against the theme's
+# 14pt DefaultFontSize, but class diagrams use ClassFontSize 15, so a
+# class diagram prints 15/14 larger than its nominal target:
+# 7.0 x 14/15 = 6.533.
+target_pt: 6.533

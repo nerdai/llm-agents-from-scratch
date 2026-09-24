@@ -24,6 +24,12 @@ which a dense sequence diagram simply does not have at any width. Set
 growing the canvas to make room. `top` is ignored in that mode.
 Placement defaults to `overlay` so existing sidecars are unaffected.
 
+`full_width: true` (only with `placement: below`) stretches the box
+across the whole canvas instead of right-aligning a content-sized one,
+so the entries read as a footnote strip under the figure. If the
+entries need more room than the diagram is wide, the canvas is widened
+and the diagram re-centred above the strip. Defaults to false.
+
 `columns: N` lays the entries out in N columns, filled row-wise, which
 trades height for width -- seven entries in three columns is three rows
 rather than seven. Useful under `placement: below`, where the diagram's
@@ -49,6 +55,7 @@ MARGIN_RIGHT = 60.0
 STARTUML_NAME = re.compile(r"@startuml\s+(\S+)")
 VIEWBOX = re.compile(r'viewBox="0 0 ([\d.]+) ([\d.]+)"')
 SVG_CLOSE = re.compile(r"</g></svg>")
+CONTENT_GROUP = re.compile(r"(<\?plantuml[^>]*\?><defs/>)<g>")
 
 
 def _line_length(label: str, text: str) -> float:
@@ -79,13 +86,19 @@ def _build_legend_svg(
     canvas_width: float,
     top: float,
     columns: int = 1,
+    full_width: bool = False,
 ) -> str:
     col_widths = _column_widths(entries, columns)
-    box_width = sum(col_widths) + PADDING * 2
     box_height = _legend_height(entries, columns)
-    # Right-aligned, but never off the left edge: a box wider than the
-    # canvas would otherwise be silently clipped rather than reported.
-    x = max(MARGIN_RIGHT, canvas_width - box_width - MARGIN_RIGHT)
+    if full_width:
+        x = MARGIN_RIGHT
+        box_width = canvas_width - MARGIN_RIGHT * 2
+    else:
+        box_width = sum(col_widths) + PADDING * 2
+        # Right-aligned, but never off the left edge: a box wider than
+        # the canvas would otherwise be silently clipped rather than
+        # reported.
+        x = max(MARGIN_RIGHT, canvas_width - box_width - MARGIN_RIGHT)
     y = top
 
     parts = [
@@ -130,7 +143,32 @@ def _apply_one(svg_path: Path, legend_path: Path) -> bool:
     entries = spec["entries"]
     columns = int(spec.get("columns", 1))
 
+    full_width = bool(spec.get("full_width", False))
+    close_inner = False
+
     if spec.get("placement", "overlay") == "below":
+        if full_width:
+            needed = (
+                sum(_column_widths(entries, columns))
+                + PADDING * 2
+                + MARGIN_RIGHT * 2
+            )
+            if needed > canvas_width:
+                # Widen the canvas for the strip and re-centre the
+                # diagram over it. The translate goes in a *nested*
+                # group so the outer `<defs/><g>` anchor survives for
+                # frame_svg_width.py, and so the strip appended after
+                # it is not shifted along with the diagram.
+                dx = (needed - canvas_width) / 2
+                content, moved = CONTENT_GROUP.subn(
+                    rf'\1<g><g transform="translate({dx:.4f},0)">',
+                    content,
+                    count=1,
+                )
+                if not moved:
+                    return False
+                canvas_width = needed
+                close_inner = True
         top = canvas_height + PADDING
         # set_svg_print_size recomputes width/height from the viewBox, so
         # growing the viewBox alone is enough to reserve the space.
@@ -148,8 +186,10 @@ def _apply_one(svg_path: Path, legend_path: Path) -> bool:
         canvas_width,
         top=top,
         columns=columns,
+        full_width=full_width,
     )
-    fixed, count = SVG_CLOSE.subn(legend_svg + "</g></svg>", content, count=1)
+    tail = ("</g>" if close_inner else "") + legend_svg + "</g></svg>"
+    fixed, count = SVG_CLOSE.subn(tail, content, count=1)
     if not count:
         return False
     svg_path.write_text(fixed)

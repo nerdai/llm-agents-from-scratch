@@ -34,6 +34,13 @@ at the exact same size, true uniformity within the existing 5.6in x
 worst-offending diagrams are split/simplified (tracked separately).
 
 Sequence diagrams get their own target too (SEQUENCE_TARGET_PT, 7.0pt).
+
+A single diagram can opt out of its type's shared target with a
+`<diagram>.size.yaml` sidecar next to its `.puml` holding `target_pt`.
+That is for figures whose type says little about how much room they
+need -- a sparse class diagram of someone else's library, say, which
+at the dense-class 5.0pt target would print at a third of the page
+width for no benefit.
 Left on the shared 9pt they rendered from 5.6pt to 9pt across the book
 -- the simple ones hitting target while the busy ones were capped well
 below it, the same inconsistency class diagrams had. 7.0 is a deliberate
@@ -55,6 +62,7 @@ import re
 from pathlib import Path
 
 import fire
+import yaml
 
 # Must match uml/common/book-clean.puml's skinparam dpi / DefaultFontSize.
 THEME_DPI = 500
@@ -74,6 +82,7 @@ WIDTH_ATTR = re.compile(r'width="[\d.]+px"')
 HEIGHT_ATTR = re.compile(r'height="[\d.]+px"')
 STYLE_SIZE = re.compile(r"width:[\d.]+px;height:[\d.]+px;")
 DIAGRAM_TYPE = re.compile(r'data-diagram-type="([A-Z]+)"')
+STARTUML_NAME = re.compile(r"@startuml\s+(\S+)")
 
 
 def _inches_per_user_unit(target_pt: float) -> float:
@@ -81,13 +90,45 @@ def _inches_per_user_unit(target_pt: float) -> float:
     return target_pt / (user_units_per_pt * 72)
 
 
-def _resize_one(  # noqa: PLR0913
+def _size_overrides(uml_dir: Path) -> dict[str, float]:
+    """Map rendered SVG filename -> target_pt, from `*.size.yaml`.
+
+    A diagram opts out of its type's shared target by dropping a
+    `<diagram>.size.yaml` next to its `.puml`, holding `target_pt`.
+    Same sidecar convention as `add_svg_legend.py`'s `*.legend.yaml`.
+
+    Args:
+        uml_dir (Path): Directory holding `.puml` sources and sidecars.
+
+    Returns:
+        dict[str, float]: SVG filename to its overriding point size.
+    """
+    overrides: dict[str, float] = {}
+    for size_path in uml_dir.rglob("*.size.yaml"):
+        puml_path = size_path.with_name(
+            size_path.name.replace(".size.yaml", ".puml"),
+        )
+        if not puml_path.exists():
+            continue
+        name_match = STARTUML_NAME.search(puml_path.read_text())
+        if not name_match:
+            continue
+        spec = yaml.safe_load(size_path.read_text()) or {}
+        if "target_pt" in spec:
+            overrides[f"{name_match.group(1)}.svg"] = float(
+                spec["target_pt"],
+            )
+    return overrides
+
+
+def _resize_one(  # noqa: PLR0913, PLR0917
     svg_path: Path,
     default_target_pt: float,
     class_target_pt: float,
     sequence_target_pt: float,
     max_width_in: float,
     max_height_in: float,
+    override_pt: float | None = None,
 ) -> dict[str, float | str] | None:
     content = svg_path.read_text()
     match = VIEWBOX.search(content)
@@ -97,7 +138,7 @@ def _resize_one(  # noqa: PLR0913
 
     type_match = DIAGRAM_TYPE.search(content)
     diagram_type = type_match.group(1) if type_match else None
-    target_pt = {
+    target_pt = override_pt or {
         "CLASS": class_target_pt,
         "SEQUENCE": sequence_target_pt,
     }.get(diagram_type or "", default_target_pt)
@@ -135,13 +176,14 @@ def _resize_one(  # noqa: PLR0913
     }
 
 
-def main(  # noqa: PLR0913
+def main(  # noqa: PLR0913, PLR0917
     rendered_dir: Path | str,
     target_pt: float = DEFAULT_TARGET_PT,
     class_target_pt: float = CLASS_TARGET_PT,
     sequence_target_pt: float = SEQUENCE_TARGET_PT,
     max_width_in: float = DEFAULT_MAX_WIDTH_IN,
     max_height_in: float = DEFAULT_MAX_HEIGHT_IN,
+    uml_dir: Path | str = "uml",
 ) -> None:
     """Set physical print sizes on every SVG under rendered_dir.
 
@@ -156,12 +198,15 @@ def main(  # noqa: PLR0913
             sequence diagrams specifically.
         max_width_in (float): Max figure width, in inches.
         max_height_in (float): Max figure height, in inches.
+        uml_dir (Path | str): Directory holding `.puml` sources, for
+            picking up `*.size.yaml` per-diagram target overrides.
 
     Examples:
         >>> uv run python _scripts/set_svg_print_size.py \
         ...     --rendered_dir uml/rendered
     """
     rendered_dir = Path(rendered_dir)
+    overrides = _size_overrides(Path(uml_dir))
     results = []
     for svg_path in sorted(rendered_dir.rglob("*.svg")):
         result = _resize_one(
@@ -171,6 +216,7 @@ def main(  # noqa: PLR0913
             sequence_target_pt,
             max_width_in,
             max_height_in,
+            overrides.get(svg_path.name),
         )
         if result:
             results.append(result)

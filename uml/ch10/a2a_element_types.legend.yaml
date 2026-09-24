@@ -1,4 +1,5 @@
 placement: below
+center: true
 columns: 1
 entries:
   - label: "1"

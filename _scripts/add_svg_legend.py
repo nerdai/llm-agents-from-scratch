@@ -38,6 +38,17 @@ for every other diagram), which would otherwise leave a full-width
 legend spanning only the pre-frame canvas -- correct at the time this
 script ran, wrong once the diagram is centred in a wider frame.
 
+`center: true` (only with `placement: below`, ignored if `full_width`
+is also set) centers a content-sized box instead of right-aligning it.
+Right-align (the default) only looks correct when the box is as wide
+as the diagram's own canvas -- otherwise `frame_svg_width.py` centers
+the diagram (which fills its own canvas) while the box, narrower than
+that canvas, stays wherever right-alignment put it within it, so it
+ends up visibly off-center under the now-centered diagram. A centered
+box doesn't have this problem: both box and diagram share the same
+local center, so the same downstream shift keeps them aligned with no
+patch needed, unlike `full_width`.
+
 `columns: N` lays the entries out in N columns, filled row-wise, which
 trades height for width -- seven entries in three columns is three rows
 rather than seven. Useful under `placement: below`, where the diagram's
@@ -89,18 +100,22 @@ def _legend_height(entries: list[dict[str, Any]], columns: int = 1) -> float:
     return LINE_HEIGHT * _legend_rows(entries, columns) + PADDING * 2
 
 
-def _build_legend_svg(
+def _build_legend_svg(  # noqa: PLR0913, PLR0917
     entries: list[dict[str, Any]],
     canvas_width: float,
     top: float,
     columns: int = 1,
     full_width: bool = False,
+    center: bool = False,
 ) -> str:
     col_widths = _column_widths(entries, columns)
     box_height = _legend_height(entries, columns)
     if full_width:
         x = MARGIN_RIGHT
         box_width = canvas_width - MARGIN_RIGHT * 2
+    elif center:
+        box_width = sum(col_widths) + PADDING * 2
+        x = max(MARGIN_RIGHT, (canvas_width - box_width) / 2)
     else:
         box_width = sum(col_widths) + PADDING * 2
         # Right-aligned, but never off the left edge: a box wider than
@@ -157,6 +172,7 @@ def _apply_one(svg_path: Path, legend_path: Path) -> bool:
     columns = int(spec.get("columns", 1))
 
     full_width = bool(spec.get("full_width", False))
+    center = bool(spec.get("center", False))
     close_inner = False
 
     if spec.get("placement", "overlay") == "below":
@@ -200,6 +216,7 @@ def _apply_one(svg_path: Path, legend_path: Path) -> bool:
         top=top,
         columns=columns,
         full_width=full_width,
+        center=center,
     )
     tail = ("</g>" if close_inner else "") + legend_svg + "</g></svg>"
     fixed, count = SVG_CLOSE.subn(tail, content, count=1)

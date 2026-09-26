@@ -77,6 +77,7 @@ nav:
     - Chapter 9:
       - Subagent Failure and Recovery: more-examples/ch09/subagent_failure.ipynb
       - Evaluator Pattern: more-examples/ch09/evaluator_pattern.ipynb
+      - Subagent with an MCP Tool: more-examples/ch09/subagent_with_mcp_tool.ipynb
   - Capstones:
     # Symlinked from capstones/ — do not copy directly.
     - Capstone 1:

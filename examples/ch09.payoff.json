@@ -1,0 +1,51 @@
+{
+  "placeholder": true,
+  "note": "Illustrative numbers for the Ch9 video PoC only. Real measurements pending the actual A=27 run tracked under issue #954; swap this file once that run lands.",
+  "a_start": 27,
+  "a_steps_expected": 111,
+  "b_start": 222,
+  "b_steps_expected": 70,
+  "model": "glm-5.3:cloud",
+  "max_steps": 400,
+  "single_agent": {
+    "task_steps": 182,
+    "steps_in_A": 112,
+    "steps_in_B": 70,
+    "tokens": {
+      "start_of_A": 0,
+      "end_of_A": 58000,
+      "start_of_B": 58000,
+      "end_of_B": 105000
+    },
+    "chars": {
+      "start_of_A": 0,
+      "end_of_A": 185000,
+      "start_of_B": 185000,
+      "end_of_B": 335000
+    },
+    "seconds": 1750.0
+  },
+  "delegated": {
+    "task_steps": 72,
+    "steps_in_A": 1,
+    "steps_in_B": 70,
+    "tokens": {
+      "start_of_A": 0,
+      "end_of_A": 2200,
+      "start_of_B": 2200,
+      "end_of_B": 49000
+    },
+    "chars": {
+      "start_of_A": 0,
+      "end_of_A": 7000,
+      "start_of_B": 7000,
+      "end_of_B": 156000
+    },
+    "seconds": 1550.0,
+    "subagent_end_of_A_tokens": 58000,
+    "subagent_end_of_A_chars": 185000,
+    "subagent_steps": 112
+  },
+  "single_agent_answer": "PLACEHOLDER — real run pending (issue #954)",
+  "delegated_answer": "PLACEHOLDER — real run pending (issue #954)"
+}

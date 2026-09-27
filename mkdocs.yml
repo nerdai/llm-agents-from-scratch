@@ -80,6 +80,7 @@ nav:
       - Subagent with an MCP Tool: more-examples/ch09/subagent_with_mcp_tool.ipynb
     - Chapter 10:
       - Streaming Agent Executor: more-examples/ch10/streaming_llmagent_executor.ipynb
+      - Cancelling a Task Execution: more-examples/ch10/cancelling_a_task_execution.ipynb
   - Capstones:
     # Symlinked from capstones/ — do not copy directly.
     - Capstone 1:

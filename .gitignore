@@ -65,4 +65,5 @@ capstones/one/_capstone_1_ch05-openai.ipynb
 # generated notebook artifacts
 more-examples/**/*.jsonl
 examples/*.log
+more-examples/**/*.log
 .claude/settings.json

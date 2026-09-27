@@ -14,7 +14,7 @@ from a2a.server.tasks import InMemoryTaskStore
 from fastapi import FastAPI
 
 from llm_agents_from_scratch import LLMAgent
-from llm_agents_from_scratch.a2a.server.streaming_executor import (
+from llm_agents_from_scratch.a2a import (
     StreamingLLMAgentA2AExecutor,
     build_streaming_agent_card,
 )

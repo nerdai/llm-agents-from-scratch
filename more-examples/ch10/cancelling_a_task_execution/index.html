@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://masfromscratch.com/more-examples/ch05/github_mcp/">
+        <link rel="canonical" href="https://masfromscratch.com/more-examples/ch10/cancelling_a_task_execution/">
       
       
-        <link rel="prev" href="../../ch04/pokemon_comparison/">
+        <link rel="prev" href="../streaming_llmagent_executor/">
       
       
-        <link rel="next" href="../goodnews_mcp/">
+        <link rel="next" href="../../../capstones/one/">
       
       
         
@@ -25,7 +25,7 @@
     
     
       
-        <title>GitHub MCP Example - LLM Agents From Scratch</title>
+        <title>Cancelling a Task Execution — Stopping an In-Flight A2A Task - LLM Agents From Scratch</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#github-mcp-example" class="md-skip">
+        <a href="#cancelling-a-task-execution-stopping-an-in-flight-a2a-task" class="md-skip">
           Skip to content
         </a>
       
@@ -113,7 +113,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              GitHub MCP Example
+              Cancelling a Task Execution — Stopping an In-Flight A2A Task
             
           </span>
         </div>
@@ -1274,10 +1274,8 @@
                 
   
   
-    
   
   
-  
     
     
       
@@ -1292,11 +1290,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
         
           
           <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
@@ -1317,7 +1315,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1332,37 +1330,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    GitHub MCP Example
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../ch05/github_mcp/" class="md-nav__link">
         
   
   
@@ -1378,92 +1349,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#requirements" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Requirements
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#setup-instructions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Setup Instructions
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#running-an-ollama-service" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Running an Ollama service
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#creating-an-mcptoolprovider-for-githubs-mcp-server" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Creating an MCPToolProvider for GitHub's MCP Server
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#create-our-llm-agent" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Create our LLM agent
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#a-simple-task-for-our-agent" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        A simple task for our agent
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1476,7 +1361,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../goodnews_mcp/" class="md-nav__link">
+      <a href="../../ch05/goodnews_mcp/" class="md-nav__link">
         
   
   
@@ -2139,8 +2024,10 @@
                 
   
   
+    
   
   
+  
     
     
       
@@ -2155,11 +2042,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_10" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_10" checked>
         
           
           <label class="md-nav__link" for="__nav_3_10" id="__nav_3_10_label" tabindex="0">
@@ -2180,7 +2067,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_10_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_10_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3_10">
             <span class="md-nav__icon md-icon"></span>
             
@@ -2198,7 +2085,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../ch10/streaming_llmagent_executor/" class="md-nav__link">
+      <a href="../streaming_llmagent_executor/" class="md-nav__link">
         
   
   
@@ -2223,10 +2110,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../ch10/cancelling_a_task_execution/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cancelling a Task Execution — Stopping an In-Flight A2A Task
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -2242,6 +2156,125 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#setup-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup Instructions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-an-ollama-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running an Ollama service
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Server
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-fresh-client-per-role" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A Fresh Client Per Role
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-dispatch-the-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1 — Dispatch the Task
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-find-the-in-flight-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2 — Find the In-Flight Task
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-cancel-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3 — Cancel It
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-confirm-it-actually-stopped" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4 — Confirm It Actually Stopped
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cleanup
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -4135,17 +4168,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#requirements" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Requirements
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#setup-instructions" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4168,10 +4190,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#creating-an-mcptoolprovider-for-githubs-mcp-server" class="md-nav__link">
+  <a href="#the-server" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Creating an MCPToolProvider for GitHub's MCP Server
+        The Server
       
     </span>
   </a>
@@ -4179,10 +4201,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#create-our-llm-agent" class="md-nav__link">
+  <a href="#a-fresh-client-per-role" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Create our LLM agent
+        A Fresh Client Per Role
       
     </span>
   </a>
@@ -4190,10 +4212,54 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#a-simple-task-for-our-agent" class="md-nav__link">
+  <a href="#step-1-dispatch-the-task" class="md-nav__link">
     <span class="md-ellipsis">
       
-        A simple task for our agent
+        Step 1 — Dispatch the Task
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-find-the-in-flight-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2 — Find the In-Flight Task
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-cancel-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3 — Cancel It
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-confirm-it-actually-stopped" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4 — Confirm It Actually Stopped
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cleanup
       
     </span>
   </a>
@@ -4941,37 +5007,57 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </style>
 <!-- End of mermaid configuration --><div class="jupyter-wrapper">
 <div class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ll0nsefz8t">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7976efd9">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="github-mcp-example">GitHub MCP Example<a class="anchor-link" href="#github-mcp-example">¶</a></h1><p>This notebook demonstrates how to connect an <code>LLMAgent</code> to the official
-<a href="https://github.com/github/github-mcp-server">GitHub MCP server</a> using the
-streamable HTTP transport introduced in Chapter 5.</p>
-<h2 id="requirements">Requirements<a class="anchor-link" href="#requirements">¶</a></h2><ul>
-<li>A GitHub Personal Access Token (PAT) with read access to public repositories,
-stored in the environment variable <code>GITHUB_PAT</code></li>
-</ul>
-<h2 id="setup-instructions">Setup Instructions<a class="anchor-link" href="#setup-instructions">¶</a></h2><p>To ensure you have the required dependencies to run this notebook, you'll need to have our <code>llm-agents-from-scratch</code> framework installed on the running Jupyter kernel. To do this, you can launch this notebook with the following command while within the project's root directory:</p>
-<div class="highlight"><pre><span></span><span class="c1"># we need the notebook-utils and openai extras for this notebook</span>
-uv<span class="w"> </span>sync<span class="w"> </span>--extra<span class="w"> </span>notebook-utils<span class="w"> </span>--extra<span class="w"> </span>openai
-
-<span class="c1"># to launch the notebook</span>
-uv<span class="w"> </span>run<span class="w"> </span>--with<span class="w"> </span>jupyter<span class="w"> </span>jupyter<span class="w"> </span>lab
+<h1 id="cancelling-a-task-execution-stopping-an-in-flight-a2a-task">Cancelling a Task Execution — Stopping an In-Flight A2A Task<a class="anchor-link" href="#cancelling-a-task-execution-stopping-an-in-flight-a2a-task">¶</a></h1><p>This notebook cancels a real, genuinely in-flight A2A task via
+<code>cancel()</code>: dispatch a long Hailstone sequence, cancel it mid-step, and
+confirm both that the task settles <code>TASK_STATE_CANCELED</code> and that the
+underlying work actually stopped, not just that its status changed.</p>
+<p><strong>NOTE</strong>
+There is no client-side cancel in this framework yet: <code>a2a/client/</code>
+has no <code>cancel</code> at all, so <code>UseA2AAgentTool</code> cannot cancel a peer. This
+notebook drives the raw <code>a2a-sdk</code> client directly.</p>
+<p><code>cancel()</code>'s ordering matters here: it has to publish <code>CANCELED</code> before
+anything that can suspend, or a live subscriber can miss it entirely
+(a real, previously confirmed failure mode, not a hypothetical one;
+see <code>LLMAgentA2AExecutor.cancel()</code>'s own docstring). One open, known
+gap this notebook doesn't exercise: if the agent completes normally at
+the same instant a cancel arrives, both <code>CANCELED</code> and <code>COMPLETED</code> can
+end up published for the same task, a separate issue already tracked
+elsewhere, not something fixed here.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1f137d80">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="setup-instructions">Setup Instructions<a class="anchor-link" href="#setup-instructions">¶</a></h2><p>This notebook launches the <code>extra/a2a-from-scratch-hailstone</code> app from
+a local checkout, so it needs the full repository, not just the
+package. Launch it with:</p>
+<div class="highlight"><pre><span></span>uv<span class="w"> </span>run<span class="w"> </span>--with<span class="w"> </span>jupyter<span class="w"> </span>jupyter<span class="w"> </span>lab
 </pre></div>
-<p>Alternatively, if you just want to use the published version of <code>llm-agents-from-scratch</code> without local development, you can install it from PyPI by uncommenting the cell below.</p>
+<p>from the project root. No PyPI release of <code>llm-agents-from-scratch</code> has
+A2A support yet (still under "Unreleased" in <code>CHANGELOG.md</code>), so the
+<code>pip install</code> cell below won't provide what this notebook needs even
+if uncommented; it's left only for parity with the other notebooks.</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=22fb0603-c279-424f-bd90-fed3129140d7">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=a4bd8611">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-1">
@@ -4984,35 +5070,39 @@ uv<span class="w"> </span>run<span class="w"> </span>--with<span class="w"> </sp
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Uncomment the line below to install `llm-agents-from-scratch` from PyPI</span>
-<span class="c1"># !pip install 'llm-agents-from-scratch[notebook-utils,openai]'</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># No PyPI release has A2A support yet -- see Setup Instructions above.</span>
+<span class="c1"># !pip install llm-agents-from-scratch</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-1"># Uncomment the line below to install `llm-agents-from-scratch` from PyPI
-# !pip install 'llm-agents-from-scratch[notebook-utils,openai]'</div>
+<div class="clipboard-copy-txt" id="cell-1"># No PyPI release has A2A support yet -- see Setup Instructions above.
+# !pip install llm-agents-from-scratch</div>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=bf43a249-cbd0-4e70-b8d0-3fd14b4b32ac">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1cc88844">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="running-an-ollama-service">Running an Ollama service<a class="anchor-link" href="#running-an-ollama-service">¶</a></h2><p>To execute the code provided in this notebook, you’ll need to have Ollama installed on your local machine and have its LLM hosting service running. To download Ollama, follow the instructions found on this page: <a href="https://ollama.com/download">https://ollama.com/download</a>. After downloading and installing Ollama, you can start a service by opening a terminal and running the command <code>ollama serve</code>.</p>
-<p>If running on Runpod using the Runpod templates for this Capstone project, then an Ollama service will already be running for you.</p>
+<h2 id="running-an-ollama-service">Running an Ollama service<a class="anchor-link" href="#running-an-ollama-service">¶</a></h2><p>To execute the code provided in this notebook, you'll need to have
+Ollama installed on your local machine and have its LLM hosting
+service running. To download Ollama, follow the instructions found on
+this page: <a href="https://ollama.com/download">https://ollama.com/download</a>. After downloading and
+installing Ollama, you can start a service by opening a terminal and
+running <code>ollama serve</code>.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=7fb27b941602401d91542211134fc71a">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=f794fc25">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-2">
@@ -5044,19 +5134,9 @@ uv<span class="w"> </span>run<span class="w"> </span>--with<span class="w"> </sp
             <span class="k">return</span> <span class="kc">False</span>
 
     <span class="k">if</span> <span class="n">_up</span><span class="p">():</span>
-        <span class="k">return</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✓ Ollama already running at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\u2713</span><span class="s2"> Ollama already running at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="c1"># Lightning persistent path first, then standard locations</span>
     <span class="n">ollama_path</span> <span class="o">=</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="s2">"ollama"</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">ollama_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="p">[</span>
-            <span class="s2">"/teamspace/studios/this_studio/.local/bin/ollama"</span><span class="p">,</span>
-            <span class="s2">"/usr/local/bin/ollama"</span><span class="p">,</span>
-            <span class="s2">"/usr/bin/ollama"</span><span class="p">,</span>
-        <span class="p">]:</span>
-            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">candidate</span><span class="p">):</span>
-                <span class="n">ollama_path</span> <span class="o">=</span> <span class="n">candidate</span>
-                <span class="k">break</span>
     <span class="k">if</span> <span class="n">ollama_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
             <span class="s2">"Could not find the ollama binary. Install with: "</span>
@@ -5073,13 +5153,14 @@ uv<span class="w"> </span>run<span class="w"> </span>--with<span class="w"> </sp
     <span class="n">deadline</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="n">timeout</span>
     <span class="k">while</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">deadline</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">_up</span><span class="p">():</span>
-            <span class="k">return</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✓ Ollama up and running at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\u2713</span><span class="s2"> Ollama up and running at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
 
     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Ollama did not start within </span><span class="si">{</span><span class="n">timeout</span><span class="si">}</span><span class="s2">s"</span><span class="p">)</span>
 
 
-<span class="n">ensure_ollama</span><span class="p">()</span>
+<span class="n">use_cloud</span> <span class="o">=</span> <span class="s2">"OLLAMA_API_KEY"</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span>
+<span class="n">ensure_ollama</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">use_cloud</span> <span class="k">else</span> <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\u2713</span><span class="s2"> Using Ollama Cloud"</span><span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-2">import os
 import shutil
@@ -5100,19 +5181,9 @@ def ensure_ollama(host="http://localhost:11434", timeout=15):
             return False
 
     if _up():
-        return print(f"✓ Ollama already running at {host}")
+        return print(f"\u2713 Ollama already running at {host}")
 
-    # Lightning persistent path first, then standard locations
     ollama_path = shutil.which("ollama")
-    if ollama_path is None:
-        for candidate in [
-            "/teamspace/studios/this_studio/.local/bin/ollama",
-            "/usr/local/bin/ollama",
-            "/usr/bin/ollama",
-        ]:
-            if os.path.exists(candidate):
-                ollama_path = candidate
-                break
     if ollama_path is None:
         raise RuntimeError(
             "Could not find the ollama binary. Install with: "
@@ -5129,25 +5200,39 @@ def ensure_ollama(host="http://localhost:11434", timeout=15):
     deadline = time.time() + timeout
     while time.time() &lt; deadline:
         if _up():
-            return print(f"✓ Ollama up and running at {host}")
+            return print(f"\u2713 Ollama up and running at {host}")
         time.sleep(0.5)
 
     raise RuntimeError(f"Ollama did not start within {timeout}s")
 
 
-ensure_ollama()</div>
+use_cloud = "OLLAMA_API_KEY" in os.environ
+ensure_ollama() if not use_cloud else print("\u2713 Using Ollama Cloud")</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>✓ Using Ollama Cloud
+</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=5e6e6c7f">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=6d20b86f">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-3">
@@ -5160,48 +5245,36 @@ ensure_ollama()</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_console_logging</span>
-
-<span class="n">enable_console_logging</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="s2">"glm-5.3:cloud"</span> <span class="k">if</span> <span class="n">use_cloud</span> <span class="k">else</span> <span class="s2">"qwen3:14b"</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-3">import logging
-
-from llm_agents_from_scratch.logger import enable_console_logging
-
-enable_console_logging(logging.INFO)</div>
+<div class="clipboard-copy-txt" id="cell-3">model = "glm-5.3:cloud" if use_cloud else "qwen3:14b"</div>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=81baf01d">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4f9db141">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="creating-an-mcptoolprovider-for-githubs-mcp-server">Creating an MCPToolProvider for GitHub's MCP Server<a class="anchor-link" href="#creating-an-mcptoolprovider-for-githubs-mcp-server">¶</a></h2><p>Unlike the stdio-based MCP servers used earlier in this chapter, GitHub's MCP
-server is a remote server accessed over HTTP. We connect to it using the
-<code>streamable_http_url</code> parameter on <code>MCPToolProvider</code>, along with
-<code>streamable_http_headers</code> to pass authentication credentials.</p>
-<p>To authenticate, you'll need a GitHub Personal Access Token (PAT) with read
-access to public repositories. If you don't have one, follow the instructions
-<a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens">here</a>
-to create one.  The next cell will prompt you to enter it securely, and won't be
-echoed to the screen or stored in the notebook.</p>
+<h2 id="the-server">The Server<a class="anchor-link" href="#the-server">¶</a></h2><p>The same standalone app <code>more-examples/ch10/streaming_llmagent_executor.ipynb</code>
+uses: <code>extra/a2a-from-scratch-hailstone</code>, a genuinely separate OS
+process with its own log stream. 27 is the starting number: its
+Hailstone sequence takes over 100 steps, leaving plenty of margin to
+cancel well before it would ever finish on its own.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=770d16fa">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=8c27cd60">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-4">
@@ -5214,25 +5287,279 @@ echoed to the screen or stored in the notebook.</p>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">contextlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">signal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlparse</span>
 
-<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"GITHUB_PAT"</span><span class="p">]</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"GitHub PAT: "</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">find_repo_root</span><span class="p">(</span><span class="n">marker</span><span class="o">=</span><span class="s2">"extra"</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Walk up from cwd to the first ancestor containing `marker`.</span>
+
+<span class="sd">    Jupyter sets a kernel's cwd to the directory of the opened notebook</span>
+<span class="sd">    file under normal use, but that's not guaranteed for every launch</span>
+<span class="sd">    method (e.g. running via nbconvert from the project root), so this</span>
+<span class="sd">    doesn't assume a fixed number of parent hops.</span>
+<span class="sd">    """</span>
+    <span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">(),</span> <span class="o">*</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">parents</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">candidate</span> <span class="o">/</span> <span class="n">marker</span><span class="p">)</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">candidate</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Could not find a parent directory containing </span><span class="si">{</span><span class="n">marker</span><span class="si">!r}</span><span class="s2">."</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">ensure_hailstone_server</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">log_path</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">15</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Start the from-scratch Hailstone A2A server app if not running.</span>
+
+<span class="sd">    Returns the Popen handle if this call started the server, or None</span>
+<span class="sd">    if it was already running (so Cleanup knows not to tear it down).</span>
+<span class="sd">    Runs in its own session (start_new_session=True) so Cleanup can</span>
+<span class="sd">    kill the whole process group -- terminating only the `uv run`</span>
+<span class="sd">    wrapper process can leave the actual uvicorn process orphaned and</span>
+<span class="sd">    still bound to the port.</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_up</span><span class="p">():</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">/.well-known/agent-card.json"</span><span class="p">,</span>
+                <span class="n">timeout</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="p">):</span>
+                <span class="k">pass</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="p">(</span><span class="n">urllib</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">URLError</span><span class="p">,</span> <span class="ne">ConnectionError</span><span class="p">,</span> <span class="ne">TimeoutError</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="n">_up</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\u2713</span><span class="s2"> A2A server already running at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">server_path</span> <span class="o">=</span> <span class="n">find_repo_root</span><span class="p">()</span> <span class="o">/</span> <span class="s2">"extra"</span> <span class="o">/</span> <span class="s2">"a2a-from-scratch-hailstone"</span>
+    <span class="n">port</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">host</span><span class="p">)</span><span class="o">.</span><span class="n">port</span> <span class="ow">or</span> <span class="mi">80</span>
+    <span class="n">env</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">,</span> <span class="n">OLLAMA_MODEL</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">use_cloud</span><span class="p">:</span>
+        <span class="n">env</span><span class="p">[</span><span class="s2">"OLLAMA_HOST"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"https://ollama.com"</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Starting A2A server at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">..."</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">log_path</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">log_file</span><span class="p">:</span>
+        <span class="n">process</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="s2">"uv"</span><span class="p">,</span>
+                <span class="s2">"run"</span><span class="p">,</span>
+                <span class="s2">"uvicorn"</span><span class="p">,</span>
+                <span class="s2">"main:app"</span><span class="p">,</span>
+                <span class="s2">"--host"</span><span class="p">,</span>
+                <span class="s2">"0.0.0.0"</span><span class="p">,</span>
+                <span class="s2">"--port"</span><span class="p">,</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">port</span><span class="p">),</span>
+            <span class="p">],</span>
+            <span class="n">cwd</span><span class="o">=</span><span class="n">server_path</span><span class="p">,</span>
+            <span class="n">stdout</span><span class="o">=</span><span class="n">log_file</span><span class="p">,</span>
+            <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">STDOUT</span><span class="p">,</span>
+            <span class="n">start_new_session</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="n">deadline</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="n">timeout</span>
+    <span class="k">while</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">deadline</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">_up</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\u2713</span><span class="s2"> A2A server up at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">process</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="n">stop_hailstone_server</span><span class="p">(</span><span class="n">process</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"A2A server did not start within </span><span class="si">{</span><span class="n">timeout</span><span class="si">}</span><span class="s2">s"</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">stop_hailstone_server</span><span class="p">(</span><span class="n">process</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Kills the whole process group started by ensure_hailstone_server()."""</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_signal</span><span class="p">(</span><span class="n">sig</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">suppress</span><span class="p">(</span><span class="ne">ProcessLookupError</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">killpg</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getpgid</span><span class="p">(</span><span class="n">process</span><span class="o">.</span><span class="n">pid</span><span class="p">),</span> <span class="n">sig</span><span class="p">)</span>
+
+    <span class="n">_signal</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGTERM</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">process</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">TimeoutExpired</span><span class="p">:</span>
+        <span class="n">_signal</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGKILL</span><span class="p">)</span>
+        <span class="n">process</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+
+<span class="n">server_process</span> <span class="o">=</span> <span class="n">ensure_hailstone_server</span><span class="p">(</span>
+    <span class="s2">"http://127.0.0.1:9300"</span><span class="p">,</span>
+    <span class="s2">"hailstone_server.log"</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">stop_server</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">"""Tears down the server this notebook started, if it started one.</span>
+
+<span class="sd">    Called from every later cell's except block so a failure partway</span>
+<span class="sd">    through -- discovery, cancellation, confirmation -- can't leave the</span>
+<span class="sd">    process running and the port occupied.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">server_process</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">stop_hailstone_server</span><span class="p">(</span><span class="n">server_process</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-4">import getpass
+<div class="clipboard-copy-txt" id="cell-4">import contextlib
+import signal
+from pathlib import Path
+from urllib.parse import urlparse
 
-os.environ["GITHUB_PAT"] = getpass.getpass("GitHub PAT: ")</div>
+
+def find_repo_root(marker="extra"):
+    """Walk up from cwd to the first ancestor containing `marker`.
+
+    Jupyter sets a kernel's cwd to the directory of the opened notebook
+    file under normal use, but that's not guaranteed for every launch
+    method (e.g. running via nbconvert from the project root), so this
+    doesn't assume a fixed number of parent hops.
+    """
+    for candidate in (Path.cwd(), *Path.cwd().parents):
+        if (candidate / marker).is_dir():
+            return candidate
+    msg = f"Could not find a parent directory containing {marker!r}."
+    raise RuntimeError(msg)
+
+
+def ensure_hailstone_server(host, log_path, timeout=15):
+    """Start the from-scratch Hailstone A2A server app if not running.
+
+    Returns the Popen handle if this call started the server, or None
+    if it was already running (so Cleanup knows not to tear it down).
+    Runs in its own session (start_new_session=True) so Cleanup can
+    kill the whole process group -- terminating only the `uv run`
+    wrapper process can leave the actual uvicorn process orphaned and
+    still bound to the port.
+    """
+
+    def _up():
+        try:
+            with urllib.request.urlopen(
+                f"{host}/.well-known/agent-card.json",
+                timeout=1,
+            ):
+                pass
+            return True
+        except (urllib.error.URLError, ConnectionError, TimeoutError):
+            return False
+
+    if _up():
+        print(f"\u2713 A2A server already running at {host}")
+        return None
+
+    server_path = find_repo_root() / "extra" / "a2a-from-scratch-hailstone"
+    port = urlparse(host).port or 80
+    env = dict(os.environ, OLLAMA_MODEL=model)
+    if use_cloud:
+        env["OLLAMA_HOST"] = "https://ollama.com"
+    print(f"Starting A2A server at {host}...")
+    with open(log_path, "w") as log_file:
+        process = subprocess.Popen(
+            [
+                "uv",
+                "run",
+                "uvicorn",
+                "main:app",
+                "--host",
+                "0.0.0.0",
+                "--port",
+                str(port),
+            ],
+            cwd=server_path,
+            stdout=log_file,
+            stderr=subprocess.STDOUT,
+            start_new_session=True,
+            env=env,
+        )
+
+    deadline = time.time() + timeout
+    while time.time() &lt; deadline:
+        if _up():
+            print(f"\u2713 A2A server up at {host}")
+            return process
+        time.sleep(0.5)
+
+    stop_hailstone_server(process)
+    raise RuntimeError(f"A2A server did not start within {timeout}s")
+
+
+def stop_hailstone_server(process):
+    """Kills the whole process group started by ensure_hailstone_server()."""
+
+    def _signal(sig):
+        with contextlib.suppress(ProcessLookupError):
+            os.killpg(os.getpgid(process.pid), sig)
+
+    _signal(signal.SIGTERM)
+    try:
+        process.wait(timeout=5)
+    except subprocess.TimeoutExpired:
+        _signal(signal.SIGKILL)
+        process.wait(timeout=5)
+
+
+server_process = ensure_hailstone_server(
+    "http://127.0.0.1:9300",
+    "hailstone_server.log",
+)
+
+
+def stop_server():
+    """Tears down the server this notebook started, if it started one.
+
+    Called from every later cell's except block so a failure partway
+    through -- discovery, cancellation, confirmation -- can't leave the
+    process running and the port occupied.
+    """
+    if server_process is not None:
+        stop_hailstone_server(server_process)</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Starting A2A server at http://127.0.0.1:9300...
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>✓ A2A server up at http://127.0.0.1:9300
+</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=93b4da40">
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=cdb3508c">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="a-fresh-client-per-role">A Fresh Client Per Role<a class="anchor-link" href="#a-fresh-client-per-role">¶</a></h2><p>Everything below opens its own client rather than sharing one: dispatch
+gets a client, and cancellation gets a separate one later. This is
+<code>import asyncio</code> plus one small helper, <code>open_client()</code>, that every
+step below reuses.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=d9eb6e71">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-5">
@@ -5245,50 +5572,132 @@ os.environ["GITHUB_PAT"] = getpass.getpass("GitHub PAT: ")</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">MCPToolProvider</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">asynccontextmanager</span>
 
-<span class="n">github_mcp_provider</span> <span class="o">=</span> <span class="n">MCPToolProvider</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">"github_mcp"</span><span class="p">,</span>
-    <span class="n">streamable_http_url</span><span class="o">=</span><span class="s2">"https://api.githubcopilot.com/mcp/"</span><span class="p">,</span>
-    <span class="n">streamable_http_headers</span><span class="o">=</span><span class="p">{</span>
-        <span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'GITHUB_PAT'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
-    <span class="p">},</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">httpx</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">a2a.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClientConfig</span><span class="p">,</span> <span class="n">create_client</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">a2a.helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">new_text_message</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">a2a.types</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CancelTaskRequest</span><span class="p">,</span>
+    <span class="n">ListTasksRequest</span><span class="p">,</span>
+    <span class="n">SendMessageRequest</span><span class="p">,</span>
+    <span class="n">TaskState</span><span class="p">,</span>
 <span class="p">)</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-5">from llm_agents_from_scratch.tools import MCPToolProvider
+<span class="kn">from</span><span class="w"> </span><span class="nn">a2a.types</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Role</span> <span class="k">as</span> <span class="n">A2ARole</span><span class="p">,</span>
+<span class="p">)</span>
 
-github_mcp_provider = MCPToolProvider(
-    name="github_mcp",
-    streamable_http_url="https://api.githubcopilot.com/mcp/",
-    streamable_http_headers={
-        "Authorization": f"Bearer {os.environ['GITHUB_PAT']}",
-    },
-)</div>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.a2a</span><span class="w"> </span><span class="kn">import</span> <span class="n">A2AAgentSpec</span>
+
+<span class="n">spec</span> <span class="o">=</span> <span class="k">await</span> <span class="n">A2AAgentSpec</span><span class="o">.</span><span class="n">from_url</span><span class="p">(</span><span class="s2">"http://127.0.0.1:9300"</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mf">120.0</span><span class="p">)</span>
+
+
+<span class="nd">@asynccontextmanager</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">open_client</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">"""A fresh SDK client on its own httpx connection every time.</span>
+
+<span class="sd">    Dispatch and cancel each open their own client below rather than</span>
+<span class="sd">    sharing one: a real canceller (an operator, a monitoring service)</span>
+<span class="sd">    is never the same connection that dispatched the task in the</span>
+<span class="sd">    first place.</span>
+<span class="sd">    """</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">httpx</span><span class="o">.</span><span class="n">AsyncClient</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mf">120.0</span><span class="p">)</span> <span class="k">as</span> <span class="n">httpx_client</span><span class="p">:</span>
+        <span class="n">client</span> <span class="o">=</span> <span class="k">await</span> <span class="n">create_client</span><span class="p">(</span>
+            <span class="n">agent</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">agent_card</span><span class="p">,</span>
+            <span class="n">client_config</span><span class="o">=</span><span class="n">ClientConfig</span><span class="p">(</span>
+                <span class="n">streaming</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">httpx_client</span><span class="o">=</span><span class="n">httpx_client</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">client</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-5">import asyncio
+from contextlib import asynccontextmanager
+
+import httpx
+from a2a.client import ClientConfig, create_client
+from a2a.helpers import new_text_message
+from a2a.types import (
+    CancelTaskRequest,
+    ListTasksRequest,
+    SendMessageRequest,
+    TaskState,
+)
+from a2a.types import (
+    Role as A2ARole,
+)
+
+from llm_agents_from_scratch.a2a import A2AAgentSpec
+
+spec = await A2AAgentSpec.from_url("http://127.0.0.1:9300", timeout=120.0)
+
+
+@asynccontextmanager
+async def open_client():
+    """A fresh SDK client on its own httpx connection every time.
+
+    Dispatch and cancel each open their own client below rather than
+    sharing one: a real canceller (an operator, a monitoring service)
+    is never the same connection that dispatched the task in the
+    first place.
+    """
+    async with httpx.AsyncClient(timeout=120.0) as httpx_client:
+        client = await create_client(
+            agent=spec.agent_card,
+            client_config=ClientConfig(
+                streaming=False,
+                httpx_client=httpx_client,
+            ),
+        )
+        try:
+            yield client
+        finally:
+            await client.close()</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>/home/nerdai/Projects/llm-agents-from-scratch/.venv/lib/python3.13/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+  from .autonotebook import tqdm as notebook_tqdm
+</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=02244e3a">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=deb8f8b0">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="create-our-llm-agent">Create our LLM agent<a class="anchor-link" href="#create-our-llm-agent">¶</a></h2><p>We'll now use the <code>LLMAgentBuildler</code> class to create an LLM agent that is equipped
-with the tools from the GitHub MCP server. Recall from Chapter 5 that the builder
-takes care of tool-discovery for each of its attached MCP tool providers.</p>
+<h2 id="step-1-dispatch-the-task">Step 1 — Dispatch the Task<a class="anchor-link" href="#step-1-dispatch-the-task">¶</a></h2><p><code>send_message()</code> doesn't return until the task is done, so it has to
+run in the background (<code>asyncio.ensure_future()</code>) while the rest of
+this notebook goes to cancel it. Nothing about this call returns a
+task id directly, either: <code>dispatch()</code> only sees the final result,
+whenever that ends up being.</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=838d823c">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=3d412352">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
@@ -5301,45 +5710,91 @@ takes care of tool-discovery for each of its attached MCP tool providers.</p>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMAgentBuilder</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
-
-<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span>
-    <span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">,</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">task_text</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">"Compute the full hailstone sequence starting at 27, until it reaches 1."</span>
 <span class="p">)</span>
+<span class="n">message</span> <span class="o">=</span> <span class="n">new_text_message</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">task_text</span><span class="p">,</span> <span class="n">role</span><span class="o">=</span><span class="n">A2ARole</span><span class="o">.</span><span class="n">ROLE_USER</span><span class="p">)</span>
 
-<span class="n">agent</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="k">await</span> <span class="n">LLMAgentBuilder</span><span class="p">()</span>
-    <span class="o">.</span><span class="n">with_llm</span><span class="p">(</span><span class="n">llm</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">with_mcp_provider</span><span class="p">(</span><span class="n">github_mcp_provider</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">build</span><span class="p">()</span>
-<span class="p">)</span>
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">dispatch</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">"""Send the task and return only once it settles.</span>
+
+<span class="sd">    This coroutine never touches cancellation -- it's a plain dispatch</span>
+<span class="sd">    that would, left alone, run for 100+ steps. Wrapped in</span>
+<span class="sd">    asyncio.ensure_future() below so it keeps running in the</span>
+<span class="sd">    background while the rest of this notebook goes looking for it.</span>
+<span class="sd">    """</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">open_client</span><span class="p">()</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="n">SendMessageRequest</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">message</span><span class="p">)</span>
+        <span class="n">last</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">async</span> <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">client</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+            <span class="n">last</span> <span class="o">=</span> <span class="n">chunk</span>
+        <span class="k">return</span> <span class="n">last</span>
+
+
+<span class="n">send_future</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">ensure_future</span><span class="p">(</span><span class="n">dispatch</span><span class="p">())</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-6">from llm_agents_from_scratch import LLMAgentBuilder
-from llm_agents_from_scratch.llms import OllamaLLM
-
-llm = OllamaLLM(
-    model="qwen3:14b",
+<div class="clipboard-copy-txt" id="cell-6">task_text = (
+    "Compute the full hailstone sequence starting at 27, until it reaches 1."
 )
+message = new_text_message(text=task_text, role=A2ARole.ROLE_USER)
 
-agent = (
-    await LLMAgentBuilder()
-    .with_llm(llm)
-    .with_mcp_provider(github_mcp_provider)
-    .build()
-)</div>
+
+async def dispatch():
+    """Send the task and return only once it settles.
+
+    This coroutine never touches cancellation -- it's a plain dispatch
+    that would, left alone, run for 100+ steps. Wrapped in
+    asyncio.ensure_future() below so it keeps running in the
+    background while the rest of this notebook goes looking for it.
+    """
+    async with open_client() as client:
+        request = SendMessageRequest(message=message)
+        last = None
+        async for chunk in client.send_message(request):
+            last = chunk
+        return last
+
+
+send_future = asyncio.ensure_future(dispatch())</div>
 </div>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0f3a7393">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="step-2-find-the-in-flight-task">Step 2 — Find the In-Flight Task<a class="anchor-link" href="#step-2-find-the-in-flight-task">¶</a></h2><p>The task is running somewhere on the server right now, but this
+notebook doesn't have its id yet. <code>LLMAgentA2AExecutor</code> publishes only
+a single terminal status, so there's no incremental chunk to read one
+off the way a streaming executor would allow. Instead, a fresh client
+polls <code>list_tasks()</code>, which the SDK backs with the same task store
+<code>execute()</code> persists to immediately on submission, well before the
+agent's first LLM call returns, so the task shows up as
+<code>TASK_STATE_SUBMITTED</code> almost immediately, then <code>TASK_STATE_WORKING</code>
+once the agent starts.</p>
+<p><code>list_tasks()</code> returns every in-flight task on the server, not just
+this notebook's own; if the server was already running from a
+previous cell or a prior run, a stale or concurrent task could match
+just as well. Each listed task's <code>history</code> carries the original
+dispatch message back, so matching on <code>message.message_id</code> (captured
+in Step 1) picks out this notebook's own task specifically, not merely
+the first pending one found.</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=1352ec16">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=52953971">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-7">
@@ -5352,15 +5807,69 @@ agent = (
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Print all tools</span>
-<span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="n">agent</span><span class="o">.</span><span class="n">tools</span><span class="p">:</span>
-    <span class="n">desc</span> <span class="o">=</span> <span class="p">(</span><span class="n">tool</span><span class="o">.</span><span class="n">description</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">)[:</span><span class="mi">50</span><span class="p">]</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">tool</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">:</span><span class="se">\n\t</span><span class="si">{</span><span class="n">desc</span><span class="si">}</span><span class="s2">..."</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">task_id</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">open_client</span><span class="p">()</span> <span class="k">as</span> <span class="n">observer</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">):</span>
+            <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
+            <span class="n">listing</span> <span class="o">=</span> <span class="k">await</span> <span class="n">observer</span><span class="o">.</span><span class="n">list_tasks</span><span class="p">(</span>
+                <span class="n">ListTasksRequest</span><span class="p">(</span><span class="n">history_length</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">listing</span><span class="o">.</span><span class="n">tasks</span><span class="p">:</span>
+                <span class="n">state</span> <span class="o">=</span> <span class="n">TaskState</span><span class="o">.</span><span class="n">Name</span><span class="p">(</span><span class="n">task</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+                <span class="n">is_pending</span> <span class="o">=</span> <span class="n">state</span> <span class="ow">in</span> <span class="p">(</span>
+                    <span class="s2">"TASK_STATE_SUBMITTED"</span><span class="p">,</span>
+                    <span class="s2">"TASK_STATE_WORKING"</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">is_ours</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span>
+                    <span class="n">m</span><span class="o">.</span><span class="n">message_id</span> <span class="o">==</span> <span class="n">message</span><span class="o">.</span><span class="n">message_id</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">task</span><span class="o">.</span><span class="n">history</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">is_pending</span> <span class="ow">and</span> <span class="n">is_ours</span><span class="p">:</span>
+                    <span class="n">task_id</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">id</span>
+            <span class="k">if</span> <span class="n">task_id</span><span class="p">:</span>
+                <span class="k">break</span>
+
+    <span class="k">if</span> <span class="n">task_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">send_future</span><span class="o">.</span><span class="n">cancel</span><span class="p">()</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s2">"Task never appeared in list_tasks()."</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+    <span class="n">stop_server</span><span class="p">()</span>
+    <span class="k">raise</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Found in-flight task </span><span class="si">{</span><span class="n">task_id</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-7"># Print all tools
-for tool in agent.tools:
-    desc = (tool.description or "")[:50]
-    print(f"{tool.name}:\n\t{desc}...")</div>
+<div class="clipboard-copy-txt" id="cell-7">task_id = None
+try:
+    async with open_client() as observer:
+        for _ in range(50):
+            await asyncio.sleep(0.2)
+            listing = await observer.list_tasks(
+                ListTasksRequest(history_length=1),
+            )
+            for task in listing.tasks:
+                state = TaskState.Name(task.status.state)
+                is_pending = state in (
+                    "TASK_STATE_SUBMITTED",
+                    "TASK_STATE_WORKING",
+                )
+                is_ours = any(
+                    m.message_id == message.message_id for m in task.history
+                )
+                if is_pending and is_ours:
+                    task_id = task.id
+            if task_id:
+                break
+
+    if task_id is None:
+        send_future.cancel()
+        msg = "Task never appeared in list_tasks()."
+        raise RuntimeError(msg)
+except Exception:
+    stop_server()
+    raise
+
+print(f"Found in-flight task {task_id}")</div>
 </div>
 </div>
 </div>
@@ -5372,88 +5881,13 @@ for tool in agent.tools:
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>mcp__github_mcp__add_comment_to_pending_review:
-	Add review comment to the requester's latest pendi...
-mcp__github_mcp__add_issue_comment:
-	Add a comment to a specific issue in a GitHub repo...
-mcp__github_mcp__add_reply_to_pull_request_comment:
-	Add a reply to an existing pull request comment. T...
-mcp__github_mcp__assign_copilot_to_issue:
-	Assign Copilot to a specific issue in a GitHub rep...
-mcp__github_mcp__create_branch:
-	Create a new branch in a GitHub repository...
-mcp__github_mcp__create_or_update_file:
-	Create or update a single file in a GitHub reposit...
-mcp__github_mcp__create_pull_request:
-	Create a new pull request in a GitHub repository....
-mcp__github_mcp__create_repository:
-	Create a new GitHub repository in your account or ...
-mcp__github_mcp__delete_file:
-	Delete a file from a GitHub repository...
-mcp__github_mcp__fork_repository:
-	Fork a GitHub repository to your account or specif...
-mcp__github_mcp__get_commit:
-	Get details for a commit from a GitHub repository...
-mcp__github_mcp__get_file_contents:
-	Get the contents of a file or directory from a Git...
-mcp__github_mcp__get_label:
-	Get a specific label from a repository....
-mcp__github_mcp__get_latest_release:
-	Get the latest release in a GitHub repository...
-mcp__github_mcp__get_me:
-	Get details of the authenticated GitHub user. Use ...
-mcp__github_mcp__get_release_by_tag:
-	Get a specific release by its tag name in a GitHub...
-mcp__github_mcp__get_tag:
-	Get details about a specific git tag in a GitHub r...
-mcp__github_mcp__get_team_members:
-	Get member usernames of a specific team in an orga...
-mcp__github_mcp__get_teams:
-	Get details of the teams the user is a member of. ...
-mcp__github_mcp__issue_read:
-	Get information about a specific issue in a GitHub...
-mcp__github_mcp__issue_write:
-	Create a new or update an existing issue in a GitH...
-mcp__github_mcp__list_branches:
-	List branches in a GitHub repository...
-mcp__github_mcp__list_commits:
-	Get list of commits of a branch in a GitHub reposi...
-mcp__github_mcp__list_issue_types:
-	List supported issue types for repository owner (o...
-mcp__github_mcp__list_issues:
-	List issues in a GitHub repository. For pagination...
-mcp__github_mcp__list_pull_requests:
-	List pull requests in a GitHub repository. If the ...
-mcp__github_mcp__list_releases:
-	List releases in a GitHub repository...
-mcp__github_mcp__list_tags:
-	List git tags in a GitHub repository...
-mcp__github_mcp__merge_pull_request:
-	Merge a pull request in a GitHub repository....
-mcp__github_mcp__pull_request_read:
-	Get information on a specific pull request in GitH...
-mcp__github_mcp__pull_request_review_write:
-	Create and/or submit, delete review of a pull requ...
-mcp__github_mcp__push_files:
-	Push multiple files to a GitHub repository in a si...
-mcp__github_mcp__request_copilot_review:
-	Request a GitHub Copilot code review for a pull re...
-mcp__github_mcp__search_code:
-	Fast and precise code search across ALL GitHub rep...
-mcp__github_mcp__search_issues:
-	Search for issues in GitHub repositories using iss...
-mcp__github_mcp__search_pull_requests:
-	Search for pull requests in GitHub repositories us...
-mcp__github_mcp__search_repositories:
-	Find GitHub repositories by name, description, rea...
-mcp__github_mcp__search_users:
-	Find GitHub users by username, real name, or other...
-mcp__github_mcp__sub_issue_write:
-	Add a sub-issue to a parent issue in a GitHub repo...
-mcp__github_mcp__update_pull_request:
-	Update an existing pull request in a GitHub reposi...
-mcp__github_mcp__update_pull_request_branch:
-	Update the branch of a pull request with the lates...
+<pre>Found in-flight task b52d28ba-7cfa-4199-b1e0-c3863a78ac48</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
 </pre>
 </div>
 </div>
@@ -5461,24 +5895,24 @@ mcp__github_mcp__update_pull_request_branch:
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0f808dbe">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ca93a584">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="a-simple-task-for-our-agent">A simple task for our agent<a class="anchor-link" href="#a-simple-task-for-our-agent">¶</a></h2><p>Now that we have our agent, let's give it a simple task to perform. We'll ask our LLM agent to retrieve the latest release for the book's GitHub repo: nerdai/llm-agents-from-scratch.</p>
-<p><strong>Note:</strong> Smaller language models like the qwen3:14b model used in this notebook often need more explicit guidance in the task instruction — for example, specifying which tool to use or reminding the model not to guess. They also tend to struggle with tasks that require multiple sequential tool calls or complex reasoning over tool outputs. For more demanding tasks, consider using a larger model.</p>
+<h2 id="step-3-cancel-it">Step 3 — Cancel It<a class="anchor-link" href="#step-3-cancel-it">¶</a></h2><p>Now that the task id is known, a second fresh client (not the one
+still waiting on <code>dispatch()</code>) asks the server to cancel it.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=b2f0197b">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=f3346593">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-8">
@@ -5491,39 +5925,89 @@ mcp__github_mcp__update_pull_request_branch:
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># task</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">Task</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">open_client</span><span class="p">()</span> <span class="k">as</span> <span class="n">observer</span><span class="p">:</span>
+        <span class="n">cancel_result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">observer</span><span class="o">.</span><span class="n">cancel_task</span><span class="p">(</span>
+            <span class="n">CancelTaskRequest</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">task_id</span><span class="p">),</span>
+        <span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+    <span class="n">stop_server</span><span class="p">()</span>
+    <span class="k">raise</span>
 
-<span class="n">instruction</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="s2">"Use the get_latest_release tool to get the latest release for the "</span>
-    <span class="s2">"GitHub repo with owner 'nerdai' and repo 'llm-agents-from-scratch'."</span>
-<span class="p">)</span>
-<span class="n">task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span>
-    <span class="n">instruction</span><span class="o">=</span><span class="n">instruction</span><span class="p">,</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">"cancel_task() response state:"</span><span class="p">,</span>
+    <span class="n">TaskState</span><span class="o">.</span><span class="n">Name</span><span class="p">(</span><span class="n">cancel_result</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">state</span><span class="p">),</span>
 <span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-8"># task
-from llm_agents_from_scratch.data_structures import Task
+<div class="clipboard-copy-txt" id="cell-8">try:
+    async with open_client() as observer:
+        cancel_result = await observer.cancel_task(
+            CancelTaskRequest(id=task_id),
+        )
+except Exception:
+    stop_server()
+    raise
 
-instruction = (
-    "Use the get_latest_release tool to get the latest release for the "
-    "GitHub repo with owner 'nerdai' and repo 'llm-agents-from-scratch'."
-)
-task = Task(
-    instruction=instruction,
+print(
+    "cancel_task() response state:",
+    TaskState.Name(cancel_result.status.state),
 )</div>
 </div>
 </div>
 </div>
 </div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>cancel_task() response state:</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre> </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>TASK_STATE_CANCELED</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6d0bc72c">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="step-4-confirm-it-actually-stopped">Step 4 — Confirm It Actually Stopped<a class="anchor-link" href="#step-4-confirm-it-actually-stopped">¶</a></h2><p>Cancelling settles the original <code>dispatch()</code> call too, once the
+server-side work actually tears down. Its own final chunk should agree
+with what <code>cancel_task()</code> already reported.</p>
+</div>
+</div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=41d8dfa4">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=1342153c">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-9">
@@ -5536,9 +6020,23 @@ task = Task(
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">handler</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">final_chunk</span> <span class="o">=</span> <span class="k">await</span> <span class="n">send_future</span>
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+    <span class="n">stop_server</span><span class="p">()</span>
+    <span class="k">raise</span>
+
+<span class="n">final_state</span> <span class="o">=</span> <span class="n">TaskState</span><span class="o">.</span><span class="n">Name</span><span class="p">(</span><span class="n">final_chunk</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"send_message()'s own final chunk state:"</span><span class="p">,</span> <span class="n">final_state</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-9">handler = agent.run(task, max_steps=10)</div>
+<div class="clipboard-copy-txt" id="cell-9">try:
+    final_chunk = await send_future
+except Exception:
+    stop_server()
+    raise
+
+final_state = TaskState.Name(final_chunk.task.status.state)
+print("send_message()'s own final chunk state:", final_state)</div>
 </div>
 </div>
 </div>
@@ -5550,32 +6048,52 @@ task = Task(
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: Use the get_latest_release tool to get the latest release for the GitHub repo with owner 'nerdai' and repo 'llm-agents-from-scratch'.
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Use the get_latest_release tool to get the latest release for the GitHub repo with owner 'nerdai' and repo 'llm-agents-from-scratc...[TRUNCATED]
-</pre>
+<pre>send_message()'s own final chunk state:</pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: mcp__github_mcp__get_latest_release
-INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: [{'type': 'text', 'text': '{"tag_name":"v0.0.13","target_commitish":"main","name":"v0.0.13","body":"## What\'s Changed\\n* bui...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The latest release for the GitHub repository 'llm-agents-from-scratch' owned by 'nerdai' is version **v0.0.13**. This release includes ...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      No new step required.
-INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The latest release for the GitHub repository 'llm-agents-from-scratch' owned by 'nerdai' is version **v0.0.13**. This release includ...[TRUNCATED]
+<pre> </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>TASK_STATE_CANCELED</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
 </pre>
 </div>
 </div>
 </div>
 </div>
 </div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=56709882">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><code>hailstone_server.log</code> is the more convincing evidence: the log
+goes quiet right after the first "Processing Step" line, with no
+further tool call ever logged. The agent's own LLM call was still in
+flight when <code>cancel()</code> tore down the background task underneath it.</p>
+</div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=723e06da">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=ebe59161">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-10">
@@ -5588,11 +6106,11 @@ INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The latest release for
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">exception</span><span class="p">()</span> <span class="ow">or</span> <span class="n">handler</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"hailstone_server.log"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-10">result = handler.exception() or handler.result()
-print(result)</div>
+<div class="clipboard-copy-txt" id="cell-10">with open("hailstone_server.log") as f:
+    print(f.read())</div>
 </div>
 </div>
 </div>
@@ -5604,18 +6122,88 @@ print(result)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>The latest release for the GitHub repository 'llm-agents-from-scratch' owned by 'nerdai' is version **v0.0.13**. This release includes several updates and improvements, such as:
-
-- Bumping dependencies in the all-python-packages group.
-- Installing OpenAI extra in Docker for RunPod.
-- Fixing the `OpenAILLM.continue_chat_with_tool_results()` method.
-- Adding `MCPToolProvider` and `MCPTool` features.
-- Implementing `LLMAgentBuilder`.
-- Improving convergence in capstone examples.
-- Other bug fixes and enhancements.
-
-You can view the full changelog for this release [here](https://github.com/nerdai/llm-agents-from-scratch/compare/v0.0.12...v0.0.13).
+<pre>warning</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>:</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre> </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>`VIRTUAL_ENV=/home/nerdai/.cache/uv/builds-v0/.tmpsJgCnY` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+INFO:     Started server process [2296158]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:9300 (Press CTRL+C to quit)
+INFO:     127.0.0.1:57012 - "GET /.well-known/agent-card.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37568 - "GET /.well-known/agent-card.json HTTP/1.1" 200 OK
+INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: Compute the full hailstone sequence starting at 27, until it reaches 1.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Compute the full hailstone sequence starting at 27, until it reaches 1.
+INFO:     127.0.0.1:37590 - "POST / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37598 - "POST / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37580 - "POST / HTTP/1.1" 200 OK
 </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=67a731c6">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="cleanup">Cleanup<a class="anchor-link" href="#cleanup">¶</a></h2>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=de8f64da">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-11">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">stop_server</span><span class="p">()</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-11">stop_server()</div>
 </div>
 </div>
 </div>
@@ -5666,7 +6254,7 @@ You can view the full changelog for this release [here](https://github.com/nerda
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../../ch04/pokemon_comparison/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Multi-Step Reasoning with Chained Tool Calls — PokéAPI">
+          <a href="../streaming_llmagent_executor/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Streaming LLMAgent Executor — Progress Updates During Task Execution">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -5676,20 +6264,20 @@ You can view the full changelog for this release [here](https://github.com/nerda
                 Previous
               </span>
               <div class="md-ellipsis">
-                Multi-Step Reasoning with Chained Tool Calls — PokéAPI
+                Streaming LLMAgent Executor — Progress Updates During Task Execution
               </div>
             </div>
           </a>
         
         
           
-          <a href="../goodnews_mcp/" class="md-footer__link md-footer__link--next" aria-label="Next: GoodNews MCP Example">
+          <a href="../../../capstones/one/" class="md-footer__link md-footer__link--next" aria-label="Next: Capstone I: Monte Carlo Estimation of Pi">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                GoodNews MCP Example
+                Capstone I: Monte Carlo Estimation of Pi
               </div>
             </div>
             <div class="md-footer__button md-icon">

@@ -195,6 +195,14 @@ examples/ch08.ipynb:
     model: claude-sonnet-5
     seconds: 100
     status: pass
+  ollama:
+    commit: 44aa0ad3
+    last_tested: '2026-09-29'
+    model: qwen3:14b
+    note: 'cell 9: cell exceeded 1800s; Example 1 was progressing correctly (7 tool
+      steps in 30 min), qwen3:14b is just too slow here'
+    seconds: 1802
+    status: fail
   openai:
     commit: cf1955bc
     last_tested: '2026-09-29'

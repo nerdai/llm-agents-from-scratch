@@ -28,7 +28,7 @@ that its prompts read well.
 | [`ch05.ipynb`](notebooks/ch05.ipynb) | ✅ 2026-09-29 `qwen3:14b` | – | ✅ 2026-09-29 `gpt-5` | ✅ 2026-09-29 `claude-sonnet-5` |
 | [`ch06.ipynb`](notebooks/ch06.ipynb) | ✅ 2026-09-29 `qwen3:14b` | – | ✅ 2026-09-29 `gpt-5` | ✅ 2026-09-29 `claude-sonnet-5` |
 | [`ch07.ipynb`](notebooks/ch07.ipynb) | ✅ 2026-09-29 `qwen3:14b` | – | ✅ 2026-09-29 `gpt-5` | ✅ 2026-09-29 `claude-sonnet-5` |
-| [`ch08.ipynb`](notebooks/ch08.ipynb) | – | – | ✅ 2026-09-29 `gpt-5` | ✅ 2026-09-29 `claude-sonnet-5` |
+| [`ch08.ipynb`](notebooks/ch08.ipynb) | ❌ 2026-09-29[^5] | – | ✅ 2026-09-29 `gpt-5` | ✅ 2026-09-29 `claude-sonnet-5` |
 | [`ch09.ipynb`](notebooks/ch09.ipynb) | – | – | ✅ 2026-09-29 `gpt-5` | ✅ 2026-09-29 `claude-sonnet-5` |
 | [`ch10.ipynb`](notebooks/ch10.ipynb) | ✅ 2026-09-29 `qwen3:14b` | – | ✅ 2026-09-29 `gpt-5` | ✅ 2026-09-29 `claude-sonnet-5` |
 
@@ -36,6 +36,7 @@ that its prompts read well.
 [^2]: `examples/ch04.ipynb` / Ollama (local): handler.result() read before the background run finished (InvalidStateError); a race only under back-to-back headless execution, reproduced identically on main (2026-09-29)
 [^3]: `examples/ch04.ipynb` / OpenAI: cell 31: InvalidStateError: Exception is not set. (2026-09-29)
 [^4]: `examples/ch04.ipynb` / Anthropic: cell 31: InvalidStateError: Exception is not set. (2026-09-29)
+[^5]: `examples/ch08.ipynb` / Ollama (local): cell 9: cell exceeded 1800s; Example 1 was progressing correctly (7 tool steps in 30 min), qwen3:14b is just too slow here (2026-09-29)
 
 ## Additional examples
 

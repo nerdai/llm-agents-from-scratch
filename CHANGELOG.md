@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- feat(llms): `llms/anthropic/` — `AnthropicLLM` on the Messages API, implementing all four `BaseLLM` methods, with `ChatMessage` <-> `MessageParam` conversion and `tool_to_anthropic_tool()` in `utils.py`; consecutive `tool` messages fold into one `user` turn of `tool_result` blocks. `structured_output()` uses the SDK's native JSON-schema output (`messages.parse(..., output_format=mdl)`) rather than a forced single tool; a `None` parse (refusal, or `max_tokens` mid-object) raises `StructuredOutputError`. `max_tokens` is a stored per-instance default (4096). New `anthropic` extra; `make_llm(provider="anthropic")` now returns a working client and #974's "not yet supported" branch is gone (#981)
 - feat(openai): `OpenAILLM(reasoning_effort=...)` — a stored per-instance default merged into every Responses API request as `reasoning={"effort": ...}` unless the call passes its own `reasoning` kwarg, mirroring `OllamaLLM.think`; `make_llm()` defaults it to `"low"` on the OpenAI path, since gpt-5's default effort made the tool-result follow-up in `run_step()` run past the SDK's 600s timeout (#979)
 
 ### Changed

@@ -1,0 +1,65 @@
+# Ledger behind docs/notebook-status.md. One entry per (notebook, provider).
+# Written by _scripts/run_notebook.py; rendered by
+# _scripts/render_notebook_status.py. Hand-edit only to record a run made
+# outside the runner (say so in `note`).
+examples/ch02.ipynb:
+  ollama:
+    commit: '81890432'
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 2
+    status: no-llm
+examples/ch03.ipynb:
+  ollama:
+    commit: '81890432'
+    last_tested: '2026-09-29'
+    model: qwen3:14b (constructed directly)
+    note: 'cell 3: ModuleNotFoundError: nest_asyncio (not a declared dependency; pre-existing,
+      unrelated to make_llm)'
+    seconds: 3
+    status: fail
+examples/ch04.ipynb:
+  ollama:
+    commit: '81890432'
+    last_tested: '2026-09-29'
+    model: qwen3:14b
+    note: 'handler.result() read before the background run finished (InvalidStateError);
+      a race only under back-to-back headless execution, reproduced identically on main'
+    seconds: 3
+    status: fail
+examples/ch05.ipynb:
+  ollama:
+    commit: '81890432'
+    last_tested: '2026-09-29'
+    model: qwen3:14b
+    seconds: 28
+    status: pass
+examples/ch06.ipynb:
+  ollama:
+    commit: '81890432'
+    last_tested: '2026-09-29'
+    model: qwen3:14b
+    seconds: 186
+    status: pass
+examples/ch07.ipynb:
+  ollama:
+    commit: '81890432'
+    last_tested: '2026-09-29'
+    model: qwen3:14b
+    seconds: 93
+    status: pass
+more-examples/ch04/jev_next_step_judge.ipynb:
+  anthropic:
+    commit: '160a9ec7'
+    last_tested: '2026-09-29'
+    model: claude-sonnet-5
+    note: interactive run in Jupyter, recorded by hand
+    seconds: 0
+    status: pass
+  ollama-cloud:
+    commit: 8358ba6c
+    last_tested: '2026-09-29'
+    model: kimi-k2.7-code:cloud
+    note: nbconvert run before the runner existed, recorded by hand
+    seconds: 0
+    status: pass

@@ -41,7 +41,7 @@ import fire
 START_MARKER = "<!-- provider-note:start -->"
 END_MARKER = "<!-- provider-note:end -->"
 
-NOTE_BODY = """## Running the LLM
+NOTE_BODY = """## Setting the backbone LLM of your agent
 
 These notebooks run on **Ollama by default**, the setup the book teaches.
 If you do nothing, nothing changes: `make_llm()` starts a local Ollama

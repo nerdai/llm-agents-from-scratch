@@ -264,6 +264,7 @@ def make_llm(
     if not kwargs.get("api_key"):
         _ensure_api_key(resolved)
     resolved_model = _resolve_model(resolved, role, model)
+    kwargs.setdefault("reasoning_effort", "low")
 
     from llm_agents_from_scratch.llms.openai import OpenAILLM
 

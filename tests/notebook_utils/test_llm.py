@@ -233,7 +233,10 @@ def test_make_llm_openai(
     make_llm(provider="openai")
 
     mock_ensure.assert_not_called()
-    mock_openai_llm.assert_called_once_with(model="gpt-5")
+    mock_openai_llm.assert_called_once_with(
+        model="gpt-5",
+        reasoning_effort="low",
+    )
 
 
 def test_make_llm_openai_strips_ollama_only_kwargs(
@@ -248,6 +251,18 @@ def test_make_llm_openai_strips_ollama_only_kwargs(
     kwargs = mock_openai_llm.call_args.kwargs
     assert "think" not in kwargs
     assert "json_prompt_mode" not in kwargs
+
+
+def test_make_llm_openai_caller_reasoning_effort_wins(
+    mock_openai_llm: MagicMock,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """A caller-supplied reasoning_effort overrides the "low" default."""
+    monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
+
+    make_llm(provider="openai", reasoning_effort="high")
+
+    assert mock_openai_llm.call_args.kwargs["reasoning_effort"] == "high"
 
 
 def test_make_llm_openai_prompts_when_key_missing(

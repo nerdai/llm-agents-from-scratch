@@ -281,6 +281,49 @@ def make_llm(
     assert_never(resolved)
 
 
+def ollama_settings(
+    role: str = "default",
+    *,
+    model: str | None = None,
+    host: str | None = None,
+) -> dict[str, Any]:
+    """Resolve the `OllamaLLM` constructor kwargs the way `make_llm()` does.
+
+    Uses Ollama Cloud when OLLAMA_API_KEY is set, otherwise a local Ollama
+    service (started if it is not already running). For notebooks that
+    construct `OllamaLLM` themselves, because the constructor is the
+    lesson, yet should pick the same model and host as every other
+    notebook: ``OllamaLLM(**ollama_settings())``.
+
+    Args:
+        role (str): Which model slot to fill. Defaults to "default".
+        model (str | None): Overrides the per-role default model.
+        host (str | None): Host override.
+
+    Returns:
+        dict[str, Any]: `model`, `host` and `think`, plus
+            `json_prompt_mode` on Ollama Cloud.
+    """
+    use_cloud = "OLLAMA_API_KEY" in os.environ
+    provider_key = "ollama-cloud" if use_cloud else "ollama"
+    resolved_model = _resolve_model(provider_key, role, model)
+    settings: dict[str, Any] = {"model": resolved_model}
+
+    if use_cloud:
+        settings["host"] = host or OLLAMA_CLOUD_HOST
+        # cloud models ignore Ollama's `format` parameter, so structured
+        # output has to be coerced at the prompt level instead
+        settings["json_prompt_mode"] = True
+        print(f"✓ Using Ollama Cloud ({resolved_model})")
+    else:
+        settings["host"] = host
+        ensure_ollama(host or DEFAULT_OLLAMA_HOST)
+        print(f"✓ Using Ollama ({resolved_model})")
+
+    settings["think"] = False
+    return settings
+
+
 def _make_ollama_llm(
     role: str,
     model: str | None,
@@ -293,26 +336,13 @@ def _make_ollama_llm(
         role (str): Which model slot to fill.
         model (str | None): Overrides the per-role default model.
         host (str | None): Host override.
-        **kwargs (Any): Passed to the ~OllamaLLM constructor.
+        **kwargs (Any): Passed to the ~OllamaLLM constructor, winning over
+            the resolved settings.
 
     Returns:
         LLM: An ~OllamaLLM instance.
     """
     from llm_agents_from_scratch.llms.ollama import OllamaLLM
 
-    use_cloud = "OLLAMA_API_KEY" in os.environ
-    provider_key = "ollama-cloud" if use_cloud else "ollama"
-    resolved_model = _resolve_model(provider_key, role, model)
-
-    if use_cloud:
-        host = host or OLLAMA_CLOUD_HOST
-        # cloud models ignore Ollama's `format` parameter, so structured
-        # output has to be coerced at the prompt level instead
-        kwargs.setdefault("json_prompt_mode", True)
-        print(f"✓ Using Ollama Cloud ({resolved_model})")
-    else:
-        ensure_ollama(host or DEFAULT_OLLAMA_HOST)
-        print(f"✓ Using Ollama ({resolved_model})")
-
-    kwargs.setdefault("think", False)
-    return OllamaLLM(model=resolved_model, host=host, **kwargs)
+    settings = ollama_settings(role, model=model, host=host)
+    return OllamaLLM(**{**settings, **kwargs})

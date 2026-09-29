@@ -11,6 +11,7 @@ from llm_agents_from_scratch.notebook_utils.llm import (
     OLLAMA_CLOUD_HOST,
     ensure_ollama,
     make_llm,
+    ollama_settings,
     resolve_provider,
 )
 
@@ -187,6 +188,48 @@ def test_make_llm_host_override(
 
     mock_ensure.assert_called_once_with("http://elsewhere:11434")
     assert mock_ollama_llm.call_args.kwargs["host"] == "http://elsewhere:11434"
+
+
+# -- ollama_settings -------------------------------------------------------
+
+
+def test_ollama_settings_local(mock_ensure: MagicMock) -> None:
+    """Without a key: local model, default host bootstrapped, no cloud mode."""
+    settings = ollama_settings()
+
+    mock_ensure.assert_called_once_with(DEFAULT_OLLAMA_HOST)
+    assert settings == {"model": "qwen3:14b", "host": None, "think": False}
+
+
+def test_ollama_settings_cloud(
+    mock_ensure: MagicMock,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """With OLLAMA_API_KEY: the same cloud model and host make_llm() uses."""
+    monkeypatch.setenv("OLLAMA_API_KEY", "key")
+
+    settings = ollama_settings()
+
+    mock_ensure.assert_not_called()
+    assert settings == {
+        "model": "kimi-k2.7-code:cloud",
+        "host": OLLAMA_CLOUD_HOST,
+        "json_prompt_mode": True,
+        "think": False,
+    }
+
+
+def test_ollama_settings_matches_make_llm(
+    mock_ollama_llm: MagicMock,
+    mock_ensure: MagicMock,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """A notebook doing OllamaLLM(**ollama_settings()) gets make_llm()'s LLM."""
+    monkeypatch.setenv("OLLAMA_API_KEY", "key")
+
+    make_llm(role="small")
+
+    mock_ollama_llm.assert_called_once_with(**ollama_settings(role="small"))
 
 
 # -- make_llm, model resolution -------------------------------------------

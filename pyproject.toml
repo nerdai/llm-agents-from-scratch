@@ -58,6 +58,9 @@ notebooks = [
 openai = [
   "openai>=2.9.0"
 ]
+typesafe = [
+  "typesafe-sdk>=0.7.2"
+]
 
 [tool.coverage.run]
 omit = [

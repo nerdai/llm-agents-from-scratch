@@ -379,8 +379,10 @@ def test_make_llm_rejects_supported_but_unwired_provider(
 ) -> None:
     """A provider registered in the tables but with no branch fails loudly.
 
-    Guards the dispatch's final raise: without it, a newly registered
-    provider would silently fall through to whichever branch came last.
+    The real guard is static: `Provider` is a Literal and the dispatch ends
+    in `assert_never`, so a new member without a branch is a type error.
+    This pins the runtime half -- reaching the tail raises rather than
+    falling through to whichever branch came last.
     """
     monkeypatch.setattr(
         llm_mod,
@@ -389,8 +391,8 @@ def test_make_llm_rejects_supported_but_unwired_provider(
     )
     monkeypatch.setitem(llm_mod._MODELS, "gemini", {"default": "gemini-x"})
 
-    with pytest.raises(UnsupportedProviderError, match="not wired"):
-        make_llm(provider="gemini", api_key="sk-gem")
+    with pytest.raises(AssertionError, match="unreachable"):
+        make_llm(provider="gemini", api_key="sk-gem")  # type: ignore[arg-type]
 
 
 # -- ensure_ollama ---------------------------------------------------------

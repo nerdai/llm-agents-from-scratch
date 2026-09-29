@@ -15,7 +15,9 @@ import subprocess
 import time
 import urllib.error
 import urllib.request
-from typing import Any
+from typing import Any, Literal, cast, get_args
+
+from typing_extensions import assert_never
 
 from llm_agents_from_scratch.base.llm import LLM
 from llm_agents_from_scratch.errors import UnsupportedProviderError
@@ -51,8 +53,12 @@ _MODELS: dict[str, dict[str, str]] = {
     },
 }
 
-#: Providers a caller may ask for by name.
-SUPPORTED_PROVIDERS = ("ollama", "openai", "anthropic")
+#: Providers a caller may ask for by name. The Literal is the single source
+#: of truth: SUPPORTED_PROVIDERS is derived from it, and `make_llm`'s
+#: dispatch ends in `assert_never`, so adding a member here without a
+#: matching branch fails type-checking rather than falling through.
+Provider = Literal["ollama", "openai", "anthropic"]
+SUPPORTED_PROVIDERS: tuple[str, ...] = get_args(Provider)
 
 
 def ensure_ollama(
@@ -126,7 +132,7 @@ def ensure_ollama(
     raise RuntimeError(f"Ollama did not start within {timeout}s")
 
 
-def resolve_provider(provider: str | None = None) -> str:
+def resolve_provider(provider: str | None = None) -> Provider:
     """Resolve which LLM provider to use.
 
     Provider selection is explicit, never inferred from which API keys happen
@@ -138,7 +144,7 @@ def resolve_provider(provider: str | None = None) -> str:
             which case the LLM_PROVIDER env var is consulted, then "ollama".
 
     Returns:
-        str: One of SUPPORTED_PROVIDERS.
+        Provider: One of SUPPORTED_PROVIDERS.
 
     Raises:
         UnsupportedProviderError: If the resolved name is not recognized.
@@ -151,7 +157,9 @@ def resolve_provider(provider: str | None = None) -> str:
             f"Unknown LLM provider {resolved!r}. "
             f"Supported providers: {', '.join(SUPPORTED_PROVIDERS)}.",
         )
-    return resolved
+    # validated against get_args(Provider) just above; the cast records
+    # that for the type checker, which can't see through the membership test
+    return cast(Provider, resolved)
 
 
 def _ensure_api_key(provider: str) -> None:
@@ -209,7 +217,7 @@ def _resolve_model(provider: str, role: str, model: str | None) -> str:
 def make_llm(
     role: str = "default",
     *,
-    provider: str | None = None,
+    provider: Provider | None = None,
     model: str | None = None,
     host: str | None = None,
     **kwargs: Any,
@@ -224,8 +232,8 @@ def make_llm(
     Args:
         role (str): Which model slot to fill: "default", "small", or "judge".
             Defaults to "default".
-        provider (str | None): "ollama", "openai", or "anthropic". Defaults
-            to None, resolving via LLM_PROVIDER then "ollama".
+        provider (Provider | None): "ollama", "openai", or "anthropic".
+            Defaults to None, resolving via LLM_PROVIDER then "ollama".
         model (str | None): Overrides the per-role default model. Defaults
             to None.
         host (str | None): Ollama host override. Ignored by other providers.
@@ -237,8 +245,7 @@ def make_llm(
         LLM: A ready-to-use LLM instance.
 
     Raises:
-        UnsupportedProviderError: If the provider is unknown, or is listed
-            in SUPPORTED_PROVIDERS without a construction branch here.
+        UnsupportedProviderError: If the provider is unknown.
     """
     resolved = resolve_provider(provider)
 
@@ -269,11 +276,9 @@ def make_llm(
         print(f"✓ Using Anthropic ({resolved_model})")
         return AnthropicLLM(model=resolved_model, **kwargs)
 
-    # Unreachable while every SUPPORTED_PROVIDERS entry has a branch above;
-    # fails loudly if a new provider is registered without one.
-    raise UnsupportedProviderError(
-        f"Provider {resolved!r} is supported but not wired into make_llm().",
-    )
+    # every Provider member has a branch above; a new member without one is
+    # a type error here, and an AssertionError if it somehow reaches runtime
+    assert_never(resolved)
 
 
 def _make_ollama_llm(

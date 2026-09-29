@@ -10,8 +10,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
-- feat(ch04): more-examples — `jev_next_step_judge.ipynb`; `JevTaskHandler` overrides `TaskHandler.get_next_step()` to replace its LLM-based `next_step`/`final_result` classification with a TypeSafe Jev `Noul` judgment (a calibrated probability rather than a binary label), calling the LLM only to generate the next instruction and only when Jev says the task isn't done — eliminating the generate-then-discard `structured_output()` call the stock handler makes on the step that ends the task; driven by a manual loop copied from `_process_loop()`'s body, since `run()` has no injection point for a custom `TaskHandler` subclass; `typesafe-sdk` added as an optional extra (#973)
-
 ### Changed
 
 - fix(a2a): `LLMAgentA2AExecutor.cancel()`'s ordering comment was stale again on `a2a-sdk` 1.1.4 -- the ordering it described from 1.1.2 actually flipped: `ActiveTask.cancel()` now awaits our `cancel()` to completion *before* cancelling its own producer task, instead of the other way around (confirmed live: `task_handler`/`background_task` are both still unsettled when our `cancel()` is entered), and separately force-writes a CANCELED fallback to the task store if the task is still non-terminal once the whole call returns. Rewrote both comments to state the current mechanism rather than the 1.1.2 one. `test_cancel_drops_status_if_anything_yields_before_publish` (the negative control proving the old race was real) now `xfail`s on `a2a-sdk >= 1.1.4`, `strict=True` so a future SDK version removing this backstop turns back into a hard failure rather than a silent pass (#961)

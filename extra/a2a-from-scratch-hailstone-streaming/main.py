@@ -14,7 +14,10 @@ from a2a.server.tasks import InMemoryTaskStore
 from fastapi import FastAPI
 
 from llm_agents_from_scratch import LLMAgent
-from llm_agents_from_scratch.a2a import LLMAgentA2AExecutor, build_agent_card
+from llm_agents_from_scratch.a2a import (
+    StreamingLLMAgentA2AExecutor,
+    build_streaming_agent_card,
+)
 from llm_agents_from_scratch.llms import OllamaLLM
 from llm_agents_from_scratch.logger import enable_console_logging
 from llm_agents_from_scratch.tools import SimpleFunctionTool
@@ -22,7 +25,7 @@ from llm_agents_from_scratch.tools import SimpleFunctionTool
 OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "qwen3:14b")
 OLLAMA_HOST = os.environ.get("OLLAMA_HOST") or None
 A2A_HOST = os.environ.get("A2A_HOST", "0.0.0.0")
-A2A_PORT = int(os.environ.get("A2A_PORT", "9300"))
+A2A_PORT = int(os.environ.get("A2A_PORT", "9301"))
 A2A_URL = os.environ.get("A2A_URL", f"http://localhost:{A2A_PORT}")
 
 enable_console_logging()
@@ -39,10 +42,11 @@ def next_number(x: int) -> int:
 
 
 def build_app() -> FastAPI:
-    """Builds the FastAPI app serving an LLMAgent over A2A.
+    """Builds the FastAPI app serving an LLMAgent over streaming A2A.
 
-    The exact same executor/card construction pattern demonstrated
-    inline in Example 4a of examples/ch10.ipynb -- this app is what
+    The exact same executor/card construction pattern this repo's
+    ``more-examples/ch10/streaming_llmagent_executor.ipynb`` builds
+    inline (without serving it) for comparison -- this app is what
     actually serves it.
 
     Returns:
@@ -61,16 +65,17 @@ def build_app() -> FastAPI:
         json_prompt_mode=use_cloud,
     )
     agent = LLMAgent(llm=llm, tools=[SimpleFunctionTool(func=next_number)])
-    card = build_agent_card(
-        name="from-scratch-hailstone",
+    card = build_streaming_agent_card(
+        name="from-scratch-hailstone-streaming",
         description=(
             "Computes the full Hailstone (Collatz) sequence for a "
-            "positive integer."
+            "positive integer, publishing an incremental status "
+            "update per step."
         ),
         url=A2A_URL,
     )
     request_handler = DefaultRequestHandler(
-        agent_executor=LLMAgentA2AExecutor(agent=agent),
+        agent_executor=StreamingLLMAgentA2AExecutor(agent=agent),
         task_store=InMemoryTaskStore(),
         agent_card=card,
     )

@@ -123,10 +123,10 @@ examples/ch02.ipynb:
     status: no-llm
 examples/ch03.ipynb:
   anthropic:
-    commit: cf1955bc
+    commit: eb4e4269
     last_tested: '2026-09-29'
     model: ''
-    note: constructs its LLM directly; not run
+    note: Ollama only (ollama_settings); not run
     seconds: 0
     status: not-wired
   ollama:
@@ -136,17 +136,16 @@ examples/ch03.ipynb:
     seconds: 348
     status: pass
   ollama-cloud:
-    commit: 6d29cd79
+    commit: dacfb1d6
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: kimi-k2.7-code:cloud
+    seconds: 12
+    status: pass
   openai:
-    commit: f6502f43
+    commit: eb4e4269
     last_tested: '2026-09-29'
     model: ''
-    note: constructs its LLM directly; not run
+    note: Ollama only (ollama_settings); not run
     seconds: 0
     status: not-wired
 examples/ch04.ipynb:

@@ -15,7 +15,9 @@ Statuses:
     pass       ran to completion
     fail       a cell raised or timed out (the `note` says which)
     not-wired  the notebook constructs its LLM directly, so LLM_PROVIDER
-               would have no effect; it is only executed for `ollama`
+               would have no effect; it is only executed for `ollama`.
+               A notebook using `ollama_settings()` runs on both Ollama
+               columns and is not-wired for OpenAI and Anthropic
     no-llm     nothing in the notebook builds an LLM; it is only executed
                for `ollama`, where a failure is still recorded as `fail`
 
@@ -263,10 +265,17 @@ def _code(nb: dict[str, Any]) -> str:
 
 
 def _wiring(nb: dict[str, Any]) -> tuple[str, str]:
-    """How the notebook gets its LLM: (wired | direct | none, model hint)."""
+    """How the notebook gets its LLM.
+
+    Returns (wiring, model hint), where wiring is one of `wired`
+    (`make_llm()`: every provider), `ollama-wired` (`ollama_settings()`:
+    local Ollama or Ollama Cloud only), `direct` or `none`.
+    """
     source = _code(nb)
     if "make_llm(" in source:
         return "wired", ""
+    if "ollama_settings(" in source:
+        return "ollama-wired", ""
     if _DIRECT.search(source):
         m = _DIRECT_MODEL.search(source)
         return "direct", m.group(1) if m else "constructed directly"
@@ -354,6 +363,20 @@ def _entry(
     return entry
 
 
+def _skip(wiring: str, provider: str) -> dict[str, Any] | None:
+    """The entry for a run that would not exercise `provider`, if any."""
+    if wiring == "none" and provider != "ollama":
+        return _entry("no-llm")
+    if wiring == "ollama-wired" and provider not in ("ollama", "ollama-cloud"):
+        return _entry(
+            "not-wired",
+            note="Ollama only (ollama_settings); not run",
+        )
+    if wiring == "direct" and provider != "ollama":
+        return _entry("not-wired", note="constructs its LLM directly; not run")
+    return None
+
+
 def run_one(
     path: Path,
     provider: str,
@@ -364,10 +387,8 @@ def run_one(
     raw = path.read_text(encoding="utf-8")
     nb = json.loads(raw)
     wiring, hint = _wiring(nb)
-    if wiring == "none" and provider != "ollama":
-        return _entry("no-llm")
-    if wiring == "direct" and provider != "ollama":
-        return _entry("not-wired", note="constructs its LLM directly; not run")
+    if skipped := _skip(wiring, provider):
+        return skipped
     t0 = time.time()
     failure = _execute(path, nb, provider, timeout)
     seconds = round(time.time() - t0)
@@ -381,7 +402,8 @@ def run_one(
         return _entry("fail", model, failure, seconds)
     if wiring == "none":
         return _entry("no-llm", seconds=seconds)
-    if wiring == "wired" and (not used or _USING_KEY[used[1]] != provider):
+    wired = wiring in ("wired", "ollama-wired")
+    if wired and (not used or _USING_KEY[used[1]] != provider):
         ran_on = used[1] if used else "an unreported provider"
         return _entry("fail", model, f"make_llm() ran on {ran_on}", seconds)
     if keep_outputs:

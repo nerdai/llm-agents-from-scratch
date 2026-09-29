@@ -23,7 +23,7 @@ that its prompts read well.
 | Notebook | Ollama Cloud | OpenAI | Anthropic | Ollama (local) |
 |---|---|---|---|---|
 | [`ch02.ipynb`](notebooks/ch02.ipynb) | ∅ no LLM | ∅ no LLM | ∅ no LLM | ∅ no LLM |
-| [`ch03.ipynb`](notebooks/ch03.ipynb) | ⚪ not wired | ⚪ not wired | ⚪ not wired | ✅ 2026-09-29 `qwen3:14b` |
+| [`ch03.ipynb`](notebooks/ch03.ipynb) | ✅ 2026-09-29 `kimi-k2.7-code:cloud` | ⚪ not wired | ⚪ not wired | ✅ 2026-09-29 `qwen3:14b` |
 | [`ch04.ipynb`](notebooks/ch04.ipynb) | ❌ 2026-09-29[^1] | ❌ 2026-09-29[^2] | ❌ 2026-09-29[^3] | ❌ 2026-09-29[^4] |
 | [`ch05.ipynb`](notebooks/ch05.ipynb) | ✅ 2026-09-29 `kimi-k2.7-code:cloud` | ✅ 2026-09-29 `gpt-5` | ✅ 2026-09-29 `claude-sonnet-5` | ✅ 2026-09-29 `qwen3:14b` |
 | [`ch06.ipynb`](notebooks/ch06.ipynb) | ✅ 2026-09-29 `kimi-k2.7-code:cloud` | ✅ 2026-09-29 `gpt-5` | ✅ 2026-09-29 `claude-sonnet-5` | ✅ 2026-09-29 `qwen3:14b` |

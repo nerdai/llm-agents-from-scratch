@@ -1,15 +1,97 @@
-# Ledger behind docs/notebook-status.md. One entry per (notebook, provider).
-# Written by _scripts/run_notebook.py; rendered by
-# _scripts/render_notebook_status.py. Hand-edit only to record a run made
-# outside the runner (say so in `note`).
+capstones/one/capstone_1.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+  openai:
+    commit: f6502f43
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+capstones/three/capstone_2.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+  openai:
+    commit: f6502f43
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+capstones/three/capstone_3.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+  openai:
+    commit: f6502f43
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+capstones/three/capstone_4.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+  openai:
+    commit: f6502f43
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+capstones/three/capstone_5.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+  openai:
+    commit: f6502f43
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
 examples/ch02.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
   ollama:
     commit: '81890432'
     last_tested: '2026-09-29'
     model: ''
     seconds: 2
     status: no-llm
+  openai:
+    commit: f6502f43
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
 examples/ch03.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
   ollama:
     commit: '81890432'
     last_tested: '2026-09-29'
@@ -18,43 +100,230 @@ examples/ch03.ipynb:
       unrelated to make_llm)'
     seconds: 3
     status: fail
+  openai:
+    commit: f6502f43
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
 examples/ch04.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: claude-sonnet-5
+    note: 'cell 31: InvalidStateError: Exception is not set.'
+    seconds: 4
+    status: fail
   ollama:
     commit: '81890432'
     last_tested: '2026-09-29'
     model: qwen3:14b
-    note: 'handler.result() read before the background run finished (InvalidStateError);
-      a race only under back-to-back headless execution, reproduced identically on main'
+    note: handler.result() read before the background run finished (InvalidStateError);
+      a race only under back-to-back headless execution, reproduced identically on
+      main
     seconds: 3
     status: fail
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: gpt-5
+    note: 'cell 31: InvalidStateError: Exception is not set.'
+    seconds: 4
+    status: fail
 examples/ch05.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: claude-sonnet-5
+    seconds: 12
+    status: pass
   ollama:
     commit: '81890432'
     last_tested: '2026-09-29'
     model: qwen3:14b
     seconds: 28
     status: pass
+  openai:
+    commit: f6502f43
+    last_tested: '2026-09-29'
+    model: gpt-5
+    seconds: 35
+    status: pass
 examples/ch06.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: claude-sonnet-5
+    seconds: 26
+    status: pass
   ollama:
     commit: '81890432'
     last_tested: '2026-09-29'
     model: qwen3:14b
     seconds: 186
     status: pass
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: gpt-5
+    seconds: 41
+    status: pass
 examples/ch07.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: claude-sonnet-5
+    seconds: 22
+    status: pass
   ollama:
     commit: '81890432'
     last_tested: '2026-09-29'
     model: qwen3:14b
     seconds: 93
     status: pass
-more-examples/ch04/jev_next_step_judge.ipynb:
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: gpt-5
+    seconds: 49
+    status: pass
+examples/ch08.ipynb:
   anthropic:
-    commit: '160a9ec7'
+    commit: cf1955bc
     last_tested: '2026-09-29'
     model: claude-sonnet-5
-    note: interactive run in Jupyter, recorded by hand
+    seconds: 100
+    status: pass
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: gpt-5
+    seconds: 213
+    status: pass
+examples/ch09.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: claude-sonnet-5
+    seconds: 306
+    status: pass
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: gpt-5
+    seconds: 224
+    status: pass
+examples/ch10.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: claude-sonnet-5
+    seconds: 684
+    status: pass
+  ollama:
+    commit: 1c0c22b0
+    last_tested: '2026-09-29'
+    model: qwen3:14b
+    note: scripted-human driver run before the runner existed, recorded by hand
+    seconds: 521
+    status: pass
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: gpt-5
+    seconds: 265
+    status: pass
+more-examples/ch02/async_tools.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
     seconds: 0
+    status: no-llm
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+more-examples/ch02/multi_tool_registry.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+more-examples/ch02/pydantic_tool_validation.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+more-examples/ch03/multi_turn_chat.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+more-examples/ch03/parallel_tool_calls.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+more-examples/ch03/pdf_extraction.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+more-examples/ch04/jev_next_step_judge.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: claude-sonnet-5
+    seconds: 36
     status: pass
   ollama-cloud:
     commit: 8358ba6c
@@ -63,3 +332,303 @@ more-examples/ch04/jev_next_step_judge.ipynb:
     note: nbconvert run before the runner existed, recorded by hand
     seconds: 0
     status: pass
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: gpt-5
+    seconds: 75
+    status: pass
+more-examples/ch04/pokemon_comparison.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+more-examples/ch04/pokemon_error_handling.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+more-examples/ch05/github_mcp.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+more-examples/ch05/goodnews_mcp.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+more-examples/ch06/additional_resource_python.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+more-examples/ch06/skill_validation_errors.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+more-examples/ch06/skills_marketplace.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+more-examples/ch06/user_explicit_hailstone.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+more-examples/ch06/with_and_without_skills.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+more-examples/ch07/recency_memory.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+more-examples/ch07/reflective_memory.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+more-examples/ch07/similarity_memory.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+more-examples/ch08/approval_gate_in_skill.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+more-examples/ch08/skill_with_human_input.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+more-examples/ch08/supervised_trajectories.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+more-examples/ch09/evaluator_pattern.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+more-examples/ch09/subagent_failure.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+more-examples/ch09/subagent_with_mcp_tool.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    note: constructs its LLM directly; not run
+    seconds: 0
+    status: not-wired
+more-examples/ch10/cancelling_a_task_execution.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+more-examples/ch10/streaming_llmagent_executor.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm

@@ -43,6 +43,7 @@ import os
 import re
 import subprocess
 import sys
+import tempfile
 import time
 from dataclasses import dataclass, field
 from datetime import date
@@ -153,13 +154,16 @@ class _CellRun:
     replied: bool = False
 
 
-def _pump_stdin(kc: Any, run: _CellRun) -> None:
+def _pump_stdin(kc: Any, msg_id: str, run: _CellRun) -> None:
     try:
         m = kc.stdin_channel.get_msg(timeout=_POLL)
     except Empty:
         return
     if m["header"]["msg_type"] != "input_request":
         return
+    # the prompt text is printed before input() is called; make sure it
+    # has been read from iopub before choosing the reply
+    _pump_iopub(kc, msg_id, run)
     ans = _answer(run.tail[-1500:], m["content"].get("prompt", ""))
     run.outputs.append(
         {
@@ -184,6 +188,9 @@ def _pump_iopub(kc: Any, msg_id: str, run: _CellRun) -> None:
                     {"output_type": kind, "name": c["name"], "text": c["text"]},
                 )
             elif kind in ("execute_result", "display_data"):
+                # rich renders prompts through display() under ipykernel,
+                # so the prompt text arrives here, not on the stream
+                run.tail += c["data"].get("text/plain", "")
                 out = {
                     "output_type": kind,
                     "data": c["data"],
@@ -217,20 +224,24 @@ def _pump_shell(kc: Any, msg_id: str, run: _CellRun) -> None:
         run.replied = True
 
 
-def _run_cell(kc: Any, code: str, timeout: float) -> list[dict[str, Any]]:
-    """Execute one cell, answering stdin prompts. Raises on error/timeout."""
-    msg_id = kc.execute(code, allow_stdin=True)
+def _run_cell(kc: Any, cell: dict[str, Any], timeout: float) -> None:
+    """Execute one cell in place, answering stdin prompts.
+
+    Outputs are written into the cell as they arrive, so a failed cell
+    keeps what it produced. Raises on error/timeout.
+    """
+    msg_id = kc.execute("".join(cell["source"]), allow_stdin=True)
     run = _CellRun()
+    cell["outputs"] = run.outputs
     start = time.time()
     while not (run.replied and run.idle):
         if time.time() - start > timeout:
             raise TimeoutError(f"cell exceeded {timeout:.0f}s")
-        _pump_stdin(kc, run)
+        _pump_stdin(kc, msg_id, run)
         _pump_iopub(kc, msg_id, run)
         _pump_shell(kc, msg_id, run)
     if run.error:
         raise RuntimeError(run.error)
-    return run.outputs
 
 
 def _code(nb: dict[str, Any]) -> str:
@@ -259,6 +270,23 @@ def _stream_text(nb: dict[str, Any]) -> str:
     )
 
 
+def _progress(path: Path, index: int, t0: float, err: str = "") -> None:
+    state = f"failed: {err}" if err else "ok"
+    print(
+        f"  {path.name} cell {index}: {state} ({time.time() - t0:.0f}s)",
+        file=sys.stderr,
+        flush=True,
+    )
+
+
+def _dump(path: Path, nb: dict[str, Any], provider: str) -> Path:
+    """Write an executed notebook where a failure can be inspected."""
+    out = Path(tempfile.gettempdir()) / "notebook_runs" / provider / path
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(nb, indent=1), encoding="utf-8")
+    return out
+
+
 def _execute(
     path: Path,
     nb: dict[str, Any],
@@ -282,12 +310,14 @@ def _execute(
             if cell["cell_type"] != "code":
                 continue
             count += 1
+            t0 = time.time()
             try:
-                source = "".join(cell["source"])
-                cell["outputs"] = _run_cell(kc, source, timeout)
+                _run_cell(kc, cell, timeout)
                 cell["execution_count"] = count
             except Exception as e:  # noqa: BLE001
+                _progress(path, i, t0, str(e))
                 return f"cell {i}: {e}"
+            _progress(path, i, t0)
     finally:
         kc.stop_channels()
         km.shutdown_kernel(now=True)
@@ -332,6 +362,10 @@ def run_one(
     used = _USING.search(_stream_text(nb))
     model = used.group(2) if used else hint
     if failure:
+        print(
+            f"  executed notebook: {_dump(path, nb, provider)}",
+            file=sys.stderr,
+        )
         return _entry("fail", model, failure, seconds)
     if wiring == "none":
         return _entry("no-llm", seconds=seconds)

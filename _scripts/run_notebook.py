@@ -266,6 +266,11 @@ def _execute(
     timeout: float,
 ) -> str | None:
     """Run every code cell in a fresh kernel; return the first failure."""
+    for cell in nb["cells"]:
+        if cell["cell_type"] == "code":
+            # drop committed outputs so only this run's are classified
+            cell["outputs"] = []
+            cell["execution_count"] = None
     km = KernelManager(kernel_name="python3")
     km.start_kernel(cwd=str(path.parent), env=_kernel_env(provider))
     kc = km.client()

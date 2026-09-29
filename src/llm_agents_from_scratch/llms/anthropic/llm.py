@@ -38,6 +38,12 @@ class AnthropicLLM(LLM):
     hit mid-object), which surfaces as ``StructuredOutputError`` instead
     of a bare ``None``.
 
+    Assistant turns come back as ``AnthropicChatMessage``, which keeps the
+    response's original content blocks; when a follow-up (tool results)
+    replays that turn, the blocks are sent verbatim -- ``thinking`` and
+    ``redacted_thinking`` blocks included, with their signatures -- since
+    the API rejects a replayed turn that drops or reorders them.
+
     ``max_tokens`` is mandatory on every Messages API call, so it is a
     stored per-instance default (mirroring ``OllamaLLM.think``) that any
     call can override by passing its own ``max_tokens`` kwarg.

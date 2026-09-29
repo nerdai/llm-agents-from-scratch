@@ -20,6 +20,8 @@ from llm_agents_from_scratch.llms.anthropic.errors import (
 )
 from llm_agents_from_scratch.llms.anthropic.llm import DEFAULT_MAX_TOKENS
 from llm_agents_from_scratch.llms.anthropic.utils import (
+    AnthropicChatMessage,
+    anthropic_message_to_chat_message,
     chat_message_to_anthropic_message_param,
     chat_message_to_tool_result_block,
     tool_to_anthropic_tool,
@@ -382,3 +384,90 @@ def test_chat_message_to_tool_result_block_raises_error() -> None:
 
     with pytest.raises(DataConversionError, match="Unable to build"):
         chat_message_to_tool_result_block(invalid_chat_message)
+
+
+THINKING_BLOCK = {
+    "type": "thinking",
+    "thinking": "The user wants the weather; call the tool.",
+    "signature": "sig_abc123",
+}
+TOOL_USE_BLOCK = {
+    "type": "tool_use",
+    "id": "toolu_1",
+    "name": "get_weather",
+    "input": {"location": "Toronto"},
+}
+
+
+@pytest.mark.skipif(not anthropic_installed, reason="anthropic not installed")
+def test_anthropic_message_to_chat_message_keeps_raw_blocks() -> None:
+    """Every response block is kept, including kinds ChatMessage can't hold."""
+    message = _message(THINKING_BLOCK, TOOL_USE_BLOCK, stop_reason="tool_use")
+
+    chat_message = anthropic_message_to_chat_message(message)
+
+    assert isinstance(chat_message, AnthropicChatMessage)
+    assert chat_message.content == ""
+    assert len(chat_message.tool_calls) == 1
+    assert chat_message.raw_content == list(message.content)
+    assert [b.type for b in chat_message.raw_content] == [
+        "thinking",
+        "tool_use",
+    ]
+
+
+@pytest.mark.skipif(not anthropic_installed, reason="anthropic not installed")
+def test_anthropic_chat_message_replays_raw_blocks_verbatim() -> None:
+    """Replay sends the original blocks, signatures and order intact.
+
+    Rebuilding the turn from text + tool_calls would drop the thinking
+    block, and the API rejects a follow-up whose assistant turn is
+    missing it.
+    """
+    message = _message(THINKING_BLOCK, TOOL_USE_BLOCK, stop_reason="tool_use")
+    chat_message = anthropic_message_to_chat_message(message)
+
+    param = chat_message_to_anthropic_message_param(chat_message)
+
+    assert param["role"] == "assistant"
+    blocks = list(param["content"])
+    assert [b["type"] for b in blocks] == ["thinking", "tool_use"]
+    assert blocks[0]["signature"] == "sig_abc123"
+    assert blocks[1]["id"] == "toolu_1"
+
+
+@pytest.mark.skipif(not anthropic_installed, reason="anthropic not installed")
+@pytest.mark.asyncio
+async def test_continue_chat_replays_thinking_before_tool_results(
+    mock_client: Any,
+) -> None:
+    """The follow-up carries the assistant turn exactly as it was received."""
+    _, instance = mock_client
+    instance.messages.create.side_effect = [
+        _message(THINKING_BLOCK, TOOL_USE_BLOCK, stop_reason="tool_use"),
+        _message({"type": "text", "text": "It is 21.5C in Toronto."}),
+    ]
+
+    llm = AnthropicLLM("claude-sonnet-5")
+    user_message, response_message = await llm.chat(
+        "Weather in Toronto?",
+        chat_history=[SYSTEM],
+        tools=[get_weather_tool],
+    )
+    tool_call = response_message.tool_calls[0]
+
+    await llm.continue_chat_with_tool_results(
+        tool_call_results=[
+            ToolCallResult(tool_call_id=tool_call.id_, content="21.5"),
+        ],
+        chat_history=[SYSTEM, user_message, response_message],
+        tools=[get_weather_tool],
+    )
+
+    replayed = instance.messages.create.call_args.kwargs["messages"]
+    assert replayed[1]["role"] == "assistant"
+    assert replayed[1]["content"] == [
+        b.model_dump(exclude_none=True) for b in response_message.raw_content
+    ]
+    assert replayed[1]["content"][0]["type"] == "thinking"
+    assert replayed[2]["content"][0]["tool_use_id"] == "toolu_1"

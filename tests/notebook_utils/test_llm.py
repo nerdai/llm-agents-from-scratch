@@ -5,6 +5,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from llm_agents_from_scratch.errors import UnsupportedProviderError
+from llm_agents_from_scratch.notebook_utils import llm as llm_mod
 from llm_agents_from_scratch.notebook_utils.llm import (
     DEFAULT_OLLAMA_HOST,
     OLLAMA_CLOUD_HOST,
@@ -42,6 +43,13 @@ def mock_ollama_llm():
 def mock_openai_llm():
     """Patch OpenAILLM at its source, since make_llm imports it lazily."""
     with patch("llm_agents_from_scratch.llms.openai.OpenAILLM") as mock:
+        yield mock
+
+
+@pytest.fixture
+def mock_anthropic_llm():
+    """Patch AnthropicLLM at its source, since make_llm imports it lazily."""
+    with patch("llm_agents_from_scratch.llms.anthropic.AnthropicLLM") as mock:
         yield mock
 
 
@@ -325,13 +333,66 @@ def test_ollama_path_never_prompts(
     mock_getpass.assert_not_called()
 
 
-def test_anthropic_not_yet_supported() -> None:
-    """Anthropic is a known provider whose integration has not landed."""
-    with pytest.raises(
-        UnsupportedProviderError,
-        match="not yet supported",
-    ):
+def test_make_llm_anthropic(
+    mock_anthropic_llm: MagicMock,
+    mock_ensure: MagicMock,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Choosing Anthropic skips the Ollama bootstrap and builds the client."""
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-ant-test")
+
+    make_llm(provider="anthropic")
+
+    mock_ensure.assert_not_called()
+    mock_anthropic_llm.assert_called_once_with(model="claude-sonnet-5")
+
+
+def test_make_llm_anthropic_drops_openai_only_kwargs(
+    mock_anthropic_llm: MagicMock,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """reasoning_effort is OpenAI-only; AsyncAnthropic would reject it."""
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-ant-test")
+
+    make_llm(provider="anthropic", reasoning_effort="low", think=False)
+
+    kwargs = mock_anthropic_llm.call_args.kwargs
+    assert "reasoning_effort" not in kwargs
+    assert "think" not in kwargs
+
+
+def test_make_llm_anthropic_prompts_when_key_missing(
+    mock_anthropic_llm: MagicMock,
+) -> None:
+    """An opted-in Anthropic reader who forgot to export gets the prompt."""
+    with patch(
+        "llm_agents_from_scratch.notebook_utils.llm.getpass.getpass",
+        return_value="sk-ant-typed",
+    ) as mock_getpass:
         make_llm(provider="anthropic")
+
+    mock_getpass.assert_called_once_with("ANTHROPIC_API_KEY: ")
+
+
+def test_make_llm_rejects_supported_but_unwired_provider(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """A provider registered in the tables but with no branch fails loudly.
+
+    The real guard is static: `Provider` is a Literal and the dispatch ends
+    in `assert_never`, so a new member without a branch is a type error.
+    This pins the runtime half -- reaching the tail raises rather than
+    falling through to whichever branch came last.
+    """
+    monkeypatch.setattr(
+        llm_mod,
+        "SUPPORTED_PROVIDERS",
+        (*llm_mod.SUPPORTED_PROVIDERS, "gemini"),
+    )
+    monkeypatch.setitem(llm_mod._MODELS, "gemini", {"default": "gemini-x"})
+
+    with pytest.raises(AssertionError, match="unreachable"):
+        make_llm(provider="gemini", api_key="sk-gem")  # type: ignore[arg-type]
 
 
 # -- ensure_ollama ---------------------------------------------------------

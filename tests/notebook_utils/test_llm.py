@@ -5,6 +5,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from llm_agents_from_scratch.errors import UnsupportedProviderError
+from llm_agents_from_scratch.notebook_utils import llm as llm_mod
 from llm_agents_from_scratch.notebook_utils.llm import (
     DEFAULT_OLLAMA_HOST,
     OLLAMA_CLOUD_HOST,
@@ -371,6 +372,25 @@ def test_make_llm_anthropic_prompts_when_key_missing(
         make_llm(provider="anthropic")
 
     mock_getpass.assert_called_once_with("ANTHROPIC_API_KEY: ")
+
+
+def test_make_llm_rejects_supported_but_unwired_provider(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """A provider registered in the tables but with no branch fails loudly.
+
+    Guards the dispatch's final raise: without it, a newly registered
+    provider would silently fall through to whichever branch came last.
+    """
+    monkeypatch.setattr(
+        llm_mod,
+        "SUPPORTED_PROVIDERS",
+        (*llm_mod.SUPPORTED_PROVIDERS, "gemini"),
+    )
+    monkeypatch.setitem(llm_mod._MODELS, "gemini", {"default": "gemini-x"})
+
+    with pytest.raises(UnsupportedProviderError, match="not wired"):
+        make_llm(provider="gemini", api_key="sk-gem")
 
 
 # -- ensure_ollama ---------------------------------------------------------

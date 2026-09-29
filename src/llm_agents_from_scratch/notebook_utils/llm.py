@@ -237,7 +237,8 @@ def make_llm(
         LLM: A ready-to-use LLM instance.
 
     Raises:
-        UnsupportedProviderError: If the provider is unknown.
+        UnsupportedProviderError: If the provider is unknown, or is listed
+            in SUPPORTED_PROVIDERS without a construction branch here.
     """
     resolved = resolve_provider(provider)
 
@@ -260,12 +261,19 @@ def make_llm(
         print(f"✓ Using OpenAI ({resolved_model})")
         return OpenAILLM(model=resolved_model, **kwargs)
 
-    from llm_agents_from_scratch.llms.anthropic import AnthropicLLM
+    if resolved == "anthropic":
+        from llm_agents_from_scratch.llms.anthropic import AnthropicLLM
 
-    # OpenAI-only; AsyncAnthropic would reject it as an unexpected kwarg
-    kwargs.pop("reasoning_effort", None)
-    print(f"✓ Using Anthropic ({resolved_model})")
-    return AnthropicLLM(model=resolved_model, **kwargs)
+        # OpenAI-only; AsyncAnthropic would reject it as an unexpected kwarg
+        kwargs.pop("reasoning_effort", None)
+        print(f"✓ Using Anthropic ({resolved_model})")
+        return AnthropicLLM(model=resolved_model, **kwargs)
+
+    # Unreachable while every SUPPORTED_PROVIDERS entry has a branch above;
+    # fails loudly if a new provider is registered without one.
+    raise UnsupportedProviderError(
+        f"Provider {resolved!r} is supported but not wired into make_llm().",
+    )
 
 
 def _make_ollama_llm(

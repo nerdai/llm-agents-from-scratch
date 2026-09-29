@@ -30,11 +30,12 @@ import yaml
 REPO = Path(__file__).resolve().parents[1]
 LEDGER = REPO / "notebook_status.yaml"
 PAGE = REPO / "docs" / "notebook-status.md"
+#: Column order: the recommended provider first, local Ollama last.
 PROVIDERS = (
-    ("ollama", "Ollama (local)"),
     ("ollama-cloud", "Ollama Cloud"),
     ("openai", "OpenAI"),
     ("anthropic", "Anthropic"),
+    ("ollama", "Ollama (local)"),
 )
 TIERS = (
     ("examples/", "Chapter notebooks"),

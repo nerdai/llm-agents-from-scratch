@@ -1593,12 +1593,10 @@ notebooks = [
     { name = "ipython", version = "8.39.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
     { name = "ipython", version = "9.13.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
     { name = "tqdm" },
+    { name = "typesafe-sdk" },
 ]
 openai = [
     { name = "openai" },
-]
-typesafe = [
-    { name = "typesafe-sdk" },
 ]
 
 [package.dev-dependencies]
@@ -1638,10 +1636,10 @@ requires-dist = [
     { name = "qdrant-client", extras = ["fastembed"], specifier = ">=1.14.0" },
     { name = "rich", specifier = ">=13.9.0" },
     { name = "tqdm", marker = "extra == 'notebooks'", specifier = ">=4.0.0" },
-    { name = "typesafe-sdk", marker = "extra == 'typesafe'", specifier = ">=0.7.2" },
+    { name = "typesafe-sdk", marker = "extra == 'notebooks'", specifier = ">=0.7.2" },
     { name = "typing-extensions", specifier = ">=4.14.0" },
 ]
-provides-extras = ["notebook-utils", "notebooks", "openai", "typesafe"]
+provides-extras = ["notebook-utils", "notebooks", "openai"]
 
 [package.metadata.requires-dev]
 dev = [

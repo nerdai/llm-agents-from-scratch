@@ -12,6 +12,7 @@ from .memory_store import (
     MemoryStoreError,
     MemoryStoreWarning,
 )
+from .notebook_utils import NotebookUtilsError, UnsupportedProviderError
 from .skill import (
     EmptySkillBodyError,
     InvalidFrontmatterError,
@@ -48,6 +49,9 @@ __all__ = [
     "MCPError",
     "MissingMCPServerParamsError",
     "MCPWarning",
+    # notebook utils
+    "NotebookUtilsError",
+    "UnsupportedProviderError",
     # skill
     "SkillsError",
     "SkillsWarning",

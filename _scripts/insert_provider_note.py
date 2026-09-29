@@ -55,6 +55,10 @@ To use OpenAI or Anthropic instead:
    to `make_llm()`. A key on its own never switches providers, so one
    exported for unrelated work cannot reroute you off the Ollama path.
 
+The switch applies wherever a notebook builds its LLM with `make_llm()`.
+A notebook that constructs `OllamaLLM` directly stays on Ollama regardless
+of these settings.
+
 If you opted in but forgot to export the key, you will be prompted for it.
 That is the safe path on hosted kernels, and it keeps the key out of the
 saved notebook. Setting `OLLAMA_API_KEY` alone routes Ollama to Ollama
@@ -142,10 +146,16 @@ def process(path: Path, check: bool = False) -> str:
     existing = [i for i, cell in enumerate(cells) if _is_note(cell)]
     superseded = [i for i, cell in enumerate(cells) if _is_superseded(cell)]
 
-    if existing and _source(cells[existing[0]]) == NOTE and not superseded:
+    if (
+        len(existing) == 1
+        and _source(cells[existing[0]]) == NOTE
+        and not superseded
+    ):
         return "unchanged"
 
-    for i in reversed(superseded):
+    # normalize to exactly one note: drop superseded bespoke cells and any
+    # duplicate copies beyond the first, then refresh or insert
+    for i in sorted(set(superseded) | set(existing[1:]), reverse=True):
         del cells[i]
     existing = [i for i, cell in enumerate(cells) if _is_note(cell)]
 
@@ -187,13 +197,14 @@ def _tracked_notebooks() -> list[Path]:
     return sorted(Path(p) for p in listed if p.endswith(".ipynb"))
 
 
-def main(check: bool = False, *paths: str) -> None:
+def main(*paths: str, check: bool = False) -> None:
     """Apply the note to every notebook, or report what a run would change.
 
     Args:
-        check (bool): Dry run. Report per-notebook actions without writing,
-            and exit non-zero if anything would change. Defaults to False.
         *paths (str): Notebooks to process instead of every tracked one.
+        check (bool): Dry run. Report per-notebook actions without writing,
+            and exit non-zero if anything would change. Keyword-only, so a
+            positional path is never mistaken for it. Defaults to False.
     """
     targets = [Path(p) for p in paths] if paths else _tracked_notebooks()
     counts: dict[str, int] = {}

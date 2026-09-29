@@ -85,6 +85,16 @@ def ensure_ollama(
         print(f"✓ Ollama already running at {host}")
         return
 
+    if host != DEFAULT_OLLAMA_HOST:
+        raise RuntimeError(
+            f"No Ollama service responding at {host}. Only the default "
+            f"local host ({DEFAULT_OLLAMA_HOST}) can be started "
+            "automatically -- spawning `ollama serve` here would bind "
+            "its usual default, not the requested host. Start the "
+            "service at that host yourself, or omit `host` to use the "
+            "default.",
+        )
+
     # Lightning persistent path first, then standard locations
     ollama_path = shutil.which("ollama")
     if ollama_path is None:
@@ -249,7 +259,10 @@ def make_llm(
     # closed providers: selection already happened, so a key is now required
     for key in _OLLAMA_ONLY_KWARGS:
         kwargs.pop(key, None)
-    _ensure_api_key(resolved)
+    # a caller-supplied api_key kwarg (OpenAILLM forwards it to AsyncOpenAI)
+    # already satisfies the requirement, so skip the env var/prompt path
+    if not kwargs.get("api_key"):
+        _ensure_api_key(resolved)
     resolved_model = _resolve_model(resolved, role, model)
 
     from llm_agents_from_scratch.llms.openai import OpenAILLM

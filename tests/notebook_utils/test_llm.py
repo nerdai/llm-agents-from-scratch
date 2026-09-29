@@ -264,6 +264,24 @@ def test_make_llm_openai_prompts_when_key_missing(
     mock_getpass.assert_called_once_with("OPENAI_API_KEY: ")
 
 
+def test_make_llm_openai_skips_prompt_when_api_key_kwarg_present(
+    mock_openai_llm: MagicMock,
+) -> None:
+    """A caller-supplied api_key kwarg satisfies the key requirement.
+
+    OpenAILLM forwards api_key straight to AsyncOpenAI, so a caller who
+    already passed one should never see the OPENAI_API_KEY prompt, even
+    with no env var set.
+    """
+    with patch(
+        "llm_agents_from_scratch.notebook_utils.llm.getpass.getpass",
+    ) as mock_getpass:
+        make_llm(provider="openai", api_key="sk-direct")
+
+    mock_getpass.assert_not_called()
+    assert mock_openai_llm.call_args.kwargs["api_key"] == "sk-direct"
+
+
 def test_make_llm_does_not_prompt_when_key_present(
     mock_openai_llm: MagicMock,
     monkeypatch: pytest.MonkeyPatch,
@@ -315,6 +333,28 @@ def test_ensure_ollama_noop_when_already_up() -> None:
         ) as mock_popen,
     ):
         ensure_ollama()
+
+    mock_popen.assert_not_called()
+
+
+def test_ensure_ollama_raises_for_unreachable_custom_host() -> None:
+    """A non-default host that isn't already up can't be started locally.
+
+    Spawning `ollama serve` binds its usual default, not the requested
+    host, so the polling loop would hang until timeout instead of
+    reporting the real problem.
+    """
+    with (
+        patch(
+            "llm_agents_from_scratch.notebook_utils.llm.urllib.request.urlopen",
+            side_effect=ConnectionError,
+        ),
+        patch(
+            "llm_agents_from_scratch.notebook_utils.llm.subprocess.Popen",
+        ) as mock_popen,
+        pytest.raises(RuntimeError, match="No Ollama service responding"),
+    ):
+        ensure_ollama(host="http://elsewhere:11434")
 
     mock_popen.assert_not_called()
 

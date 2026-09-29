@@ -153,7 +153,7 @@ def test_make_llm_ollama_cloud(
 
     mock_ensure.assert_not_called()
     mock_ollama_llm.assert_called_once_with(
-        model="qwen3.5:397b-cloud",
+        model="kimi-k2.7-code:cloud",
         host=OLLAMA_CLOUD_HOST,
         json_prompt_mode=True,
         think=False,

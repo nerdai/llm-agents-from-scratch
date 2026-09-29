@@ -392,3 +392,87 @@ def test_ensure_ollama_raises_without_binary() -> None:
         pytest.raises(RuntimeError, match="Could not find the ollama binary"),
     ):
         ensure_ollama()
+
+
+def test_ensure_ollama_starts_server_and_waits_until_up() -> None:
+    """A found binary is spawned, then polled until the service answers.
+
+    The first probe fails (nothing running), the server is started, the
+    next probe still fails (not up yet, so the loop sleeps once), and the
+    third succeeds.
+    """
+    with (
+        patch(
+            "llm_agents_from_scratch.notebook_utils.llm.urllib.request.urlopen",
+            side_effect=[ConnectionError, ConnectionError, MagicMock()],
+        ),
+        patch(
+            "llm_agents_from_scratch.notebook_utils.llm.shutil.which",
+            return_value="/opt/bin/ollama",
+        ),
+        patch(
+            "llm_agents_from_scratch.notebook_utils.llm.subprocess.Popen",
+        ) as mock_popen,
+        patch(
+            "llm_agents_from_scratch.notebook_utils.llm.time.sleep",
+        ) as mock_sleep,
+    ):
+        ensure_ollama()
+
+    mock_popen.assert_called_once()
+    assert mock_popen.call_args.args[0] == ["/opt/bin/ollama", "serve"]
+    mock_sleep.assert_called_once_with(0.5)
+
+
+def test_ensure_ollama_falls_back_to_known_binary_paths() -> None:
+    """When the binary isn't on PATH, the well-known locations are probed."""
+    lightning = "/teamspace/studios/this_studio/.local/bin/ollama"
+    with (
+        patch(
+            "llm_agents_from_scratch.notebook_utils.llm.urllib.request.urlopen",
+            side_effect=[ConnectionError, MagicMock()],
+        ),
+        patch(
+            "llm_agents_from_scratch.notebook_utils.llm.shutil.which",
+            return_value=None,
+        ),
+        patch(
+            "llm_agents_from_scratch.notebook_utils.llm.os.path.exists",
+            side_effect=lambda p: p == lightning,
+        ),
+        patch(
+            "llm_agents_from_scratch.notebook_utils.llm.subprocess.Popen",
+        ) as mock_popen,
+    ):
+        ensure_ollama()
+
+    assert mock_popen.call_args.args[0] == [lightning, "serve"]
+
+
+def test_ensure_ollama_raises_when_server_never_comes_up() -> None:
+    """If the service never answers before the deadline, it fails loudly."""
+    from itertools import chain, repeat  # noqa: PLC0415
+
+    with (
+        patch(
+            "llm_agents_from_scratch.notebook_utils.llm.urllib.request.urlopen",
+            side_effect=ConnectionError,
+        ),
+        patch(
+            "llm_agents_from_scratch.notebook_utils.llm.shutil.which",
+            return_value="/opt/bin/ollama",
+        ),
+        patch(
+            "llm_agents_from_scratch.notebook_utils.llm.subprocess.Popen",
+        ),
+        patch(
+            "llm_agents_from_scratch.notebook_utils.llm.time.sleep",
+        ),
+        # deadline is computed at t=0; every later check sees t=100
+        patch(
+            "llm_agents_from_scratch.notebook_utils.llm.time.time",
+            side_effect=chain([0], repeat(100)),
+        ),
+        pytest.raises(RuntimeError, match="did not start within 15s"),
+    ):
+        ensure_ollama()

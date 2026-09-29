@@ -184,9 +184,21 @@ def _pump_iopub(kc: Any, msg_id: str, run: _CellRun) -> None:
             kind, c = m["header"]["msg_type"], m["content"]
             if kind == "stream":
                 run.tail += c["text"]
-                run.outputs.append(
-                    {"output_type": kind, "name": c["name"], "text": c["text"]},
-                )
+                last = run.outputs[-1] if run.outputs else None
+                if (
+                    last is not None
+                    and last["output_type"] == "stream"
+                    and last["name"] == c["name"]
+                ):
+                    last["text"] += c["text"]  # coalesce like Jupyter does
+                else:
+                    run.outputs.append(
+                        {
+                            "output_type": kind,
+                            "name": c["name"],
+                            "text": c["text"],
+                        },
+                    )
             elif kind in ("execute_result", "display_data"):
                 # rich renders prompts through display() under ipykernel,
                 # so the prompt text arrives here, not on the stream

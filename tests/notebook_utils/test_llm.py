@@ -46,6 +46,13 @@ def mock_openai_llm():
 
 
 @pytest.fixture
+def mock_anthropic_llm():
+    """Patch AnthropicLLM at its source, since make_llm imports it lazily."""
+    with patch("llm_agents_from_scratch.llms.anthropic.AnthropicLLM") as mock:
+        yield mock
+
+
+@pytest.fixture
 def mock_ensure():
     """Stub out the Ollama bootstrap."""
     with patch(
@@ -325,13 +332,45 @@ def test_ollama_path_never_prompts(
     mock_getpass.assert_not_called()
 
 
-def test_anthropic_not_yet_supported() -> None:
-    """Anthropic is a known provider whose integration has not landed."""
-    with pytest.raises(
-        UnsupportedProviderError,
-        match="not yet supported",
-    ):
+def test_make_llm_anthropic(
+    mock_anthropic_llm: MagicMock,
+    mock_ensure: MagicMock,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Choosing Anthropic skips the Ollama bootstrap and builds the client."""
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-ant-test")
+
+    make_llm(provider="anthropic")
+
+    mock_ensure.assert_not_called()
+    mock_anthropic_llm.assert_called_once_with(model="claude-sonnet-5")
+
+
+def test_make_llm_anthropic_drops_openai_only_kwargs(
+    mock_anthropic_llm: MagicMock,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """reasoning_effort is OpenAI-only; AsyncAnthropic would reject it."""
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-ant-test")
+
+    make_llm(provider="anthropic", reasoning_effort="low", think=False)
+
+    kwargs = mock_anthropic_llm.call_args.kwargs
+    assert "reasoning_effort" not in kwargs
+    assert "think" not in kwargs
+
+
+def test_make_llm_anthropic_prompts_when_key_missing(
+    mock_anthropic_llm: MagicMock,
+) -> None:
+    """An opted-in Anthropic reader who forgot to export gets the prompt."""
+    with patch(
+        "llm_agents_from_scratch.notebook_utils.llm.getpass.getpass",
+        return_value="sk-ant-typed",
+    ) as mock_getpass:
         make_llm(provider="anthropic")
+
+    mock_getpass.assert_called_once_with("ANTHROPIC_API_KEY: ")
 
 
 # -- ensure_ollama ---------------------------------------------------------

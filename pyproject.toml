@@ -58,6 +58,9 @@ notebooks = [
 openai = [
   "openai>=2.9.0"
 ]
+anthropic = [
+  "anthropic>=1.9.0"
+]
 
 [tool.coverage.run]
 omit = [

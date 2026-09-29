@@ -54,9 +54,6 @@ _MODELS: dict[str, dict[str, str]] = {
 #: Providers a caller may ask for by name.
 SUPPORTED_PROVIDERS = ("ollama", "openai", "anthropic")
 
-#: Providers that are wired into `make_llm` today. Anthropic is pending.
-_IMPLEMENTED_PROVIDERS = ("ollama", "openai")
-
 
 def ensure_ollama(
     host: str = DEFAULT_OLLAMA_HOST,
@@ -240,18 +237,9 @@ def make_llm(
         LLM: A ready-to-use LLM instance.
 
     Raises:
-        UnsupportedProviderError: If the provider is unknown, or is known but
-            not yet implemented.
+        UnsupportedProviderError: If the provider is unknown.
     """
     resolved = resolve_provider(provider)
-
-    if resolved not in _IMPLEMENTED_PROVIDERS:
-        raise UnsupportedProviderError(
-            f"Provider {resolved!r} is not yet supported. Track its "
-            "integration at "
-            "https://github.com/nerdai/llm-agents-from-scratch/issues/975. "
-            "Use provider='ollama' (the default) or provider='openai'.",
-        )
 
     if resolved == "ollama":
         return _make_ollama_llm(role=role, model=model, host=host, **kwargs)
@@ -259,17 +247,25 @@ def make_llm(
     # closed providers: selection already happened, so a key is now required
     for key in _OLLAMA_ONLY_KWARGS:
         kwargs.pop(key, None)
-    # a caller-supplied api_key kwarg (OpenAILLM forwards it to AsyncOpenAI)
-    # already satisfies the requirement, so skip the env var/prompt path
+    # a caller-supplied api_key kwarg (both SDK clients accept one) already
+    # satisfies the requirement, so skip the env var/prompt path
     if not kwargs.get("api_key"):
         _ensure_api_key(resolved)
     resolved_model = _resolve_model(resolved, role, model)
-    kwargs.setdefault("reasoning_effort", "low")
 
-    from llm_agents_from_scratch.llms.openai import OpenAILLM
+    if resolved == "openai":
+        from llm_agents_from_scratch.llms.openai import OpenAILLM
 
-    print(f"✓ Using OpenAI ({resolved_model})")
-    return OpenAILLM(model=resolved_model, **kwargs)
+        kwargs.setdefault("reasoning_effort", "low")
+        print(f"✓ Using OpenAI ({resolved_model})")
+        return OpenAILLM(model=resolved_model, **kwargs)
+
+    from llm_agents_from_scratch.llms.anthropic import AnthropicLLM
+
+    # OpenAI-only; AsyncAnthropic would reject it as an unexpected kwarg
+    kwargs.pop("reasoning_effort", None)
+    print(f"✓ Using Anthropic ({resolved_model})")
+    return AnthropicLLM(model=resolved_model, **kwargs)
 
 
 def _make_ollama_llm(

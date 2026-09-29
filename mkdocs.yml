@@ -105,6 +105,7 @@ nav:
     - LLMs:
       - OllamaLLM: api_reference/llms/ollama.md
       - OpenAILLM: api_reference/llms/openai.md
+      - AnthropicLLM: api_reference/llms/anthropic.md
     - Tools:
       - Simple Function: api_reference/tools/simple_function.md
       - Pydantic Function: api_reference/tools/pydantic_function.md

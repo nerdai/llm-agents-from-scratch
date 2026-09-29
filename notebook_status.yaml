@@ -130,13 +130,11 @@ examples/ch03.ipynb:
     seconds: 0
     status: not-wired
   ollama:
-    commit: '81890432'
+    commit: 56b6c04e
     last_tested: '2026-09-29'
-    model: qwen3:14b (constructed directly)
-    note: 'cell 3: ModuleNotFoundError: nest_asyncio (not a declared dependency; pre-existing,
-      unrelated to make_llm)'
-    seconds: 3
-    status: fail
+    model: qwen3:14b
+    seconds: 348
+    status: pass
   ollama-cloud:
     commit: 6d29cd79
     last_tested: '2026-09-29'

@@ -23,21 +23,20 @@ that its prompts read well.
 | Notebook | Ollama Cloud | OpenAI | Anthropic | Ollama (local) |
 |---|---|---|---|---|
 | [`ch02.ipynb`](notebooks/ch02.ipynb) | ∅ no LLM | ∅ no LLM | ∅ no LLM | ∅ no LLM |
-| [`ch03.ipynb`](notebooks/ch03.ipynb) | ⚪ not wired | ⚪ not wired | ⚪ not wired | ❌ 2026-09-29[^1] |
-| [`ch04.ipynb`](notebooks/ch04.ipynb) | ❌ 2026-09-29[^2] | ❌ 2026-09-29[^3] | ❌ 2026-09-29[^4] | ❌ 2026-09-29[^5] |
+| [`ch03.ipynb`](notebooks/ch03.ipynb) | ⚪ not wired | ⚪ not wired | ⚪ not wired | ✅ 2026-09-29 `qwen3:14b` |
+| [`ch04.ipynb`](notebooks/ch04.ipynb) | ❌ 2026-09-29[^1] | ❌ 2026-09-29[^2] | ❌ 2026-09-29[^3] | ❌ 2026-09-29[^4] |
 | [`ch05.ipynb`](notebooks/ch05.ipynb) | ✅ 2026-09-29 `kimi-k2.7-code:cloud` | ✅ 2026-09-29 `gpt-5` | ✅ 2026-09-29 `claude-sonnet-5` | ✅ 2026-09-29 `qwen3:14b` |
 | [`ch06.ipynb`](notebooks/ch06.ipynb) | ✅ 2026-09-29 `kimi-k2.7-code:cloud` | ✅ 2026-09-29 `gpt-5` | ✅ 2026-09-29 `claude-sonnet-5` | ✅ 2026-09-29 `qwen3:14b` |
 | [`ch07.ipynb`](notebooks/ch07.ipynb) | ✅ 2026-09-29 `kimi-k2.7-code:cloud` | ✅ 2026-09-29 `gpt-5` | ✅ 2026-09-29 `claude-sonnet-5` | ✅ 2026-09-29 `qwen3:14b` |
-| [`ch08.ipynb`](notebooks/ch08.ipynb) | ✅ 2026-09-29 `kimi-k2.7-code:cloud` | ✅ 2026-09-29 `gpt-5` | ✅ 2026-09-29 `claude-sonnet-5` | ❌ 2026-09-29[^6] |
+| [`ch08.ipynb`](notebooks/ch08.ipynb) | ✅ 2026-09-29 `kimi-k2.7-code:cloud` | ✅ 2026-09-29 `gpt-5` | ✅ 2026-09-29 `claude-sonnet-5` | ❌ 2026-09-29[^5] |
 | [`ch09.ipynb`](notebooks/ch09.ipynb) | ✅ 2026-09-29 `kimi-k2.7-code:cloud` | ✅ 2026-09-29 `gpt-5` | ✅ 2026-09-29 `claude-sonnet-5` | – |
 | [`ch10.ipynb`](notebooks/ch10.ipynb) | ✅ 2026-09-29 `kimi-k2.7-code:cloud` | ✅ 2026-09-29 `gpt-5` | ✅ 2026-09-29 `claude-sonnet-5` | ✅ 2026-09-29 `qwen3:14b` |
 
-[^1]: `examples/ch03.ipynb` / Ollama (local): cell 3: ModuleNotFoundError: nest_asyncio (not a declared dependency; pre-existing, unrelated to make_llm) (2026-09-29)
-[^2]: `examples/ch04.ipynb` / Ollama Cloud: cell 31: InvalidStateError: Exception is not set. (2026-09-29)
-[^3]: `examples/ch04.ipynb` / OpenAI: cell 31: InvalidStateError: Exception is not set. (2026-09-29)
-[^4]: `examples/ch04.ipynb` / Anthropic: cell 31: InvalidStateError: Exception is not set. (2026-09-29)
-[^5]: `examples/ch04.ipynb` / Ollama (local): handler.result() read before the background run finished (InvalidStateError); a race only under back-to-back headless execution, reproduced identically on main (2026-09-29)
-[^6]: `examples/ch08.ipynb` / Ollama (local): cell 9: cell exceeded 1800s; Example 1 was progressing correctly (7 tool steps in 30 min), qwen3:14b is just too slow here (2026-09-29)
+[^1]: `examples/ch04.ipynb` / Ollama Cloud: cell 31: InvalidStateError: Exception is not set. (2026-09-29)
+[^2]: `examples/ch04.ipynb` / OpenAI: cell 31: InvalidStateError: Exception is not set. (2026-09-29)
+[^3]: `examples/ch04.ipynb` / Anthropic: cell 31: InvalidStateError: Exception is not set. (2026-09-29)
+[^4]: `examples/ch04.ipynb` / Ollama (local): handler.result() read before the background run finished (InvalidStateError); a race only under back-to-back headless execution, reproduced identically on main (2026-09-29)
+[^5]: `examples/ch08.ipynb` / Ollama (local): cell 9: cell exceeded 1800s; Example 1 was progressing correctly (7 tool steps in 30 min), qwen3:14b is just too slow here (2026-09-29)
 
 ## Additional examples
 

@@ -4439,10 +4439,10 @@
    any preprocessing required by that substrate (embedding, indexing,
    tokenization).</li>
 <li><strong>Retrieval primitives</strong> — implement <code>_read_recent</code> and <code>_search</code>
-   so that the concrete <code>search()</code> method can dispatch based on
+   so that the concrete <code>recall()</code> method can dispatch based on
    <code>recall_mode</code> without knowing the underlying storage details.</li>
 </ol>
-<p>The public retrieval interface is <code>search()</code>. Subclasses must not
+<p>The public retrieval interface is <code>recall()</code>. Subclasses must not
 override it; they implement <code>_read_recent</code> and <code>_search</code> instead.</p>
 
 
@@ -4463,8 +4463,8 @@ override it; they implement <code>_read_recent</code> and <code>_search</code> i
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Default number of results returned by
-<code>search()</code> when no explicit count is supplied by the caller.</p>
+                <p>Maximum number of episodes <code>recall()</code>
+returns.</p>
               </div>
             </td>
           </tr>
@@ -4475,7 +4475,7 @@ override it; they implement <code>_read_recent</code> and <code>_search</code> i
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Controls how <code>search()</code> retrieves
+                <p>Controls how <code>recall()</code> retrieves
 episodes. <code>RecallMode.RECENT</code> delegates to <code>_read_recent</code>;
 <code>RecallMode.SEARCH</code> delegates to <code>_search</code>.</p>
               </div>
@@ -4666,16 +4666,16 @@ episodes. <code>RecallMode.RECENT</code> delegates to <code>_read_recent</code>;
 </span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="sd">       any preprocessing required by that substrate (embedding, indexing,</span>
 </span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="sd">       tokenization).</span>
 </span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="sd">    2. **Retrieval primitives** — implement ``_read_recent`` and ``_search``</span>
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="sd">       so that the concrete ``search()`` method can dispatch based on</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="sd">       so that the concrete ``recall()`` method can dispatch based on</span>
 </span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="sd">       ``recall_mode`` without knowing the underlying storage details.</span>
 </span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a>
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="sd">    The public retrieval interface is ``search()``. Subclasses must not</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="sd">    The public retrieval interface is ``recall()``. Subclasses must not</span>
 </span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="sd">    override it; they implement ``_read_recent`` and ``_search`` instead.</span>
 </span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a>
 </span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="sd">    Attributes:</span>
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="sd">        max_results (int): Default number of results returned by</span>
-</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="sd">            ``search()`` when no explicit count is supplied by the caller.</span>
-</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="sd">        recall_mode (RecallMode): Controls how ``search()`` retrieves</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="sd">        max_results (int): Maximum number of episodes ``recall()``</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="sd">            returns.</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="sd">        recall_mode (RecallMode): Controls how ``recall()`` retrieves</span>
 </span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="sd">            episodes. ``RecallMode.RECENT`` delegates to ``_read_recent``;</span>
 </span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="sd">            ``RecallMode.SEARCH`` delegates to ``_search``.</span>
 </span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="sd">    &quot;&quot;&quot;</span>
@@ -4691,7 +4691,7 @@ episodes. <code>RecallMode.RECENT</code> delegates to <code>_read_recent</code>;
 </span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="sd">            max_results (int): Default maximum number of episodes</span>
 </span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="sd">                returned by retrieval operations. Defaults to 5.</span>
 </span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">            recall_mode (RecallMode): Retrieval strategy used by</span>
-</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="sd">                ``search()``. Defaults to ``RecallMode.SEARCH``.</span>
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="sd">                ``recall()``. Defaults to ``RecallMode.SEARCH``.</span>
 </span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">max_results</span> <span class="o">=</span> <span class="n">max_results</span>
 </span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">recall_mode</span> <span class="o">=</span> <span class="n">recall_mode</span>
@@ -4711,7 +4711,7 @@ episodes. <code>RecallMode.RECENT</code> delegates to <code>_read_recent</code>;
 </span><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the N most recently recorded episodes.</span>
 </span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64"></a>
 </span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65"></a><span class="sd">        Subclasses must implement this method. It is called by the</span>
-</span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a><span class="sd">        concrete ``search()`` when ``recall_mode`` is</span>
+</span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a><span class="sd">        concrete ``recall()`` when ``recall_mode`` is</span>
 </span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a><span class="sd">        ``RecallMode.RECENT``.</span>
 </span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68"></a>
 </span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69"></a><span class="sd">        Args:</span>
@@ -4730,7 +4730,7 @@ episodes. <code>RecallMode.RECENT</code> delegates to <code>_read_recent</code>;
 </span><span id="__span-0-82"><a id="__codelineno-0-82" name="__codelineno-0-82"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the most relevant episodes for a query.</span>
 </span><span id="__span-0-83"><a id="__codelineno-0-83" name="__codelineno-0-83"></a>
 </span><span id="__span-0-84"><a id="__codelineno-0-84" name="__codelineno-0-84"></a><span class="sd">        Subclasses must implement this method. It is called by the</span>
-</span><span id="__span-0-85"><a id="__codelineno-0-85" name="__codelineno-0-85"></a><span class="sd">        concrete ``search()`` when ``recall_mode`` is</span>
+</span><span id="__span-0-85"><a id="__codelineno-0-85" name="__codelineno-0-85"></a><span class="sd">        concrete ``recall()`` when ``recall_mode`` is</span>
 </span><span id="__span-0-86"><a id="__codelineno-0-86" name="__codelineno-0-86"></a><span class="sd">        ``RecallMode.SEARCH``. The number of results is controlled by</span>
 </span><span id="__span-0-87"><a id="__codelineno-0-87" name="__codelineno-0-87"></a><span class="sd">        ``self.max_results``.</span>
 </span><span id="__span-0-88"><a id="__codelineno-0-88" name="__codelineno-0-88"></a>
@@ -4892,7 +4892,7 @@ returned by retrieval operations. Defaults to 5.</p>
             <td>
               <div class="doc-md-description">
                 <p>Retrieval strategy used by
-<code>search()</code>. Defaults to <code>RecallMode.SEARCH</code>.</p>
+<code>recall()</code>. Defaults to <code>RecallMode.SEARCH</code>.</p>
               </div>
             </td>
             <td>
@@ -4930,7 +4930,7 @@ returned by retrieval operations. Defaults to 5.</p>
 </span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="sd">        max_results (int): Default maximum number of episodes</span>
 </span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="sd">            returned by retrieval operations. Defaults to 5.</span>
 </span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">        recall_mode (RecallMode): Retrieval strategy used by</span>
-</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="sd">            ``search()``. Defaults to ``RecallMode.SEARCH``.</span>
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="sd">            ``recall()``. Defaults to ``RecallMode.SEARCH``.</span>
 </span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">max_results</span> <span class="o">=</span> <span class="n">max_results</span>
 </span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">recall_mode</span> <span class="o">=</span> <span class="n">recall_mode</span>

@@ -5157,7 +5157,7 @@ both, illustrating exactly when similarity search adds value over a simpler rece
 strategy.</li>
 </ul>
 <blockquote>
-<p><strong>This notebook uses the <a href="https://restcountries.com/">REST Countries API</a>,</strong>
+<p><strong>This notebook uses the <a href="https://datahelpdesk.worldbank.org/knowledgebase/articles/889392">World Bank API</a>,</strong>
 which is free and requires no authentication.</p>
 </blockquote>
 </div>
@@ -5203,7 +5203,7 @@ behave noticeably differently.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-1">
@@ -5248,7 +5248,7 @@ and running the command <code>ollama serve</code>.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-2">
@@ -5275,7 +5275,7 @@ and running the command <code>ollama serve</code>.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-3">
@@ -5290,30 +5290,36 @@ and running the command <code>ollama serve</code>.</p>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">urllib.error</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">urllib.parse</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">urllib.request</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">tqdm.asyncio</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMAgent</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">Task</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_console_logging</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.memory.recipes</span><span class="w"> </span><span class="kn">import</span> <span class="n">similarity_memory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.memory.recipes</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">recency_memory</span><span class="p">,</span>
+    <span class="n">similarity_memory</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.tools.simple_function</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleFunctionTool</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-3">import json
 import logging
-import urllib.error
-import urllib.parse
+import tempfile
 import urllib.request
+from pathlib import Path
 
 from tqdm.asyncio import tqdm
 
 from llm_agents_from_scratch import LLMAgent
 from llm_agents_from_scratch.data_structures import Task
 from llm_agents_from_scratch.logger import enable_console_logging
-from llm_agents_from_scratch.memory.recipes import similarity_memory
+from llm_agents_from_scratch.memory.recipes import (
+    recency_memory,
+    similarity_memory,
+)
 from llm_agents_from_scratch.tools.simple_function import SimpleFunctionTool</div>
 </div>
 </div>
@@ -5327,8 +5333,9 @@ from llm_agents_from_scratch.tools.simple_function import SimpleFunctionTool</di
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="defining-the-tool">Defining the Tool<a class="anchor-link" href="#defining-the-tool">¶</a></h2><p>The <a href="https://restcountries.com/">REST Countries API</a> returns geographic and
-demographic facts for any country by name, with no API key required.</p>
+<h2 id="defining-the-tool">Defining the Tool<a class="anchor-link" href="#defining-the-tool">¶</a></h2><p>The <a href="https://datahelpdesk.worldbank.org/knowledgebase/articles/889392">World Bank API</a> returns a country's region, capital, income
+level, population and area, with no API key required. The tool looks the
+country up by name, so "Vietnam" and "Viet Nam" both work.</p>
 </div>
 </div>
 </div>
@@ -5338,7 +5345,7 @@ demographic facts for any country by name, with no API key required.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-4">
@@ -5351,78 +5358,112 @@ demographic facts for any country by name, with no API key required.</p>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_country</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Look up a country by name and return key facts.</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">WORLD_BANK</span> <span class="o">=</span> <span class="s2">"https://api.worldbank.org/v2"</span>
 
-<span class="sd">    Uses the REST Countries API (https://restcountries.com/). No auth required.</span>
-<span class="sd">    """</span>
-    <span class="n">encoded</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">quote</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
-    <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"https://restcountries.com/v3.1/name/</span><span class="si">{</span><span class="n">encoded</span><span class="si">}</span><span class="s2">?fullText=true"</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_world_bank</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
     <span class="n">req</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span>
-        <span class="n">url</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">WORLD_BANK</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
         <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">"User-Agent"</span><span class="p">:</span> <span class="s2">"llm-agents-from-scratch/1.0"</span><span class="p">},</span>
     <span class="p">)</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">with</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">req</span><span class="p">)</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
-            <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">read</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">except</span> <span class="n">urllib</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">HTTPError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">code</span> <span class="o">==</span> <span class="mi">404</span><span class="p">:</span>  <span class="c1"># noqa: PLR2004</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"Country '</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">' not found. "</span>
-                <span class="s2">"Check the spelling and try again."</span><span class="p">,</span>
-            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
-        <span class="k">raise</span>
+    <span class="k">with</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">req</span><span class="p">)</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_latest</span><span class="p">(</span><span class="n">iso3</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">indicator</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">_world_bank</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">"country/</span><span class="si">{</span><span class="n">iso3</span><span class="si">}</span><span class="s2">/indicator/</span><span class="si">{</span><span class="n">indicator</span><span class="si">}</span><span class="s2">?format=json&amp;mrnev=1"</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">rows</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"value"</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">rows</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">else</span> <span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_key</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ch</span> <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">if</span> <span class="n">ch</span><span class="o">.</span><span class="n">isalpha</span><span class="p">())</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_country</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Look up a country by name and return key facts.</span>
+
+<span class="sd">    Uses the World Bank API (https://api.worldbank.org/v2). No auth required.</span>
+<span class="sd">    """</span>
+    <span class="n">countries</span> <span class="o">=</span> <span class="n">_world_bank</span><span class="p">(</span><span class="s2">"country?format=json&amp;per_page=400"</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">match</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span>
+        <span class="p">(</span>
+            <span class="n">c</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">countries</span>
+            <span class="k">if</span> <span class="n">c</span><span class="p">[</span><span class="s2">"region"</span><span class="p">][</span><span class="s2">"value"</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">"Aggregates"</span>
+            <span class="ow">and</span> <span class="n">_key</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">"name"</span><span class="p">])</span> <span class="o">==</span> <span class="n">_key</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="p">),</span>
+        <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">match</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"Country '</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">' not found. Check the spelling and try again."</span><span class="p">,</span>
+        <span class="p">)</span>
     <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span>
         <span class="p">{</span>
-            <span class="s2">"name"</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s2">"name"</span><span class="p">][</span><span class="s2">"common"</span><span class="p">],</span>
-            <span class="s2">"region"</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s2">"region"</span><span class="p">],</span>
-            <span class="s2">"subregion"</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"subregion"</span><span class="p">,</span> <span class="s2">""</span><span class="p">),</span>
-            <span class="s2">"capital"</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"capital"</span><span class="p">,</span> <span class="p">[</span><span class="s2">""</span><span class="p">])[</span><span class="mi">0</span><span class="p">],</span>
-            <span class="s2">"population"</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s2">"population"</span><span class="p">],</span>
-            <span class="s2">"area_km2"</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"area"</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-            <span class="s2">"languages"</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"languages"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
-            <span class="s2">"currencies"</span><span class="p">:</span> <span class="p">[</span>
-                <span class="n">v</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"currencies"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
-            <span class="p">],</span>
+            <span class="s2">"name"</span><span class="p">:</span> <span class="n">match</span><span class="p">[</span><span class="s2">"name"</span><span class="p">],</span>
+            <span class="s2">"region"</span><span class="p">:</span> <span class="n">match</span><span class="p">[</span><span class="s2">"region"</span><span class="p">][</span><span class="s2">"value"</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span>
+            <span class="s2">"capital"</span><span class="p">:</span> <span class="n">match</span><span class="p">[</span><span class="s2">"capitalCity"</span><span class="p">],</span>
+            <span class="s2">"income_level"</span><span class="p">:</span> <span class="n">match</span><span class="p">[</span><span class="s2">"incomeLevel"</span><span class="p">][</span><span class="s2">"value"</span><span class="p">],</span>
+            <span class="s2">"population"</span><span class="p">:</span> <span class="n">_latest</span><span class="p">(</span><span class="n">match</span><span class="p">[</span><span class="s2">"id"</span><span class="p">],</span> <span class="s2">"SP.POP.TOTL"</span><span class="p">),</span>
+            <span class="s2">"area_km2"</span><span class="p">:</span> <span class="n">_latest</span><span class="p">(</span><span class="n">match</span><span class="p">[</span><span class="s2">"id"</span><span class="p">],</span> <span class="s2">"AG.SRF.TOTL.K2"</span><span class="p">),</span>
         <span class="p">},</span>
     <span class="p">)</span>
 
 
 <span class="n">get_country_tool</span> <span class="o">=</span> <span class="n">SimpleFunctionTool</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">get_country</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-4">def get_country(name: str) -&gt; str:
-    """Look up a country by name and return key facts.
+<div class="clipboard-copy-txt" id="cell-4">WORLD_BANK = "https://api.worldbank.org/v2"
 
-    Uses the REST Countries API (https://restcountries.com/). No auth required.
-    """
-    encoded = urllib.parse.quote(name.strip())
-    url = f"https://restcountries.com/v3.1/name/{encoded}?fullText=true"
+
+def _world_bank(path: str) -&gt; list:
     req = urllib.request.Request(
-        url,
+        f"{WORLD_BANK}/{path}",
         headers={"User-Agent": "llm-agents-from-scratch/1.0"},
     )
-    try:
-        with urllib.request.urlopen(req) as resp:
-            data = json.loads(resp.read())[0]
-    except urllib.error.HTTPError as e:
-        if e.code == 404:  # noqa: PLR2004
-            raise ValueError(
-                f"Country '{name}' not found. "
-                "Check the spelling and try again.",
-            ) from e
-        raise
+    with urllib.request.urlopen(req) as resp:
+        return json.loads(resp.read())
+
+
+def _latest(iso3: str, indicator: str) -&gt; float | None:
+    rows = _world_bank(
+        f"country/{iso3}/indicator/{indicator}?format=json&amp;mrnev=1",
+    )
+    return rows[1][0]["value"] if len(rows) &gt; 1 and rows[1] else None
+
+
+def _key(name: str) -&gt; str:
+    return "".join(ch for ch in name.lower() if ch.isalpha())
+
+
+def get_country(name: str) -&gt; str:
+    """Look up a country by name and return key facts.
+
+    Uses the World Bank API (https://api.worldbank.org/v2). No auth required.
+    """
+    countries = _world_bank("country?format=json&amp;per_page=400")[1]
+    match = next(
+        (
+            c
+            for c in countries
+            if c["region"]["value"] != "Aggregates"
+            and _key(c["name"]) == _key(name)
+        ),
+        None,
+    )
+    if match is None:
+        raise ValueError(
+            f"Country '{name}' not found. Check the spelling and try again.",
+        )
     return json.dumps(
         {
-            "name": data["name"]["common"],
-            "region": data["region"],
-            "subregion": data.get("subregion", ""),
-            "capital": data.get("capital", [""])[0],
-            "population": data["population"],
-            "area_km2": data.get("area", 0),
-            "languages": list(data.get("languages", {}).values()),
-            "currencies": [
-                v["name"] for v in data.get("currencies", {}).values()
-            ],
+            "name": match["name"],
+            "region": match["region"]["value"].strip(),
+            "capital": match["capitalCity"],
+            "income_level": match["incomeLevel"]["value"],
+            "population": _latest(match["id"], "SP.POP.TOTL"),
+            "area_km2": _latest(match["id"], "AG.SRF.TOTL.K2"),
         },
     )
 
@@ -5445,16 +5486,21 @@ Episodes are embedded at write time using FastEmbed (local ONNX, no external ser
 needed). The <code>max_results</code> parameter controls how many semantically similar episodes
 are recalled per task. The agent holds the memory in its <code>memories</code> list; <code>TaskHandler</code>
 calls <code>recall</code> at task start and <code>record</code> at task end automatically.</p>
+<p>The agent also carries a <code>recency_memory()</code> during the lookups in Part 1. It
+records the same episodes into a JSONL file in a temporary directory, so the
+recency baseline below can show what a recency strategy would recall. It is
+detached before the synthesis tasks, so only similarity recall is in play from
+Part 2 on.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=a1b2c3d4e5f60009">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a1b2c3d4e5f60009">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-5">
@@ -5468,12 +5514,35 @@ calls <code>recall</code> at task start and <code>record</code> at task end auto
 </clipboard-copy>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">memory</span> <span class="o">=</span> <span class="n">similarity_memory</span><span class="p">(</span><span class="n">max_results</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">recency</span> <span class="o">=</span> <span class="n">recency_memory</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">()),</span> <span class="n">max_results</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">llm</span> <span class="o">=</span> <span class="n">make_llm</span><span class="p">()</span>
-<span class="n">agent</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">get_country_tool</span><span class="p">],</span> <span class="n">memories</span><span class="o">=</span><span class="p">[</span><span class="n">memory</span><span class="p">])</span>
+<span class="n">agent</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="p">(</span>
+    <span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span>
+    <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">get_country_tool</span><span class="p">],</span>
+    <span class="n">memories</span><span class="o">=</span><span class="p">[</span><span class="n">memory</span><span class="p">,</span> <span class="n">recency</span><span class="p">],</span>
+<span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-5">memory = similarity_memory(max_results=3)
+recency = recency_memory(path=Path(tempfile.mkdtemp()), max_results=3)
 llm = make_llm()
-agent = LLMAgent(llm=llm, tools=[get_country_tool], memories=[memory])</div>
+agent = LLMAgent(
+    llm=llm,
+    tools=[get_country_tool],
+    memories=[memory, recency],
+)</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>✓ Using Ollama Cloud (kimi-k2.7-code:cloud)
+</pre>
 </div>
 </div>
 </div>
@@ -5502,7 +5571,7 @@ output readable. After all lookups, <code>memory.summary()</code> shows the stor
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
@@ -5548,13 +5617,34 @@ print(result1)</div>
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: What are Thailand's key geographic and demographic facts? Use the get_country tool. Do not rely on prior knowledge.
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: What are Thailand's key geographic and demographic facts? Use the get_country tool. Do not rely on prior knowledge.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: What are Thailand's key geographic and demographic facts? Use the get_country tool. Do not rely on prior knowledge.
 INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: get_country
-INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: {"name": "Thailand", "region": "Asia", "subregion": "South-Eastern Asia", "capital": "Bangkok", "population": 65859640, "area_...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: Thailand is located in the region of Asia, specifically in South-Eastern Asia. Its capital city is Bangkok. The country has a populatio...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: {"name": "Thailand", "region": "East Asia &amp; Pacific", "capital": "Bangkok", "income_level": "Upper middle income", "population...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: Based on the result from the `get_country` tool, here are Thailand's key geographic and demographic facts:
+
+- **Name:** Thailand
+- **Re...[TRUNCATED]
 INFO (llm_agents_fs.TaskHandler) :      No new step required.
-INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: Thailand is located in the region of Asia, specifically in South-Eastern Asia. Its capital city is Bangkok. The country has a popula...[TRUNCATED]
-Thailand is located in the region of Asia, specifically in South-Eastern Asia. Its capital city is Bangkok. The country has a population of approximately 65,859,640 people and covers an area of 513,120 square kilometers. The primary language spoken in Thailand is Thai, and the official currency is the Thai baht.
+INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: Based on the result from the `get_country` tool, here are Thailand's key geographic and demographic facts:
+
+- **Name:** Thailand
+- *...[TRUNCATED]
+Based on the result from the `get_country` tool, here are Thailand's key geographic and demographic facts:
+
+- **Name:** Thailand
+- **Region:** East Asia &amp; Pacific
+- **Capital city:** Bangkok
+- **Income level:** Upper middle income
+- **Population:** 71,619,863 people
+- **Total land area:** 513,115.02 km²
+
+These figures come directly from the tool output, without relying on prior knowledge.
 </pre>
 </div>
 </div>
@@ -5567,7 +5657,7 @@ Thailand is located in the region of Asia, specifically in South-Eastern Asia. I
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-7">
@@ -5632,7 +5722,7 @@ for country, result in zip(countries, results, strict=False):
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>Looking up countries: 100%|███████████████████| 6/6 [01:55&lt;00:00, 19.27s/it]
+<pre>Looking up countries:   0%|          | 0/6 [00:00&lt;?, ?it/s]Looking up countries:  17%|█▋        | 1/6 [00:08&lt;00:43,  8.74s/it]Looking up countries:  67%|██████▋   | 4/6 [00:09&lt;00:03,  1.87s/it]Looking up countries: 100%|██████████| 6/6 [00:10&lt;00:00,  1.17s/it]Looking up countries: 100%|██████████| 6/6 [00:10&lt;00:00,  1.68s/it]
 </pre>
 </div>
 </div>
@@ -5640,60 +5730,76 @@ for country, result in zip(countries, results, strict=False):
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>**Vietnam**
-The tool has successfully retrieved information about Vietnam. Here are the key geographic and demographic facts about Vietnam:
+Based on the result from the `get_country` tool, here are Vietnam's key geographic and demographic facts:
 
-- **Region**: Asia
-- **Subregion**: South-Eastern Asia
-- **Capital**: Hanoi
-- **Population**: 101,343,800
-- **Area**: 331,212 square kilometers
-- **Languages**: Vietnamese
-- **Currencies**: Vietnamese đồng
+- **Name:** Viet Nam
+- **Region:** East Asia &amp; Pacific
+- **Capital city:** Hanoi
+- **Income level:** Upper middle income
+- **Population:** 101,598,527 people
+- **Total land area:** 331,338.31 km²
 
-Let me know if you need further details!
+These figures come directly from the tool output, without relying on prior knowledge.
 
 **Indonesia**
-The key geographic and demographic facts about Indonesia are as follows:
+Based on the result from the `get_country` tool, here are Indonesia's key geographic and demographic facts:
 
-- **Region**: Asia
-- **Subregion**: South-Eastern Asia
-- **Capital**: Jakarta
-- **Population**: 284,438,782
-- **Area**: 1,904,569 square kilometers
-- **Languages**: Indonesian
-- **Currencies**: Indonesian rupiah
+- **Name:** Indonesia
+- **Region:** East Asia &amp; Pacific
+- **Capital city:** Jakarta
+- **Income level:** Upper middle income
+- **Population:** 285,721,236 people
+- **Total land area:** 1,916,906.77 km²
+
+These figures come directly from the tool output, without relying on prior knowledge.
 
 **France**
-France is located in the region of Europe, specifically in Western Europe. Its capital city is Paris. The country has a population of approximately 66,351,959 people and covers an area of 543,908 square kilometers. The primary language spoken in France is French, and the official currency is the euro.
+Based on the result from the `get_country` tool, here are France's key geographic and demographic facts:
+
+- **Name:** France
+- **Region:** Europe &amp; Central Asia
+- **Capital city:** Paris
+- **Income level:** High income
+- **Population:** 68,720,337 people
+- **Total land area:** 606,410 km²
+
+These figures come directly from the tool output, without relying on prior knowledge.
 
 **Germany**
-The key geographic and demographic facts about Germany are as follows:
+Based on the result from the `get_country` tool, here are Germany's key geographic and demographic facts:
 
-- **Region**: Europe
-- **Subregion**: Western Europe
-- **Capital**: Berlin
-- **Population**: 83,491,249
-- **Area**: 357,114 square kilometers
-- **Languages**: German
-- **Currencies**: Euro
+- **Name:** Germany
+- **Region:** Europe &amp; Central Asia
+- **Capital city:** Berlin
+- **Income level:** High income
+- **Population:** 83,491,249 people
+- **Total land area:** 357,680 km²
 
-Let me know if you need further details!
+These figures come directly from the tool output, without relying on prior knowledge.
 
 **Kenya**
-I have retrieved the information about Kenya. Now, I will summarize the key geographic and demographic facts about Kenya based on the data provided:
+Based on the result from the `get_country` tool, here are Kenya's key geographic and demographic facts:
 
-- **Region**: Africa  
-- **Subregion**: Eastern Africa  
-- **Capital**: Nairobi  
-- **Population**: Approximately 53,330,978 people  
-- **Area**: 580,367 square kilometers  
-- **Languages**: English and Swahili  
-- **Currency**: Kenyan shilling  
+- **Name:** Kenya
+- **Region:** Sub-Saharan Africa
+- **Capital city:** Nairobi
+- **Income level:** Lower middle income
+- **Population:** 57,532,493 people
+- **Total land area:** 591,969 km²
 
-Let me know if you need further details!
+These figures come directly from the tool output, without relying on prior knowledge.
 
 **Brazil**
-Brazil is located in the region of the Americas, specifically in South America. Its capital city is Brasília. The country has a population of approximately 213,421,037 people and covers an area of 8,515,767 square kilometers. The primary language spoken in Brazil is Portuguese, and the official currency is the Brazilian real.
+Based on the result from the `get_country` tool, here are Brazil's key geographic and demographic facts:
+
+- **Name:** Brazil
+- **Region:** Latin America &amp; Caribbean
+- **Capital city:** Brasilia
+- **Income level:** Upper middle income
+- **Population:** 212,812,405 people
+- **Total land area:** 8,510,420 km²
+
+These figures come directly from the tool output, without relying on prior knowledge.
 
 </pre>
 </div>
@@ -5707,7 +5813,7 @@ Brazil is located in the region of the Americas, specifically in South America. 
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-8">
@@ -5734,7 +5840,7 @@ Brazil is located in the region of the Americas, specifically in South America. 
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-9">
@@ -5762,9 +5868,8 @@ Brazil is located in the region of the Americas, specifically in South America. 
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>QdrantMemoryStore: 7 episodes | collection=episodes
-  newest: 2026-06-03 00:29:19 | What are Kenya's key geographic and demographic facts? Use t
-  oldest: 2026-06-03 00:27:20 | What are Thailand's key geographic and demographic facts? Us
-  key_fn: &lt;lambda&gt;
+  newest: 2026-09-30 00:53:08 | What are Brazil's key geographic and demographic facts? Use 
+  oldest: 2026-09-30 00:52:58 | What are Thailand's key geographic and demographic facts? Us
   metadata_fns: none
 </pre>
 </div>
@@ -5779,13 +5884,16 @@ Brazil is located in the region of the Americas, specifically in South America. 
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="the-recency-baseline">The Recency Baseline<a class="anchor-link" href="#the-recency-baseline">¶</a></h2><p>Before running any synthesis tasks, it is worth checking what <code>recency_memory()</code>
-would recall for any query at this point, regardless of topic. Because the six lookups
+<h2 id="the-recency-baseline">The Recency Baseline<a class="anchor-link" href="#the-recency-baseline">¶</a></h2><p>Before running any synthesis tasks, it is worth checking what the
+<code>recency_memory()</code> attached in Part 1 recalls. Its <code>recall()</code> ignores the query,
+so this is what it returns for any query at this point, regardless of topic. Because the six lookups
 ran concurrently, the recording order depends on wall-clock completion time rather than
 submission order. Whatever three episodes happened to finish last appear below. A
 recency strategy would inject these same three episodes into the system prompt for
 <em>both</em> the Southeast Asia query and the Western Europe query that follow, regardless
 of whether they are relevant.</p>
+<p>The cell then detaches it, leaving <code>similarity_memory()</code> as the agent's only
+memory for the synthesis tasks.</p>
 </div>
 </div>
 </div>
@@ -5795,7 +5903,7 @@ of whether they are relevant.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-10">
@@ -5808,15 +5916,19 @@ of whether they are relevant.</p>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">"Most recent 3 episodes (RecencyMemory baseline for any query):</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
-<span class="n">most_recent</span> <span class="o">=</span> <span class="k">await</span> <span class="n">memory</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">read_recent</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">"Most recent 3 episodes (recency_memory() baseline for any query):</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">most_recent</span> <span class="o">=</span> <span class="k">await</span> <span class="n">recency</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">recall</span><span class="p">(</span><span class="s2">"any query"</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">most_recent</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  - </span><span class="si">{</span><span class="n">ep</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">instruction</span><span class="p">[:</span><span class="mi">65</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">agent</span><span class="o">.</span><span class="n">memories</span> <span class="o">=</span> <span class="p">[</span><span class="n">memory</span><span class="p">]</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-10">print("Most recent 3 episodes (RecencyMemory baseline for any query):\n")
-most_recent = await memory.store.read_recent(3)
+<div class="clipboard-copy-txt" id="cell-10">print("Most recent 3 episodes (recency_memory() baseline for any query):\n")
+most_recent = await recency.store.recall("any query")
 for ep in most_recent:
-    print(f"  - {ep.task.instruction[:65]}")</div>
+    print(f"  - {ep.task.instruction[:65]}")
+
+agent.memories = [memory]</div>
 </div>
 </div>
 </div>
@@ -5828,11 +5940,11 @@ for ep in most_recent:
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Most recent 3 episodes (RecencyMemory baseline for any query):
+<pre>Most recent 3 episodes (recency_memory() baseline for any query):
 
-  - What are Kenya's key geographic and demographic facts? Use the ge
+  - What are Brazil's key geographic and demographic facts? Use the g
   - What are Indonesia's key geographic and demographic facts? Use th
-  - What are France's key geographic and demographic facts? Use the g
+  - What are Kenya's key geographic and demographic facts? Use the ge
 </pre>
 </div>
 </div>
@@ -5853,13 +5965,13 @@ prompt when the task runs. Compare this to the recency baseline above.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=a1b2c3d4e5f60023">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a1b2c3d4e5f60023">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-11">
@@ -5905,6 +6017,65 @@ for ep in recalled_sea:
 </div>
 </div>
 </div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Episodes that will be recalled for this query:
+
+  &lt;episode&gt;
+    &lt;task&gt;What are Vietnam's key geographic and demographic facts? Use the get_country tool. Do not rely on prior knowledge.&lt;/task&gt;
+    &lt;result&gt;Based on the result from the `get_country` tool, here are Vietnam's key geographic and demographic facts:
+
+- **Name:** Viet Nam
+- **Region:** East Asia &amp; Pacific
+- **Capital city:** Hanoi
+- **Income level:** Upper middle income
+- **Population:** 101,598,527 people
+- **Total land area:** 331,338.31 km²
+
+These figures come directly from the tool output, without relying on prior knowledge.&lt;/result&gt;
+    &lt;completed_at&gt;2026-09-30 00:53:06&lt;/completed_at&gt;
+  &lt;/episode&gt;
+
+  &lt;episode&gt;
+    &lt;task&gt;What are Indonesia's key geographic and demographic facts? Use the get_country tool. Do not rely on prior knowledge.&lt;/task&gt;
+    &lt;result&gt;Based on the result from the `get_country` tool, here are Indonesia's key geographic and demographic facts:
+
+- **Name:** Indonesia
+- **Region:** East Asia &amp; Pacific
+- **Capital city:** Jakarta
+- **Income level:** Upper middle income
+- **Population:** 285,721,236 people
+- **Total land area:** 1,916,906.77 km²
+
+These figures come directly from the tool output, without relying on prior knowledge.&lt;/result&gt;
+    &lt;completed_at&gt;2026-09-30 00:53:07&lt;/completed_at&gt;
+  &lt;/episode&gt;
+
+  &lt;episode&gt;
+    &lt;task&gt;What are Thailand's key geographic and demographic facts? Use the get_country tool. Do not rely on prior knowledge.&lt;/task&gt;
+    &lt;result&gt;Based on the result from the `get_country` tool, here are Thailand's key geographic and demographic facts:
+
+- **Name:** Thailand
+- **Region:** East Asia &amp; Pacific
+- **Capital city:** Bangkok
+- **Income level:** Upper middle income
+- **Population:** 71,619,863 people
+- **Total land area:** 513,115.02 km²
+
+These figures come directly from the tool output, without relying on prior knowledge.&lt;/result&gt;
+    &lt;completed_at&gt;2026-09-30 00:52:58&lt;/completed_at&gt;
+  &lt;/episode&gt;
+
+</pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1b2c3d4e5f60024">
@@ -5925,7 +6096,7 @@ lines. The agent answers entirely from recalled episodes.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-12">
@@ -5956,44 +6127,38 @@ print(result8)</div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: Which of the countries you have researched are in Southeast Asia? Summarise their key facts and compare their populations. Answer fro...[TRUNCATED]
 INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Which of the countries you have researched are in Southeast Asia? Summarise their key facts and compare their populations. Answer ...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: From the information I have gathered, all three countries—Indonesia, Thailand, and Vietnam—are located in Southeast Asia. Here are thei...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: From the country information I have already gathered, the following countries are in Southeast Asia:
+
+- **Vietnam**
+- **Indonesia**
+- *...[TRUNCATED]
 INFO (llm_agents_fs.TaskHandler) :      No new step required.
-INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: From the information I have gathered, all three countries—Indonesia, Thailand, and Vietnam—are located in Southeast Asia. Here are t...[TRUNCATED]
-From the information I have gathered, all three countries—Indonesia, Thailand, and Vietnam—are located in Southeast Asia. Here are their key facts and a comparison of their populations:
+INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: From the country information I have already gathered, the following countries are in Southeast Asia:
 
-### Indonesia:
-- **Region**: Asia
-- **Subregion**: Southeastern Asia
-- **Capital**: Jakarta
-- **Population**: 284,438,782
-- **Area**: 1,904,569 square kilometers
-- **Languages**: Indonesian
-- **Currencies**: Indonesian rupiah
+- **Vietnam**
+- **Indonesia**
+...[TRUNCATED]
+From the country information I have already gathered, the following countries are in Southeast Asia:
 
-### Thailand:
-- **Region**: Asia
-- **Subregion**: Southeastern Asia
-- **Capital**: Bangkok
-- **Population**: 65,859,640
-- **Area**: 513,120 square kilometers
-- **Languages**: Thai
-- **Currencies**: Thai baht
+- **Vietnam**
+- **Indonesia**
+- **Thailand**
 
-### Vietnam:
-- **Region**: Asia
-- **Subregion**: Southeastern Asia
-- **Capital**: Hanoi
-- **Population**: 101,343,800
-- **Area**: 331,212 square kilometers
-- **Languages**: Vietnamese
-- **Currencies**: Vietnamese đồng
+### Key facts summary
 
-### Comparison of Populations:
-- **Indonesia** has the largest population among the three, with approximately **284 million** people.
-- **Vietnam** has the second-largest population, with around **101 million** people.
-- **Thailand** has the smallest population among the three, with approximately **65.9 million** people.
+| Country | Capital | Region | Income level | Population | Land area |
+|---------|---------|--------|--------------|------------|-----------|
+| Vietnam | Hanoi | East Asia &amp; Pacific | Upper middle income | 101,598,527 | 331,338.31 km² |
+| Indonesia | Jakarta | East Asia &amp; Pacific | Upper middle income | 285,721,236 | 1,916,906.77 km² |
+| Thailand | Bangkok | East Asia &amp; Pacific | Upper middle income | 71,619,863 | 513,115.02 km² |
 
-In summary, Indonesia, Thailand, and Vietnam are all Southeast Asian countries, but Indonesia has the largest population, followed by Vietnam, and then Thailand.
+### Population comparison
+
+- **Indonesia** is by far the largest, with about **285.7 million** people.
+- **Vietnam** is second, with about **101.6 million** people.
+- **Thailand** is the smallest of the three, with about **71.6 million** people.
+
+Indonesia’s population is roughly 2.8 times that of Vietnam and about 4 times that of Thailand.
 </pre>
 </div>
 </div>
@@ -6015,13 +6180,13 @@ to the query.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=a1b2c3d4e5f60027">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a1b2c3d4e5f60027">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-13">
@@ -6067,6 +6232,76 @@ for ep in recalled_eu:
 </div>
 </div>
 </div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Episodes that will be recalled for this query:
+
+  &lt;episode&gt;
+    &lt;task&gt;What are Germany's key geographic and demographic facts? Use the get_country tool. Do not rely on prior knowledge.&lt;/task&gt;
+    &lt;result&gt;Based on the result from the `get_country` tool, here are Germany's key geographic and demographic facts:
+
+- **Name:** Germany
+- **Region:** Europe &amp; Central Asia
+- **Capital city:** Berlin
+- **Income level:** High income
+- **Population:** 83,491,249 people
+- **Total land area:** 357,680 km²
+
+These figures come directly from the tool output, without relying on prior knowledge.&lt;/result&gt;
+    &lt;completed_at&gt;2026-09-30 00:53:07&lt;/completed_at&gt;
+  &lt;/episode&gt;
+
+  &lt;episode&gt;
+    &lt;task&gt;What are France's key geographic and demographic facts? Use the get_country tool. Do not rely on prior knowledge.&lt;/task&gt;
+    &lt;result&gt;Based on the result from the `get_country` tool, here are France's key geographic and demographic facts:
+
+- **Name:** France
+- **Region:** Europe &amp; Central Asia
+- **Capital city:** Paris
+- **Income level:** High income
+- **Population:** 68,720,337 people
+- **Total land area:** 606,410 km²
+
+These figures come directly from the tool output, without relying on prior knowledge.&lt;/result&gt;
+    &lt;completed_at&gt;2026-09-30 00:53:07&lt;/completed_at&gt;
+  &lt;/episode&gt;
+
+  &lt;episode&gt;
+    &lt;task&gt;Which of the countries you have researched are in Southeast Asia? Summarise their key facts and compare their populations. Answer from the country information you have already gathered. No tools are needed.&lt;/task&gt;
+    &lt;result&gt;From the country information I have already gathered, the following countries are in Southeast Asia:
+
+- **Vietnam**
+- **Indonesia**
+- **Thailand**
+
+### Key facts summary
+
+| Country | Capital | Region | Income level | Population | Land area |
+|---------|---------|--------|--------------|------------|-----------|
+| Vietnam | Hanoi | East Asia &amp; Pacific | Upper middle income | 101,598,527 | 331,338.31 km² |
+| Indonesia | Jakarta | East Asia &amp; Pacific | Upper middle income | 285,721,236 | 1,916,906.77 km² |
+| Thailand | Bangkok | East Asia &amp; Pacific | Upper middle income | 71,619,863 | 513,115.02 km² |
+
+### Population comparison
+
+- **Indonesia** is by far the largest, with about **285.7 million** people.
+- **Vietnam** is second, with about **101.6 million** people.
+- **Thailand** is the smallest of the three, with about **71.6 million** people.
+
+Indonesia’s population is roughly 2.8 times that of Vietnam and about 4 times that of Thailand.&lt;/result&gt;
+    &lt;completed_at&gt;2026-09-30 00:53:13&lt;/completed_at&gt;
+  &lt;/episode&gt;
+
+</pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1b2c3d4e5f60030">
@@ -6085,7 +6320,7 @@ for ep in recalled_eu:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-14">
@@ -6116,34 +6351,42 @@ print(result9)</div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: Which of the countries you have researched are in Western Europe? How do they compare in population and area? Answer from the country...[TRUNCATED]
 INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Which of the countries you have researched are in Western Europe? How do they compare in population and area? Answer from the coun...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: From the information I have gathered, Germany and France are both located in Western Europe. Here are their key facts and a comparison ...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: From the country information I have already gathered, the following countries are in Western Europe:
+
+- **Germany**
+- **France**
+
+### K...[TRUNCATED]
 INFO (llm_agents_fs.TaskHandler) :      No new step required.
-INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: From the information I have gathered, Germany and France are both located in Western Europe. Here are their key facts and a comparis...[TRUNCATED]
-From the information I have gathered, Germany and France are both located in Western Europe. Here are their key facts and a comparison of their populations and areas:
+INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: From the country information I have already gathered, the following countries are in Western Europe:
 
-### Germany:
-- **Region**: Europe
-- **Subregion**: Western Europe
-- **Capital**: Berlin
-- **Population**: 83,491,249
-- **Area**: 357,114 square kilometers
-- **Languages**: German
-- **Currencies**: Euro
+- **Germany**
+- **France**
 
-### France:
-- **Region**: Europe
-- **Subregion**: Western Europe
-- **Capital**: Paris
-- **Population**: 66,351,959
-- **Area**: 543,908 square kilometers
-- **Languages**: French
-- **Currencies**: Euro
+##...[TRUNCATED]
+From the country information I have already gathered, the following countries are in Western Europe:
 
-### Comparison:
-- **Population**: Germany has a larger population than France, with approximately **83.5 million** people compared to **66.4 million** people in France.
-- **Area**: France has a larger area than Germany, with approximately **543,908 square kilometers** compared to **357,114 square kilometers** in Germany.
+- **Germany**
+- **France**
 
-In summary, both Germany and France are in Western Europe, but Germany has a larger population, while France has a larger area.
+### Key facts summary
+
+| Country | Capital | Region | Income level | Population | Land area |
+|---------|---------|--------|--------------|------------|-----------|
+| Germany | Berlin | Europe &amp; Central Asia | High income | 83,491,249 | 357,680 km² |
+| France | Paris | Europe &amp; Central Asia | High income | 68,720,337 | 606,410 km² |
+
+### Population comparison
+
+- **Germany** has the larger population, with about **83.5 million** people.
+- **France** has about **68.7 million** people.
+- Germany's population is roughly **14.8 million** larger than France's, or about **1.2 times** the size.
+
+### Area comparison
+
+- **France** is much larger in land area, with about **606,410 km²**.
+- **Germany** has about **357,680 km²**.
+- France's land area is roughly **1.7 times** that of Germany.
 </pre>
 </div>
 </div>

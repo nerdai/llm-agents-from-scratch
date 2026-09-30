@@ -104,6 +104,8 @@ _PROVIDER_VARS = (
     "ANTHROPIC_API_KEY",
 )
 _POLL = 0.05
+_ANSI = re.compile(r"\x1b\[[0-9;]*m")
+_CHOICES = re.compile(r"\[([^\[\]/]+(?:/[^\[\]/]+)+)\]:?\s*$")
 #: Cell tag prefix: wait on the named future before running the cell.
 AWAIT_TAG = "await:"
 
@@ -160,6 +162,11 @@ def _answer(recent_text: str, prompt: str) -> str:
     text = f"{recent_text}\n{prompt}"
     if "Approve this result?" in text:
         return "y"
+    # rich Prompt with choices renders "> [a/b/c]: "; anything else is
+    # rejected and re-asked forever, so pick the first listed choice
+    last = _ANSI.sub("", text).rstrip().splitlines()[-1:] or [""]
+    if m := _CHOICES.search(last[0]):
+        return m.group(1).split("/")[0]
     if re.search(r"\bname\b", text, re.I):
         return "Andrei"
     if re.search(r"\b(number|integer|start|value)\b", text, re.I):
@@ -342,9 +349,10 @@ def _await_tagged(kc: Any, cell: dict[str, Any], timeout: float) -> None:
 
     Some notebooks start work in one cell and read its result a few cells
     later, relying on the reader's pace for it to finish. The tag names the
-    future to wait on (for example `await:handler`); the runner waits for
-    it without raising, so the tagged cell still sees any exception the
-    way it would interactively. Tags are hidden from readers.
+    future, or list of futures, to wait on (for example `await:handler`);
+    the runner waits for it without raising, so the tagged cell still
+    sees any exception the way it would interactively. Tags are hidden
+    from readers.
     """
     for tag in cell.get("metadata", {}).get("tags", []):
         if not tag.startswith(AWAIT_TAG):
@@ -352,9 +360,16 @@ def _await_tagged(kc: Any, cell: dict[str, Any], timeout: float) -> None:
         name = tag.removeprefix(AWAIT_TAG)
         if not name.isidentifier():
             raise ValueError(f"bad tag {tag!r}: expected await:<name>")
-        pause = {
-            "source": [f"import asyncio as _nb\nawait _nb.wait([{name}])"],
-        }
+        # the name may be one future or a list of them (a replication
+        # loop's handlers); wait for all of them either way
+        code = (
+            "import asyncio as _nb\n"
+            f"_nb_x = {name}\n"
+            "_nb_fs = _nb_x if isinstance(_nb_x, (list, tuple, set)) "
+            "else [_nb_x]\n"
+            "await _nb.wait(list(_nb_fs))"
+        )
+        pause = {"source": [code]}
         _run_cell(kc, pause, timeout)
 
 

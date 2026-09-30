@@ -4,12 +4,16 @@ One table per notebook tier (chapter notebooks, additional examples,
 capstones), one row per tracked notebook, one column per provider. A cell
 shows the last recorded run for that (notebook, provider) pair:
 
-    ✅ 2026-09-29 `gpt-5`      passed on that date, with that model
-    ❌ 2026-09-29              failed (the note goes in the footnotes)
+    ✅ `gpt-5`                 passed, with that model
+    ❌                         failed (the note goes in the footnotes)
     ⚪ not wired               the notebook constructs its LLM directly,
                                so LLM_PROVIDER would have no effect
     ∅ no LLM                   nothing in the notebook builds an LLM
     –                          never run on that provider
+
+A single "Last tested" date heads the page: the most recent run in the
+ledger, plus the oldest one when they differ, so a partial re-run never
+passes off stale results as fresh.
 
 The page is generated: edit the ledger (or re-run
 `_scripts/run_notebook.py`) and re-render, never the markdown.
@@ -83,18 +87,32 @@ _PLAIN = {"not-wired": "⚪ not wired", "no-llm": "∅ no LLM"}
 def _cell(entry: dict[str, Any] | None, notes: list[str], label: str) -> str:
     if entry is None:
         return "–"
-    status = entry.get("status")
-    when = entry.get("last_tested", "")
+    status = str(entry.get("status"))
     model = f" `{entry['model']}`" if entry.get("model") else ""
     if status == "pass":
         if caveat := entry.get("caveat"):
-            notes.append(f"{label}: {caveat} ({when})")
-            return f"✅ {when}{model}[^{len(notes)}]"
-        return f"✅ {when}{model}"
+            notes.append(f"{label}: {caveat}")
+            return f"✅{model}[^{len(notes)}]"
+        return f"✅{model}"
     if status == "fail":
-        notes.append(f"{label}: {entry.get('note', 'failed')} ({when})")
-        return f"❌ {when}[^{len(notes)}]"
+        notes.append(f"{label}: {entry.get('note', 'failed')}")
+        return f"❌[^{len(notes)}]"
     return _PLAIN.get(status, f"? {status}")
+
+
+def _last_tested(ledger: dict[str, Any]) -> str:
+    """One date for the page: the newest run, and the oldest if older."""
+    dates = sorted(
+        str(entry["last_tested"])
+        for runs in ledger.values()
+        for entry in runs.values()
+        if entry.get("last_tested")
+    )
+    if not dates:
+        return "never"
+    if dates[0] == dates[-1]:
+        return dates[-1]
+    return f"{dates[-1]} (oldest result: {dates[0]})"
 
 
 def render(ledger: dict[str, Any]) -> str:
@@ -103,16 +121,18 @@ def render(ledger: dict[str, Any]) -> str:
         "# Notebook Status",
         "",
         "Which notebooks have been run end to end against which LLM",
-        "provider, and when. Generated from `notebook_status.yaml` by",
+        "provider. Generated from `notebook_status.yaml` by",
         "`_scripts/render_notebook_status.py`; runs are recorded by",
         "`_scripts/run_notebook.py`. Edit the ledger and re-render, not",
         "this page.",
         "",
+        f"**Last tested:** {_last_tested(ledger)}",
+        "",
         "| Symbol | Meaning |",
         "|---|---|",
-        "| ✅ date `model` | Ran to completion on that date with that model |",
-        "| ✅ date `model`[^n] | Passed with a caveat; see the footnote |",
-        "| ❌ date | Failed; see the footnote |",
+        "| ✅ `model` | Ran to completion with that model |",
+        "| ✅ `model` + footnote | Passed with a caveat; see the footnote |",
+        "| ❌ | Failed; see the footnote |",
         "| ⚪ not wired | The notebook constructs its LLM directly, so"
         " the provider setting would have no effect; not run |",
         "| ∅ no LLM | Nothing in the notebook builds an LLM;"

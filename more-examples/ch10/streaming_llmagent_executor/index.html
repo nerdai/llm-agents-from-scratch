@@ -5272,33 +5272,6 @@ ensure_ollama() if not use_cloud else print("\u2713 Using Ollama Cloud")</div>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=979323e9">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-3">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="s2">"glm-5.3:cloud"</span> <span class="k">if</span> <span class="n">use_cloud</span> <span class="k">else</span> <span class="s2">"qwen3:14b"</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-3">model = "glm-5.3:cloud" if use_cloud else "qwen3:14b"</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ef9cc6c5">
 <div class="jp-Cell-inputWrapper" tabindex="0">
@@ -5321,10 +5294,10 @@ difference between the two apps is which executor wraps the agent:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-4">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-3">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -5383,9 +5356,6 @@ difference between the two apps is which executor wraps the agent:
 
     <span class="n">server_path</span> <span class="o">=</span> <span class="n">find_repo_root</span><span class="p">()</span> <span class="o">/</span> <span class="s2">"extra"</span> <span class="o">/</span> <span class="n">app_dir</span>
     <span class="n">port</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">host</span><span class="p">)</span><span class="o">.</span><span class="n">port</span> <span class="ow">or</span> <span class="mi">80</span>
-    <span class="n">env</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">,</span> <span class="n">OLLAMA_MODEL</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">use_cloud</span><span class="p">:</span>
-        <span class="n">env</span><span class="p">[</span><span class="s2">"OLLAMA_HOST"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"https://ollama.com"</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Starting </span><span class="si">{</span><span class="n">app_dir</span><span class="si">}</span><span class="s2"> A2A server at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">..."</span><span class="p">)</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">log_path</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">log_file</span><span class="p">:</span>
         <span class="n">process</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
@@ -5403,7 +5373,6 @@ difference between the two apps is which executor wraps the agent:
             <span class="n">stdout</span><span class="o">=</span><span class="n">log_file</span><span class="p">,</span>
             <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">STDOUT</span><span class="p">,</span>
             <span class="n">start_new_session</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="n">deadline</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="n">timeout</span>
@@ -5465,7 +5434,7 @@ difference between the two apps is which executor wraps the agent:
             <span class="n">stop_hailstone_server</span><span class="p">(</span><span class="n">started</span><span class="p">)</span>
     <span class="k">raise</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-4">import contextlib
+<div class="clipboard-copy-txt" id="cell-3">import contextlib
 import signal
 from pathlib import Path
 from urllib.parse import urlparse
@@ -5514,9 +5483,6 @@ def ensure_hailstone_server(app_dir, host, log_path, timeout=15):
 
     server_path = find_repo_root() / "extra" / app_dir
     port = urlparse(host).port or 80
-    env = dict(os.environ, OLLAMA_MODEL=model)
-    if use_cloud:
-        env["OLLAMA_HOST"] = "https://ollama.com"
     print(f"Starting {app_dir} A2A server at {host}...")
     with open(log_path, "w") as log_file:
         process = subprocess.Popen(
@@ -5534,7 +5500,6 @@ def ensure_hailstone_server(app_dir, host, log_path, timeout=15):
             stdout=log_file,
             stderr=subprocess.STDOUT,
             start_new_session=True,
-            env=env,
         )
 
     deadline = time.time() + timeout
@@ -5607,21 +5572,9 @@ except Exception:
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Starting a2a-from-scratch-hailstone-streaming A2A server at http://127.0.0.1:9301...
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>✓ a2a-from-scratch-hailstone-streaming A2A server up at http://127.0.0.1:9301
+✓ a2a-from-scratch-hailstone-streaming A2A server up at http://127.0.0.1:9301
 Starting a2a-from-scratch-hailstone A2A server at http://127.0.0.1:9300...
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>✓ a2a-from-scratch-hailstone A2A server up at http://127.0.0.1:9300
+✓ a2a-from-scratch-hailstone A2A server up at http://127.0.0.1:9300
 </pre>
 </div>
 </div>
@@ -5644,16 +5597,16 @@ does.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=f24d9d1a">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=f24d9d1a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-5">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-4">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -5723,7 +5676,7 @@ does.</p>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  total chunks: </span><span class="si">{</span><span class="n">n_chunks</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">n_chunks</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-5">import httpx
+<div class="clipboard-copy-txt" id="cell-4">import httpx
 from a2a.client import ClientConfig, create_client
 from a2a.helpers import new_text_message
 from a2a.types import Role as A2ARole
@@ -5786,20 +5739,6 @@ async def dispatch_and_print(spec, streaming, task_text):
 </div>
 </div>
 </div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>/home/nerdai/Projects/llm-agents-from-scratch/.venv/lib/python3.13/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
-  from .autonotebook import tqdm as notebook_tqdm
-</pre>
-</div>
-</div>
-</div>
-</div>
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7c7ed4f0">
@@ -5820,10 +5759,10 @@ completion.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-5">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -5833,7 +5772,10 @@ completion.</p>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">task_text</span> <span class="o">=</span> <span class="s2">"Compute the hailstone sequence starting at 6, until it reaches 1."</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">task_text</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">"Compute the hailstone sequence starting at 6, step by step using "</span>
+    <span class="s2">"next_number, until it reaches 1."</span>
+<span class="p">)</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"=== Streaming ==="</span><span class="p">)</span>
@@ -5850,7 +5792,10 @@ completion.</p>
     <span class="n">cleanup_servers</span><span class="p">()</span>
     <span class="k">raise</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-6">task_text = "Compute the hailstone sequence starting at 6, until it reaches 1."
+<div class="clipboard-copy-txt" id="cell-5">task_text = (
+    "Compute the hailstone sequence starting at 6, step by step using "
+    "next_number, until it reaches 1."
+)
 
 try:
     print("=== Streaming ===")
@@ -5877,267 +5822,33 @@ except Exception:
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>=== Streaming ===</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  [1] task created, state=TASK_STATE_SUBMITTED</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  [2] TASK_STATE_SUBMITTED: ''</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  [3] TASK_STATE_WORKING: ''</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  [4] TASK_STATE_WORKING: 'Compute the hailstone sequence starting at 6, until it reaches 1.'</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  [5] TASK_STATE_WORKING: '6 → 3. Now 3 is odd, so next should be 3·3+1 = 10, but let me verify with the tool.\n\n**Ste'</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  [6] TASK_STATE_WORKING: 'Call the next_number tool with x=3 to compute the next value in the hailstone sequence (3 '</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  [7] TASK_STATE_WORKING: 'I need to make the following tool-calls:\n{\n    "id_": "4e7e2437-a7fe-405e-be5e-7ad8d989d4d'</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  [8] TASK_STATE_WORKING: 'Call the next_number tool with x=10 to compute the next value in the hailstone sequence (1'</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  [9] TASK_STATE_WORKING: 'I need to make the following tool-calls:\n{\n    "id_": "2536316d-6058-43c1-8a2c-7771d9cfc09'</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  [10] TASK_STATE_WORKING: 'Call the next_number tool with x=5 to compute the next value in the hailstone sequence (5 '</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  [11] TASK_STATE_WORKING: 'I need to make the following tool-calls:\n{\n    "id_": "764c4976-887a-4861-8d16-f306fadc947'</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  [12] TASK_STATE_WORKING: 'Call the next_number tool with x=16 to compute the next value in the hailstone sequence (1'</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  [13] TASK_STATE_WORKING: 'All four results match the predictions exactly:\n\n- `next_number(16)` = **8** ✓ (16 even → '</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  [14] artifact_update: 'All four results match the predictions exactly:\n\n- `next_number(16)` = **8** ✓ (16 even → '</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  [15] TASK_STATE_COMPLETED: ''</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  total chunks: 15</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>=== Non-streaming ===</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  [1] task created, state=TASK_STATE_COMPLETED</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  total chunks: 1</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
+<pre>=== Streaming ===
+  [1] task created, state=TASK_STATE_SUBMITTED
+  [2] TASK_STATE_SUBMITTED: ''
+  [3] TASK_STATE_WORKING: ''
+  [4] TASK_STATE_WORKING: 'Compute the hailstone sequence starting at 6, step by step using next_number, until it rea'
+  [5] TASK_STATE_WORKING: 'I need to make the following tool-calls:\n{\n    "id_": "2072c2f3-9a51-49f2-90af-7ab7c094d05'
+  [6] TASK_STATE_WORKING: 'The next_number tool has been called for x=3 and returned 3 (wait, actually the current re'
+  [7] TASK_STATE_WORKING: 'I need to make the following tool-calls:\n{\n    "id_": "552fb185-db33-49bd-b67a-2c867443139'
+  [8] TASK_STATE_WORKING: 'Execute the next_number tool call with argument x=10 to continue computing the hailstone s'
+  [9] TASK_STATE_WORKING: 'I need to make the following tool-calls:\n{\n    "id_": "d9c686ab-9c56-4d0c-a2c9-dd807772e33'
+  [10] TASK_STATE_WORKING: 'Execute the next_number tool call with argument x=5 to continue computing the hailstone se'
+  [11] TASK_STATE_WORKING: 'I need to make the following tool-calls:\n{\n    "id_": "d3e029c3-9f97-4987-9914-66fe0f13901'
+  [12] TASK_STATE_WORKING: 'Execute the next_number tool call with argument x=16 to continue computing the hailstone s'
+  [13] TASK_STATE_WORKING: 'I need to make the following tool-calls:\n{\n    "id_": "ad6d4e45-3949-4021-b00d-dd8c458470a'
+  [14] TASK_STATE_WORKING: 'Execute the next_number tool call with argument x=8 to continue computing the hailstone se'
+  [15] TASK_STATE_WORKING: 'I need to make the following tool-calls:\n{\n    "id_": "5a89895b-ccc7-4b7d-86d7-640b7bc3194'
+  [16] TASK_STATE_WORKING: 'Execute the next_number tool call with argument x=4 to continue computing the hailstone se'
+  [17] TASK_STATE_WORKING: 'I need to make the following tool-calls:\n{\n    "id_": "689bfaea-acc8-4b19-b449-b93fad82eed'
+  [18] TASK_STATE_WORKING: 'Execute the next_number tool call with argument x=2 to continue computing the hailstone se'
+  [19] TASK_STATE_WORKING: 'The tool returned 1, so the hailstone sequence has reached 1. The full sequence starting a'
+  [20] artifact_update: 'The tool returned 1, so the hailstone sequence has reached 1. The full sequence starting a'
+  [21] TASK_STATE_COMPLETED: ''
+  total chunks: 21
+
+=== Non-streaming ===
+  [1] task created, state=TASK_STATE_COMPLETED
+  total chunks: 1
 </pre>
 </div>
 </div>
@@ -6177,10 +5888,10 @@ The non-streaming peer produces exactly one, the same shape
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-7">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -6192,7 +5903,7 @@ The non-streaming peer produces exactly one, the same shape
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">cleanup_servers</span><span class="p">()</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-7">cleanup_servers()</div>
+<div class="clipboard-copy-txt" id="cell-6">cleanup_servers()</div>
 </div>
 </div>
 </div>

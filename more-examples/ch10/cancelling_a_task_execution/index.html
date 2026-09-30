@@ -5342,33 +5342,6 @@ ensure_ollama() if not use_cloud else print("\u2713 Using Ollama Cloud")</div>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=6d20b86f">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-3">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="s2">"glm-5.3:cloud"</span> <span class="k">if</span> <span class="n">use_cloud</span> <span class="k">else</span> <span class="s2">"qwen3:14b"</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-3">model = "glm-5.3:cloud" if use_cloud else "qwen3:14b"</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4f9db141">
 <div class="jp-Cell-inputWrapper" tabindex="0">
@@ -5390,10 +5363,10 @@ cancel well before it would ever finish on its own.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-4">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-3">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -5452,9 +5425,6 @@ cancel well before it would ever finish on its own.</p>
 
     <span class="n">server_path</span> <span class="o">=</span> <span class="n">find_repo_root</span><span class="p">()</span> <span class="o">/</span> <span class="s2">"extra"</span> <span class="o">/</span> <span class="s2">"a2a-from-scratch-hailstone"</span>
     <span class="n">port</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">host</span><span class="p">)</span><span class="o">.</span><span class="n">port</span> <span class="ow">or</span> <span class="mi">80</span>
-    <span class="n">env</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">,</span> <span class="n">OLLAMA_MODEL</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">use_cloud</span><span class="p">:</span>
-        <span class="n">env</span><span class="p">[</span><span class="s2">"OLLAMA_HOST"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"https://ollama.com"</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Starting A2A server at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">..."</span><span class="p">)</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">log_path</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">log_file</span><span class="p">:</span>
         <span class="n">process</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
@@ -5472,7 +5442,6 @@ cancel well before it would ever finish on its own.</p>
             <span class="n">stdout</span><span class="o">=</span><span class="n">log_file</span><span class="p">,</span>
             <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">STDOUT</span><span class="p">,</span>
             <span class="n">start_new_session</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="n">deadline</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="n">timeout</span>
@@ -5517,7 +5486,7 @@ cancel well before it would ever finish on its own.</p>
     <span class="k">if</span> <span class="n">server_process</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">stop_hailstone_server</span><span class="p">(</span><span class="n">server_process</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-4">import contextlib
+<div class="clipboard-copy-txt" id="cell-3">import contextlib
 import signal
 from pathlib import Path
 from urllib.parse import urlparse
@@ -5566,9 +5535,6 @@ def ensure_hailstone_server(host, log_path, timeout=15):
 
     server_path = find_repo_root() / "extra" / "a2a-from-scratch-hailstone"
     port = urlparse(host).port or 80
-    env = dict(os.environ, OLLAMA_MODEL=model)
-    if use_cloud:
-        env["OLLAMA_HOST"] = "https://ollama.com"
     print(f"Starting A2A server at {host}...")
     with open(log_path, "w") as log_file:
         process = subprocess.Popen(
@@ -5586,7 +5552,6 @@ def ensure_hailstone_server(host, log_path, timeout=15):
             stdout=log_file,
             stderr=subprocess.STDOUT,
             start_new_session=True,
-            env=env,
         )
 
     deadline = time.time() + timeout
@@ -5642,13 +5607,7 @@ def stop_server():
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Starting A2A server at http://127.0.0.1:9300...
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>✓ A2A server up at http://127.0.0.1:9300
+✓ A2A server up at http://127.0.0.1:9300
 </pre>
 </div>
 </div>
@@ -5669,16 +5628,16 @@ step below reuses.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=d9eb6e71">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=d9eb6e71">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-5">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-4">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -5731,7 +5690,7 @@ step below reuses.</p>
         <span class="k">finally</span><span class="p">:</span>
             <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-5">import asyncio
+<div class="clipboard-copy-txt" id="cell-4">import asyncio
 from contextlib import asynccontextmanager
 
 import httpx
@@ -5777,20 +5736,6 @@ async def open_client():
 </div>
 </div>
 </div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>/home/nerdai/Projects/llm-agents-from-scratch/.venv/lib/python3.13/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
-  from .autonotebook import tqdm as notebook_tqdm
-</pre>
-</div>
-</div>
-</div>
-</div>
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=deb8f8b0">
@@ -5813,10 +5758,10 @@ whenever that ends up being.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-5">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -5850,7 +5795,7 @@ whenever that ends up being.</p>
 
 <span class="n">send_future</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">ensure_future</span><span class="p">(</span><span class="n">dispatch</span><span class="p">())</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-6">task_text = (
+<div class="clipboard-copy-txt" id="cell-5">task_text = (
     "Compute the full hailstone sequence starting at 27, until it reaches 1."
 )
 message = new_text_message(text=task_text, role=A2ARole.ROLE_USER)
@@ -5910,10 +5855,10 @@ the first pending one found.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-7">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -5955,7 +5900,7 @@ the first pending one found.</p>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Found in-flight task </span><span class="si">{</span><span class="n">task_id</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-7">task_id = None
+<div class="clipboard-copy-txt" id="cell-6">task_id = None
 try:
     async with open_client() as observer:
         for _ in range(50):
@@ -5997,13 +5942,7 @@ print(f"Found in-flight task {task_id}")</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Found in-flight task b52d28ba-7cfa-4199-b1e0-c3863a78ac48</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
+<pre>Found in-flight task 2d09298a-9b2d-42a1-b9c8-a84254a5edfc
 </pre>
 </div>
 </div>
@@ -6028,10 +5967,10 @@ still waiting on <code>dispatch()</code>) asks the server to cancel it.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-8">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-7">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -6055,7 +5994,7 @@ still waiting on <code>dispatch()</code>) asks the server to cancel it.</p>
     <span class="n">TaskState</span><span class="o">.</span><span class="n">Name</span><span class="p">(</span><span class="n">cancel_result</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">state</span><span class="p">),</span>
 <span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-8">try:
+<div class="clipboard-copy-txt" id="cell-7">try:
     async with open_client() as observer:
         cancel_result = await observer.cancel_task(
             CancelTaskRequest(id=task_id),
@@ -6079,25 +6018,7 @@ print(
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>cancel_task() response state:</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre> </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>TASK_STATE_CANCELED</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
+<pre>cancel_task() response state: TASK_STATE_CANCELED
 </pre>
 </div>
 </div>
@@ -6123,10 +6044,10 @@ with what <code>cancel_task()</code> already reported.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-9">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-8">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -6145,7 +6066,7 @@ with what <code>cancel_task()</code> already reported.</p>
 <span class="n">final_state</span> <span class="o">=</span> <span class="n">TaskState</span><span class="o">.</span><span class="n">Name</span><span class="p">(</span><span class="n">final_chunk</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"send_message()'s own final chunk state:"</span><span class="p">,</span> <span class="n">final_state</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-9">try:
+<div class="clipboard-copy-txt" id="cell-8">try:
     final_chunk = await send_future
 except Exception:
     stop_server()
@@ -6164,25 +6085,7 @@ print("send_message()'s own final chunk state:", final_state)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>send_message()'s own final chunk state:</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre> </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>TASK_STATE_CANCELED</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
+<pre>send_message()'s own final chunk state: TASK_STATE_CANCELED
 </pre>
 </div>
 </div>
@@ -6209,10 +6112,10 @@ flight when <code>cancel()</code> tore down the background task underneath it.</
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-10">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-9">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -6225,7 +6128,7 @@ flight when <code>cancel()</code> tore down the background task underneath it.</
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"hailstone_server.log"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-10">with open("hailstone_server.log") as f:
+<div class="clipboard-copy-txt" id="cell-9">with open("hailstone_server.log") as f:
     print(f.read())</div>
 </div>
 </div>
@@ -6238,49 +6141,19 @@ flight when <code>cancel()</code> tore down the background task underneath it.</
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>warning</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>:</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre> </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>`VIRTUAL_ENV=/home/nerdai/.cache/uv/builds-v0/.tmpsJgCnY` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-INFO:     Started server process [2296158]
+<pre>✓ Using Ollama Cloud (kimi-k2.7-code:cloud)
+INFO:     Started server process [2539761]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:9300 (Press CTRL+C to quit)
-INFO:     127.0.0.1:57012 - "GET /.well-known/agent-card.json HTTP/1.1" 200 OK
-INFO:     127.0.0.1:37568 - "GET /.well-known/agent-card.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50952 - "GET /.well-known/agent-card.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50962 - "GET /.well-known/agent-card.json HTTP/1.1" 200 OK
 INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: Compute the full hailstone sequence starting at 27, until it reaches 1.
 INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Compute the full hailstone sequence starting at 27, until it reaches 1.
-INFO:     127.0.0.1:37590 - "POST / HTTP/1.1" 200 OK
-INFO:     127.0.0.1:37598 - "POST / HTTP/1.1" 200 OK
-INFO:     127.0.0.1:37580 - "POST / HTTP/1.1" 200 OK
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
+INFO:     127.0.0.1:50980 - "POST / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50992 - "POST / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50976 - "POST / HTTP/1.1" 200 OK
+
 </pre>
 </div>
 </div>
@@ -6304,10 +6177,10 @@ INFO:     127.0.0.1:37580 - "POST / HTTP/1.1" 200 OK
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-11">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-10">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -6319,7 +6192,7 @@ INFO:     127.0.0.1:37580 - "POST / HTTP/1.1" 200 OK
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">stop_server</span><span class="p">()</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-11">stop_server()</div>
+<div class="clipboard-copy-txt" id="cell-10">stop_server()</div>
 </div>
 </div>
 </div>

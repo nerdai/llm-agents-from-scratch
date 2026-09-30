@@ -332,70 +332,61 @@ more-examples/ch02/pydantic_tool_validation.ipynb:
     status: no-llm
 more-examples/ch03/multi_turn_chat.ipynb:
   anthropic:
-    commit: cf1955bc
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: claude-sonnet-5
+    seconds: 11
+    status: pass
   ollama-cloud:
-    commit: 6d29cd79
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: kimi-k2.7-code:cloud
+    seconds: 8
+    status: pass
   openai:
-    commit: cf1955bc
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: gpt-5
+    seconds: 17
+    status: pass
 more-examples/ch03/parallel_tool_calls.ipynb:
   anthropic:
-    commit: cf1955bc
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: claude-sonnet-5
+    seconds: 8
+    status: pass
   ollama-cloud:
-    commit: 6d29cd79
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: kimi-k2.7-code:cloud
+    seconds: 5
+    status: pass
   openai:
-    commit: cf1955bc
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: gpt-5
+    seconds: 8
+    status: pass
 more-examples/ch03/pdf_extraction.ipynb:
   anthropic:
-    commit: cf1955bc
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: claude-sonnet-5
+    seconds: 15
+    status: pass
   ollama-cloud:
-    commit: 6d29cd79
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: kimi-k2.7-code:cloud
+    seconds: 9
+    status: pass
   openai:
-    commit: cf1955bc
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: gpt-5
+    seconds: 13
+    status: pass
 more-examples/ch04/jev_next_step_judge.ipynb:
   anthropic:
     commit: cf1955bc
@@ -417,114 +408,105 @@ more-examples/ch04/jev_next_step_judge.ipynb:
     status: pass
 more-examples/ch04/pokemon_comparison.ipynb:
   anthropic:
-    commit: cf1955bc
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: claude-sonnet-5
+    seconds: 14
+    status: pass
   ollama-cloud:
-    commit: 6d29cd79
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: kimi-k2.7-code:cloud
+    seconds: 11
+    status: pass
   openai:
-    commit: cf1955bc
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: gpt-5
+    seconds: 19
+    status: pass
 more-examples/ch04/pokemon_error_handling.ipynb:
   anthropic:
-    commit: cf1955bc
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: claude-sonnet-5
+    seconds: 20
+    status: pass
   ollama-cloud:
-    commit: 6d29cd79
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: kimi-k2.7-code:cloud
+    seconds: 17
+    status: pass
   openai:
-    commit: cf1955bc
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: gpt-5
+    seconds: 17
+    status: pass
 more-examples/ch05/github_mcp.ipynb:
   anthropic:
-    commit: cf1955bc
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: claude-sonnet-5
+    note: 'cell 10: TypeError: streamable_http_client() takes 1 positional argument
+      but 2 were given'
+    seconds: 3
+    status: fail
   ollama-cloud:
-    commit: 6d29cd79
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: kimi-k2.7-code:cloud
+    note: 'cell 10: TypeError: streamable_http_client() takes 1 positional argument
+      but 2 were given'
+    seconds: 2
+    status: fail
   openai:
-    commit: cf1955bc
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: gpt-5
+    note: 'cell 10: TypeError: streamable_http_client() takes 1 positional argument
+      but 2 were given'
+    seconds: 3
+    status: fail
 more-examples/ch05/goodnews_mcp.ipynb:
   anthropic:
-    commit: cf1955bc
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: claude-sonnet-5
+    seconds: 16
+    status: pass
   ollama-cloud:
-    commit: 6d29cd79
-    last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    commit: 9814fa00
+    last_tested: '2026-09-30'
+    model: kimi-k2.7-code:cloud
+    seconds: 7
+    status: pass
   openai:
-    commit: cf1955bc
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: gpt-5
+    seconds: 114
+    status: pass
 more-examples/ch06/additional_resource_python.ipynb:
   anthropic:
-    commit: cf1955bc
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: claude-sonnet-5
+    seconds: 18
+    status: pass
   ollama-cloud:
-    commit: 6d29cd79
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: kimi-k2.7-code:cloud
+    seconds: 14
+    status: pass
   openai:
-    commit: cf1955bc
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: gpt-5
+    seconds: 25
+    status: pass
 more-examples/ch06/skill_validation_errors.ipynb:
   anthropic:
     commit: cf1955bc
@@ -546,284 +528,262 @@ more-examples/ch06/skill_validation_errors.ipynb:
     status: no-llm
 more-examples/ch06/skills_marketplace.ipynb:
   anthropic:
-    commit: cf1955bc
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: claude-sonnet-5
+    seconds: 50
+    status: pass
   ollama-cloud:
-    commit: 6d29cd79
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: kimi-k2.7-code:cloud
+    seconds: 57
+    status: pass
   openai:
-    commit: cf1955bc
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: gpt-5
+    seconds: 51
+    status: pass
 more-examples/ch06/user_explicit_hailstone.ipynb:
   anthropic:
-    commit: cf1955bc
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: claude-sonnet-5
+    seconds: 43
+    status: pass
   ollama-cloud:
-    commit: 6d29cd79
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: kimi-k2.7-code:cloud
+    seconds: 53
+    status: pass
   openai:
-    commit: cf1955bc
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: gpt-5
+    seconds: 80
+    status: pass
 more-examples/ch06/with_and_without_skills.ipynb:
   anthropic:
-    commit: cf1955bc
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: claude-sonnet-5
+    seconds: 47
+    status: pass
   ollama-cloud:
-    commit: 6d29cd79
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: kimi-k2.7-code:cloud
+    seconds: 48
+    status: pass
   openai:
-    commit: cf1955bc
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: gpt-5
+    seconds: 76
+    status: pass
 more-examples/ch07/recency_memory.ipynb:
   anthropic:
-    commit: cf1955bc
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: claude-sonnet-5
+    seconds: 29
+    status: pass
   ollama-cloud:
-    commit: 6d29cd79
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: kimi-k2.7-code:cloud
+    seconds: 22
+    status: pass
   openai:
-    commit: cf1955bc
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: gpt-5
+    seconds: 34
+    status: pass
 more-examples/ch07/reflective_memory.ipynb:
   anthropic:
-    commit: cf1955bc
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: claude-sonnet-5
+    note: 'cell 15: AttributeError: ''QdrantMemoryStore'' object has no attribute
+      ''read_recent'''
+    seconds: 19
+    status: fail
   ollama-cloud:
-    commit: 6d29cd79
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: kimi-k2.7-code:cloud
+    note: 'cell 15: AttributeError: ''QdrantMemoryStore'' object has no attribute
+      ''read_recent'''
+    seconds: 18
+    status: fail
   openai:
-    commit: cf1955bc
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: gpt-5
+    note: 'cell 15: AttributeError: ''QdrantMemoryStore'' object has no attribute
+      ''read_recent'''
+    seconds: 42
+    status: fail
 more-examples/ch07/similarity_memory.ipynb:
   anthropic:
-    commit: cf1955bc
-    last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    commit: 9814fa00
+    last_tested: '2026-09-30'
+    model: claude-sonnet-5
+    note: 'cell 16: AttributeError: ''QdrantMemoryStore'' object has no attribute
+      ''read_recent'''
+    seconds: 57
+    status: fail
   ollama-cloud:
-    commit: 6d29cd79
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: kimi-k2.7-code:cloud
+    note: 'cell 16: AttributeError: ''QdrantMemoryStore'' object has no attribute
+      ''read_recent'''
+    seconds: 31
+    status: fail
   openai:
-    commit: cf1955bc
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: gpt-5
+    note: 'cell 11: cell exceeded 600s'
+    seconds: 602
+    status: fail
 more-examples/ch08/approval_gate_in_skill.ipynb:
   anthropic:
-    commit: cf1955bc
-    last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    commit: 9814fa00
+    last_tested: '2026-09-30'
+    model: claude-sonnet-5
+    seconds: 15
+    status: pass
   ollama-cloud:
-    commit: 6d29cd79
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: kimi-k2.7-code:cloud
+    seconds: 9
+    status: pass
   openai:
-    commit: cf1955bc
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: gpt-5
+    seconds: 19
+    status: pass
 more-examples/ch08/skill_with_human_input.ipynb:
   anthropic:
-    commit: cf1955bc
-    last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    commit: 9814fa00
+    last_tested: '2026-09-30'
+    model: claude-sonnet-5
+    seconds: 19
+    status: pass
   ollama-cloud:
-    commit: 6d29cd79
-    last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    commit: 9814fa00
+    last_tested: '2026-09-30'
+    model: kimi-k2.7-code:cloud
+    seconds: 16
+    status: pass
   openai:
-    commit: cf1955bc
-    last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    commit: 9814fa00
+    last_tested: '2026-09-30'
+    model: gpt-5
+    seconds: 52
+    status: pass
 more-examples/ch08/supervised_trajectories.ipynb:
   anthropic:
-    commit: cf1955bc
-    last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    commit: 9814fa00
+    last_tested: '2026-09-30'
+    model: claude-sonnet-5
+    note: 'cell 12: AttributeError: ''TaskResult'' object has no attribute ''instruction'''
+    seconds: 14
+    status: fail
   ollama-cloud:
-    commit: 6d29cd79
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: kimi-k2.7-code:cloud
+    note: 'cell 12: AttributeError: ''TaskResult'' object has no attribute ''instruction'''
+    seconds: 8
+    status: fail
   openai:
-    commit: cf1955bc
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: gpt-5
+    note: 'cell 12: AttributeError: ''TaskResult'' object has no attribute ''instruction'''
+    seconds: 35
+    status: fail
 more-examples/ch09/evaluator_pattern.ipynb:
   anthropic:
-    commit: cf1955bc
-    last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    commit: 9814fa00
+    last_tested: '2026-09-30'
+    model: claude-sonnet-5
+    seconds: 60
+    status: pass
   ollama-cloud:
-    commit: 6d29cd79
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: kimi-k2.7-code:cloud
+    seconds: 41
+    status: pass
   openai:
-    commit: cf1955bc
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: gpt-5
+    seconds: 128
+    status: pass
 more-examples/ch09/subagent_failure.ipynb:
   anthropic:
-    commit: cf1955bc
-    last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    commit: 9814fa00
+    last_tested: '2026-09-30'
+    model: claude-sonnet-5
+    seconds: 129
+    status: pass
   ollama-cloud:
-    commit: 6d29cd79
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: kimi-k2.7-code:cloud
+    seconds: 102
+    status: pass
   openai:
-    commit: cf1955bc
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: gpt-5
+    seconds: 43
+    status: pass
 more-examples/ch09/subagent_with_mcp_tool.ipynb:
   anthropic:
-    commit: cf1955bc
-    last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    commit: 9814fa00
+    last_tested: '2026-09-30'
+    model: claude-sonnet-5
+    seconds: 16
+    status: pass
   ollama-cloud:
-    commit: 6d29cd79
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: kimi-k2.7-code:cloud
+    seconds: 18
+    status: pass
   openai:
-    commit: cf1955bc
+    commit: 9814fa00
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: gpt-5
+    seconds: 60
+    status: pass
 more-examples/ch10/cancelling_a_task_execution.ipynb:
   anthropic:
-    commit: 9553a688
-    last_tested: '2026-09-29'
+    commit: 9814fa00
+    last_tested: '2026-09-30'
     model: ''
     note: follows OLLAMA_API_KEY, not LLM_PROVIDER; not run
     seconds: 0
     status: not-wired
   ollama-cloud:
-    commit: 9553a688
+    commit: 9814fa00
     last_tested: '2026-09-29'
     model: kimi-k2.7-code:cloud
     seconds: 4
     status: pass
   openai:
-    commit: 9553a688
+    commit: 9814fa00
     last_tested: '2026-09-29'
     model: ''
     note: follows OLLAMA_API_KEY, not LLM_PROVIDER; not run
@@ -831,20 +791,20 @@ more-examples/ch10/cancelling_a_task_execution.ipynb:
     status: not-wired
 more-examples/ch10/streaming_llmagent_executor.ipynb:
   anthropic:
-    commit: 9553a688
-    last_tested: '2026-09-29'
+    commit: 9814fa00
+    last_tested: '2026-09-30'
     model: ''
     note: follows OLLAMA_API_KEY, not LLM_PROVIDER; not run
     seconds: 0
     status: not-wired
   ollama-cloud:
-    commit: 4c66ccd5
+    commit: 9814fa00
     last_tested: '2026-09-29'
     model: kimi-k2.7-code:cloud
-    seconds: 118
+    seconds: 83
     status: pass
   openai:
-    commit: 9553a688
+    commit: 9814fa00
     last_tested: '2026-09-29'
     model: ''
     note: follows OLLAMA_API_KEY, not LLM_PROVIDER; not run

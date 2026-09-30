@@ -104,6 +104,8 @@ _PROVIDER_VARS = (
     "ANTHROPIC_API_KEY",
 )
 _POLL = 0.05
+_ANSI = re.compile(r"\x1b\[[0-9;]*m")
+_CHOICES = re.compile(r"\[([^\[\]/]+(?:/[^\[\]/]+)+)\]:?\s*$")
 #: Cell tag prefix: wait on the named future before running the cell.
 AWAIT_TAG = "await:"
 
@@ -160,6 +162,11 @@ def _answer(recent_text: str, prompt: str) -> str:
     text = f"{recent_text}\n{prompt}"
     if "Approve this result?" in text:
         return "y"
+    # rich Prompt with choices renders "> [a/b/c]: "; anything else is
+    # rejected and re-asked forever, so pick the first listed choice
+    last = _ANSI.sub("", text).rstrip().splitlines()[-1:] or [""]
+    if m := _CHOICES.search(last[0]):
+        return m.group(1).split("/")[0]
     if re.search(r"\bname\b", text, re.I):
         return "Andrei"
     if re.search(r"\b(number|integer|start|value)\b", text, re.I):

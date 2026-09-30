@@ -27,6 +27,11 @@ use, fails instantly. Driving the kernel over jupyter_client directly
 lets us answer `input_request`s: "y" to an approval gate, a number to a
 number question, a name to a name question.
 
+A cell tagged `await:<name>` (for example `await:handler`) makes the
+runner wait on that future before running the cell, standing in for the
+pause a reader takes between starting background work and reading its
+result.
+
 Outputs are discarded by default so committed notebooks are never
 overwritten by a verification run; pass --keep-outputs to write the
 executed cells back (serialization mirrors the file, as
@@ -87,6 +92,8 @@ _PROVIDER_VARS = (
     "ANTHROPIC_API_KEY",
 )
 _POLL = 0.05
+#: Cell tag prefix: wait on the named future before running the cell.
+AWAIT_TAG = "await:"
 
 
 def _tracked_notebooks() -> list[Path]:
@@ -308,6 +315,27 @@ def _dump(path: Path, nb: dict[str, Any], provider: str) -> Path:
     return out
 
 
+def _await_tagged(kc: Any, cell: dict[str, Any], timeout: float) -> None:
+    """Stand in for a reader's pause before a cell tagged `await:<name>`.
+
+    Some notebooks start work in one cell and read its result a few cells
+    later, relying on the reader's pace for it to finish. The tag names the
+    future to wait on (for example `await:handler`); the runner waits for
+    it without raising, so the tagged cell still sees any exception the
+    way it would interactively. Tags are hidden from readers.
+    """
+    for tag in cell.get("metadata", {}).get("tags", []):
+        if not tag.startswith(AWAIT_TAG):
+            continue
+        name = tag.removeprefix(AWAIT_TAG)
+        if not name.isidentifier():
+            raise ValueError(f"bad tag {tag!r}: expected await:<name>")
+        pause = {
+            "source": [f"import asyncio as _nb\nawait _nb.wait([{name}])"],
+        }
+        _run_cell(kc, pause, timeout)
+
+
 def _execute(
     path: Path,
     nb: dict[str, Any],
@@ -333,6 +361,7 @@ def _execute(
             count += 1
             t0 = time.time()
             try:
+                _await_tagged(kc, cell, timeout)
                 _run_cell(kc, cell, timeout)
                 cell["execution_count"] = count
             except Exception as e:  # noqa: BLE001

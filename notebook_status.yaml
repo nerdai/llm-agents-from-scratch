@@ -166,19 +166,19 @@ examples/ch04.ipynb:
     seconds: 3
     status: fail
   ollama-cloud:
-    commit: 6d29cd79
+    commit: 6b92bdcf
     last_tested: '2026-09-29'
     model: kimi-k2.7-code:cloud
-    note: 'cell 31: InvalidStateError: Exception is not set.'
-    seconds: 4
-    status: fail
+    note: cell 31 paced by its await:handler tag
+    seconds: 13
+    status: pass
   openai:
-    commit: cf1955bc
+    commit: 6b92bdcf
     last_tested: '2026-09-29'
     model: gpt-5
-    note: 'cell 31: InvalidStateError: Exception is not set.'
-    seconds: 4
-    status: fail
+    note: cell 31 paced by its await:handler tag
+    seconds: 44
+    status: pass
 examples/ch05.ipynb:
   anthropic:
     commit: cf1955bc

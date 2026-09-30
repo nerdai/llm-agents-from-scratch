@@ -120,6 +120,12 @@ def render(ledger: dict[str, Any]) -> str:
         "these runs, so a pass means the notebook runs to completion, not",
         "that its prompts read well.",
         "",
+        "A cell tagged `await:<name>` (ch04's result cell, for example) is",
+        "run after the runner waits on that future, standing in for the",
+        "pause a reader takes between starting a task and reading its",
+        "result. Those notebooks are meant to be run cell by cell, not with",
+        "Run All.",
+        "",
     ]
     tracked = _tracked_notebooks()
     for prefix, title in TIERS:

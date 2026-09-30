@@ -1,25 +1,22 @@
 capstones/one/capstone_1.ipynb:
   anthropic:
-    commit: cf1955bc
-    last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    commit: 88b08715
+    last_tested: '2026-09-30'
+    model: claude-sonnet-5
+    seconds: 410
+    status: pass
   ollama-cloud:
-    commit: 6d29cd79
-    last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    commit: 88b08715
+    last_tested: '2026-09-30'
+    model: kimi-k2.7-code:cloud
+    seconds: 397
+    status: pass
   openai:
-    commit: f6502f43
-    last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    commit: 88b08715
+    last_tested: '2026-09-30'
+    model: gpt-5
+    seconds: 592
+    status: pass
 capstones/three/capstone_2.ipynb:
   anthropic:
     commit: cf1955bc

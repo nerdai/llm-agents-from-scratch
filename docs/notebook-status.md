@@ -100,7 +100,7 @@ Run All.
 
 | Notebook | Ollama Cloud | OpenAI | Anthropic |
 |---|---|---|---|
-| [`capstone_1.ipynb`](capstones/one/capstone_1.ipynb) | ⚪ not wired | ⚪ not wired | ⚪ not wired |
+| [`capstone_1.ipynb`](capstones/one/capstone_1.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | `capstone_2.ipynb` | ∅ no LLM | ∅ no LLM | ∅ no LLM |
 | `capstone_3.ipynb` | ∅ no LLM | ∅ no LLM | ∅ no LLM |
 | `capstone_4.ipynb` | ∅ no LLM | ∅ no LLM | ∅ no LLM |

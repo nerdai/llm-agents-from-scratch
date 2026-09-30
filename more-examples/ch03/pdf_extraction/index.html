@@ -1155,6 +1155,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#setting-the-backbone-llm-of-your-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setting the backbone LLM of your agent
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#running-an-ollama-service" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4206,6 +4217,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#setting-the-backbone-llm-of-your-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setting the backbone LLM of your agent
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#running-an-ollama-service" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5042,6 +5064,40 @@ Pydantic model class, and returns a validated instance of that model. Here
 we use it to turn unstructured PDF text into a typed Python object in a
 single call.</p>
 </blockquote>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<!-- provider-note:start -->
+<h2 id="setting-the-backbone-llm-of-your-agent">Setting the backbone LLM of your agent<a class="anchor-link" href="#setting-the-backbone-llm-of-your-agent">¶</a></h2><p>These notebooks run on <strong>Ollama by default</strong>, the setup the book teaches.
+If you do nothing, nothing changes: <code>make_llm()</code> starts a local Ollama
+service when one isn't already running.</p>
+<p>To use OpenAI or Anthropic instead:</p>
+<ol>
+<li>Install the extra: <code>uv sync --extra openai</code> or <code>uv sync --extra anthropic</code>.</li>
+<li>Export <code>OPENAI_API_KEY</code> or <code>ANTHROPIC_API_KEY</code> before launching Jupyter.</li>
+<li>Set <code>LLM_PROVIDER=openai</code> (or <code>anthropic</code>), or pass <code>provider="openai"</code>
+to <code>make_llm()</code>. A key on its own never switches providers, so one
+exported for unrelated work cannot reroute you off the Ollama path.</li>
+</ol>
+<p>The switch applies wherever a notebook builds its LLM with <code>make_llm()</code>.
+A notebook that constructs <code>OllamaLLM</code> directly stays on Ollama regardless
+of these settings.</p>
+<p>If you opted in but forgot to export the key, you will be prompted for it.
+That is the safe path on hosted kernels, and it keeps the key out of the
+saved notebook. Setting <code>OLLAMA_API_KEY</code> alone routes Ollama to Ollama
+Cloud.</p>
+<p><strong>Caveat:</strong> the examples are tuned for qwen3. Output on gpt-5 or Claude
+will differ from what is printed in the book, and prompt-sensitive
+examples (the ch09 evaluator pattern, ch08 supervised trajectories) may
+behave noticeably differently.</p>
+<!-- provider-note:end -->
 </div>
 </div>
 </div>

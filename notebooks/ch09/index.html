@@ -782,6 +782,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#setting-the-backbone-llm-of-your-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setting the backbone LLM of your agent
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#running-an-ollama-service" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4243,6 +4254,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#setting-the-backbone-llm-of-your-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setting the backbone LLM of your agent
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#running-an-ollama-service" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5101,6 +5123,40 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </div>
 </div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=77fd81ee">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<!-- provider-note:start -->
+<h2 id="setting-the-backbone-llm-of-your-agent">Setting the backbone LLM of your agent<a class="anchor-link" href="#setting-the-backbone-llm-of-your-agent">¶</a></h2><p>These notebooks run on <strong>Ollama by default</strong>, the setup the book teaches.
+If you do nothing, nothing changes: <code>make_llm()</code> starts a local Ollama
+service when one isn't already running.</p>
+<p>To use OpenAI or Anthropic instead:</p>
+<ol>
+<li>Install the extra: <code>uv sync --extra openai</code> or <code>uv sync --extra anthropic</code>.</li>
+<li>Export <code>OPENAI_API_KEY</code> or <code>ANTHROPIC_API_KEY</code> before launching Jupyter.</li>
+<li>Set <code>LLM_PROVIDER=openai</code> (or <code>anthropic</code>), or pass <code>provider="openai"</code>
+to <code>make_llm()</code>. A key on its own never switches providers, so one
+exported for unrelated work cannot reroute you off the Ollama path.</li>
+</ol>
+<p>The switch applies wherever a notebook builds its LLM with <code>make_llm()</code>.
+A notebook that constructs <code>OllamaLLM</code> directly stays on Ollama regardless
+of these settings.</p>
+<p>If you opted in but forgot to export the key, you will be prompted for it.
+That is the safe path on hosted kernels, and it keeps the key out of the
+saved notebook. Setting <code>OLLAMA_API_KEY</code> alone routes Ollama to Ollama
+Cloud.</p>
+<p><strong>Caveat:</strong> the examples are tuned for qwen3. Output on gpt-5 or Claude
+will differ from what is printed in the book, and prompt-sensitive
+examples (the ch09 evaluator pattern, ch08 supervised trajectories) may
+behave noticeably differently.</p>
+<!-- provider-note:end -->
+</div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=a1b2c3d4-0009-0000-0000-000000000003">
 <div class="jp-Cell-inputWrapper" tabindex="0">
@@ -5141,13 +5197,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a1b2c3d4-0009-0000-0000-000000000005">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=a1b2c3d4-0009-0000-0000-000000000005">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-2">
@@ -5160,122 +5216,9 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span><span class="o">,</span><span class="w"> </span><span class="nn">shutil</span><span class="o">,</span><span class="w"> </span><span class="nn">subprocess</span><span class="o">,</span><span class="w"> </span><span class="nn">time</span><span class="o">,</span><span class="w"> </span><span class="nn">urllib.request</span><span class="o">,</span><span class="w"> </span><span class="nn">urllib.error</span>
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">ensure_ollama</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">"http://localhost:11434"</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">15</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Start Ollama if not already running and wait until responsive."""</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_up</span><span class="p">():</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">/api/tags"</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">except</span> <span class="p">(</span><span class="n">urllib</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">URLError</span><span class="p">,</span> <span class="ne">ConnectionError</span><span class="p">,</span> <span class="ne">TimeoutError</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span>
-
-    <span class="k">if</span> <span class="n">_up</span><span class="p">():</span>
-        <span class="k">return</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✓ Ollama already running at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-
-    <span class="c1"># Lightning persistent path first, then standard locations</span>
-    <span class="n">ollama_path</span> <span class="o">=</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="s2">"ollama"</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">ollama_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="p">[</span>
-            <span class="s2">"/teamspace/studios/this_studio/.local/bin/ollama"</span><span class="p">,</span>
-            <span class="s2">"/usr/local/bin/ollama"</span><span class="p">,</span>
-            <span class="s2">"/usr/bin/ollama"</span><span class="p">,</span>
-        <span class="p">]:</span>
-            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">candidate</span><span class="p">):</span>
-                <span class="n">ollama_path</span> <span class="o">=</span> <span class="n">candidate</span>
-                <span class="k">break</span>
-    <span class="k">if</span> <span class="n">ollama_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-            <span class="s2">"Could not find the ollama binary. Install with: "</span>
-            <span class="s2">"curl -fsSL https://ollama.com/install.sh | sh"</span>
-        <span class="p">)</span>
-
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Starting Ollama server (</span><span class="si">{</span><span class="n">ollama_path</span><span class="si">}</span><span class="s2">)..."</span><span class="p">)</span>
-    <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
-        <span class="p">[</span><span class="n">ollama_path</span><span class="p">,</span> <span class="s2">"serve"</span><span class="p">],</span>
-        <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">DEVNULL</span><span class="p">,</span>
-        <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">DEVNULL</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="n">deadline</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="n">timeout</span>
-    <span class="k">while</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">deadline</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">_up</span><span class="p">():</span>
-            <span class="k">return</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✓ Ollama up and running at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
-
-    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Ollama did not start within </span><span class="si">{</span><span class="n">timeout</span><span class="si">}</span><span class="s2">s"</span><span class="p">)</span>
-
-
-<span class="n">use_cloud</span> <span class="o">=</span> <span class="s2">"OLLAMA_API_KEY"</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span>
-<span class="n">ensure_ollama</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">use_cloud</span> <span class="k">else</span> <span class="nb">print</span><span class="p">(</span><span class="s2">"✓ Using Ollama Cloud"</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.notebook_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_llm</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-2">import os, shutil, subprocess, time, urllib.request, urllib.error
-
-
-def ensure_ollama(host="http://localhost:11434", timeout=15):
-    """Start Ollama if not already running and wait until responsive."""
-
-    def _up():
-        try:
-            urllib.request.urlopen(f"{host}/api/tags", timeout=1)
-            return True
-        except (urllib.error.URLError, ConnectionError, TimeoutError):
-            return False
-
-    if _up():
-        return print(f"✓ Ollama already running at {host}")
-
-    # Lightning persistent path first, then standard locations
-    ollama_path = shutil.which("ollama")
-    if ollama_path is None:
-        for candidate in [
-            "/teamspace/studios/this_studio/.local/bin/ollama",
-            "/usr/local/bin/ollama",
-            "/usr/bin/ollama",
-        ]:
-            if os.path.exists(candidate):
-                ollama_path = candidate
-                break
-    if ollama_path is None:
-        raise RuntimeError(
-            "Could not find the ollama binary. Install with: "
-            "curl -fsSL https://ollama.com/install.sh | sh"
-        )
-
-    print(f"Starting Ollama server ({ollama_path})...")
-    subprocess.Popen(
-        [ollama_path, "serve"],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-    )
-
-    deadline = time.time() + timeout
-    while time.time() &lt; deadline:
-        if _up():
-            return print(f"✓ Ollama up and running at {host}")
-        time.sleep(0.5)
-
-    raise RuntimeError(f"Ollama did not start within {timeout}s")
-
-
-use_cloud = "OLLAMA_API_KEY" in os.environ
-ensure_ollama() if not use_cloud else print("✓ Using Ollama Cloud")</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>✓ Using Ollama Cloud
-</pre>
+<div class="clipboard-copy-txt" id="cell-2">from llm_agents_from_scratch.notebook_utils import make_llm</div>
 </div>
 </div>
 </div>
@@ -5326,16 +5269,13 @@ ensure_ollama() if not use_cloud else print("✓ Using Ollama Cloud")</div>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMAgentBuilder</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolCall</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_console_logging</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.subagents</span><span class="w"> </span><span class="kn">import</span> <span class="n">SubAgentSpec</span><span class="p">,</span> <span class="n">UseSubAgentTool</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleFunctionTool</span>
 
 <span class="n">enable_console_logging</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
 
-<span class="n">model</span> <span class="o">=</span> <span class="s2">"qwen3.5:397b-cloud"</span> <span class="k">if</span> <span class="n">use_cloud</span> <span class="k">else</span> <span class="s2">"qwen3:14b"</span>
-<span class="n">host</span> <span class="o">=</span> <span class="s2">"https://ollama.com"</span> <span class="k">if</span> <span class="n">use_cloud</span> <span class="k">else</span> <span class="kc">None</span>
-<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">json_prompt_mode</span><span class="o">=</span><span class="n">use_cloud</span><span class="p">)</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">make_llm</span><span class="p">()</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">next_number</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -5372,16 +5312,13 @@ ensure_ollama() if not use_cloud else print("✓ Using Ollama Cloud")</div>
 
 from llm_agents_from_scratch import LLMAgentBuilder
 from llm_agents_from_scratch.data_structures import ToolCall
-from llm_agents_from_scratch.llms import OllamaLLM
 from llm_agents_from_scratch.logger import enable_console_logging
 from llm_agents_from_scratch.subagents import SubAgentSpec, UseSubAgentTool
 from llm_agents_from_scratch.tools import SimpleFunctionTool
 
 enable_console_logging(logging.INFO)
 
-model = "qwen3.5:397b-cloud" if use_cloud else "qwen3:14b"
-host = "https://ollama.com" if use_cloud else None
-llm = OllamaLLM(host=host, model=model, think=False, json_prompt_mode=use_cloud)
+llm = make_llm()
 
 
 def next_number(x: int) -&gt; int:
@@ -6864,7 +6801,7 @@ Let me know if you'd like to explore further!</pre>
 
 <span class="c1"># both subagents here do simple, tightly-scoped work, so a small</span>
 <span class="c1"># local model is plenty</span>
-<span class="n">slm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:8b"</span><span class="p">,</span> <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">slm</span> <span class="o">=</span> <span class="n">make_llm</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="s2">"small"</span><span class="p">)</span>
 
 <span class="c1"># two subagents, each with its own SharedConsoleHumanInputTool instance</span>
 <span class="c1"># -- but the lock is a CLASS-level asyncio.Lock, so both instances</span>
@@ -6920,7 +6857,7 @@ from llm_agents_from_scratch.tools.default import SharedConsoleHumanInputTool
 
 # both subagents here do simple, tightly-scoped work, so a small
 # local model is plenty
-slm = OllamaLLM(model="qwen3:8b", think=False)
+slm = make_llm(role="small")
 
 # two subagents, each with its own SharedConsoleHumanInputTool instance
 # -- but the lock is a CLASS-level asyncio.Lock, so both instances

@@ -31,6 +31,7 @@ markdown_extensions:
       permalink: true
 nav:
   - Home: index.md
+  - Notebook Status: notebook-status.md
   - Chapter Notebooks:
     - notebooks/index.md
     # Symlinked from examples/ — do not copy directly.

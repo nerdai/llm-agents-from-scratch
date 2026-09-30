@@ -5208,95 +5208,23 @@ running <code>ollama serve</code>.</p>
 </clipboard-copy>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">urllib.error</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">urllib.request</span>
 
-
-<span class="k">def</span><span class="w"> </span><span class="nf">ensure_ollama</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">"http://localhost:11434"</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">15</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Start Ollama if not already running and wait until responsive."""</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_up</span><span class="p">():</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">/api/tags"</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">except</span> <span class="p">(</span><span class="n">urllib</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">URLError</span><span class="p">,</span> <span class="ne">ConnectionError</span><span class="p">,</span> <span class="ne">TimeoutError</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span>
-
-    <span class="k">if</span> <span class="n">_up</span><span class="p">():</span>
-        <span class="k">return</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\u2713</span><span class="s2"> Ollama already running at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-
-    <span class="n">ollama_path</span> <span class="o">=</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="s2">"ollama"</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">ollama_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-            <span class="s2">"Could not find the ollama binary. Install with: "</span>
-            <span class="s2">"curl -fsSL https://ollama.com/install.sh | sh"</span><span class="p">,</span>
-        <span class="p">)</span>
-
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Starting Ollama server (</span><span class="si">{</span><span class="n">ollama_path</span><span class="si">}</span><span class="s2">)..."</span><span class="p">)</span>
-    <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
-        <span class="p">[</span><span class="n">ollama_path</span><span class="p">,</span> <span class="s2">"serve"</span><span class="p">],</span>
-        <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">DEVNULL</span><span class="p">,</span>
-        <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">DEVNULL</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="n">deadline</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="n">timeout</span>
-    <span class="k">while</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">deadline</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">_up</span><span class="p">():</span>
-            <span class="k">return</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\u2713</span><span class="s2"> Ollama up and running at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
-
-    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Ollama did not start within </span><span class="si">{</span><span class="n">timeout</span><span class="si">}</span><span class="s2">s"</span><span class="p">)</span>
-
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.notebook_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">ensure_ollama</span>
 
 <span class="n">use_cloud</span> <span class="o">=</span> <span class="s2">"OLLAMA_API_KEY"</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span>
 <span class="n">ensure_ollama</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">use_cloud</span> <span class="k">else</span> <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\u2713</span><span class="s2"> Using Ollama Cloud"</span><span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-2">import os
-import shutil
 import subprocess
 import time
 import urllib.error
 import urllib.request
 
-
-def ensure_ollama(host="http://localhost:11434", timeout=15):
-    """Start Ollama if not already running and wait until responsive."""
-
-    def _up():
-        try:
-            urllib.request.urlopen(f"{host}/api/tags", timeout=1)
-            return True
-        except (urllib.error.URLError, ConnectionError, TimeoutError):
-            return False
-
-    if _up():
-        return print(f"\u2713 Ollama already running at {host}")
-
-    ollama_path = shutil.which("ollama")
-    if ollama_path is None:
-        raise RuntimeError(
-            "Could not find the ollama binary. Install with: "
-            "curl -fsSL https://ollama.com/install.sh | sh",
-        )
-
-    print(f"Starting Ollama server ({ollama_path})...")
-    subprocess.Popen(
-        [ollama_path, "serve"],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-    )
-
-    deadline = time.time() + timeout
-    while time.time() &lt; deadline:
-        if _up():
-            return print(f"\u2713 Ollama up and running at {host}")
-        time.sleep(0.5)
-
-    raise RuntimeError(f"Ollama did not start within {timeout}s")
-
+from llm_agents_from_scratch.notebook_utils import ensure_ollama
 
 use_cloud = "OLLAMA_API_KEY" in os.environ
 ensure_ollama() if not use_cloud else print("\u2713 Using Ollama Cloud")</div>
@@ -5873,22 +5801,22 @@ except Exception:
   [2] TASK_STATE_SUBMITTED: ''
   [3] TASK_STATE_WORKING: ''
   [4] TASK_STATE_WORKING: 'Compute the hailstone sequence starting at 6, step by step using next_number, until it rea'
-  [5] TASK_STATE_WORKING: 'I need to make the following tool-calls:\n{\n    "id_": "2072c2f3-9a51-49f2-90af-7ab7c094d05'
-  [6] TASK_STATE_WORKING: 'The next_number tool has been called for x=3 and returned 3 (wait, actually the current re'
-  [7] TASK_STATE_WORKING: 'I need to make the following tool-calls:\n{\n    "id_": "552fb185-db33-49bd-b67a-2c867443139'
-  [8] TASK_STATE_WORKING: 'Execute the next_number tool call with argument x=10 to continue computing the hailstone s'
-  [9] TASK_STATE_WORKING: 'I need to make the following tool-calls:\n{\n    "id_": "d9c686ab-9c56-4d0c-a2c9-dd807772e33'
-  [10] TASK_STATE_WORKING: 'Execute the next_number tool call with argument x=5 to continue computing the hailstone se'
-  [11] TASK_STATE_WORKING: 'I need to make the following tool-calls:\n{\n    "id_": "d3e029c3-9f97-4987-9914-66fe0f13901'
-  [12] TASK_STATE_WORKING: 'Execute the next_number tool call with argument x=16 to continue computing the hailstone s'
-  [13] TASK_STATE_WORKING: 'I need to make the following tool-calls:\n{\n    "id_": "ad6d4e45-3949-4021-b00d-dd8c458470a'
-  [14] TASK_STATE_WORKING: 'Execute the next_number tool call with argument x=8 to continue computing the hailstone se'
-  [15] TASK_STATE_WORKING: 'I need to make the following tool-calls:\n{\n    "id_": "5a89895b-ccc7-4b7d-86d7-640b7bc3194'
-  [16] TASK_STATE_WORKING: 'Execute the next_number tool call with argument x=4 to continue computing the hailstone se'
-  [17] TASK_STATE_WORKING: 'I need to make the following tool-calls:\n{\n    "id_": "689bfaea-acc8-4b19-b449-b93fad82eed'
-  [18] TASK_STATE_WORKING: 'Execute the next_number tool call with argument x=2 to continue computing the hailstone se'
-  [19] TASK_STATE_WORKING: 'The tool returned 1, so the hailstone sequence has reached 1. The full sequence starting a'
-  [20] artifact_update: 'The tool returned 1, so the hailstone sequence has reached 1. The full sequence starting a'
+  [5] TASK_STATE_WORKING: 'I need to make the following tool-calls:\n{\n    "id_": "ba0e88df-b8f3-4c70-bfbe-dce741d00cb'
+  [6] TASK_STATE_WORKING: 'Make the next tool call: next_number with x=3. The previous call returned 3, so continue c'
+  [7] TASK_STATE_WORKING: 'I need to make the following tool-calls:\n{\n    "id_": "e6544ee9-e84a-4034-834f-756108e522b'
+  [8] TASK_STATE_WORKING: 'The current_response says it needs to make the tool call next_number with x=10. Execute th'
+  [9] TASK_STATE_WORKING: 'I need to make the following tool-calls:\n{\n    "id_": "2963ce52-0579-4d29-9578-dab0435d714'
+  [10] TASK_STATE_WORKING: 'Make the next tool call: next_number with x=5. Continue computing the hailstone sequence s'
+  [11] TASK_STATE_WORKING: 'I need to make the following tool-calls:\n{\n    "id_": "585e8aea-c04a-4628-9d69-6d47035e7f9'
+  [12] TASK_STATE_WORKING: 'Make the next tool call: next_number with x=16. Continue computing the hailstone sequence '
+  [13] TASK_STATE_WORKING: 'I need to make the following tool-calls:\n{\n    "id_": "7be1e405-3e8f-49f1-8894-4d4bd3bb248'
+  [14] TASK_STATE_WORKING: 'Make the next tool call: next_number with x=8. Continue computing the hailstone sequence s'
+  [15] TASK_STATE_WORKING: 'I need to make the following tool-calls:\n{\n    "id_": "182f97ca-bf2c-41a9-8192-7070122cbcc'
+  [16] TASK_STATE_WORKING: 'Make the next tool call: next_number with x=4. Continue computing the hailstone sequence s'
+  [17] TASK_STATE_WORKING: 'I need to make the following tool-calls:\n{\n    "id_": "cda1ddc7-90f7-44bf-bcce-a8760c83ce9'
+  [18] TASK_STATE_WORKING: 'Make the next tool call: next_number with x=2. Continue computing the hailstone sequence s'
+  [19] TASK_STATE_WORKING: 'The hailstone sequence has reached 1. The complete sequence starting from 6 is:\n\n**6 → 3 →'
+  [20] artifact_update: 'The hailstone sequence has reached 1. The complete sequence starting from 6 is:\n\n**6 → 3 →'
   [21] TASK_STATE_COMPLETED: ''
   total chunks: 21
 

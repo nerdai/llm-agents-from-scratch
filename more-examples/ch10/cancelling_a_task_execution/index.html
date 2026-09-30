@@ -5278,95 +5278,23 @@ running <code>ollama serve</code>.</p>
 </clipboard-copy>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">urllib.error</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">urllib.request</span>
 
-
-<span class="k">def</span><span class="w"> </span><span class="nf">ensure_ollama</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">"http://localhost:11434"</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">15</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Start Ollama if not already running and wait until responsive."""</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_up</span><span class="p">():</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">/api/tags"</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">except</span> <span class="p">(</span><span class="n">urllib</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">URLError</span><span class="p">,</span> <span class="ne">ConnectionError</span><span class="p">,</span> <span class="ne">TimeoutError</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span>
-
-    <span class="k">if</span> <span class="n">_up</span><span class="p">():</span>
-        <span class="k">return</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\u2713</span><span class="s2"> Ollama already running at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-
-    <span class="n">ollama_path</span> <span class="o">=</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="s2">"ollama"</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">ollama_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-            <span class="s2">"Could not find the ollama binary. Install with: "</span>
-            <span class="s2">"curl -fsSL https://ollama.com/install.sh | sh"</span><span class="p">,</span>
-        <span class="p">)</span>
-
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Starting Ollama server (</span><span class="si">{</span><span class="n">ollama_path</span><span class="si">}</span><span class="s2">)..."</span><span class="p">)</span>
-    <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
-        <span class="p">[</span><span class="n">ollama_path</span><span class="p">,</span> <span class="s2">"serve"</span><span class="p">],</span>
-        <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">DEVNULL</span><span class="p">,</span>
-        <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">DEVNULL</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="n">deadline</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="n">timeout</span>
-    <span class="k">while</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">deadline</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">_up</span><span class="p">():</span>
-            <span class="k">return</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\u2713</span><span class="s2"> Ollama up and running at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
-
-    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Ollama did not start within </span><span class="si">{</span><span class="n">timeout</span><span class="si">}</span><span class="s2">s"</span><span class="p">)</span>
-
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.notebook_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">ensure_ollama</span>
 
 <span class="n">use_cloud</span> <span class="o">=</span> <span class="s2">"OLLAMA_API_KEY"</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span>
 <span class="n">ensure_ollama</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">use_cloud</span> <span class="k">else</span> <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\u2713</span><span class="s2"> Using Ollama Cloud"</span><span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-2">import os
-import shutil
 import subprocess
 import time
 import urllib.error
 import urllib.request
 
-
-def ensure_ollama(host="http://localhost:11434", timeout=15):
-    """Start Ollama if not already running and wait until responsive."""
-
-    def _up():
-        try:
-            urllib.request.urlopen(f"{host}/api/tags", timeout=1)
-            return True
-        except (urllib.error.URLError, ConnectionError, TimeoutError):
-            return False
-
-    if _up():
-        return print(f"\u2713 Ollama already running at {host}")
-
-    ollama_path = shutil.which("ollama")
-    if ollama_path is None:
-        raise RuntimeError(
-            "Could not find the ollama binary. Install with: "
-            "curl -fsSL https://ollama.com/install.sh | sh",
-        )
-
-    print(f"Starting Ollama server ({ollama_path})...")
-    subprocess.Popen(
-        [ollama_path, "serve"],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-    )
-
-    deadline = time.time() + timeout
-    while time.time() &lt; deadline:
-        if _up():
-            return print(f"\u2713 Ollama up and running at {host}")
-        time.sleep(0.5)
-
-    raise RuntimeError(f"Ollama did not start within {timeout}s")
-
+from llm_agents_from_scratch.notebook_utils import ensure_ollama
 
 use_cloud = "OLLAMA_API_KEY" in os.environ
 ensure_ollama() if not use_cloud else print("\u2713 Using Ollama Cloud")</div>
@@ -5988,7 +5916,7 @@ print(f"Found in-flight task {task_id}")</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Found in-flight task 2d09298a-9b2d-42a1-b9c8-a84254a5edfc
+<pre>Found in-flight task 0a9af83b-868c-4ef5-967c-8584fc9e11b2
 </pre>
 </div>
 </div>
@@ -6188,17 +6116,17 @@ flight when <code>cancel()</code> tore down the background task underneath it.</
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>✓ Using Ollama Cloud (kimi-k2.7-code:cloud)
-INFO:     Started server process [2539761]
+INFO:     Started server process [2556248]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:9300 (Press CTRL+C to quit)
-INFO:     127.0.0.1:50952 - "GET /.well-known/agent-card.json HTTP/1.1" 200 OK
-INFO:     127.0.0.1:50962 - "GET /.well-known/agent-card.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58726 - "GET /.well-known/agent-card.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58738 - "GET /.well-known/agent-card.json HTTP/1.1" 200 OK
 INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: Compute the full hailstone sequence starting at 27, until it reaches 1.
 INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Compute the full hailstone sequence starting at 27, until it reaches 1.
-INFO:     127.0.0.1:50980 - "POST / HTTP/1.1" 200 OK
-INFO:     127.0.0.1:50992 - "POST / HTTP/1.1" 200 OK
-INFO:     127.0.0.1:50976 - "POST / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58764 - "POST / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58776 - "POST / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58748 - "POST / HTTP/1.1" 200 OK
 
 </pre>
 </div>

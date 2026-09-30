@@ -5065,7 +5065,7 @@ behave noticeably differently.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-1">
@@ -5103,13 +5103,13 @@ can start a service by opening a terminal and running <code>ollama serve</code>.
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c8-st-0004">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=c8-st-0004">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-2">
@@ -5122,140 +5122,21 @@ can start a service by opening a terminal and running <code>ollama serve</code>.
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">urllib.error</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">urllib.request</span>
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">ensure_ollama</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">"http://localhost:11434"</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">15</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Start Ollama if not already running and wait until responsive."""</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_up</span><span class="p">():</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">/api/tags"</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">except</span> <span class="p">(</span><span class="n">urllib</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">URLError</span><span class="p">,</span> <span class="ne">ConnectionError</span><span class="p">,</span> <span class="ne">TimeoutError</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span>
-
-    <span class="k">if</span> <span class="n">_up</span><span class="p">():</span>
-        <span class="k">return</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\u2713</span><span class="s2"> Ollama already running at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-
-    <span class="n">ollama_path</span> <span class="o">=</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="s2">"ollama"</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">ollama_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="p">[</span>
-            <span class="s2">"/teamspace/studios/this_studio/.local/bin/ollama"</span><span class="p">,</span>
-            <span class="s2">"/usr/local/bin/ollama"</span><span class="p">,</span>
-            <span class="s2">"/usr/bin/ollama"</span><span class="p">,</span>
-        <span class="p">]:</span>
-            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">candidate</span><span class="p">):</span>
-                <span class="n">ollama_path</span> <span class="o">=</span> <span class="n">candidate</span>
-                <span class="k">break</span>
-    <span class="k">if</span> <span class="n">ollama_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-            <span class="s2">"Could not find the ollama binary. Install with: "</span>
-            <span class="s2">"curl -fsSL https://ollama.com/install.sh | sh"</span><span class="p">,</span>
-        <span class="p">)</span>
-
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Starting Ollama server (</span><span class="si">{</span><span class="n">ollama_path</span><span class="si">}</span><span class="s2">)..."</span><span class="p">)</span>
-    <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
-        <span class="p">[</span><span class="n">ollama_path</span><span class="p">,</span> <span class="s2">"serve"</span><span class="p">],</span>
-        <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">DEVNULL</span><span class="p">,</span>
-        <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">DEVNULL</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="n">deadline</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="n">timeout</span>
-    <span class="k">while</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">deadline</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">_up</span><span class="p">():</span>
-            <span class="k">return</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\u2713</span><span class="s2"> Ollama up and running at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
-
-    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Ollama did not start within </span><span class="si">{</span><span class="n">timeout</span><span class="si">}</span><span class="s2">s"</span><span class="p">)</span>
-
-
-<span class="n">ensure_ollama</span><span class="p">()</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.notebook_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_llm</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-2">import os
-import shutil
-import subprocess
-import time
-import urllib.error
-import urllib.request
-
-
-def ensure_ollama(host="http://localhost:11434", timeout=15):
-    """Start Ollama if not already running and wait until responsive."""
-
-    def _up():
-        try:
-            urllib.request.urlopen(f"{host}/api/tags", timeout=1)
-            return True
-        except (urllib.error.URLError, ConnectionError, TimeoutError):
-            return False
-
-    if _up():
-        return print(f"\u2713 Ollama already running at {host}")
-
-    ollama_path = shutil.which("ollama")
-    if ollama_path is None:
-        for candidate in [
-            "/teamspace/studios/this_studio/.local/bin/ollama",
-            "/usr/local/bin/ollama",
-            "/usr/bin/ollama",
-        ]:
-            if os.path.exists(candidate):
-                ollama_path = candidate
-                break
-    if ollama_path is None:
-        raise RuntimeError(
-            "Could not find the ollama binary. Install with: "
-            "curl -fsSL https://ollama.com/install.sh | sh",
-        )
-
-    print(f"Starting Ollama server ({ollama_path})...")
-    subprocess.Popen(
-        [ollama_path, "serve"],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-    )
-
-    deadline = time.time() + timeout
-    while time.time() &lt; deadline:
-        if _up():
-            return print(f"\u2713 Ollama up and running at {host}")
-        time.sleep(0.5)
-
-    raise RuntimeError(f"Ollama did not start within {timeout}s")
-
-
-ensure_ollama()</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>✓ Ollama already running at http://localhost:11434
-</pre>
+<div class="clipboard-copy-txt" id="cell-2">from llm_agents_from_scratch.notebook_utils import make_llm</div>
 </div>
 </div>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=c8-st-0005">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c8-st-0005">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-3">
@@ -5272,25 +5153,36 @@ ensure_ollama()</div>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMAgent</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">Task</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_console_logging</span>
 
 <span class="n">enable_console_logging</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
 
-<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">,</span> <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">make_llm</span><span class="p">()</span>
 <span class="n">agent</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-3">import logging
 
 from llm_agents_from_scratch import LLMAgent
 from llm_agents_from_scratch.data_structures import Task
-from llm_agents_from_scratch.llms import OllamaLLM
 from llm_agents_from_scratch.logger import enable_console_logging
 
 enable_console_logging(logging.INFO)
 
-llm = OllamaLLM(model="qwen3:14b", think=False)
+llm = make_llm()
 agent = LLMAgent(llm=llm)</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>✓ Using Ollama Cloud (kimi-k2.7-code:cloud)
+</pre>
 </div>
 </div>
 </div>
@@ -5317,7 +5209,7 @@ specific feedback. The handler feeds the rejection back through
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-4">
@@ -5364,7 +5256,7 @@ def calculate(x, y, operation):
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-5">
@@ -5403,7 +5295,7 @@ task_handler = await agent.run_supervised(task)</div>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
@@ -5430,9 +5322,9 @@ step</div>
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[5]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[6]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>TaskStep(id_='43578526-53c2-461e-8df4-cd214a0c43da', task_id='527becc1-a663-4567-aaf6-921dbf134483', instruction='Refactor the following Python function to replace the if-elif chain with a dictionary dispatch:\n\ndef calculate(x, y, operation):\n    if operation == "add":\n        return x + y\n    elif operation == "subtract":\n        return x - y\n    elif operation == "multiply":\n        return x * y\n    elif operation == "divide":\n        return x / y\n')</pre>
+<pre>TaskStep(id_='0229ad36-9bc2-4f3a-9fe0-4a4c06f7b191', task_id='68c253dd-29b0-44c4-b49d-ae5788398996', instruction='Refactor the following Python function to replace the if-elif chain with a dictionary dispatch:\n\ndef calculate(x, y, operation):\n    if operation == "add":\n        return x + y\n    elif operation == "subtract":\n        return x - y\n    elif operation == "multiply":\n        return x * y\n    elif operation == "divide":\n        return x / y\n')</pre>
 </div>
 </div>
 </div>
@@ -5444,7 +5336,7 @@ step</div>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-7">
@@ -5477,26 +5369,31 @@ step_result</div>
 
 def calculate(x, y, operation):
  ...[TRUNCATED]
-INFO (llm_agents_fs.SupervisedTaskHandler) :      ✅ Step Result: I need to refactor the function by replacing the if-elif chain with a dictionary that maps operations to corresponding lambda functions...[TRUNCATED]
+INFO (llm_agents_fs.SupervisedTaskHandler) :      🛠️ Executing Tool Call: from_scratch__use_skill
+INFO (llm_agents_fs.SupervisedTaskHandler) :      ✅ Successful Tool Call: &lt;skill_content name="hyperframes"&gt;
+# HyperFrames entry point
+
+HyperFrames **renders video from HTML** — a composition is an HT...[TRUNCATED]
+INFO (llm_agents_fs.SupervisedTaskHandler) :      ✅ Step Result: The user is asking for a simple Python refactoring task, not anything related to HyperFrames video creation. This is outside the scope ...[TRUNCATED]
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[6]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[7]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>TaskStepResult(task_step_id='43578526-53c2-461e-8df4-cd214a0c43da', content='I need to refactor the function by replacing the if-elif chain with a dictionary that maps operations to corresponding lambda functions or function references. This approach will make the code more concise and easier to extend. Let me proceed with this change.')</pre>
+<pre>TaskStepResult(task_step_id='0229ad36-9bc2-4f3a-9fe0-4a4c06f7b191', content='The user is asking for a simple Python refactoring task, not anything related to HyperFrames video creation. This is outside the scope of the skills I have available, so I can just answer directly with the refactored code. No skill call needed.\n\nHere\'s the refactored version using dictionary dispatch:\n\n```python\ndef calculate(x, y, operation):\n    operations = {\n        "add": lambda a, b: a + b,\n        "subtract": lambda a, b: a - b,\n        "multiply": lambda a, b: a * b,\n        "divide": lambda a, b: a / b,\n    }\n    return operations[operation](x, y)\n```\n\nOr, using the built-in operator module:\n\n```python\nimport operator\n\ndef calculate(x, y, operation):\n    operations = {\n        "add": operator.add,\n        "subtract": operator.sub,\n        "multiply": operator.mul,\n        "divide": operator.truediv,\n    }\n    return operations[operation](x, y)\n```\n\nBoth replace the `if-elif` chain with a lookup dictionary. The second version is a bit cleaner since it uses named functions instead of lambdas.\n\nI should mention potential edge cases, like what happens with an unknown operation or division by zero, but keep it focused on the refactoring request.&lt;/think&gt;Here are two clean refactorings.\n\nUsing lambda functions:\n\n```python\ndef calculate(x, y, operation):\n    operations = {\n        "add": lambda a, b: a + b,\n        "subtract": lambda a, b: a - b,\n        "multiply": lambda a, b: a * b,\n        "divide": lambda a, b: a / b,\n    }\n    return operations[operation](x, y)\n```\n\nOr, slightly cleaner, using the `operator` module:\n\n```python\nimport operator\n\ndef calculate(x, y, operation):\n    operations = {\n        "add": operator.add,\n        "subtract": operator.sub,\n        "multiply": operator.mul,\n        "divide": operator.truediv,\n    }\n    return operations[operation](x, y)\n```\n\nBoth versions map each operation name to the corresponding function, then dispatch with a single dictionary lookup and call. The `operator` version avoids lambdas and is often preferred for readability.')</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c8-st-0011">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=541c0585-db32-4f54-ad4c-ec64144dfb84">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-8">
@@ -5509,11 +5406,11 @@ INFO (llm_agents_fs.SupervisedTaskHandler) :      ✅ Step Result: I need to ref
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">step</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">get_next_step</span><span class="p">(</span><span class="n">step_result</span><span class="p">)</span>
-<span class="n">step</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">get_next_step</span><span class="p">(</span><span class="n">step_result</span><span class="p">)</span>
+<span class="n">result</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-8">step = await task_handler.get_next_step(step_result)
-step</div>
+<div class="clipboard-copy-txt" id="cell-8">result = await task_handler.get_next_step(step_result)
+result</div>
 </div>
 </div>
 </div>
@@ -5525,26 +5422,26 @@ step</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>INFO (llm_agents_fs.SupervisedTaskHandler) :      🧠 New Step: Define a dictionary that maps each operation string to a corresponding lambda function or function reference, and then use the dictionary ...[TRUNCATED]
+<pre>INFO (llm_agents_fs.SupervisedTaskHandler) :      No new step required.
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[7]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>TaskStep(id_='05f23f72-89e8-4a00-829a-212f479f48c0', task_id='527becc1-a663-4567-aaf6-921dbf134483', instruction='Define a dictionary that maps each operation string to a corresponding lambda function or function reference, and then use the dictionary to perform the calculation.')</pre>
+<pre>TaskResult(task_id='68c253dd-29b0-44c4-b49d-ae5788398996', content='The user is asking for a simple Python refactoring task, not anything related to HyperFrames video creation. This is outside the scope of the skills I have available, so I can just answer directly with the refactored code. No skill call needed.\n\nHere\'s the refactored version using dictionary dispatch:\n\n```python\ndef calculate(x, y, operation):\n    operations = {\n        "add": lambda a, b: a + b,\n        "subtract": lambda a, b: a - b,\n        "multiply": lambda a, b: a * b,\n        "divide": lambda a, b: a / b,\n    }\n    return operations[operation](x, y)\n```\n\nOr, using the built-in operator module:\n\n```python\nimport operator\n\ndef calculate(x, y, operation):\n    operations = {\n        "add": operator.add,\n        "subtract": operator.sub,\n        "multiply": operator.mul,\n        "divide": operator.truediv,\n    }\n    return operations[operation](x, y)\n```\n\nBoth replace the `if-elif` chain with a lookup dictionary. The second version is a bit cleaner since it uses named functions instead of lambdas.\n\nI should mention potential edge cases, like what happens with an unknown operation or division by zero, but keep it focused on the refactoring request.&lt;/think&gt;Here are two clean refactorings.\n\nUsing lambda functions:\n\n```python\ndef calculate(x, y, operation):\n    operations = {\n        "add": lambda a, b: a + b,\n        "subtract": lambda a, b: a - b,\n        "multiply": lambda a, b: a * b,\n        "divide": lambda a, b: a / b,\n    }\n    return operations[operation](x, y)\n```\n\nOr, slightly cleaner, using the `operator` module:\n\n```python\nimport operator\n\ndef calculate(x, y, operation):\n    operations = {\n        "add": operator.add,\n        "subtract": operator.sub,\n        "multiply": operator.mul,\n        "divide": operator.truediv,\n    }\n    return operations[operation](x, y)\n```\n\nBoth versions map each operation name to the corresponding function, then dispatch with a single dictionary lookup and call. The `operator` version avoids lambdas and is often preferred for readability.')</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=f8cd23db-2651-440e-bb12-b63383b5b2e8">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c8-st-0012">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-9">
@@ -5557,11 +5454,23 @@ step</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">step_result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">run_step</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
-<span class="n">step_result</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">rejected</span> <span class="o">=</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">reject</span><span class="p">(</span>
+    <span class="n">result</span><span class="p">,</span>
+    <span class="n">feedback</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">"Good start, but add error handling: raise ValueError for "</span>
+        <span class="s2">"unknown operations and ZeroDivisionError for division by zero."</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+<span class="n">rejected</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-9">step_result = await task_handler.run_step(step)
-step_result</div>
+<div class="clipboard-copy-txt" id="cell-9">rejected = task_handler.reject(
+    result,
+    feedback=(
+        "Good start, but add error handling: raise ValueError for "
+        "unknown operations and ZeroDivisionError for division by zero."
+    ),
+)
+rejected</div>
 </div>
 </div>
 </div>
@@ -5570,30 +5479,22 @@ step_result</div>
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>INFO (llm_agents_fs.SupervisedTaskHandler) :      ⚙️ Processing Step: Define a dictionary that maps each operation string to a corresponding lambda function or function reference, and then use the dic...[TRUNCATED]
-INFO (llm_agents_fs.SupervisedTaskHandler) :      ✅ Step Result: I will define a dictionary called `operations` where each key is an operation string, and the corresponding value is a lambda function ...[TRUNCATED]
-</pre>
-</div>
-</div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[9]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>TaskStepResult(task_step_id='05f23f72-89e8-4a00-829a-212f479f48c0', content='I will define a dictionary called `operations` where each key is an operation string, and the corresponding value is a lambda function that performs the respective calculation. Then, I will use the dictionary to perform the calculation based on the `operation` parameter. Let me implement this change.')</pre>
+<pre>RejectedTaskResult(failed_result_content='The user is asking for a simple Python refactoring task, not anything related to HyperFrames video creation. This is outside the scope of the skills I have available, so I can just answer directly with the refactored code. No skill call needed.\n\nHere\'s the refactored version using dictionary dispatch:\n\n```python\ndef calculate(x, y, operation):\n    operations = {\n        "add": lambda a, b: a + b,\n        "subtract": lambda a, b: a - b,\n        "multiply": lambda a, b: a * b,\n        "divide": lambda a, b: a / b,\n    }\n    return operations[operation](x, y)\n```\n\nOr, using the built-in operator module:\n\n```python\nimport operator\n\ndef calculate(x, y, operation):\n    operations = {\n        "add": operator.add,\n        "subtract": operator.sub,\n        "multiply": operator.mul,\n        "divide": operator.truediv,\n    }\n    return operations[operation](x, y)\n```\n\nBoth replace the `if-elif` chain with a lookup dictionary. The second version is a bit cleaner since it uses named functions instead of lambdas.\n\nI should mention potential edge cases, like what happens with an unknown operation or division by zero, but keep it focused on the refactoring request.&lt;/think&gt;Here are two clean refactorings.\n\nUsing lambda functions:\n\n```python\ndef calculate(x, y, operation):\n    operations = {\n        "add": lambda a, b: a + b,\n        "subtract": lambda a, b: a - b,\n        "multiply": lambda a, b: a * b,\n        "divide": lambda a, b: a / b,\n    }\n    return operations[operation](x, y)\n```\n\nOr, slightly cleaner, using the `operator` module:\n\n```python\nimport operator\n\ndef calculate(x, y, operation):\n    operations = {\n        "add": operator.add,\n        "subtract": operator.sub,\n        "multiply": operator.mul,\n        "divide": operator.truediv,\n    }\n    return operations[operation](x, y)\n```\n\nBoth versions map each operation name to the corresponding function, then dispatch with a single dictionary lookup and call. The `operator` version avoids lambdas and is often preferred for readability.', feedback='Good start, but add error handling: raise ValueError for unknown operations and ZeroDivisionError for division by zero.')</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=93a2dd77-d506-41f5-8543-8341847c26e2">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c8-st-0013">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-10">
@@ -5606,10 +5507,10 @@ INFO (llm_agents_fs.SupervisedTaskHandler) :      ✅ Step Result: I will define
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">step</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">get_next_step</span><span class="p">(</span><span class="n">step_result</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">step</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">get_next_step</span><span class="p">(</span><span class="n">rejected</span><span class="p">)</span>
 <span class="n">step</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-10">step = await task_handler.get_next_step(step_result)
+<div class="clipboard-copy-txt" id="cell-10">step = await task_handler.get_next_step(rejected)
 step</div>
 </div>
 </div>
@@ -5622,26 +5523,26 @@ step</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>INFO (llm_agents_fs.SupervisedTaskHandler) :      🧠 New Step: Define the dictionary `operations` with lambda functions for each operation and use it to perform the calculation.
+<pre>INFO (llm_agents_fs.SupervisedTaskHandler) :      🧠 New Step (rejection): Good start, but add error handling: raise ValueError for unknown operations and ZeroDivisionError for division by zero.
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[9]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[10]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>TaskStep(id_='1469aa64-8378-44f4-a3c1-1200311a7db6', task_id='527becc1-a663-4567-aaf6-921dbf134483', instruction='Define the dictionary `operations` with lambda functions for each operation and use it to perform the calculation.')</pre>
+<pre>TaskStep(id_='3a7c883b-09a9-45b4-988c-b9fde3c13d6a', task_id='68c253dd-29b0-44c4-b49d-ae5788398996', instruction='The human operator REJECTED your proposed task result. Revise your approach and try again.\n\n&lt;proposed-result&gt;\nThe user is asking for a simple Python refactoring task, not anything related to HyperFrames video creation. This is outside the scope of the skills I have available, so I can just answer directly with the refactored code. No skill call needed.\n\nHere\'s the refactored version using dictionary dispatch:\n\n```python\ndef calculate(x, y, operation):\n    operations = {\n        "add": lambda a, b: a + b,\n        "subtract": lambda a, b: a - b,\n        "multiply": lambda a, b: a * b,\n        "divide": lambda a, b: a / b,\n    }\n    return operations[operation](x, y)\n```\n\nOr, using the built-in operator module:\n\n```python\nimport operator\n\ndef calculate(x, y, operation):\n    operations = {\n        "add": operator.add,\n        "subtract": operator.sub,\n        "multiply": operator.mul,\n        "divide": operator.truediv,\n    }\n    return operations[operation](x, y)\n```\n\nBoth replace the `if-elif` chain with a lookup dictionary. The second version is a bit cleaner since it uses named functions instead of lambdas.\n\nI should mention potential edge cases, like what happens with an unknown operation or division by zero, but keep it focused on the refactoring request.&lt;/think&gt;Here are two clean refactorings.\n\nUsing lambda functions:\n\n```python\ndef calculate(x, y, operation):\n    operations = {\n        "add": lambda a, b: a + b,\n        "subtract": lambda a, b: a - b,\n        "multiply": lambda a, b: a * b,\n        "divide": lambda a, b: a / b,\n    }\n    return operations[operation](x, y)\n```\n\nOr, slightly cleaner, using the `operator` module:\n\n```python\nimport operator\n\ndef calculate(x, y, operation):\n    operations = {\n        "add": operator.add,\n        "subtract": operator.sub,\n        "multiply": operator.mul,\n        "divide": operator.truediv,\n    }\n    return operations[operation](x, y)\n```\n\nBoth versions map each operation name to the corresponding function, then dispatch with a single dictionary lookup and call. The `operator` version avoids lambdas and is often preferred for readability.\n&lt;/proposed-result&gt;\n\n&lt;human-correction&gt;\nGood start, but add error handling: raise ValueError for unknown operations and ZeroDivisionError for division by zero.\n&lt;/human-correction&gt;')</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=14f89600-f5b5-4b5f-b189-a29948494953">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c8-st-0014">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-11">
@@ -5670,30 +5571,35 @@ step_result</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>INFO (llm_agents_fs.SupervisedTaskHandler) :      ⚙️ Processing Step: Define the dictionary `operations` with lambda functions for each operation and use it to perform the calculation.
-INFO (llm_agents_fs.SupervisedTaskHandler) :      ✅ Step Result: I will define the `operations` dictionary with lambda functions for each operation. Here's how the dictionary will look:
+<pre>INFO (llm_agents_fs.SupervisedTaskHandler) :      ⚙️ Processing Step: The human operator REJECTED your proposed task result. Revise your approach and try again.
+
+&lt;proposed-result&gt;
+The user is asking f...[TRUNCATED]
+INFO (llm_agents_fs.SupervisedTaskHandler) :      ✅ Step Result: Here is the refactored version with dictionary dispatch and error handling:
 
 ```python
-ope...[TRUNCATED]
+import operator
+
+def calculate(x, y, operation):...[TRUNCATED]
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[10]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[11]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>TaskStepResult(task_step_id='1469aa64-8378-44f4-a3c1-1200311a7db6', content='I will define the `operations` dictionary with lambda functions for each operation. Here\'s how the dictionary will look:\n\n```python\noperations = {\n    "add": lambda x, y: x + y,\n    "subtract": lambda x, y: x - y,\n    "multiply": lambda x, y: x * y,\n    "divide": lambda x, y: x / y\n}\n```\n\nThen, I will use this dictionary to perform the calculation by accessing the appropriate lambda function based on the `operation` parameter. The updated function will look like this:\n\n```python\ndef calculate(x, y, operation):\n    return operations[operation](x, y)\n```\n\nThis refactoring replaces the if-elif chain with a dictionary-based dispatch, making the code more concise and easier to maintain.')</pre>
+<pre>TaskStepResult(task_step_id='3a7c883b-09a9-45b4-988c-b9fde3c13d6a', content='Here is the refactored version with dictionary dispatch and error handling:\n\n```python\nimport operator\n\ndef calculate(x, y, operation):\n    operations = {\n        "add": operator.add,\n        "subtract": operator.sub,\n        "multiply": operator.mul,\n        "divide": operator.truediv,\n    }\n\n    if operation not in operations:\n        raise ValueError(f"Unknown operation: {operation!r}")\n\n    if operation == "divide" and y == 0:\n        raise ZeroDivisionError("Cannot divide by zero")\n\n    return operations[operation](x, y)\n```\n\nThis keeps the `if-elif` chain gone, uses the `operator` module for clarity, and explicitly raises `ValueError` for unknown operations and `ZeroDivisionError` for division by zero before calling the dispatched function.')</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=541c0585-db32-4f54-ad4c-ec64144dfb84">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c8-st-0015">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-12">
@@ -5727,21 +5633,21 @@ result</div>
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[11]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[12]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>TaskResult(task_id='527becc1-a663-4567-aaf6-921dbf134483', content='I will define the `operations` dictionary with lambda functions for each operation. Here\'s how the dictionary will look:\n\n```python\noperations = {\n    "add": lambda x, y: x + y,\n    "subtract": lambda x, y: x - y,\n    "multiply": lambda x, y: x * y,\n    "divide": lambda x, y: x / y\n}\n```\n\nThen, I will use this dictionary to perform the calculation by accessing the appropriate lambda function based on the `operation` parameter. The updated function will look like this:\n\n```python\ndef calculate(x, y, operation):\n    return operations[operation](x, y)\n```\n\nThis refactoring replaces the if-elif chain with a dictionary-based dispatch, making the code more concise and easier to maintain.')</pre>
+<pre>TaskResult(task_id='68c253dd-29b0-44c4-b49d-ae5788398996', content='Here is the refactored version with dictionary dispatch and error handling:\n\n```python\nimport operator\n\ndef calculate(x, y, operation):\n    operations = {\n        "add": operator.add,\n        "subtract": operator.sub,\n        "multiply": operator.mul,\n        "divide": operator.truediv,\n    }\n\n    if operation not in operations:\n        raise ValueError(f"Unknown operation: {operation!r}")\n\n    if operation == "divide" and y == 0:\n        raise ZeroDivisionError("Cannot divide by zero")\n\n    return operations[operation](x, y)\n```\n\nThis keeps the `if-elif` chain gone, uses the `operator` module for clarity, and explicitly raises `ValueError` for unknown operations and `ZeroDivisionError` for division by zero before calling the dispatched function.')</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c8-st-0012">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c8-st-0016">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-13">
@@ -5754,213 +5660,10 @@ result</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">rejected</span> <span class="o">=</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">reject</span><span class="p">(</span>
-    <span class="n">result</span><span class="p">,</span>
-    <span class="n">feedback</span><span class="o">=</span><span class="p">(</span>
-        <span class="s2">"Good start, but add error handling: raise ValueError for "</span>
-        <span class="s2">"unknown operations and ZeroDivisionError for division by zero."</span>
-    <span class="p">),</span>
-<span class="p">)</span>
-<span class="n">rejected</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-13">rejected = task_handler.reject(
-    result,
-    feedback=(
-        "Good start, but add error handling: raise ValueError for "
-        "unknown operations and ZeroDivisionError for division by zero."
-    ),
-)
-rejected</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[12]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>RejectedTaskResult(failed_result_content='I will define the `operations` dictionary with lambda functions for each operation. Here\'s how the dictionary will look:\n\n```python\noperations = {\n    "add": lambda x, y: x + y,\n    "subtract": lambda x, y: x - y,\n    "multiply": lambda x, y: x * y,\n    "divide": lambda x, y: x / y\n}\n```\n\nThen, I will use this dictionary to perform the calculation by accessing the appropriate lambda function based on the `operation` parameter. The updated function will look like this:\n\n```python\ndef calculate(x, y, operation):\n    return operations[operation](x, y)\n```\n\nThis refactoring replaces the if-elif chain with a dictionary-based dispatch, making the code more concise and easier to maintain.', feedback='Good start, but add error handling: raise ValueError for unknown operations and ZeroDivisionError for division by zero.')</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c8-st-0013">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-14">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">step</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">get_next_step</span><span class="p">(</span><span class="n">rejected</span><span class="p">)</span>
-<span class="n">step</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-14">step = await task_handler.get_next_step(rejected)
-step</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>INFO (llm_agents_fs.SupervisedTaskHandler) :      🧠 New Step (rejection): Good start, but add error handling: raise ValueError for unknown operations and ZeroDivisionError for division by zero.
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[13]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>TaskStep(id_='0e361fcc-5680-4abc-94f7-aed80e88ddff', task_id='527becc1-a663-4567-aaf6-921dbf134483', instruction='The human operator REJECTED your proposed task result. Revise your approach and try again.\n\n&lt;proposed-result&gt;\nI will define the `operations` dictionary with lambda functions for each operation. Here\'s how the dictionary will look:\n\n```python\noperations = {\n    "add": lambda x, y: x + y,\n    "subtract": lambda x, y: x - y,\n    "multiply": lambda x, y: x * y,\n    "divide": lambda x, y: x / y\n}\n```\n\nThen, I will use this dictionary to perform the calculation by accessing the appropriate lambda function based on the `operation` parameter. The updated function will look like this:\n\n```python\ndef calculate(x, y, operation):\n    return operations[operation](x, y)\n```\n\nThis refactoring replaces the if-elif chain with a dictionary-based dispatch, making the code more concise and easier to maintain.\n&lt;/proposed-result&gt;\n\n&lt;human-correction&gt;\nGood start, but add error handling: raise ValueError for unknown operations and ZeroDivisionError for division by zero.\n&lt;/human-correction&gt;')</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c8-st-0014">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-15">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">step_result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">run_step</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
-<span class="n">step_result</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-15">step_result = await task_handler.run_step(step)
-step_result</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>INFO (llm_agents_fs.SupervisedTaskHandler) :      ⚙️ Processing Step: The human operator REJECTED your proposed task result. Revise your approach and try again.
-
-&lt;proposed-result&gt;
-I will define the `o...[TRUNCATED]
-INFO (llm_agents_fs.SupervisedTaskHandler) :      ✅ Step Result: I need to revise the function to include error handling as requested. Specifically, I should:
-
-1. Add a check to raise a `ValueError` i...[TRUNCATED]
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[14]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>TaskStepResult(task_step_id='0e361fcc-5680-4abc-94f7-aed80e88ddff', content='I need to revise the function to include error handling as requested. Specifically, I should:\n\n1. Add a check to raise a `ValueError` if the `operation` is not found in the `operations` dictionary.\n2. Add a check to raise a `ZeroDivisionError` if the `operation` is "divide" and `y` is zero.\n\nHere\'s the updated function with error handling:\n\n```python\ndef calculate(x, y, operation):\n    operations = {\n        "add": lambda x, y: x + y,\n        "subtract": lambda x, y: x - y,\n        "multiply": lambda x, y: x * y,\n        "divide": lambda x, y: x / y\n    }\n\n    if operation not in operations:\n        raise ValueError(f"Unknown operation: {operation}")\n\n    if operation == "divide" and y == 0:\n        raise ZeroDivisionError("Division by zero is not allowed")\n\n    return operations[operation](x, y)\n```\n\nThis version includes the requested error handling while maintaining the dictionary-based dispatch approach.')</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c8-st-0015">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-16">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">get_next_step</span><span class="p">(</span><span class="n">step_result</span><span class="p">)</span>
-<span class="n">result</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-16">result = await task_handler.get_next_step(step_result)
-result</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>INFO (llm_agents_fs.SupervisedTaskHandler) :      No new step required.
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[15]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>TaskResult(task_id='527becc1-a663-4567-aaf6-921dbf134483', content='I need to revise the function to include error handling as requested. Specifically, I should:\n\n1. Add a check to raise a `ValueError` if the `operation` is not found in the `operations` dictionary.\n2. Add a check to raise a `ZeroDivisionError` if the `operation` is "divide" and `y` is zero.\n\nHere\'s the updated function with error handling:\n\n```python\ndef calculate(x, y, operation):\n    operations = {\n        "add": lambda x, y: x + y,\n        "subtract": lambda x, y: x - y,\n        "multiply": lambda x, y: x * y,\n        "divide": lambda x, y: x / y\n    }\n\n    if operation not in operations:\n        raise ValueError(f"Unknown operation: {operation}")\n\n    if operation == "divide" and y == 0:\n        raise ZeroDivisionError("Division by zero is not allowed")\n\n    return operations[operation](x, y)\n```\n\nThis version includes the requested error handling while maintaining the dictionary-based dispatch approach.')</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c8-st-0016">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-17">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="k">await</span> <span class="n">task_handler</span><span class="o">.</span><span class="n">complete</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-17">await task_handler.complete(result)
+<div class="clipboard-copy-txt" id="cell-13">await task_handler.complete(result)
 print(result.content)</div>
 </div>
 </div>
@@ -5973,32 +5676,29 @@ print(result.content)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>I need to revise the function to include error handling as requested. Specifically, I should:
-
-1. Add a check to raise a `ValueError` if the `operation` is not found in the `operations` dictionary.
-2. Add a check to raise a `ZeroDivisionError` if the `operation` is "divide" and `y` is zero.
-
-Here's the updated function with error handling:
+<pre>Here is the refactored version with dictionary dispatch and error handling:
 
 ```python
+import operator
+
 def calculate(x, y, operation):
     operations = {
-        "add": lambda x, y: x + y,
-        "subtract": lambda x, y: x - y,
-        "multiply": lambda x, y: x * y,
-        "divide": lambda x, y: x / y
+        "add": operator.add,
+        "subtract": operator.sub,
+        "multiply": operator.mul,
+        "divide": operator.truediv,
     }
 
     if operation not in operations:
-        raise ValueError(f"Unknown operation: {operation}")
+        raise ValueError(f"Unknown operation: {operation!r}")
 
     if operation == "divide" and y == 0:
-        raise ZeroDivisionError("Division by zero is not allowed")
+        raise ZeroDivisionError("Cannot divide by zero")
 
     return operations[operation](x, y)
 ```
 
-This version includes the requested error handling while maintaining the dictionary-based dispatch approach.
+This keeps the `if-elif` chain gone, uses the `operator` module for clarity, and explicitly raises `ValueError` for unknown operations and `ZeroDivisionError` for division by zero before calling the dispatched function.
 </pre>
 </div>
 </div>
@@ -6025,10 +5725,10 @@ caller can inspect the exception that was set.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-18">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-14">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -6046,7 +5746,7 @@ caller can inspect the exception that was set.</p>
 <span class="p">)</span>
 <span class="n">task_handler2</span> <span class="o">=</span> <span class="k">await</span> <span class="n">agent</span><span class="o">.</span><span class="n">run_supervised</span><span class="p">(</span><span class="n">task2</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-18">task2 = Task(
+<div class="clipboard-copy-txt" id="cell-14">task2 = Task(
     instruction=(
         "Refactor the authentication module to consolidate all login, "
         "logout, and session renewal functions into a single AuthService class."
@@ -6064,10 +5764,10 @@ task_handler2 = await agent.run_supervised(task2)</div>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-19">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-15">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -6080,7 +5780,7 @@ task_handler2 = await agent.run_supervised(task2)</div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">step</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task_handler2</span><span class="o">.</span><span class="n">get_next_step</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 <span class="n">step</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-19">step = await task_handler2.get_next_step(None)
+<div class="clipboard-copy-txt" id="cell-15">step = await task_handler2.get_next_step(None)
 step</div>
 </div>
 </div>
@@ -6091,9 +5791,9 @@ step</div>
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[18]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[15]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>TaskStep(id_='c14e474b-986c-4b7f-b513-575df74eb097', task_id='8361095e-898f-4ce6-95e6-949c78a481f8', instruction='Refactor the authentication module to consolidate all login, logout, and session renewal functions into a single AuthService class.')</pre>
+<pre>TaskStep(id_='b98072fb-1692-4678-9ba6-826d85b72ff0', task_id='3fb473cd-1a21-4a39-8f64-a9803bd8684c', instruction='Refactor the authentication module to consolidate all login, logout, and session renewal functions into a single AuthService class.')</pre>
 </div>
 </div>
 </div>
@@ -6105,10 +5805,10 @@ step</div>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-20">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-16">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -6125,7 +5825,7 @@ step</div>
     <span class="p">),</span>
 <span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-20">await task_handler2.abort(
+<div class="clipboard-copy-txt" id="cell-16">await task_handler2.abort(
     error=RuntimeError(
         "Refactoring auth is blocked pending the security audit. "
         "Revisit after the audit completes.",
@@ -6142,10 +5842,10 @@ step</div>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-21">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-17">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -6157,7 +5857,7 @@ step</div>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">task_handler2</span><span class="o">.</span><span class="n">exception</span><span class="p">()</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-21">task_handler2.exception()</div>
+<div class="clipboard-copy-txt" id="cell-17">task_handler2.exception()</div>
 </div>
 </div>
 </div>
@@ -6167,7 +5867,7 @@ step</div>
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[20]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[17]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>RuntimeError('Refactoring auth is blocked pending the security audit. Revisit after the audit completes.')</pre>
 </div>

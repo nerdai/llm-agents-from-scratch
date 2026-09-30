@@ -5142,7 +5142,7 @@ behave noticeably differently.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-1">
@@ -5182,7 +5182,7 @@ behave noticeably differently.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-2">
@@ -5195,117 +5195,9 @@ behave noticeably differently.</p>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">urllib.error</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">urllib.request</span>
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">ensure_ollama</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">"http://localhost:11434"</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">15</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Start Ollama if not already running and wait until responsive."""</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_up</span><span class="p">():</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">/api/tags"</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">except</span> <span class="p">(</span><span class="n">urllib</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">URLError</span><span class="p">,</span> <span class="ne">ConnectionError</span><span class="p">,</span> <span class="ne">TimeoutError</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span>
-
-    <span class="k">if</span> <span class="n">_up</span><span class="p">():</span>
-        <span class="k">return</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✓ Ollama already running at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-
-    <span class="c1"># Lightning persistent path first, then standard locations</span>
-    <span class="n">ollama_path</span> <span class="o">=</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="s2">"ollama"</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">ollama_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="p">[</span>
-            <span class="s2">"/teamspace/studios/this_studio/.local/bin/ollama"</span><span class="p">,</span>
-            <span class="s2">"/usr/local/bin/ollama"</span><span class="p">,</span>
-            <span class="s2">"/usr/bin/ollama"</span><span class="p">,</span>
-        <span class="p">]:</span>
-            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">candidate</span><span class="p">):</span>
-                <span class="n">ollama_path</span> <span class="o">=</span> <span class="n">candidate</span>
-                <span class="k">break</span>
-    <span class="k">if</span> <span class="n">ollama_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-            <span class="s2">"Could not find the ollama binary. Install with: "</span>
-            <span class="s2">"curl -fsSL https://ollama.com/install.sh | sh"</span><span class="p">,</span>
-        <span class="p">)</span>
-
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Starting Ollama server (</span><span class="si">{</span><span class="n">ollama_path</span><span class="si">}</span><span class="s2">)..."</span><span class="p">)</span>
-    <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
-        <span class="p">[</span><span class="n">ollama_path</span><span class="p">,</span> <span class="s2">"serve"</span><span class="p">],</span>
-        <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">DEVNULL</span><span class="p">,</span>
-        <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">DEVNULL</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="n">deadline</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="n">timeout</span>
-    <span class="k">while</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">deadline</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">_up</span><span class="p">():</span>
-            <span class="k">return</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✓ Ollama up and running at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
-
-    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Ollama did not start within </span><span class="si">{</span><span class="n">timeout</span><span class="si">}</span><span class="s2">s"</span><span class="p">)</span>
-
-
-<span class="n">ensure_ollama</span><span class="p">()</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.notebook_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_llm</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-2">import os
-import shutil
-import subprocess
-import time
-import urllib.error
-import urllib.request
-
-
-def ensure_ollama(host="http://localhost:11434", timeout=15):
-    """Start Ollama if not already running and wait until responsive."""
-
-    def _up():
-        try:
-            urllib.request.urlopen(f"{host}/api/tags", timeout=1)
-            return True
-        except (urllib.error.URLError, ConnectionError, TimeoutError):
-            return False
-
-    if _up():
-        return print(f"✓ Ollama already running at {host}")
-
-    # Lightning persistent path first, then standard locations
-    ollama_path = shutil.which("ollama")
-    if ollama_path is None:
-        for candidate in [
-            "/teamspace/studios/this_studio/.local/bin/ollama",
-            "/usr/local/bin/ollama",
-            "/usr/bin/ollama",
-        ]:
-            if os.path.exists(candidate):
-                ollama_path = candidate
-                break
-    if ollama_path is None:
-        raise RuntimeError(
-            "Could not find the ollama binary. Install with: "
-            "curl -fsSL https://ollama.com/install.sh | sh",
-        )
-
-    print(f"Starting Ollama server ({ollama_path})...")
-    subprocess.Popen(
-        [ollama_path, "serve"],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-    )
-
-    deadline = time.time() + timeout
-    while time.time() &lt; deadline:
-        if _up():
-            return print(f"✓ Ollama up and running at {host}")
-        time.sleep(0.5)
-
-    raise RuntimeError(f"Ollama did not start within {timeout}s")
-
-
-ensure_ollama()</div>
+<div class="clipboard-copy-txt" id="cell-2">from llm_agents_from_scratch.notebook_utils import make_llm</div>
 </div>
 </div>
 </div>
@@ -5322,13 +5214,13 @@ ensure_ollama()</div>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=43fde931">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=43fde931">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-3">
@@ -5344,7 +5236,6 @@ ensure_ollama()</div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMAgent</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_console_logging</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.tools.simple_function</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleFunctionTool</span>
 
@@ -5359,13 +5250,12 @@ ensure_ollama()</div>
 
 
 <span class="n">next_number_tool</span> <span class="o">=</span> <span class="n">SimpleFunctionTool</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">next_number</span><span class="p">)</span>
-<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">,</span> <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">make_llm</span><span class="p">()</span>
 <span class="n">agent</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">next_number_tool</span><span class="p">])</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-3">import logging
 
 from llm_agents_from_scratch import LLMAgent
-from llm_agents_from_scratch.llms import OllamaLLM
 from llm_agents_from_scratch.logger import enable_console_logging
 from llm_agents_from_scratch.tools.simple_function import SimpleFunctionTool
 
@@ -5380,8 +5270,21 @@ def next_number(x: int) -&gt; int:
 
 
 next_number_tool = SimpleFunctionTool(func=next_number)
-llm = OllamaLLM(model="qwen3:14b", think=False)
+llm = make_llm()
 agent = LLMAgent(llm=llm, tools=[next_number_tool])</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>✓ Using Ollama Cloud (kimi-k2.7-code:cloud)
+</pre>
 </div>
 </div>
 </div>
@@ -5404,7 +5307,7 @@ agent = LLMAgent(llm=llm, tools=[next_number_tool])</div>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-4">
@@ -5447,35 +5350,52 @@ INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: &lt;skill_cont
 
 Compute a full sequence from a starting number down to 1
 using the `next_num...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to compute the stop-at-one sequence for the starting number 8. I will begin by initializing the sequence with 8 and then repeate...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the `next_number` tool with the current value of `x` (which is 8) to generate the next number in the sequence.
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the `next_number` tool with the current value of `x` (which is 8) to generate the next number in the sequence.
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to make the following tool-calls:
+{
+    "id_": "1a3e46b9-2699-4121-a6f3-d6f81c585c9e",
+    "tool_name": "next_number",
+    "argu...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Execute the pending tool call: call next_number with x=8 and wait for the result before proceeding.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Execute the pending tool call: call next_number with x=8 and wait for the result before proceeding.
 INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
 INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 4
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The result of calling the `next_number` tool with `x = 8` is `4`. I will append this to the sequence and continue the process. The upda...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: The assistant has initiated the process of computing the stop-at-one sequence for 8 and has successfully called the `next_number` tool wit...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: The assistant has initiated the process of computing the stop-at-one sequence for 8 and has successfully called the `next_number` ...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to call the `next_number` tool with the current value of `x` (which is 4) to generate the next number in the sequence. Let's pro...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the `next_number` tool with the current value of `x` (which is 4) to generate the next number in the sequence. Let's proceed with thi...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the `next_number` tool with the current value of `x` (which is 4) to generate the next number in the sequence. Let's proceed ...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to make the following tool-calls:
+{
+    "id_": "024b963b-18f1-4d30-818f-079e2d1eece5",
+    "tool_name": "next_number",
+    "argu...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Execute the pending tool call: call next_number with x=4 and wait for the result before proceeding. Sequence so far: [8, 4].
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Execute the pending tool call: call next_number with x=4 and wait for the result before proceeding. Sequence so far: [8, 4].
 INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
 INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 2
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The result of calling the `next_number` tool with `x = 4` is `2`. I will append this to the sequence, making it `[8, 4, 2]`. Let's cont...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the `next_number` tool with the current value of `x` (which is 2) to generate the next number in the sequence.
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the `next_number` tool with the current value of `x` (which is 2) to generate the next number in the sequence.
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to make the following tool-calls:
+{
+    "id_": "b9cb0f96-f2e0-46cd-a86b-c8b310beac22",
+    "tool_name": "next_number",
+    "argu...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Execute the pending tool call: call next_number with x=2 and wait for the result before proceeding. Sequence so far: [8, 4, 2].
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Execute the pending tool call: call next_number with x=2 and wait for the result before proceeding. Sequence so far: [8, 4, 2].
 INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
 INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 1
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The result of calling the `next_number` tool with `x = 2` is `1`. I will append this to the sequence, making it `[8, 4, 2, 1]`. Since t...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The tool returned `1`, so the sequence is complete: `[8, 4, 2, 1]`.
+
+Following the skill's Step 5, here is the final report:
+
+- **Seque...[TRUNCATED]
 INFO (llm_agents_fs.TaskHandler) :      No new step required.
-INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The result of calling the `next_number` tool with `x = 2` is `1`. I will append this to the sequence, making it `[8, 4, 2, 1]`. Sinc...[TRUNCATED]
-The result of calling the `next_number` tool with `x = 2` is `1`. I will append this to the sequence, making it `[8, 4, 2, 1]`. Since the value 1 has been reached, the process is complete. Let me report the results:
+INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The tool returned `1`, so the sequence is complete: `[8, 4, 2, 1]`.
 
-- **Starting number**: 8  
-- **Total steps taken**: 3 (tool calls made)  
-- **Maximum value reached**: 8  
+Following the skill's Step 5, here is the final report:
 
-The complete sequence is:  
-`8 → 4 → 2 → 1`
+- **Se...[TRUNCATED]
+The tool returned `1`, so the sequence is complete: `[8, 4, 2, 1]`.
+
+Following the skill's Step 5, here is the final report:
+
+- **Sequence:** 8 → 4 → 2 → 1
+- **Starting number:** 8
+- **Total steps taken (tool calls made):** 3
+- **Maximum value reached:** 8
 </pre>
 </div>
 </div>
@@ -5499,7 +5419,7 @@ The complete sequence is:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-5">
@@ -5536,43 +5456,62 @@ print(result_model_driven)</div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: Compute the stop-at-one sequence for 8.
 INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Compute the stop-at-one sequence for 8.
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to call the stop-at-one skill with the starting number 8.
-INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the stop-at-one skill with the starting number 8.
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the stop-at-one skill with the starting number 8.
 INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: from_scratch__use_skill
 INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: &lt;skill_content name="stop-at-one"&gt;
 # Stop At One
 
 Compute a full sequence from a starting number down to 1
 using the `next_num...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to call the `next_number` tool with the starting number 8 to begin computing the sequence.
-INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the `next_number` tool with the starting number 8 to begin computing the sequence.
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the `next_number` tool with the starting number 8 to begin computing the sequence.
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to make the following tool-calls:
+{
+    "id_": "c0f6dce6-7ab2-4de0-ab50-b36e06e59cae",
+    "tool_name": "next_number",
+    "argu...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Execute the next_number tool call with x=8 and wait for the result.
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Execute the next_number tool call with x=8 and wait for the result.
 INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
 INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 4
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The result from the `next_number` tool is 4. I will append this to the sequence and continue the process.
-INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: The next number in the sequence is 4. Continue the process by calling the `next_number` tool with the current number 4.
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: The next number in the sequence is 4. Continue the process by calling the `next_number` tool with the current number 4.
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to call the `next_number` tool with the current number 4 to continue computing the sequence.
-INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: 
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: 
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to make the following tool-calls:
+{
+    "id_": "70dc007b-fe84-464f-ba7e-e376b9f93bf9",
+    "tool_name": "next_number",
+    "argu...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the next_number tool with x=4, wait for the result, append it to the sequence, and continue the stop-at-one loop until the result equ...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the next_number tool with x=4, wait for the result, append it to the sequence, and continue the stop-at-one loop until the re...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to call the next_number tool with x=4, wait for the result, append it to the sequence, and continue the stop-at-one loop until t...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the next_number tool with x=4, wait for the result, append it to the sequence [8, 4], and continue the stop-at-one loop until the res...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the next_number tool with x=4, wait for the result, append it to the sequence [8, 4], and continue the stop-at-one loop until...[TRUNCATED]
 INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
 INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 2
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The result from the `next_number` tool is 2. I will append this to the sequence and continue the process.
-INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the `next_number` tool with the current number 2 to continue computing the sequence.
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the `next_number` tool with the current number 2 to continue computing the sequence.
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to make the following tool-calls:
+{
+    "id_": "d50aa81c-7b61-4270-8b68-54504bc1d0a5",
+    "tool_name": "next_number",
+    "argu...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the next_number tool with x=2, wait for the result, append it to the sequence [8, 4, 2], and continue the stop-at-one loop until the ...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the next_number tool with x=2, wait for the result, append it to the sequence [8, 4, 2], and continue the stop-at-one loop un...[TRUNCATED]
 INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: next_number
 INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: 1
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The result from the `next_number` tool is 1. The sequence has now reached the termination condition. I will finalize the sequence and r...[TRUNCATED]
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The tool returned 1, so the stop-at-one sequence is complete.
+
+Complete sequence: 8 → 4 → 2 → 1
+
+- Starting number: 8
+- Total steps tak...[TRUNCATED]
 INFO (llm_agents_fs.TaskHandler) :      No new step required.
-INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The result from the `next_number` tool is 1. The sequence has now reached the termination condition. I will finalize the sequence an...[TRUNCATED]
-The result from the `next_number` tool is 1. The sequence has now reached the termination condition. I will finalize the sequence and report the results. 
+INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The tool returned 1, so the stop-at-one sequence is complete.
 
-The complete sequence is: 8 → 4 → 2 → 1.
+Complete sequence: 8 → 4 → 2 → 1
 
-- **Starting number**: 8  
-- **Total steps taken**: 3  
-- **Maximum value reached**: 8
+- Starting number: 8
+- Total steps ...[TRUNCATED]
+The tool returned 1, so the stop-at-one sequence is complete.
+
+Complete sequence: 8 → 4 → 2 → 1
+
+- Starting number: 8
+- Total steps taken: 3
+- Maximum value reached: 8
 </pre>
 </div>
 </div>

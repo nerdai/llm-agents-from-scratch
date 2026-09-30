@@ -5117,8 +5117,8 @@ running <code>ollama serve</code>.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=19125d7a">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=19125d7a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -5136,159 +5136,9 @@ running <code>ollama serve</code>.</p>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">urllib.error</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">urllib.request</span>
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">ensure_ollama</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">"http://localhost:11434"</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">15</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Start Ollama if not already running and wait until responsive."""</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_up</span><span class="p">():</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">/api/tags"</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">except</span> <span class="p">(</span><span class="n">urllib</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">URLError</span><span class="p">,</span> <span class="ne">ConnectionError</span><span class="p">,</span> <span class="ne">TimeoutError</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span>
-
-    <span class="k">if</span> <span class="n">_up</span><span class="p">():</span>
-        <span class="k">return</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\u2713</span><span class="s2"> Ollama already running at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-
-    <span class="n">ollama_path</span> <span class="o">=</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="s2">"ollama"</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">ollama_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="p">[</span>
-            <span class="s2">"/teamspace/studios/this_studio/.local/bin/ollama"</span><span class="p">,</span>
-            <span class="s2">"/usr/local/bin/ollama"</span><span class="p">,</span>
-            <span class="s2">"/usr/bin/ollama"</span><span class="p">,</span>
-        <span class="p">]:</span>
-            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">candidate</span><span class="p">):</span>
-                <span class="n">ollama_path</span> <span class="o">=</span> <span class="n">candidate</span>
-                <span class="k">break</span>
-    <span class="k">if</span> <span class="n">ollama_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-            <span class="s2">"Could not find the ollama binary. Install with: "</span>
-            <span class="s2">"curl -fsSL https://ollama.com/install.sh | sh"</span><span class="p">,</span>
-        <span class="p">)</span>
-
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Starting Ollama server (</span><span class="si">{</span><span class="n">ollama_path</span><span class="si">}</span><span class="s2">)..."</span><span class="p">)</span>
-    <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
-        <span class="p">[</span><span class="n">ollama_path</span><span class="p">,</span> <span class="s2">"serve"</span><span class="p">],</span>
-        <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">DEVNULL</span><span class="p">,</span>
-        <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">DEVNULL</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="n">deadline</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="n">timeout</span>
-    <span class="k">while</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">deadline</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">_up</span><span class="p">():</span>
-            <span class="k">return</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\u2713</span><span class="s2"> Ollama up and running at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
-
-    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Ollama did not start within </span><span class="si">{</span><span class="n">timeout</span><span class="si">}</span><span class="s2">s"</span><span class="p">)</span>
-
-
-<span class="n">use_cloud</span> <span class="o">=</span> <span class="s2">"OLLAMA_API_KEY"</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span>
-<span class="n">ensure_ollama</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">use_cloud</span> <span class="k">else</span> <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\u2713</span><span class="s2"> Using Ollama Cloud"</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.notebook_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_llm</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-2">import os
-import shutil
-import subprocess
-import time
-import urllib.error
-import urllib.request
-
-
-def ensure_ollama(host="http://localhost:11434", timeout=15):
-    """Start Ollama if not already running and wait until responsive."""
-
-    def _up():
-        try:
-            urllib.request.urlopen(f"{host}/api/tags", timeout=1)
-            return True
-        except (urllib.error.URLError, ConnectionError, TimeoutError):
-            return False
-
-    if _up():
-        return print(f"\u2713 Ollama already running at {host}")
-
-    ollama_path = shutil.which("ollama")
-    if ollama_path is None:
-        for candidate in [
-            "/teamspace/studios/this_studio/.local/bin/ollama",
-            "/usr/local/bin/ollama",
-            "/usr/bin/ollama",
-        ]:
-            if os.path.exists(candidate):
-                ollama_path = candidate
-                break
-    if ollama_path is None:
-        raise RuntimeError(
-            "Could not find the ollama binary. Install with: "
-            "curl -fsSL https://ollama.com/install.sh | sh",
-        )
-
-    print(f"Starting Ollama server ({ollama_path})...")
-    subprocess.Popen(
-        [ollama_path, "serve"],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-    )
-
-    deadline = time.time() + timeout
-    while time.time() &lt; deadline:
-        if _up():
-            return print(f"\u2713 Ollama up and running at {host}")
-        time.sleep(0.5)
-
-    raise RuntimeError(f"Ollama did not start within {timeout}s")
-
-
-use_cloud = "OLLAMA_API_KEY" in os.environ
-ensure_ollama() if not use_cloud else print("\u2713 Using Ollama Cloud")</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>✓ Using Ollama Cloud
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=021e0db5">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-3">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="s2">"glm-5.3:cloud"</span> <span class="k">if</span> <span class="n">use_cloud</span> <span class="k">else</span> <span class="s2">"qwen3:14b"</span>
-<span class="n">host</span> <span class="o">=</span> <span class="s2">"https://ollama.com"</span> <span class="k">if</span> <span class="n">use_cloud</span> <span class="k">else</span> <span class="kc">None</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-3">model = "glm-5.3:cloud" if use_cloud else "qwen3:14b"
-host = "https://ollama.com" if use_cloud else None</div>
+<div class="clipboard-copy-txt" id="cell-2">from llm_agents_from_scratch.notebook_utils import make_llm</div>
 </div>
 </div>
 </div>
@@ -5309,16 +5159,16 @@ it also has to match the team's own conventions.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c15349e6">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=c15349e6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-4">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-3">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -5383,7 +5233,7 @@ it also has to match the team's own conventions.</p>
 
 <span class="n">check_code_tool</span> <span class="o">=</span> <span class="n">SimpleFunctionTool</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">check_code</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-4">import ast
+<div class="clipboard-copy-txt" id="cell-3">import ast
 
 from llm_agents_from_scratch.tools.simple_function import SimpleFunctionTool
 
@@ -5441,20 +5291,6 @@ check_code_tool = SimpleFunctionTool(func=check_code)</div>
 </div>
 </div>
 </div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>/home/nerdai/Projects/llm-agents-from-scratch/.venv/lib/python3.13/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
-  from .autonotebook import tqdm as notebook_tqdm
-</pre>
-</div>
-</div>
-</div>
-</div>
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e8ceac28">
@@ -5470,16 +5306,16 @@ the tool actually returns.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=709be07f">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=709be07f">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-5">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-4">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -5491,15 +5327,9 @@ the tool actually returns.</p>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMAgent</span><span class="p">,</span> <span class="n">LLMAgentBuilder</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">Task</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.subagents</span><span class="w"> </span><span class="kn">import</span> <span class="n">SubAgentSpec</span>
 
-<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span>
-    <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span>
-    <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
-    <span class="n">think</span><span class="o">=</span><span class="n">use_cloud</span><span class="p">,</span>
-    <span class="n">json_prompt_mode</span><span class="o">=</span><span class="n">use_cloud</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">make_llm</span><span class="p">()</span>
 
 <span class="n">build_agent</span> <span class="o">=</span> <span class="n">SubAgentSpec</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">"build_agent"</span><span class="p">,</span>
@@ -5514,17 +5344,11 @@ the tool actually returns.</p>
     <span class="n">max_steps</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-5">from llm_agents_from_scratch import LLMAgent, LLMAgentBuilder
+<div class="clipboard-copy-txt" id="cell-4">from llm_agents_from_scratch import LLMAgent, LLMAgentBuilder
 from llm_agents_from_scratch.data_structures import Task
-from llm_agents_from_scratch.llms import OllamaLLM
 from llm_agents_from_scratch.subagents import SubAgentSpec
 
-llm = OllamaLLM(
-    host=host,
-    model=model,
-    think=use_cloud,
-    json_prompt_mode=use_cloud,
-)
+llm = make_llm()
 
 build_agent = SubAgentSpec(
     name="build_agent",
@@ -5538,6 +5362,19 @@ review_agent = SubAgentSpec(
     builder=LLMAgentBuilder(llm=llm, tools=[check_code_tool]),
     max_steps=5,
 )</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>✓ Using Ollama Cloud (kimi-k2.7-code:cloud)
+</pre>
 </div>
 </div>
 </div>
@@ -5564,10 +5401,10 @@ out.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-5">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -5602,7 +5439,7 @@ out.</p>
 <span class="n">handler</span> <span class="o">=</span> <span class="n">coordinator</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">handler</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-6">brief = (
+<div class="clipboard-copy-txt" id="cell-5">brief = (
     "Write a Python function that converts a Celsius temperature to "
     "Fahrenheit. Include a docstring and type hints. Keep every line "
     "under 80 characters. Return only the function code."
@@ -5637,10 +5474,10 @@ result = await handler</div>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-7">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -5652,7 +5489,7 @@ result = await handler</div>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-7">print(result.content)</div>
+<div class="clipboard-copy-txt" id="cell-6">print(result.content)</div>
 </div>
 </div>
 </div>
@@ -5664,41 +5501,22 @@ result = await handler</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Review_agent returned a **Compliant ✅** verdict for round 2, so no further revision rounds are needed. I can now report the final result.
-
-## Final Result: Compliant ✅
-
-The revised code from build_agent passed the house coding standards check on the second review round.
-
-**Final code:**
+<pre>The review_agent confirmed the revised function is fully compliant. Here's the final result:
 
 ```python
 def to_fahrenheit(celsius: float) -&gt; float:
     """Convert a Celsius temperature to Fahrenheit.
 
     Args:
-        celsius: Temperature in degrees Celsius.
+        celsius: The temperature in degrees Celsius.
 
     Returns:
-        Temperature in degrees Fahrenheit.
+        The equivalent temperature in degrees Fahrenheit.
     """
-    return celsius * 9 / 5 + 32
+    return (celsius * 9 / 5) + 32
 ```
 
-**Process summary (2 of up to 3 review rounds used):**
-
-1. **Round 1 — build_agent:** Produced the initial function named `celsius_to_fahrenheit` with a docstring, type hints, and all lines under 80 characters.
-2. **Round 1 — review_agent:** Found one violation — the function had to be named exactly `to_fahrenheit`, not `celsius_to_fahrenheit`. Everything else passed.
-3. **Revision — build_agent:** Renamed the function to `to_fahrenheit` while keeping the docstring, type hints, and line-length requirements.
-4. **Round 2 — review_agent:** **Compliant, no issues found.** The type hints, docstring format (summary, `Args:`, `Returns:`), and conversion logic all met the standards. The code was declared ready to merge.
-
-**Compliance status:** The final code is fully compliant with the house coding standards.</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
+**Status:** Compliant with house coding standards after one revision round.
 </pre>
 </div>
 </div>
@@ -5726,10 +5544,10 @@ asking it to try again.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-8">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-7">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -5741,7 +5559,7 @@ asking it to try again.</p>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">handler</span><span class="o">.</span><span class="n">rollout</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-8">print(handler.rollout)</div>
+<div class="clipboard-copy-txt" id="cell-7">print(handler.rollout)</div>
 </div>
 </div>
 </div>
@@ -5760,7 +5578,7 @@ asking it to try again.</p>
 💬 assistant: I need to make the following tool call(s):
 
 {
-    "id_": "7c6308ff-f656-4ee6-8a73-0d630efd58c6",
+    "id_": "0b447a5d-2764-4ac6-903d-9144e56d254c",
     "tool_name": "from_scratch__use_subagent",
     "arguments": {
         "name": "build_agent",
@@ -5769,19 +5587,19 @@ asking it to try again.</p>
 }.
 
 🔧 tool: {
-    "tool_call_id": "7c6308ff-f656-4ee6-8a73-0d630efd58c6",
-    "content": "```python\ndef celsius_to_fahrenheit(celsius: float) -&gt; float:\n    \"\"\"Convert a Celsius temperature to Fahrenheit.\n\n    Args:\n        celsius: Temperature in degrees Celsius.\n\n    Returns:\n        Temperature in degrees Fahrenheit.\n    \"\"\"\n    return celsius * 9 / 5 + 32\n```",
+    "tool_call_id": "0b447a5d-2764-4ac6-903d-9144e56d254c",
+    "content": "```python\ndef celsius_to_fahrenheit(celsius: float) -&gt; float:\n    \"\"\"Convert a Celsius temperature to Fahrenheit.\n\n    Args:\n        celsius: The temperature in degrees Celsius.\n\n    Returns:\n        The equivalent temperature in degrees Fahrenheit.\n    \"\"\"\n    return (celsius * 9 / 5) + 32\n```",
     "error": false
 }
 
 💬 assistant: I need to make the following tool call(s):
 
 {
-    "id_": "20ee9f07-08ef-4276-a0e9-9e532d887662",
+    "id_": "a9adc8d0-b994-4827-b19c-e7905012b400",
     "tool_name": "from_scratch__use_subagent",
     "arguments": {
         "name": "review_agent",
-        "task": "Check the following Python code against the house coding standards:\n\n```python\ndef celsius_to_fahrenheit(celsius: float) -&gt; float:\n    \"\"\"Convert a Celsius temperature to Fahrenheit.\n\n    Args:\n        celsius: Temperature in degrees Celsius.\n\n    Returns:\n        Temperature in degrees Fahrenheit.\n    \"\"\"\n    return celsius * 9 / 5 + 32\n```"
+        "task": "Check the following Python code against the house coding standards and report any issues:\n\n```python\ndef celsius_to_fahrenheit(celsius: float) -&gt; float:\n    \"\"\"Convert a Celsius temperature to Fahrenheit.\n\n    Args:\n        celsius: The temperature in degrees Celsius.\n\n    Returns:\n        The equivalent temperature in degrees Fahrenheit.\n    \"\"\"\n    return (celsius * 9 / 5) + 32\n```"
     }
 }.
 
@@ -5789,48 +5607,33 @@ asking it to try again.</p>
 
 === Task Step Start ===
 
-💬 assistant: My current instruction is 'Execute the pending review_agent call to check the build_agent's code against the house coding standards. The task for review_agent must quote the full code produced by build_agent:
-
-```python
-def celsius_to_fahrenheit(celsius: float) -&gt; float:
-    """Convert a Celsius temperature to Fahrenheit.
-
-    Args:
-        celsius: Temperature in degrees Celsius.
-
-    Returns:
-        Temperature in degrees Fahrenheit.
-    """
-    return celsius * 9 / 5 + 32
-```
-
-Wait for review_agent's result before taking any further action. Based on the review outcome, either ask build_agent to revise (quoting the current code and the specific issues exactly) or, if compliant, report the final code and its compliant status.'
+💬 assistant: My current instruction is 'Execute the from_scratch__use_subagent tool call with name='review_agent' and the task quoted in the current_response to check the Celsius-to-Fahrenheit function against the house coding standards and report any issues. Wait for the result before proceeding.'
 
 💬 assistant: I need to make the following tool call(s):
 
 {
-    "id_": "7bcdefaa-6934-44d8-99d5-4ea0b94b7250",
+    "id_": "5e3c4b64-1f75-4004-aa50-3d2aa6de180a",
     "tool_name": "from_scratch__use_subagent",
     "arguments": {
         "name": "review_agent",
-        "task": "Check the following Python code against the house coding standards:\n\n```python\ndef celsius_to_fahrenheit(celsius: float) -&gt; float:\n    \"\"\"Convert a Celsius temperature to Fahrenheit.\n\n    Args:\n        celsius: Temperature in degrees Celsius.\n\n    Returns:\n        Temperature in degrees Fahrenheit.\n    \"\"\"\n    return celsius * 9 / 5 + 32\n```"
+        "task": "Check the following Python code against the house coding standards and report any issues:\n\n```python\ndef celsius_to_fahrenheit(celsius: float) -&gt; float:\n    \"\"\"Convert a Celsius temperature to Fahrenheit.\n\n    Args:\n        celsius: The temperature in degrees Celsius.\n\n    Returns:\n        The equivalent temperature in degrees Fahrenheit.\n    \"\"\"\n    return (celsius * 9 / 5) + 32\n```"
     }
 }.
 
 🔧 tool: {
-    "tool_call_id": "7bcdefaa-6934-44d8-99d5-4ea0b94b7250",
-    "content": "The code check found **one violation** of the house coding standards:\n\n## Result: Non-compliant ❌\n\n**Issue found:**\n- **Naming convention:** The function must be named exactly `to_fahrenheit`, but it's currently named `celsius_to_fahrenheit`.\n\nEverything else — the type annotations, the Google-style docstring with `Args:` and `Returns:` sections, and the conversion logic — passed the check.\n\nHere's the corrected version:\n\n```python\ndef to_fahrenheit(celsius: float) -&gt; float:\n    \"\"\"Convert a Celsius temperature to Fahrenheit.\n\n    Args:\n        celsius: Temperature in degrees Celsius.\n\n    Returns:\n        Temperature in degrees Fahrenheit.\n    \"\"\"\n    return celsius * 9 / 5 + 32\n```\n\nWould you like me to run the check again on the corrected version to confirm it's fully compliant?",
+    "tool_call_id": "5e3c4b64-1f75-4004-aa50-3d2aa6de180a",
+    "content": "The code does not pass the house coding standards.\n\n**Issue found:**\n- The function must be named exactly `to_fahrenheit`, but it is currently named `celsius_to_fahrenheit`.\n\nEverything else appears to be compliant. To fix it, simply rename the function to `to_fahrenheit`.",
     "error": false
 }
 
 💬 assistant: I need to make the following tool call(s):
 
 {
-    "id_": "513d4d74-2e31-448b-9c05-0e4a5c175262",
+    "id_": "e95a5116-9a71-436e-835a-fc45683d57e9",
     "tool_name": "from_scratch__use_subagent",
     "arguments": {
         "name": "build_agent",
-        "task": "Please revise the following Python code. It was reviewed and found non-compliant with the house coding standards.\n\nCurrent code:\n\n```python\ndef celsius_to_fahrenheit(celsius: float) -&gt; float:\n    \"\"\"Convert a Celsius temperature to Fahrenheit.\n\n    Args:\n        celsius: Temperature in degrees Celsius.\n\n    Returns:\n        Temperature in degrees Fahrenheit.\n    \"\"\"\n    return celsius * 9 / 5 + 32\n```\n\nSpecific issue reported by review_agent (quoted exactly):\n\n\"**Naming convention:** The function must be named exactly `to_fahrenheit`, but it's currently named `celsius_to_fahrenheit`.\"\n\nPlease fix this issue while keeping the docstring, type hints, and every line under 80 characters. Return only the revised function code."
+        "task": "Revise the following Python function to address this specific issue. Return only the revised function code.\n\nCurrent code:\n```python\ndef celsius_to_fahrenheit(celsius: float) -&gt; float:\n    \"\"\"Convert a Celsius temperature to Fahrenheit.\n\n    Args:\n        celsius: The temperature in degrees Celsius.\n\n    Returns:\n        The equivalent temperature in degrees Fahrenheit.\n    \"\"\"\n    return (celsius * 9 / 5) + 32\n```\n\nIssue: \"The function must be named exactly `to_fahrenheit`, but it is currently named `celsius_to_fahrenheit`.\""
     }
 }.
 
@@ -5838,33 +5641,33 @@ Wait for review_agent's result before taking any further action. Based on the re
 
 === Task Step Start ===
 
-💬 assistant: My current instruction is 'Execute the pending build_agent call asking it to revise the code to fix the naming issue reported by review_agent (the function must be named exactly `to_fahrenheit`). The task must quote the current code and the specific issue exactly, as written in the pending call. Wait for build_agent's result. Once received, ask review_agent to check the revised code against the house coding standards, quoting the full revised code in review_agent's task (this is round 2 of up to 3 rounds). Based on the review outcome, either ask build_agent to revise again (quoting the current code and specific issues exactly) or, if compliant, report the final code and its compliant status.'
+💬 assistant: My current instruction is 'Execute the from_scratch__use_subagent tool call with name='build_agent' and the task quoted in the current_response to revise the function by renaming it to 'to_fahrenheit'. Wait for the revised code before proceeding.'
 
 💬 assistant: I need to make the following tool call(s):
 
 {
-    "id_": "4eb4503b-7993-49e6-a3f3-b14a9b540408",
+    "id_": "309f1c50-060b-420d-83a4-bc139ad9f0e3",
     "tool_name": "from_scratch__use_subagent",
     "arguments": {
         "name": "build_agent",
-        "task": "Please revise the following Python code. It was reviewed and found non-compliant with the house coding standards.\n\nCurrent code:\n\n```python\ndef celsius_to_fahrenheit(celsius: float) -&gt; float:\n    \"\"\"Convert a Celsius temperature to Fahrenheit.\n\n    Args:\n        celsius: Temperature in degrees Celsius.\n\n    Returns:\n        Temperature in degrees Fahrenheit.\n    \"\"\"\n    return celsius * 9 / 5 + 32\n```\n\nSpecific issue reported by review_agent (quoted exactly):\n\n\"**Naming convention:** The function must be named exactly `to_fahrenheit`, but it's currently named `celsius_to_fahrenheit`.\"\n\nPlease fix this issue while keeping the docstring, type hints, and every line under 80 characters. Return only the revised function code."
+        "task": "Revise the following Python function to address this specific issue. Return only the revised function code.\n\nCurrent code:\n```python\ndef celsius_to_fahrenheit(celsius: float) -&gt; float:\n    \"\"\"Convert a Celsius temperature to Fahrenheit.\n\n    Args:\n        celsius: The temperature in degrees Celsius.\n\n    Returns:\n        The equivalent temperature in degrees Fahrenheit.\n    \"\"\"\n    return (celsius * 9 / 5) + 32\n```\n\nIssue: \"The function must be named exactly `to_fahrenheit`, but it is currently named `celsius_to_fahrenheit`.\""
     }
 }.
 
 🔧 tool: {
-    "tool_call_id": "4eb4503b-7993-49e6-a3f3-b14a9b540408",
-    "content": "```python\ndef to_fahrenheit(celsius: float) -&gt; float:\n    \"\"\"Convert a Celsius temperature to Fahrenheit.\n\n    Args:\n        celsius: Temperature in degrees Celsius.\n\n    Returns:\n        Temperature in degrees Fahrenheit.\n    \"\"\"\n    return celsius * 9 / 5 + 32\n```",
+    "tool_call_id": "309f1c50-060b-420d-83a4-bc139ad9f0e3",
+    "content": "```python\ndef to_fahrenheit(celsius: float) -&gt; float:\n    \"\"\"Convert a Celsius temperature to Fahrenheit.\n\n    Args:\n        celsius: The temperature in degrees Celsius.\n\n    Returns:\n        The equivalent temperature in degrees Fahrenheit.\n    \"\"\"\n    return (celsius * 9 / 5) + 32\n```",
     "error": false
 }
 
 💬 assistant: I need to make the following tool call(s):
 
 {
-    "id_": "d796e423-9d64-427f-9d19-b7bc5fe01f4a",
+    "id_": "782d347e-4222-4ac3-a35b-5d6ae87abb0d",
     "tool_name": "from_scratch__use_subagent",
     "arguments": {
         "name": "review_agent",
-        "task": "Check the following Python code against the house coding standards:\n\n```python\ndef to_fahrenheit(celsius: float) -&gt; float:\n    \"\"\"Convert a Celsius temperature to Fahrenheit.\n\n    Args:\n        celsius: Temperature in degrees Celsius.\n\n    Returns:\n        Temperature in degrees Fahrenheit.\n    \"\"\"\n    return celsius * 9 / 5 + 32\n```"
+        "task": "Check the following Python code against the house coding standards and report any issues:\n\n```python\ndef to_fahrenheit(celsius: float) -&gt; float:\n    \"\"\"Convert a Celsius temperature to Fahrenheit.\n\n    Args:\n        celsius: The temperature in degrees Celsius.\n\n    Returns:\n        The equivalent temperature in degrees Fahrenheit.\n    \"\"\"\n    return (celsius * 9 / 5) + 32\n```"
     }
 }.
 
@@ -5872,77 +5675,43 @@ Wait for review_agent's result before taking any further action. Based on the re
 
 === Task Step Start ===
 
-💬 assistant: My current instruction is 'Execute the pending review_agent call to check build_agent's revised code against the house coding standards (this is round 2 of up to 3 rounds). The task must quote the full revised code produced by build_agent:
+💬 assistant: My current instruction is 'Execute the from_scratch__use_subagent tool call with name='review_agent' and the task quoted in the current_response to check the revised to_fahrenheit function against the house coding standards. Wait for the result before proceeding.'
+
+💬 assistant: I need to make the following tool call(s):
+
+{
+    "id_": "4efebd0e-3a9e-4848-a8f2-7add06cc586b",
+    "tool_name": "from_scratch__use_subagent",
+    "arguments": {
+        "name": "review_agent",
+        "task": "Check the following Python code against the house coding standards and report any issues:\n\n```python\ndef to_fahrenheit(celsius: float) -&gt; float:\n    \"\"\"Convert a Celsius temperature to Fahrenheit.\n\n    Args:\n        celsius: The temperature in degrees Celsius.\n\n    Returns:\n        The equivalent temperature in degrees Fahrenheit.\n    \"\"\"\n    return (celsius * 9 / 5) + 32\n```"
+    }
+}.
+
+🔧 tool: {
+    "tool_call_id": "4efebd0e-3a9e-4848-a8f2-7add06cc586b",
+    "content": "The code is fully compliant with the house coding standards. No issues were found.",
+    "error": false
+}
+
+💬 assistant: The review_agent confirmed the revised function is fully compliant. Here's the final result:
 
 ```python
 def to_fahrenheit(celsius: float) -&gt; float:
     """Convert a Celsius temperature to Fahrenheit.
 
     Args:
-        celsius: Temperature in degrees Celsius.
+        celsius: The temperature in degrees Celsius.
 
     Returns:
-        Temperature in degrees Fahrenheit.
+        The equivalent temperature in degrees Fahrenheit.
     """
-    return celsius * 9 / 5 + 32
+    return (celsius * 9 / 5) + 32
 ```
 
-Wait for review_agent's result before taking any further action, calling one subagent at a time. Based on the review outcome, either ask build_agent to revise again (quoting the current code and the specific issues exactly in build_agent's task) or, if compliant, report the final code and whether it's compliant.'
+**Status:** Compliant with house coding standards after one revision round.
 
-💬 assistant: I need to make the following tool call(s):
-
-{
-    "id_": "eb3368dc-fc5b-4b1a-a17c-0c3fc1db084c",
-    "tool_name": "from_scratch__use_subagent",
-    "arguments": {
-        "name": "review_agent",
-        "task": "Check the following Python code against the house coding standards:\n\n```python\ndef to_fahrenheit(celsius: float) -&gt; float:\n    \"\"\"Convert a Celsius temperature to Fahrenheit.\n\n    Args:\n        celsius: Temperature in degrees Celsius.\n\n    Returns:\n        Temperature in degrees Fahrenheit.\n    \"\"\"\n    return celsius * 9 / 5 + 32\n```"
-    }
-}.
-
-🔧 tool: {
-    "tool_call_id": "eb3368dc-fc5b-4b1a-a17c-0c3fc1db084c",
-    "content": "The code passes the house coding standards check. Here's the summary:\n\n**Result: Compliant ✅**\n\n- No issues found.\n\nThe function meets all the standards:\n- **Type hints**: Both the parameter (`celsius: float`) and return type (`-&gt; float`) are annotated.\n- **Docstring**: Includes a clear summary, an `Args:` section describing the parameter, and a `Returns:` section describing the output — all in the expected format.\n- **Implementation**: Clean, single-expression logic with named constants handled clearly (`9 / 5` and `32` are standard, well-known conversion values).\n\nNo changes are needed — this code is ready to merge.",
-    "error": false
-}
-
-💬 assistant: Review_agent returned a **Compliant ✅** verdict for round 2, so no further revision rounds are needed. I can now report the final result.
-
-## Final Result: Compliant ✅
-
-The revised code from build_agent passed the house coding standards check on the second review round.
-
-**Final code:**
-
-```python
-def to_fahrenheit(celsius: float) -&gt; float:
-    """Convert a Celsius temperature to Fahrenheit.
-
-    Args:
-        celsius: Temperature in degrees Celsius.
-
-    Returns:
-        Temperature in degrees Fahrenheit.
-    """
-    return celsius * 9 / 5 + 32
-```
-
-**Process summary (2 of up to 3 review rounds used):**
-
-1. **Round 1 — build_agent:** Produced the initial function named `celsius_to_fahrenheit` with a docstring, type hints, and all lines under 80 characters.
-2. **Round 1 — review_agent:** Found one violation — the function had to be named exactly `to_fahrenheit`, not `celsius_to_fahrenheit`. Everything else passed.
-3. **Revision — build_agent:** Renamed the function to `to_fahrenheit` while keeping the docstring, type hints, and line-length requirements.
-4. **Round 2 — review_agent:** **Compliant, no issues found.** The type hints, docstring format (summary, `Args:`, `Returns:`), and conversion logic all met the standards. The code was declared ready to merge.
-
-**Compliance status:** The final code is fully compliant with the house coding standards.
-
-=== Task Step End ===</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
+=== Task Step End ===
 </pre>
 </div>
 </div>

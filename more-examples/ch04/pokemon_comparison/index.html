@@ -5076,7 +5076,7 @@ behave noticeably differently.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-1">
@@ -5110,13 +5110,13 @@ behave noticeably differently.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=8dd0d8092fe74a7c96281538738b07e2">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=8dd0d8092fe74a7c96281538738b07e2">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-2">
@@ -5129,130 +5129,9 @@ behave noticeably differently.</p>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">urllib.error</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">urllib.request</span>
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">ensure_ollama</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">"http://localhost:11434"</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">15</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Start Ollama if not already running and wait until responsive."""</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_up</span><span class="p">():</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">/api/tags"</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">except</span> <span class="p">(</span><span class="n">urllib</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">URLError</span><span class="p">,</span> <span class="ne">ConnectionError</span><span class="p">,</span> <span class="ne">TimeoutError</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span>
-
-    <span class="k">if</span> <span class="n">_up</span><span class="p">():</span>
-        <span class="k">return</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✓ Ollama already running at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-
-    <span class="c1"># Lightning persistent path first, then standard locations</span>
-    <span class="n">ollama_path</span> <span class="o">=</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="s2">"ollama"</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">ollama_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="p">[</span>
-            <span class="s2">"/teamspace/studios/this_studio/.local/bin/ollama"</span><span class="p">,</span>
-            <span class="s2">"/usr/local/bin/ollama"</span><span class="p">,</span>
-            <span class="s2">"/usr/bin/ollama"</span><span class="p">,</span>
-        <span class="p">]:</span>
-            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">candidate</span><span class="p">):</span>
-                <span class="n">ollama_path</span> <span class="o">=</span> <span class="n">candidate</span>
-                <span class="k">break</span>
-    <span class="k">if</span> <span class="n">ollama_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-            <span class="s2">"Could not find the ollama binary. Install with: "</span>
-            <span class="s2">"curl -fsSL https://ollama.com/install.sh | sh"</span><span class="p">,</span>
-        <span class="p">)</span>
-
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Starting Ollama server (</span><span class="si">{</span><span class="n">ollama_path</span><span class="si">}</span><span class="s2">)..."</span><span class="p">)</span>
-    <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
-        <span class="p">[</span><span class="n">ollama_path</span><span class="p">,</span> <span class="s2">"serve"</span><span class="p">],</span>
-        <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">DEVNULL</span><span class="p">,</span>
-        <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">DEVNULL</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="n">deadline</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="n">timeout</span>
-    <span class="k">while</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">deadline</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">_up</span><span class="p">():</span>
-            <span class="k">return</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✓ Ollama up and running at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
-
-    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Ollama did not start within </span><span class="si">{</span><span class="n">timeout</span><span class="si">}</span><span class="s2">s"</span><span class="p">)</span>
-
-
-<span class="n">ensure_ollama</span><span class="p">()</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.notebook_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_llm</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-2">import os
-import shutil
-import subprocess
-import time
-import urllib.error
-import urllib.request
-
-
-def ensure_ollama(host="http://localhost:11434", timeout=15):
-    """Start Ollama if not already running and wait until responsive."""
-
-    def _up():
-        try:
-            urllib.request.urlopen(f"{host}/api/tags", timeout=1)
-            return True
-        except (urllib.error.URLError, ConnectionError, TimeoutError):
-            return False
-
-    if _up():
-        return print(f"✓ Ollama already running at {host}")
-
-    # Lightning persistent path first, then standard locations
-    ollama_path = shutil.which("ollama")
-    if ollama_path is None:
-        for candidate in [
-            "/teamspace/studios/this_studio/.local/bin/ollama",
-            "/usr/local/bin/ollama",
-            "/usr/bin/ollama",
-        ]:
-            if os.path.exists(candidate):
-                ollama_path = candidate
-                break
-    if ollama_path is None:
-        raise RuntimeError(
-            "Could not find the ollama binary. Install with: "
-            "curl -fsSL https://ollama.com/install.sh | sh",
-        )
-
-    print(f"Starting Ollama server ({ollama_path})...")
-    subprocess.Popen(
-        [ollama_path, "serve"],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-    )
-
-    deadline = time.time() + timeout
-    while time.time() &lt; deadline:
-        if _up():
-            return print(f"✓ Ollama up and running at {host}")
-        time.sleep(0.5)
-
-    raise RuntimeError(f"Ollama did not start within {timeout}s")
-
-
-ensure_ollama()</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>✓ Ollama already running at http://localhost:11434
-</pre>
+<div class="clipboard-copy-txt" id="cell-2">from llm_agents_from_scratch.notebook_utils import make_llm</div>
 </div>
 </div>
 </div>
@@ -5275,7 +5154,7 @@ ensure_ollama()</div>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-3">
@@ -5371,7 +5250,7 @@ get_pokemon_tool = SimpleFunctionTool(func=get_pokemon)</div>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-4">
@@ -5406,7 +5285,7 @@ enable_console_logging(logging.INFO)</div>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-5">
@@ -5421,9 +5300,8 @@ enable_console_logging(logging.INFO)</div>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMAgent</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">Task</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
 
-<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">,</span> <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">make_llm</span><span class="p">()</span>
 <span class="n">agent</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">get_pokemon_tool</span><span class="p">])</span>
 
 <span class="n">task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span>
@@ -5436,9 +5314,8 @@ enable_console_logging(logging.INFO)</div>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-5">from llm_agents_from_scratch import LLMAgent
 from llm_agents_from_scratch.data_structures import Task
-from llm_agents_from_scratch.llms import OllamaLLM
 
-llm = OllamaLLM(model="qwen3:14b", think=False)
+llm = make_llm()
 agent = LLMAgent(llm=llm, tools=[get_pokemon_tool])
 
 task = Task(
@@ -5459,18 +5336,26 @@ result = await agent.run(task)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: Which Pokémon has higher base speed: Pikachu or Gengar? Use the get_pokemon tool for each — do not rely on prior knowledge.
+<pre>✓ Using Ollama Cloud (kimi-k2.7-code:cloud)
+INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: Which Pokémon has higher base speed: Pikachu or Gengar? Use the get_pokemon tool for each — do not rely on prior knowledge.
 INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Which Pokémon has higher base speed: Pikachu or Gengar? Use the get_pokemon tool for each — do not rely on prior knowledge.
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to call the get_pokemon tool for Pikachu and Gengar to retrieve their base speed stats.
-INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the get_pokemon tool for Pikachu and Gengar to retrieve their base speed stats.
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the get_pokemon tool for Pikachu and Gengar to retrieve their base speed stats.
+INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: get_pokemon
 INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: get_pokemon
 INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: {"name": "pikachu", "types": ["electric"], "stats": {"hp": 35, "attack": 55, "defense": 40, "special-attack": 50, "special-def...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: get_pokemon
 INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: {"name": "gengar", "types": ["ghost", "poison"], "stats": {"hp": 60, "attack": 65, "defense": 60, "special-attack": 130, "spec...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: Pikachu has a base speed of 90, while Gengar has a base speed of 110. Therefore, Gengar has a higher base speed.
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: According to the tool results:
+
+- **Pikachu** has a base Speed of **90**.
+- **Gengar** has a base Speed of **110**.
+
+**Gengar** has the...[TRUNCATED]
 INFO (llm_agents_fs.TaskHandler) :      No new step required.
-INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: Pikachu has a base speed of 90, while Gengar has a base speed of 110. Therefore, Gengar has a higher base speed.
+INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: According to the tool results:
+
+- **Pikachu** has a base Speed of **90**.
+- **Gengar** has a base Speed of **110**.
+
+**Gengar** has ...[TRUNCATED]
 </pre>
 </div>
 </div>
@@ -5483,7 +5368,7 @@ INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: Pikachu has a base spe
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
@@ -5510,7 +5395,12 @@ INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: Pikachu has a base spe
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Pikachu has a base speed of 90, while Gengar has a base speed of 110. Therefore, Gengar has a higher base speed.
+<pre>According to the tool results:
+
+- **Pikachu** has a base Speed of **90**.
+- **Gengar** has a base Speed of **110**.
+
+**Gengar** has the higher base Speed.
 </pre>
 </div>
 </div>
@@ -5534,7 +5424,7 @@ INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: Pikachu has a base spe
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-7">
@@ -5547,7 +5437,7 @@ INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: Pikachu has a base spe
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">,</span> <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">llm</span> <span class="o">=</span> <span class="n">make_llm</span><span class="p">()</span>
 <span class="n">agent</span> <span class="o">=</span> <span class="n">LLMAgent</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">get_pokemon_tool</span><span class="p">])</span>
 
 <span class="n">task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span>
@@ -5559,7 +5449,7 @@ INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: Pikachu has a base spe
 <span class="p">)</span>
 <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">agent</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-7">llm = OllamaLLM(model="qwen3:14b", think=False)
+<div class="clipboard-copy-txt" id="cell-7">llm = make_llm()
 agent = LLMAgent(llm=llm, tools=[get_pokemon_tool])
 
 task = Task(
@@ -5581,22 +5471,28 @@ result = await agent.run(task)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: Compare Bulbasaur and Charmander. Which has higher attack and which has higher defense? Use the get_pokemon tool for each — do not re...[TRUNCATED]
+<pre>✓ Using Ollama Cloud (kimi-k2.7-code:cloud)
+INFO (llm_agents_fs.LLMAgent) :      🚀 Starting task: Compare Bulbasaur and Charmander. Which has higher attack and which has higher defense? Use the get_pokemon tool for each — do not re...[TRUNCATED]
 INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Compare Bulbasaur and Charmander. Which has higher attack and which has higher defense? Use the get_pokemon tool for each — do not...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I need to call the get_pokemon tool for Bulbasaur and Charmander to retrieve their base stats.
-INFO (llm_agents_fs.TaskHandler) :      🧠 New Step: Call the get_pokemon tool for Bulbasaur and Charmander to retrieve their base stats.
-INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Call the get_pokemon tool for Bulbasaur and Charmander to retrieve their base stats.
+INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: get_pokemon
 INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: get_pokemon
 INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: {"name": "bulbasaur", "types": ["grass", "poison"], "stats": {"hp": 45, "attack": 49, "defense": 49, "special-attack": 65, "sp...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: get_pokemon
 INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: {"name": "charmander", "types": ["fire"], "stats": {"hp": 39, "attack": 52, "defense": 43, "special-attack": 60, "special-defe...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: I have retrieved the base stats for both Bulbasaur and Charmander. Let me compare their attack and defense stats.
+INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: Based on the tool results:
 
-- Bulbasaur's attack...[TRUNCATED]
+- **Bulbasaur**: Attack 49, Defense 49
+- **Charmander**: Attack 52, Defense 43
+
+So:
+- **Higher Attack:** Ch...[TRUNCATED]
 INFO (llm_agents_fs.TaskHandler) :      No new step required.
-INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: I have retrieved the base stats for both Bulbasaur and Charmander. Let me compare their attack and defense stats.
+INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: Based on the tool results:
 
-- Bulbasaur's att...[TRUNCATED]
+- **Bulbasaur**: Attack 49, Defense 49
+- **Charmander**: Attack 52, Defense 43
+
+So:
+- **Higher Attack:**...[TRUNCATED]
 </pre>
 </div>
 </div>
@@ -5609,7 +5505,7 @@ INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: I have retrieved the b
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-8">
@@ -5636,12 +5532,14 @@ INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: I have retrieved the b
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>I have retrieved the base stats for both Bulbasaur and Charmander. Let me compare their attack and defense stats.
+<pre>Based on the tool results:
 
-- Bulbasaur's attack is 49 and defense is 49.
-- Charmander's attack is 52 and defense is 43.
+- **Bulbasaur**: Attack 49, Defense 49
+- **Charmander**: Attack 52, Defense 43
 
-From this, I can conclude that Charmander has a higher attack, while Bulbasaur has a higher defense.
+So:
+- **Higher Attack:** Charmander (52 vs. 49)
+- **Higher Defense:** Bulbasaur (49 vs. 43)
 </pre>
 </div>
 </div>

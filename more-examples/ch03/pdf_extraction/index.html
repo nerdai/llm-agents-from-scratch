@@ -5192,8 +5192,8 @@ can start a service by opening a terminal and running the command
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -5211,130 +5211,13 @@ can start a service by opening a terminal and running the command
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">urllib.error</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">urllib.request</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">urllib.request</span>
 
-
-<span class="k">def</span><span class="w"> </span><span class="nf">ensure_ollama</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">"http://localhost:11434"</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">15</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Start Ollama if not already running and wait until responsive."""</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_up</span><span class="p">():</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">/api/tags"</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">except</span> <span class="p">(</span><span class="n">urllib</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">URLError</span><span class="p">,</span> <span class="ne">ConnectionError</span><span class="p">,</span> <span class="ne">TimeoutError</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span>
-
-    <span class="k">if</span> <span class="n">_up</span><span class="p">():</span>
-        <span class="k">return</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✓ Ollama already running at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-
-    <span class="c1"># Lightning persistent path first, then standard locations</span>
-    <span class="n">ollama_path</span> <span class="o">=</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="s2">"ollama"</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">ollama_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="p">[</span>
-            <span class="s2">"/teamspace/studios/this_studio/.local/bin/ollama"</span><span class="p">,</span>
-            <span class="s2">"/usr/local/bin/ollama"</span><span class="p">,</span>
-            <span class="s2">"/usr/bin/ollama"</span><span class="p">,</span>
-        <span class="p">]:</span>
-            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">candidate</span><span class="p">):</span>
-                <span class="n">ollama_path</span> <span class="o">=</span> <span class="n">candidate</span>
-                <span class="k">break</span>
-    <span class="k">if</span> <span class="n">ollama_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-            <span class="s2">"Could not find the ollama binary. Install with: "</span>
-            <span class="s2">"curl -fsSL https://ollama.com/install.sh | sh"</span><span class="p">,</span>
-        <span class="p">)</span>
-
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Starting Ollama server (</span><span class="si">{</span><span class="n">ollama_path</span><span class="si">}</span><span class="s2">)..."</span><span class="p">)</span>
-    <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
-        <span class="p">[</span><span class="n">ollama_path</span><span class="p">,</span> <span class="s2">"serve"</span><span class="p">],</span>
-        <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">DEVNULL</span><span class="p">,</span>
-        <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">DEVNULL</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="n">deadline</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="n">timeout</span>
-    <span class="k">while</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">deadline</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">_up</span><span class="p">():</span>
-            <span class="k">return</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✓ Ollama up and running at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
-
-    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Ollama did not start within </span><span class="si">{</span><span class="n">timeout</span><span class="si">}</span><span class="s2">s"</span><span class="p">)</span>
-
-
-<span class="n">ensure_ollama</span><span class="p">()</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.notebook_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_llm</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-2">import os
-import shutil
-import subprocess
-import time
-import urllib.error
-import urllib.request
+<div class="clipboard-copy-txt" id="cell-2">import urllib.request
 
-
-def ensure_ollama(host="http://localhost:11434", timeout=15):
-    """Start Ollama if not already running and wait until responsive."""
-
-    def _up():
-        try:
-            urllib.request.urlopen(f"{host}/api/tags", timeout=1)
-            return True
-        except (urllib.error.URLError, ConnectionError, TimeoutError):
-            return False
-
-    if _up():
-        return print(f"✓ Ollama already running at {host}")
-
-    # Lightning persistent path first, then standard locations
-    ollama_path = shutil.which("ollama")
-    if ollama_path is None:
-        for candidate in [
-            "/teamspace/studios/this_studio/.local/bin/ollama",
-            "/usr/local/bin/ollama",
-            "/usr/bin/ollama",
-        ]:
-            if os.path.exists(candidate):
-                ollama_path = candidate
-                break
-    if ollama_path is None:
-        raise RuntimeError(
-            "Could not find the ollama binary. Install with: "
-            "curl -fsSL https://ollama.com/install.sh | sh",
-        )
-
-    print(f"Starting Ollama server ({ollama_path})...")
-    subprocess.Popen(
-        [ollama_path, "serve"],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-    )
-
-    deadline = time.time() + timeout
-    while time.time() &lt; deadline:
-        if _up():
-            return print(f"✓ Ollama up and running at {host}")
-        time.sleep(0.5)
-
-    raise RuntimeError(f"Ollama did not start within {timeout}s")
-
-
-ensure_ollama()</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>✓ Ollama already running at http://localhost:11434
-</pre>
+from llm_agents_from_scratch.notebook_utils import make_llm</div>
 </div>
 </div>
 </div>
@@ -5386,7 +5269,87 @@ to convert PDF pages to markdown. It is not part of the core
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Audited <span class="ansi-bold">1 package</span> in 0.66ms
+<pre>Using Python 3.13.5 environment at: /home/nerdai/Projects/llm-agents-from-scratch/.venv
+⠋ Resolving dependencies...                                                     ⠋ Resolving dependencies...                                                     ⠙ Resolving dependencies...                                                     ⠙ pymupdf4llm==1.28.2                                                           ⠙ pymupdf==1.28.2                                                               ⠙ pymupdf-layout==1.28.2                                                        ⠙ tabulate==0.10.0                                                              ⠙ psutil==7.2.2                                                                 ⠙ pyyaml==6.0.3                                                                 ⠙ numpy==2.4.4                                                                  ⠙ onnxruntime==1.26.0                                                           ⠙ networkx==3.7                                                                 ⠙ flatbuffers==25.12.19                                                         ⠙ packaging==26.2                                                               ⠙ protobuf==6.33.6                                                              ⠙                                                                               Resolved 12 packages in 130ms
+⠋ Preparing packages... (0/0)                                                   ⠋ Preparing packages... (0/4)                                                   ⠙ Preparing packages... (0/4)                                                   ⠙ Preparing packages... (0/4)
+networkx             ------------------------------     0 B/2.04 MiB            ⠙ Preparing packages... (0/4)
+networkx             ------------------------------     0 B/2.04 MiB            ⠙ Preparing packages... (0/4)
+networkx             ------------------------------     0 B/2.04 MiB
+pymupdf-layout       ------------------------------     0 B/40.95 MiB           ⠙ Preparing packages... (0/4)
+networkx             ------------------------------     0 B/2.04 MiB
+pymupdf-layout       ------------------------------     0 B/40.95 MiB           ⠙ Preparing packages... (0/4)
+networkx             ------------------------------     0 B/2.04 MiB
+pymupdf-layout       ------------------------------     0 B/40.95 MiB           ⠙ Preparing packages... (0/4)
+pymupdf4llm          ------------------------------     0 B/172.27 KiB
+networkx             ------------------------------     0 B/2.04 MiB
+pymupdf-layout       ------------------------------     0 B/40.95 MiB           ⠙ Preparing packages... (0/4)
+pymupdf4llm          ------------------------------ 16.00 KiB/172.27 KiB
+networkx             ------------------------------     0 B/2.04 MiB
+pymupdf-layout       ------------------------------     0 B/40.95 MiB           ⠙ Preparing packages... (0/4)
+pymupdf4llm          ------------------------------ 32.00 KiB/172.27 KiB
+networkx             ------------------------------     0 B/2.04 MiB
+pymupdf-layout       ------------------------------     0 B/40.95 MiB           ⠙ Preparing packages... (0/4)
+pymupdf4llm          ------------------------------ 48.00 KiB/172.27 KiB
+networkx             ------------------------------     0 B/2.04 MiB
+pymupdf-layout       ------------------------------     0 B/40.95 MiB           ⠙ Preparing packages... (0/4)
+pymupdf4llm          ------------------------------ 63.17 KiB/172.27 KiB
+networkx             ------------------------------     0 B/2.04 MiB
+pymupdf-layout       ------------------------------     0 B/40.95 MiB           ⠙ Preparing packages... (0/4)
+pymupdf4llm          ------------------------------ 79.17 KiB/172.27 KiB
+networkx             ------------------------------     0 B/2.04 MiB
+pymupdf-layout       ------------------------------     0 B/40.95 MiB           ⠙ Preparing packages... (0/4)
+pymupdf4llm          ------------------------------ 95.17 KiB/172.27 KiB
+networkx             ------------------------------     0 B/2.04 MiB
+pymupdf-layout       ------------------------------     0 B/40.95 MiB           ⠙ Preparing packages... (0/4)
+pymupdf4llm          ------------------------------ 111.17 KiB/172.27 KiB
+networkx             ------------------------------     0 B/2.04 MiB
+pymupdf-layout       ------------------------------     0 B/40.95 MiB           ⠙ Preparing packages... (0/4)
+pymupdf4llm          ------------------------------ 127.17 KiB/172.27 KiB
+networkx             ------------------------------     0 B/2.04 MiB
+pymupdf-layout       ------------------------------     0 B/40.95 MiB           ⠙ Preparing packages... (0/4)
+pymupdf4llm          ------------------------------ 127.17 KiB/172.27 KiB
+networkx             ------------------------------ 16.00 KiB/2.04 MiB
+pymupdf-layout       ------------------------------     0 B/40.95 MiB           ⠙ Preparing packages... (0/4)
+pymupdf4llm          ------------------------------ 127.17 KiB/172.27 KiB
+networkx             ------------------------------ 16.00 KiB/2.04 MiB
+pymupdf-layout       ------------------------------ 16.00 KiB/40.95 MiB         ⠙ Preparing packages... (0/4)
+pymupdf4llm          ------------------------------ 127.17 KiB/172.27 KiB
+networkx             ------------------------------ 16.00 KiB/2.04 MiB
+pymupdf-layout       ------------------------------ 16.00 KiB/40.95 MiB         ⠙ Preparing packages... (0/4)
+networkx             ------------------------------ 94.44 KiB/2.04 MiB
+pymupdf              ------------------------------ 96.00 KiB/24.57 MiB
+pymupdf-layout       ------------------------------ 92.85 KiB/40.95 MiB         ⠙ Preparing packages... (0/4)
+networkx             ------------------------------ 526.44 KiB/2.04 MiB
+pymupdf              ------------------------------ 954.89 KiB/24.57 MiB
+pymupdf-layout       ------------------------------ 796.85 KiB/40.95 MiB        ⠙ Preparing packages... (0/4)
+pymupdf              ------------------------------ 2.39 MiB/24.57 MiB
+pymupdf-layout       ------------------------------ 1.98 MiB/40.95 MiB          ⠙ Preparing packages... (0/4)
+pymupdf              ------------------------------ 3.39 MiB/24.57 MiB
+pymupdf-layout       ------------------------------ 2.93 MiB/40.95 MiB          ⠙ Preparing packages... (0/4)
+pymupdf              ------------------------------ 6.03 MiB/24.57 MiB
+pymupdf-layout       ------------------------------ 5.84 MiB/40.95 MiB          ⠹ Preparing packages... (2/4)
+pymupdf              ------------------------------ 8.68 MiB/24.57 MiB
+pymupdf-layout       ------------------------------ 7.53 MiB/40.95 MiB          ⠹ Preparing packages... (2/4)
+pymupdf              ------------------------------ 12.11 MiB/24.57 MiB
+pymupdf-layout       ------------------------------ 10.50 MiB/40.95 MiB         ⠹ Preparing packages... (2/4)
+pymupdf              ------------------------------ 14.86 MiB/24.57 MiB
+pymupdf-layout       ------------------------------ 13.42 MiB/40.95 MiB         ⠹ Preparing packages... (2/4)
+pymupdf              ------------------------------ 17.62 MiB/24.57 MiB
+pymupdf-layout       ------------------------------ 16.33 MiB/40.95 MiB         ⠸ Preparing packages... (2/4)
+pymupdf              ------------------------------ 20.26 MiB/24.57 MiB
+pymupdf-layout       ------------------------------ 19.05 MiB/40.95 MiB         ⠸ Preparing packages... (2/4)
+pymupdf              ------------------------------ 23.12 MiB/24.57 MiB
+pymupdf-layout       ------------------------------ 22.01 MiB/40.95 MiB         ⠸ Preparing packages... (2/4)
+pymupdf-layout       ------------------------------ 24.03 MiB/40.95 MiB         ⠸ Preparing packages... (2/4)
+pymupdf-layout       ------------------------------ 26.15 MiB/40.95 MiB         ⠸ Preparing packages... (2/4)
+pymupdf-layout       ------------------------------ 31.57 MiB/40.95 MiB         ⠼ Preparing packages... (3/4)
+pymupdf-layout       ------------------------------ 36.71 MiB/40.95 MiB         ⠼ Preparing packages... (3/4)                                                   Prepared 4 packages in 638ms
+░░░░░░░░░░░░░░░░░░░░ [0/0] Installing wheels...                                 ░░░░░░░░░░░░░░░░░░░░ [0/5] Installing wheels...                                 ░░░░░░░░░░░░░░░░░░░░ [0/5] pymupdf-layout==1.28.2                               ████░░░░░░░░░░░░░░░░ [1/5] pymupdf-layout==1.28.2                               ████░░░░░░░░░░░░░░░░ [1/5] pymupdf==1.28.2                                      ████████░░░░░░░░░░░░ [2/5] pymupdf==1.28.2                                      ████████░░░░░░░░░░░░ [2/5] tabulate==0.10.0                                     ████████████░░░░░░░░ [3/5] tabulate==0.10.0                                     ████████████░░░░░░░░ [3/5] pymupdf4llm==1.28.2                                  ████████████████░░░░ [4/5] pymupdf4llm==1.28.2                                  ████████████████░░░░ [4/5] networkx==3.7                                        ████████████████████ [5/5] networkx==3.7                                        Installed 5 packages in 7ms
+ + networkx==3.7
+ + pymupdf==1.28.2
+ + pymupdf-layout==1.28.2
+ + pymupdf4llm==1.28.2
+ + tabulate==0.10.0
 </pre>
 </div>
 </div>
@@ -5548,13 +5511,13 @@ print(md_text[:500])</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Extracted 14,957 characters of markdown
+<pre>Extracted 15,008 characters of markdown
 --- preview (first 500 chars) ---
 Published as a conference paper at ICLR 2023 
 
 # REACT: SYNERGIZING REASONING AND ACTING IN LANGUAGE MODELS 
 
-Shunyu Yao _[∗]_[*,1] , Jeffrey Zhao[2] , Dian Yu[2] , Nan Du[2] , Izhak Shafran[2] , Karthik Narasimhan[1] , Yuan Cao[2] 
+Shunyu Yao&lt;sup&gt;_∗_*,1&lt;/sup&gt; , Jeffrey Zhao&lt;sup&gt;2&lt;/sup&gt; , Dian Yu&lt;sup&gt;2&lt;/sup&gt; , Nan Du&lt;sup&gt;2&lt;/sup&gt; , Izhak Shafran&lt;sup&gt;2&lt;/sup&gt; , Karthik Narasimhan&lt;sup&gt;1&lt;/sup&gt; , Yuan Cao&lt;sup&gt;2&lt;/sup&gt; 
 
 1Department of Computer Science, Princeton University 
 
@@ -5566,7 +5529,7 @@ Shunyu Yao _[∗]_[*,1] , Jeffrey Zhao[2] , Dian Yu[2] , Nan Du[2] , Izhak Shafr
 
 ## ABSTRACT 
 
-While large language models (LLMs) have demonstrated impressive performanc
+While large la
 </pre>
 </div>
 </div>
@@ -5699,9 +5662,7 @@ instance — no parsing or post-processing needed.</p>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms.ollama</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
-
-<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"qwen3:14b"</span><span class="p">,</span> <span class="n">think</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">llm</span> <span class="o">=</span> <span class="n">make_llm</span><span class="p">()</span>
 
 <span class="n">prompt</span> <span class="o">=</span> <span class="p">(</span>
     <span class="s2">"Extract structured metadata from the following research paper.</span><span class="se">\n\n</span><span class="s2">"</span>
@@ -5712,9 +5673,7 @@ instance — no parsing or post-processing needed.</p>
 <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">summary</span><span class="p">),</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">summary</span><span class="o">.</span><span class="n">model_dump</span><span class="p">())</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-7">from llm_agents_from_scratch.llms.ollama import OllamaLLM
-
-llm = OllamaLLM(model="qwen3:14b", think=False)
+<div class="clipboard-copy-txt" id="cell-7">llm = make_llm()
 
 prompt = (
     "Extract structured metadata from the following research paper.\n\n"
@@ -5735,9 +5694,10 @@ print(summary.model_dump())</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>&lt;class '__main__.PaperSummary'&gt; 
+<pre>✓ Using Ollama Cloud (kimi-k2.7-code:cloud)
+&lt;class '__main__.PaperSummary'&gt; 
 
-{'title': 'REACT: SYNERGIZING REASONING AND ACTING IN LANGUAGE MODELS', 'authors': ['Shunyu Yao', 'Jeffrey Zhao', 'Dian Yu', 'Nan Du', 'Izhak Shafran', 'Karthik Narasimhan', 'Yuan Cao'], 'year': 2023, 'abstract': 'While large language models (LLMs) have demonstrated impressive performance across tasks in language understanding and interactive decision making, their abilities for reasoning (e.g. chain-of-thought prompting) and acting (e.g. action plan generation) have primarily been studied as separate topics. In this paper, we explore the use of LLMs to generate both verbal reasoning traces and actions pertaining to a task in an interleaved manner, which allows the model to perform dynamic reasoning to create, maintain, and adjust high-level plans for acting while also interacting with external environments to incorporate additional information into reasoning. We conduct empirical evaluations of ReAct and state-of-the-art baselines on four diverse benchmarks: HotPotQA, Fever, ALFWorld, and WebShop. ReAct outperforms existing methods in few-shot learning setups and demonstrates benefits in interpretability, trustworthiness, and diagnosability.', 'key_contributions': ['Introduce ReAct, a novel prompt-based paradigm to synergize reasoning and acting in language models for general task solving.', 'Perform extensive experiments across diverse benchmarks to showcase the advantage of ReAct in a few-shot learning setup over prior approaches that perform either reasoning or action generation in isolation.', 'Present systematic ablations and analysis to understand the importance of acting in reasoning tasks, and reasoning in interactive tasks.', 'Analyze the limitations of ReAct under the prompting setup and perform initial finetuning experiments showing the potential of ReAct to improve with additional training data.'], 'primary_topic': 'Synergizing reasoning and acting in language models for general task solving using the ReAct paradigm.'}
+{'title': 'REACT: SYNERGIZING REASONING AND ACTING IN LANGUAGE MODELS', 'authors': ['Shunyu Yao', 'Jeffrey Zhao', 'Dian Yu', 'Nan Du', 'Izhak Shafran', 'Karthik Narasimhan', 'Yuan Cao'], 'year': 2023, 'abstract': 'While large language models (LLMs) have demonstrated impressive performance across tasks in language understanding and interactive decision making, their abilities for reasoning (e.g. chain-of-thought prompting) and acting (e.g. action plan generation) have primarily been studied as separate topics. In this paper, we explore the use of LLMs to generate both reasoning traces and task-specific actions in an interleaved manner, allowing for greater synergy between the two: reasoning traces help the model induce, track, and update action plans as well as handle exceptions, while actions allow it to interface with and gather additional information from external sources such as knowledge bases or environments. We apply our approach, named ReAct, to a diverse set of language and decision making tasks and demonstrate its effectiveness over state-of-the-art baselines in addition to improved human interpretability and trustworthiness. Concretely, on question answering (HotpotQA) and fact verification (Fever), ReAct overcomes prevalent issues of hallucination and error propagation in chain-of-thought reasoning by interacting with a simple Wikipedia API, and generating human-like task-solving trajectories that are more interpretable than baselines without reasoning traces. Furthermore, on two interactive decision making benchmarks (ALFWorld and WebShop), ReAct outperforms imitation and reinforcement learning methods by an absolute success rate of 34% and 10% respectively, while being prompted with only one or two in-context examples.', 'key_contributions': ['Introduce ReAct, a novel prompt-based paradigm that interleaves verbal reasoning traces with task-specific actions in LLMs.', 'Demonstrate strong empirical performance on diverse benchmarks: HotpotQA, Fever, ALFWorld, and WebShop.', 'Show that combining reasoning and acting reduces hallucination and error propagation in reasoning tasks and improves decision making in interactive environments.', 'Provide systematic ablations analyzing the importance of acting for reasoning and reasoning for acting.', 'Perform initial fine-tuning experiments and discuss future directions for scaling ReAct with additional training and reinforcement learning.'], 'primary_topic': 'LLM reasoning and acting'}
 </pre>
 </div>
 </div>
@@ -5811,16 +5771,17 @@ for point in summary.key_contributions:
 <pre>Title:          REACT: SYNERGIZING REASONING AND ACTING IN LANGUAGE MODELS
 Year:           2023
 Authors:        Shunyu Yao, Jeffrey Zhao, Dian Yu, Nan Du, Izhak Shafran, Karthik Narasimhan, Yuan Cao
-Primary topic:  Synergizing reasoning and acting in language models for general task solving using the ReAct paradigm.
+Primary topic:  LLM reasoning and acting
 
 Abstract:
-While large language models (LLMs) have demonstrated impressive performance across tasks in language understanding and interactive decision making, their abilities for reasoning (e.g. chain-of-thought prompting) and acting (e.g. action plan generation) have primarily been studied as separate topics. In this paper, we explore the use of LLMs to generate both verbal reasoning traces and actions pertaining to a task in an interleaved manner, which allows the model to perform dynamic reasoning to create, maintain, and adjust high-level plans for acting while also interacting with external environments to incorporate additional information into reasoning. We conduct empirical evaluations of ReAct and state-of-the-art baselines on four diverse benchmarks: HotPotQA, Fever, ALFWorld, and WebShop. ReAct outperforms existing methods in few-shot learning setups and demonstrates benefits in interpretability, trustworthiness, and diagnosability.
+While large language models (LLMs) have demonstrated impressive performance across tasks in language understanding and interactive decision making, their abilities for reasoning (e.g. chain-of-thought prompting) and acting (e.g. action plan generation) have primarily been studied as separate topics. In this paper, we explore the use of LLMs to generate both reasoning traces and task-specific actions in an interleaved manner, allowing for greater synergy between the two: reasoning traces help the model induce, track, and update action plans as well as handle exceptions, while actions allow it to interface with and gather additional information from external sources such as knowledge bases or environments. We apply our approach, named ReAct, to a diverse set of language and decision making tasks and demonstrate its effectiveness over state-of-the-art baselines in addition to improved human interpretability and trustworthiness. Concretely, on question answering (HotpotQA) and fact verification (Fever), ReAct overcomes prevalent issues of hallucination and error propagation in chain-of-thought reasoning by interacting with a simple Wikipedia API, and generating human-like task-solving trajectories that are more interpretable than baselines without reasoning traces. Furthermore, on two interactive decision making benchmarks (ALFWorld and WebShop), ReAct outperforms imitation and reinforcement learning methods by an absolute success rate of 34% and 10% respectively, while being prompted with only one or two in-context examples.
 
 Key contributions:
-  • Introduce ReAct, a novel prompt-based paradigm to synergize reasoning and acting in language models for general task solving.
-  • Perform extensive experiments across diverse benchmarks to showcase the advantage of ReAct in a few-shot learning setup over prior approaches that perform either reasoning or action generation in isolation.
-  • Present systematic ablations and analysis to understand the importance of acting in reasoning tasks, and reasoning in interactive tasks.
-  • Analyze the limitations of ReAct under the prompting setup and perform initial finetuning experiments showing the potential of ReAct to improve with additional training data.
+  • Introduce ReAct, a novel prompt-based paradigm that interleaves verbal reasoning traces with task-specific actions in LLMs.
+  • Demonstrate strong empirical performance on diverse benchmarks: HotpotQA, Fever, ALFWorld, and WebShop.
+  • Show that combining reasoning and acting reduces hallucination and error propagation in reasoning tasks and improves decision making in interactive environments.
+  • Provide systematic ablations analyzing the importance of acting for reasoning and reasoning for acting.
+  • Perform initial fine-tuning experiments and discuss future directions for scaling ReAct with additional training and reinforcement learning.
 </pre>
 </div>
 </div>

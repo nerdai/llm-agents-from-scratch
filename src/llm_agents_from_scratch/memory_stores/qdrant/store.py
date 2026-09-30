@@ -69,7 +69,7 @@ class QdrantMemoryStore(BaseMemoryStore):
             max_results (int): Default maximum number of episodes
                 returned by ``search``. Defaults to 5.
             recall_mode (RecallMode): Retrieval strategy used by
-                ``search()``. Defaults to ``RecallMode.SEARCH``.
+                ``recall()``. Defaults to ``RecallMode.SEARCH``.
             key_fn (Callable[[Episode], str] | None): Callable that
                 extracts the text to embed from an episode. Defaults to
                 a concat-format serialization using
@@ -267,7 +267,7 @@ class QdrantMemoryStore(BaseMemoryStore):
     ) -> list[Episode]:
         """Return the top ``max_results`` episodes most similar to ``query``.
 
-        Called by the base ``search()`` when ``recall_mode`` is
+        Called by the base ``recall()`` when ``recall_mode`` is
         ``RecallMode.SEARCH``. Uses cosine similarity over FastEmbed vectors.
 
         Args:

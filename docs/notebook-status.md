@@ -68,8 +68,8 @@ Run All.
 | [`user_explicit_hailstone.ipynb`](more-examples/ch06/user_explicit_hailstone.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`with_and_without_skills.ipynb`](more-examples/ch06/with_and_without_skills.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`recency_memory.ipynb`](more-examples/ch07/recency_memory.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| `reflective_memory.ipynb` | ❌[^4] | ❌[^5] | ❌[^6] |
-| [`similarity_memory.ipynb`](more-examples/ch07/similarity_memory.ipynb) | ❌[^7] | ❌[^8] | ❌[^9] |
+| `reflective_memory.ipynb` | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`similarity_memory.ipynb`](more-examples/ch07/similarity_memory.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`approval_gate_in_skill.ipynb`](more-examples/ch08/approval_gate_in_skill.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`skill_with_human_input.ipynb`](more-examples/ch08/skill_with_human_input.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`supervised_trajectories.ipynb`](more-examples/ch08/supervised_trajectories.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
@@ -84,12 +84,6 @@ Run All.
 [^1]: `more-examples/ch05/github_mcp.ipynb` / Ollama Cloud: cell 10: TypeError: streamable_http_client() takes 1 positional argument but 2 were given
 [^2]: `more-examples/ch05/github_mcp.ipynb` / OpenAI: cell 10: TypeError: streamable_http_client() takes 1 positional argument but 2 were given
 [^3]: `more-examples/ch05/github_mcp.ipynb` / Anthropic: cell 10: TypeError: streamable_http_client() takes 1 positional argument but 2 were given
-[^4]: `more-examples/ch07/reflective_memory.ipynb` / Ollama Cloud: cell 15: AttributeError: 'QdrantMemoryStore' object has no attribute 'read_recent'
-[^5]: `more-examples/ch07/reflective_memory.ipynb` / OpenAI: cell 15: AttributeError: 'QdrantMemoryStore' object has no attribute 'read_recent'
-[^6]: `more-examples/ch07/reflective_memory.ipynb` / Anthropic: cell 15: AttributeError: 'QdrantMemoryStore' object has no attribute 'read_recent'
-[^7]: `more-examples/ch07/similarity_memory.ipynb` / Ollama Cloud: cell 16: AttributeError: 'QdrantMemoryStore' object has no attribute 'read_recent'
-[^8]: `more-examples/ch07/similarity_memory.ipynb` / OpenAI: cell 11: cell exceeded 600s
-[^9]: `more-examples/ch07/similarity_memory.ipynb` / Anthropic: cell 16: AttributeError: 'QdrantMemoryStore' object has no attribute 'read_recent'
 
 ## Capstones
 

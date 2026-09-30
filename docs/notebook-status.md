@@ -77,7 +77,7 @@ Run All.
 | [`subagent_failure.ipynb`](more-examples/ch09/subagent_failure.ipynb) | ⚪ not wired | ⚪ not wired | ⚪ not wired |
 | [`subagent_with_mcp_tool.ipynb`](more-examples/ch09/subagent_with_mcp_tool.ipynb) | ⚪ not wired | ⚪ not wired | ⚪ not wired |
 | [`cancelling_a_task_execution.ipynb`](more-examples/ch10/cancelling_a_task_execution.ipynb) | ✅ `kimi-k2.7-code:cloud` | ⚪ not wired | ⚪ not wired |
-| [`streaming_llmagent_executor.ipynb`](more-examples/ch10/streaming_llmagent_executor.ipynb) | ✅ | ⚪ not wired | ⚪ not wired |
+| [`streaming_llmagent_executor.ipynb`](more-examples/ch10/streaming_llmagent_executor.ipynb) | ✅ `kimi-k2.7-code:cloud` | ⚪ not wired | ⚪ not wired |
 
 </div>
 

@@ -27,6 +27,8 @@ Run All.
 
 ## Chapter notebooks
 
+<div class="notebook-status" markdown>
+
 | Notebook | Ollama Cloud | OpenAI | Anthropic |
 |---|---|---|---|
 | [`ch02.ipynb`](notebooks/ch02.ipynb) | ∅ no LLM | ∅ no LLM | ∅ no LLM |
@@ -39,7 +41,11 @@ Run All.
 | [`ch09.ipynb`](notebooks/ch09.ipynb) | ✅ 2026-09-29 `kimi-k2.7-code:cloud` | ✅ 2026-09-29 `gpt-5` | ✅ 2026-09-29 `claude-sonnet-5` |
 | [`ch10.ipynb`](notebooks/ch10.ipynb) | ✅ 2026-09-29 `kimi-k2.7-code:cloud` | ✅ 2026-09-29 `gpt-5` | ✅ 2026-09-29 `claude-sonnet-5` |
 
+</div>
+
 ## Additional examples
+
+<div class="notebook-status" markdown>
 
 | Notebook | Ollama Cloud | OpenAI | Anthropic |
 |---|---|---|---|
@@ -71,7 +77,11 @@ Run All.
 | [`cancelling_a_task_execution.ipynb`](more-examples/ch10/cancelling_a_task_execution.ipynb) | ✅ 2026-09-29 `kimi-k2.7-code:cloud` | ⚪ not wired | ⚪ not wired |
 | [`streaming_llmagent_executor.ipynb`](more-examples/ch10/streaming_llmagent_executor.ipynb) | ✅ 2026-09-29 | ⚪ not wired | ⚪ not wired |
 
+</div>
+
 ## Capstones
+
+<div class="notebook-status" markdown>
 
 | Notebook | Ollama Cloud | OpenAI | Anthropic |
 |---|---|---|---|
@@ -80,3 +90,5 @@ Run All.
 | `capstone_3.ipynb` | ∅ no LLM | ∅ no LLM | ∅ no LLM |
 | `capstone_4.ipynb` | ∅ no LLM | ∅ no LLM | ∅ no LLM |
 | `capstone_5.ipynb` | ∅ no LLM | ∅ no LLM | ∅ no LLM |
+
+</div>

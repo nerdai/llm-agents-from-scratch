@@ -137,6 +137,9 @@ def render(ledger: dict[str, Any]) -> str:
             continue
         notes: list[str] = []
         lines += [f"## {title}", ""]
+        # wrapper lets extra.css keep cells on one line, so a wide table
+        # scrolls sideways instead of wrapping into tall, narrow cells
+        lines += ['<div class="notebook-status" markdown>', ""]
         lines.append(
             "| Notebook | " + " | ".join(t for _, t in PROVIDERS) + " |",
         )
@@ -148,7 +151,7 @@ def render(ledger: dict[str, Any]) -> str:
                 for key, title_ in PROVIDERS
             ]
             lines.append(f"| {_docs_link(path)} | " + " | ".join(cells) + " |")
-        lines.append("")
+        lines += ["", "</div>", ""]
         # footnote numbering restarts per table, so scope the notes to it
         for n, note in enumerate(notes, start=1):
             lines.append(f"[^{n}]: {note}")

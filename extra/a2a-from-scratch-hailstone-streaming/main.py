@@ -20,9 +20,9 @@ from llm_agents_from_scratch.a2a import (
 )
 from llm_agents_from_scratch.llms import OllamaLLM
 from llm_agents_from_scratch.logger import enable_console_logging
+from llm_agents_from_scratch.notebook_utils import ollama_settings
 from llm_agents_from_scratch.tools import SimpleFunctionTool
 
-OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "qwen3:14b")
 OLLAMA_HOST = os.environ.get("OLLAMA_HOST") or None
 A2A_HOST = os.environ.get("A2A_HOST", "0.0.0.0")
 A2A_PORT = int(os.environ.get("A2A_PORT", "9301"))
@@ -53,17 +53,10 @@ def build_app() -> FastAPI:
         FastAPI: The app, with A2A agent-card, JSON-RPC, and REST
             routes mounted.
     """
-    # Exact match, not a prefix/substring check -- OLLAMA_HOST is only
-    # ever unset (local) or exactly "https://ollama.com" per this
-    # app's README, and a substring/prefix check would incorrectly
-    # match a host like "https://ollama.com.evil.com".
-    use_cloud = OLLAMA_HOST == "https://ollama.com"
-    llm = OllamaLLM(
-        host=OLLAMA_HOST,
-        model=OLLAMA_MODEL,
-        think=use_cloud,
-        json_prompt_mode=use_cloud,
-    )
+    # Resolves exactly like make_llm() in the notebooks: Ollama Cloud
+    # when OLLAMA_API_KEY is set, otherwise local Ollama (started if
+    # needed); OLLAMA_MODEL overrides the model either way.
+    llm = OllamaLLM(**ollama_settings(host=OLLAMA_HOST))
     agent = LLMAgent(llm=llm, tools=[SimpleFunctionTool(func=next_number)])
     card = build_streaming_agent_card(
         name="from-scratch-hailstone-streaming",

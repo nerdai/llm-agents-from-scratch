@@ -28,8 +28,21 @@ from crewai import LLM, Agent, Crew, Task
 from crewai.tools import tool
 from fastapi import FastAPI
 
-OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "ollama/qwen3:14b")
-OLLAMA_BASE_URL = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434")
+# Mirrors make_llm() in the notebooks: Ollama Cloud when OLLAMA_API_KEY is
+# set, otherwise a local Ollama service. OLLAMA_MODEL / OLLAMA_BASE_URL
+# override either default. The `ollama_chat/` prefix is litellm's
+# provider routing, which crewai.LLM uses under the hood.
+OLLAMA_API_KEY = os.environ.get("OLLAMA_API_KEY")
+OLLAMA_MODEL = os.environ.get(
+    "OLLAMA_MODEL",
+    "ollama_chat/kimi-k2.7-code:cloud"
+    if OLLAMA_API_KEY
+    else "ollama/qwen3:14b",
+)
+OLLAMA_BASE_URL = os.environ.get(
+    "OLLAMA_BASE_URL",
+    "https://ollama.com" if OLLAMA_API_KEY else "http://localhost:11434",
+)
 A2A_HOST = os.environ.get("A2A_HOST", "0.0.0.0")
 A2A_PORT = int(os.environ.get("A2A_PORT", "9200"))
 A2A_URL = os.environ.get("A2A_URL", f"http://localhost:{A2A_PORT}")
@@ -78,7 +91,11 @@ def build_crew(instruction: str) -> Crew:
     Returns:
         Crew: A crew ready to be kicked off with this instruction.
     """
-    llm = LLM(model=OLLAMA_MODEL, base_url=OLLAMA_BASE_URL)
+    llm = LLM(
+        model=OLLAMA_MODEL,
+        base_url=OLLAMA_BASE_URL,
+        api_key=OLLAMA_API_KEY,
+    )
     agent = Agent(
         role="Hailstone Sequence Calculator",
         goal=(

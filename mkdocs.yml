@@ -31,7 +31,6 @@ markdown_extensions:
       permalink: true
 nav:
   - Home: index.md
-  - Notebook Status: notebook-status.md
   - Chapter Notebooks:
     - notebooks/index.md
     # Symlinked from examples/ — do not copy directly.
@@ -89,6 +88,7 @@ nav:
       - capstones/one/index.md
       - Notebook: capstones/one/capstone_1.ipynb
       - Runpod Instructions: capstones/one/runpod_instructions.md
+  - Notebook Status: notebook-status.md
   - API Reference:
     - Base:
       - LLM: api_reference/base/llm.md

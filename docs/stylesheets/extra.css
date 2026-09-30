@@ -258,3 +258,16 @@
 .landing-card--soon {
   opacity: 0.55;
 }
+
+/* ===================== Notebook Status ===================== */
+
+/* Keep status cells on one line; Material's table wrapper then scrolls
+   the table horizontally instead of squeezing it into narrow columns. */
+.notebook-status th,
+.notebook-status td {
+  white-space: nowrap;
+}
+
+.notebook-status code {
+  word-break: normal;
+}

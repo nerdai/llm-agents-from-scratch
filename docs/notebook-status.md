@@ -1,16 +1,18 @@
 # Notebook Status
 
 Which notebooks have been run end to end against which LLM
-provider, and when. Generated from `notebook_status.yaml` by
+provider. Generated from `notebook_status.yaml` by
 `_scripts/render_notebook_status.py`; runs are recorded by
 `_scripts/run_notebook.py`. Edit the ledger and re-render, not
 this page.
 
+**Last tested:** 2026-09-29
+
 | Symbol | Meaning |
 |---|---|
-| ✅ date `model` | Ran to completion on that date with that model |
-| ✅ date `model`[^n] | Passed with a caveat; see the footnote |
-| ❌ date | Failed; see the footnote |
+| ✅ `model` | Ran to completion with that model |
+| ✅ `model` + footnote | Passed with a caveat; see the footnote |
+| ❌ | Failed; see the footnote |
 | ⚪ not wired | The notebook constructs its LLM directly, so the provider setting would have no effect; not run |
 | ∅ no LLM | Nothing in the notebook builds an LLM; run under Ollama Cloud only |
 | – | Never run on that provider |
@@ -27,19 +29,25 @@ Run All.
 
 ## Chapter notebooks
 
+<div class="notebook-status" markdown>
+
 | Notebook | Ollama Cloud | OpenAI | Anthropic |
 |---|---|---|---|
 | [`ch02.ipynb`](notebooks/ch02.ipynb) | ∅ no LLM | ∅ no LLM | ∅ no LLM |
-| [`ch03.ipynb`](notebooks/ch03.ipynb) | ✅ 2026-09-29 `kimi-k2.7-code:cloud` | ⚪ not wired | ⚪ not wired |
-| [`ch04.ipynb`](notebooks/ch04.ipynb) | ✅ 2026-09-29 `kimi-k2.7-code:cloud` | ✅ 2026-09-29 `gpt-5` | ✅ 2026-09-29 `claude-sonnet-5` |
-| [`ch05.ipynb`](notebooks/ch05.ipynb) | ✅ 2026-09-29 `kimi-k2.7-code:cloud` | ✅ 2026-09-29 `gpt-5` | ✅ 2026-09-29 `claude-sonnet-5` |
-| [`ch06.ipynb`](notebooks/ch06.ipynb) | ✅ 2026-09-29 `kimi-k2.7-code:cloud` | ✅ 2026-09-29 `gpt-5` | ✅ 2026-09-29 `claude-sonnet-5` |
-| [`ch07.ipynb`](notebooks/ch07.ipynb) | ✅ 2026-09-29 `kimi-k2.7-code:cloud` | ✅ 2026-09-29 `gpt-5` | ✅ 2026-09-29 `claude-sonnet-5` |
-| [`ch08.ipynb`](notebooks/ch08.ipynb) | ✅ 2026-09-29 `kimi-k2.7-code:cloud` | ✅ 2026-09-29 `gpt-5` | ✅ 2026-09-29 `claude-sonnet-5` |
-| [`ch09.ipynb`](notebooks/ch09.ipynb) | ✅ 2026-09-29 `kimi-k2.7-code:cloud` | ✅ 2026-09-29 `gpt-5` | ✅ 2026-09-29 `claude-sonnet-5` |
-| [`ch10.ipynb`](notebooks/ch10.ipynb) | ✅ 2026-09-29 `kimi-k2.7-code:cloud` | ✅ 2026-09-29 `gpt-5` | ✅ 2026-09-29 `claude-sonnet-5` |
+| [`ch03.ipynb`](notebooks/ch03.ipynb) | ✅ `kimi-k2.7-code:cloud` | ⚪ not wired | ⚪ not wired |
+| [`ch04.ipynb`](notebooks/ch04.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`ch05.ipynb`](notebooks/ch05.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`ch06.ipynb`](notebooks/ch06.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`ch07.ipynb`](notebooks/ch07.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`ch08.ipynb`](notebooks/ch08.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`ch09.ipynb`](notebooks/ch09.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`ch10.ipynb`](notebooks/ch10.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+
+</div>
 
 ## Additional examples
+
+<div class="notebook-status" markdown>
 
 | Notebook | Ollama Cloud | OpenAI | Anthropic |
 |---|---|---|---|
@@ -49,7 +57,7 @@ Run All.
 | [`multi_turn_chat.ipynb`](more-examples/ch03/multi_turn_chat.ipynb) | ⚪ not wired | ⚪ not wired | ⚪ not wired |
 | [`parallel_tool_calls.ipynb`](more-examples/ch03/parallel_tool_calls.ipynb) | ⚪ not wired | ⚪ not wired | ⚪ not wired |
 | [`pdf_extraction.ipynb`](more-examples/ch03/pdf_extraction.ipynb) | ⚪ not wired | ⚪ not wired | ⚪ not wired |
-| [`jev_next_step_judge.ipynb`](more-examples/ch04/jev_next_step_judge.ipynb) | ✅ 2026-09-29 `kimi-k2.7-code:cloud` | ✅ 2026-09-29 `gpt-5` | ✅ 2026-09-29 `claude-sonnet-5` |
+| [`jev_next_step_judge.ipynb`](more-examples/ch04/jev_next_step_judge.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`pokemon_comparison.ipynb`](more-examples/ch04/pokemon_comparison.ipynb) | ⚪ not wired | ⚪ not wired | ⚪ not wired |
 | [`pokemon_error_handling.ipynb`](more-examples/ch04/pokemon_error_handling.ipynb) | ⚪ not wired | ⚪ not wired | ⚪ not wired |
 | [`github_mcp.ipynb`](more-examples/ch05/github_mcp.ipynb) | ⚪ not wired | ⚪ not wired | ⚪ not wired |
@@ -68,10 +76,14 @@ Run All.
 | [`evaluator_pattern.ipynb`](more-examples/ch09/evaluator_pattern.ipynb) | ⚪ not wired | ⚪ not wired | ⚪ not wired |
 | [`subagent_failure.ipynb`](more-examples/ch09/subagent_failure.ipynb) | ⚪ not wired | ⚪ not wired | ⚪ not wired |
 | [`subagent_with_mcp_tool.ipynb`](more-examples/ch09/subagent_with_mcp_tool.ipynb) | ⚪ not wired | ⚪ not wired | ⚪ not wired |
-| [`cancelling_a_task_execution.ipynb`](more-examples/ch10/cancelling_a_task_execution.ipynb) | ✅ 2026-09-29 `kimi-k2.7-code:cloud` | ⚪ not wired | ⚪ not wired |
-| [`streaming_llmagent_executor.ipynb`](more-examples/ch10/streaming_llmagent_executor.ipynb) | ✅ 2026-09-29 | ⚪ not wired | ⚪ not wired |
+| [`cancelling_a_task_execution.ipynb`](more-examples/ch10/cancelling_a_task_execution.ipynb) | ✅ `kimi-k2.7-code:cloud` | ⚪ not wired | ⚪ not wired |
+| [`streaming_llmagent_executor.ipynb`](more-examples/ch10/streaming_llmagent_executor.ipynb) | ✅ | ⚪ not wired | ⚪ not wired |
+
+</div>
 
 ## Capstones
+
+<div class="notebook-status" markdown>
 
 | Notebook | Ollama Cloud | OpenAI | Anthropic |
 |---|---|---|---|
@@ -80,3 +92,5 @@ Run All.
 | `capstone_3.ipynb` | ∅ no LLM | ∅ no LLM | ∅ no LLM |
 | `capstone_4.ipynb` | ∅ no LLM | ∅ no LLM | ∅ no LLM |
 | `capstone_5.ipynb` | ∅ no LLM | ∅ no LLM | ∅ no LLM |
+
+</div>

@@ -688,26 +688,23 @@ more-examples/ch08/skill_with_human_input.ipynb:
     status: pass
 more-examples/ch08/supervised_trajectories.ipynb:
   anthropic:
-    commit: 9814fa00
+    commit: 20c519ac
     last_tested: '2026-09-30'
     model: claude-sonnet-5
-    note: 'cell 12: AttributeError: ''TaskResult'' object has no attribute ''instruction'''
-    seconds: 14
-    status: fail
+    seconds: 22
+    status: pass
   ollama-cloud:
-    commit: 9814fa00
-    last_tested: '2026-09-29'
+    commit: 20c519ac
+    last_tested: '2026-09-30'
     model: kimi-k2.7-code:cloud
-    note: 'cell 12: AttributeError: ''TaskResult'' object has no attribute ''instruction'''
-    seconds: 8
-    status: fail
+    seconds: 13
+    status: pass
   openai:
-    commit: 9814fa00
-    last_tested: '2026-09-29'
+    commit: 20c519ac
+    last_tested: '2026-09-30'
     model: gpt-5
-    note: 'cell 12: AttributeError: ''TaskResult'' object has no attribute ''instruction'''
-    seconds: 35
-    status: fail
+    seconds: 22
+    status: pass
 more-examples/ch09/evaluator_pattern.ipynb:
   anthropic:
     commit: 9814fa00

@@ -72,7 +72,7 @@ Run All.
 | [`similarity_memory.ipynb`](more-examples/ch07/similarity_memory.ipynb) | ❌[^7] | ❌[^8] | ❌[^9] |
 | [`approval_gate_in_skill.ipynb`](more-examples/ch08/approval_gate_in_skill.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`skill_with_human_input.ipynb`](more-examples/ch08/skill_with_human_input.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`supervised_trajectories.ipynb`](more-examples/ch08/supervised_trajectories.ipynb) | ❌[^10] | ❌[^11] | ❌[^12] |
+| [`supervised_trajectories.ipynb`](more-examples/ch08/supervised_trajectories.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`evaluator_pattern.ipynb`](more-examples/ch09/evaluator_pattern.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`subagent_failure.ipynb`](more-examples/ch09/subagent_failure.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`subagent_with_mcp_tool.ipynb`](more-examples/ch09/subagent_with_mcp_tool.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
@@ -90,9 +90,6 @@ Run All.
 [^7]: `more-examples/ch07/similarity_memory.ipynb` / Ollama Cloud: cell 16: AttributeError: 'QdrantMemoryStore' object has no attribute 'read_recent'
 [^8]: `more-examples/ch07/similarity_memory.ipynb` / OpenAI: cell 11: cell exceeded 600s
 [^9]: `more-examples/ch07/similarity_memory.ipynb` / Anthropic: cell 16: AttributeError: 'QdrantMemoryStore' object has no attribute 'read_recent'
-[^10]: `more-examples/ch08/supervised_trajectories.ipynb` / Ollama Cloud: cell 12: AttributeError: 'TaskResult' object has no attribute 'instruction'
-[^11]: `more-examples/ch08/supervised_trajectories.ipynb` / OpenAI: cell 12: AttributeError: 'TaskResult' object has no attribute 'instruction'
-[^12]: `more-examples/ch08/supervised_trajectories.ipynb` / Anthropic: cell 12: AttributeError: 'TaskResult' object has no attribute 'instruction'
 
 ## Capstones
 

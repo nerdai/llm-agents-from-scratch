@@ -37,11 +37,7 @@ Run All.
 | [`ch07.ipynb`](notebooks/ch07.ipynb) | ✅ 2026-09-29 `kimi-k2.7-code:cloud` | ✅ 2026-09-29 `gpt-5` | ✅ 2026-09-29 `claude-sonnet-5` |
 | [`ch08.ipynb`](notebooks/ch08.ipynb) | ✅ 2026-09-29 `kimi-k2.7-code:cloud` | ✅ 2026-09-29 `gpt-5` | ✅ 2026-09-29 `claude-sonnet-5` |
 | [`ch09.ipynb`](notebooks/ch09.ipynb) | ✅ 2026-09-29 `kimi-k2.7-code:cloud` | ✅ 2026-09-29 `gpt-5` | ✅ 2026-09-29 `claude-sonnet-5` |
-| [`ch10.ipynb`](notebooks/ch10.ipynb) | ✅ 2026-09-29 `kimi-k2.7-code:cloud`[^1] | ✅ 2026-09-29 `gpt-5`[^2] | ✅ 2026-09-29 `claude-sonnet-5`[^3] |
-
-[^1]: `examples/ch10.ipynb` / Ollama Cloud: only the coordinator ran on this provider; both A2A peer servers (extra/a2a-crewai-hailstone, extra/a2a-from-scratch-hailstone) build their own LLM and ran on local Ollama (2026-09-29)
-[^2]: `examples/ch10.ipynb` / OpenAI: only the coordinator ran on this provider; both A2A peer servers (extra/a2a-crewai-hailstone, extra/a2a-from-scratch-hailstone) build their own LLM and ran on local Ollama (2026-09-29)
-[^3]: `examples/ch10.ipynb` / Anthropic: only the coordinator ran on this provider; both A2A peer servers (extra/a2a-crewai-hailstone, extra/a2a-from-scratch-hailstone) build their own LLM and ran on local Ollama (2026-09-29)
+| [`ch10.ipynb`](notebooks/ch10.ipynb) | ✅ 2026-09-29 `kimi-k2.7-code:cloud` | ✅ 2026-09-29 `gpt-5` | ✅ 2026-09-29 `claude-sonnet-5` |
 
 ## Additional examples
 
@@ -72,8 +68,8 @@ Run All.
 | [`evaluator_pattern.ipynb`](more-examples/ch09/evaluator_pattern.ipynb) | ⚪ not wired | ⚪ not wired | ⚪ not wired |
 | [`subagent_failure.ipynb`](more-examples/ch09/subagent_failure.ipynb) | ⚪ not wired | ⚪ not wired | ⚪ not wired |
 | [`subagent_with_mcp_tool.ipynb`](more-examples/ch09/subagent_with_mcp_tool.ipynb) | ⚪ not wired | ⚪ not wired | ⚪ not wired |
-| [`cancelling_a_task_execution.ipynb`](more-examples/ch10/cancelling_a_task_execution.ipynb) | ⚪ not wired | ⚪ not wired | ⚪ not wired |
-| [`streaming_llmagent_executor.ipynb`](more-examples/ch10/streaming_llmagent_executor.ipynb) | ⚪ not wired | ⚪ not wired | ⚪ not wired |
+| [`cancelling_a_task_execution.ipynb`](more-examples/ch10/cancelling_a_task_execution.ipynb) | ✅ 2026-09-29 `kimi-k2.7-code:cloud` | ⚪ not wired | ⚪ not wired |
+| [`streaming_llmagent_executor.ipynb`](more-examples/ch10/streaming_llmagent_executor.ipynb) | ✅ 2026-09-29 | ⚪ not wired | ⚪ not wired |
 
 ## Capstones
 

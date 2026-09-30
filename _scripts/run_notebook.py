@@ -16,8 +16,10 @@ Statuses:
     fail       a cell raised or timed out (the `note` says which)
     not-wired  the provider setting cannot reach the notebook's LLM, so
                it is not run: a hard-coded local `OllamaLLM(...)` is
-               not-wired everywhere, and `ollama_settings()` (Ollama
-               only) is not-wired for OpenAI and Anthropic
+               not-wired everywhere, and a notebook that follows
+               OLLAMA_API_KEY but not LLM_PROVIDER (`ollama_settings()`,
+               or a key check of its own) is not-wired for OpenAI and
+               Anthropic
     no-llm     nothing in the notebook builds an LLM; it is only executed
                for `ollama-cloud`, where a failure is still recorded as
                `fail`
@@ -48,6 +50,7 @@ Usage:
     uv run python _scripts/run_notebook.py --all --timeout 1500
 """
 
+import contextlib
 import glob
 import json
 import os
@@ -63,6 +66,7 @@ from queue import Empty
 from typing import Any
 
 import fire
+import psutil
 import yaml
 from jupyter_client import KernelManager
 
@@ -131,11 +135,14 @@ def _head_commit() -> str:
 def _kernel_env(provider: str) -> dict[str, str]:
     """The environment a kernel needs for `make_llm()` to pick `provider`."""
     env = {k: v for k, v in os.environ.items() if k not in _PROVIDER_VARS}
+    key = os.environ.get("OLLAMA_API_KEY")
+    if not key:
+        raise SystemExit("OLLAMA_API_KEY must be set: every run uses it")
+    # Passed on every run: helper processes a notebook starts (ch10's A2A
+    # peer servers) use Ollama Cloud with it. make_llm() follows the
+    # explicit LLM_PROVIDER below, so the key cannot reroute the notebook.
+    env["OLLAMA_API_KEY"] = key
     if provider == "ollama-cloud":
-        key = os.environ.get("OLLAMA_API_KEY")
-        if not key:
-            raise SystemExit("ollama-cloud needs OLLAMA_API_KEY set")
-        env["OLLAMA_API_KEY"] = key
         return env
     var = f"{provider.upper()}_API_KEY"
     key = os.environ.get(var)
@@ -285,7 +292,9 @@ def _wiring(nb: dict[str, Any]) -> tuple[str, str]:
     source = _code(nb)
     if "make_llm(" in source:
         return "wired", ""
-    if "ollama_settings(" in source:
+    if "ollama_settings(" in source or "OLLAMA_API_KEY" in source:
+        # follows OLLAMA_API_KEY (itself, or via the helper processes it
+        # starts) but not LLM_PROVIDER
         return "ollama-wired", ""
     if _DIRECT.search(source):
         m = _DIRECT_MODEL.search(source)
@@ -344,6 +353,28 @@ def _await_tagged(kc: Any, cell: dict[str, Any], timeout: float) -> None:
         _run_cell(kc, pause, timeout)
 
 
+def _shutdown(km: Any) -> None:
+    """Shut the kernel down and stop anything it left running.
+
+    A notebook that starts server subprocesses (ch10's A2A peers) cleans
+    them up itself on success, but a failed or timed-out cell can skip
+    that, leaving a server bound to its port for the next run to reuse.
+    """
+    pid = getattr(km.provisioner, "pid", None)
+    children: list[psutil.Process] = []
+    if pid is not None:
+        with contextlib.suppress(psutil.Error):
+            children = psutil.Process(pid).children(recursive=True)
+    km.shutdown_kernel(now=True)
+    for child in children:
+        with contextlib.suppress(psutil.Error):
+            child.terminate()
+    _, alive = psutil.wait_procs(children, timeout=5)
+    for child in alive:
+        with contextlib.suppress(psutil.Error):
+            child.kill()
+
+
 def _execute(
     path: Path,
     nb: dict[str, Any],
@@ -378,7 +409,7 @@ def _execute(
             _progress(path, i, t0)
     finally:
         kc.stop_channels()
-        km.shutdown_kernel(now=True)
+        _shutdown(km)
     return None
 
 
@@ -407,7 +438,7 @@ def _skip(wiring: str, provider: str) -> dict[str, Any] | None:
     if wiring == "ollama-wired" and provider != "ollama-cloud":
         return _entry(
             "not-wired",
-            note="Ollama only (ollama_settings); not run",
+            note="follows OLLAMA_API_KEY, not LLM_PROVIDER; not run",
         )
     if wiring == "direct":
         return _entry("not-wired", note="constructs its LLM directly; not run")
@@ -439,10 +470,10 @@ def run_one(
         return _entry("fail", model, failure, seconds)
     if wiring == "none":
         return _entry("no-llm", seconds=seconds)
-    wired = wiring in ("wired", "ollama-wired")
-    if wired and (not used or _USING_KEY[used[1]] != provider):
-        ran_on = used[1] if used else "an unreported provider"
-        return _entry("fail", model, f"make_llm() ran on {ran_on}", seconds)
+    if wiring == "wired" and not used:
+        return _entry("fail", model, "make_llm() never reported", seconds)
+    if used and _USING_KEY[used[1]] != provider:
+        return _entry("fail", model, f"ran on {used[1]}", seconds)
     if keep_outputs:
         with path.open("w", encoding="utf-8") as f:
             json.dump(nb, f, indent=1, ensure_ascii=raw.isascii())

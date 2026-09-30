@@ -120,7 +120,7 @@ examples/ch03.ipynb:
     commit: eb4e4269
     last_tested: '2026-09-29'
     model: ''
-    note: Ollama only (ollama_settings); not run
+    note: follows OLLAMA_API_KEY, not LLM_PROVIDER; not run
     seconds: 0
     status: not-wired
   ollama-cloud:
@@ -133,7 +133,7 @@ examples/ch03.ipynb:
     commit: eb4e4269
     last_tested: '2026-09-29'
     model: ''
-    note: Ollama only (ollama_settings); not run
+    note: follows OLLAMA_API_KEY, not LLM_PROVIDER; not run
     seconds: 0
     status: not-wired
 examples/ch04.ipynb:
@@ -256,28 +256,22 @@ examples/ch09.ipynb:
     status: pass
 examples/ch10.ipynb:
   anthropic:
-    caveat: only the coordinator ran on this provider; both A2A peer servers (extra/a2a-crewai-hailstone,
-      extra/a2a-from-scratch-hailstone) build their own LLM and ran on local Ollama
-    commit: cf1955bc
+    commit: 9553a688
     last_tested: '2026-09-29'
     model: claude-sonnet-5
-    seconds: 684
+    seconds: 87
     status: pass
   ollama-cloud:
-    caveat: only the coordinator ran on this provider; both A2A peer servers (extra/a2a-crewai-hailstone,
-      extra/a2a-from-scratch-hailstone) build their own LLM and ran on local Ollama
-    commit: 6d29cd79
+    commit: 0c3389be
     last_tested: '2026-09-29'
     model: kimi-k2.7-code:cloud
-    seconds: 602
+    seconds: 80
     status: pass
   openai:
-    caveat: only the coordinator ran on this provider; both A2A peer servers (extra/a2a-crewai-hailstone,
-      extra/a2a-from-scratch-hailstone) build their own LLM and ran on local Ollama
-    commit: cf1955bc
+    commit: 0c3389be
     last_tested: '2026-09-29'
     model: gpt-5
-    seconds: 265
+    seconds: 92
     status: pass
 more-examples/ch02/async_tools.ipynb:
   anthropic:
@@ -816,45 +810,43 @@ more-examples/ch09/subagent_with_mcp_tool.ipynb:
     status: not-wired
 more-examples/ch10/cancelling_a_task_execution.ipynb:
   anthropic:
-    commit: e36a4b10
+    commit: 9553a688
     last_tested: '2026-09-29'
     model: ''
-    note: constructs its LLM directly; not run
+    note: follows OLLAMA_API_KEY, not LLM_PROVIDER; not run
     seconds: 0
     status: not-wired
   ollama-cloud:
-    commit: e36a4b10
+    commit: 9553a688
     last_tested: '2026-09-29'
-    model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    model: kimi-k2.7-code:cloud
+    seconds: 4
+    status: pass
   openai:
-    commit: e36a4b10
+    commit: 9553a688
     last_tested: '2026-09-29'
     model: ''
-    note: constructs its LLM directly; not run
+    note: follows OLLAMA_API_KEY, not LLM_PROVIDER; not run
     seconds: 0
     status: not-wired
 more-examples/ch10/streaming_llmagent_executor.ipynb:
   anthropic:
-    commit: e36a4b10
+    commit: 9553a688
     last_tested: '2026-09-29'
     model: ''
-    note: constructs its LLM directly; not run
+    note: follows OLLAMA_API_KEY, not LLM_PROVIDER; not run
     seconds: 0
     status: not-wired
   ollama-cloud:
-    commit: e36a4b10
+    commit: 9553a688
     last_tested: '2026-09-29'
     model: ''
-    note: constructs its LLM directly; not run
-    seconds: 0
-    status: not-wired
+    seconds: 62
+    status: pass
   openai:
-    commit: e36a4b10
+    commit: 9553a688
     last_tested: '2026-09-29'
     model: ''
-    note: constructs its LLM directly; not run
+    note: follows OLLAMA_API_KEY, not LLM_PROVIDER; not run
     seconds: 0
     status: not-wired

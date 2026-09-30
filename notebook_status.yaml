@@ -601,53 +601,42 @@ more-examples/ch07/recency_memory.ipynb:
     status: pass
 more-examples/ch07/reflective_memory.ipynb:
   anthropic:
-    commit: 9814fa00
-    last_tested: '2026-09-29'
-    model: claude-sonnet-5
-    note: 'cell 15: AttributeError: ''QdrantMemoryStore'' object has no attribute
-      ''read_recent'''
-    seconds: 19
-    status: fail
-  ollama-cloud:
-    commit: 9814fa00
-    last_tested: '2026-09-29'
-    model: kimi-k2.7-code:cloud
-    note: 'cell 15: AttributeError: ''QdrantMemoryStore'' object has no attribute
-      ''read_recent'''
-    seconds: 18
-    status: fail
-  openai:
-    commit: 9814fa00
-    last_tested: '2026-09-29'
-    model: gpt-5
-    note: 'cell 15: AttributeError: ''QdrantMemoryStore'' object has no attribute
-      ''read_recent'''
-    seconds: 42
-    status: fail
-more-examples/ch07/similarity_memory.ipynb:
-  anthropic:
-    commit: 9814fa00
+    commit: 5dc08a28
     last_tested: '2026-09-30'
     model: claude-sonnet-5
-    note: 'cell 16: AttributeError: ''QdrantMemoryStore'' object has no attribute
-      ''read_recent'''
-    seconds: 57
-    status: fail
+    seconds: 64
+    status: pass
   ollama-cloud:
-    commit: 9814fa00
-    last_tested: '2026-09-29'
+    commit: 5dc08a28
+    last_tested: '2026-09-30'
     model: kimi-k2.7-code:cloud
-    note: 'cell 16: AttributeError: ''QdrantMemoryStore'' object has no attribute
-      ''read_recent'''
-    seconds: 31
-    status: fail
+    seconds: 80
+    status: pass
   openai:
-    commit: 9814fa00
-    last_tested: '2026-09-29'
+    commit: 5dc08a28
+    last_tested: '2026-09-30'
     model: gpt-5
-    note: 'cell 11: cell exceeded 600s'
-    seconds: 602
-    status: fail
+    seconds: 89
+    status: pass
+more-examples/ch07/similarity_memory.ipynb:
+  anthropic:
+    commit: 5dc08a28
+    last_tested: '2026-09-30'
+    model: claude-sonnet-5
+    seconds: 37
+    status: pass
+  ollama-cloud:
+    commit: 5dc08a28
+    last_tested: '2026-09-30'
+    model: kimi-k2.7-code:cloud
+    seconds: 31
+    status: pass
+  openai:
+    commit: 5dc08a28
+    last_tested: '2026-09-30'
+    model: gpt-5
+    seconds: 42
+    status: pass
 more-examples/ch08/approval_gate_in_skill.ipynb:
   anthropic:
     commit: 9814fa00

@@ -5053,7 +5053,11 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="using-jev-to-decide-the-next-step">Using Jev to decide the next step<a class="anchor-link" href="#using-jev-to-decide-the-next-step">¶</a></h1><p>Every step, <code>TaskHandler.get_next_step()</code> makes one <code>structured_output()</code>
+<h1 id="using-jev-to-decide-the-next-step">Using Jev to decide the next step<a class="anchor-link" href="#using-jev-to-decide-the-next-step">¶</a></h1><video controls="" crossorigin="anonymous" preload="metadata" src="https://media.masfromscratch.com/videos/ch04-jev.mp4" width="100%">
+<track default="" kind="captions" label="English" src="https://media.masfromscratch.com/videos/ch04-jev.vtt" srclang="en"/>
+  Your browser can't play this video. <a href="https://media.masfromscratch.com/videos/ch04-jev.mp4">Download it</a> instead.
+</video>
+<p>Every step, <code>TaskHandler.get_next_step()</code> makes one <code>structured_output()</code>
 call asking the backbone LLM to classify where things stand: <code>next_step</code>
 or <code>final_result</code>. When it picks <code>final_result</code>, the LLM's own <code>content</code>
 is discarded: the actual <code>TaskResult.content</code> comes from the <em>previous</em>

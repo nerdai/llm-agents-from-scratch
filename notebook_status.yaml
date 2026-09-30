@@ -150,12 +150,13 @@ examples/ch03.ipynb:
     status: not-wired
 examples/ch04.ipynb:
   anthropic:
-    commit: cf1955bc
+    commit: 6b92bdcf
     last_tested: '2026-09-29'
     model: claude-sonnet-5
-    note: 'cell 31: InvalidStateError: Exception is not set.'
-    seconds: 4
-    status: fail
+    note: cell 31 paced by its await:handler tag; parallel run, recorded from its
+      log
+    seconds: 20
+    status: pass
   ollama:
     commit: '81890432'
     last_tested: '2026-09-29'

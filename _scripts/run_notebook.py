@@ -14,12 +14,16 @@ Statuses:
 
     pass       ran to completion
     fail       a cell raised or timed out (the `note` says which)
-    not-wired  the notebook constructs its LLM directly, so LLM_PROVIDER
-               would have no effect; it is only executed for `ollama`.
-               A notebook using `ollama_settings()` runs on both Ollama
-               columns and is not-wired for OpenAI and Anthropic
+    not-wired  the provider setting cannot reach the notebook's LLM, so
+               it is not run: a hard-coded local `OllamaLLM(...)` is
+               not-wired everywhere, and `ollama_settings()` (Ollama
+               only) is not-wired for OpenAI and Anthropic
     no-llm     nothing in the notebook builds an LLM; it is only executed
-               for `ollama`, where a failure is still recorded as `fail`
+               for `ollama-cloud`, where a failure is still recorded as
+               `fail`
+
+Local Ollama is deliberately not a provider here: its results depend on
+the machine's hardware, not on the notebook.
 
 Why not nbclient: it starts kernels with allow_stdin=False, so every
 `input()`, and therefore every rich Prompt/Confirm the HITL notebooks
@@ -64,7 +68,9 @@ from jupyter_client import KernelManager
 
 REPO = Path(__file__).resolve().parents[1]
 LEDGER = REPO / "notebook_status.yaml"
-PROVIDERS = ("ollama", "ollama-cloud", "openai", "anthropic")
+PROVIDERS = ("ollama-cloud", "openai", "anthropic")
+#: The provider no-llm notebooks are executed under.
+PRIMARY = "ollama-cloud"
 NOTEBOOK_GLOBS = (
     "examples/ch*.ipynb",
     "more-examples/*/*.ipynb",
@@ -125,8 +131,6 @@ def _head_commit() -> str:
 def _kernel_env(provider: str) -> dict[str, str]:
     """The environment a kernel needs for `make_llm()` to pick `provider`."""
     env = {k: v for k, v in os.environ.items() if k not in _PROVIDER_VARS}
-    if provider == "ollama":
-        return env
     if provider == "ollama-cloud":
         key = os.environ.get("OLLAMA_API_KEY")
         if not key:
@@ -276,7 +280,7 @@ def _wiring(nb: dict[str, Any]) -> tuple[str, str]:
 
     Returns (wiring, model hint), where wiring is one of `wired`
     (`make_llm()`: every provider), `ollama-wired` (`ollama_settings()`:
-    local Ollama or Ollama Cloud only), `direct` or `none`.
+    Ollama Cloud only), `direct` or `none`.
     """
     source = _code(nb)
     if "make_llm(" in source:
@@ -286,6 +290,10 @@ def _wiring(nb: dict[str, Any]) -> tuple[str, str]:
     if _DIRECT.search(source):
         m = _DIRECT_MODEL.search(source)
         return "direct", m.group(1) if m else "constructed directly"
+    if "ensure_ollama(" in source:
+        # no LLM in the notebook itself, but something it starts (an A2A
+        # server app, say) needs a local Ollama service
+        return "direct", "local Ollama via a helper process"
     return "none", ""
 
 
@@ -394,14 +402,14 @@ def _entry(
 
 def _skip(wiring: str, provider: str) -> dict[str, Any] | None:
     """The entry for a run that would not exercise `provider`, if any."""
-    if wiring == "none" and provider != "ollama":
+    if wiring == "none" and provider != PRIMARY:
         return _entry("no-llm")
-    if wiring == "ollama-wired" and provider not in ("ollama", "ollama-cloud"):
+    if wiring == "ollama-wired" and provider != "ollama-cloud":
         return _entry(
             "not-wired",
             note="Ollama only (ollama_settings); not run",
         )
-    if wiring == "direct" and provider != "ollama":
+    if wiring == "direct":
         return _entry("not-wired", note="constructs its LLM directly; not run")
     return None
 
@@ -444,7 +452,7 @@ def run_one(
 
 def main(
     *paths: str,
-    provider: str = "ollama",
+    provider: str = PRIMARY,
     all: bool = False,  # noqa: A002 - mirrors the CLI flag
     timeout: float = 1200,
     keep_outputs: bool = False,
@@ -454,8 +462,8 @@ def main(
 
     Args:
         *paths (str): Notebooks to run. Ignored when --all is given.
-        provider (str): One of ollama, ollama-cloud, openai, anthropic.
-            Defaults to "ollama" (local).
+        provider (str): One of ollama-cloud, openai, anthropic.
+            Defaults to "ollama-cloud".
         all (bool): Run every tracked notebook. Defaults to False.
         timeout (float): Per-cell timeout in seconds. Defaults to 1200.
         keep_outputs (bool): Write executed outputs back into the notebook

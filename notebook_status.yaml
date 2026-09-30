@@ -28,10 +28,10 @@ capstones/three/capstone_2.ipynb:
     seconds: 0
     status: no-llm
   ollama-cloud:
-    commit: 6d29cd79
+    commit: e36a4b10
     last_tested: '2026-09-29'
     model: ''
-    seconds: 0
+    seconds: 1
     status: no-llm
   openai:
     commit: f6502f43
@@ -47,10 +47,10 @@ capstones/three/capstone_3.ipynb:
     seconds: 0
     status: no-llm
   ollama-cloud:
-    commit: 6d29cd79
+    commit: e36a4b10
     last_tested: '2026-09-29'
     model: ''
-    seconds: 0
+    seconds: 1
     status: no-llm
   openai:
     commit: f6502f43
@@ -66,10 +66,10 @@ capstones/three/capstone_4.ipynb:
     seconds: 0
     status: no-llm
   ollama-cloud:
-    commit: 6d29cd79
+    commit: e36a4b10
     last_tested: '2026-09-29'
     model: ''
-    seconds: 0
+    seconds: 1
     status: no-llm
   openai:
     commit: f6502f43
@@ -85,10 +85,10 @@ capstones/three/capstone_5.ipynb:
     seconds: 0
     status: no-llm
   ollama-cloud:
-    commit: 6d29cd79
+    commit: e36a4b10
     last_tested: '2026-09-29'
     model: ''
-    seconds: 0
+    seconds: 1
     status: no-llm
   openai:
     commit: f6502f43
@@ -103,17 +103,11 @@ examples/ch02.ipynb:
     model: ''
     seconds: 0
     status: no-llm
-  ollama:
-    commit: '81890432'
-    last_tested: '2026-09-29'
-    model: ''
-    seconds: 2
-    status: no-llm
   ollama-cloud:
-    commit: 6d29cd79
+    commit: e36a4b10
     last_tested: '2026-09-29'
     model: ''
-    seconds: 0
+    seconds: 3
     status: no-llm
   openai:
     commit: f6502f43
@@ -129,12 +123,6 @@ examples/ch03.ipynb:
     note: Ollama only (ollama_settings); not run
     seconds: 0
     status: not-wired
-  ollama:
-    commit: 56b6c04e
-    last_tested: '2026-09-29'
-    model: qwen3:14b
-    seconds: 348
-    status: pass
   ollama-cloud:
     commit: dacfb1d6
     last_tested: '2026-09-29'
@@ -157,15 +145,6 @@ examples/ch04.ipynb:
       log
     seconds: 20
     status: pass
-  ollama:
-    commit: '81890432'
-    last_tested: '2026-09-29'
-    model: qwen3:14b
-    note: handler.result() read before the background run finished (InvalidStateError);
-      a race only under back-to-back headless execution, reproduced identically on
-      main
-    seconds: 3
-    status: fail
   ollama-cloud:
     commit: 6b92bdcf
     last_tested: '2026-09-29'
@@ -187,12 +166,6 @@ examples/ch05.ipynb:
     model: claude-sonnet-5
     seconds: 12
     status: pass
-  ollama:
-    commit: '81890432'
-    last_tested: '2026-09-29'
-    model: qwen3:14b
-    seconds: 28
-    status: pass
   ollama-cloud:
     commit: 6d29cd79
     last_tested: '2026-09-29'
@@ -211,12 +184,6 @@ examples/ch06.ipynb:
     last_tested: '2026-09-29'
     model: claude-sonnet-5
     seconds: 26
-    status: pass
-  ollama:
-    commit: '81890432'
-    last_tested: '2026-09-29'
-    model: qwen3:14b
-    seconds: 186
     status: pass
   ollama-cloud:
     commit: 6d29cd79
@@ -237,12 +204,6 @@ examples/ch07.ipynb:
     model: claude-sonnet-5
     seconds: 22
     status: pass
-  ollama:
-    commit: '81890432'
-    last_tested: '2026-09-29'
-    model: qwen3:14b
-    seconds: 93
-    status: pass
   ollama-cloud:
     commit: 6d29cd79
     last_tested: '2026-09-29'
@@ -262,14 +223,6 @@ examples/ch08.ipynb:
     model: claude-sonnet-5
     seconds: 100
     status: pass
-  ollama:
-    commit: 44aa0ad3
-    last_tested: '2026-09-29'
-    model: qwen3:14b
-    note: 'cell 9: cell exceeded 1800s; Example 1 was progressing correctly (7 tool
-      steps in 30 min), qwen3:14b is just too slow here'
-    seconds: 1802
-    status: fail
   ollama-cloud:
     commit: 6d29cd79
     last_tested: '2026-09-29'
@@ -303,25 +256,24 @@ examples/ch09.ipynb:
     status: pass
 examples/ch10.ipynb:
   anthropic:
+    caveat: only the coordinator ran on this provider; both A2A peer servers (extra/a2a-crewai-hailstone,
+      extra/a2a-from-scratch-hailstone) build their own LLM and ran on local Ollama
     commit: cf1955bc
     last_tested: '2026-09-29'
     model: claude-sonnet-5
     seconds: 684
     status: pass
-  ollama:
-    commit: 1c0c22b0
-    last_tested: '2026-09-29'
-    model: qwen3:14b
-    note: scripted-human driver run before the runner existed, recorded by hand
-    seconds: 521
-    status: pass
   ollama-cloud:
+    caveat: only the coordinator ran on this provider; both A2A peer servers (extra/a2a-crewai-hailstone,
+      extra/a2a-from-scratch-hailstone) build their own LLM and ran on local Ollama
     commit: 6d29cd79
     last_tested: '2026-09-29'
     model: kimi-k2.7-code:cloud
     seconds: 602
     status: pass
   openai:
+    caveat: only the coordinator ran on this provider; both A2A peer servers (extra/a2a-crewai-hailstone,
+      extra/a2a-from-scratch-hailstone) build their own LLM and ran on local Ollama
     commit: cf1955bc
     last_tested: '2026-09-29'
     model: gpt-5
@@ -335,10 +287,10 @@ more-examples/ch02/async_tools.ipynb:
     seconds: 0
     status: no-llm
   ollama-cloud:
-    commit: 6d29cd79
+    commit: e36a4b10
     last_tested: '2026-09-29'
     model: ''
-    seconds: 0
+    seconds: 3
     status: no-llm
   openai:
     commit: cf1955bc
@@ -354,10 +306,10 @@ more-examples/ch02/multi_tool_registry.ipynb:
     seconds: 0
     status: no-llm
   ollama-cloud:
-    commit: 6d29cd79
+    commit: e36a4b10
     last_tested: '2026-09-29'
     model: ''
-    seconds: 0
+    seconds: 2
     status: no-llm
   openai:
     commit: cf1955bc
@@ -373,10 +325,10 @@ more-examples/ch02/pydantic_tool_validation.ipynb:
     seconds: 0
     status: no-llm
   ollama-cloud:
-    commit: 6d29cd79
+    commit: e36a4b10
     last_tested: '2026-09-29'
     model: ''
-    seconds: 0
+    seconds: 2
     status: no-llm
   openai:
     commit: cf1955bc
@@ -587,10 +539,10 @@ more-examples/ch06/skill_validation_errors.ipynb:
     seconds: 0
     status: no-llm
   ollama-cloud:
-    commit: 6d29cd79
+    commit: e36a4b10
     last_tested: '2026-09-29'
     model: ''
-    seconds: 0
+    seconds: 2
     status: no-llm
   openai:
     commit: cf1955bc
@@ -864,39 +816,45 @@ more-examples/ch09/subagent_with_mcp_tool.ipynb:
     status: not-wired
 more-examples/ch10/cancelling_a_task_execution.ipynb:
   anthropic:
-    commit: cf1955bc
+    commit: e36a4b10
     last_tested: '2026-09-29'
     model: ''
+    note: constructs its LLM directly; not run
     seconds: 0
-    status: no-llm
+    status: not-wired
   ollama-cloud:
-    commit: 6d29cd79
+    commit: e36a4b10
     last_tested: '2026-09-29'
     model: ''
+    note: constructs its LLM directly; not run
     seconds: 0
-    status: no-llm
+    status: not-wired
   openai:
-    commit: cf1955bc
+    commit: e36a4b10
     last_tested: '2026-09-29'
     model: ''
+    note: constructs its LLM directly; not run
     seconds: 0
-    status: no-llm
+    status: not-wired
 more-examples/ch10/streaming_llmagent_executor.ipynb:
   anthropic:
-    commit: cf1955bc
+    commit: e36a4b10
     last_tested: '2026-09-29'
     model: ''
+    note: constructs its LLM directly; not run
     seconds: 0
-    status: no-llm
+    status: not-wired
   ollama-cloud:
-    commit: 6d29cd79
+    commit: e36a4b10
     last_tested: '2026-09-29'
     model: ''
+    note: constructs its LLM directly; not run
     seconds: 0
-    status: no-llm
+    status: not-wired
   openai:
-    commit: cf1955bc
+    commit: e36a4b10
     last_tested: '2026-09-29'
     model: ''
+    note: constructs its LLM directly; not run
     seconds: 0
-    status: no-llm
+    status: not-wired

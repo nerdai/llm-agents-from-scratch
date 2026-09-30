@@ -30,12 +30,12 @@ import yaml
 REPO = Path(__file__).resolve().parents[1]
 LEDGER = REPO / "notebook_status.yaml"
 PAGE = REPO / "docs" / "notebook-status.md"
-#: Column order: the recommended provider first, local Ollama last.
+#: Column order: the recommended provider first. Local Ollama is left out
+#: on purpose: its results say more about the machine than the notebook.
 PROVIDERS = (
     ("ollama-cloud", "Ollama Cloud"),
     ("openai", "OpenAI"),
     ("anthropic", "Anthropic"),
-    ("ollama", "Ollama (local)"),
 )
 TIERS = (
     ("examples/", "Chapter notebooks"),
@@ -77,6 +77,9 @@ def _docs_link(path: str) -> str:
     return f"`{name}`"
 
 
+_PLAIN = {"not-wired": "⚪ not wired", "no-llm": "∅ no LLM"}
+
+
 def _cell(entry: dict[str, Any] | None, notes: list[str], label: str) -> str:
     if entry is None:
         return "–"
@@ -84,15 +87,14 @@ def _cell(entry: dict[str, Any] | None, notes: list[str], label: str) -> str:
     when = entry.get("last_tested", "")
     model = f" `{entry['model']}`" if entry.get("model") else ""
     if status == "pass":
+        if caveat := entry.get("caveat"):
+            notes.append(f"{label}: {caveat} ({when})")
+            return f"✅ {when}{model}[^{len(notes)}]"
         return f"✅ {when}{model}"
     if status == "fail":
         notes.append(f"{label}: {entry.get('note', 'failed')} ({when})")
         return f"❌ {when}[^{len(notes)}]"
-    if status == "not-wired":
-        return "⚪ not wired"
-    if status == "no-llm":
-        return "∅ no LLM"
-    return f"? {status}"
+    return _PLAIN.get(status, f"? {status}")
 
 
 def render(ledger: dict[str, Any]) -> str:
@@ -109,11 +111,12 @@ def render(ledger: dict[str, Any]) -> str:
         "| Symbol | Meaning |",
         "|---|---|",
         "| ✅ date `model` | Ran to completion on that date with that model |",
+        "| ✅ date `model`[^n] | Passed with a caveat; see the footnote |",
         "| ❌ date | Failed; see the footnote |",
         "| ⚪ not wired | The notebook constructs its LLM directly, so"
-        " `LLM_PROVIDER` would have no effect; only run on local Ollama |",
+        " the provider setting would have no effect; not run |",
         "| ∅ no LLM | Nothing in the notebook builds an LLM;"
-        " only run on local Ollama |",
+        " run under Ollama Cloud only |",
         "| – | Never run on that provider |",
         "",
         "Human-in-the-loop prompts are answered by a scripted reply during",

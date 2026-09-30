@@ -838,10 +838,10 @@ more-examples/ch10/streaming_llmagent_executor.ipynb:
     seconds: 0
     status: not-wired
   ollama-cloud:
-    commit: 9553a688
+    commit: 4c66ccd5
     last_tested: '2026-09-29'
-    model: ''
-    seconds: 62
+    model: kimi-k2.7-code:cloud
+    seconds: 118
     status: pass
   openai:
     commit: 9553a688

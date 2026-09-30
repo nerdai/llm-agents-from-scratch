@@ -70,6 +70,8 @@ import psutil
 import yaml
 from jupyter_client import KernelManager
 
+from llm_agents_from_scratch.notebook_utils.llm import _resolve_model
+
 REPO = Path(__file__).resolve().parents[1]
 LEDGER = REPO / "notebook_status.yaml"
 PROVIDERS = ("ollama-cloud", "openai", "anthropic")
@@ -295,7 +297,10 @@ def _wiring(nb: dict[str, Any]) -> tuple[str, str]:
     if "ollama_settings(" in source or "OLLAMA_API_KEY" in source:
         # follows OLLAMA_API_KEY (itself, or via the helper processes it
         # starts) but not LLM_PROVIDER
-        return "ollama-wired", ""
+        # when the LLM lives in a helper process (ch10's A2A servers), the
+        # notebook never prints make_llm()'s "Using" line; report the model
+        # those processes resolve via ollama_settings() instead
+        return "ollama-wired", _resolve_model("ollama-cloud", "default", None)
     if _DIRECT.search(source):
         m = _DIRECT_MODEL.search(source)
         return "direct", m.group(1) if m else "constructed directly"

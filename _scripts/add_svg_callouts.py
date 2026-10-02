@@ -45,9 +45,13 @@ centre, as an `[dx, dy]` offset from the anchor point in SVG user units
 axis first, then turns once into the nearer edge of the box, or runs
 straight in when the box is lined up with the anchor.
 
-Boxes that extend past the canvas grow the viewBox, so a callout is
-never clipped; `set_svg_print_size.py`, which runs later, scales the
-grown canvas like any other.
+`text` may span lines: write it as a YAML list of lines.
+
+Boxes that extend past the canvas grow it, so a callout is never
+clipped: right/down by enlarging the viewBox, left/up by also shifting
+the diagram and callouts over inside a nested group.
+`set_svg_print_size.py`, which runs later, scales the grown canvas like
+any other.
 """
 
 import re
@@ -59,7 +63,8 @@ import yaml
 
 FONT_FAMILY = "Times"  # book-clean's ANNO_FONT, used for its notes
 FONT_SIZE = 83.3333  # book-clean's 16pt NoteFontSize @ 500dpi
-CHAR_WIDTH = 0.5 * FONT_SIZE  # Times averages ~0.5em; text is force-fit
+CHAR_WIDTH = 0.5 * FONT_SIZE  # Times averages ~0.5em, so boxes fit
+LINE_HEIGHT = 1.15 * FONT_SIZE
 PADDING_X = 45.0
 PADDING_Y = 30.0
 STROKE = "stroke:#333333;stroke-width:5.2083;stroke-dasharray:26,18;"
@@ -70,6 +75,7 @@ STRAIGHT_TOLERANCE = 1.0  # within this, the box counts as lined up
 STARTUML_NAME = re.compile(r"@startuml\s+(\S+)")
 VIEWBOX = re.compile(r'viewBox="0 0 ([\d.]+) ([\d.]+)"')
 SVG_CLOSE = re.compile(r"</g></svg>")
+CONTENT_GROUP = re.compile(r"(<\?plantuml[^>]*\?><defs/>)<g>")
 TEXT = re.compile(r"<text\b([^>]*)>([^<]*)</text>")
 ATTR = re.compile(r'([\w-]+)="([^"]*)"')
 GROUP = re.compile(r'<g class="(entity|link)"([^>]*)>(.*?)</g>', re.S)
@@ -202,28 +208,36 @@ def _leader(
     return [start, (cx, sy), (cx, edge)]
 
 
+def _label_lines(spec: dict[str, Any]) -> list[str]:
+    text = spec["text"]
+    lines = text if isinstance(text, list) else [text]
+    return [str(line) for line in lines]
+
+
 def _callout_svg(content: str, spec: dict[str, Any]) -> tuple[str, Box]:
     start, vertical_first = _anchor(content, spec)
     dx, dy = spec["box"]
-    label = str(spec["text"])
-    text_width = len(label) * CHAR_WIDTH
-    width = text_width + PADDING_X * 2
-    height = FONT_SIZE + PADDING_Y * 2
+    lines = _label_lines(spec)
+    width = max(len(line) for line in lines) * CHAR_WIDTH + PADDING_X * 2
+    height = LINE_HEIGHT * len(lines) + PADDING_Y * 2
     cx, cy = start[0] + float(dx), start[1] + float(dy)
     box = Box(cx - width / 2, cy - height / 2, cx + width / 2, cy + height / 2)
     points = " ".join(
         f"{x:.2f},{y:.2f}" for x, y in _leader(start, box, vertical_first)
     )
-    svg = (
-        f'<polyline fill="none" points="{points}" style="{STROKE}"/>'
+    parts = [
+        f'<polyline fill="none" points="{points}" style="{STROKE}"/>',
         f'<rect fill="{FILL}" x="{box.left:.2f}" y="{box.top:.2f}" '
-        f'width="{width:.2f}" height="{height:.2f}" style="{STROKE}"/>'
-        f'<text fill="#000000" font-family="\'{FONT_FAMILY}\'" '
-        f'font-size="{FONT_SIZE}" lengthAdjust="spacingAndGlyphs" '
-        f'textLength="{text_width:.2f}" x="{box.left + PADDING_X:.2f}" '
-        f'y="{box.bottom - PADDING_Y - 0.2 * FONT_SIZE:.2f}">{label}</text>'
-    )
-    return svg, box
+        f'width="{width:.2f}" height="{height:.2f}" style="{STROKE}"/>',
+    ]
+    for i, line in enumerate(lines):
+        baseline = box.top + PADDING_Y + LINE_HEIGHT * i + 0.8 * FONT_SIZE
+        parts.append(
+            f'<text fill="#000000" font-family="\'{FONT_FAMILY}\'" '
+            f'font-size="{FONT_SIZE}" text-anchor="middle" '
+            f'x="{cx:.2f}" y="{baseline:.2f}">{line}</text>',
+        )
+    return "".join(parts), box
 
 
 def _apply_one(svg_path: Path, callouts_path: Path) -> bool:
@@ -243,16 +257,33 @@ def _apply_one(svg_path: Path, callouts_path: Path) -> bool:
         svg, box = _callout_svg(content, callout)
         parts.append(svg)
         boxes.append(box)
-    grown_w = max([width, *(b.right + CANVAS_MARGIN for b in boxes)])
-    grown_h = max([height, *(b.bottom + CANVAS_MARGIN for b in boxes)])
+    # Boxes left of or above the canvas: shift the drawing (diagram and
+    # callouts together) right/down by the overhang, inside a nested group
+    # so the outer `<defs/><g>` anchor survives for later pipeline steps.
+    shift_x = max(0.0, *(CANVAS_MARGIN - b.left for b in boxes))
+    shift_y = max(0.0, *(CANVAS_MARGIN - b.top for b in boxes))
+    grown_w = max([width, *(b.right + CANVAS_MARGIN for b in boxes)]) + shift_x
+    grown_h = (
+        max([height, *(b.bottom + CANVAS_MARGIN for b in boxes)]) + shift_y
+    )
+    overlay = f'<g data-callouts="1">{"".join(parts)}</g>'
+    tail = overlay + "</g></svg>"
+    if shift_x or shift_y:
+        content, moved = CONTENT_GROUP.subn(
+            rf'\1<g><g transform="translate({shift_x:.4f},{shift_y:.4f})">',
+            content,
+            count=1,
+        )
+        if not moved:
+            return False
+        tail = overlay + "</g></g></svg>"
     if (grown_w, grown_h) != (width, height):
         content = VIEWBOX.sub(
             f'viewBox="0 0 {grown_w:.4f} {grown_h:.4f}"',
             content,
             count=1,
         )
-    overlay = f'<g data-callouts="1">{"".join(parts)}</g>'
-    fixed, count = SVG_CLOSE.subn(overlay + "</g></svg>", content, count=1)
+    fixed, count = SVG_CLOSE.subn(tail, content, count=1)
     if not count:
         return False
     svg_path.write_text(fixed)

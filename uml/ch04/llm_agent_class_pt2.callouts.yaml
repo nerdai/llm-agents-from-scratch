@@ -1,0 +1,9 @@
+# Annotation callouts for llm_agent_class_pt2.puml, drawn by
+# _scripts/add_svg_callouts.py. Offsets are SVG user units on the raw
+# PlantUML canvas (500 dpi).
+callouts:
+  - text: ["nested in", "LLMAgent"]
+    anchor: {entity: TaskHandler}
+    side: top
+    at: 0.4
+    box: [-450, -753]

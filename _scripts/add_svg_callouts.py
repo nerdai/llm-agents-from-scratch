@@ -31,7 +31,9 @@ Format:
 `anchor` picks what the leader starts from:
 
 - `{text: <substring>}`: the first `<text>` element containing the
-  substring, e.g. a member's name. Its box is the text's extent.
+  substring, e.g. a member's name. Its box is the text's extent. Add
+  `nth: 2` (1-based) to pick a later match, e.g. a constructor
+  parameter that repeats an attribute.
 - `{entity: <name>}`: the class (or enum, ...) whose qualified name ends
   with `.<name>`, or equals it. Its box is the class's outline.
 - `{link: <type>}`: the first link of that PlantUML type (`composition`,
@@ -46,6 +48,11 @@ axis first, then turns once into the nearer edge of the box, or runs
 straight in when the box is lined up with the anchor.
 
 `text` may span lines: write it as a YAML list of lines.
+
+`also` lists extra anchors (each with its own `anchor`, `side`
+and `at`) that get their own leader into the same box, e.g. an
+attribute and the constructor parameter that sets it. The box is still
+placed relative to the first anchor.
 
 Boxes that extend past the canvas grow it, so a callout is never
 clipped: right/down by enlarging the viewBox, left/up by also shifting
@@ -109,16 +116,20 @@ def _unescape(text: str) -> str:
     return text
 
 
-def _text_box(content: str, needle: str) -> Box:
+def _text_box(content: str, needle: str, nth: int = 1) -> Box:
+    seen = 0
     for raw_attrs, raw_text in TEXT.findall(content):
         if needle not in _unescape(raw_text):
+            continue
+        seen += 1
+        if seen < nth:
             continue
         a = _attrs(raw_attrs)
         x, y = float(a["x"]), float(a["y"])
         size = float(a.get("font-size", FONT_SIZE))
         width = float(a.get("textLength", len(raw_text) * size * 0.5))
         return Box(x, y - 0.8 * size, x + width, y + 0.2 * size)
-    raise ValueError(f"no <text> containing {needle!r}")
+    raise ValueError(f"no match {nth} for <text> containing {needle!r}")
 
 
 def _entity_box(content: str, name: str) -> Box:
@@ -173,7 +184,7 @@ def _anchor(
     if "link" in anchor:
         return _link_point(content, anchor["link"]), True
     if "text" in anchor:
-        box = _text_box(content, anchor["text"])
+        box = _text_box(content, anchor["text"], int(anchor.get("nth", 1)))
     elif "entity" in anchor:
         box = _entity_box(content, anchor["entity"])
     else:
@@ -222,14 +233,19 @@ def _callout_svg(content: str, spec: dict[str, Any]) -> tuple[str, Box]:
     height = LINE_HEIGHT * len(lines) + PADDING_Y * 2
     cx, cy = start[0] + float(dx), start[1] + float(dy)
     box = Box(cx - width / 2, cy - height / 2, cx + width / 2, cy + height / 2)
-    points = " ".join(
-        f"{x:.2f},{y:.2f}" for x, y in _leader(start, box, vertical_first)
-    )
-    parts = [
-        f'<polyline fill="none" points="{points}" style="{STROKE}"/>',
+    parts = []
+    leaders = [(start, vertical_first)]
+    leaders += [_anchor(content, extra) for extra in spec.get("also", [])]
+    for point, vertical in leaders:
+        path = _leader(point, box, vertical)
+        points = " ".join(f"{x:.2f},{y:.2f}" for x, y in path)
+        parts.append(
+            f'<polyline fill="none" points="{points}" style="{STROKE}"/>',
+        )
+    parts.append(
         f'<rect fill="{FILL}" x="{box.left:.2f}" y="{box.top:.2f}" '
         f'width="{width:.2f}" height="{height:.2f}" style="{STROKE}"/>',
-    ]
+    )
     for i, line in enumerate(lines):
         baseline = box.top + PADDING_Y + LINE_HEIGHT * i + 0.8 * FONT_SIZE
         parts.append(

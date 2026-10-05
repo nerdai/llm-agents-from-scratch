@@ -493,3 +493,43 @@ async def test_concurrent_builds_share_one_session(
 
     await stdio_provider.close()
     assert _live_session_tasks() == []
+
+
+@pytest.mark.asyncio
+@patch("llm_agents_from_scratch.tools.mcp.provider.stdio_client")
+@patch("llm_agents_from_scratch.tools.mcp.provider.ClientSession")
+async def test_waiter_sees_own_failure_when_another_waiter_retries(
+    mock_client_session_cls: AsyncMock,
+    mock_stdio_client: AsyncMock,
+    mock_stdio_client_transport: AsyncContextManager[Any],
+    mock_client_session: Callable[..., AsyncContextManager[AsyncMock]],
+) -> None:
+    """Tests a waiter still raises when a retry replaces the failed task.
+
+    The first waiter to wake retries before the second waiter resumes, so
+    ``_session_task`` already points at the new attempt by then.
+    """
+    mock_stdio_client.side_effect = mock_stdio_client_transport
+    error = FileNotFoundError("mock server not found")
+    mock_client_session_cls.side_effect = [error, mock_client_session()]
+    stdio_provider = _stdio_provider()
+
+    async def retry_on_failure() -> ClientSession:
+        try:
+            return await stdio_provider.session()
+        except FileNotFoundError:
+            return await stdio_provider.session()
+
+    retried, second_waiter = await asyncio.gather(
+        retry_on_failure(),
+        stdio_provider.session(),
+        return_exceptions=True,
+    )
+
+    assert second_waiter is error
+    assert retried is stdio_provider._session
+    assert retried is not None
+    assert mock_client_session_cls.call_count == 2  # noqa: PLR2004
+
+    await stdio_provider.close()
+    assert _live_session_tasks() == []

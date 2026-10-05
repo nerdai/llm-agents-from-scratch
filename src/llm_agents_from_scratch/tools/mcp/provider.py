@@ -122,10 +122,15 @@ class MCPToolProvider:
 
         Note:
             This method uses lazy initialization - the session is created
-            on the first call and reused for subsequent calls.
+            on the first call and reused for subsequent calls. Concurrent
+            callers that arrive while the session is still being created
+            wait on the same creation task.
         """
         if not self._session_ready.is_set():
-            self._session_task = asyncio.create_task(self._create_session())
+            # Reuse an in-flight creation task so that concurrent first-time
+            # callers share one session instead of each starting their own.
+            if self._session_task is None or self._session_task.done():
+                self._session_task = asyncio.create_task(self._create_session())
             session_ready_task = asyncio.create_task(self._session_ready.wait())
 
             # Wait for the first of the these two tasks to complete.

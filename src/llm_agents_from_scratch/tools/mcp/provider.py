@@ -119,13 +119,23 @@ class MCPToolProvider:
         Raises:
             Exception: Re-raises any exception encountered during session
                 creation (e.g. invalid server path, connection refused).
+                Concurrent callers waiting on the same attempt all receive
+                that exception. A later call starts a fresh attempt.
 
         Note:
             This method uses lazy initialization - the session is created
-            on the first call and reused for subsequent calls.
+            on the first call and reused for subsequent calls. Concurrent
+            callers that arrive while the session is still being created
+            wait on the same creation task.
         """
         if not self._session_ready.is_set():
-            self._session_task = asyncio.create_task(self._create_session())
+            # Reuse an in-flight creation task so that concurrent first-time
+            # callers share one session instead of each starting their own.
+            if self._session_task is None or self._session_task.done():
+                self._session_task = asyncio.create_task(self._create_session())
+            # Hold our own reference: a retry after a failed attempt can
+            # replace self._session_task before this waiter resumes.
+            session_task = self._session_task
             session_ready_task = asyncio.create_task(self._session_ready.wait())
 
             # Wait for the first of the these two tasks to complete.
@@ -133,13 +143,13 @@ class MCPToolProvider:
             # the session created successfully. Otherwise, the session_ready
             # event was never set, meaning an error was encountered.
             done, _pending = await asyncio.wait(
-                [self._session_task, session_ready_task],
+                [session_task, session_ready_task],
                 return_when=asyncio.FIRST_COMPLETED,
             )
 
-            if self._session_task in done:
+            if session_task in done:
                 session_ready_task.cancel()  # clean-up session ready task
-                self._session_task.result()  # re-raises the encountered error
+                session_task.result()  # re-raises the encountered error
         return self._session  # type: ignore[return-value]
 
     async def get_tools(self) -> list["MCPTool"]:

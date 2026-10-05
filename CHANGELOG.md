@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+### Changed
+
+- fix(ch05): `MCPToolProvider.session()` no longer opens a second connection when called concurrently before the first call finishes initializing. It used to create a new `_create_session()` task whenever `_session_ready` was unset. A caller arriving while the first was still awaiting initialization therefore started a second connection (a second server subprocess on the stdio path), overwrote `_session_task` and orphaned the first session. Concurrent dispatches to a subagent whose builder alone owns the provider hit this, because each dispatch calls `build()` -> `get_tools()` -> `session()`. Now a new task starts only when none is in flight or the previous one has finished, so later callers wait on the existing task through the unchanged `asyncio.wait()`. Each caller also holds a local reference to the task it waits on, so a retry that replaces `_session_task` mid-wait can't make another waiter miss the failed attempt's error and return `None`. A failed attempt raises the same error to every waiter, and the next call retries (#1001)
+
 ## [0.0.24] - 2026-09-30
 
 ### Added

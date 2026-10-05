@@ -119,6 +119,8 @@ class MCPToolProvider:
         Raises:
             Exception: Re-raises any exception encountered during session
                 creation (e.g. invalid server path, connection refused).
+                Concurrent callers waiting on the same attempt all receive
+                that exception. A later call starts a fresh attempt.
 
         Note:
             This method uses lazy initialization - the session is created

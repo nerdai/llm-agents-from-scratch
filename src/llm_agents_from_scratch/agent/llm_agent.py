@@ -2,6 +2,7 @@
 
 import asyncio
 import json
+import warnings
 from typing import TYPE_CHECKING, Any
 
 from rich.console import Console
@@ -31,6 +32,7 @@ from llm_agents_from_scratch.data_structures.skill import SkillScope
 from llm_agents_from_scratch.errors import (
     LLMAgentError,
     MaxStepsReachedError,
+    MemoryRecallWarning,
     RecordMemoryError,
     TaskHandlerError,
 )
@@ -750,11 +752,21 @@ class LLMAgent:
             Calls ``recall`` on each memory in ``self.llm_agent.memories``
             and stores the formatted string in ``self._recalled_memories``
             for prompt injection during ``run_step``. No-op when no memories
-            are configured.
+            are configured. A memory whose ``recall`` fails is skipped with
+            a ``MemoryRecallWarning``, so the task still runs.
             """
             loaded = []
             for memory in self.llm_agent.memories:
-                block = await memory.recall(self.task)
+                try:
+                    block = await memory.recall(self.task)
+                except Exception as e:
+                    warnings.warn(
+                        f"Memory recall failed; continuing without it: "
+                        f"{type(e).__name__}: {e}",
+                        MemoryRecallWarning,
+                        stacklevel=2,
+                    )
+                    continue
                 loaded.append(block)
             self._recalled_memories = self._format_memories_for_system_prompt(
                 loaded,
@@ -967,11 +979,7 @@ class LLMAgent:
             step_result: TaskStepResult | RejectedTaskResult | None = None
 
             # added in ch07
-            try:
-                await task_handler.load_memories()
-            except Exception as e:
-                task_handler.set_exception(e)
-                return
+            await task_handler.load_memories()
 
             while not task_handler.done():
                 try:

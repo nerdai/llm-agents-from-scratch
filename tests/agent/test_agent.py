@@ -22,6 +22,7 @@ from llm_agents_from_scratch.data_structures.agent import (
 from llm_agents_from_scratch.errors import (
     LLMAgentError,
     MaxStepsReachedError,
+    MemoryRecallWarning,
     RecordMemoryError,
 )
 from llm_agents_from_scratch.memory.memory import Memory
@@ -325,18 +326,29 @@ async def test_run_records_episode_for_each_memory(
 
 
 @pytest.mark.asyncio
-async def test_run_sets_exception_when_recall_fails(
+@patch.object(LLMAgent.TaskHandler, "get_next_step")
+async def test_run_warns_and_continues_when_recall_fails(
+    mock_get_next_step: AsyncMock,
     mock_llm: BaseLLM,
 ) -> None:
-    """Tests a failing memory.recall settles the handler with the error."""
-    mock_memory = AsyncMock(spec=Memory)
-    mock_memory.recall.side_effect = RuntimeError("recall down")
+    """Tests a failing memory.recall warns and the task still completes."""
     task = Task(instruction="mock instruction")
-    agent = LLMAgent(llm=mock_llm, memories=[mock_memory])
+    task_result = TaskResult(task_id=task.id_, content="mock result")
+    mock_get_next_step.side_effect = [task_result]
 
-    handler = agent.run(task)
-    with pytest.raises(RuntimeError, match="recall down"):
-        await asyncio.wait_for(handler, timeout=1)
+    failing_memory = AsyncMock(spec=Memory)
+    failing_memory.recall.side_effect = RuntimeError("recall down")
+    working_memory = AsyncMock(spec=Memory)
+    working_memory.recall.return_value = "recalled block"
+    agent = LLMAgent(llm=mock_llm, memories=[failing_memory, working_memory])
+
+    with pytest.warns(MemoryRecallWarning, match="recall down"):
+        handler = agent.run(task)
+        result = await asyncio.wait_for(handler, timeout=1)
+
+    assert result == task_result
+    assert "recalled block" in handler._recalled_memories
+    working_memory.record.assert_awaited_once()
 
 
 @pytest.mark.asyncio

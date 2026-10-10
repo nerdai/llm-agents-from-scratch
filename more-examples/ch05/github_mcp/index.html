@@ -5133,7 +5133,7 @@ behave noticeably differently.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-1">
@@ -5174,7 +5174,7 @@ behave noticeably differently.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-2">
@@ -5205,7 +5205,7 @@ from llm_agents_from_scratch.notebook_utils import make_llm</div>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-3">
@@ -5259,7 +5259,7 @@ echoed to the screen or stored in the notebook.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-4">
@@ -5274,11 +5274,13 @@ echoed to the screen or stored in the notebook.</p>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
 
-<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"GITHUB_PAT"</span><span class="p">]</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"GitHub PAT: "</span><span class="p">)</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"GITHUB_PAT"</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"GITHUB_PAT"</span><span class="p">]</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"GitHub PAT: "</span><span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-4">import getpass
 
-os.environ["GITHUB_PAT"] = getpass.getpass("GitHub PAT: ")</div>
+if not os.environ.get("GITHUB_PAT"):
+    os.environ["GITHUB_PAT"] = getpass.getpass("GitHub PAT: ")</div>
 </div>
 </div>
 </div>
@@ -5290,7 +5292,7 @@ os.environ["GITHUB_PAT"] = getpass.getpass("GitHub PAT: ")</div>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-5">
@@ -5340,13 +5342,13 @@ takes care of tool-discovery for each of its attached MCP tool providers.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=838d823c">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=838d823c">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
@@ -5384,6 +5386,19 @@ agent = (
 </div>
 </div>
 </div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>✓ Using Ollama Cloud (kimi-k2.7-code:cloud)
+</pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=1352ec16">
@@ -5391,7 +5406,7 @@ agent = (
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-7">
@@ -5427,9 +5442,9 @@ for tool in agent.tools:
 <pre>mcp__github_mcp__add_comment_to_pending_review:
 	Add review comment to the requester's latest pendi...
 mcp__github_mcp__add_issue_comment:
-	Add a comment to a specific issue in a GitHub repo...
+	Add a comment and/or reaction to a specific issue ...
 mcp__github_mcp__add_reply_to_pull_request_comment:
-	Add a reply to an existing pull request comment. T...
+	Add a reply and/or reaction to an existing pull re...
 mcp__github_mcp__assign_copilot_to_issue:
 	Assign Copilot to a specific issue in a GitHub rep...
 mcp__github_mcp__create_branch:
@@ -5438,6 +5453,8 @@ mcp__github_mcp__create_or_update_file:
 	Create or update a single file in a GitHub reposit...
 mcp__github_mcp__create_pull_request:
 	Create a new pull request in a GitHub repository....
+mcp__github_mcp__create_pull_request_with_copilot:
+	Delegate a task to GitHub Copilot coding agent to ...
 mcp__github_mcp__create_repository:
 	Create a new GitHub repository in your account or ...
 mcp__github_mcp__delete_file:
@@ -5446,6 +5463,8 @@ mcp__github_mcp__fork_repository:
 	Fork a GitHub repository to your account or specif...
 mcp__github_mcp__get_commit:
 	Get details for a commit from a GitHub repository...
+mcp__github_mcp__get_copilot_job_status:
+	Get the status of a GitHub Copilot coding agent jo...
 mcp__github_mcp__get_file_contents:
 	Get the contents of a file or directory from a Git...
 mcp__github_mcp__get_label:
@@ -5470,14 +5489,18 @@ mcp__github_mcp__list_branches:
 	List branches in a GitHub repository...
 mcp__github_mcp__list_commits:
 	Get list of commits of a branch in a GitHub reposi...
+mcp__github_mcp__list_issue_fields:
+	List issue fields for a repository or organization...
 mcp__github_mcp__list_issue_types:
-	List supported issue types for repository owner (o...
+	List supported issue types for a repository or its...
 mcp__github_mcp__list_issues:
 	List issues in a GitHub repository. For pagination...
 mcp__github_mcp__list_pull_requests:
 	List pull requests in a GitHub repository. If the ...
 mcp__github_mcp__list_releases:
 	List releases in a GitHub repository...
+mcp__github_mcp__list_repository_collaborators:
+	List collaborators of a GitHub repository. Results...
 mcp__github_mcp__list_tags:
 	List git tags in a GitHub repository...
 mcp__github_mcp__merge_pull_request:
@@ -5490,10 +5513,14 @@ mcp__github_mcp__push_files:
 	Push multiple files to a GitHub repository in a si...
 mcp__github_mcp__request_copilot_review:
 	Request a GitHub Copilot code review for a pull re...
+mcp__github_mcp__run_secret_scanning:
+	Scan files, content, or recent changes for secrets...
 mcp__github_mcp__search_code:
 	Fast and precise code search across ALL GitHub rep...
+mcp__github_mcp__search_commits:
+	Search for commits across GitHub repositories usin...
 mcp__github_mcp__search_issues:
-	Search for issues in GitHub repositories using iss...
+	Search issues using natural-language semantic matc...
 mcp__github_mcp__search_pull_requests:
 	Search for pull requests in GitHub repositories us...
 mcp__github_mcp__search_repositories:
@@ -5502,6 +5529,10 @@ mcp__github_mcp__search_users:
 	Find GitHub users by username, real name, or other...
 mcp__github_mcp__sub_issue_write:
 	Add a sub-issue to a parent issue in a GitHub repo...
+mcp__github_mcp__ui_get:
+	Fetch UI data for MCP Apps (labels, assignees, mil...
+mcp__github_mcp__update_issue_comment:
+	Update the body of an existing issue or pull reque...
 mcp__github_mcp__update_pull_request:
 	Update an existing pull request in a GitHub reposi...
 mcp__github_mcp__update_pull_request_branch:
@@ -5530,7 +5561,7 @@ mcp__github_mcp__update_pull_request_branch:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-8">
@@ -5575,7 +5606,7 @@ task = Task(
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-9">
@@ -5607,17 +5638,6 @@ INFO (llm_agents_fs.TaskHandler) :      ⚙️ Processing Step: Use the get_late
 </pre>
 </div>
 </div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>INFO (llm_agents_fs.TaskHandler) :      🛠️ Executing Tool Call: mcp__github_mcp__get_latest_release
-INFO (llm_agents_fs.TaskHandler) :      ✅ Successful Tool Call: [{'type': 'text', 'text': '{"tag_name":"v0.0.13","target_commitish":"main","name":"v0.0.13","body":"## What\'s Changed\\n* bui...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      ✅ Step Result: The latest release for the GitHub repository 'llm-agents-from-scratch' owned by 'nerdai' is version **v0.0.13**. This release includes ...[TRUNCATED]
-INFO (llm_agents_fs.TaskHandler) :      No new step required.
-INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The latest release for the GitHub repository 'llm-agents-from-scratch' owned by 'nerdai' is version **v0.0.13**. This release includ...[TRUNCATED]
-</pre>
-</div>
-</div>
 </div>
 </div>
 </div>
@@ -5627,7 +5647,7 @@ INFO (llm_agents_fs.LLMAgent) :      🏁 Task completed: The latest release for
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="celltoolbar">
 <div class="button_container tags_button_container">
 <span class="tag-container">
@@ -5663,17 +5683,21 @@ print(result)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>The latest release for the GitHub repository 'llm-agents-from-scratch' owned by 'nerdai' is version **v0.0.13**. This release includes several updates and improvements, such as:
+<pre>Latest release for `nerdai/llm-agents-from-scratch`:
 
-- Bumping dependencies in the all-python-packages group.
-- Installing OpenAI extra in Docker for RunPod.
-- Fixing the `OpenAILLM.continue_chat_with_tool_results()` method.
-- Adding `MCPToolProvider` and `MCPTool` features.
-- Implementing `LLMAgentBuilder`.
-- Improving convergence in capstone examples.
-- Other bug fixes and enhancements.
+- **Tag:** `v0.0.24`
+- **Name:** `v0.0.24`
+- **Published:** 2026-09-30
+- **HTML URL:** https://github.com/nerdai/llm-agents-from-scratch/releases/tag/v0.0.24
+- **Notable highlights:**
+  - AnthropicLLM integration added
+  - New `make_llm()` notebook utility
+  - Chapter 9 subagent/A2A refactors and new examples
+  - Numerous diagrams added for ch09/ch10
+  - Dependabot dependency bumps and security fixes
+  - First contribution from @yisding
 
-You can view the full changelog for this release [here](https://github.com/nerdai/llm-agents-from-scratch/compare/v0.0.12...v0.0.13).
+It includes the full changelog from v0.0.23 → v0.0.24.
 </pre>
 </div>
 </div>

@@ -5277,13 +5277,17 @@ git<span class="w"> </span>clone<span class="w"> </span>https://github.com/Vecto
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
 
-<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"COHERE_API_KEY"</span><span class="p">]</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Cohere API Key: "</span><span class="p">)</span>
-<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"NEWS_API_KEY"</span><span class="p">]</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"News API Key: "</span><span class="p">)</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"COHERE_API_KEY"</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"COHERE_API_KEY"</span><span class="p">]</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Cohere API Key: "</span><span class="p">)</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"NEWS_API_KEY"</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"NEWS_API_KEY"</span><span class="p">]</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"News API Key: "</span><span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-4">import getpass
 
-os.environ["COHERE_API_KEY"] = getpass.getpass("Cohere API Key: ")
-os.environ["NEWS_API_KEY"] = getpass.getpass("News API Key: ")</div>
+if not os.environ.get("COHERE_API_KEY"):
+    os.environ["COHERE_API_KEY"] = getpass.getpass("Cohere API Key: ")
+if not os.environ.get("NEWS_API_KEY"):
+    os.environ["NEWS_API_KEY"] = getpass.getpass("News API Key: ")</div>
 </div>
 </div>
 </div>

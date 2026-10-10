@@ -1,6 +1,6 @@
-"""Errors for TaskHandler."""
+"""Errors and warnings for TaskHandler."""
 
-from .core import LLMAgentsFromScratchError
+from .core import LLMAgentsFromScratchError, LLMAgentsFromScratchWarning
 
 
 class TaskHandlerError(LLMAgentsFromScratchError):
@@ -11,5 +11,17 @@ class TaskHandlerError(LLMAgentsFromScratchError):
 
 class RecordMemoryError(TaskHandlerError):
     """Raised when record_memory() is called with invalid arguments."""
+
+    pass
+
+
+class TaskHandlerWarning(LLMAgentsFromScratchWarning):
+    """Base warning for all TaskHandler-related warnings."""
+
+    pass
+
+
+class MemoryRecallWarning(TaskHandlerWarning):
+    """Emitted when a memory's recall() fails; the task runs without it."""
 
     pass

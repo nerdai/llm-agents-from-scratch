@@ -26,7 +26,12 @@ from .skill import (
     SkillValidationError,
     SkillValidationWarning,
 )
-from .task_handler import RecordMemoryError, TaskHandlerError
+from .task_handler import (
+    MemoryRecallWarning,
+    RecordMemoryError,
+    TaskHandlerError,
+    TaskHandlerWarning,
+)
 
 __all__ = [
     # core
@@ -67,4 +72,6 @@ __all__ = [
     # task handler
     "TaskHandlerError",
     "RecordMemoryError",
+    "TaskHandlerWarning",
+    "MemoryRecallWarning",
 ]

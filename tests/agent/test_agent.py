@@ -141,6 +141,40 @@ async def test_run_exception(
 
 
 @pytest.mark.asyncio
+async def test_cancelling_background_task_cancels_handler(
+    mock_llm: BaseLLM,
+) -> None:
+    """Cancelling the worker alone also settles the public handler."""
+    agent = LLMAgent(llm=mock_llm)
+    handler = agent.run(Task(instruction="mock instruction"))
+
+    handler.background_task.cancel()
+
+    with pytest.raises(asyncio.CancelledError):
+        await asyncio.wait_for(handler, timeout=1)
+
+    assert handler.cancelled()
+
+
+@pytest.mark.asyncio
+async def test_run_propagates_unhandled_background_task_exception(
+    mock_llm: BaseLLM,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """An error outside the loop's handlers is still delivered to callers."""
+    agent = LLMAgent(llm=mock_llm)
+    monkeypatch.setattr(
+        agent.logger,
+        "info",
+        MagicMock(side_effect=RuntimeError("loop failed")),
+    )
+    handler = agent.run(Task(instruction="mock instruction"))
+
+    with pytest.raises(RuntimeError, match="loop failed"):
+        await asyncio.wait_for(handler, timeout=1)
+
+
+@pytest.mark.asyncio
 @patch.object(LLMAgent.TaskHandler, "get_next_step")
 async def test_run_max_steps_reached_error(
     mock_get_next_step: AsyncMock,

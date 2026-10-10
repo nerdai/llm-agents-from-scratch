@@ -1030,6 +1030,20 @@ class LLMAgent:
 
         task_handler.background_task = asyncio.create_task(_process_loop())
 
+        # added in ch10
+        def _settle_handler(background_task: asyncio.Task[None]) -> None:
+            """Settle the handler if the processing task exits unexpectedly."""
+            if task_handler.done():
+                return
+            if background_task.cancelled():
+                task_handler.cancel()
+                return
+            error = background_task.exception()
+            if error is not None:
+                task_handler.set_exception(error)
+
+        task_handler.background_task.add_done_callback(_settle_handler)
+
         return task_handler
 
     def run_with_skill(

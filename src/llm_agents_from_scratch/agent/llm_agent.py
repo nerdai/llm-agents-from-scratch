@@ -1031,7 +1031,26 @@ class LLMAgent:
                     await task_handler.record_memory(error=e)  # added in ch07
                     task_handler.set_exception(e)
 
+        # added in ch07
+        def _settle_handler(background_task: asyncio.Task[None]) -> None:
+            """Settle the task handler if the processing loop exited early.
+
+            Memory hooks are awaited outside the loop's per-step ``try``, so
+            the loop can end (raise or be cancelled) without settling the
+            handler. Settling it here means ``await task_handler`` never
+            hangs.
+            """
+            if task_handler.done():
+                return
+            if background_task.cancelled():
+                task_handler.cancel()
+                return
+            exc = background_task.exception()
+            if exc is not None:
+                task_handler.set_exception(exc)
+
         task_handler.background_task = asyncio.create_task(_process_loop())
+        task_handler.background_task.add_done_callback(_settle_handler)
 
         return task_handler
 

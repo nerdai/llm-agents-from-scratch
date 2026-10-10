@@ -1,5 +1,6 @@
 import asyncio
 import contextlib
+import warnings
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
@@ -397,6 +398,59 @@ async def test_run_warns_and_raises_task_error_when_recording_failure_fails(
         handler = agent.run(task)
         with pytest.raises(RuntimeError, match="boom"):
             await asyncio.wait_for(handler, timeout=1)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    ("failing_method", "warning_cls"),
+    [("recall", MemoryRecallWarning), ("record", MemoryRecordWarning)],
+)
+@patch.object(LLMAgent.TaskHandler, "get_next_step")
+async def test_run_settles_handler_when_memory_warning_is_an_error(
+    mock_get_next_step: AsyncMock,
+    failing_method: str,
+    warning_cls: type[Warning],
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests a memory warning escalated to an error settles the handler."""
+    task = Task(instruction="mock instruction")
+    mock_get_next_step.side_effect = [
+        TaskResult(task_id=task.id_, content="mock result"),
+    ]
+
+    mock_memory = AsyncMock(spec=Memory)
+    mock_memory.recall.return_value = ""
+    getattr(mock_memory, failing_method).side_effect = RuntimeError("down")
+    agent = LLMAgent(llm=mock_llm, memories=[mock_memory])
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("error", warning_cls)
+        handler = agent.run(task)
+        with pytest.raises(warning_cls):
+            await asyncio.wait_for(handler, timeout=1)
+
+
+@pytest.mark.asyncio
+async def test_run_cancels_handler_when_background_task_is_cancelled(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests cancelling background_task alone also cancels the handler."""
+    started = asyncio.Event()
+
+    async def hang(*args: object, **kwargs: object) -> None:
+        started.set()
+        await asyncio.Event().wait()
+
+    task = Task(instruction="mock instruction")
+    agent = LLMAgent(llm=mock_llm)
+    with patch.object(LLMAgent.TaskHandler, "get_next_step", side_effect=hang):
+        handler = agent.run(task)
+        await started.wait()
+        handler.background_task.cancel()
+        with pytest.raises(asyncio.CancelledError):
+            await asyncio.wait_for(handler, timeout=1)
+
+    assert handler.cancelled()
 
 
 @pytest.mark.asyncio

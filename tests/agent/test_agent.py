@@ -437,6 +437,51 @@ async def test_record_memory_raises_when_called_with_no_args(
         await handler.record_memory()
 
 
+class _UnprintableError(Exception):
+    def __str__(self) -> str:
+        raise RuntimeError("__str__ is broken")
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "error",
+    [
+        None,
+        RuntimeError("boom"),
+        MaxStepsReachedError("Max steps reached."),
+        KeyError("missing"),
+        asyncio.InvalidStateError("already done"),
+        _UnprintableError(),
+    ],
+)
+async def test_record_memory_never_raises_for_run_loop_inputs(
+    error: Exception | None,
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests record_memory() doesn't raise for anything the run loop passes.
+
+    The run loop's ``except`` branch awaits ``record_memory(error=e)``
+    before ``set_exception(e)`` with no ``try``/``finally``, which is only
+    safe while this holds: Episode construction accepts any exception, and
+    backend failures (even when there are several memories) are logged.
+    """
+    task = Task(instruction="mock instruction")
+    failing_memory = AsyncMock(spec=Memory)
+    failing_memory.record.side_effect = RuntimeError("store down")
+    working_memory = AsyncMock(spec=Memory)
+    agent = LLMAgent(llm=mock_llm, memories=[failing_memory, working_memory])
+    handler = agent.TaskHandler(llm_agent=agent, task=task)
+
+    if error is None:
+        await handler.record_memory(
+            result=TaskResult(task_id=task.id_, content="mock result"),
+        )
+    else:
+        await handler.record_memory(error=error)
+
+    working_memory.record.assert_awaited_once()
+
+
 # ---------------------------------------------------------------------------
 # Approval gate end-to-end loop tests (Chapter 8)
 # ---------------------------------------------------------------------------

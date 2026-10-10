@@ -4,7 +4,7 @@ import uuid
 from datetime import datetime
 from enum import Enum
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_serializer
 
 from .agent import Task, TaskResult
 
@@ -32,8 +32,9 @@ class Episode(BaseModel):
         rollout (str): The full agent trajectory for the task.
         result (TaskResult | None): The final result of the task, or
             ``None`` if the task ended with an error.
-        error (Exception | None): The exception raised if the task
-            failed, or ``None`` on success.
+        error (Exception | str | None): The exception raised if the
+            task failed, or ``None`` on success. Persisted — and so read
+            back — as a ``"{type}: {message}"`` string.
         metadata (dict[str, str]): Key-value annotations written at
             record time (e.g. ``{"reflection": "..."}``). Surfaced
             automatically in ``format()`` output.
@@ -46,9 +47,21 @@ class Episode(BaseModel):
     task: Task
     rollout: str
     result: TaskResult | None = Field(default=None)
-    error: Exception | None = Field(default=None)
+    error: Exception | str | None = Field(default=None)
     metadata: dict[str, str] = Field(default_factory=dict)
     completed_at: datetime = Field(default_factory=datetime.now)
+
+    @staticmethod
+    def _error_as_text(error: Exception | str | None) -> str | None:
+        """Render ``error`` as text; Pydantic cannot serialize Exceptions."""
+        if error is None or isinstance(error, str):
+            return error
+        return f"{type(error).__name__}: {error}"
+
+    @field_serializer("error")
+    def _serialize_error(self, error: Exception | str | None) -> str | None:
+        """Serialize ``error`` with the same text used by ``format()``."""
+        return self._error_as_text(error)
 
     def format(
         self,
@@ -85,6 +98,8 @@ class Episode(BaseModel):
                 elif f == "completed_at":
                     ts = val.strftime("%Y-%m-%d %H:%M:%S")
                     parts.append(f"completed_at: {ts}")
+                elif f == "error":
+                    parts.append(f"error: {self._error_as_text(val)}")
                 else:
                     parts.append(f"{f}: {val}")
         return "\n".join(parts)
@@ -101,6 +116,9 @@ class Episode(BaseModel):
                 elif f == "completed_at":
                     ts = val.strftime("%Y-%m-%d %H:%M:%S")
                     lines.append(f"    <completed_at>{ts}</completed_at>")
+                elif f == "error":
+                    text = self._error_as_text(val)
+                    lines.append(f"    <error>{text}</error>")
                 else:
                     lines.append(f"    <{f}>{val}</{f}>")
         lines.append("  </episode>")

@@ -1006,8 +1006,10 @@ class LLMAgent:
                             )
 
                 except Exception as e:
-                    await task_handler.record_memory(error=e)  # added in ch07
-                    task_handler.set_exception(e)
+                    try:  # added in ch07
+                        await task_handler.record_memory(error=e)
+                    finally:
+                        task_handler.set_exception(e)
 
         task_handler.background_task = asyncio.create_task(_process_loop())
 

@@ -443,29 +443,23 @@ more-examples/ch04/pokemon_error_handling.ipynb:
     status: pass
 more-examples/ch05/github_mcp.ipynb:
   anthropic:
-    commit: 9814fa00
-    last_tested: '2026-09-29'
+    commit: 01868e65
+    last_tested: '2026-10-10'
     model: claude-sonnet-5
-    note: 'cell 10: TypeError: streamable_http_client() takes 1 positional argument
-      but 2 were given'
-    seconds: 3
-    status: fail
+    seconds: 18
+    status: pass
   ollama-cloud:
-    commit: 9814fa00
-    last_tested: '2026-09-29'
+    commit: 01868e65
+    last_tested: '2026-10-10'
     model: kimi-k2.7-code:cloud
-    note: 'cell 10: TypeError: streamable_http_client() takes 1 positional argument
-      but 2 were given'
-    seconds: 2
-    status: fail
+    seconds: 8
+    status: pass
   openai:
-    commit: 9814fa00
-    last_tested: '2026-09-29'
+    commit: 01868e65
+    last_tested: '2026-10-10'
     model: gpt-5
-    note: 'cell 10: TypeError: streamable_http_client() takes 1 positional argument
-      but 2 were given'
-    seconds: 3
-    status: fail
+    seconds: 17
+    status: pass
 more-examples/ch05/goodnews_mcp.ipynb:
   anthropic:
     commit: 9814fa00

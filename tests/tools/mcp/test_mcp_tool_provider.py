@@ -5,6 +5,7 @@ from contextlib import asynccontextmanager
 from typing import Any, AsyncContextManager, Callable
 from unittest.mock import AsyncMock, MagicMock, patch
 
+import httpx2
 import pytest
 from mcp import ClientSession, ListToolsResult, StdioServerParameters, Tool
 
@@ -151,6 +152,42 @@ async def test_session_creation_streamable_http(
     mock_streamable_http_client.assert_called_once()
     mock_client_session_cls.assert_called_once()
     assert streamablehttp_provider._session_ready.is_set()
+
+
+@pytest.mark.asyncio
+@patch("llm_agents_from_scratch.tools.mcp.provider.streamable_http_client")
+@patch("llm_agents_from_scratch.tools.mcp.provider.ClientSession")
+async def test_session_creation_streamable_http_passes_headers_on_client(
+    mock_client_session_cls: AsyncMock,
+    mock_streamable_http_client: AsyncMock,
+    mock_streamable_http_client_transport: Callable[
+        ...,
+        AsyncContextManager[Any],
+    ],
+    mock_client_session: Callable[..., AsyncContextManager[AsyncMock]],
+) -> None:
+    """Headers ride on the provider-owned HTTP client (mcp 2.0 API)."""
+    mock_streamable_http_client.side_effect = (
+        mock_streamable_http_client_transport
+    )
+    mock_client_session_cls.side_effect = mock_client_session
+
+    provider = MCPToolProvider(
+        name="mock provider",
+        streamable_http_url="http://mock-url.io",
+        streamable_http_headers={"Authorization": "Bearer token"},
+    )
+    await provider.session()
+
+    args, kwargs = mock_streamable_http_client.call_args
+    assert args == ("http://mock-url.io",)
+    http_client = kwargs["http_client"]
+    assert isinstance(http_client, httpx2.AsyncClient)
+    assert http_client.headers["Authorization"] == "Bearer token"
+    assert http_client.follow_redirects is True
+
+    await provider.close()
+    assert http_client.is_closed
 
 
 @pytest.mark.asyncio

@@ -6,7 +6,7 @@ provider. Generated from `notebook_status.yaml` by
 `_scripts/run_notebook.py`. Edit the ledger and re-render, not
 this page.
 
-**Last tested:** 2026-09-30 (oldest result: 2026-09-29)
+**Last tested:** 2026-10-10 (oldest result: 2026-09-29)
 
 | Symbol | Meaning |
 |---|---|
@@ -60,7 +60,7 @@ Run All.
 | [`jev_next_step_judge.ipynb`](more-examples/ch04/jev_next_step_judge.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`pokemon_comparison.ipynb`](more-examples/ch04/pokemon_comparison.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`pokemon_error_handling.ipynb`](more-examples/ch04/pokemon_error_handling.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`github_mcp.ipynb`](more-examples/ch05/github_mcp.ipynb) | ❌[^1] | ❌[^2] | ❌[^3] |
+| [`github_mcp.ipynb`](more-examples/ch05/github_mcp.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`goodnews_mcp.ipynb`](more-examples/ch05/goodnews_mcp.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`additional_resource_python.ipynb`](more-examples/ch06/additional_resource_python.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`skill_validation_errors.ipynb`](more-examples/ch06/skill_validation_errors.ipynb) | ∅ no LLM | ∅ no LLM | ∅ no LLM |
@@ -80,10 +80,6 @@ Run All.
 | [`streaming_llmagent_executor.ipynb`](more-examples/ch10/streaming_llmagent_executor.ipynb) | ✅ `kimi-k2.7-code:cloud` | ⚪ not wired | ⚪ not wired |
 
 </div>
-
-[^1]: `more-examples/ch05/github_mcp.ipynb` / Ollama Cloud: cell 10: TypeError: streamable_http_client() takes 1 positional argument but 2 were given
-[^2]: `more-examples/ch05/github_mcp.ipynb` / OpenAI: cell 10: TypeError: streamable_http_client() takes 1 positional argument but 2 were given
-[^3]: `more-examples/ch05/github_mcp.ipynb` / Anthropic: cell 10: TypeError: streamable_http_client() takes 1 positional argument but 2 were given
 
 ## Capstones
 

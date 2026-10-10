@@ -14,8 +14,20 @@ from llm_agents_from_scratch.data_structures.tool import (
 
 from .errors import DataConversionError
 
+# Type-only imports: the converters below build plain dicts (the SDK's
+# param types are TypedDicts), so nothing here needs `openai` at runtime.
 if TYPE_CHECKING:  # pragma: no cover
-    from openai.types.responses import Response, ResponseInputParam, ToolParam
+    from openai.types.responses import (
+        FunctionToolParam,
+        Response,
+        ResponseInputParam,
+        ToolParam,
+    )
+    from openai.types.responses.response_input_param import (
+        EasyInputMessageParam,
+        FunctionCallOutput,
+        ResponseFunctionToolCallParam,
+    )
 
 
 def openai_response_to_chat_message(openai_response: "Response") -> ChatMessage:
@@ -51,12 +63,6 @@ def chat_message_to_openai_response_input_param(
         - FunctionCallOutput
         - ResponseFunctionToolCallParam
     """
-    from openai.types.responses.response_input_param import (  # noqa: PLC0415
-        EasyInputMessageParam,
-        FunctionCallOutput,
-        ResponseFunctionToolCallParam,
-    )
-
     # tool call requests
     if chat_message.tool_calls:
         function_tool_calls_list = []
@@ -111,8 +117,6 @@ def tool_to_openai_tool(tool: Tool) -> "ToolParam":
     Returns:
         ~openai.ToolParam: The converted tool.
     """
-    from openai.types.responses import FunctionToolParam  # noqa: PLC0415
-
     # strict mode requires `additionalProperties: false` on every object and
     # every property listed in `required` — neither schema generator in this
     # library produces schemas that satisfy that.

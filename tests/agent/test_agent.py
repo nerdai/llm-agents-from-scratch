@@ -1,6 +1,6 @@
 import asyncio
 import contextlib
-import warnings
+import logging
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
@@ -23,8 +23,6 @@ from llm_agents_from_scratch.data_structures.agent import (
 from llm_agents_from_scratch.errors import (
     LLMAgentError,
     MaxStepsReachedError,
-    MemoryRecallWarning,
-    MemoryRecordWarning,
     RecordMemoryError,
 )
 from llm_agents_from_scratch.memory.memory import Memory
@@ -329,11 +327,12 @@ async def test_run_records_episode_for_each_memory(
 
 @pytest.mark.asyncio
 @patch.object(LLMAgent.TaskHandler, "get_next_step")
-async def test_run_warns_and_continues_when_recall_fails(
+async def test_run_logs_and_continues_when_recall_fails(
     mock_get_next_step: AsyncMock,
     mock_llm: BaseLLM,
+    caplog: pytest.LogCaptureFixture,
 ) -> None:
-    """Tests a failing memory.recall warns and the task still completes."""
+    """Tests a failing memory.recall is logged and the task completes."""
     task = Task(instruction="mock instruction")
     task_result = TaskResult(task_id=task.id_, content="mock result")
     mock_get_next_step.side_effect = [task_result]
@@ -344,9 +343,12 @@ async def test_run_warns_and_continues_when_recall_fails(
     working_memory.recall.return_value = "recalled block"
     agent = LLMAgent(llm=mock_llm, memories=[failing_memory, working_memory])
 
-    with pytest.warns(MemoryRecallWarning, match="recall down"):
+    with caplog.at_level(logging.WARNING):
         handler = agent.run(task)
         result = await asyncio.wait_for(handler, timeout=1)
+
+    assert "Memory recall failed" in caplog.text
+    assert "RuntimeError: recall down" in caplog.text
 
     assert result == task_result
     assert "recalled block" in handler._recalled_memories
@@ -355,11 +357,12 @@ async def test_run_warns_and_continues_when_recall_fails(
 
 @pytest.mark.asyncio
 @patch.object(LLMAgent.TaskHandler, "get_next_step")
-async def test_run_warns_and_returns_result_when_recording_success_fails(
+async def test_run_logs_and_returns_result_when_recording_success_fails(
     mock_get_next_step: AsyncMock,
     mock_llm: BaseLLM,
+    caplog: pytest.LogCaptureFixture,
 ) -> None:
-    """Tests a failing memory.record on success warns; result is returned."""
+    """Tests a failing memory.record on success is logged; result returned."""
     task = Task(instruction="mock instruction")
     task_result = TaskResult(task_id=task.id_, content="mock result")
     mock_get_next_step.side_effect = [task_result]
@@ -371,9 +374,12 @@ async def test_run_warns_and_returns_result_when_recording_success_fails(
     working_memory.recall.return_value = ""
     agent = LLMAgent(llm=mock_llm, memories=[failing_memory, working_memory])
 
-    with pytest.warns(MemoryRecordWarning, match="memory down"):
+    with caplog.at_level(logging.WARNING):
         handler = agent.run(task)
         result = await asyncio.wait_for(handler, timeout=1)
+
+    assert "Memory record failed" in caplog.text
+    assert "RuntimeError: memory down" in caplog.text
 
     assert result == task_result
     working_memory.record.assert_awaited_once()
@@ -381,11 +387,12 @@ async def test_run_warns_and_returns_result_when_recording_success_fails(
 
 @pytest.mark.asyncio
 @patch.object(LLMAgent.TaskHandler, "get_next_step")
-async def test_run_warns_and_raises_task_error_when_recording_failure_fails(
+async def test_run_logs_and_raises_task_error_when_recording_failure_fails(
     mock_get_next_step: AsyncMock,
     mock_llm: BaseLLM,
+    caplog: pytest.LogCaptureFixture,
 ) -> None:
-    """Tests a failing memory.record on failure warns; task error raised."""
+    """Tests a failing memory.record on failure is logged; task error raised."""
     mock_get_next_step.side_effect = RuntimeError("boom")
 
     mock_memory = AsyncMock(spec=Memory)
@@ -394,63 +401,12 @@ async def test_run_warns_and_raises_task_error_when_recording_failure_fails(
     task = Task(instruction="mock instruction")
     agent = LLMAgent(llm=mock_llm, memories=[mock_memory])
 
-    with pytest.warns(MemoryRecordWarning, match="memory down"):
+    with caplog.at_level(logging.WARNING):
         handler = agent.run(task)
         with pytest.raises(RuntimeError, match="boom"):
             await asyncio.wait_for(handler, timeout=1)
 
-
-@pytest.mark.asyncio
-@pytest.mark.parametrize(
-    ("failing_method", "warning_cls"),
-    [("recall", MemoryRecallWarning), ("record", MemoryRecordWarning)],
-)
-@patch.object(LLMAgent.TaskHandler, "get_next_step")
-async def test_run_settles_handler_when_memory_warning_is_an_error(
-    mock_get_next_step: AsyncMock,
-    failing_method: str,
-    warning_cls: type[Warning],
-    mock_llm: BaseLLM,
-) -> None:
-    """Tests a memory warning escalated to an error settles the handler."""
-    task = Task(instruction="mock instruction")
-    mock_get_next_step.side_effect = [
-        TaskResult(task_id=task.id_, content="mock result"),
-    ]
-
-    mock_memory = AsyncMock(spec=Memory)
-    mock_memory.recall.return_value = ""
-    getattr(mock_memory, failing_method).side_effect = RuntimeError("down")
-    agent = LLMAgent(llm=mock_llm, memories=[mock_memory])
-
-    with warnings.catch_warnings():
-        warnings.simplefilter("error", warning_cls)
-        handler = agent.run(task)
-        with pytest.raises(warning_cls):
-            await asyncio.wait_for(handler, timeout=1)
-
-
-@pytest.mark.asyncio
-async def test_run_cancels_handler_when_background_task_is_cancelled(
-    mock_llm: BaseLLM,
-) -> None:
-    """Tests cancelling background_task alone also cancels the handler."""
-    started = asyncio.Event()
-
-    async def hang(*args: object, **kwargs: object) -> None:
-        started.set()
-        await asyncio.Event().wait()
-
-    task = Task(instruction="mock instruction")
-    agent = LLMAgent(llm=mock_llm)
-    with patch.object(LLMAgent.TaskHandler, "get_next_step", side_effect=hang):
-        handler = agent.run(task)
-        await started.wait()
-        handler.background_task.cancel()
-        with pytest.raises(asyncio.CancelledError):
-            await asyncio.wait_for(handler, timeout=1)
-
-    assert handler.cancelled()
+    assert "Memory record failed" in caplog.text
 
 
 @pytest.mark.asyncio

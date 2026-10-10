@@ -2,7 +2,6 @@
 
 import asyncio
 import json
-import warnings
 from typing import TYPE_CHECKING, Any
 
 from rich.console import Console
@@ -32,8 +31,6 @@ from llm_agents_from_scratch.data_structures.skill import SkillScope
 from llm_agents_from_scratch.errors import (
     LLMAgentError,
     MaxStepsReachedError,
-    MemoryRecallWarning,
-    MemoryRecordWarning,
     RecordMemoryError,
     TaskHandlerError,
 )
@@ -753,19 +750,17 @@ class LLMAgent:
             Calls ``recall`` on each memory in ``self.llm_agent.memories``
             and stores the formatted string in ``self._recalled_memories``
             for prompt injection during ``run_step``. No-op when no memories
-            are configured. A memory whose ``recall`` fails is skipped with
-            a ``MemoryRecallWarning``, so the task still runs.
+            are configured. A memory whose ``recall`` fails is skipped and
+            the failure is logged as a warning, so the task still runs.
             """
             loaded = []
             for memory in self.llm_agent.memories:
                 try:
                     block = await memory.recall(self.task)
                 except Exception as e:
-                    warnings.warn(
+                    self.logger.warning(
                         f"Memory recall failed; continuing without it: "
                         f"{type(e).__name__}: {e}",
-                        MemoryRecallWarning,
-                        stacklevel=2,
                     )
                     continue
                 loaded.append(block)
@@ -783,8 +778,8 @@ class LLMAgent:
             Exactly one of ``result`` or ``error`` must be provided.
             Called before ``set_result()`` / ``set_exception()`` so that
             ``await agent.run(task)`` returns only after the episode is
-            written. A memory whose ``record`` fails is skipped with a
-            ``MemoryRecordWarning``, so the task still settles.
+            written. A memory whose ``record`` fails is skipped and the
+            failure is logged as a warning, so the task still settles.
 
             Added in Chapter 7.
 
@@ -810,11 +805,9 @@ class LLMAgent:
                 try:
                     await memory.record(episode)
                 except Exception as e:
-                    warnings.warn(
+                    self.logger.warning(
                         f"Memory record failed; episode not saved to it: "
                         f"{type(e).__name__}: {e}",
-                        MemoryRecordWarning,
-                        stacklevel=2,
                     )
 
         async def request_approval(
@@ -1031,26 +1024,7 @@ class LLMAgent:
                     await task_handler.record_memory(error=e)  # added in ch07
                     task_handler.set_exception(e)
 
-        # added in ch07
-        def _settle_handler(background_task: asyncio.Task[None]) -> None:
-            """Settle the task handler if the processing loop exited early.
-
-            Memory hooks are awaited outside the loop's per-step ``try``, so
-            the loop can end (raise or be cancelled) without settling the
-            handler. Settling it here means ``await task_handler`` never
-            hangs.
-            """
-            if task_handler.done():
-                return
-            if background_task.cancelled():
-                task_handler.cancel()
-                return
-            exc = background_task.exception()
-            if exc is not None:
-                task_handler.set_exception(exc)
-
         task_handler.background_task = asyncio.create_task(_process_loop())
-        task_handler.background_task.add_done_callback(_settle_handler)
 
         return task_handler
 

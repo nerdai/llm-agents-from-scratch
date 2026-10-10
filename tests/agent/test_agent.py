@@ -326,6 +326,21 @@ async def test_run_records_episode_for_each_memory(
 
 
 @pytest.mark.asyncio
+async def test_run_raises_when_memories_template_is_misconfigured(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests a bad memories template fails the run instead of hanging."""
+    mock_memory = AsyncMock(spec=Memory)
+    mock_memory.recall.return_value = "recalled block"
+    agent = LLMAgent(llm=mock_llm, memories=[mock_memory])
+    agent.templates = {**agent.templates, "memories": "{episodes}"}
+
+    handler = agent.run(Task(instruction="mock instruction"))
+    with pytest.raises(KeyError, match="episodes"):
+        await asyncio.wait_for(handler, timeout=1)
+
+
+@pytest.mark.asyncio
 @patch.object(LLMAgent.TaskHandler, "get_next_step")
 async def test_run_logs_and_continues_when_recall_fails(
     mock_get_next_step: AsyncMock,
@@ -420,6 +435,51 @@ async def test_record_memory_raises_when_called_with_no_args(
 
     with pytest.raises(RecordMemoryError):
         await handler.record_memory()
+
+
+class _UnprintableError(Exception):
+    def __str__(self) -> str:
+        raise RuntimeError("__str__ is broken")
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "error",
+    [
+        None,
+        RuntimeError("boom"),
+        MaxStepsReachedError("Max steps reached."),
+        KeyError("missing"),
+        asyncio.InvalidStateError("already done"),
+        _UnprintableError(),
+    ],
+)
+async def test_record_memory_never_raises_for_run_loop_inputs(
+    error: Exception | None,
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests record_memory() doesn't raise for anything the run loop passes.
+
+    The run loop's ``except`` branch awaits ``record_memory(error=e)``
+    before ``set_exception(e)`` with no ``try``/``finally``, which is only
+    safe while this holds: Episode construction accepts any exception, and
+    backend failures (even when there are several memories) are logged.
+    """
+    task = Task(instruction="mock instruction")
+    failing_memory = AsyncMock(spec=Memory)
+    failing_memory.record.side_effect = RuntimeError("store down")
+    working_memory = AsyncMock(spec=Memory)
+    agent = LLMAgent(llm=mock_llm, memories=[failing_memory, working_memory])
+    handler = agent.TaskHandler(llm_agent=agent, task=task)
+
+    if error is None:
+        await handler.record_memory(
+            result=TaskResult(task_id=task.id_, content="mock result"),
+        )
+    else:
+        await handler.record_memory(error=error)
+
+    working_memory.record.assert_awaited_once()
 
 
 # ---------------------------------------------------------------------------

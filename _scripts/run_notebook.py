@@ -159,18 +159,29 @@ def _unchanged_since(commit: str, path: Path) -> bool:
     """Whether nothing `path` depends on changed since `commit`.
 
     Compares against the working tree, so uncommitted edits count as
-    changes. An unknown commit (e.g. a pre-squash branch SHA) counts as
-    changed too.
+    changes, and so do new files git doesn't ignore (`git diff` alone
+    skips untracked files). An unknown commit (e.g. a pre-squash branch
+    SHA) counts as changed too.
     """
     if not commit:
         return False
-    done = subprocess.run(
-        ["git", "diff", "--quiet", commit, "--", str(path), *DEPENDS_ON],
+    scope = ["--", str(path), *DEPENDS_ON]
+    diff = subprocess.run(
+        ["git", "diff", "--quiet", commit, *scope],
         capture_output=True,
         check=False,
         cwd=REPO,
     )
-    return done.returncode == 0
+    if diff.returncode != 0:
+        return False
+    untracked = subprocess.run(
+        ["git", "ls-files", "--others", "--exclude-standard", *scope],
+        capture_output=True,
+        text=True,
+        check=False,
+        cwd=REPO,
+    )
+    return untracked.returncode == 0 and not untracked.stdout.strip()
 
 
 def _kernel_env(provider: str) -> dict[str, str]:

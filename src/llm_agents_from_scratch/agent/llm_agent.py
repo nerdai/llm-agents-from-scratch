@@ -2,7 +2,6 @@
 
 import asyncio
 import json
-import warnings
 from typing import TYPE_CHECKING, Any
 
 from rich.console import Console
@@ -32,7 +31,6 @@ from llm_agents_from_scratch.data_structures.skill import SkillScope
 from llm_agents_from_scratch.errors import (
     LLMAgentError,
     MaxStepsReachedError,
-    MemoryRecallWarning,
     RecordMemoryError,
     TaskHandlerError,
 )
@@ -752,19 +750,17 @@ class LLMAgent:
             Calls ``recall`` on each memory in ``self.llm_agent.memories``
             and stores the formatted string in ``self._recalled_memories``
             for prompt injection during ``run_step``. No-op when no memories
-            are configured. A memory whose ``recall`` fails is skipped with
-            a ``MemoryRecallWarning``, so the task still runs.
+            are configured. A memory whose ``recall`` fails is skipped and
+            the failure is logged as a warning, so the task still runs.
             """
             loaded = []
             for memory in self.llm_agent.memories:
                 try:
                     block = await memory.recall(self.task)
                 except Exception as e:
-                    warnings.warn(
+                    self.logger.warning(
                         f"Memory recall failed; continuing without it: "
                         f"{type(e).__name__}: {e}",
-                        MemoryRecallWarning,
-                        stacklevel=2,
                     )
                     continue
                 loaded.append(block)
@@ -782,7 +778,8 @@ class LLMAgent:
             Exactly one of ``result`` or ``error`` must be provided.
             Called before ``set_result()`` / ``set_exception()`` so that
             ``await agent.run(task)`` returns only after the episode is
-            written.
+            written. A memory whose ``record`` fails is skipped and the
+            failure is logged as a warning, so the task still settles.
 
             Added in Chapter 7.
 
@@ -805,7 +802,13 @@ class LLMAgent:
                 error=error,
             )
             for memory in self.llm_agent.memories:
-                await memory.record(episode)
+                try:
+                    await memory.record(episode)
+                except Exception as e:
+                    self.logger.warning(
+                        f"Memory record failed; episode not saved to it: "
+                        f"{type(e).__name__}: {e}",
+                    )
 
         async def request_approval(
             self,
@@ -1018,10 +1021,8 @@ class LLMAgent:
                             )
 
                 except Exception as e:
-                    try:  # added in ch07
-                        await task_handler.record_memory(error=e)
-                    finally:
-                        task_handler.set_exception(e)
+                    await task_handler.record_memory(error=e)  # added in ch07
+                    task_handler.set_exception(e)
 
         task_handler.background_task = asyncio.create_task(_process_loop())
 

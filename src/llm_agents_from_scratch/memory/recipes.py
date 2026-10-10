@@ -99,12 +99,19 @@ def reflective_memory(
     reflection_template = template or _REFLECTION_TEMPLATE
 
     async def _reflect(episode: Episode) -> str:
+        # an episode that ended in an error has no result; reflect on the
+        # error instead
+        result = (
+            episode.result.content
+            if episode.result is not None
+            else f"The task failed with an error: {episode.error}"
+        )
         prompt = reflection_template.format(
             instruction=episode.task.instruction,
-            result=episode.result.content,
+            result=result,
         )
-        result = await llm.complete(prompt)
-        return result.response  # type: ignore[no-any-return]
+        completion = await llm.complete(prompt)
+        return completion.response  # type: ignore[no-any-return]
 
     return Memory(
         store=QdrantMemoryStore(

@@ -481,7 +481,7 @@ class LLMAgent:
 
             if next_step.kind == "final_result":
                 self.logger.info("No new step required.")
-                retval = TaskResult(
+                retval: TaskStep | TaskResult = TaskResult(
                     task_id=self.task.id_,
                     content=previous_step_result.content,
                 )
@@ -694,6 +694,7 @@ class LLMAgent:
                         user_message,
                         response_message,
                     ],
+                    tools=all_tools,
                 )
 
                 # get final content and update chat history
@@ -986,7 +987,7 @@ class LLMAgent:
             set.
             """
             self.logger.info(f"🚀 Starting task: {task.instruction}")
-            step_result = None
+            step_result: TaskStepResult | RejectedTaskResult | None = None
 
             # added in ch07
             await task_handler.load_memories()

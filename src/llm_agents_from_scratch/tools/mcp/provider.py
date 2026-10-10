@@ -4,6 +4,7 @@ import asyncio
 import warnings
 from typing import TYPE_CHECKING
 
+import httpx2
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 from mcp.client.streamable_http import streamable_http_client
@@ -15,6 +16,10 @@ from llm_agents_from_scratch.errors import (
 
 if TYPE_CHECKING:
     from .tool import MCPTool
+
+# The same timeouts mcp's own default HTTP client uses: short for ordinary
+# requests, long reads so a server-sent-event stream can stay open.
+HTTP_TIMEOUT = httpx2.Timeout(30.0, read=300.0)
 
 
 class MCPToolProvider:
@@ -94,21 +99,28 @@ class MCPToolProvider:
                     # Wait for shutdown signal
                     await self._shutdown_event.wait()
         else:
-            async with streamable_http_client(  # noqa: SIM117
-                self.streamable_http_url,
-                self.streamable_http_headers,
-            ) as (
-                read_stream,
-                write_stream,
-                _,
-            ):
-                async with ClientSession(read_stream, write_stream) as session:
-                    await session.initialize()
-                    self._session = session
-                    self._session_ready.set()
+            # Headers go on the HTTP client, which this provider creates and
+            # therefore closes; streamable_http_client only manages a client
+            # it created itself.
+            async with httpx2.AsyncClient(  # noqa: SIM117
+                headers=self.streamable_http_headers,
+                timeout=HTTP_TIMEOUT,
+                follow_redirects=True,
+            ) as http_client:
+                async with streamable_http_client(
+                    str(self.streamable_http_url),
+                    http_client=http_client,
+                ) as (read_stream, write_stream):
+                    async with ClientSession(
+                        read_stream,
+                        write_stream,
+                    ) as session:
+                        await session.initialize()
+                        self._session = session
+                        self._session_ready.set()
 
-                    # Wait for shutdown signal
-                    await self._shutdown_event.wait()
+                        # Wait for shutdown signal
+                        await self._shutdown_event.wait()
 
     async def session(self) -> ClientSession:
         """Get the persistent session.
@@ -119,13 +131,23 @@ class MCPToolProvider:
         Raises:
             Exception: Re-raises any exception encountered during session
                 creation (e.g. invalid server path, connection refused).
+                Concurrent callers waiting on the same attempt all receive
+                that exception. A later call starts a fresh attempt.
 
         Note:
             This method uses lazy initialization - the session is created
-            on the first call and reused for subsequent calls.
+            on the first call and reused for subsequent calls. Concurrent
+            callers that arrive while the session is still being created
+            wait on the same creation task.
         """
         if not self._session_ready.is_set():
-            self._session_task = asyncio.create_task(self._create_session())
+            # Reuse an in-flight creation task so that concurrent first-time
+            # callers share one session instead of each starting their own.
+            if self._session_task is None or self._session_task.done():
+                self._session_task = asyncio.create_task(self._create_session())
+            # Hold our own reference: a retry after a failed attempt can
+            # replace self._session_task before this waiter resumes.
+            session_task = self._session_task
             session_ready_task = asyncio.create_task(self._session_ready.wait())
 
             # Wait for the first of the these two tasks to complete.
@@ -133,13 +155,13 @@ class MCPToolProvider:
             # the session created successfully. Otherwise, the session_ready
             # event was never set, meaning an error was encountered.
             done, _pending = await asyncio.wait(
-                [self._session_task, session_ready_task],
+                [session_task, session_ready_task],
                 return_when=asyncio.FIRST_COMPLETED,
             )
 
-            if self._session_task in done:
+            if session_task in done:
                 session_ready_task.cancel()  # clean-up session ready task
-                self._session_task.result()  # re-raises the encountered error
+                session_task.result()  # re-raises the encountered error
         return self._session  # type: ignore[return-value]
 
     async def get_tools(self) -> list["MCPTool"]:
@@ -160,7 +182,7 @@ class MCPToolProvider:
             MCPTool(
                 provider=self,
                 name=f"mcp__{self.name}__{tool.name}",
-                desc=tool.description,
+                desc=tool.description or "",
                 params_json_schema=tool.input_schema,
                 additional_annotations=tool.annotations,
             )

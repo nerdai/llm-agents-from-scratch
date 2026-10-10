@@ -1,0 +1,11 @@
+placement: below
+columns: 2
+entries:
+  - label: "1"
+    text: opening request, no Task yet
+  - label: "2"
+    text: input_required is not terminal
+  - label: "3"
+    text: the Task id makes it a continuation
+  - label: "4"
+    text: completed, with an Artifact

@@ -1,8 +1,8 @@
-"""LLMAgentA2AExecutor — bridges inbound A2A tasks to an LLMAgent."""
+"""LLMAgentA2AExecutor — wraps inbound A2A tasks for an LLMAgent."""
 
 import asyncio
 
-from a2a.helpers import new_task_from_user_message, new_text_part
+import a2a.helpers as a2a_helpers
 from a2a.server.agent_execution import AgentExecutor, RequestContext
 from a2a.server.events import EventQueue
 from a2a.server.tasks import TaskUpdater
@@ -25,7 +25,7 @@ from llm_agents_from_scratch.data_structures import Task
 
 
 class LLMAgentA2AExecutor(AgentExecutor):
-    """Bridges inbound A2A tasks to an ``LLMAgent``.
+    """Wraps inbound A2A tasks for an ``LLMAgent``.
 
     Per request: ``RequestContext`` -> ``Task(instruction=...)`` ->
     ``await agent.run()`` -> ``Artifact``. Results live in
@@ -68,10 +68,10 @@ class LLMAgentA2AExecutor(AgentExecutor):
     """
 
     def __init__(self, agent: LLMAgent) -> None:
-        """Initialise with the agent to serve.
+        """Initialize with the agent to serve.
 
         Args:
-            agent (LLMAgent): The agent to bridge inbound A2A tasks to.
+            agent (LLMAgent): The agent to wrap inbound A2A tasks for.
         """
         self.agent = agent
         self._task_handlers: dict[str, LLMAgent.TaskHandler] = {}
@@ -100,35 +100,37 @@ class LLMAgentA2AExecutor(AgentExecutor):
                 status/artifact events to.
         """
         if context.current_task:
-            task = context.current_task
+            a2a_task = context.current_task
         else:
             if context.message is None:
                 raise ValueError(
                     "RequestContext is missing the user's Message.",
                 )
-            task = new_task_from_user_message(context.message)
-            await event_queue.enqueue_event(task)
+            a2a_task = a2a_helpers.new_task_from_user_message(context.message)
+            await event_queue.enqueue_event(a2a_task)
 
-        updater = TaskUpdater(event_queue, task.id, task.context_id)
+        updater = TaskUpdater(event_queue, a2a_task.id, a2a_task.context_id)
         await updater.submit()
         await updater.start_work()
 
         instruction = context.get_user_input()
         task_handler = self.agent.run(Task(instruction=instruction))
-        self._task_handlers[task.id] = task_handler
+        self._task_handlers[a2a_task.id] = task_handler
         try:
             result = await task_handler
         except Exception as e:
             await updater.update_status(
                 TaskState.TASK_STATE_FAILED,
-                message=updater.new_agent_message([new_text_part(str(e))]),
+                message=updater.new_agent_message(
+                    [a2a_helpers.new_text_part(str(e))],
+                ),
             )
             return
         finally:
-            self._task_handlers.pop(task.id, None)
+            self._task_handlers.pop(a2a_task.id, None)
 
         await updater.add_artifact(
-            parts=[new_text_part(result.content)],
+            parts=[a2a_helpers.new_text_part(result.content)],
             name="task_result",
         )
         await updater.complete()
@@ -160,15 +162,22 @@ class LLMAgentA2AExecutor(AgentExecutor):
                 f"No in-flight task found for id '{context.task_id}'.",
             )
 
-        # Publish CANCELED before actually cancelling task_handler.
-        # Cancelling task_handler first would wake execute()'s
-        # `await task_handler` immediately, propagating
-        # CancelledError and triggering the SDK's own producer-loop
-        # cleanup, which closes this same event_queue -- racing our
-        # own enqueue below and sometimes winning, silently dropping
-        # the terminal status update (confirmed live: the queue
-        # closing mid-enqueue leaves the task's persisted state stuck
-        # at its last non-terminal value instead of CANCELED).
+        # Publish CANCELED before anything else, so a live streaming
+        # subscriber sees it promptly. As of a2a-sdk 1.1.4,
+        # ActiveTask.cancel() awaits this whole method to completion
+        # before it cancels its own producer task (the one running
+        # execute()) -- see its "Await the executor's cancel before
+        # cancelling the producer" comment in active_task.py -- so
+        # event_queue is not being torn down underneath this call the
+        # way it was on 1.1.2, where the producer was already
+        # cancelled before this method ran. a2a-sdk 1.1.4 also now
+        # force-writes a CANCELED fallback to the task store if the
+        # task is still non-terminal once the whole call returns, so
+        # a dropped publish here would no longer leave the caller
+        # stuck on a stale status either way. Confirmed live via a
+        # real SDK producer loop: task_handler and background_task
+        # are both still unsettled (`.done()` is False for both) at
+        # the moment this method is entered.
         updater = TaskUpdater(event_queue, context.task_id, context.context_id)
         await updater.cancel()
 
@@ -177,6 +186,13 @@ class LLMAgentA2AExecutor(AgentExecutor):
         # work but never settles task_handler itself (its except
         # Exception clause doesn't catch CancelledError), so anything
         # awaiting it would hang. Settle both, in order.
+        #
+        # As of a2a-sdk 1.1.4 (see the note above), this is the call
+        # that actually stops the in-flight work: neither task_handler
+        # nor background_task has been touched by the SDK by the time
+        # this method runs, so without it the agent loop would keep
+        # running after cancel() returns, orphaned under a task the
+        # SDK is about to mark terminal regardless.
         task_handler.background_task.cancel()
         try:  # noqa: SIM105
             await task_handler.background_task
@@ -215,8 +231,9 @@ def build_agent_card(  # noqa: PLR0913, PLR0917
     ``context.get_user_input()`` and only emits text via
     ``new_text_part``), and ``capabilities`` is always
     ``AgentCapabilities(streaming=False)`` (``execute()`` publishes
-    only the final terminal state, no incremental updates — see the
-    streaming executor variant tracked as a follow-up, issue #814).
+    only the final terminal state, no incremental updates — see
+    ``StreamingLLMAgentA2AExecutor`` for the variant that streams
+    incremental progress instead).
     Everything else — pure descriptive metadata that doesn't claim
     anything about what the executor *does* — mirrors ``AgentCard``
     directly.

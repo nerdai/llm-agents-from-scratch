@@ -104,6 +104,22 @@ def test_a2a_response_to_tool_call_result_task_payload_delegates() -> None:
     assert result.content == "42"
 
 
+def test_a2a_response_to_tool_call_result_never_raises() -> None:
+    """Tests an exception while parsing is caught, not propagated.
+
+    A malformed/unexpected response (here: not even a real
+    ``StreamResponse``, lacking ``WhichOneof``) is exactly the kind of
+    thing a non-conformant peer could send. This should degrade to an
+    error result rather than raise past this function.
+    """
+    result = a2a_response_to_tool_call_result(object(), "researcher", "tc1")  # type: ignore[arg-type]
+
+    assert result.error is True
+    details = json.loads(result.content)
+    assert details["error_type"] == "AttributeError"
+    assert details["a2a_agent"] == "researcher"
+
+
 def test_a2a_task_to_tool_call_result_completed() -> None:
     """Tests returns success with artifact content."""
     task = Task(

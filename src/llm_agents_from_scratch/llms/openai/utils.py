@@ -14,8 +14,20 @@ from llm_agents_from_scratch.data_structures.tool import (
 
 from .errors import DataConversionError
 
+# Type-only imports: the converters below build plain dicts (the SDK's
+# param types are TypedDicts), so nothing here needs `openai` at runtime.
 if TYPE_CHECKING:  # pragma: no cover
-    from openai.types.responses import Response, ResponseInputParam, ToolParam
+    from openai.types.responses import (
+        FunctionToolParam,
+        Response,
+        ResponseInputParam,
+        ToolParam,
+    )
+    from openai.types.responses.response_input_param import (
+        EasyInputMessageParam,
+        FunctionCallOutput,
+        ResponseFunctionToolCallParam,
+    )
 
 
 def openai_response_to_chat_message(openai_response: "Response") -> ChatMessage:
@@ -51,15 +63,9 @@ def chat_message_to_openai_response_input_param(
         - FunctionCallOutput
         - ResponseFunctionToolCallParam
     """
-    from openai.types.responses.response_input_param import (  # noqa: PLC0415
-        EasyInputMessageParam,
-        FunctionCallOutput,
-        ResponseFunctionToolCallParam,
-    )
-
     # tool call requests
     if chat_message.tool_calls:
-        function_tool_calls_list = []
+        function_tool_calls_list: "ResponseInputParam" = []
         for tool_call in chat_message.tool_calls:
             function_tool_call: ResponseFunctionToolCallParam = {
                 "type": "function_call",
@@ -88,7 +94,7 @@ def chat_message_to_openai_response_input_param(
             "type": "function_call_output",
             "call_id": tool_call_result.tool_call_id,
             "output": tool_call_result.model_dump_json(
-                exclude="tool_call_id",
+                exclude={"tool_call_id"},
                 indent=2,
             ),
         }
@@ -97,7 +103,8 @@ def chat_message_to_openai_response_input_param(
     input_message: EasyInputMessageParam = {
         "type": "message",
         "content": chat_message.content,
-        "role": chat_message.role.value,
+        # the tool role was handled above, so this is user/assistant/system
+        "role": chat_message.role.value,  # type: ignore[typeddict-item]
     }
     return [input_message]
 
@@ -111,13 +118,14 @@ def tool_to_openai_tool(tool: Tool) -> "ToolParam":
     Returns:
         ~openai.ToolParam: The converted tool.
     """
-    from openai.types.responses import FunctionToolParam  # noqa: PLC0415
-
+    # strict mode requires `additionalProperties: false` on every object and
+    # every property listed in `required` — neither schema generator in this
+    # library produces schemas that satisfy that.
     openai_tool: FunctionToolParam = {
         "type": "function",
         "name": tool.name,
         "description": tool.description,
         "parameters": tool.parameters_json_schema,
-        "strict": True,
+        "strict": False,
     }
     return openai_tool

@@ -1,0 +1,29 @@
+@startuml uml_ch09_use_subagent_tool
+!include ../common/book-clean.puml
+
+package "llm_agents_from_scratch.base.tool" <<Folder>> {
+  abstract class AsyncBaseTool {
+    +name: str
+    +description: str
+    +parameters_json_schema: dict[str, Any]
+    --
+    +<<async>> __call__(tool_call: ToolCall): ToolCallResult
+  }
+}
+
+package "llm_agents_from_scratch.subagents.tools" <<Folder>> {
+  class UseSubAgentTool {
+    -_subagents_registry: dict[str, SubAgentSpec]
+    +name: str = 'from_scratch__use_subagent'
+    +description: str
+    +parameters_json_schema: dict[str, Any]\n\t{name: str (enum of registry keys), task: str}
+    --
+    +<<constructor>> __init__(\n\tsubagents_registry: dict[str, SubAgentSpec]\n):
+    +<<async>> __call__(tool_call: ToolCall, ...): ToolCallResult
+  }
+}
+
+' Relations
+AsyncBaseTool <|-- UseSubAgentTool : " inherits"
+
+@enduml

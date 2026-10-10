@@ -1,0 +1,22 @@
+# Annotation callouts for taskhandler.puml, drawn by
+# _scripts/add_svg_callouts.py. Offsets are SVG user units on the raw
+# PlantUML canvas (500 dpi).
+callouts:
+  - text:
+      - "New attributes"
+      - "for TaskHandler"
+      - "as well as new"
+      - "params for"
+      - "construction"
+    anchor: {text: "_explicit_only_skills"}
+    side: left
+    box: [-680, -370]
+  - text: ["you'll learn about", "this soon!"]
+    anchor: {text: "_use_skill_tool"}
+    side: top
+    at: 0.69
+    box: [1801, -68]
+  - text: ["We'll need to", "update run_step()", "logic"]
+    anchor: {text: "run_step"}
+    side: left
+    box: [-740, -273]

@@ -1,0 +1,8 @@
+# Annotation callouts for ollama_llm.puml, drawn by _scripts/add_svg_callouts.py.
+# Offsets are SVG user units on the raw PlantUML canvas (500 dpi).
+callouts:
+  - text: [suppressed for, brevity]
+    anchor: {entity: BaseLLM}
+    side: left
+    at: 0.58
+    box: [-760, 320]

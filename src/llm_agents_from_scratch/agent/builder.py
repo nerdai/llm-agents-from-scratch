@@ -220,7 +220,7 @@ class LLMAgentBuilder:
             coros.append(coro)
 
         discovered_tools: list[list[MCPTool]] = await asyncio.gather(*coros)
-        mcp_tools = list(chain.from_iterable(discovered_tools))
+        mcp_tools: list[Tool] = list(chain.from_iterable(discovered_tools))
 
         return LLMAgent(
             llm=self.llm,

@@ -1,8 +1,21 @@
 """Unit tests for pandas notebook utils."""
 
+from importlib.util import find_spec
 from unittest.mock import MagicMock, patch
 
+import pytest
 
+# the packages `set_dataframe_display_options` requires, as declared by its
+# own `check_extra_was_installed` call
+notebook_utils_installed = all(
+    find_spec(package) for package in ("pandas", "IPython")
+)
+
+
+@pytest.mark.skipif(
+    not notebook_utils_installed,
+    reason="notebook-utils extra is not installed",
+)
 @patch(
     "llm_agents_from_scratch.notebook_utils.pandas.check_extra_was_installed",
 )

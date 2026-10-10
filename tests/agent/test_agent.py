@@ -326,6 +326,21 @@ async def test_run_records_episode_for_each_memory(
 
 
 @pytest.mark.asyncio
+async def test_run_raises_when_memories_template_is_misconfigured(
+    mock_llm: BaseLLM,
+) -> None:
+    """Tests a bad memories template fails the run instead of hanging."""
+    mock_memory = AsyncMock(spec=Memory)
+    mock_memory.recall.return_value = "recalled block"
+    agent = LLMAgent(llm=mock_llm, memories=[mock_memory])
+    agent.templates = {**agent.templates, "memories": "{episodes}"}
+
+    handler = agent.run(Task(instruction="mock instruction"))
+    with pytest.raises(KeyError, match="episodes"):
+        await asyncio.wait_for(handler, timeout=1)
+
+
+@pytest.mark.asyncio
 @patch.object(LLMAgent.TaskHandler, "get_next_step")
 async def test_run_logs_and_continues_when_recall_fails(
     mock_get_next_step: AsyncMock,

@@ -59,11 +59,17 @@ jobs:
       - name: Install the project
         run: uv sync --all-extras --dev
 
-      - name: Clone the GoodNews MCP server
+      - name: Check out the GoodNews MCP server
+        env:
+          # pinned: goodnews_mcp runs this server with NEWS_API_KEY and
+          # COHERE_API_KEY, so bump the SHA deliberately after review
+          GOODNEWS_SHA: 5753ac481fd0a09b9d12e821122bbe036bb9431e
         run: |
-          mkdir -p ~/mcp-servers
-          git clone --depth 1 https://github.com/VectorInstitute/mcp-goodnews \
-            ~/mcp-servers/mcp-goodnews
+          dir=~/mcp-servers/mcp-goodnews
+          git init -q "$dir"
+          git -C "$dir" remote add origin https://github.com/VectorInstitute/mcp-goodnews
+          git -C "$dir" fetch -q --depth 1 origin "$GOODNEWS_SHA"
+          git -C "$dir" checkout -q --detach FETCH_HEAD
 
       - name: Run notebooks
         # the step timeout leaves time for the upload below; the runner

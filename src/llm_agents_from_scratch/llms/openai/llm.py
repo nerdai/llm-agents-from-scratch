@@ -33,6 +33,7 @@ class OpenAILLM(LLM):
         model: str,
         *,
         api_key: str | None = None,
+        reasoning_effort: str | None = None,
         **kwargs: Any,
     ) -> None:
         """Create an OpenAILLM instance.
@@ -42,6 +43,11 @@ class OpenAILLM(LLM):
             api_key (str | None, optional): An OpenAI api key. Defaults to None.
                 If None, will fallback to OpenAI's api key resolution, looking
                 for an OPENAI_API_KEY env var.
+            reasoning_effort (str | None, optional): Default reasoning effort
+                ("minimal", "low", "medium", "high", ...) applied to every
+                request via the `reasoning` param, unless a call explicitly
+                passes its own `reasoning` kwarg. Defaults to None, which
+                leaves the model's own default effort in place.
             **kwargs (Any): Additional keyword arguments. Passed to the
                 construction of an ~openai.AsyncOpenAI
         """
@@ -52,14 +58,24 @@ class OpenAILLM(LLM):
         # in kwargs.
         kwargs.pop("api_key", None)
         self.model = model
+        self.reasoning_effort = reasoning_effort
         self.client = AsyncOpenAI(api_key=api_key, **kwargs)
+
+    def _with_reasoning_default(self, kwargs: dict[str, Any]) -> dict[str, Any]:
+        """Applies `reasoning_effort` as a default, if not already set."""
+        if self.reasoning_effort is not None:
+            kwargs.setdefault(
+                "reasoning",
+                {"effort": self.reasoning_effort},
+            )
+        return kwargs
 
     async def complete(self, prompt: str, **kwargs: Any) -> CompleteResult:
         """Implements complete LLM interaction mode."""
         response: "Response" = await self.client.responses.create(
             model=self.model,
             input=prompt,
-            **kwargs,
+            **self._with_reasoning_default(kwargs),
         )
         return CompleteResult(response=str(response.output_text), prompt=prompt)
 
@@ -84,7 +100,7 @@ class OpenAILLM(LLM):
             model=self.model,
             input=prompt,
             text_format=mdl,
-            **kwargs,
+            **self._with_reasoning_default(kwargs),
         )
         return response.output_parsed  # type: ignore[no-any-return]
 
@@ -163,7 +179,7 @@ class OpenAILLM(LLM):
             instructions=instructions,
             input=context,
             tools=openai_tools,
-            **kwargs,
+            **self._with_reasoning_default(kwargs),
         )
         return user_message, openai_response_to_chat_message(response)
 
@@ -222,7 +238,7 @@ class OpenAILLM(LLM):
             instructions=instructions,
             input=openai_response_input_params,
             tools=openai_tools,
-            **kwargs,
+            **self._with_reasoning_default(kwargs),
         )
 
         return tool_messages, openai_response_to_chat_message(response)

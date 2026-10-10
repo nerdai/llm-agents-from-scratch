@@ -1,0 +1,22 @@
+@startuml uml_ch10_a2a_task_execution_sequence
+!include ../common/book-clean.puml
+title A2A Task Execution — Sequence
+
+participant "A2A client" as client
+participant "A2A server" as server
+participant "agent\n(any framework)" as agent
+
+client -> server : send task (JSON-RPC)
+activate server
+
+server -> agent : runs the task
+activate agent
+note right: outside the protocol —\nA2A does not specify\nwhat performs the task
+agent --> server : result
+deactivate agent
+
+server --> client : result or error
+deactivate server
+note right: long-running tasks may\nstream progress or push a\ncompletion notification
+
+@enduml

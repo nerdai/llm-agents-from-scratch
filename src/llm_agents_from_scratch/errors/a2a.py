@@ -9,12 +9,6 @@ class A2AError(LLMAgentsFromScratchError):
     pass
 
 
-class A2AAgentNotFoundError(A2AError):
-    """Raised when a named A2A agent is not in the registry."""
-
-    pass
-
-
 class A2AAgentCardMissingInterfaceError(A2AError):
     """Raised when an AgentCard declares no supported interfaces."""
 

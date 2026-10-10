@@ -1,8 +1,4 @@
-from .a2a import (
-    A2AAgentCardMissingInterfaceError,
-    A2AAgentNotFoundError,
-    A2AError,
-)
+from .a2a import A2AAgentCardMissingInterfaceError, A2AError
 from .agent import LLMAgentBuilderError, LLMAgentError, MaxStepsReachedError
 from .core import (
     LLMAgentsFromScratchError,
@@ -16,6 +12,7 @@ from .memory_store import (
     MemoryStoreError,
     MemoryStoreWarning,
 )
+from .notebook_utils import NotebookUtilsError, UnsupportedProviderError
 from .skill import (
     EmptySkillBodyError,
     InvalidFrontmatterError,
@@ -29,7 +26,6 @@ from .skill import (
     SkillValidationError,
     SkillValidationWarning,
 )
-from .subagents import SubAgentNotFoundError, SubAgentsError
 from .task_handler import RecordMemoryError, TaskHandlerError
 
 __all__ = [
@@ -39,7 +35,6 @@ __all__ = [
     "MissingExtraError",
     # a2a
     "A2AError",
-    "A2AAgentNotFoundError",
     "A2AAgentCardMissingInterfaceError",
     # memory store
     "MemoryStoreError",
@@ -54,6 +49,9 @@ __all__ = [
     "MCPError",
     "MissingMCPServerParamsError",
     "MCPWarning",
+    # notebook utils
+    "NotebookUtilsError",
+    "UnsupportedProviderError",
     # skill
     "SkillsError",
     "SkillsWarning",
@@ -69,7 +67,4 @@ __all__ = [
     # task handler
     "TaskHandlerError",
     "RecordMemoryError",
-    # subagents
-    "SubAgentsError",
-    "SubAgentNotFoundError",
 ]

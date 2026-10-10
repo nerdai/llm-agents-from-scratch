@@ -1,12 +1,15 @@
 """Unit tests for MCPToolProvider."""
 
+import asyncio
 from contextlib import asynccontextmanager
 from typing import Any, AsyncContextManager, Callable
-from unittest.mock import AsyncMock, patch
+from unittest.mock import AsyncMock, MagicMock, patch
 
+import httpx2
 import pytest
 from mcp import ClientSession, ListToolsResult, StdioServerParameters, Tool
 
+from llm_agents_from_scratch import LLMAgentBuilder
 from llm_agents_from_scratch.errors import (
     MCPWarning,
     MissingMCPServerParamsError,
@@ -152,6 +155,42 @@ async def test_session_creation_streamable_http(
 
 
 @pytest.mark.asyncio
+@patch("llm_agents_from_scratch.tools.mcp.provider.streamable_http_client")
+@patch("llm_agents_from_scratch.tools.mcp.provider.ClientSession")
+async def test_session_creation_streamable_http_passes_headers_on_client(
+    mock_client_session_cls: AsyncMock,
+    mock_streamable_http_client: AsyncMock,
+    mock_streamable_http_client_transport: Callable[
+        ...,
+        AsyncContextManager[Any],
+    ],
+    mock_client_session: Callable[..., AsyncContextManager[AsyncMock]],
+) -> None:
+    """Headers ride on the provider-owned HTTP client (mcp 2.0 API)."""
+    mock_streamable_http_client.side_effect = (
+        mock_streamable_http_client_transport
+    )
+    mock_client_session_cls.side_effect = mock_client_session
+
+    provider = MCPToolProvider(
+        name="mock provider",
+        streamable_http_url="http://mock-url.io",
+        streamable_http_headers={"Authorization": "Bearer token"},
+    )
+    await provider.session()
+
+    args, kwargs = mock_streamable_http_client.call_args
+    assert args == ("http://mock-url.io",)
+    http_client = kwargs["http_client"]
+    assert isinstance(http_client, httpx2.AsyncClient)
+    assert http_client.headers["Authorization"] == "Bearer token"
+    assert http_client.follow_redirects is True
+
+    await provider.close()
+    assert http_client.is_closed
+
+
+@pytest.mark.asyncio
 @patch("llm_agents_from_scratch.tools.mcp.provider.stdio_client")
 @patch("llm_agents_from_scratch.tools.mcp.provider.ClientSession")
 async def test_session_creation_raises_error(
@@ -242,3 +281,328 @@ async def test_close(
     assert not stdio_provider._shutdown_event.is_set()
     assert stdio_provider._session is None
     assert stdio_provider._session_task is None
+
+
+def _stdio_provider() -> MCPToolProvider:
+    return MCPToolProvider(
+        name="mock_provider",
+        stdio_params=StdioServerParameters(command="uv run", args=["fake.py"]),
+    )
+
+
+def _live_session_tasks() -> list[asyncio.Task]:
+    return [
+        t
+        for t in asyncio.all_tasks()
+        if not t.done()
+        and getattr(t.get_coro(), "__qualname__", "")
+        == "MCPToolProvider._create_session"
+    ]
+
+
+@pytest.mark.asyncio
+@patch("llm_agents_from_scratch.tools.mcp.provider.stdio_client")
+@patch("llm_agents_from_scratch.tools.mcp.provider.ClientSession")
+async def test_session_reused_on_subsequent_calls(
+    mock_client_session_cls: AsyncMock,
+    mock_stdio_client: AsyncMock,
+    mock_stdio_client_transport: AsyncContextManager[Any],
+    mock_client_session: Callable[..., AsyncContextManager[AsyncMock]],
+) -> None:
+    """Tests sequential calls reuse the session created by the first call."""
+    mock_stdio_client.side_effect = mock_stdio_client_transport
+    mock_client_session_cls.side_effect = mock_client_session
+    stdio_provider = _stdio_provider()
+
+    first = await stdio_provider.session()
+    first_task = stdio_provider._session_task
+    second = await stdio_provider.session()
+
+    assert first is second
+    assert stdio_provider._session_task is first_task
+    mock_stdio_client.assert_called_once()
+    mock_client_session_cls.assert_called_once()
+
+    await stdio_provider.close()
+
+
+@pytest.mark.asyncio
+@patch("llm_agents_from_scratch.tools.mcp.provider.stdio_client")
+@patch("llm_agents_from_scratch.tools.mcp.provider.ClientSession")
+async def test_concurrent_session_calls_share_one_session(
+    mock_client_session_cls: AsyncMock,
+    mock_stdio_client: AsyncMock,
+    mock_stdio_client_transport: AsyncContextManager[Any],
+    mock_client_session: Callable[..., AsyncContextManager[AsyncMock]],
+) -> None:
+    """Tests concurrent first-time callers share a single session."""
+    mock_stdio_client.side_effect = mock_stdio_client_transport
+    mock_client_session_cls.side_effect = mock_client_session
+    stdio_provider = _stdio_provider()
+
+    sessions = await asyncio.gather(
+        *(stdio_provider.session() for _ in range(5)),
+    )
+
+    assert all(s is sessions[0] for s in sessions)
+    assert stdio_provider._session is sessions[0]
+    mock_stdio_client.assert_called_once()
+    mock_client_session_cls.assert_called_once()
+    assert len(_live_session_tasks()) == 1
+
+    await stdio_provider.close()
+    assert _live_session_tasks() == []
+
+
+@pytest.mark.asyncio
+@patch("llm_agents_from_scratch.tools.mcp.provider.streamable_http_client")
+@patch("llm_agents_from_scratch.tools.mcp.provider.ClientSession")
+async def test_concurrent_session_calls_share_one_session_streamable_http(
+    mock_client_session_cls: AsyncMock,
+    mock_streamable_http_client: AsyncMock,
+    mock_streamable_http_client_transport: Callable[
+        ...,
+        AsyncContextManager[Any],
+    ],
+    mock_client_session: Callable[..., AsyncContextManager[AsyncMock]],
+) -> None:
+    """Tests concurrent first-time callers share one streamable HTTP session."""
+    mock_streamable_http_client.side_effect = (
+        mock_streamable_http_client_transport
+    )
+    mock_client_session_cls.side_effect = mock_client_session
+    streamablehttp_provider = MCPToolProvider(
+        name="mock provider",
+        streamable_http_url="http://mock-url.io",
+    )
+
+    sessions = await asyncio.gather(
+        *(streamablehttp_provider.session() for _ in range(5)),
+    )
+
+    assert all(s is sessions[0] for s in sessions)
+    mock_streamable_http_client.assert_called_once()
+    mock_client_session_cls.assert_called_once()
+
+    await streamablehttp_provider.close()
+    assert _live_session_tasks() == []
+
+
+@pytest.mark.asyncio
+@patch("llm_agents_from_scratch.tools.mcp.provider.stdio_client")
+@patch("llm_agents_from_scratch.tools.mcp.provider.ClientSession")
+async def test_concurrent_session_calls_share_creation_error(
+    mock_client_session_cls: AsyncMock,
+    mock_stdio_client: AsyncMock,
+    mock_stdio_client_transport: AsyncContextManager[Any],
+) -> None:
+    """Tests a failed creation surfaces the same error to every waiter."""
+    mock_stdio_client.side_effect = mock_stdio_client_transport
+    error = FileNotFoundError("mock server not found")
+    mock_client_session_cls.side_effect = error
+    stdio_provider = _stdio_provider()
+
+    results = await asyncio.gather(
+        *(stdio_provider.session() for _ in range(3)),
+        return_exceptions=True,
+    )
+
+    assert all(r is error for r in results)
+    mock_stdio_client.assert_called_once()
+    mock_client_session_cls.assert_called_once()
+    assert not stdio_provider._session_ready.is_set()
+
+
+@pytest.mark.asyncio
+@patch("llm_agents_from_scratch.tools.mcp.provider.stdio_client")
+@patch("llm_agents_from_scratch.tools.mcp.provider.ClientSession")
+async def test_session_retries_after_failed_creation(
+    mock_client_session_cls: AsyncMock,
+    mock_stdio_client: AsyncMock,
+    mock_stdio_client_transport: AsyncContextManager[Any],
+    mock_client_session: Callable[..., AsyncContextManager[AsyncMock]],
+) -> None:
+    """Tests a call after a failed creation starts a fresh attempt."""
+    mock_stdio_client.side_effect = mock_stdio_client_transport
+    mock_client_session_cls.side_effect = FileNotFoundError()
+    stdio_provider = _stdio_provider()
+
+    with pytest.raises(FileNotFoundError):
+        await stdio_provider.session()
+    failed_task = stdio_provider._session_task
+
+    # act
+    mock_client_session_cls.side_effect = mock_client_session
+    session = await stdio_provider.session()
+
+    assert session is not None
+    assert stdio_provider._session_task is not failed_task
+    assert stdio_provider._session_ready.is_set()
+    assert mock_client_session_cls.call_count == 2  # noqa: PLR2004
+
+    await stdio_provider.close()
+
+
+@pytest.mark.asyncio
+@patch("llm_agents_from_scratch.tools.mcp.provider.stdio_client")
+@patch("llm_agents_from_scratch.tools.mcp.provider.ClientSession")
+async def test_session_recreated_after_close(
+    mock_client_session_cls: AsyncMock,
+    mock_stdio_client: AsyncMock,
+    mock_stdio_client_transport: AsyncContextManager[Any],
+    mock_client_session: Callable[..., AsyncContextManager[AsyncMock]],
+) -> None:
+    """Tests session() after close() opens a new session."""
+    mock_stdio_client.side_effect = mock_stdio_client_transport
+    mock_client_session_cls.side_effect = mock_client_session
+    stdio_provider = _stdio_provider()
+
+    first = await stdio_provider.session()
+    await stdio_provider.close()
+
+    # act
+    sessions = await asyncio.gather(
+        stdio_provider.session(),
+        stdio_provider.session(),
+    )
+
+    assert sessions[0] is sessions[1]
+    assert sessions[0] is not first
+    assert stdio_provider._session_ready.is_set()
+    assert mock_stdio_client.call_count == 2  # noqa: PLR2004
+    assert mock_client_session_cls.call_count == 2  # noqa: PLR2004
+
+    await stdio_provider.close()
+    assert _live_session_tasks() == []
+
+
+@pytest.mark.asyncio
+@patch("llm_agents_from_scratch.tools.mcp.provider.stdio_client")
+@patch("llm_agents_from_scratch.tools.mcp.provider.ClientSession")
+async def test_concurrent_get_tools_share_one_session(
+    mock_client_session_cls: AsyncMock,
+    mock_stdio_client: AsyncMock,
+    mock_stdio_client_transport: AsyncContextManager[Any],
+    mock_client_session: Callable[..., AsyncContextManager[AsyncMock]],
+) -> None:
+    """Tests concurrent get_tools() on an uninitialized provider."""
+    mock_stdio_client.side_effect = mock_stdio_client_transport
+    mock_client_session_cls.side_effect = mock_client_session
+    stdio_provider = _stdio_provider()
+
+    tool_lists = await asyncio.gather(
+        stdio_provider.get_tools(),
+        stdio_provider.get_tools(),
+    )
+
+    assert [len(tools) for tools in tool_lists] == [1, 1]
+    mock_stdio_client.assert_called_once()
+    mock_client_session_cls.assert_called_once()
+
+    await stdio_provider.close()
+    assert _live_session_tasks() == []
+
+
+@pytest.mark.asyncio
+@patch("llm_agents_from_scratch.tools.mcp.provider.stdio_client")
+@patch("llm_agents_from_scratch.tools.mcp.provider.ClientSession")
+async def test_concurrent_builds_share_one_session(
+    mock_client_session_cls: AsyncMock,
+    mock_stdio_client: AsyncMock,
+    mock_stdio_client_transport: AsyncContextManager[Any],
+    mock_client_session: Callable[..., AsyncContextManager[AsyncMock]],
+) -> None:
+    """Tests concurrent builds with an uninitialized provider share a session.
+
+    Mirrors concurrent dispatches to a subagent whose builder is the only
+    owner of the provider, since each dispatch calls ``build()``.
+    """
+    mock_stdio_client.side_effect = mock_stdio_client_transport
+    mock_client_session_cls.side_effect = mock_client_session
+    stdio_provider = _stdio_provider()
+    builder = LLMAgentBuilder(llm=MagicMock(), mcp_providers=[stdio_provider])
+
+    agents = await asyncio.gather(*(builder.build() for _ in range(3)))
+
+    assert all(len(agent.tools) == 1 for agent in agents)
+    mock_stdio_client.assert_called_once()
+    mock_client_session_cls.assert_called_once()
+
+    await stdio_provider.close()
+    assert _live_session_tasks() == []
+
+
+@pytest.mark.asyncio
+@patch("llm_agents_from_scratch.tools.mcp.provider.stdio_client")
+@patch("llm_agents_from_scratch.tools.mcp.provider.ClientSession")
+async def test_waiter_sees_own_failure_when_another_waiter_retries(
+    mock_client_session_cls: AsyncMock,
+    mock_stdio_client: AsyncMock,
+    mock_stdio_client_transport: AsyncContextManager[Any],
+    mock_client_session: Callable[..., AsyncContextManager[AsyncMock]],
+) -> None:
+    """Tests a waiter still raises when a retry replaces the failed task.
+
+    The first waiter to wake retries before the second waiter resumes, so
+    ``_session_task`` already points at the new attempt by then.
+    """
+    mock_stdio_client.side_effect = mock_stdio_client_transport
+    error = FileNotFoundError("mock server not found")
+    mock_client_session_cls.side_effect = [error, mock_client_session()]
+    stdio_provider = _stdio_provider()
+
+    async def retry_on_failure() -> ClientSession:
+        try:
+            return await stdio_provider.session()
+        except FileNotFoundError:
+            return await stdio_provider.session()
+
+    retried, second_waiter = await asyncio.gather(
+        retry_on_failure(),
+        stdio_provider.session(),
+        return_exceptions=True,
+    )
+
+    assert second_waiter is error
+    assert retried is stdio_provider._session
+    assert retried is not None
+    assert mock_client_session_cls.call_count == 2  # noqa: PLR2004
+
+    await stdio_provider.close()
+    assert _live_session_tasks() == []
+
+
+@pytest.mark.asyncio
+@patch("llm_agents_from_scratch.tools.mcp.provider.stdio_client")
+@patch("llm_agents_from_scratch.tools.mcp.provider.ClientSession")
+async def test_concurrent_retries_after_failure_share_one_attempt(
+    mock_client_session_cls: AsyncMock,
+    mock_stdio_client: AsyncMock,
+    mock_stdio_client_transport: AsyncContextManager[Any],
+    mock_client_session: Callable[..., AsyncContextManager[AsyncMock]],
+) -> None:
+    """Tests waiters that all retry a failed attempt join one new attempt."""
+    mock_stdio_client.side_effect = mock_stdio_client_transport
+    mock_client_session_cls.side_effect = [
+        FileNotFoundError("mock server not found"),
+        mock_client_session(),
+    ]
+    stdio_provider = _stdio_provider()
+
+    async def retry_on_failure() -> ClientSession:
+        try:
+            return await stdio_provider.session()
+        except FileNotFoundError:
+            return await stdio_provider.session()
+
+    sessions = await asyncio.gather(
+        *(retry_on_failure() for _ in range(3)),
+    )
+
+    assert all(s is sessions[0] for s in sessions)
+    assert sessions[0] is stdio_provider._session
+    assert mock_stdio_client.call_count == 2  # noqa: PLR2004
+    assert mock_client_session_cls.call_count == 2  # noqa: PLR2004
+
+    await stdio_provider.close()
+    assert _live_session_tasks() == []

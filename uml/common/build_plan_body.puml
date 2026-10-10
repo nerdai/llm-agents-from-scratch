@@ -1,0 +1,54 @@
+'── Build-plan mindmap body ───────────────────────────────────
+' Shared by uml/build_plans/chNN.puml. Each of those sets $CH to its
+' chapter number and includes this file; $cls() then marks every node
+' as done (covered in an earlier chapter), current (this chapter's
+' topic) or todo (still ahead).
+'
+' Mirrors uml/ch01/llm_agent_build_mental_model.puml. Keep the two in
+' sync -- that one is the unannotated version used on the docs site.
+'
+' The bold border on `current` is applied here; the matching bold on
+' the edges back to the root cannot be expressed in PlantUML (per-node
+' arrow styling is a no-op) and is applied afterwards by
+' _scripts/bold_current_path.py.
+
+!include book-clean.puml
+
+!function $cls($n)
+  !if $CH == $n
+    !return "current"
+  !elseif $CH > $n
+    !return "done"
+  !else
+    !return "todo"
+  !endif
+!endfunction
+
+<style>
+mindmapDiagram {
+  ' 3.0 is exactly double PlantUML's 1.5 default, matching the
+  ' hand-edited figures this replaces
+  .current { LineThickness 3.0 }
+  .done    { BackgroundColor #B8B8B8 }
+  .todo    { }
+}
+</style>
+
+* LLM Agent <<$cls(4)>>
+**_ Part 3
+*** Subagents <<$cls(9)>>
+*** A2A <<$cls(10)>>
+
+left side
+
+**_ Part 1
+*** Tools <<$cls(2)>>
+**** SimpleFunction <<$cls(2)>>
+**** PydanticFunction <<$cls(2)>>
+*** LLM <<$cls(3)>>
+**** Ollama <<$cls(3)>>
+**_ Part 2
+*** MCP Tools <<$cls(5)>>
+*** Skills <<$cls(6)>>
+*** Memory <<$cls(7)>>
+*** Human in the Loop <<$cls(8)>>

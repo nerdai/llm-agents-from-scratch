@@ -1,0 +1,11 @@
+placement: below
+columns: 1
+entries:
+  - label: "1"
+    text: "submitted, then working: the Task exists before any work starts"
+  - label: "2"
+    text: "outside the protocol: A2A does not specify what performs the task"
+  - label: "3"
+    text: "completed, with the result as an Artifact"
+  - label: "4"
+    text: "failed, with the error as a Message"

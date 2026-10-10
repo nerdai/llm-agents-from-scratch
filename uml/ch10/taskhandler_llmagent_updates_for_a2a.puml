@@ -1,0 +1,52 @@
+@startuml uml_ch10_taskhandler_llmagent_updates_for_a2a
+!include ../common/book-clean.puml
+left to right direction
+
+package "llm_agents_from_scratch.agent" <<Folder>> {
+
+  class LLMAgent {
+    <color:#aaaaaa>+llm: LLM</color>
+    <color:#aaaaaa>+tools_registry: dict[str, Tool]</color>
+    <color:#aaaaaa>+templates: LLMAgentTemplates</color>
+    <color:#aaaaaa>+logger: Logger</color>
+    <color:#aaaaaa>+memories: list[Memory]</color>
+    <color:#aaaaaa>+subagents_registry: dict[str, SubAgentSpec]</color>
+    +a2a_agents_registry: dict[str, A2AAgentSpec]
+    --
+    +<b><<constructor>> __init__(...,</b>\n\t<b>a2a_agents: list[A2AAgentSpec] | None</b>\n<b>):</b>
+    <color:#aaaaaa>+tools: list[Tool]</color>
+    <color:#aaaaaa>+add_tool(tool: Tool): Self</color>
+    <color:#aaaaaa>+run(task: Task, ...): TaskHandler</color>
+  }
+
+  class "LLMAgent.TaskHandler" as TaskHandler {
+    <color:#aaaaaa>+llm_agent: LLMAgent</color>
+    <color:#aaaaaa>+task: Task</color>
+    <color:#aaaaaa>+rollout: str</color>
+    <color:#aaaaaa>+step_counter: int</color>
+    <color:#aaaaaa>-_background_task: ~asyncio.Task</color>
+    <color:#aaaaaa>+skills_registry: dict[str, Skill]</color>
+    <color:#aaaaaa>-_skills_catalog: str</color>
+    <color:#aaaaaa>-_use_skill_tool: UseSkillTool | None</color>
+    <color:#aaaaaa>-_explicit_only_skills: set[str]</color>
+    <color:#aaaaaa>-_recalled_memories: str</color>
+    <color:#aaaaaa>-_use_subagent_tool: UseSubAgentTool | None</color>
+    <color:#aaaaaa>-_subagents_catalog: str</color>
+    -_use_a2a_agent_tool: UseA2AAgentTool | None
+    -_a2a_agents_catalog: str
+    --
+    +<b><<constructor>> __init__(...)</b>\n\t<b>{builds _use_a2a_agent_tool from</b>\n\t<b>llm_agent.a2a_agents_registry}</b>
+    <color:#aaaaaa>+<<async>> get_next_step(...): TaskStep | TaskResult</color>
+    +<b><<async>> run_step(step: TaskStep): TaskStepResult</b>
+    <color:#aaaaaa>-_format_step_for_rollout()</color>
+    <color:#aaaaaa>-_format_memories_for_system_prompt(...): str</color>
+    <color:#aaaaaa>+<<async>> load_memories(): None</color>
+    <color:#aaaaaa>+<<async>> record_memory(...): None</color>
+    <color:#aaaaaa>+<<async>> request_approval(...): ApprovalResult</color>
+  }
+}
+
+' Relations
+LLMAgent *-- TaskHandler : " has"
+
+@enduml

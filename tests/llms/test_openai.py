@@ -133,6 +133,68 @@ async def test_structured_output(mock_async_client_class: MagicMock) -> None:
 @pytest.mark.skipif(not openai_installed, reason="openai is not installed")
 @pytest.mark.asyncio
 @patch("openai.AsyncOpenAI")
+async def test_reasoning_effort_applied_by_default(
+    mock_async_client_class: MagicMock,
+) -> None:
+    """A constructor-level reasoning_effort is sent on every request."""
+    from openai.types.responses import Response  # noqa: PLC0415
+
+    with open(TEST_DATA_PATH / "mock_response_for_complete.json", "r") as f:
+        mock_response_data = f.read()
+
+    mock_instance = MagicMock()
+    mock_generate = AsyncMock()
+    mock_generate.return_value = Response.model_validate_json(
+        mock_response_data,
+    )
+    mock_instance.responses.create = mock_generate
+    mock_async_client_class.return_value = mock_instance
+
+    llm = OpenAILLM("gpt-5.2", reasoning_effort="low")
+
+    await llm.complete("fake prompt")
+
+    mock_generate.assert_awaited_once_with(
+        model="gpt-5.2",
+        input="fake prompt",
+        reasoning={"effort": "low"},
+    )
+
+
+@pytest.mark.skipif(not openai_installed, reason="openai is not installed")
+@pytest.mark.asyncio
+@patch("openai.AsyncOpenAI")
+async def test_reasoning_effort_call_kwarg_wins(
+    mock_async_client_class: MagicMock,
+) -> None:
+    """A per-call reasoning kwarg overrides the constructor default."""
+    from openai.types.responses import Response  # noqa: PLC0415
+
+    with open(TEST_DATA_PATH / "mock_response_for_complete.json", "r") as f:
+        mock_response_data = f.read()
+
+    mock_instance = MagicMock()
+    mock_generate = AsyncMock()
+    mock_generate.return_value = Response.model_validate_json(
+        mock_response_data,
+    )
+    mock_instance.responses.create = mock_generate
+    mock_async_client_class.return_value = mock_instance
+
+    llm = OpenAILLM("gpt-5.2", reasoning_effort="low")
+
+    await llm.complete("fake prompt", reasoning={"effort": "high"})
+
+    mock_generate.assert_awaited_once_with(
+        model="gpt-5.2",
+        input="fake prompt",
+        reasoning={"effort": "high"},
+    )
+
+
+@pytest.mark.skipif(not openai_installed, reason="openai is not installed")
+@pytest.mark.asyncio
+@patch("openai.AsyncOpenAI")
 async def test_chat_with_no_tool_results(
     mock_async_client_class: MagicMock,
 ) -> None:
@@ -248,6 +310,23 @@ async def test_chat_with_tool_results(
         tools=[tool_to_openai_tool(get_weather_tool)],
     )
     mock_async_client_class.assert_called_once()
+
+
+@pytest.mark.skipif(not openai_installed, reason="openai is not installed")
+def test_tool_to_openai_tool_is_not_strict() -> None:
+    """Test converted tools opt out of strict mode.
+
+    Strict mode requires `additionalProperties: false` and every property
+    in `required`, which the library's schema generators do not emit.
+    """
+
+    def get_weather(location: str, unit: str = "celsius") -> float:
+        """Get the current weather for a location"""
+        return 42.0
+
+    openai_tool = tool_to_openai_tool(SimpleFunctionTool(get_weather))
+
+    assert openai_tool["strict"] is False
 
 
 @pytest.mark.skipif(not openai_installed, reason="openai is not installed")

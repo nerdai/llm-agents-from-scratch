@@ -43,10 +43,12 @@ cd extra/a2a-crewai-hailstone
 uv sync
 ```
 
-Requires a running Ollama instance (`ollama serve`) with the configured
-model pulled — defaults to `qwen3:14b` (`ollama pull qwen3:14b`). The
-`ollama/` prefix in `OLLAMA_MODEL` below is `crewai.LLM`'s own litellm
-provider-routing syntax, not part of the model tag itself.
+Uses **Ollama Cloud** when `OLLAMA_API_KEY` is set (`kimi-k2.7-code:cloud`,
+the same model the notebooks' `make_llm()` picks). Without a key it falls
+back to a local Ollama instance (`ollama serve`) with `qwen3:14b` pulled
+(`ollama pull qwen3:14b`). The `ollama_chat/` and `ollama/` prefixes in
+`OLLAMA_MODEL` below are `crewai.LLM`'s own litellm provider-routing
+syntax, not part of the model tag itself.
 
 ## Usage
 
@@ -60,8 +62,9 @@ Configurable via environment variables:
 
 | Variable          | Default                      | Purpose                                                |
 |-------------------|-------------------------------|----------------------------------------------------------|
-| `OLLAMA_MODEL`    | `ollama/qwen3:14b`            | Model passed to `crewai.LLM`                              |
-| `OLLAMA_BASE_URL` | `http://localhost:11434`      | Ollama server URL                                         |
+| `OLLAMA_API_KEY`  | unset                         | Set to use Ollama Cloud instead of local Ollama           |
+| `OLLAMA_MODEL`    | `ollama_chat/kimi-k2.7-code:cloud` with a key, else `ollama/qwen3:14b` | Model passed to `crewai.LLM` |
+| `OLLAMA_BASE_URL` | `https://ollama.com` with a key, else `http://localhost:11434` | Ollama server URL         |
 | `A2A_HOST`        | `0.0.0.0`                     | Host uvicorn binds to                                     |
 | `A2A_PORT`        | `9200`                        | Port uvicorn binds to                                     |
 | `A2A_URL`         | `http://localhost:{A2A_PORT}` | URL advertised in the agent card's `supported_interfaces` |

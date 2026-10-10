@@ -694,6 +694,7 @@ class LLMAgent:
                         user_message,
                         response_message,
                     ],
+                    tools=all_tools,
                 )
 
                 # get final content and update chat history

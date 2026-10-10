@@ -112,3 +112,16 @@ Chapter N — <chapter title>
 | `enhancement` | New feature or capability |
 | `bug` | Bug fix |
 | `documentation` | Docs, notebooks, or book content |
+| `refactor` | Reworking existing code or notebooks without new capability |
+| `chore` | Maintenance, tooling, or dependency work |
+| `Capstone` | Issue touching a capstone notebook |
+| `llm-integrations` | LLM provider integrations (Ollama, OpenAI, Anthropic) and notebook provider switching |
+
+Notes:
+
+- A `docs` label also exists but is a legacy duplicate — prefer `documentation`.
+- Labels are not mutually exclusive. A topic label (`diagram`, `Capstone`,
+  `llm-integrations`) usually pairs with a kind label (`enhancement`,
+  `refactor`, `documentation`).
+- If a label in this table does not exist yet in the repo, create it the same
+  way as a `Chapter N` label (step 4).

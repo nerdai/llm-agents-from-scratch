@@ -18,16 +18,16 @@ class BaseMemoryStore(ABC):
        any preprocessing required by that substrate (embedding, indexing,
        tokenization).
     2. **Retrieval primitives** — implement ``_read_recent`` and ``_search``
-       so that the concrete ``search()`` method can dispatch based on
+       so that the concrete ``recall()`` method can dispatch based on
        ``recall_mode`` without knowing the underlying storage details.
 
-    The public retrieval interface is ``search()``. Subclasses must not
+    The public retrieval interface is ``recall()``. Subclasses must not
     override it; they implement ``_read_recent`` and ``_search`` instead.
 
     Attributes:
-        max_results (int): Default number of results returned by
-            ``search()`` when no explicit count is supplied by the caller.
-        recall_mode (RecallMode): Controls how ``search()`` retrieves
+        max_results (int): Maximum number of episodes ``recall()``
+            returns.
+        recall_mode (RecallMode): Controls how ``recall()`` retrieves
             episodes. ``RecallMode.RECENT`` delegates to ``_read_recent``;
             ``RecallMode.SEARCH`` delegates to ``_search``.
     """
@@ -37,13 +37,13 @@ class BaseMemoryStore(ABC):
         max_results: int = 5,
         recall_mode: RecallMode = RecallMode.SEARCH,
     ) -> None:
-        """Initialise shared store state.
+        """Initialize shared store state.
 
         Args:
             max_results (int): Default maximum number of episodes
                 returned by retrieval operations. Defaults to 5.
             recall_mode (RecallMode): Retrieval strategy used by
-                ``search()``. Defaults to ``RecallMode.SEARCH``.
+                ``recall()``. Defaults to ``RecallMode.SEARCH``.
         """
         self.max_results = max_results
         self.recall_mode = recall_mode
@@ -63,7 +63,7 @@ class BaseMemoryStore(ABC):
         """Return the N most recently recorded episodes.
 
         Subclasses must implement this method. It is called by the
-        concrete ``search()`` when ``recall_mode`` is
+        concrete ``recall()`` when ``recall_mode`` is
         ``RecallMode.RECENT``.
 
         Args:
@@ -82,7 +82,7 @@ class BaseMemoryStore(ABC):
         """Return the most relevant episodes for a query.
 
         Subclasses must implement this method. It is called by the
-        concrete ``search()`` when ``recall_mode`` is
+        concrete ``recall()`` when ``recall_mode`` is
         ``RecallMode.SEARCH``. The number of results is controlled by
         ``self.max_results``.
 

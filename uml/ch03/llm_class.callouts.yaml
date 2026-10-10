@@ -1,0 +1,19 @@
+# Annotation callouts for llm_class.puml, drawn by _scripts/add_svg_callouts.py.
+# Offsets are SVG user units on the raw PlantUML canvas (500 dpi).
+callouts:
+  - text: class method
+    anchor: {text: from_tool_call_result}
+    side: bottom
+    at: 0.14
+    box: [810, 470]
+  - text: composition
+    anchor: {link: composition}
+    box: [470, 1515]
+  - text: enum
+    anchor: {entity: ChatRole}
+    side: bottom
+    box: [700, 690]
+  - text: generic type
+    anchor: {text: structured_output}
+    side: right
+    box: [1500, 140]

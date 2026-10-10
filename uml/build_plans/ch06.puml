@@ -1,0 +1,4 @@
+@startmindmap build_plan_ch06
+!$CH = 6
+!include ../common/build_plan_body.puml
+@endmindmap

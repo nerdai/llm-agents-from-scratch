@@ -1,6 +1,6 @@
 """StreamingLLMAgentA2AExecutor — streaming variant of LLMAgentA2AExecutor."""
 
-from a2a.helpers import new_task_from_user_message, new_text_part
+import a2a.helpers as a2a_helpers
 from a2a.server.agent_execution import AgentExecutor, RequestContext
 from a2a.server.events import EventQueue
 from a2a.server.tasks import TaskUpdater
@@ -23,7 +23,7 @@ from llm_agents_from_scratch.data_structures import Task, TaskResult, TaskStep
 
 
 class StreamingLLMAgentA2AExecutor(AgentExecutor):
-    """Bridges inbound A2A tasks to an ``LLMAgent``, streaming updates.
+    """Wraps inbound A2A tasks for an ``LLMAgent``, streaming updates.
 
     Drives ``LLMAgent.run_supervised()`` directly instead of ``run()``:
     ``SupervisedTaskHandler`` has no background task at all — execution
@@ -61,10 +61,10 @@ class StreamingLLMAgentA2AExecutor(AgentExecutor):
     """
 
     def __init__(self, agent: LLMAgent) -> None:
-        """Initialise with the agent to serve.
+        """Initialize with the agent to serve.
 
         Args:
-            agent (LLMAgent): The agent to bridge inbound A2A tasks to.
+            agent (LLMAgent): The agent to wrap inbound A2A tasks for.
         """
         self.agent = agent
         self._task_handlers: dict[str, LLMAgent.SupervisedTaskHandler] = {}
@@ -94,16 +94,16 @@ class StreamingLLMAgentA2AExecutor(AgentExecutor):
                 status/artifact events to.
         """
         if context.current_task:
-            task = context.current_task
+            a2a_task = context.current_task
         else:
             if context.message is None:
                 raise ValueError(
                     "RequestContext is missing the user's Message.",
                 )
-            task = new_task_from_user_message(context.message)
-            await event_queue.enqueue_event(task)
+            a2a_task = a2a_helpers.new_task_from_user_message(context.message)
+            await event_queue.enqueue_event(a2a_task)
 
-        updater = TaskUpdater(event_queue, task.id, task.context_id)
+        updater = TaskUpdater(event_queue, a2a_task.id, a2a_task.context_id)
         await updater.submit()
         await updater.start_work()
 
@@ -111,7 +111,7 @@ class StreamingLLMAgentA2AExecutor(AgentExecutor):
         task_handler = await self.agent.run_supervised(
             Task(instruction=instruction),
         )
-        self._task_handlers[task.id] = task_handler
+        self._task_handlers[a2a_task.id] = task_handler
         try:
             step_result = None
             while not task_handler.done():
@@ -121,14 +121,22 @@ class StreamingLLMAgentA2AExecutor(AgentExecutor):
                         await updater.update_status(
                             TaskState.TASK_STATE_WORKING,
                             message=updater.new_agent_message(
-                                [new_text_part(next_step.instruction)],
+                                [
+                                    a2a_helpers.new_text_part(
+                                        next_step.instruction,
+                                    ),
+                                ],
                             ),
                         )
                         step_result = await task_handler.run_step(next_step)
                         await updater.update_status(
                             TaskState.TASK_STATE_WORKING,
                             message=updater.new_agent_message(
-                                [new_text_part(step_result.content)],
+                                [
+                                    a2a_helpers.new_text_part(
+                                        step_result.content,
+                                    ),
+                                ],
                             ),
                         )
                     case TaskResult():
@@ -136,15 +144,17 @@ class StreamingLLMAgentA2AExecutor(AgentExecutor):
         except Exception as e:
             await updater.update_status(
                 TaskState.TASK_STATE_FAILED,
-                message=updater.new_agent_message([new_text_part(str(e))]),
+                message=updater.new_agent_message(
+                    [a2a_helpers.new_text_part(str(e))],
+                ),
             )
             return
         finally:
-            self._task_handlers.pop(task.id, None)
+            self._task_handlers.pop(a2a_task.id, None)
 
         result = task_handler.result()
         await updater.add_artifact(
-            parts=[new_text_part(result.content)],
+            parts=[a2a_helpers.new_text_part(result.content)],
             name="task_result",
         )
         await updater.complete()
@@ -180,9 +190,14 @@ class StreamingLLMAgentA2AExecutor(AgentExecutor):
         # has none) -- the SDK already cancels the producer task
         # running our own execute() before calling cancel(), which
         # interrupts whatever step is currently in-flight directly.
-        # Publish CANCELED first regardless, for the same reason as
-        # LLMAgentA2AExecutor.cancel(): avoid racing the SDK's own
-        # producer-loop cleanup over this event_queue.
+        # Publish CANCELED before anything that can suspend, for the
+        # same reason as LLMAgentA2AExecutor.cancel(): the producer is
+        # already one loop-tick from its `finally`, which closes this
+        # very event_queue, so any yield here risks the same silent
+        # drop -- not a race, deterministic once something yields
+        # ahead of the publish. Not independently verified against the
+        # real SDK producer loop the way the non-streaming executor
+        # was; the same invariant is assumed to apply here too.
         updater = TaskUpdater(event_queue, context.task_id, context.context_id)
         await updater.cancel()
 

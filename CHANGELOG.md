@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+## [0.0.25] - 2026-10-10
+
 ### Changed
 
 - fix(ch07): `LLMAgent.run()` fails the run when `load_memories()` raises, instead of hanging. It is the only work `_process_loop` awaits before the loop's `try`, so a non-backend error there (e.g. a misconfigured `memories` template raising `KeyError`) escaped the loop and left `await agent.run(task)` pending forever. Backend recall failures are still logged and skipped inside `load_memories()` (#1011)

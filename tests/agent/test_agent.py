@@ -326,11 +326,11 @@ async def test_run_records_episode_for_each_memory(
 
 @pytest.mark.asyncio
 @patch.object(LLMAgent.TaskHandler, "get_next_step")
-async def test_run_settles_handler_when_recording_success_fails(
+async def test_run_raises_when_recording_success_fails(
     mock_get_next_step: AsyncMock,
     mock_llm: BaseLLM,
 ) -> None:
-    """Tests a failing memory.record still lets the result be set."""
+    """Tests a failing memory.record on success raises the record error."""
     task = Task(instruction="mock instruction")
     task_result = TaskResult(task_id=task.id_, content="mock result")
     mock_get_next_step.side_effect = [task_result]
@@ -341,18 +341,17 @@ async def test_run_settles_handler_when_recording_success_fails(
     agent = LLMAgent(llm=mock_llm, memories=[mock_memory])
 
     handler = agent.run(task)
-    result = await asyncio.wait_for(handler, timeout=1)
-
-    assert result == task_result
+    with pytest.raises(RuntimeError, match="memory down"):
+        await asyncio.wait_for(handler, timeout=1)
 
 
 @pytest.mark.asyncio
 @patch.object(LLMAgent.TaskHandler, "get_next_step")
-async def test_run_settles_handler_when_recording_failure_fails(
+async def test_run_raises_task_error_when_recording_failure_fails(
     mock_get_next_step: AsyncMock,
     mock_llm: BaseLLM,
 ) -> None:
-    """Tests a failing memory.record still lets the exception be set."""
+    """Tests a failing memory.record on failure raises the task error."""
     err = RuntimeError("boom")
     mock_get_next_step.side_effect = err
 

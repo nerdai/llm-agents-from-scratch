@@ -795,29 +795,6 @@ class LLMAgent:
             for memory in self.llm_agent.memories:
                 await memory.record(episode)
 
-        async def try_record_memory(
-            self,
-            result: TaskResult | None = None,
-            error: Exception | None = None,
-        ) -> None:
-            """Record an episode, logging (not raising) on failure.
-
-            Added in Chapter 7.
-
-            Used on the paths that settle the handler afterwards: a failing
-            memory backend must not prevent ``set_result()`` /
-            ``set_exception()`` from running, which would leave the handler
-            — and any ``await`` on it — pending forever.
-
-            Args:
-                result (TaskResult | None): The successful task result.
-                error (Exception | None): The exception from a failed task.
-            """
-            try:
-                await self.record_memory(result=result, error=error)
-            except Exception:
-                self.logger.exception("Failed to record episode to memory.")
-
         async def request_approval(
             self,
             result: TaskResult,
@@ -900,7 +877,7 @@ class LLMAgent:
                     f"complete() requires a TaskResult, "
                     f"got {type(result).__name__}.",
                 )
-            await self.try_record_memory(result=result)
+            await self.record_memory(result=result)
             self.set_result(result)
 
         def reject(
@@ -935,7 +912,7 @@ class LLMAgent:
                     ``TaskHandlerError("Task aborted.")``.
             """
             err = error or TaskHandlerError("Task aborted.")
-            await self.try_record_memory(error=err)
+            await self.record_memory(error=err)
             self.set_exception(err)
 
     def run(
@@ -1020,19 +997,19 @@ class LLMAgent:
                                         "re-entering loop with feedback.",
                                     )
                                     continue
-                            # added in ch07
-                            await task_handler.try_record_memory(
+                            await task_handler.record_memory(
                                 result=next_step,
-                            )
+                            )  # added in ch07
                             task_handler.set_result(next_step)
                             self.logger.info(
                                 f"🏁 Task completed: {next_step.content}",
                             )
 
                 except Exception as e:
-                    # added in ch07
-                    await task_handler.try_record_memory(error=e)
-                    task_handler.set_exception(e)
+                    try:  # added in ch07
+                        await task_handler.record_memory(error=e)
+                    finally:
+                        task_handler.set_exception(e)
 
         task_handler.background_task = asyncio.create_task(_process_loop())
 

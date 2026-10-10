@@ -102,24 +102,25 @@ class MCPToolProvider:
             # Headers go on the HTTP client, which this provider creates and
             # therefore closes; streamable_http_client only manages a client
             # it created itself.
-            async with (
-                httpx2.AsyncClient(
-                    headers=self.streamable_http_headers,
-                    timeout=HTTP_TIMEOUT,
-                    follow_redirects=True,
-                ) as http_client,
-                streamable_http_client(
+            async with httpx2.AsyncClient(  # noqa: SIM117
+                headers=self.streamable_http_headers,
+                timeout=HTTP_TIMEOUT,
+                follow_redirects=True,
+            ) as http_client:
+                async with streamable_http_client(
                     str(self.streamable_http_url),
                     http_client=http_client,
-                ) as (read_stream, write_stream),
-                ClientSession(read_stream, write_stream) as session,
-            ):
-                await session.initialize()
-                self._session = session
-                self._session_ready.set()
+                ) as (read_stream, write_stream):
+                    async with ClientSession(
+                        read_stream,
+                        write_stream,
+                    ) as session:
+                        await session.initialize()
+                        self._session = session
+                        self._session_ready.set()
 
-                # Wait for shutdown signal
-                await self._shutdown_event.wait()
+                        # Wait for shutdown signal
+                        await self._shutdown_event.wait()
 
     async def session(self) -> ClientSession:
         """Get the persistent session.

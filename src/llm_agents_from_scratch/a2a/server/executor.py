@@ -181,18 +181,11 @@ class LLMAgentA2AExecutor(AgentExecutor):
         updater = TaskUpdater(event_queue, context.task_id, context.context_id)
         await updater.cancel()
 
-        # TaskHandler is a plain asyncio.Future manually driven by
-        # _process_loop -- cancelling background_task alone stops the
-        # work but never settles task_handler itself (its except
-        # Exception clause doesn't catch CancelledError), so anything
-        # awaiting it would hang. Settle both, in order.
-        #
-        # As of a2a-sdk 1.1.4 (see the note above), this is the call
-        # that actually stops the in-flight work: neither task_handler
-        # nor background_task has been touched by the SDK by the time
-        # this method runs, so without it the agent loop would keep
-        # running after cancel() returns, orphaned under a task the
-        # SDK is about to mark terminal regardless.
+        # Cancelling the background task triggers the completion callback
+        # registered by LLMAgent.run(), which settles task_handler with
+        # CancelledError. Await the worker so it has stopped before this
+        # method returns; the explicit fallback below covers the interval
+        # before that callback runs.
         task_handler.background_task.cancel()
         try:  # noqa: SIM105
             await task_handler.background_task

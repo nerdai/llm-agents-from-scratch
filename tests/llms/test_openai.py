@@ -16,7 +16,10 @@ from llm_agents_from_scratch.data_structures import (
     ToolCallResult,
 )
 from llm_agents_from_scratch.llms.openai import OpenAILLM
-from llm_agents_from_scratch.llms.openai.errors import DataConversionError
+from llm_agents_from_scratch.llms.openai.errors import (
+    DataConversionError,
+    StructuredOutputError,
+)
 from llm_agents_from_scratch.llms.openai.utils import (
     chat_message_to_openai_response_input_param,
     tool_to_openai_tool,
@@ -133,6 +136,29 @@ async def test_structured_output(mock_async_client_class: MagicMock) -> None:
 @pytest.mark.skipif(not openai_installed, reason="openai is not installed")
 @pytest.mark.asyncio
 @patch("openai.AsyncOpenAI")
+async def test_structured_output_raises_when_nothing_parsed(
+    mock_async_client_class: MagicMock,
+) -> None:
+    """A refusal leaves output_parsed None; fail loudly instead of None."""
+
+    class Pet(BaseModel):
+        animal: str
+
+    mock_instance = MagicMock()
+    mock_instance.responses.parse = AsyncMock(
+        return_value=MagicMock(output_parsed=None),
+    )
+    mock_async_client_class.return_value = mock_instance
+
+    llm = OpenAILLM("gpt-5.2")
+
+    with pytest.raises(StructuredOutputError, match="No Pet"):
+        await llm.structured_output("Generate a pet.", mdl=Pet)
+
+
+@pytest.mark.skipif(not openai_installed, reason="openai is not installed")
+@pytest.mark.asyncio
+@patch("openai.AsyncOpenAI")
 async def test_reasoning_effort_applied_by_default(
     mock_async_client_class: MagicMock,
 ) -> None:
@@ -199,6 +225,7 @@ async def test_chat_with_no_tool_results(
     mock_async_client_class: MagicMock,
 ) -> None:
     """Test chat method."""
+    from openai import omit  # noqa: PLC0415
     from openai.types.responses import Response  # noqa: PLC0415
 
     # load test data
@@ -235,7 +262,7 @@ async def test_chat_with_no_tool_results(
         input=[
             {"type": "message", "content": "Some new input.", "role": "user"},
         ],
-        tools=None,
+        tools=omit,  # no tools: the SDK's not-given sentinel
     )
     mock_async_client_class.assert_called_once()
 
@@ -335,6 +362,7 @@ async def test_continue_chat_with_tool_results(
     mock_async_client_class: MagicMock,
 ) -> None:
     """Test continue_chat_with_tool_results method."""
+    from openai import omit  # noqa: PLC0415
     from openai.types.responses import Response  # noqa: PLC0415
 
     # load test data
@@ -401,7 +429,7 @@ async def test_continue_chat_with_tool_results(
                 ),
             ),
         ),
-        tools=None,
+        tools=omit,  # no tools: the SDK's not-given sentinel
     )
     mock_async_client_class.assert_called_once()
 

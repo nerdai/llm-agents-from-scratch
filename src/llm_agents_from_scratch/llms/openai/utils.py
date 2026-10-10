@@ -65,7 +65,7 @@ def chat_message_to_openai_response_input_param(
     """
     # tool call requests
     if chat_message.tool_calls:
-        function_tool_calls_list = []
+        function_tool_calls_list: "ResponseInputParam" = []
         for tool_call in chat_message.tool_calls:
             function_tool_call: ResponseFunctionToolCallParam = {
                 "type": "function_call",
@@ -94,7 +94,7 @@ def chat_message_to_openai_response_input_param(
             "type": "function_call_output",
             "call_id": tool_call_result.tool_call_id,
             "output": tool_call_result.model_dump_json(
-                exclude="tool_call_id",
+                exclude={"tool_call_id"},
                 indent=2,
             ),
         }
@@ -103,7 +103,8 @@ def chat_message_to_openai_response_input_param(
     input_message: EasyInputMessageParam = {
         "type": "message",
         "content": chat_message.content,
-        "role": chat_message.role.value,
+        # the tool role was handled above, so this is user/assistant/system
+        "role": chat_message.role.value,  # type: ignore[typeddict-item]
     }
     return [input_message]
 

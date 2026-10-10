@@ -182,7 +182,7 @@ class MCPToolProvider:
             MCPTool(
                 provider=self,
                 name=f"mcp__{self.name}__{tool.name}",
-                desc=tool.description,
+                desc=tool.description or "",
                 params_json_schema=tool.input_schema,
                 additional_annotations=tool.annotations,
             )

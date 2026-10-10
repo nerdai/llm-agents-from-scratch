@@ -22,18 +22,18 @@ repos:
       - id: ruff-check
         args: [ --fix ]
       - id: ruff-format
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.14.1
+  # mypy runs in the project environment (`uv sync --all-extras --dev`), not
+  # pre-commit's isolated one: the optional extras (openai, anthropic, ollama,
+  # mcp, a2a, qdrant, ...) must be installed, or `ignore_missing_imports`
+  # turns their types into Any and every check involving them is skipped.
+  - repo: local
     hooks:
       - id: mypy
         name: mypy
-        entry: mypy --config-file=mypy.ini --explicit-package-bases src
-        additional_dependencies:
-          - jsonschema>=4.24.0
-          - pydantic>=2.10.5
-          - rich>=13.9.0
-          - types-PyYAML>=6.0.12
-        # https://github.com/python/mypy/issues/13916 -- duplicate module error with .pyi and .py files
+        entry: uv run mypy --config-file=mypy.ini -p llm_agents_from_scratch
+        language: system
+        types: [python]
+        # checks the whole package, not just the changed files
         pass_filenames: false
   - repo: https://github.com/pappasam/toml-sort
     rev: v0.23.1

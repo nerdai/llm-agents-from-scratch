@@ -43,11 +43,26 @@ overwritten by a verification run; pass --keep-outputs to write the
 executed cells back (serialization mirrors the file, as
 insert_provider_note.py does).
 
+Scheduled runs (the notebook-status workflow) add:
+
+    --changed-only     skip a notebook whose last result still holds: it
+                       passed (or was no-llm) and nothing it depends on,
+                       the notebook itself, src/, extra/, pyproject.toml
+                       or uv.lock, changed since the recorded commit
+    --budget-minutes   stop starting notebooks once the next one, judged
+                       by its last recorded duration, would overrun the
+                       budget; the stalest notebooks run first, so the
+                       ones deferred now go first next time
+    --run-url          record a link to the run's log on every entry
+    --regressions-out  write the notebooks that last passed but fail now
+                       as JSON, for the workflow to open issues from
+
 Usage:
 
     uv run python _scripts/run_notebook.py examples/ch04.ipynb --provider openai
     uv run python _scripts/run_notebook.py --all --provider anthropic
     uv run python _scripts/run_notebook.py --all --timeout 1500
+    uv run python _scripts/run_notebook.py --all --changed-only
 """
 
 import contextlib
@@ -108,6 +123,10 @@ _ANSI = re.compile(r"\x1b\[[0-9;]*m")
 _CHOICES = re.compile(r"\[([^\[\]/]+(?:/[^\[\]/]+)+)\]:?\s*$")
 #: Cell tag prefix: wait on the named future before running the cell.
 AWAIT_TAG = "await:"
+#: Besides the notebook itself, what a change to can change its result.
+DEPENDS_ON = ("src", "extra", "pyproject.toml", "uv.lock")
+#: Statuses that --changed-only trusts while nothing has changed.
+_HOLDS = ("pass", "no-llm")
 
 
 def _tracked_notebooks() -> list[Path]:
@@ -134,6 +153,35 @@ def _head_commit() -> str:
         cwd=REPO,
     )
     return done.stdout.strip() if done.returncode == 0 else ""
+
+
+def _unchanged_since(commit: str, path: Path) -> bool:
+    """Whether nothing `path` depends on changed since `commit`.
+
+    Compares against the working tree, so uncommitted edits count as
+    changes, and so do new files git doesn't ignore (`git diff` alone
+    skips untracked files). An unknown commit (e.g. a pre-squash branch
+    SHA) counts as changed too.
+    """
+    if not commit:
+        return False
+    scope = ["--", str(path), *DEPENDS_ON]
+    diff = subprocess.run(
+        ["git", "diff", "--quiet", commit, *scope],
+        capture_output=True,
+        check=False,
+        cwd=REPO,
+    )
+    if diff.returncode != 0:
+        return False
+    untracked = subprocess.run(
+        ["git", "ls-files", "--others", "--exclude-standard", *scope],
+        capture_output=True,
+        text=True,
+        check=False,
+        cwd=REPO,
+    )
+    return untracked.returncode == 0 and not untracked.stdout.strip()
 
 
 def _kernel_env(provider: str) -> dict[str, str]:
@@ -501,13 +549,17 @@ def run_one(
     return _entry("pass", model, seconds=seconds)
 
 
-def main(
+def main(  # noqa: PLR0913 - one keyword per CLI flag
     *paths: str,
     provider: str = PRIMARY,
     all: bool = False,  # noqa: A002 - mirrors the CLI flag
     timeout: float = 1200,
     keep_outputs: bool = False,
     ledger: str = str(LEDGER),
+    changed_only: bool = False,
+    budget_minutes: float | None = None,
+    run_url: str = "",
+    regressions_out: str = "",
 ) -> None:
     """Run notebooks against `provider` and record results in the ledger.
 
@@ -520,6 +572,18 @@ def main(
         keep_outputs (bool): Write executed outputs back into the notebook
             on a pass. Defaults to False (outputs discarded).
         ledger (str): Path of the YAML ledger to update.
+        changed_only (bool): Skip notebooks whose last pass (or no-llm)
+            still holds because nothing they depend on changed since the
+            recorded commit. Defaults to False.
+        budget_minutes (float | None): Stop starting notebooks once the
+            next one would overrun this many minutes, judged by its last
+            recorded duration; the stalest notebooks run first. Defaults
+            to None (no budget).
+        run_url (str): Link to this run's log, recorded on every entry.
+            Defaults to "" (not recorded).
+        regressions_out (str): Write the notebooks that last passed (or
+            were no-llm) but fail now to this path as JSON. Defaults to ""
+            (not written).
     """
     if provider not in PROVIDERS:
         raise SystemExit(f"provider must be one of {', '.join(PROVIDERS)}")
@@ -530,10 +594,55 @@ def main(
     data: dict[str, Any] = {}
     if ledger_path.exists():
         data = yaml.safe_load(ledger_path.read_text(encoding="utf-8")) or {}
+
+    def key_of(path: Path) -> str:
+        return str(path.relative_to(REPO)) if path.is_absolute() else str(path)
+
+    def previous(path: Path) -> dict[str, Any]:
+        return data.get(key_of(path), {}).get(provider) or {}
+
+    if budget_minutes is not None:
+        # never-run first, then oldest; stable, so ties keep path order
+        targets = sorted(
+            targets,
+            key=lambda p: str(previous(p).get("last_tested", "")),
+        )
+    started = time.time()
+    ran = 0
+    deferred: list[str] = []
+    regressions: list[dict[str, str]] = []
     failed = 0
     for path in targets:
-        key = str(path.relative_to(REPO)) if path.is_absolute() else str(path)
+        key = key_of(path)
+        prev = previous(path)
+        if (
+            changed_only
+            and prev.get("status") in _HOLDS
+            and _unchanged_since(str(prev.get("commit", "")), path)
+        ):
+            print(
+                f"{key}  {provider}: unchanged since {prev['commit']}, skipped",
+                flush=True,
+            )
+            continue
+        if budget_minutes is not None and ran:
+            expected = float(prev.get("seconds", 0))
+            if time.time() - started + expected > budget_minutes * 60:
+                deferred.append(key)
+                continue
         entry = run_one(path, provider, timeout, keep_outputs)
+        ran += 1
+        if run_url:
+            entry["run_url"] = run_url
+        if prev.get("status") in _HOLDS and entry["status"] == "fail":
+            regressions.append(
+                {
+                    "notebook": key,
+                    "provider": provider,
+                    "note": str(entry.get("note", "")),
+                    "run_url": run_url,
+                },
+            )
         data.setdefault(key, {})[provider] = entry
         ledger_path.write_text(
             yaml.safe_dump(data, sort_keys=True),
@@ -546,6 +655,17 @@ def main(
             f"{key}  {provider}: {entry['status']}{model}"
             f"  {entry['seconds']}s{note}",
             flush=True,
+        )
+    if deferred:
+        print(
+            f"budget of {budget_minutes:g} min reached; deferred"
+            f" {len(deferred)}: {', '.join(deferred)}",
+            flush=True,
+        )
+    if regressions_out:
+        Path(regressions_out).write_text(
+            json.dumps(regressions, indent=2) + "\n",
+            encoding="utf-8",
         )
     sys.exit(1 if failed else 0)
 

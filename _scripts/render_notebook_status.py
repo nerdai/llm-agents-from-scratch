@@ -5,7 +5,8 @@ capstones), one row per tracked notebook, one column per provider. A cell
 shows the last recorded run for that (notebook, provider) pair:
 
     ✅ `gpt-5`                 passed, with that model
-    ❌                         failed (the note goes in the footnotes)
+    ❌                         failed (the note goes in the footnotes,
+                               with a link to the run's log if recorded)
     ⚪ not wired               the notebook constructs its LLM directly,
                                so LLM_PROVIDER would have no effect
     ∅ no LLM                   nothing in the notebook builds an LLM
@@ -95,7 +96,8 @@ def _cell(entry: dict[str, Any] | None, notes: list[str], label: str) -> str:
             return f"✅{model}[^{len(notes)}]"
         return f"✅{model}"
     if status == "fail":
-        notes.append(f"{label}: {entry.get('note', 'failed')}")
+        log = f" ([run log]({url}))" if (url := entry.get("run_url")) else ""
+        notes.append(f"{label}: {entry.get('note', 'failed')}{log}")
         return f"❌[^{len(notes)}]"
     return _PLAIN.get(status, f"? {status}")
 
@@ -132,7 +134,8 @@ def render(ledger: dict[str, Any]) -> str:
         "|---|---|",
         "| ✅ `model` | Ran to completion with that model |",
         "| ✅ `model` + footnote | Passed with a caveat; see the footnote |",
-        "| ❌ | Failed; see the footnote |",
+        "| ❌ | Failed; see the footnote, which links the run's log"
+        " when the run recorded one |",
         "| ⚪ not wired | The notebook constructs its LLM directly, so"
         " the provider setting would have no effect; not run |",
         "| ∅ no LLM | Nothing in the notebook builds an LLM;"

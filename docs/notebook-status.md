@@ -12,7 +12,7 @@ this page.
 |---|---|
 | ✅ `model` | Ran to completion with that model |
 | ✅ `model` + footnote | Passed with a caveat; see the footnote |
-| ❌ | Failed; see the footnote |
+| ❌ | Failed; see the footnote, which links the run's log when the run recorded one |
 | ⚪ not wired | The notebook constructs its LLM directly, so the provider setting would have no effect; not run |
 | ∅ no LLM | Nothing in the notebook builds an LLM; run under Ollama Cloud only |
 | – | Never run on that provider |

@@ -58,6 +58,7 @@ nav:
     - Chapter 4:
       - Handling Tool Errors (PokéAPI): more-examples/ch04/pokemon_error_handling.ipynb
       - Multi-Step Chained Calls (PokéAPI): more-examples/ch04/pokemon_comparison.ipynb
+      - Using Jev to decide the next step: more-examples/ch04/jev_next_step_judge.ipynb
     - Chapter 5:
       - GitHub MCP: more-examples/ch05/github_mcp.ipynb
       - GoodNews MCP: more-examples/ch05/goodnews_mcp.ipynb
@@ -70,12 +71,24 @@ nav:
     - Chapter 7:
       - Episodic Memory (PokéAPI): more-examples/ch07/recency_memory.ipynb
       - Similarity Memory (REST Countries): more-examples/ch07/similarity_memory.ipynb
+    - Chapter 8:
+      - Approval Gate with a Skill: more-examples/ch08/approval_gate_in_skill.ipynb
+      - HumanInputTool Inside a Skill: more-examples/ch08/skill_with_human_input.ipynb
+      - Supervised Trajectories: more-examples/ch08/supervised_trajectories.ipynb
+    - Chapter 9:
+      - Subagent Failure and Recovery: more-examples/ch09/subagent_failure.ipynb
+      - Evaluator Pattern: more-examples/ch09/evaluator_pattern.ipynb
+      - Subagent with an MCP Tool: more-examples/ch09/subagent_with_mcp_tool.ipynb
+    - Chapter 10:
+      - Streaming Agent Executor: more-examples/ch10/streaming_llmagent_executor.ipynb
+      - Cancelling a Task Execution: more-examples/ch10/cancelling_a_task_execution.ipynb
   - Capstones:
     # Symlinked from capstones/ — do not copy directly.
     - Capstone 1:
       - capstones/one/index.md
       - Notebook: capstones/one/capstone_1.ipynb
       - Runpod Instructions: capstones/one/runpod_instructions.md
+  - Notebook Status: notebook-status.md
   - API Reference:
     - Base:
       - LLM: api_reference/base/llm.md
@@ -93,6 +106,7 @@ nav:
     - LLMs:
       - OllamaLLM: api_reference/llms/ollama.md
       - OpenAILLM: api_reference/llms/openai.md
+      - AnthropicLLM: api_reference/llms/anthropic.md
     - Tools:
       - Simple Function: api_reference/tools/simple_function.md
       - Pydantic Function: api_reference/tools/pydantic_function.md
@@ -112,6 +126,8 @@ nav:
     - Subagents:
       - SubAgentSpec: api_reference/subagents/spec.md
       - UseSubAgentTool: api_reference/subagents/tools.md
+      - Recipes: api_reference/subagents/recipes.md
+      - Constants: api_reference/subagents/constants.md
     - A2A:
       - A2AAgentSpec: api_reference/a2a/spec.md
       - UseA2AAgentTool: api_reference/a2a/tools.md

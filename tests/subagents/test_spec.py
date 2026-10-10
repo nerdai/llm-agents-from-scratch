@@ -11,7 +11,7 @@ MAX_STEPS = 10
 
 
 def test_subagentspec_init(mock_llm: BaseLLM) -> None:
-    """Tests SubAgentSpec initialises with required and optional fields."""
+    """Tests SubAgentSpec initializes with required and optional fields."""
     builder = LLMAgentBuilder(llm=mock_llm)
     spec = SubAgentSpec(
         name="researcher",

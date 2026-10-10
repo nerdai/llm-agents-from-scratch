@@ -1,0 +1,20 @@
+# Annotation callouts for llm_agent_class_pt1.puml, drawn by
+# _scripts/add_svg_callouts.py. Offsets are SVG user units on the raw
+# PlantUML canvas (500 dpi).
+callouts:
+  - text: ["you'll learn about", "these soon!"]
+    anchor: {text: "+templates: LLMAgentTemplates"}
+    side: right
+    box: [293, -1132]
+    also:
+      - anchor: {text: "templates: LLMAgentTemplates", nth: 2}
+        side: right
+  - text:
+      - "technically, this"
+      - "returns an"
+      - "asyncio.Future"
+      - "that resolves to a"
+      - "TaskResult"
+    anchor: {text: "run("}
+    side: left
+    box: [-560, -620]

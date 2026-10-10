@@ -1,0 +1,789 @@
+capstones/one/capstone_1.ipynb:
+  anthropic:
+    commit: 88b08715
+    last_tested: '2026-09-30'
+    model: claude-sonnet-5
+    seconds: 410
+    status: pass
+  ollama-cloud:
+    commit: 88b08715
+    last_tested: '2026-09-30'
+    model: kimi-k2.7-code:cloud
+    seconds: 397
+    status: pass
+  openai:
+    commit: 88b08715
+    last_tested: '2026-09-30'
+    model: gpt-5
+    seconds: 592
+    status: pass
+capstones/three/capstone_2.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+  ollama-cloud:
+    commit: e36a4b10
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 1
+    status: no-llm
+  openai:
+    commit: f6502f43
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+capstones/three/capstone_3.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+  ollama-cloud:
+    commit: e36a4b10
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 1
+    status: no-llm
+  openai:
+    commit: f6502f43
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+capstones/three/capstone_4.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+  ollama-cloud:
+    commit: e36a4b10
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 1
+    status: no-llm
+  openai:
+    commit: f6502f43
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+capstones/three/capstone_5.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+  ollama-cloud:
+    commit: e36a4b10
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 1
+    status: no-llm
+  openai:
+    commit: f6502f43
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+examples/ch02.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+  ollama-cloud:
+    commit: e36a4b10
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 3
+    status: no-llm
+  openai:
+    commit: f6502f43
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+examples/ch03.ipynb:
+  anthropic:
+    commit: eb4e4269
+    last_tested: '2026-09-29'
+    model: ''
+    note: follows OLLAMA_API_KEY, not LLM_PROVIDER; not run
+    seconds: 0
+    status: not-wired
+  ollama-cloud:
+    commit: dacfb1d6
+    last_tested: '2026-09-29'
+    model: kimi-k2.7-code:cloud
+    seconds: 12
+    status: pass
+  openai:
+    commit: eb4e4269
+    last_tested: '2026-09-29'
+    model: ''
+    note: follows OLLAMA_API_KEY, not LLM_PROVIDER; not run
+    seconds: 0
+    status: not-wired
+examples/ch04.ipynb:
+  anthropic:
+    commit: 6b92bdcf
+    last_tested: '2026-09-29'
+    model: claude-sonnet-5
+    note: cell 31 paced by its await:handler tag; parallel run, recorded from its
+      log
+    seconds: 20
+    status: pass
+  ollama-cloud:
+    commit: 6b92bdcf
+    last_tested: '2026-09-29'
+    model: kimi-k2.7-code:cloud
+    note: cell 31 paced by its await:handler tag
+    seconds: 13
+    status: pass
+  openai:
+    commit: 6b92bdcf
+    last_tested: '2026-09-29'
+    model: gpt-5
+    note: cell 31 paced by its await:handler tag
+    seconds: 44
+    status: pass
+examples/ch05.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: claude-sonnet-5
+    seconds: 12
+    status: pass
+  ollama-cloud:
+    commit: 6d29cd79
+    last_tested: '2026-09-29'
+    model: kimi-k2.7-code:cloud
+    seconds: 10
+    status: pass
+  openai:
+    commit: f6502f43
+    last_tested: '2026-09-29'
+    model: gpt-5
+    seconds: 35
+    status: pass
+examples/ch06.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: claude-sonnet-5
+    seconds: 26
+    status: pass
+  ollama-cloud:
+    commit: 6d29cd79
+    last_tested: '2026-09-29'
+    model: kimi-k2.7-code:cloud
+    seconds: 18
+    status: pass
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: gpt-5
+    seconds: 41
+    status: pass
+examples/ch07.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: claude-sonnet-5
+    seconds: 22
+    status: pass
+  ollama-cloud:
+    commit: 6d29cd79
+    last_tested: '2026-09-29'
+    model: kimi-k2.7-code:cloud
+    seconds: 14
+    status: pass
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: gpt-5
+    seconds: 49
+    status: pass
+examples/ch08.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: claude-sonnet-5
+    seconds: 100
+    status: pass
+  ollama-cloud:
+    commit: 6d29cd79
+    last_tested: '2026-09-29'
+    model: kimi-k2.7-code:cloud
+    seconds: 33
+    status: pass
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: gpt-5
+    seconds: 213
+    status: pass
+examples/ch09.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: claude-sonnet-5
+    seconds: 306
+    status: pass
+  ollama-cloud:
+    commit: 6d29cd79
+    last_tested: '2026-09-29'
+    model: kimi-k2.7-code:cloud
+    seconds: 139
+    status: pass
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: gpt-5
+    seconds: 224
+    status: pass
+examples/ch10.ipynb:
+  anthropic:
+    commit: 9553a688
+    last_tested: '2026-09-29'
+    model: claude-sonnet-5
+    seconds: 87
+    status: pass
+  ollama-cloud:
+    commit: 0c3389be
+    last_tested: '2026-09-29'
+    model: kimi-k2.7-code:cloud
+    seconds: 80
+    status: pass
+  openai:
+    commit: 0c3389be
+    last_tested: '2026-09-29'
+    model: gpt-5
+    seconds: 92
+    status: pass
+more-examples/ch02/async_tools.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+  ollama-cloud:
+    commit: e36a4b10
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 3
+    status: no-llm
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+more-examples/ch02/multi_tool_registry.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+  ollama-cloud:
+    commit: e36a4b10
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 2
+    status: no-llm
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+more-examples/ch02/pydantic_tool_validation.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+  ollama-cloud:
+    commit: e36a4b10
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 2
+    status: no-llm
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+more-examples/ch03/multi_turn_chat.ipynb:
+  anthropic:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: claude-sonnet-5
+    seconds: 11
+    status: pass
+  ollama-cloud:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: kimi-k2.7-code:cloud
+    seconds: 8
+    status: pass
+  openai:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: gpt-5
+    seconds: 17
+    status: pass
+more-examples/ch03/parallel_tool_calls.ipynb:
+  anthropic:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: claude-sonnet-5
+    seconds: 8
+    status: pass
+  ollama-cloud:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: kimi-k2.7-code:cloud
+    seconds: 5
+    status: pass
+  openai:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: gpt-5
+    seconds: 8
+    status: pass
+more-examples/ch03/pdf_extraction.ipynb:
+  anthropic:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: claude-sonnet-5
+    seconds: 15
+    status: pass
+  ollama-cloud:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: kimi-k2.7-code:cloud
+    seconds: 9
+    status: pass
+  openai:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: gpt-5
+    seconds: 13
+    status: pass
+more-examples/ch04/jev_next_step_judge.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: claude-sonnet-5
+    seconds: 36
+    status: pass
+  ollama-cloud:
+    commit: 6d29cd79
+    last_tested: '2026-09-29'
+    model: kimi-k2.7-code:cloud
+    seconds: 22
+    status: pass
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: gpt-5
+    seconds: 75
+    status: pass
+more-examples/ch04/pokemon_comparison.ipynb:
+  anthropic:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: claude-sonnet-5
+    seconds: 14
+    status: pass
+  ollama-cloud:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: kimi-k2.7-code:cloud
+    seconds: 11
+    status: pass
+  openai:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: gpt-5
+    seconds: 19
+    status: pass
+more-examples/ch04/pokemon_error_handling.ipynb:
+  anthropic:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: claude-sonnet-5
+    seconds: 20
+    status: pass
+  ollama-cloud:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: kimi-k2.7-code:cloud
+    seconds: 17
+    status: pass
+  openai:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: gpt-5
+    seconds: 17
+    status: pass
+more-examples/ch05/github_mcp.ipynb:
+  anthropic:
+    commit: 01868e65
+    last_tested: '2026-10-10'
+    model: claude-sonnet-5
+    seconds: 18
+    status: pass
+  ollama-cloud:
+    commit: 01868e65
+    last_tested: '2026-10-10'
+    model: kimi-k2.7-code:cloud
+    seconds: 8
+    status: pass
+  openai:
+    commit: 01868e65
+    last_tested: '2026-10-10'
+    model: gpt-5
+    seconds: 17
+    status: pass
+more-examples/ch05/goodnews_mcp.ipynb:
+  anthropic:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: claude-sonnet-5
+    seconds: 16
+    status: pass
+  ollama-cloud:
+    commit: 9814fa00
+    last_tested: '2026-09-30'
+    model: kimi-k2.7-code:cloud
+    seconds: 7
+    status: pass
+  openai:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: gpt-5
+    seconds: 114
+    status: pass
+more-examples/ch06/additional_resource_python.ipynb:
+  anthropic:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: claude-sonnet-5
+    seconds: 18
+    status: pass
+  ollama-cloud:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: kimi-k2.7-code:cloud
+    seconds: 14
+    status: pass
+  openai:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: gpt-5
+    seconds: 25
+    status: pass
+more-examples/ch06/skill_validation_errors.ipynb:
+  anthropic:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+  ollama-cloud:
+    commit: e36a4b10
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 2
+    status: no-llm
+  openai:
+    commit: cf1955bc
+    last_tested: '2026-09-29'
+    model: ''
+    seconds: 0
+    status: no-llm
+more-examples/ch06/skills_marketplace.ipynb:
+  anthropic:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: claude-sonnet-5
+    seconds: 50
+    status: pass
+  ollama-cloud:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: kimi-k2.7-code:cloud
+    seconds: 57
+    status: pass
+  openai:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: gpt-5
+    seconds: 51
+    status: pass
+more-examples/ch06/user_explicit_hailstone.ipynb:
+  anthropic:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: claude-sonnet-5
+    seconds: 43
+    status: pass
+  ollama-cloud:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: kimi-k2.7-code:cloud
+    seconds: 53
+    status: pass
+  openai:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: gpt-5
+    seconds: 80
+    status: pass
+more-examples/ch06/with_and_without_skills.ipynb:
+  anthropic:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: claude-sonnet-5
+    seconds: 47
+    status: pass
+  ollama-cloud:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: kimi-k2.7-code:cloud
+    seconds: 48
+    status: pass
+  openai:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: gpt-5
+    seconds: 76
+    status: pass
+more-examples/ch07/recency_memory.ipynb:
+  anthropic:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: claude-sonnet-5
+    seconds: 29
+    status: pass
+  ollama-cloud:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: kimi-k2.7-code:cloud
+    seconds: 22
+    status: pass
+  openai:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: gpt-5
+    seconds: 34
+    status: pass
+more-examples/ch07/reflective_memory.ipynb:
+  anthropic:
+    commit: f9b31700
+    last_tested: '2026-09-30'
+    model: claude-sonnet-5
+    seconds: 63
+    status: pass
+  ollama-cloud:
+    commit: f9b31700
+    last_tested: '2026-09-30'
+    model: kimi-k2.7-code:cloud
+    seconds: 37
+    status: pass
+  openai:
+    commit: f9b31700
+    last_tested: '2026-09-30'
+    model: gpt-5
+    seconds: 81
+    status: pass
+more-examples/ch07/similarity_memory.ipynb:
+  anthropic:
+    commit: 5dc08a28
+    last_tested: '2026-09-30'
+    model: claude-sonnet-5
+    seconds: 37
+    status: pass
+  ollama-cloud:
+    commit: 5dc08a28
+    last_tested: '2026-09-30'
+    model: kimi-k2.7-code:cloud
+    seconds: 31
+    status: pass
+  openai:
+    commit: 5dc08a28
+    last_tested: '2026-09-30'
+    model: gpt-5
+    seconds: 42
+    status: pass
+more-examples/ch08/approval_gate_in_skill.ipynb:
+  anthropic:
+    commit: 9814fa00
+    last_tested: '2026-09-30'
+    model: claude-sonnet-5
+    seconds: 15
+    status: pass
+  ollama-cloud:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: kimi-k2.7-code:cloud
+    seconds: 9
+    status: pass
+  openai:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: gpt-5
+    seconds: 19
+    status: pass
+more-examples/ch08/skill_with_human_input.ipynb:
+  anthropic:
+    commit: 9814fa00
+    last_tested: '2026-09-30'
+    model: claude-sonnet-5
+    seconds: 19
+    status: pass
+  ollama-cloud:
+    commit: 9814fa00
+    last_tested: '2026-09-30'
+    model: kimi-k2.7-code:cloud
+    seconds: 16
+    status: pass
+  openai:
+    commit: 9814fa00
+    last_tested: '2026-09-30'
+    model: gpt-5
+    seconds: 52
+    status: pass
+more-examples/ch08/supervised_trajectories.ipynb:
+  anthropic:
+    commit: 20c519ac
+    last_tested: '2026-09-30'
+    model: claude-sonnet-5
+    seconds: 22
+    status: pass
+  ollama-cloud:
+    commit: 20c519ac
+    last_tested: '2026-09-30'
+    model: kimi-k2.7-code:cloud
+    seconds: 13
+    status: pass
+  openai:
+    commit: 20c519ac
+    last_tested: '2026-09-30'
+    model: gpt-5
+    seconds: 22
+    status: pass
+more-examples/ch09/evaluator_pattern.ipynb:
+  anthropic:
+    commit: 9814fa00
+    last_tested: '2026-09-30'
+    model: claude-sonnet-5
+    seconds: 60
+    status: pass
+  ollama-cloud:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: kimi-k2.7-code:cloud
+    seconds: 41
+    status: pass
+  openai:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: gpt-5
+    seconds: 128
+    status: pass
+more-examples/ch09/subagent_failure.ipynb:
+  anthropic:
+    commit: 9814fa00
+    last_tested: '2026-09-30'
+    model: claude-sonnet-5
+    seconds: 129
+    status: pass
+  ollama-cloud:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: kimi-k2.7-code:cloud
+    seconds: 102
+    status: pass
+  openai:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: gpt-5
+    seconds: 43
+    status: pass
+more-examples/ch09/subagent_with_mcp_tool.ipynb:
+  anthropic:
+    commit: 9814fa00
+    last_tested: '2026-09-30'
+    model: claude-sonnet-5
+    seconds: 16
+    status: pass
+  ollama-cloud:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: kimi-k2.7-code:cloud
+    seconds: 18
+    status: pass
+  openai:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: gpt-5
+    seconds: 60
+    status: pass
+more-examples/ch10/cancelling_a_task_execution.ipynb:
+  anthropic:
+    commit: 9814fa00
+    last_tested: '2026-09-30'
+    model: ''
+    note: follows OLLAMA_API_KEY, not LLM_PROVIDER; not run
+    seconds: 0
+    status: not-wired
+  ollama-cloud:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: kimi-k2.7-code:cloud
+    seconds: 4
+    status: pass
+  openai:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: ''
+    note: follows OLLAMA_API_KEY, not LLM_PROVIDER; not run
+    seconds: 0
+    status: not-wired
+more-examples/ch10/streaming_llmagent_executor.ipynb:
+  anthropic:
+    commit: 9814fa00
+    last_tested: '2026-09-30'
+    model: ''
+    note: follows OLLAMA_API_KEY, not LLM_PROVIDER; not run
+    seconds: 0
+    status: not-wired
+  ollama-cloud:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: kimi-k2.7-code:cloud
+    seconds: 83
+    status: pass
+  openai:
+    commit: 9814fa00
+    last_tested: '2026-09-29'
+    model: ''
+    note: follows OLLAMA_API_KEY, not LLM_PROVIDER; not run
+    seconds: 0
+    status: not-wired

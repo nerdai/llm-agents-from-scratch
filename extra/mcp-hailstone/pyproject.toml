@@ -5,7 +5,7 @@ description = "A simple MCP server for the Hailstone tool."
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-  "mcp[cli]>=1.25.0"
+  "mcp[cli]>=2.0.0"
 ]
 authors = [
   {name = "Andrei Fajardo", email = "andrei@nerdai.io"}

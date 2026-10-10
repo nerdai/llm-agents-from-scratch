@@ -7,6 +7,7 @@ dev = [
   "fire>=0.7.0",
   "ipykernel>=6.29.5",
   "mypy>=1.14.1",
+  "nbformat>=5.10.4",
   "pre-commit>=4.1.0",
   "pylint>=3.3.3",
   "pytest>=8.3.4",
@@ -25,7 +26,7 @@ docs = [
 
 [project]
 name = "llm-agents-from-scratch"
-version = "0.0.23"
+version = "0.0.24"
 description = "Build an LLM agent, equipped with MCP, from scratch."
 license = "Apache-2.0"
 readme = "README.md"
@@ -38,7 +39,7 @@ dependencies = [
   "asyncio>=3.4.3",
   "colorama>=0.4.6",
   "jsonschema>=4.24.0",
-  "mcp[cli]>=1.9.4",
+  "mcp[cli]>=2.0.0",
   "ollama>=0.5.1",
   "pydantic>=2.11.7",
   "pyyaml>=6.0.2",
@@ -57,6 +58,9 @@ notebooks = [
 ]
 openai = [
   "openai>=2.9.0"
+]
+anthropic = [
+  "anthropic>=1.9.0"
 ]
 
 [tool.coverage.run]

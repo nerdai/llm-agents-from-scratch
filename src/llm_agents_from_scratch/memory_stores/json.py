@@ -41,7 +41,7 @@ class JSONMemoryStore(BaseMemoryStore):
             max_results (int): Default maximum number of episodes returned
                 by retrieval operations. Defaults to 5.
             recall_mode (RecallMode): Retrieval strategy used by
-                ``search()``. Defaults to ``RecallMode.RECENT`` since
+                ``recall()``. Defaults to ``RecallMode.RECENT`` since
                 this store does not support similarity search.
         """
         super().__init__(max_results=max_results, recall_mode=recall_mode)
@@ -181,7 +181,7 @@ class JSONMemoryStore(BaseMemoryStore):
     ) -> list[Episode]:
         """Raise ``NotImplementedError`` — this store does not embed episodes.
 
-        Called by the base ``search()`` when ``recall_mode`` is
+        Called by the base ``recall()`` when ``recall_mode`` is
         ``RecallMode.SEARCH``. ``JSONMemoryStore`` does not support
         similarity search; use a vector-backed store instead.
 

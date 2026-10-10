@@ -1,6 +1,6 @@
 from contextlib import asynccontextmanager
 from typing import Any, AsyncContextManager, Callable
-from unittest.mock import AsyncMock, MagicMock
+from unittest.mock import AsyncMock
 
 import pytest
 
@@ -23,13 +23,22 @@ def mock_streamable_http_client_transport() -> Callable[
     ...,
     AsyncContextManager[Any],
 ]:
-    """Mock streamablehttp_client() async context manager."""
+    """Mock streamable_http_client() async context manager.
+
+    Mirrors mcp 2.0's real signature, so a call in the old 1.x shape
+    (positional headers) fails here as it does at runtime, and yields the
+    real 2-tuple of streams.
+    """
 
     @asynccontextmanager
-    async def async_context_manager(*args, **kwargs):
+    async def async_context_manager(
+        url: str,
+        *,
+        http_client: Any = None,
+        terminate_on_close: bool = True,
+    ):
         mock_read = AsyncMock()
         mock_write = AsyncMock()
-        mock_id_callback = MagicMock()
-        yield (mock_read, mock_write, mock_id_callback)
+        yield (mock_read, mock_write)
 
     return async_context_manager

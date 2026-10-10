@@ -1,0 +1,33 @@
+@startuml uml_ch10_llm_agent_a2a_executor_execute_sequence
+!include ../common/book-clean.puml
+title A2A AgentExecutor Task Execution — Sequence
+
+participant "A2A server" as server
+participant "executor: AgentExecutor" as executor
+participant "updater: TaskUpdater" as updater
+participant "agent\n(any framework)" as agent
+
+server -> executor : execute(context, event_queue)
+activate executor
+
+executor -> updater : submit()
+hnote left #lightblue: 1
+executor -> updater : start_work()
+
+executor -> agent : runs the task
+hnote left #lightblue: 2
+activate agent
+agent --> executor : result, or raises
+deactivate agent
+
+alt task completed
+  executor -> updater : add_artifact(result)
+  executor -> updater : complete()
+  hnote left #lightblue: 3
+else task failed
+  executor -> updater : update_status(FAILED)
+  hnote left #lightblue: 4
+end
+deactivate executor
+
+@enduml

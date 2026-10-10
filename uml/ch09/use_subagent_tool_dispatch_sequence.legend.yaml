@@ -1,0 +1,15 @@
+placement: below
+columns: 3
+entries:
+  - label: "1"
+    text: built once with the handler
+  - label: "2"
+    text: gets the spec
+  - label: "3"
+    text: a fresh agent, per call
+  - label: "4"
+    text: dispatches the task
+  - label: "5"
+    text: awaiting re-raises a failure
+  - label: "6"
+    text: errors come back as results

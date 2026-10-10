@@ -1,9 +1,9 @@
 """Main application."""
 
-from mcp.server.fastmcp import FastMCP
+from mcp.server import MCPServer
 
 # Create an MCP server
-mcp = FastMCP("Hailstone")
+mcp = MCPServer("Hailstone")
 
 
 @mcp.tool()

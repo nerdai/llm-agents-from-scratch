@@ -1,0 +1,53 @@
+@startuml uml_ch10_a2a_element_types
+!include ../common/book-clean.puml
+
+' ── Library types, not ours: flatter, tinted, no class badges ──
+hide circle
+skinparam linetype ortho
+hide empty members
+skinparam class {
+  BackgroundColor #eef2f7
+  BorderColor #5a6b7d
+  BorderThickness 1.4
+}
+skinparam PackageBackgroundColor white
+skinparam PackageBorderColor #5a6b7d
+
+package "a2a-sdk" <<Node>> {
+
+  class Task {
+    +id: str
+    +status: TaskStatus
+    +artifacts: list[Artifact]  {1}
+    ...
+  }
+
+  class Message {
+    +role: Role
+    +task_id: str
+    +parts: list[Part]
+    ...
+  }
+
+  class Artifact {
+    +artifact_id: str
+    +name: str
+    +parts: list[Part]
+    ...
+  }
+
+  class Part {
+    +text: str  {2}
+    +data: Value  {2}
+    ...
+  }
+}
+
+' Relations
+' Task and Message are the two elements exchanged, so they sit as peers.
+Task -[hidden]right- Message
+Task *-down- "0..*" Artifact : " has"
+Message *-down- "1..*" Part : " has"
+Artifact *-right- "1..*" Part : " has"
+
+@enduml

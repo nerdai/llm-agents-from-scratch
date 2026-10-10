@@ -20,6 +20,19 @@ existing content group by half the added width -- not by drawing a
 second white rectangle over it, so it composes cleanly with
 `fix_svg_background.py`'s full-canvas background rect (already
 percentage-sized, so it automatically covers the widened canvas too).
+
+A `full_width` legend from `add_svg_legend.py` (marked with a
+`<g data-full-width-legend="1">` wrapper) is a deliberate exception to
+"content re-centered, not resized": it promises to span the print
+frame, and that script runs before this one, so it can only size
+itself against the canvas as it existed at that point -- narrower than
+the frame whenever this script is about to pad it further. Left alone,
+the legend would end up centered at its old, pre-pad width instead of
+actually spanning the frame it was widened for. So the marker group
+gets a counter-translate (cancelling the diagram-wide shift just for
+that subtree) and its background rect is widened to the new frame,
+same margins as add_svg_legend.py's own layout. MARGIN_RIGHT here must
+match that script's constant of the same name.
 """
 
 import re
@@ -28,12 +41,17 @@ from pathlib import Path
 import fire
 
 DEFAULT_FRAME_WIDTH_IN = 5.5
+MARGIN_RIGHT = 60.0
 
 VIEWBOX = re.compile(r'viewBox="0 0 ([\d.]+) ([\d.]+)"')
 WIDTH_ATTR = re.compile(r'width="([\d.]+)in"')
 HEIGHT_ATTR = re.compile(r'height="([\d.]+)in"')
 STYLE_SIZE = re.compile(r"width:[\d.]+in;height:[\d.]+in;")
 CONTENT_GROUP = re.compile(r"(<\?plantuml[^>]*\?><defs/>)<g>")
+FULL_WIDTH_LEGEND = re.compile(
+    r'(<g data-full-width-legend="1">)(<rect fill="#FFFFFF" x="[\d.]+" '
+    r'y="[\d.]+" width=")([\d.]+)(")',
+)
 
 
 def _frame_one(
@@ -101,6 +119,13 @@ def _frame_one(
     )
     if not n:
         return None
+    content, legend_widened = FULL_WIDTH_LEGEND.subn(
+        rf'<g data-full-width-legend="1" '
+        rf'transform="translate({-dx:.4f},0)">'
+        rf"\g<2>{new_view_w - 2 * MARGIN_RIGHT:.2f}\g<4>",
+        content,
+        count=1,
+    )
     content = WIDTH_ATTR.sub(
         f'width="{frame_width_in:.4f}in"',
         content,
@@ -119,6 +144,7 @@ def _frame_one(
         "height_in": height_in,
         "padded_in": pad_in,
         "shrunk": False,
+        "legend_widened": bool(legend_widened),
     }
 
 
@@ -161,6 +187,14 @@ def main(
                 f"  {r['name']}: {r['width_in']:.2f}in x "
                 f"{r['height_in']:.2f}in",
             )
+    widened = [r for r in results if r.get("legend_widened")]
+    if widened:
+        print(
+            f"{len(widened)} full-width legend(s) re-widened to match "
+            "the padded frame:",
+        )
+        for r in widened:
+            print(f"  {r['name']}")
 
 
 if __name__ == "__main__":

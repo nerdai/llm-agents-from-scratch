@@ -32,12 +32,37 @@ every class diagram (21 of 22, the last one only ~0.1pt short) renders
 at the exact same size, true uniformity within the existing 5.6in x
 7in box, no diagram redesign required. Revisit upward once the
 worst-offending diagrams are split/simplified (tracked separately).
+
+Sequence diagrams get their own target too (SEQUENCE_TARGET_PT, 7.0pt).
+
+A single diagram can opt out of its type's shared target with a
+`<diagram>.size.yaml` sidecar next to its `.puml` holding `target_pt`.
+That is for figures whose type says little about how much room they
+need -- a sparse class diagram of someone else's library, say, which
+at the dense-class 5.0pt target would print at a third of the page
+width for no benefit.
+Left on the shared 9pt they rendered from 5.6pt to 9pt across the book
+-- the simple ones hitting target while the busy ones were capped well
+below it, the same inconsistency class diagrams had. 7.0 is a deliberate
+compromise rather than a calibrated ceiling: the binding diagram is
+ch08's approval gate at 6.2pt, so it alone still falls short, by about
+13%. Calibrating to 6.2 would buy uniformity today at the cost of making
+every sequence diagram smaller than it needs to be, and sequence
+diagrams carry sentence-length message labels rather than the short
+identifiers that make 5pt workable on class diagrams. Split ch08 and the
+ceiling rises above 7, making the target uniform without anyone reading
+at 6.2.
+
+Mindmaps stay on DEFAULT_TARGET_PT. They are already capped near 7.6pt
+by the box, so lowering the shared default to 7.0 would have shrunk them
+below their current size for no reason.
 """
 
 import re
 from pathlib import Path
 
 import fire
+import yaml
 
 # Must match uml/common/book-clean.puml's skinparam dpi / DefaultFontSize.
 THEME_DPI = 500
@@ -45,6 +70,7 @@ THEME_BODY_FONT_PT = 14
 
 DEFAULT_TARGET_PT = 9.0
 CLASS_TARGET_PT = 5.0
+SEQUENCE_TARGET_PT = 7.0
 # 5.5in, not the book's full 5.6in figure-box width -- matches
 # frame_svg_width.py's default frame, so no diagram needs a second,
 # separate shrink pass once it's centered in that fixed-width frame.
@@ -56,6 +82,7 @@ WIDTH_ATTR = re.compile(r'width="[\d.]+px"')
 HEIGHT_ATTR = re.compile(r'height="[\d.]+px"')
 STYLE_SIZE = re.compile(r"width:[\d.]+px;height:[\d.]+px;")
 DIAGRAM_TYPE = re.compile(r'data-diagram-type="([A-Z]+)"')
+STARTUML_NAME = re.compile(r"@startuml\s+(\S+)")
 
 
 def _inches_per_user_unit(target_pt: float) -> float:
@@ -63,12 +90,45 @@ def _inches_per_user_unit(target_pt: float) -> float:
     return target_pt / (user_units_per_pt * 72)
 
 
-def _resize_one(
+def _size_overrides(uml_dir: Path) -> dict[str, float]:
+    """Map rendered SVG filename -> target_pt, from `*.size.yaml`.
+
+    A diagram opts out of its type's shared target by dropping a
+    `<diagram>.size.yaml` next to its `.puml`, holding `target_pt`.
+    Same sidecar convention as `add_svg_legend.py`'s `*.legend.yaml`.
+
+    Args:
+        uml_dir (Path): Directory holding `.puml` sources and sidecars.
+
+    Returns:
+        dict[str, float]: SVG filename to its overriding point size.
+    """
+    overrides: dict[str, float] = {}
+    for size_path in uml_dir.rglob("*.size.yaml"):
+        puml_path = size_path.with_name(
+            size_path.name.replace(".size.yaml", ".puml"),
+        )
+        if not puml_path.exists():
+            continue
+        name_match = STARTUML_NAME.search(puml_path.read_text())
+        if not name_match:
+            continue
+        spec = yaml.safe_load(size_path.read_text()) or {}
+        if "target_pt" in spec:
+            overrides[f"{name_match.group(1)}.svg"] = float(
+                spec["target_pt"],
+            )
+    return overrides
+
+
+def _resize_one(  # noqa: PLR0913, PLR0917
     svg_path: Path,
     default_target_pt: float,
     class_target_pt: float,
+    sequence_target_pt: float,
     max_width_in: float,
     max_height_in: float,
+    override_pt: float | None = None,
 ) -> dict[str, float | str] | None:
     content = svg_path.read_text()
     match = VIEWBOX.search(content)
@@ -78,9 +138,10 @@ def _resize_one(
 
     type_match = DIAGRAM_TYPE.search(content)
     diagram_type = type_match.group(1) if type_match else None
-    target_pt = (
-        class_target_pt if diagram_type == "CLASS" else default_target_pt
-    )
+    target_pt = override_pt or {
+        "CLASS": class_target_pt,
+        "SEQUENCE": sequence_target_pt,
+    }.get(diagram_type or "", default_target_pt)
 
     in_per_unit = _inches_per_user_unit(target_pt)
     natural_w_in = view_w * in_per_unit
@@ -115,46 +176,56 @@ def _resize_one(
     }
 
 
-def main(
+def main(  # noqa: PLR0913, PLR0917
     rendered_dir: Path | str,
     target_pt: float = DEFAULT_TARGET_PT,
     class_target_pt: float = CLASS_TARGET_PT,
+    sequence_target_pt: float = SEQUENCE_TARGET_PT,
     max_width_in: float = DEFAULT_MAX_WIDTH_IN,
     max_height_in: float = DEFAULT_MAX_HEIGHT_IN,
+    uml_dir: Path | str = "uml",
 ) -> None:
     """Set physical print sizes on every SVG under rendered_dir.
 
     Args:
         rendered_dir (Path | str): Directory containing rendered SVGs.
-        target_pt (float): Target body-text point size for non-class
-            diagrams (sequence, mindmap, etc.) at print size.
+        target_pt (float): Target body-text point size for diagrams
+            with no target of their own (mindmaps, etc.) at print size.
         class_target_pt (float): Target body-text point size for class
             diagrams specifically -- lower and uniform, see module
             docstring for why class diagrams get their own target.
+        sequence_target_pt (float): Target body-text point size for
+            sequence diagrams specifically.
         max_width_in (float): Max figure width, in inches.
         max_height_in (float): Max figure height, in inches.
+        uml_dir (Path | str): Directory holding `.puml` sources, for
+            picking up `*.size.yaml` per-diagram target overrides.
 
     Examples:
         >>> uv run python _scripts/set_svg_print_size.py \
         ...     --rendered_dir uml/rendered
     """
     rendered_dir = Path(rendered_dir)
+    overrides = _size_overrides(Path(uml_dir))
     results = []
     for svg_path in sorted(rendered_dir.rglob("*.svg")):
         result = _resize_one(
             svg_path,
             target_pt,
             class_target_pt,
+            sequence_target_pt,
             max_width_in,
             max_height_in,
+            overrides.get(svg_path.name),
         )
         if result:
             results.append(result)
 
     capped = [r for r in results if r["capped"]]
     print(
-        f"Set print size on {len(results)} SVG file(s) "
-        f"(target {target_pt}pt, class diagrams {class_target_pt}pt).",
+        f"Set print size on {len(results)} SVG file(s) (target "
+        f"{target_pt}pt, class {class_target_pt}pt, "
+        f"sequence {sequence_target_pt}pt).",
     )
     if capped:
         print(

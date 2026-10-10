@@ -1,0 +1,29 @@
+@startuml uml_ch10_use_a2a_agent_tool
+!include ../common/book-clean.puml
+
+package "llm_agents_from_scratch.base.tool" <<Folder>> {
+  abstract class AsyncBaseTool {
+    +name: str
+    +description: str
+    +parameters_json_schema: dict[str, Any]
+    --
+    +<<async>> __call__(tool_call: ToolCall): ToolCallResult
+  }
+}
+
+package "llm_agents_from_scratch.a2a.client.tools" <<Folder>> {
+  class UseA2AAgentTool {
+    -_a2a_agents_registry: dict[str, A2AAgentSpec]
+    +name: str = 'from_scratch__use_a2a_agent'
+    +description: str
+    +parameters_json_schema: dict[str, Any]\n\t{name: str (enum of registry keys), task: str,\n\ttask_id: str | None (omit to start a new task)}
+    --
+    +<<constructor>> __init__(\n\ta2a_agents_registry: dict[str, A2AAgentSpec]\n):
+    +<<async>> __call__(tool_call: ToolCall, ...): ToolCallResult
+  }
+}
+
+' Relations
+AsyncBaseTool <|-- UseA2AAgentTool : " inherits"
+
+@enduml

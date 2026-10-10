@@ -33,6 +33,7 @@ from llm_agents_from_scratch.errors import (
     LLMAgentError,
     MaxStepsReachedError,
     MemoryRecallWarning,
+    MemoryRecordWarning,
     RecordMemoryError,
     TaskHandlerError,
 )
@@ -782,7 +783,8 @@ class LLMAgent:
             Exactly one of ``result`` or ``error`` must be provided.
             Called before ``set_result()`` / ``set_exception()`` so that
             ``await agent.run(task)`` returns only after the episode is
-            written.
+            written. A memory whose ``record`` fails is skipped with a
+            ``MemoryRecordWarning``, so the task still settles.
 
             Added in Chapter 7.
 
@@ -805,7 +807,15 @@ class LLMAgent:
                 error=error,
             )
             for memory in self.llm_agent.memories:
-                await memory.record(episode)
+                try:
+                    await memory.record(episode)
+                except Exception as e:
+                    warnings.warn(
+                        f"Memory record failed; episode not saved to it: "
+                        f"{type(e).__name__}: {e}",
+                        MemoryRecordWarning,
+                        stacklevel=2,
+                    )
 
         async def request_approval(
             self,
@@ -1018,10 +1028,8 @@ class LLMAgent:
                             )
 
                 except Exception as e:
-                    try:  # added in ch07
-                        await task_handler.record_memory(error=e)
-                    finally:
-                        task_handler.set_exception(e)
+                    await task_handler.record_memory(error=e)  # added in ch07
+                    task_handler.set_exception(e)
 
         task_handler.background_task = asyncio.create_task(_process_loop())
 

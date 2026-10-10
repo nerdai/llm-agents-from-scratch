@@ -25,3 +25,9 @@ class MemoryRecallWarning(TaskHandlerWarning):
     """Emitted when a memory's recall() fails; the task runs without it."""
 
     pass
+
+
+class MemoryRecordWarning(TaskHandlerWarning):
+    """Emitted when a memory's record() fails; the task still settles."""
+
+    pass

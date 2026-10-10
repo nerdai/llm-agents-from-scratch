@@ -28,6 +28,7 @@ from .skill import (
 )
 from .task_handler import (
     MemoryRecallWarning,
+    MemoryRecordWarning,
     RecordMemoryError,
     TaskHandlerError,
     TaskHandlerWarning,
@@ -74,4 +75,5 @@ __all__ = [
     "RecordMemoryError",
     "TaskHandlerWarning",
     "MemoryRecallWarning",
+    "MemoryRecordWarning",
 ]

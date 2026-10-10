@@ -23,6 +23,7 @@ from llm_agents_from_scratch.errors import (
     LLMAgentError,
     MaxStepsReachedError,
     MemoryRecallWarning,
+    MemoryRecordWarning,
     RecordMemoryError,
 )
 from llm_agents_from_scratch.memory.memory import Memory
@@ -353,34 +354,38 @@ async def test_run_warns_and_continues_when_recall_fails(
 
 @pytest.mark.asyncio
 @patch.object(LLMAgent.TaskHandler, "get_next_step")
-async def test_run_raises_when_recording_success_fails(
+async def test_run_warns_and_returns_result_when_recording_success_fails(
     mock_get_next_step: AsyncMock,
     mock_llm: BaseLLM,
 ) -> None:
-    """Tests a failing memory.record on success raises the record error."""
+    """Tests a failing memory.record on success warns; result is returned."""
     task = Task(instruction="mock instruction")
     task_result = TaskResult(task_id=task.id_, content="mock result")
     mock_get_next_step.side_effect = [task_result]
 
-    mock_memory = AsyncMock(spec=Memory)
-    mock_memory.recall.return_value = ""
-    mock_memory.record.side_effect = RuntimeError("memory down")
-    agent = LLMAgent(llm=mock_llm, memories=[mock_memory])
+    failing_memory = AsyncMock(spec=Memory)
+    failing_memory.recall.return_value = ""
+    failing_memory.record.side_effect = RuntimeError("memory down")
+    working_memory = AsyncMock(spec=Memory)
+    working_memory.recall.return_value = ""
+    agent = LLMAgent(llm=mock_llm, memories=[failing_memory, working_memory])
 
-    handler = agent.run(task)
-    with pytest.raises(RuntimeError, match="memory down"):
-        await asyncio.wait_for(handler, timeout=1)
+    with pytest.warns(MemoryRecordWarning, match="memory down"):
+        handler = agent.run(task)
+        result = await asyncio.wait_for(handler, timeout=1)
+
+    assert result == task_result
+    working_memory.record.assert_awaited_once()
 
 
 @pytest.mark.asyncio
 @patch.object(LLMAgent.TaskHandler, "get_next_step")
-async def test_run_raises_task_error_when_recording_failure_fails(
+async def test_run_warns_and_raises_task_error_when_recording_failure_fails(
     mock_get_next_step: AsyncMock,
     mock_llm: BaseLLM,
 ) -> None:
-    """Tests a failing memory.record on failure raises the task error."""
-    err = RuntimeError("boom")
-    mock_get_next_step.side_effect = err
+    """Tests a failing memory.record on failure warns; task error raised."""
+    mock_get_next_step.side_effect = RuntimeError("boom")
 
     mock_memory = AsyncMock(spec=Memory)
     mock_memory.recall.return_value = ""
@@ -388,9 +393,10 @@ async def test_run_raises_task_error_when_recording_failure_fails(
     task = Task(instruction="mock instruction")
     agent = LLMAgent(llm=mock_llm, memories=[mock_memory])
 
-    handler = agent.run(task)
-    with pytest.raises(RuntimeError, match="boom"):
-        await asyncio.wait_for(handler, timeout=1)
+    with pytest.warns(MemoryRecordWarning, match="memory down"):
+        handler = agent.run(task)
+        with pytest.raises(RuntimeError, match="boom"):
+            await asyncio.wait_for(handler, timeout=1)
 
 
 @pytest.mark.asyncio

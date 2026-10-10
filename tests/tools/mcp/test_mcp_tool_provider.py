@@ -252,6 +252,38 @@ async def test_list_tools_stdio_client(
 @pytest.mark.asyncio
 @patch("llm_agents_from_scratch.tools.mcp.provider.stdio_client")
 @patch("llm_agents_from_scratch.tools.mcp.provider.ClientSession")
+async def test_list_tools_without_description(
+    mock_client_session_cls: AsyncMock,
+    mock_stdio_client: AsyncMock,
+    mock_stdio_client_transport: AsyncContextManager[Any],
+) -> None:
+    """A server tool with no description becomes an empty string."""
+
+    @asynccontextmanager
+    async def session_without_description(*args, **kwargs):
+        client_session = AsyncMock(spec=ClientSession)
+        client_session.list_tools = AsyncMock(
+            return_value=ListToolsResult(
+                tools=[Tool(name="bare_tool", input_schema={})],
+            ),
+        )
+        yield client_session
+
+    mock_stdio_client.side_effect = mock_stdio_client_transport
+    mock_client_session_cls.side_effect = session_without_description
+
+    provider = MCPToolProvider(
+        name="mock_provider",
+        stdio_params=StdioServerParameters(command="uv run", args=["x.py"]),
+    )
+    mcp_tools = await provider.get_tools()
+
+    assert mcp_tools[0].description == ""
+
+
+@pytest.mark.asyncio
+@patch("llm_agents_from_scratch.tools.mcp.provider.stdio_client")
+@patch("llm_agents_from_scratch.tools.mcp.provider.ClientSession")
 async def test_close(
     mock_client_session_cls: AsyncMock,
     mock_stdio_client: AsyncMock,

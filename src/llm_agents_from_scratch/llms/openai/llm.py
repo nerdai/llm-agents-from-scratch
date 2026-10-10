@@ -11,6 +11,7 @@ from llm_agents_from_scratch.data_structures import (
 )
 from llm_agents_from_scratch.utils import check_extra_was_installed
 
+from .errors import StructuredOutputError
 from .utils import (
     chat_message_to_openai_response_input_param,
     openai_response_to_chat_message,
@@ -95,6 +96,10 @@ class OpenAILLM(LLM):
         Returns:
             StructuredOutputType: The structured output as the specified `mdl`
                 type.
+
+        Raises:
+            StructuredOutputError: If the model returned nothing parseable
+                as `mdl` (e.g. a refusal).
         """
         response: "ParsedResponse" = await self.client.responses.parse(
             model=self.model,
@@ -102,7 +107,12 @@ class OpenAILLM(LLM):
             text_format=mdl,
             **self._with_reasoning_default(kwargs),
         )
-        return response.output_parsed  # type: ignore[no-any-return]
+        parsed = response.output_parsed
+        if parsed is None:
+            raise StructuredOutputError(
+                f"No {mdl.__name__} could be parsed from the response.",
+            )
+        return parsed  # type: ignore[no-any-return]
 
     def _prepare_input_and_instructions_from_history(
         self,
@@ -170,8 +180,10 @@ class OpenAILLM(LLM):
         )
 
         # prepare tools
+        from openai import omit  # noqa: PLC0415
+
         openai_tools = (
-            [tool_to_openai_tool(t) for t in tools] if tools else None
+            [tool_to_openai_tool(t) for t in tools] if tools else omit
         )
 
         response = await self.client.responses.create(
@@ -228,8 +240,10 @@ class OpenAILLM(LLM):
         )
 
         # prepare tools
+        from openai import omit  # noqa: PLC0415
+
         openai_tools = (
-            [tool_to_openai_tool(t) for t in tools] if tools else None
+            [tool_to_openai_tool(t) for t in tools] if tools else omit
         )
 
         # send response

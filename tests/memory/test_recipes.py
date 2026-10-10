@@ -154,3 +154,24 @@ async def test_reflective_memory_custom_template_used(
 
     prompt_arg = llm.complete.call_args[0][0]
     assert "Custom:" in prompt_arg
+
+
+@pytest.mark.asyncio
+async def test_reflective_memory_reflects_on_error_when_no_result(
+    mock_qdrant_client: MagicMock,
+) -> None:
+    """An episode that ended in an error has no result to quote."""
+    llm = make_llm()
+    memory = reflective_memory(llm=llm)
+    task = Task(instruction="test task")
+    ep = Episode(
+        task=task,
+        rollout="",
+        result=None,
+        error=RuntimeError("tool exploded"),
+    )
+
+    await memory.metadata_fns["reflection"](ep)
+
+    prompt_arg = llm.complete.call_args[0][0]
+    assert "The task failed with an error: tool exploded" in prompt_arg

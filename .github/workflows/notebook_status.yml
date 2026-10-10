@@ -1,0 +1,221 @@
+name: Notebook Status
+
+# Re-runs the notebooks against each hosted provider, then delivers the
+# updated ledger and status page as a PR from bot/notebook-status (never
+# auto-merged) and opens an issue for each notebook that newly fails.
+# See _scripts/run_notebook.py for what each status means.
+
+on:
+  schedule:
+    - cron: "0 6 * * 1" # Mondays 06:00 UTC
+  workflow_dispatch:
+    inputs:
+      provider:
+        description: Provider to run
+        type: choice
+        options: [all, ollama-cloud, openai, anthropic]
+        default: all
+      notebooks:
+        description: Space-separated notebook paths (empty = all tracked)
+        type: string
+        default: ""
+      force:
+        description: Rerun notebooks even if nothing they depend on changed
+        type: boolean
+        default: false
+
+concurrency:
+  group: notebook-status
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    name: run (${{ matrix.provider }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        provider: ${{ fromJSON(github.event_name == 'workflow_dispatch' && inputs.provider != 'all' && format('["{0}"]', inputs.provider) || '["ollama-cloud","openai","anthropic"]') }}
+    env:
+      PROVIDER: ${{ matrix.provider }}
+    steps:
+      - name: Get code
+        uses: actions/checkout@v7
+        with:
+          # --changed-only diffs against each entry's recorded commit
+          fetch-depth: 0
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          version: "0.5.21"
+          enable-cache: true
+          python-version: "3.13"
+
+      - name: Install the project
+        run: uv sync --all-extras --dev
+
+      - name: Clone the GoodNews MCP server
+        run: |
+          mkdir -p ~/mcp-servers
+          git clone --depth 1 https://github.com/VectorInstitute/mcp-goodnews \
+            ~/mcp-servers/mcp-goodnews
+
+      - name: Run notebooks
+        # the step timeout leaves time for the upload below; the runner
+        # writes the ledger after every notebook, so a timeout keeps
+        # whatever finished
+        timeout-minutes: 50
+        env:
+          # failed notebooks are dumped under $TMPDIR/notebook_runs/
+          TMPDIR: ${{ runner.temp }}
+          OLLAMA_API_KEY: ${{ secrets.OLLAMA_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
+          COHERE_API_KEY: ${{ secrets.COHERE_API_KEY }}
+          TYPESAFE_API_KEY: ${{ secrets.TYPESAFE_API_KEY }}
+          # github_mcp reads GITHUB_PAT; GitHub's hosted MCP server accepts
+          # the workflow token
+          GITHUB_PAT: ${{ github.token }}
+          NOTEBOOKS: ${{ inputs.notebooks }}
+          FORCE: ${{ inputs.force }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          args=(--provider "$PROVIDER" --timeout 600 --budget-minutes 40
+                --run-url "$RUN_URL" --regressions-out "regressions.json")
+          if [ -n "$NOTEBOOKS" ]; then
+            read -ra paths <<< "$NOTEBOOKS"
+            args=("${paths[@]}" "${args[@]}")
+          else
+            args=(--all "${args[@]}")
+          fi
+          if [ "$FORCE" != "true" ]; then
+            args+=(--changed-only)
+          fi
+          set +e
+          uv run python _scripts/run_notebook.py "${args[@]}" 2>&1 | tee run.log
+          status=${PIPESTATUS[0]}
+          set -e
+          {
+            echo "### $PROVIDER"
+            echo '```'
+            grep -E "^(examples|more-examples|capstones)/|^budget " run.log || true
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          # exit 1 also means "a notebook failed", which is a result, not
+          # a broken run; the regressions file is only written once the
+          # runner gets through its whole list
+          if [ ! -f regressions.json ]; then
+            echo "::error::run_notebook.py did not finish (exit $status)"
+            exit 1
+          fi
+
+      - name: Upload results
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: notebook-status-${{ matrix.provider }}
+          path: |
+            notebook_status.yaml
+            regressions.json
+            run.log
+            ${{ runner.temp }}/notebook_runs/
+          if-no-files-found: warn
+          retention-days: 30
+
+  publish:
+    needs: run
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      BRANCH: bot/notebook-status
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    steps:
+      - name: Get code
+        uses: actions/checkout@v7
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          version: "0.5.21"
+          enable-cache: true
+          python-version: "3.13"
+
+      - name: Install the project
+        run: uv sync --dev
+
+      - name: Download results
+        uses: actions/download-artifact@v8
+        with:
+          pattern: notebook-status-*
+          path: runs
+
+      - name: Merge ledgers and render the page
+        run: |
+          pairs=()
+          for p in ollama-cloud openai anthropic; do
+            pairs+=("$p=runs/notebook-status-$p/notebook_status.yaml")
+          done
+          uv run python _scripts/merge_notebook_status.py "${pairs[@]}"
+          uv run python _scripts/render_notebook_status.py
+
+      - name: Open or update the status PR
+        run: |
+          if git diff --quiet -- notebook_status.yaml docs/notebook-status.md; then
+            echo "No ledger changes; nothing to publish." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -C "$BRANCH"
+          git add notebook_status.yaml docs/notebook-status.md
+          git commit -m "chore(notebooks): notebook status from run ${{ github.run_id }}"
+          # the branch is regenerated from main on every run
+          git push --force origin "$BRANCH"
+          body="Automated notebook-status update from [this run]($RUN_URL). Review the ledger diff and merge; it is never merged automatically. Pull requests opened by the workflow token don't trigger CI."
+          number=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')
+          if [ -n "$number" ]; then
+            gh pr edit "$number" --body "$body"
+            echo "Updated PR #$number." >> "$GITHUB_STEP_SUMMARY"
+          elif gh pr create --base main --head "$BRANCH" \
+              --title "chore(notebooks): update notebook status" --body "$body"; then
+            echo "Opened the status PR." >> "$GITHUB_STEP_SUMMARY"
+          else
+            # e.g. "Allow GitHub Actions to create and approve pull
+            # requests" is off; the branch is pushed, so a PR can be
+            # opened from it by hand
+            compare="${{ github.server_url }}/${{ github.repository }}/compare/main...$BRANCH"
+            echo "::warning::Could not open the PR; open it from $compare"
+            echo "Could not open the PR automatically: [open it from $BRANCH]($compare)." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Open or update regression issues
+        run: |
+          shopt -s nullglob
+          files=(runs/notebook-status-*/regressions.json)
+          [ ${#files[@]} -eq 0 ] && exit 0
+          jq -c '.[]' "${files[@]}" | while read -r reg; do
+            notebook=$(jq -r .notebook <<< "$reg")
+            provider=$(jq -r .provider <<< "$reg")
+            note=$(jq -r .note <<< "$reg")
+            title="Notebook regression: $notebook on $provider"
+            body=$(printf 'Last passed, now fails in [this run](%s).\n\n```\n%s\n```\n' "$RUN_URL" "$note")
+            number=$(gh issue list --state open --search "\"$title\" in:title" \
+              --json number,title --jq "map(select(.title == \"$title\"))[0].number // empty")
+            if [ -n "$number" ]; then
+              gh issue comment "$number" --body "$body"
+            else
+              gh issue create --title "$title" --body "$body" --label bug
+            fi
+          done

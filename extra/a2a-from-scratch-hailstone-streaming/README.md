@@ -38,7 +38,7 @@ released version has A2A support yet (still under "Unreleased" in
 should switch to a version constraint like the rest of this app's
 dependencies.
 
-Uses **Ollama Cloud** when `OLLAMA_API_KEY` is set (`gemma4:31b`),
+Uses **Ollama Cloud** when `OLLAMA_API_KEY` is set (`deepseek-v4.1-flash`),
 resolved by the same `ollama_settings()` helper the notebooks' `make_llm()`
 uses. Without a key it falls back to a local Ollama instance with
 `qwen3:14b` pulled (`ollama pull qwen3:14b`), starting `ollama serve` if
@@ -57,7 +57,7 @@ Configurable via environment variables:
 | Variable          | Default                      | Purpose                                                |
 |-------------------|-------------------------------|----------------------------------------------------------|
 | `OLLAMA_API_KEY`  | unset                         | Set to use Ollama Cloud instead of local Ollama           |
-| `OLLAMA_MODEL`    | `gemma4:31b` with a key, else `qwen3:14b` | Model passed to `OllamaLLM`                |
+| `OLLAMA_MODEL`    | `deepseek-v4.1-flash` with a key, else `qwen3:14b` | Model passed to `OllamaLLM`                |
 | `OLLAMA_HOST`     | `https://ollama.com` with a key, else local Ollama | `OllamaLLM`'s `host` param                 |
 | `A2A_HOST`        | `0.0.0.0`                     | Host uvicorn binds to                                     |
 | `A2A_PORT`        | `9301`                        | Port uvicorn binds to                                     |

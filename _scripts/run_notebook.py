@@ -94,9 +94,11 @@ from queue import Empty
 from typing import Any
 
 import fire
+import nbformat
 import psutil
 import yaml
 from jupyter_client import KernelManager
+from nbformat.v4.rwbase import split_lines
 
 from llm_agents_from_scratch.notebook_utils.llm import _resolve_model
 
@@ -230,10 +232,24 @@ def _answer(recent_text: str, prompt: str) -> str:
     last = _ANSI.sub("", text).rstrip().splitlines()[-1:] or [""]
     if m := _CHOICES.search(last[0]):
         return m.group(1).split("/")[0]
-    if re.search(r"\bname\b", text, re.I):
-        return "Andrei"
-    if re.search(r"\b(number|integer|start|value)\b", text, re.I):
+    # classify by the question being asked now, not the whole recent
+    # output: concurrent subagents (ch09) interleave their prompts, so an
+    # earlier "what's your name?" panel can sit right above a "give me a
+    # starting number" one. rich draws each prompt in a panel starting
+    # with "╭", so the last panel is the current question
+    # from the last panel's top border to its bottom border: output another
+    # subagent prints after the panel must not decide this answer
+    clean = _ANSI.sub("", text)
+    start = clean.rfind("╭")
+    if start == -1:
+        question = clean[-300:]
+    else:
+        end = clean.find("╰", start)
+        question = clean[start : end if end != -1 else None]
+    if re.search(r"\b(number|integer|start|value)\b", question, re.I):
         return "6"
+    if re.search(r"\bname\b", question, re.I):
+        return "Andrei"
     return "yes"
 
 
@@ -267,30 +283,41 @@ def _pump_stdin(kc: Any, msg_id: str, run: _CellRun) -> None:
     kc.input(ans)
 
 
+#: Outputs of the cells already run in the current kernel, by execute
+#: msg_id. Background work a cell started (ch04's agent run) keeps
+#: printing after the cell finishes; ipykernel parents that output to the
+#: starting cell, and Jupyter appends it there, so the runner does too.
+_EARLIER: dict[str, list[dict[str, Any]]] = {}
+
+
+def _append_stream(outputs: list[dict[str, Any]], c: dict[str, Any]) -> None:
+    last = outputs[-1] if outputs else None
+    if (
+        last is not None
+        and last["output_type"] == "stream"
+        and last["name"] == c["name"]
+    ):
+        last["text"] += c["text"]  # coalesce like Jupyter does
+    else:
+        outputs.append(
+            {"output_type": "stream", "name": c["name"], "text": c["text"]},
+        )
+
+
 def _pump_iopub(kc: Any, msg_id: str, run: _CellRun) -> None:
     try:
         while True:
             m = kc.get_iopub_msg(timeout=_POLL)
-            if m["parent_header"].get("msg_id") != msg_id:
-                continue
+            parent = m["parent_header"].get("msg_id")
             kind, c = m["header"]["msg_type"], m["content"]
+            if parent != msg_id:
+                earlier = _EARLIER.get(parent)
+                if earlier is not None and kind == "stream":
+                    _append_stream(earlier, c)
+                continue
             if kind == "stream":
                 run.tail += c["text"]
-                last = run.outputs[-1] if run.outputs else None
-                if (
-                    last is not None
-                    and last["output_type"] == "stream"
-                    and last["name"] == c["name"]
-                ):
-                    last["text"] += c["text"]  # coalesce like Jupyter does
-                else:
-                    run.outputs.append(
-                        {
-                            "output_type": kind,
-                            "name": c["name"],
-                            "text": c["text"],
-                        },
-                    )
+                _append_stream(run.outputs, c)
             elif kind in ("execute_result", "display_data"):
                 # rich renders prompts through display() under ipykernel,
                 # so the prompt text arrives here, not on the stream
@@ -368,6 +395,7 @@ def _run_cell(
     msg_id = kc.execute("".join(cell["source"]), allow_stdin=True)
     run = _CellRun()
     cell["outputs"] = run.outputs
+    _EARLIER[msg_id] = run.outputs
     start = checked = time.time()
     while not (run.replied and run.idle):
         now = time.time()
@@ -517,6 +545,7 @@ def _execute(
             # drop committed outputs so only this run's are classified
             cell["outputs"] = []
             cell["execution_count"] = None
+    _EARLIER.clear()
     km = KernelManager(kernel_name="python3")
     km.start_kernel(cwd=str(path.parent), env=_kernel_env(provider))
     kc = km.client()
@@ -612,6 +641,10 @@ def run_one(
     if used and _USING_KEY[used[1]] != provider:
         return _entry("fail", model, f"ran on {used[1]}", seconds)
     if keep_outputs:
+        # store multiline text as lists of lines, the way Jupyter saves
+        # notebooks; single strings are valid nbformat but some viewers
+        # (ReviewNB) don't render them
+        nb = split_lines(nbformat.from_dict(nb))
         with path.open("w", encoding="utf-8") as f:
             json.dump(nb, f, indent=1, ensure_ascii=raw.isascii())
             f.write("\n")

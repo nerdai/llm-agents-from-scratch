@@ -162,7 +162,7 @@ def test_make_llm_ollama_cloud(
 
     mock_ensure.assert_not_called()
     mock_ollama_llm.assert_called_once_with(
-        model="gemma4:31b",
+        model="deepseek-v4.1-flash",
         host=OLLAMA_CLOUD_HOST,
         json_prompt_mode=True,
         think=False,
@@ -212,7 +212,7 @@ def test_ollama_settings_cloud(
 
     mock_ensure.assert_not_called()
     assert settings == {
-        "model": "gemma4:31b",
+        "model": "deepseek-v4.1-flash",
         "host": OLLAMA_CLOUD_HOST,
         "json_prompt_mode": True,
         "think": False,

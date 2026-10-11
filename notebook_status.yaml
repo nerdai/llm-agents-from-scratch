@@ -108,7 +108,7 @@ capstones/three/capstone_5.ipynb:
     run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/38151837753
     seconds: 0
     status: no-llm
-chapter-notebooks/ch02.ipynb:
+chapter-notebooks/ch02/ch02.ipynb:
   anthropic:
     commit: 19a69ec
     last_tested: '2026-10-11'
@@ -130,7 +130,7 @@ chapter-notebooks/ch02.ipynb:
     run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/38151837753
     seconds: 0
     status: no-llm
-chapter-notebooks/ch03.ipynb:
+chapter-notebooks/ch03/ch03.ipynb:
   anthropic:
     commit: 19a69ec
     last_tested: '2026-10-11'
@@ -154,7 +154,7 @@ chapter-notebooks/ch03.ipynb:
     run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/38151837753
     seconds: 0
     status: not-wired
-chapter-notebooks/ch04.ipynb:
+chapter-notebooks/ch04/ch04.ipynb:
   anthropic:
     commit: 19a69ec
     last_tested: '2026-10-11'
@@ -176,7 +176,7 @@ chapter-notebooks/ch04.ipynb:
     run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/38151837753
     seconds: 26
     status: pass
-chapter-notebooks/ch05.ipynb:
+chapter-notebooks/ch05/ch05.ipynb:
   anthropic:
     commit: 19a69ec
     last_tested: '2026-10-11'
@@ -198,7 +198,7 @@ chapter-notebooks/ch05.ipynb:
     run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/38151837753
     seconds: 22
     status: pass
-chapter-notebooks/ch06.ipynb:
+chapter-notebooks/ch06/ch06.ipynb:
   anthropic:
     commit: 19a69ec
     last_tested: '2026-10-11'
@@ -220,7 +220,7 @@ chapter-notebooks/ch06.ipynb:
     run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/38151837753
     seconds: 36
     status: pass
-chapter-notebooks/ch07.ipynb:
+chapter-notebooks/ch07/ch07.ipynb:
   anthropic:
     commit: 19a69ec
     last_tested: '2026-10-11'
@@ -242,7 +242,7 @@ chapter-notebooks/ch07.ipynb:
     run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/38151837753
     seconds: 34
     status: pass
-chapter-notebooks/ch08.ipynb:
+chapter-notebooks/ch08/ch08.ipynb:
   anthropic:
     commit: 19a69ec
     last_tested: '2026-10-11'
@@ -264,7 +264,7 @@ chapter-notebooks/ch08.ipynb:
     run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/38151837753
     seconds: 137
     status: pass
-chapter-notebooks/ch09.ipynb:
+chapter-notebooks/ch09/ch09.ipynb:
   anthropic:
     commit: 19a69ec
     last_tested: '2026-10-11'
@@ -286,7 +286,7 @@ chapter-notebooks/ch09.ipynb:
     run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/38151837753
     seconds: 310
     status: pass
-chapter-notebooks/ch10.ipynb:
+chapter-notebooks/ch10/ch10.ipynb:
   anthropic:
     commit: 19a69ec
     last_tested: '2026-10-11'

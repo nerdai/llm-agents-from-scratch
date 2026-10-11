@@ -6,7 +6,7 @@ provider, executes every code cell, answers any human-input prompt with
 a scripted reply, and writes one ledger entry per (notebook, provider)
 into `notebook_status.yaml` at the repo root:
 
-    chapter-notebooks/ch04.ipynb:
+    chapter-notebooks/ch04/ch04.ipynb:
       openai: {status: pass, last_tested: '2026-09-29', model: gpt-5,
                commit: 1c0c22b0, seconds: 84}
 
@@ -71,7 +71,7 @@ a manual run opts in. --exclude is for manual use.
 
 Usage:
 
-    uv run python _scripts/run_notebook.py chapter-notebooks/ch04.ipynb
+    uv run python _scripts/run_notebook.py chapter-notebooks/ch04/ch04.ipynb
     uv run python _scripts/run_notebook.py --all --provider anthropic
     uv run python _scripts/run_notebook.py --all --timeout 1500
     uv run python _scripts/run_notebook.py --all --changed-only
@@ -106,7 +106,7 @@ PROVIDERS = ("ollama-cloud", "openai", "anthropic")
 #: The provider no-llm notebooks are executed under.
 PRIMARY = "ollama-cloud"
 NOTEBOOK_GLOBS = (
-    "chapter-notebooks/ch*.ipynb",
+    "chapter-notebooks/ch*/ch*.ipynb",
     "more-examples/*/*.ipynb",
     "capstones/*/*.ipynb",
 )

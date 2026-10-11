@@ -3,8 +3,8 @@
 An `agent_builder` entrypoint script for `agent-inspector launch` (the
 dev tool at https://github.com/nerdai/llm-agents-from-scratch-inspector).
 Ports Example 3 ("Caller-Driven Stepwise Execution with
-run_supervised()") from this repo's `chapter-notebooks/ch08.ipynb`: a Hailstone-
-sequence agent equipped with a single `next_number` tool, driven one
+run_supervised()") from this repo's `chapter-notebooks/ch08/ch08.ipynb`:
+a Hailstone-sequence agent equipped with a single `next_number` tool, driven one
 `get_next_step()`/`run_step()` call at a time instead of the
 notebook's own manual loop -- which is exactly what the Inspector's UI
 does for you.
@@ -18,7 +18,7 @@ entirely out of this repo's dependency tree and installed on demand
 via `uvx` instead:
 
     uvx --from llm-agents-from-scratch-inspector \
-        agent-inspector launch chapter-notebooks/inspector_demo.py
+        agent-inspector launch chapter-notebooks/ch08/inspector_demo.py
 
 Requires a running Ollama daemon (`ollama serve`) with the
 `qwen3:14b` model pulled (`ollama pull qwen3:14b`) -- or edit the

@@ -42,8 +42,8 @@ def build_app() -> FastAPI:
     """Builds the FastAPI app serving an LLMAgent over A2A.
 
     The exact same executor/card construction pattern demonstrated
-    inline in Example 4a of chapter-notebooks/ch10.ipynb -- this app is what
-    actually serves it.
+    inline in Example 4a of chapter-notebooks/ch10/ch10.ipynb -- this app
+    is what actually serves it.
 
     Returns:
         FastAPI: The app, with A2A agent-card, JSON-RPC, and REST

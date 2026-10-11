@@ -48,7 +48,7 @@ TIERS = (
     ("capstones/", "Capstones"),
 )
 NOTEBOOK_GLOBS = (
-    "chapter-notebooks/ch*.ipynb",
+    "chapter-notebooks/ch*/ch*.ipynb",
     "more-examples/*/*.ipynb",
     "capstones/*/*.ipynb",
 )
@@ -72,10 +72,9 @@ def _tracked_notebooks() -> list[str]:
 def _docs_link(path: str) -> str:
     """Markdown link to the rendered notebook when docs/ carries it."""
     name = path.rsplit("/", maxsplit=1)[-1]
+    # chapter notebooks are symlinked flat into docs/notebooks/
     docs_rel = (
-        path.replace("chapter-notebooks/", "notebooks/", 1)
-        if path.startswith("chapter-notebooks/")
-        else path
+        f"notebooks/{name}" if path.startswith("chapter-notebooks/") else path
     )
     if (REPO / "docs" / docs_rel).exists():
         return f"[`{name}`]({docs_rel})"

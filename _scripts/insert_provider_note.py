@@ -72,7 +72,7 @@ behave noticeably differently."""
 NOTE = f"{START_MARKER}\n{NOTE_BODY}\n{END_MARKER}"
 
 NOTEBOOK_GLOBS = (
-    "chapter-notebooks/ch*.ipynb",
+    "chapter-notebooks/ch*/ch*.ipynb",
     "more-examples/*/*.ipynb",
     "capstones/*/*.ipynb",
 )

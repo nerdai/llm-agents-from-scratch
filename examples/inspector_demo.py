@@ -1,1 +1,1 @@
-../chapter-notebooks/inspector_demo.py
+../chapter-notebooks/ch08/inspector_demo.py

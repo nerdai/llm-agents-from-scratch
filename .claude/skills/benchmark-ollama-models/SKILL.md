@@ -41,7 +41,10 @@ Load the keys first: `set -a && source .env && set +a`.
 2. **Stage 1: screen every model** on the quick chapters (ch03–ch07),
    plus ch04 two more times, since its failure mode is intermittent. Run
    models in parallel; these notebooks bind no ports:
+   `run` appends, so start from a fresh file; otherwise an earlier
+   benchmark's records leak into this ranking:
    ```bash
+   rm -f stage1.jsonl
    uv run python _scripts/benchmark_models.py models | xargs -P 3 -I{} \
      uv run python _scripts/benchmark_models.py run {} --out stage1.jsonl
    uv run python _scripts/benchmark_models.py models | xargs -P 3 -I{} \
@@ -50,13 +53,15 @@ Load the keys first: `set -a && source .env && set +a`.
    uv run python _scripts/benchmark_models.py summary stage1.jsonl
    ```
    Keep the models with a perfect stage-1 score, usually a handful.
-3. **Stage 2: the shortlist, 3 runs** on the harder chapters. ch08 is the
-   approval gate; ch09 has concurrent subagents, chaining and human input,
-   and is where models most often fail:
+3. **Stage 2: the shortlist, 3 runs** of every chapter with a behaviour
+   check, so nothing that decides the default rests on a single run. ch08
+   is the approval gate; ch09 has concurrent subagents, chaining and human
+   input, and is where models most often fail:
    ```bash
+   rm -f stage2.jsonl
    printf '%s\n' <model> <model> ... | xargs -P 3 -I{} \
      uv run python _scripts/benchmark_models.py run {} \
-       --chapters ch04,ch06,ch07,ch08,ch09 --runs 3 --out stage2.jsonl
+       --chapters ch04,ch05,ch06,ch07,ch08,ch09 --runs 3 --out stage2.jsonl
    uv run python _scripts/benchmark_models.py summary stage2.jsonl
    ```
    This takes 20–30 minutes; ch09 alone is 2–5 minutes per run.
@@ -101,9 +106,12 @@ All in one PR:
 - **One run proves little.** Gemma faked ch04's tool calls in 1 of 4
   runs. Use 3 runs for anything that decides the default.
 - **ch04's agent runs in the background.** Its tool-call logs arrive after
-  the starting cell finishes. The benchmark counts tool results in
-  `handler.rollout` instead, so don't "simplify" the ch04 check to the
-  logs.
+  the starting cell finishes. The benchmark counts the successful tool
+  results in `handler.rollout` instead, so don't "simplify" the ch04 check
+  to the logs.
+- **Count successes, not attempts.** "Executing Tool Call" is logged
+  before the tool runs; a failed or unknown tool still logs it. The checks
+  count only calls followed by "Successful Tool Call".
 - **`OLLAMA_MODEL` takes plain names** (`deepseek-v4.1-flash`). Only the
   CrewAI peer needs the `ollama_chat/` prefix, and its default is set in
   code.

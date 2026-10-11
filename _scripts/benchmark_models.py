@@ -29,13 +29,14 @@ to run this and how to read the results.
 """
 
 import collections
+import contextlib
 import json
 import os
 import re
 import tempfile
 import time
 import urllib.request
-from collections.abc import Callable
+from collections.abc import Callable, Iterator
 from pathlib import Path
 from typing import Any
 
@@ -45,15 +46,47 @@ import run_notebook as rn
 REPO = Path(__file__).resolve().parents[1]
 CHAPTERS = REPO / "chapter-notebooks"
 ANSI = re.compile(r"\x1b\[[0-9;]*m")
-TOOL = re.compile(r"Executing Tool Call: ([\w.-]+)")
+#: One agent's log line: an optional "[subagent] " prefix, then the event.
+LOG = re.compile(
+    r"^(?P<who>\[[\w-]+\] )?.*?"
+    r"(?:Executing Tool Call: (?P<tool>[\w.-]+)"
+    r"|(?P<ok>✅ Successful Tool Call)"
+    r"|(?P<err>❌ Tool Call Failure))",
+)
 ROLLOUT = re.compile(r"BENCH_TOOL_RESULTS (\d+)")
-#: ch04 starts its agent in one cell and reads it later; count the tool
-#: results in the agent's rollout rather than relying on its logs.
-ROLLOUT_PROBE = "print('BENCH_TOOL_RESULTS', handler.rollout.count('🔧 '))"
+#: ch04 starts its agent in one cell and reads it later; count the
+#: *successful* tool results in the agent's rollout instead of its logs.
+ROLLOUT_PROBE = (
+    "print('BENCH_TOOL_RESULTS', sum("
+    "1 for line in handler.rollout.splitlines() if line.startswith('🔧')"
+    " and 'error_type' not in line and \"doesn't exist\" not in line))"
+)
 
 
 def _tools(text: str) -> collections.Counter[str]:
-    return collections.Counter(TOOL.findall(text))
+    """Count *successful* tool calls per tool name.
+
+    The agent logs "Executing Tool Call: <name>" before it runs a tool,
+    then "Successful Tool Call" or "Tool Call Failure", so an attempt alone
+    proves nothing. Results are matched to attempts per agent (subagents
+    prefix their lines with "[name] ") in arrival order. A step's calls run
+    concurrently, so this is exact as long as one step's calls are to the
+    same tool, which holds for the chapter notebooks.
+    """
+    pending: dict[str, list[str]] = collections.defaultdict(list)
+    ok: collections.Counter[str] = collections.Counter()
+    for line in text.splitlines():
+        m = LOG.search(line)
+        if not m:
+            continue
+        who = m.group("who") or ""
+        if m.group("tool"):
+            pending[who].append(m.group("tool"))
+        elif pending[who]:
+            tool = pending[who].pop(0)
+            if m.group("ok"):
+                ok[tool] += 1
+    return ok
 
 
 def _rollout_tools(text: str) -> int:
@@ -130,14 +163,29 @@ def _outputs(nb: dict[str, Any]) -> str:
     return ANSI.sub("", text)
 
 
-def _isolate_home() -> None:
+@contextlib.contextmanager
+def _isolated_home() -> Iterator[None]:
+    """Point HOME at an empty temp dir for the duration, then clean up."""
     real = Path.home()
+    saved = {k: os.environ.get(k) for k in _HOME_VARS}
     os.environ.setdefault("UV_CACHE_DIR", str(real / ".cache" / "uv"))
     os.environ.setdefault(
         "UV_PYTHON_INSTALL_DIR",
         str(real / ".local" / "share" / "uv" / "python"),
     )
-    os.environ["HOME"] = tempfile.mkdtemp(prefix="bench-home-")
+    with tempfile.TemporaryDirectory(prefix="bench-home-") as home:
+        os.environ["HOME"] = home
+        try:
+            yield
+        finally:
+            for key, value in saved.items():
+                if value is None:
+                    os.environ.pop(key, None)
+                else:
+                    os.environ[key] = value
+
+
+_HOME_VARS = ("HOME", "UV_CACHE_DIR", "UV_PYTHON_INSTALL_DIR")
 
 
 def _run_once(model: str, chapter: str, timeout: float) -> dict[str, Any]:
@@ -212,8 +260,17 @@ def run(
         isolate_home (bool): Run with an empty HOME so user-level skills
             stay out of the catalog. Defaults to True.
     """
-    if isolate_home:
-        _isolate_home()
+    with _isolated_home() if isolate_home else contextlib.nullcontext():
+        _run_all(model_names, chapters, runs, out, timeout)
+
+
+def _run_all(
+    model_names: tuple[str, ...],
+    chapters: str | tuple[str, ...],
+    runs: int,
+    out: str,
+    timeout: float,
+) -> None:
     names = chapters.split(",") if isinstance(chapters, str) else chapters
     chosen = [str(c).strip() for c in names if str(c).strip()]
     with Path(out).open("a", encoding="utf-8") as f:

@@ -102,7 +102,10 @@ jobs:
             read -ra paths <<< "$NOTEBOOKS"
             args=("${paths[@]}" "${args[@]}")
           else
-            args=(--all "${args[@]}")
+            # Capstone 1's parallel agents outgrow the runner's memory, so
+            # capstones are left out of full sweeps (they can still be
+            # dispatched by path) until its samples are stored compactly
+            args=(--all --exclude 'capstones/*' "${args[@]}")
           fi
           if [ "$FORCE" != "true" ]; then
             args+=(--changed-only)

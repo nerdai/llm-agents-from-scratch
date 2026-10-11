@@ -59,6 +59,8 @@ Scheduled runs (the notebook-status workflow) add:
     --max-memory-gb    fail a notebook whose kernel, with everything it
                        started, uses more memory than this, instead of
                        letting it take the whole machine down
+    --exclude          comma-separated glob patterns of notebooks not to
+                       run; their ledger entries are left as they are
 
 Usage:
 
@@ -69,6 +71,7 @@ Usage:
 """
 
 import contextlib
+import fnmatch
 import glob
 import json
 import os
@@ -610,6 +613,7 @@ def main(  # noqa: PLR0913 - one keyword per CLI flag
     run_url: str = "",
     regressions_out: str = "",
     max_memory_gb: float | None = None,
+    exclude: str = "",
 ) -> None:
     """Run notebooks against `provider` and record results in the ledger.
 
@@ -637,10 +641,19 @@ def main(  # noqa: PLR0913 - one keyword per CLI flag
         max_memory_gb (float | None): Fail a notebook, and stop its
             kernel, once the kernel and every process it started use
             more than this many GB. Defaults to None (no limit).
+        exclude (str): Comma-separated glob patterns (e.g. "capstones/*")
+            of notebooks not to run; their ledger entries are left as
+            they are. Defaults to "" (none).
     """
     if provider not in PROVIDERS:
         raise SystemExit(f"provider must be one of {', '.join(PROVIDERS)}")
     targets = _tracked_notebooks() if all else [Path(p) for p in paths]
+    patterns = [p.strip() for p in exclude.split(",") if p.strip()]
+    targets = [
+        t
+        for t in targets
+        if not any(fnmatch.fnmatch(str(t), pat) for pat in patterns)
+    ]
     if not targets:
         raise SystemExit("nothing to run: pass notebook paths or --all")
     ledger_path = Path(ledger)

@@ -92,13 +92,20 @@ jobs:
           FORCE: ${{ inputs.force }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
+          # 12 GB of the runner's 16: a notebook that grows past it fails
+          # on its own instead of taking the VM, and every result in this
+          # job, down with it
           args=(--provider "$PROVIDER" --timeout 600 --budget-minutes 40
+                --max-memory-gb 12
                 --run-url "$RUN_URL" --regressions-out "regressions.json")
           if [ -n "$NOTEBOOKS" ]; then
             read -ra paths <<< "$NOTEBOOKS"
             args=("${paths[@]}" "${args[@]}")
           else
-            args=(--all "${args[@]}")
+            # Capstone 1's parallel agents outgrow the runner's memory, so
+            # capstones are left out of full sweeps (they can still be
+            # dispatched by path) until its samples are stored compactly
+            args=(--all --exclude 'capstones/*' "${args[@]}")
           fi
           if [ "$FORCE" != "true" ]; then
             args+=(--changed-only)
@@ -121,6 +128,16 @@ jobs:
             exit 1
           fi
 
+      - name: Collect failed notebooks
+        # copy into the workspace so every uploaded path shares one root;
+        # mixing in runner.temp makes upload-artifact nest the files under
+        # their common parent, where the publish job can't find them
+        if: ${{ !cancelled() }}
+        run: |
+          if [ -d "${{ runner.temp }}/notebook_runs" ]; then
+            cp -r "${{ runner.temp }}/notebook_runs" failed-notebooks
+          fi
+
       - name: Upload results
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v7
@@ -130,13 +147,15 @@ jobs:
             notebook_status.yaml
             regressions.json
             run.log
-            ${{ runner.temp }}/notebook_runs/
+            failed-notebooks/
           if-no-files-found: warn
           retention-days: 30
 
   publish:
     needs: run
-    if: ${{ !cancelled() }}
+    # only from main: the bot branch is built from the checked-out ref, so
+    # a run dispatched on a feature branch would carry its commits along
+    if: ${{ !cancelled() && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:

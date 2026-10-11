@@ -56,6 +56,11 @@ Scheduled runs (the notebook-status workflow) add:
     --run-url          record a link to the run's log on every entry
     --regressions-out  write the notebooks that last passed but fail now
                        as JSON, for the workflow to open issues from
+    --max-memory-gb    fail a notebook whose kernel, with everything it
+                       started, uses more memory than this, instead of
+                       letting it take the whole machine down
+    --exclude          comma-separated glob patterns of notebooks not to
+                       run; their ledger entries are left as they are
 
 Usage:
 
@@ -66,6 +71,7 @@ Usage:
 """
 
 import contextlib
+import fnmatch
 import glob
 import json
 import os
@@ -127,6 +133,8 @@ AWAIT_TAG = "await:"
 DEPENDS_ON = ("src", "extra", "pyproject.toml", "uv.lock")
 #: Statuses that --changed-only trusts while nothing has changed.
 _HOLDS = ("pass", "no-llm")
+#: Seconds between memory checks while a cell runs (--max-memory-gb).
+_MEMORY_CHECK = 1.0
 
 
 def _tracked_notebooks() -> list[Path]:
@@ -313,19 +321,50 @@ def _pump_shell(kc: Any, msg_id: str, run: _CellRun) -> None:
         run.replied = True
 
 
-def _run_cell(kc: Any, cell: dict[str, Any], timeout: float) -> None:
+def _tree_memory_gb(pid: int) -> float:
+    """Resident memory of `pid` and every process under it, in GB."""
+    try:
+        root = psutil.Process(pid)
+        procs = [root, *root.children(recursive=True)]
+    except psutil.Error:
+        return 0.0
+    total = 0
+    for proc in procs:
+        with contextlib.suppress(psutil.Error):
+            total += proc.memory_info().rss
+    return total / 1024**3
+
+
+def _run_cell(
+    kc: Any,
+    cell: dict[str, Any],
+    timeout: float,
+    memory: tuple[int, float] | None = None,
+) -> None:
     """Execute one cell in place, answering stdin prompts.
 
     Outputs are written into the cell as they arrive, so a failed cell
-    keeps what it produced. Raises on error/timeout.
+    keeps what it produced. Raises on error/timeout, and with `memory`
+    (kernel pid, limit in GB) also when the kernel and everything it
+    started use more than the limit.
     """
     msg_id = kc.execute("".join(cell["source"]), allow_stdin=True)
     run = _CellRun()
     cell["outputs"] = run.outputs
-    start = time.time()
+    start = checked = time.time()
     while not (run.replied and run.idle):
-        if time.time() - start > timeout:
+        now = time.time()
+        if now - start > timeout:
             raise TimeoutError(f"cell exceeded {timeout:.0f}s")
+        if memory is not None and now - checked >= _MEMORY_CHECK:
+            checked = now
+            pid, limit = memory
+            used = _tree_memory_gb(pid)
+            if used > limit:
+                raise MemoryError(
+                    f"kernel and its processes used {used:.1f} GB"
+                    f" (limit {limit:g} GB)",
+                )
         _pump_stdin(kc, msg_id, run)
         _pump_iopub(kc, msg_id, run)
         _pump_shell(kc, msg_id, run)
@@ -392,7 +431,12 @@ def _dump(path: Path, nb: dict[str, Any], provider: str) -> Path:
     return out
 
 
-def _await_tagged(kc: Any, cell: dict[str, Any], timeout: float) -> None:
+def _await_tagged(
+    kc: Any,
+    cell: dict[str, Any],
+    timeout: float,
+    memory: tuple[int, float] | None = None,
+) -> None:
     """Stand in for a reader's pause before a cell tagged `await:<name>`.
 
     Some notebooks start work in one cell and read its result a few cells
@@ -418,7 +462,7 @@ def _await_tagged(kc: Any, cell: dict[str, Any], timeout: float) -> None:
             "await _nb.wait(list(_nb_fs))"
         )
         pause = {"source": [code]}
-        _run_cell(kc, pause, timeout)
+        _run_cell(kc, pause, timeout, memory)
 
 
 def _shutdown(km: Any) -> None:
@@ -448,6 +492,7 @@ def _execute(
     nb: dict[str, Any],
     provider: str,
     timeout: float,
+    max_memory_gb: float | None = None,
 ) -> str | None:
     """Run every code cell in a fresh kernel; return the first failure."""
     for cell in nb["cells"]:
@@ -460,6 +505,12 @@ def _execute(
     kc = km.client()
     kc.start_channels()
     kc.wait_for_ready(timeout=60)
+    pid = getattr(km.provisioner, "pid", None)
+    memory = (
+        (pid, max_memory_gb)
+        if pid is not None and max_memory_gb is not None
+        else None
+    )
     count = 0
     try:
         for i, cell in enumerate(nb["cells"]):
@@ -468,8 +519,8 @@ def _execute(
             count += 1
             t0 = time.time()
             try:
-                _await_tagged(kc, cell, timeout)
-                _run_cell(kc, cell, timeout)
+                _await_tagged(kc, cell, timeout, memory)
+                _run_cell(kc, cell, timeout, memory)
                 cell["execution_count"] = count
             except Exception as e:  # noqa: BLE001
                 _progress(path, i, t0, str(e))
@@ -518,6 +569,7 @@ def run_one(
     provider: str,
     timeout: float,
     keep_outputs: bool,
+    max_memory_gb: float | None = None,
 ) -> dict[str, Any]:
     """Run one notebook against `provider` and return its ledger entry."""
     raw = path.read_text(encoding="utf-8")
@@ -526,7 +578,7 @@ def run_one(
     if skipped := _skip(wiring, provider):
         return skipped
     t0 = time.time()
-    failure = _execute(path, nb, provider, timeout)
+    failure = _execute(path, nb, provider, timeout, max_memory_gb)
     seconds = round(time.time() - t0)
     used = _USING.search(_stream_text(nb))
     model = used.group(2) if used else hint
@@ -560,6 +612,8 @@ def main(  # noqa: PLR0913 - one keyword per CLI flag
     budget_minutes: float | None = None,
     run_url: str = "",
     regressions_out: str = "",
+    max_memory_gb: float | None = None,
+    exclude: str = "",
 ) -> None:
     """Run notebooks against `provider` and record results in the ledger.
 
@@ -584,10 +638,22 @@ def main(  # noqa: PLR0913 - one keyword per CLI flag
         regressions_out (str): Write the notebooks that last passed (or
             were no-llm) but fail now to this path as JSON. Defaults to ""
             (not written).
+        max_memory_gb (float | None): Fail a notebook, and stop its
+            kernel, once the kernel and every process it started use
+            more than this many GB. Defaults to None (no limit).
+        exclude (str): Comma-separated glob patterns (e.g. "capstones/*")
+            of notebooks not to run; their ledger entries are left as
+            they are. Defaults to "" (none).
     """
     if provider not in PROVIDERS:
         raise SystemExit(f"provider must be one of {', '.join(PROVIDERS)}")
     targets = _tracked_notebooks() if all else [Path(p) for p in paths]
+    patterns = [p.strip() for p in exclude.split(",") if p.strip()]
+    targets = [
+        t
+        for t in targets
+        if not any(fnmatch.fnmatch(str(t), pat) for pat in patterns)
+    ]
     if not targets:
         raise SystemExit("nothing to run: pass notebook paths or --all")
     ledger_path = Path(ledger)
@@ -630,7 +696,7 @@ def main(  # noqa: PLR0913 - one keyword per CLI flag
             if time.time() - started + expected > budget_minutes * 60:
                 deferred.append(key)
                 continue
-        entry = run_one(path, provider, timeout, keep_outputs)
+        entry = run_one(path, provider, timeout, keep_outputs, max_memory_gb)
         ran += 1
         if run_url:
             entry["run_url"] = run_url

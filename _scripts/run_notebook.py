@@ -626,16 +626,23 @@ def _run_with_retries(  # noqa: PLR0913 - run_one's arguments plus retries
     *,
     max_memory_gb: float | None,
     retries: int,
+    deadline: float | None = None,
 ) -> dict[str, Any]:
     """Run `path`, rerunning it up to `retries` times while it fails.
 
     A pass after a failure carries a `caveat` naming the first failure,
-    which the status page shows as a footnote.
+    which the status page shows as a footnote. With a `deadline` (the
+    time budget's end, from `time.time()`), a retry is only started if
+    the failed attempt's duration still fits before it, the same gate
+    `main()` applies before starting any notebook.
     """
     entry = run_one(path, provider, timeout, keep_outputs, max_memory_gb)
     first = str(entry.get("note", ""))
     for attempt in range(retries):
         if entry["status"] != "fail":
+            break
+        if deadline is not None and time.time() + entry["seconds"] > deadline:
+            entry["note"] = f"{entry.get('note', '')} (not retried: budget)"
             break
         print(
             f"{path}  {provider}: failed ({entry.get('note', '')});"
@@ -725,6 +732,9 @@ def main(  # noqa: PLR0913 - one keyword per CLI flag
             key=lambda p: str(previous(p).get("last_tested", "")),
         )
     started = time.time()
+    deadline = (
+        started + budget_minutes * 60 if budget_minutes is not None else None
+    )
     ran = 0
     deferred: list[str] = []
     regressions: list[dict[str, str]] = []
@@ -754,6 +764,7 @@ def main(  # noqa: PLR0913 - one keyword per CLI flag
             keep_outputs,
             max_memory_gb=max_memory_gb,
             retries=retries,
+            deadline=deadline,
         )
         ran += 1
         if run_url:

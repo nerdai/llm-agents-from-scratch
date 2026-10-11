@@ -99,7 +99,12 @@ def _cell(entry: dict[str, Any] | None, notes: list[str], label: str) -> str:
         log = f" ([run log]({url}))" if (url := entry.get("run_url")) else ""
         notes.append(f"{label}: {entry.get('note', 'failed')}{log}")
         return f"❌[^{len(notes)}]"
-    return _PLAIN.get(status, f"? {status}")
+    plain = _PLAIN.get(status, f"? {status}")
+    # a no-llm notebook can also recover on retry; keep its first failure
+    if caveat := entry.get("caveat"):
+        notes.append(f"{label}: {caveat}")
+        return f"{plain}[^{len(notes)}]"
+    return plain
 
 
 def _last_tested(ledger: dict[str, Any]) -> str:

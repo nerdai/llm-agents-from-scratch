@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-- fix(notebook-utils): the `notebook-utils` extra now includes `jinja2`, which pandas' `DataFrame.style` needs. Capstone 1 styles its results table, so installing the extra alone failed at that cell with `AttributeError: The '.style' accessor requires jinja2` (#PRNUM)
+- fix(notebook-utils): the `notebook-utils` extra now includes `jinja2`, which pandas' `DataFrame.style` needs. Capstone 1 styles its results table, so installing the extra alone failed at that cell with `AttributeError: The '.style' accessor requires jinja2` (#1017)
 
 ## [0.0.25] - 2026-10-10
 

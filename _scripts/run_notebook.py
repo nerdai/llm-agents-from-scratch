@@ -235,8 +235,15 @@ def _answer(recent_text: str, prompt: str) -> str:
     # earlier "what's your name?" panel can sit right above a "give me a
     # starting number" one. rich draws each prompt in a panel starting
     # with "╭", so the last panel is the current question
+    # from the last panel's top border to its bottom border: output another
+    # subagent prints after the panel must not decide this answer
     clean = _ANSI.sub("", text)
-    question = clean[clean.rfind("╭") :] if "╭" in clean else clean[-300:]
+    start = clean.rfind("╭")
+    if start == -1:
+        question = clean[-300:]
+    else:
+        end = clean.find("╰", start)
+        question = clean[start : end if end != -1 else None]
     if re.search(r"\b(number|integer|start|value)\b", question, re.I):
         return "6"
     if re.search(r"\bname\b", question, re.I):

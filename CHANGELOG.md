@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- feat(notebook-utils): the Ollama Cloud default model for `make_llm()` and `ollama_settings()` (every role) is now `gemma4:31b`, replacing `kimi-k2.7-code:cloud`. On the chapter notebooks that were flaky on Kimi (ch03, ch08), Gemma 4 passed 10/10 runs vs Kimi's 8/10, and a full Ollama Cloud sweep passed every LLM notebook. `OLLAMA_MODEL` still overrides it. The ch10 peer apps follow suit, including the CrewAI peer's `ollama_chat/gemma4:31b` default (#PRNUM)
 - fix(notebook-utils): the `notebook-utils` extra now includes `jinja2`, which pandas' `DataFrame.style` needs. Capstone 1 styles its results table, so installing the extra alone failed at that cell with `AttributeError: The '.style' accessor requires jinja2` (#1017)
 
 ## [0.0.25] - 2026-10-10

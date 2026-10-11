@@ -37,9 +37,9 @@ _MODELS: dict[str, dict[str, str]] = {
         "judge": "qwen3:14b",
     },
     "ollama-cloud": {
-        "default": "kimi-k2.7-code:cloud",
-        "small": "kimi-k2.7-code:cloud",
-        "judge": "kimi-k2.7-code:cloud",
+        "default": "gemma4:31b",
+        "small": "gemma4:31b",
+        "judge": "gemma4:31b",
     },
     "openai": {
         "default": "gpt-5",

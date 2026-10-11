@@ -44,9 +44,9 @@ executed cells back (serialization mirrors the file, as
 insert_provider_note.py does).
 
 Options for unattended runs. The notebook-status workflow always passes
---budget-minutes, --run-url, --regressions-out and --max-memory-gb, and
-reruns every notebook; it adds --changed-only only when a manual run
-opts in. --exclude is for manual use.
+--budget-minutes, --run-url, --regressions-out, --max-memory-gb and
+--retries 1, and reruns every notebook; it adds --changed-only only when
+a manual run opts in. --exclude is for manual use.
 
     --changed-only     skip a notebook whose last result still holds: it
                        passed (or was no-llm) and nothing it depends on,
@@ -64,6 +64,10 @@ opts in. --exclude is for manual use.
                        letting it take the whole machine down
     --exclude          comma-separated glob patterns of notebooks not to
                        run; their ledger entries are left as they are
+    --retries          rerun a failed notebook up to this many times; a
+                       pass on retry is recorded with a caveat naming the
+                       first failure, and only a notebook that still
+                       fails counts as a regression
 
 Usage:
 
@@ -614,6 +618,43 @@ def run_one(
     return _entry("pass", model, seconds=seconds)
 
 
+def _run_with_retries(  # noqa: PLR0913 - run_one's arguments plus retries
+    path: Path,
+    provider: str,
+    timeout: float,
+    keep_outputs: bool,
+    *,
+    max_memory_gb: float | None,
+    retries: int,
+    deadline: float | None = None,
+) -> dict[str, Any]:
+    """Run `path`, rerunning it up to `retries` times while it fails.
+
+    A pass after a failure carries a `caveat` naming the first failure,
+    which the status page shows as a footnote. With a `deadline` (the
+    time budget's end, from `time.time()`), a retry is only started if
+    the failed attempt's duration still fits before it, the same gate
+    `main()` applies before starting any notebook.
+    """
+    entry = run_one(path, provider, timeout, keep_outputs, max_memory_gb)
+    first = str(entry.get("note", ""))
+    for attempt in range(retries):
+        if entry["status"] != "fail":
+            break
+        if deadline is not None and time.time() + entry["seconds"] > deadline:
+            entry["note"] = f"{entry.get('note', '')} (not retried: budget)"
+            break
+        print(
+            f"{path}  {provider}: failed ({entry.get('note', '')});"
+            f" retry {attempt + 1}",
+            flush=True,
+        )
+        entry = run_one(path, provider, timeout, keep_outputs, max_memory_gb)
+        if entry["status"] != "fail":
+            entry["caveat"] = f"passed on retry; first attempt: {first}"
+    return entry
+
+
 def main(  # noqa: PLR0913 - one keyword per CLI flag
     *paths: str,
     provider: str = PRIMARY,
@@ -627,6 +668,7 @@ def main(  # noqa: PLR0913 - one keyword per CLI flag
     regressions_out: str = "",
     max_memory_gb: float | None = None,
     exclude: str = "",
+    retries: int = 0,
 ) -> None:
     """Run notebooks against `provider` and record results in the ledger.
 
@@ -657,6 +699,9 @@ def main(  # noqa: PLR0913 - one keyword per CLI flag
         exclude (str): Comma-separated glob patterns (e.g. "capstones/*")
             of notebooks not to run; their ledger entries are left as
             they are. Defaults to "" (none).
+        retries (int): Rerun a failed notebook up to this many times. A
+            pass on retry is recorded with a `caveat` naming the first
+            failure and isn't a regression. Defaults to 0.
     """
     if provider not in PROVIDERS:
         raise SystemExit(f"provider must be one of {', '.join(PROVIDERS)}")
@@ -687,6 +732,9 @@ def main(  # noqa: PLR0913 - one keyword per CLI flag
             key=lambda p: str(previous(p).get("last_tested", "")),
         )
     started = time.time()
+    deadline = (
+        started + budget_minutes * 60 if budget_minutes is not None else None
+    )
     ran = 0
     deferred: list[str] = []
     regressions: list[dict[str, str]] = []
@@ -709,7 +757,15 @@ def main(  # noqa: PLR0913 - one keyword per CLI flag
             if time.time() - started + expected > budget_minutes * 60:
                 deferred.append(key)
                 continue
-        entry = run_one(path, provider, timeout, keep_outputs, max_memory_gb)
+        entry = _run_with_retries(
+            path,
+            provider,
+            timeout,
+            keep_outputs,
+            max_memory_gb=max_memory_gb,
+            retries=retries,
+            deadline=deadline,
+        )
         ran += 1
         if run_url:
             entry["run_url"] = run_url

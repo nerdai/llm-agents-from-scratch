@@ -97,6 +97,9 @@ jobs:
           # job, down with it
           args=(--provider "$PROVIDER" --timeout 600 --budget-minutes 40
                 --max-memory-gb 12
+                # one retry absorbs flaky model runs and kernel hiccups;
+                # a pass on retry is a footnoted ✅, not a regression issue
+                --retries 1
                 --run-url "$RUN_URL" --regressions-out "regressions.json")
           if [ -n "$NOTEBOOKS" ]; then
             read -ra paths <<< "$NOTEBOOKS"

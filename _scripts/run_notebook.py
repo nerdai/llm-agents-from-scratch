@@ -317,8 +317,18 @@ def _pump_shell(kc: Any, msg_id: str, run: _CellRun) -> None:
         r = kc.shell_channel.get_msg(timeout=_POLL)
     except Empty:
         return
-    if r["parent_header"].get("msg_id") == msg_id:
-        run.replied = True
+    if r["parent_header"].get("msg_id") != msg_id:
+        return
+    run.replied = True
+    # the iopub `error` message doesn't always arrive (seen with an
+    # ExceptionGroup raised by a top-level await), but the execute reply
+    # still says the cell failed; without this the failure surfaces as a
+    # NameError in a later cell
+    content = r.get("content", {})
+    if run.error is None and content.get("status") == "error":
+        run.error = f"{content.get('ename')}: {content.get('evalue')}"
+    elif run.error is None and content.get("status") == "aborted":
+        run.error = "execution aborted"
 
 
 def _tree_memory_gb(pid: int) -> float:

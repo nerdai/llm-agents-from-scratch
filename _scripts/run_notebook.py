@@ -43,7 +43,10 @@ overwritten by a verification run; pass --keep-outputs to write the
 executed cells back (serialization mirrors the file, as
 insert_provider_note.py does).
 
-Scheduled runs (the notebook-status workflow) add:
+Options for unattended runs. The notebook-status workflow always passes
+--budget-minutes, --run-url, --regressions-out and --max-memory-gb, and
+reruns every notebook; it adds --changed-only only when a manual run
+opts in. --exclude is for manual use.
 
     --changed-only     skip a notebook whose last result still holds: it
                        passed (or was no-llm) and nothing it depends on,

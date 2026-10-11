@@ -131,7 +131,7 @@ from pydantic import BaseModel, ConfigDict, Field, computed_field
 from llm_agents_from_scratch.tools import PydanticFunctionTool
 
 
-SAMPLE_REGISTRY: dict[str, list[tuple[float, float]]] = {}  # (1)!
+SAMPLE_REGISTRY: dict[str, np.ndarray] = {}  # (1)!
 
 
 class RandomSampleParams(BaseModel):  # (2)!
@@ -168,14 +168,14 @@ def generate_random_sample(params: RandomSampleParams) -> RandomSample:  # (3)!
     """
     pts = np.random.uniform(size=(params.n, 2))  # (4)!
     sample_id = str(uuid.uuid4())  # (5)!
-    SAMPLE_REGISTRY[sample_id] = [tuple(pt) for pt in pts.tolist()]  # (6)!
+    SAMPLE_REGISTRY[sample_id] = pts  # (6)!
     return RandomSample(sample_id=sample_id)  # (7)!
 
 
 random_sample_tool = PydanticFunctionTool(generate_random_sample)  # (8)!
 ```
 
-1. A simple registry for random samples
+1. A simple registry for random samples, each stored as an `(n, 2)` NumPy array of points
 2. The Pydantic BaseModel for the tool's parameters
 3. The wrapped function
 4. Generate the random points in the unit square using numpy
@@ -268,9 +268,9 @@ def add_more_points_to_sample(params: AddPointsParams) -> RandomSample:  # (2)!
     """
     pts = np.random.uniform(size=(params.n, 2))  # (3)!
     # augment sample
-    SAMPLE_REGISTRY[params.sample_id] += [  # (4)!
-        tuple(pt) for pt in pts.tolist()
-    ]
+    SAMPLE_REGISTRY[params.sample_id] = np.concatenate(  # (4)!
+        [SAMPLE_REGISTRY[params.sample_id], pts],
+    )
     return RandomSample(sample_id=params.sample_id)
 
 
@@ -281,7 +281,7 @@ add_more_points_tool = PydanticFunctionTool(add_more_points_to_sample)
 1. The tool's parameters model to specify sample ID and the number of new points to add
 2. The wrapped function
 3. Generate the additional random points in the unit square
-4. Augmenting the specified sample with the new points
+4. Augmenting the specified sample with the new points by appending them to its array
 
 Let's test this tool by adding more points to the random sample we created earlier. To
 do this, we'll first need to pull the sample ID from the `ToolCallResult` object that
@@ -382,7 +382,8 @@ def monte_carlo_estimate(  # (3)!
     """
     points = SAMPLE_REGISTRY[params.sample_id]
     n = len(points)
-    inside = sum((x**2 + y**2) < 1 for x, y in points)  # (4)!
+    x, y = points[:, 0], points[:, 1]
+    inside = int(np.count_nonzero(x**2 + y**2 < 1))  # (4)!
     return MonteCarloEstimateResult(
         estimate=(inside / n) * 4,  # (5)!
         sample_id=params.sample_id,

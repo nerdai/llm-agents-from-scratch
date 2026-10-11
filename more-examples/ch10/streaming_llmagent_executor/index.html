@@ -5076,7 +5076,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1 id="streaming-llmagent-executor-progress-updates-during-task-execution">Streaming LLMAgent Executor — Progress Updates During Task Execution<a class="anchor-link" href="#streaming-llmagent-executor-progress-updates-during-task-execution">¶</a></h1><p>This notebook contrasts <code>StreamingLLMAgentA2AExecutor</code> with the
-non-streaming <code>LLMAgentA2AExecutor</code> from <code>chapter-notebooks/ch10.ipynb</code>'s
+non-streaming <code>LLMAgentA2AExecutor</code> from <code>chapter-notebooks/ch10/ch10.ipynb</code>'s
 Example 4: the same Hailstone task, dispatched to two real, separately
 running A2A servers, one publishing an incremental
 <code>TaskStatusUpdateEvent</code> per step and one publishing a single terminal
@@ -5253,7 +5253,7 @@ ensure_ollama() if not use_cloud else print("\u2713 Using Ollama Cloud")</div>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="the-two-servers">The Two Servers<a class="anchor-link" href="#the-two-servers">¶</a></h2><p>Both peers are the same standalone apps <code>chapter-notebooks/ch10.ipynb</code> uses,
+<h2 id="the-two-servers">The Two Servers<a class="anchor-link" href="#the-two-servers">¶</a></h2><p>Both peers are the same standalone apps <code>chapter-notebooks/ch10/ch10.ipynb</code> uses,
 <code>extra/a2a-from-scratch-hailstone</code> and its sibling
 <code>extra/a2a-from-scratch-hailstone-streaming</code>, genuinely separate OS
 processes, not co-routines sharing this notebook's process. The only
@@ -5563,7 +5563,7 @@ Starting a2a-from-scratch-hailstone A2A server at http://127.0.0.1:9300...
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 id="dispatching-with-a-raw-streaming-client">Dispatching with a Raw Streaming Client<a class="anchor-link" href="#dispatching-with-a-raw-streaming-client">¶</a></h2><p><code>A2AAgentSpec.from_url()</code> still does discovery, the same as
-<code>chapter-notebooks/ch10.ipynb</code>. Everything after that is hand-rolled: build an
+<code>chapter-notebooks/ch10/ch10.ipynb</code>. Everything after that is hand-rolled: build an
 SDK client with <code>ClientConfig(streaming=...)</code>, send one message, and
 print every chunk <code>client.send_message()</code> yields as it arrives, rather
 than collapsing to a single final result the way <code>UseA2AAgentTool</code>

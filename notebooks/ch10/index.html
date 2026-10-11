@@ -5461,7 +5461,7 @@ from llm_agents_from_scratch.notebook_utils import make_llm</div>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✓ CrewAI Hailstone A2A server already running at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="n">server_path</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">"extra/a2a-crewai-hailstone"</span>
+    <span class="n">server_path</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="s2">"extra/a2a-crewai-hailstone"</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Starting CrewAI Hailstone A2A server at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">..."</span><span class="p">)</span>
     <span class="n">process</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
         <span class="p">[</span><span class="s2">"uv"</span><span class="p">,</span> <span class="s2">"run"</span><span class="p">,</span> <span class="s2">"uvicorn"</span><span class="p">,</span> <span class="s2">"main:app"</span><span class="p">,</span> <span class="s2">"--host"</span><span class="p">,</span> <span class="s2">"0.0.0.0"</span><span class="p">,</span> <span class="s2">"--port"</span><span class="p">,</span> <span class="s2">"9200"</span><span class="p">],</span>
@@ -5511,7 +5511,7 @@ def ensure_a2a_crewai_hailstone(
         print(f"✓ CrewAI Hailstone A2A server already running at {host}")
         return None
 
-    server_path = Path.cwd().parent / "extra/a2a-crewai-hailstone"
+    server_path = Path.cwd().parents[1] / "extra/a2a-crewai-hailstone"
     print(f"Starting CrewAI Hailstone A2A server at {host}...")
     process = subprocess.Popen(
         ["uv", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "9200"],
@@ -5626,7 +5626,7 @@ a2a_server_process = ensure_a2a_crewai_hailstone()</div>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✓ from-scratch-hailstone A2A server already running at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="n">server_path</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">"extra/a2a-from-scratch-hailstone"</span>
+    <span class="n">server_path</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="s2">"extra/a2a-from-scratch-hailstone"</span>
     <span class="n">port</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">host</span><span class="p">)</span><span class="o">.</span><span class="n">port</span> <span class="ow">or</span> <span class="mi">80</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Starting from-scratch-hailstone A2A server at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">..."</span><span class="p">)</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">log_path</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">log_file</span><span class="p">:</span>
@@ -5716,7 +5716,7 @@ def ensure_from_scratch_hailstone(
         print(f"✓ from-scratch-hailstone A2A server already running at {host}")
         return None
 
-    server_path = Path.cwd().parent / "extra/a2a-from-scratch-hailstone"
+    server_path = Path.cwd().parents[1] / "extra/a2a-from-scratch-hailstone"
     port = urlparse(host).port or 80
     print(f"Starting from-scratch-hailstone A2A server at {host}...")
     with open(log_path, "w") as log_file:

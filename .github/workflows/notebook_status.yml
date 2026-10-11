@@ -1,6 +1,6 @@
 name: Notebook Status
 
-# Re-runs the notebooks against each hosted provider, then delivers the
+# Re-runs every notebook against each hosted provider, then delivers the
 # updated ledger and status page as a PR from bot/notebook-status (never
 # auto-merged) and opens an issue for each notebook that newly fails.
 # See _scripts/run_notebook.py for what each status means.
@@ -19,8 +19,8 @@ on:
         description: Space-separated notebook paths (empty = all tracked)
         type: string
         default: ""
-      force:
-        description: Rerun notebooks even if nothing they depend on changed
+      changed_only:
+        description: Skip notebooks that passed and whose code hasn't changed (cheaper; scheduled runs always rerun everything)
         type: boolean
         default: false
 
@@ -46,7 +46,7 @@ jobs:
       - name: Get code
         uses: actions/checkout@v7
         with:
-          # --changed-only diffs against each entry's recorded commit
+          # the changed_only input diffs against each entry's recorded commit
           fetch-depth: 0
 
       - name: Install uv
@@ -89,7 +89,7 @@ jobs:
           # the workflow token
           GITHUB_PAT: ${{ github.token }}
           NOTEBOOKS: ${{ inputs.notebooks }}
-          FORCE: ${{ inputs.force }}
+          CHANGED_ONLY: ${{ inputs.changed_only }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           # 12 GB of the runner's 16: a notebook that grows past it fails
@@ -104,7 +104,9 @@ jobs:
           else
             args=(--all "${args[@]}")
           fi
-          if [ "$FORCE" != "true" ]; then
+          # every notebook reruns by default: models, external APIs and
+          # dependency releases can break a notebook with no change here
+          if [ "$CHANGED_ONLY" = "true" ]; then
             args+=(--changed-only)
           fi
           set +e

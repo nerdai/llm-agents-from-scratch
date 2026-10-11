@@ -131,10 +131,21 @@ from pydantic import BaseModel, ConfigDict, Field, computed_field
 from llm_agents_from_scratch.tools import PydanticFunctionTool
 
 
-SAMPLE_REGISTRY: dict[str, list[tuple[float, float]]] = {}  # (1)!
+SAMPLE_REGISTRY: dict[str, tuple[int, int]] = {}  # (1)!
+CHUNK_SIZE = 1_000_000  # (2)!
 
 
-class RandomSampleParams(BaseModel):  # (2)!
+def count_inside(n: int) -> int:  # (3)!
+    """Draw n random points; return how many land inside the circle."""
+    inside = 0
+    for start in range(0, n, CHUNK_SIZE):
+        size = min(CHUNK_SIZE, n - start)
+        x, y = np.random.uniform(size=(2, size))
+        inside += int(np.count_nonzero(x**2 + y**2 < 1))
+    return inside
+
+
+class RandomSampleParams(BaseModel):  # (4)!
     """Params for generate_random_sample."""
 
     model_config = ConfigDict(extra="forbid")
@@ -153,36 +164,36 @@ class RandomSample(BaseModel):
     def sample_size(
         self,
     ) -> int:
-        """Determine n from SAMPLE_REGISTRY."""
-        return len(SAMPLE_REGISTRY[self.sample_id])
+        """Look up n in SAMPLE_REGISTRY."""
+        return SAMPLE_REGISTRY[self.sample_id][1]
 
     def __str__(self) -> str:
         return self.model_dump_json()
 
 
-def generate_random_sample(params: RandomSampleParams) -> RandomSample:  # (3)!
+def generate_random_sample(params: RandomSampleParams) -> RandomSample:  # (5)!
     """Generate n random points in [0, 1] × [0, 1].
 
     Returns a sample_id. Pass this sample_id directly to
     monte_carlo_estimate.
     """
-    pts = np.random.uniform(size=(params.n, 2))  # (4)!
-    sample_id = str(uuid.uuid4())  # (5)!
-    SAMPLE_REGISTRY[sample_id] = [tuple(pt) for pt in pts.tolist()]  # (6)!
-    return RandomSample(sample_id=sample_id)  # (7)!
+    sample_id = str(uuid.uuid4())  # (6)!
+    SAMPLE_REGISTRY[sample_id] = (count_inside(params.n), params.n)  # (7)!
+    return RandomSample(sample_id=sample_id)  # (8)!
 
 
-random_sample_tool = PydanticFunctionTool(generate_random_sample)  # (8)!
+random_sample_tool = PydanticFunctionTool(generate_random_sample)  # (9)!
 ```
 
-1. A simple registry for random samples
-2. The Pydantic BaseModel for the tool's parameters
-3. The wrapped function
-4. Generate the random points in the unit square using numpy
-5. Assign a new ID to the random sample
-6. Store the sample in the registry
-7. Returns a data structure specifying the ID and size of the random sample
-8. Turn the function into a tool by using `PydanticFunctionTool`
+1. A simple registry for random samples. A Monte Carlo estimate only needs to know how many points landed inside the circle, so each sample keeps two counts, `(points inside, total points)`, rather than the points themselves
+2. Points are drawn this many at a time, so memory stays small however large `n` is
+3. Generate `n` random points in the unit square using numpy, chunk by chunk, and count those inside the circle
+4. The Pydantic BaseModel for the tool's parameters
+5. The wrapped function
+6. Assign a new ID to the random sample
+7. Store the sample's counts in the registry
+8. Returns a data structure specifying the ID and size of the random sample
+9. Turn the function into a tool by using `PydanticFunctionTool`
 
 To see the tool in action, we can create a `ToolCall` object and pass it to our
 `random_sample_tool`, as shown in the following code.
@@ -266,11 +277,11 @@ def add_more_points_to_sample(params: AddPointsParams) -> RandomSample:  # (2)!
 
     Returns a sample_id and the total number of points.
     """
-    pts = np.random.uniform(size=(params.n, 2))  # (3)!
-    # augment sample
-    SAMPLE_REGISTRY[params.sample_id] += [  # (4)!
-        tuple(pt) for pt in pts.tolist()
-    ]
+    inside, total = SAMPLE_REGISTRY[params.sample_id]  # (3)!
+    SAMPLE_REGISTRY[params.sample_id] = (  # (4)!
+        inside + count_inside(params.n),
+        total + params.n,
+    )
     return RandomSample(sample_id=params.sample_id)
 
 
@@ -280,8 +291,8 @@ add_more_points_tool = PydanticFunctionTool(add_more_points_to_sample)
 
 1. The tool's parameters model to specify sample ID and the number of new points to add
 2. The wrapped function
-3. Generate the additional random points in the unit square
-4. Augmenting the specified sample with the new points
+3. Look up the sample's current counts
+4. Augmenting the specified sample by counting `n` new random points into its totals
 
 Let's test this tool by adding more points to the random sample we created earlier. To
 do this, we'll first need to pull the sample ID from the `ToolCallResult` object that
@@ -380,9 +391,7 @@ def monte_carlo_estimate(  # (3)!
     Returns:
         Estimate of pi (float).
     """
-    points = SAMPLE_REGISTRY[params.sample_id]
-    n = len(points)
-    inside = sum((x**2 + y**2) < 1 for x, y in points)  # (4)!
+    inside, n = SAMPLE_REGISTRY[params.sample_id]  # (4)!
     return MonteCarloEstimateResult(
         estimate=(inside / n) * 4,  # (5)!
         sample_id=params.sample_id,
@@ -397,7 +406,7 @@ monte_carlo_estimate_tool = PydanticFunctionTool(monte_carlo_estimate)
 1. The Pydantic BaseModel for the tool's parameters
 2. The data structure our wrapped function returns
 3. The wrapped function
-4. Determine the number of points that lie in the quarter-circle
+4. Look up how many of the sample's points lie in the quarter-circle, and how many points it has in total
 5. The Monte Carlo estimate of Pi
 
 To wrap up this section, let's calculate the Monte Carlo estimate of Pi using our random

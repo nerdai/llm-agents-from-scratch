@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- feat(notebook-utils): the Ollama Cloud default model for `make_llm()` and `ollama_settings()` (every role) is now `deepseek-v4.1-flash`, replacing `gemma4:31b` (#1024). A behaviour benchmark of all 18 Ollama Cloud models scored whether each chapter notebook's agents make the tool calls the chapter teaches, not just whether it runs. `deepseek-v4.1-flash` was 15/15 on ch04/06/07/08/09 over 3 runs and fastest, while Gemma failed ch09's subagent example. The CrewAI ch10 peer defaults to `ollama_chat/deepseek-v4.1-flash`. `OLLAMA_MODEL` still overrides it (#PRNUM)
 - feat(notebook-utils): the Ollama Cloud default model for `make_llm()` and `ollama_settings()` (every role) is now `gemma4:31b`, replacing `kimi-k2.7-code:cloud`. On the chapter notebooks that were flaky on Kimi (ch03, ch08), Gemma 4 passed 10/10 runs vs Kimi's 8/10, and a full Ollama Cloud sweep passed every LLM notebook. `OLLAMA_MODEL` still overrides it. The ch10 peer apps follow suit, including the CrewAI peer's `ollama_chat/gemma4:31b` default (#1024)
 - fix(notebook-utils): the `notebook-utils` extra now includes `jinja2`, which pandas' `DataFrame.style` needs. Capstone 1 styles its results table, so installing the extra alone failed at that cell with `AttributeError: The '.style' accessor requires jinja2` (#1017)
 

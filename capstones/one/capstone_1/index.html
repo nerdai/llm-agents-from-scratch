@@ -5983,8 +5983,23 @@ if LOGGING_ENABLED:
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">PydanticFunctionTool</span>
 
-<span class="c1"># Global registry to store samples</span>
-<span class="n">SAMPLE_REGISTRY</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="c1"># Global registry of samples. A Monte Carlo estimate only needs to know how</span>
+<span class="c1"># many points landed inside the circle, so each sample keeps two counts, not</span>
+<span class="c1"># its points: sample_id -&gt; (points inside, total points)</span>
+<span class="n">SAMPLE_REGISTRY</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="c1"># points are drawn this many at a time, so memory stays small for any n</span>
+<span class="n">CHUNK_SIZE</span> <span class="o">=</span> <span class="mi">1_000_000</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">count_inside</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Draw n random points; return how many land inside the circle."""</span>
+    <span class="n">inside</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">CHUNK_SIZE</span><span class="p">):</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">CHUNK_SIZE</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="p">))</span>
+        <span class="n">inside</span> <span class="o">+=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">inside</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">RandomSampleParams</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
@@ -6006,8 +6021,8 @@ if LOGGING_ENABLED:
     <span class="k">def</span><span class="w"> </span><span class="nf">sample_size</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Determine n from SAMPLE_REGISTRY."""</span>
-        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">SAMPLE_REGISTRY</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sample_id</span><span class="p">])</span>
+<span class="w">        </span><span class="sd">"""Look up n in SAMPLE_REGISTRY."""</span>
+        <span class="k">return</span> <span class="n">SAMPLE_REGISTRY</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sample_id</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""String representation of RandomSample."""</span>
@@ -6019,10 +6034,8 @@ if LOGGING_ENABLED:
 
 <span class="sd">    Returns a sample_id. Pass this sample_id directly to monte_carlo_estimate.</span>
 <span class="sd">    """</span>
-    <span class="n">pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-
     <span class="n">sample_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
-    <span class="n">SAMPLE_REGISTRY</span><span class="p">[</span><span class="n">sample_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span> <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">pts</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
+    <span class="n">SAMPLE_REGISTRY</span><span class="p">[</span><span class="n">sample_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">count_inside</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">n</span><span class="p">),</span> <span class="n">params</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">RandomSample</span><span class="p">(</span><span class="n">sample_id</span><span class="o">=</span><span class="n">sample_id</span><span class="p">)</span>
 
@@ -6037,8 +6050,23 @@ from pydantic import BaseModel, ConfigDict, Field, computed_field
 
 from llm_agents_from_scratch.tools import PydanticFunctionTool
 
-# Global registry to store samples
-SAMPLE_REGISTRY: dict[str, list[tuple[float, float]]] = {}
+# Global registry of samples. A Monte Carlo estimate only needs to know how
+# many points landed inside the circle, so each sample keeps two counts, not
+# its points: sample_id -&gt; (points inside, total points)
+SAMPLE_REGISTRY: dict[str, tuple[int, int]] = {}
+
+# points are drawn this many at a time, so memory stays small for any n
+CHUNK_SIZE = 1_000_000
+
+
+def count_inside(n: int) -&gt; int:
+    """Draw n random points; return how many land inside the circle."""
+    inside = 0
+    for start in range(0, n, CHUNK_SIZE):
+        size = min(CHUNK_SIZE, n - start)
+        x, y = np.random.uniform(size=(2, size))
+        inside += int(np.count_nonzero(x**2 + y**2 &lt; 1))
+    return inside
 
 
 class RandomSampleParams(BaseModel):
@@ -6060,8 +6088,8 @@ class RandomSample(BaseModel):
     def sample_size(
         self,
     ) -&gt; int:
-        """Determine n from SAMPLE_REGISTRY."""
-        return len(SAMPLE_REGISTRY[self.sample_id])
+        """Look up n in SAMPLE_REGISTRY."""
+        return SAMPLE_REGISTRY[self.sample_id][1]
 
     def __str__(self) -&gt; str:
         """String representation of RandomSample."""
@@ -6073,10 +6101,8 @@ def generate_random_sample(params: RandomSampleParams) -&gt; RandomSample:
 
     Returns a sample_id. Pass this sample_id directly to monte_carlo_estimate.
     """
-    pts = np.random.uniform(size=(params.n, 2))
-
     sample_id = str(uuid.uuid4())
-    SAMPLE_REGISTRY[sample_id] = [tuple(pt) for pt in pts.tolist()]
+    SAMPLE_REGISTRY[sample_id] = (count_inside(params.n), params.n)
 
     return RandomSample(sample_id=sample_id)
 
@@ -6197,10 +6223,12 @@ rs_tool_call_result</div>
 
 <span class="sd">    Returns a sample_id and the total number of points.</span>
 <span class="sd">    """</span>
-    <span class="n">pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-
-    <span class="c1"># augment sample</span>
-    <span class="n">SAMPLE_REGISTRY</span><span class="p">[</span><span class="n">params</span><span class="o">.</span><span class="n">sample_id</span><span class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span> <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">pts</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
+    <span class="c1"># augment sample: count the new points into its totals</span>
+    <span class="n">inside</span><span class="p">,</span> <span class="n">total</span> <span class="o">=</span> <span class="n">SAMPLE_REGISTRY</span><span class="p">[</span><span class="n">params</span><span class="o">.</span><span class="n">sample_id</span><span class="p">]</span>
+    <span class="n">SAMPLE_REGISTRY</span><span class="p">[</span><span class="n">params</span><span class="o">.</span><span class="n">sample_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">inside</span> <span class="o">+</span> <span class="n">count_inside</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">n</span><span class="p">),</span>
+        <span class="n">total</span> <span class="o">+</span> <span class="n">params</span><span class="o">.</span><span class="n">n</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">RandomSample</span><span class="p">(</span><span class="n">sample_id</span><span class="o">=</span><span class="n">params</span><span class="o">.</span><span class="n">sample_id</span><span class="p">)</span>
 
@@ -6223,10 +6251,12 @@ def add_more_points_to_sample(params: AddPointsParams) -&gt; RandomSample:
 
     Returns a sample_id and the total number of points.
     """
-    pts = np.random.uniform(size=(params.n, 2))
-
-    # augment sample
-    SAMPLE_REGISTRY[params.sample_id] += [tuple(pt) for pt in pts.tolist()]
+    # augment sample: count the new points into its totals
+    inside, total = SAMPLE_REGISTRY[params.sample_id]
+    SAMPLE_REGISTRY[params.sample_id] = (
+        inside + count_inside(params.n),
+        total + params.n,
+    )
 
     return RandomSample(sample_id=params.sample_id)
 
@@ -6374,9 +6404,7 @@ add_pts_tool_call_result</div>
 <span class="sd">    Returns:</span>
 <span class="sd">        Estimate of pi (float).</span>
 <span class="sd">    """</span>
-    <span class="n">points</span> <span class="o">=</span> <span class="n">SAMPLE_REGISTRY</span><span class="p">[</span><span class="n">params</span><span class="o">.</span><span class="n">sample_id</span><span class="p">]</span>
-    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
-    <span class="n">inside</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">((</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">points</span><span class="p">)</span>
+    <span class="n">inside</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">SAMPLE_REGISTRY</span><span class="p">[</span><span class="n">params</span><span class="o">.</span><span class="n">sample_id</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">MonteCarloEstimateResult</span><span class="p">(</span>
         <span class="n">estimate</span><span class="o">=</span><span class="p">(</span><span class="n">inside</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span>
         <span class="n">sample_id</span><span class="o">=</span><span class="n">params</span><span class="o">.</span><span class="n">sample_id</span><span class="p">,</span>
@@ -6419,9 +6447,7 @@ def monte_carlo_estimate(
     Returns:
         Estimate of pi (float).
     """
-    points = SAMPLE_REGISTRY[params.sample_id]
-    n = len(points)
-    inside = sum((x**2 + y**2) &lt; 1 for x, y in points)
+    inside, n = SAMPLE_REGISTRY[params.sample_id]
     return MonteCarloEstimateResult(
         estimate=(inside / n) * 4,
         sample_id=params.sample_id,

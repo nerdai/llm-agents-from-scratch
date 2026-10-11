@@ -6,7 +6,7 @@ provider. Generated from `notebook_status.yaml` by
 `_scripts/run_notebook.py`. Edit the ledger and re-render, not
 this page.
 
-**Last tested:** 2026-10-10 (oldest result: 2026-09-29)
+**Last tested:** 2026-10-11
 
 | Symbol | Meaning |
 |---|---|
@@ -34,14 +34,14 @@ Run All.
 | Notebook | Ollama Cloud | OpenAI | Anthropic |
 |---|---|---|---|
 | [`ch02.ipynb`](notebooks/ch02.ipynb) | ∅ no LLM | ∅ no LLM | ∅ no LLM |
-| [`ch03.ipynb`](notebooks/ch03.ipynb) | ✅ `kimi-k2.7-code:cloud` | ⚪ not wired | ⚪ not wired |
-| [`ch04.ipynb`](notebooks/ch04.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`ch05.ipynb`](notebooks/ch05.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`ch06.ipynb`](notebooks/ch06.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`ch07.ipynb`](notebooks/ch07.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`ch08.ipynb`](notebooks/ch08.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`ch09.ipynb`](notebooks/ch09.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`ch10.ipynb`](notebooks/ch10.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`ch03.ipynb`](notebooks/ch03.ipynb) | ✅ `gemma4:31b` | ⚪ not wired | ⚪ not wired |
+| [`ch04.ipynb`](notebooks/ch04.ipynb) | ✅ `gemma4:31b` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`ch05.ipynb`](notebooks/ch05.ipynb) | ✅ `gemma4:31b` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`ch06.ipynb`](notebooks/ch06.ipynb) | ✅ `gemma4:31b` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`ch07.ipynb`](notebooks/ch07.ipynb) | ✅ `gemma4:31b` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`ch08.ipynb`](notebooks/ch08.ipynb) | ✅ `gemma4:31b` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`ch09.ipynb`](notebooks/ch09.ipynb) | ✅ `gemma4:31b` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`ch10.ipynb`](notebooks/ch10.ipynb) | ✅ `gemma4:31b` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 
 </div>
 
@@ -54,32 +54,35 @@ Run All.
 | [`async_tools.ipynb`](more-examples/ch02/async_tools.ipynb) | ∅ no LLM | ∅ no LLM | ∅ no LLM |
 | [`multi_tool_registry.ipynb`](more-examples/ch02/multi_tool_registry.ipynb) | ∅ no LLM | ∅ no LLM | ∅ no LLM |
 | [`pydantic_tool_validation.ipynb`](more-examples/ch02/pydantic_tool_validation.ipynb) | ∅ no LLM | ∅ no LLM | ∅ no LLM |
-| [`multi_turn_chat.ipynb`](more-examples/ch03/multi_turn_chat.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`parallel_tool_calls.ipynb`](more-examples/ch03/parallel_tool_calls.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`pdf_extraction.ipynb`](more-examples/ch03/pdf_extraction.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`jev_next_step_judge.ipynb`](more-examples/ch04/jev_next_step_judge.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`pokemon_comparison.ipynb`](more-examples/ch04/pokemon_comparison.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`pokemon_error_handling.ipynb`](more-examples/ch04/pokemon_error_handling.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`github_mcp.ipynb`](more-examples/ch05/github_mcp.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`goodnews_mcp.ipynb`](more-examples/ch05/goodnews_mcp.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`additional_resource_python.ipynb`](more-examples/ch06/additional_resource_python.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`multi_turn_chat.ipynb`](more-examples/ch03/multi_turn_chat.ipynb) | ✅ `gemma4:31b` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`parallel_tool_calls.ipynb`](more-examples/ch03/parallel_tool_calls.ipynb) | ✅ `gemma4:31b` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`pdf_extraction.ipynb`](more-examples/ch03/pdf_extraction.ipynb) | ✅ `gemma4:31b` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`jev_next_step_judge.ipynb`](more-examples/ch04/jev_next_step_judge.ipynb) | ✅ `gemma4:31b` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`pokemon_comparison.ipynb`](more-examples/ch04/pokemon_comparison.ipynb) | ✅ `gemma4:31b` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`pokemon_error_handling.ipynb`](more-examples/ch04/pokemon_error_handling.ipynb) | ✅ `gemma4:31b` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`github_mcp.ipynb`](more-examples/ch05/github_mcp.ipynb) | ✅ `gemma4:31b` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`goodnews_mcp.ipynb`](more-examples/ch05/goodnews_mcp.ipynb) | ✅ `gemma4:31b` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`additional_resource_python.ipynb`](more-examples/ch06/additional_resource_python.ipynb) | ✅ `gemma4:31b` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`skill_validation_errors.ipynb`](more-examples/ch06/skill_validation_errors.ipynb) | ∅ no LLM | ∅ no LLM | ∅ no LLM |
-| [`skills_marketplace.ipynb`](more-examples/ch06/skills_marketplace.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`user_explicit_hailstone.ipynb`](more-examples/ch06/user_explicit_hailstone.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`with_and_without_skills.ipynb`](more-examples/ch06/with_and_without_skills.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`recency_memory.ipynb`](more-examples/ch07/recency_memory.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| `reflective_memory.ipynb` | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`similarity_memory.ipynb`](more-examples/ch07/similarity_memory.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`approval_gate_in_skill.ipynb`](more-examples/ch08/approval_gate_in_skill.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`skill_with_human_input.ipynb`](more-examples/ch08/skill_with_human_input.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`supervised_trajectories.ipynb`](more-examples/ch08/supervised_trajectories.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`evaluator_pattern.ipynb`](more-examples/ch09/evaluator_pattern.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`subagent_failure.ipynb`](more-examples/ch09/subagent_failure.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`subagent_with_mcp_tool.ipynb`](more-examples/ch09/subagent_with_mcp_tool.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`cancelling_a_task_execution.ipynb`](more-examples/ch10/cancelling_a_task_execution.ipynb) | ✅ `kimi-k2.7-code:cloud` | ⚪ not wired | ⚪ not wired |
-| [`streaming_llmagent_executor.ipynb`](more-examples/ch10/streaming_llmagent_executor.ipynb) | ✅ `kimi-k2.7-code:cloud` | ⚪ not wired | ⚪ not wired |
+| [`skills_marketplace.ipynb`](more-examples/ch06/skills_marketplace.ipynb) | ✅ `gemma4:31b` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`user_explicit_hailstone.ipynb`](more-examples/ch06/user_explicit_hailstone.ipynb) | ✅ `gemma4:31b` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`with_and_without_skills.ipynb`](more-examples/ch06/with_and_without_skills.ipynb) | ❌[^1] | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`recency_memory.ipynb`](more-examples/ch07/recency_memory.ipynb) | ✅ `gemma4:31b` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| `reflective_memory.ipynb` | ✅ `gemma4:31b` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`similarity_memory.ipynb`](more-examples/ch07/similarity_memory.ipynb) | ✅ `gemma4:31b` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`approval_gate_in_skill.ipynb`](more-examples/ch08/approval_gate_in_skill.ipynb) | ✅ `gemma4:31b` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`skill_with_human_input.ipynb`](more-examples/ch08/skill_with_human_input.ipynb) | ✅ `gemma4:31b` | ✅ `gpt-5` | ❌[^2] |
+| [`supervised_trajectories.ipynb`](more-examples/ch08/supervised_trajectories.ipynb) | ✅ `gemma4:31b` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`evaluator_pattern.ipynb`](more-examples/ch09/evaluator_pattern.ipynb) | ✅ `gemma4:31b` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`subagent_failure.ipynb`](more-examples/ch09/subagent_failure.ipynb) | ✅ `gemma4:31b` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`subagent_with_mcp_tool.ipynb`](more-examples/ch09/subagent_with_mcp_tool.ipynb) | ✅ `gemma4:31b` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`cancelling_a_task_execution.ipynb`](more-examples/ch10/cancelling_a_task_execution.ipynb) | ✅ `gemma4:31b` | ⚪ not wired | ⚪ not wired |
+| [`streaming_llmagent_executor.ipynb`](more-examples/ch10/streaming_llmagent_executor.ipynb) | ✅ `gemma4:31b` | ⚪ not wired | ⚪ not wired |
 
 </div>
+
+[^1]: `more-examples/ch06/with_and_without_skills.ipynb` / Ollama Cloud: cell 7: MaxStepsReachedError: Max steps reached. ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/38151837753))
+[^2]: `more-examples/ch08/skill_with_human_input.ipynb` / Anthropic: cell 8: Invalid Signature: b'659b31674e168ce9dc51bfed15d6f588adbd3356ff88555118207f3bdc773e2c' ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/38151837753))
 
 ## Capstones
 
@@ -87,7 +90,7 @@ Run All.
 
 | Notebook | Ollama Cloud | OpenAI | Anthropic |
 |---|---|---|---|
-| [`capstone_1.ipynb`](capstones/one/capstone_1.ipynb) | ✅ `kimi-k2.7-code:cloud` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`capstone_1.ipynb`](capstones/one/capstone_1.ipynb) | ✅ `gemma4:31b` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | `capstone_2.ipynb` | ∅ no LLM | ∅ no LLM | ∅ no LLM |
 | `capstone_3.ipynb` | ∅ no LLM | ∅ no LLM | ∅ no LLM |
 | `capstone_4.ipynb` | ∅ no LLM | ∅ no LLM | ∅ no LLM |

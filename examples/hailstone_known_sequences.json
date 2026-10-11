@@ -1,4 +1,1 @@
-{
-  "6": {"sequence": [6, 3, 10, 5, 16, 8, 4, 2, 1], "steps": 8},
-  "12": {"sequence": [12, 6, 3, 10, 5, 16, 8, 4, 2, 1], "steps": 9}
-}
+../chapter-notebooks/hailstone_known_sequences.json

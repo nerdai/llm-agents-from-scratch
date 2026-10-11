@@ -33,8 +33,8 @@ nav:
   - Home: index.md
   - Chapter Notebooks:
     - notebooks/index.md
-    # Symlinked from examples/ — do not copy directly.
-    # To add a new chapter: ln -s ../../examples/chXX.ipynb docs/notebooks/chXX.ipynb
+    # Symlinked from chapter-notebooks/ — do not copy directly.
+    # To add a new chapter: ln -s ../../chapter-notebooks/chXX.ipynb docs/notebooks/chXX.ipynb
     - Chapter 2: notebooks/ch02.ipynb
     - Chapter 3: notebooks/ch03.ipynb
     - Chapter 4: notebooks/ch04.ipynb

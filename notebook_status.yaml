@@ -93,7 +93,7 @@ capstones/three/capstone_5.ipynb:
     model: ''
     seconds: 0
     status: no-llm
-examples/ch02.ipynb:
+chapter-notebooks/ch02.ipynb:
   anthropic:
     commit: cf1955bc
     last_tested: '2026-09-29'
@@ -112,7 +112,7 @@ examples/ch02.ipynb:
     model: ''
     seconds: 0
     status: no-llm
-examples/ch03.ipynb:
+chapter-notebooks/ch03.ipynb:
   anthropic:
     commit: eb4e4269
     last_tested: '2026-09-29'
@@ -133,7 +133,7 @@ examples/ch03.ipynb:
     note: follows OLLAMA_API_KEY, not LLM_PROVIDER; not run
     seconds: 0
     status: not-wired
-examples/ch04.ipynb:
+chapter-notebooks/ch04.ipynb:
   anthropic:
     commit: 6b92bdcf
     last_tested: '2026-09-29'
@@ -156,7 +156,7 @@ examples/ch04.ipynb:
     note: cell 31 paced by its await:handler tag
     seconds: 44
     status: pass
-examples/ch05.ipynb:
+chapter-notebooks/ch05.ipynb:
   anthropic:
     commit: cf1955bc
     last_tested: '2026-09-29'
@@ -175,7 +175,7 @@ examples/ch05.ipynb:
     model: gpt-5
     seconds: 35
     status: pass
-examples/ch06.ipynb:
+chapter-notebooks/ch06.ipynb:
   anthropic:
     commit: cf1955bc
     last_tested: '2026-09-29'
@@ -194,7 +194,7 @@ examples/ch06.ipynb:
     model: gpt-5
     seconds: 41
     status: pass
-examples/ch07.ipynb:
+chapter-notebooks/ch07.ipynb:
   anthropic:
     commit: cf1955bc
     last_tested: '2026-09-29'
@@ -213,7 +213,7 @@ examples/ch07.ipynb:
     model: gpt-5
     seconds: 49
     status: pass
-examples/ch08.ipynb:
+chapter-notebooks/ch08.ipynb:
   anthropic:
     commit: cf1955bc
     last_tested: '2026-09-29'
@@ -232,7 +232,7 @@ examples/ch08.ipynb:
     model: gpt-5
     seconds: 213
     status: pass
-examples/ch09.ipynb:
+chapter-notebooks/ch09.ipynb:
   anthropic:
     commit: cf1955bc
     last_tested: '2026-09-29'
@@ -251,7 +251,7 @@ examples/ch09.ipynb:
     model: gpt-5
     seconds: 224
     status: pass
-examples/ch10.ipynb:
+chapter-notebooks/ch10.ipynb:
   anthropic:
     commit: 9553a688
     last_tested: '2026-09-29'

@@ -71,7 +71,12 @@ omit = [
 
 [tool.ruff]
 line-length = 80
-exclude = ["examples/**/*.ipynb", "talks/**/*.ipynb"]
+exclude = [
+  "chapter-notebooks/**/*.ipynb",
+  "docs/notebooks/**", # symlinks to chapter-notebooks/
+  "examples/**", # deprecated symlinks to chapter-notebooks/
+  "talks/**/*.ipynb"
+]
 
 [tool.ruff.format]
 quote-style = "double"

@@ -25,10 +25,10 @@ Then, with `ollama serve` running and `qwen3:14b` pulled:
 
     uv run _scripts/capture_inspector_screenshots.py
 
-This launches `examples/inspector_demo.py` via the Agent Inspector CLI itself
-(installed on demand via `uvx`, kept out of this repo's dependency
-tree -- see `examples/inspector_demo.py`'s own docstring), so no separate
-backend needs to be running first.
+This launches `chapter-notebooks/inspector_demo.py` via the Agent
+Inspector CLI itself (installed on demand via `uvx`, kept out of this
+repo's dependency tree -- see `chapter-notebooks/inspector_demo.py`'s own
+docstring), so no separate backend needs to be running first.
 """
 
 import argparse
@@ -245,7 +245,7 @@ def main() -> None:
         default=DEFAULT_AGENT_SCRIPT,
         help=(
             "Path to the agent_builder script "
-            "(default: examples/inspector_demo.py)."
+            "(default: chapter-notebooks/inspector_demo.py)."
         ),
     )
     parser.add_argument(

@@ -35,9 +35,7 @@ from fastapi import FastAPI
 OLLAMA_API_KEY = os.environ.get("OLLAMA_API_KEY")
 OLLAMA_MODEL = os.environ.get(
     "OLLAMA_MODEL",
-    "ollama_chat/kimi-k2.7-code:cloud"
-    if OLLAMA_API_KEY
-    else "ollama/qwen3:14b",
+    "ollama_chat/gemma4:31b" if OLLAMA_API_KEY else "ollama/qwen3:14b",
 )
 OLLAMA_BASE_URL = os.environ.get(
     "OLLAMA_BASE_URL",

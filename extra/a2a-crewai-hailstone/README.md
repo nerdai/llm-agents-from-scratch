@@ -43,7 +43,7 @@ cd extra/a2a-crewai-hailstone
 uv sync
 ```
 
-Uses **Ollama Cloud** when `OLLAMA_API_KEY` is set (`kimi-k2.7-code:cloud`,
+Uses **Ollama Cloud** when `OLLAMA_API_KEY` is set (`gemma4:31b`,
 the same model the notebooks' `make_llm()` picks). Without a key it falls
 back to a local Ollama instance (`ollama serve`) with `qwen3:14b` pulled
 (`ollama pull qwen3:14b`). The `ollama_chat/` and `ollama/` prefixes in
@@ -63,7 +63,7 @@ Configurable via environment variables:
 | Variable          | Default                      | Purpose                                                |
 |-------------------|-------------------------------|----------------------------------------------------------|
 | `OLLAMA_API_KEY`  | unset                         | Set to use Ollama Cloud instead of local Ollama           |
-| `OLLAMA_MODEL`    | `ollama_chat/kimi-k2.7-code:cloud` with a key, else `ollama/qwen3:14b` | Model passed to `crewai.LLM` |
+| `OLLAMA_MODEL`    | `ollama_chat/gemma4:31b` with a key, else `ollama/qwen3:14b` | Model passed to `crewai.LLM` |
 | `OLLAMA_BASE_URL` | `https://ollama.com` with a key, else `http://localhost:11434` | Ollama server URL         |
 | `A2A_HOST`        | `0.0.0.0`                     | Host uvicorn binds to                                     |
 | `A2A_PORT`        | `9200`                        | Port uvicorn binds to                                     |

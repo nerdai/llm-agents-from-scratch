@@ -84,8 +84,10 @@ class LLMAgentA2AExecutor(AgentExecutor):
         """Runs the agent on the caller's instruction to completion.
 
         Only ``Exception`` is caught below, deliberately not
-        ``BaseException``: ``asyncio.CancelledError`` (raised here when
-        ``cancel()`` cancels ``task_handler``) must propagate uncaught.
+        ``BaseException``: ``asyncio.CancelledError`` raised when the
+        worker is cancelled must propagate uncaught. The executor's
+        ``cancel()`` method cancels that worker; its completion callback
+        settles ``task_handler`` with the cancellation.
         The SDK's own producer loop wrapping this call has its own
         ``except CancelledError`` that closes the event queue and lets
         the producer task actually terminate. Catching and returning

@@ -183,11 +183,10 @@ class LLMAgentA2AExecutor(AgentExecutor):
         updater = TaskUpdater(event_queue, context.task_id, context.context_id)
         await updater.cancel()
 
-        # Cancelling the background task triggers the completion callback
-        # registered by LLMAgent.run(), which settles task_handler with
-        # CancelledError. Await the worker so it has stopped before this
-        # method returns; the explicit fallback below covers the interval
-        # before that callback runs.
+        # LLMAgent.run() registers a completion callback that propagates
+        # background-task cancellation to task_handler. Await the worker
+        # so its cancellation has finished; the guard below is only a
+        # defensive fallback if the callback has not settled the handler.
         task_handler.background_task.cancel()
         try:  # noqa: SIM105
             await task_handler.background_task

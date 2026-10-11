@@ -43,12 +43,12 @@ PROVIDERS = (
     ("anthropic", "Anthropic"),
 )
 TIERS = (
-    ("examples/", "Chapter notebooks"),
+    ("chapter-notebooks/", "Chapter notebooks"),
     ("more-examples/", "Additional examples"),
     ("capstones/", "Capstones"),
 )
 NOTEBOOK_GLOBS = (
-    "examples/ch*.ipynb",
+    "chapter-notebooks/ch*.ipynb",
     "more-examples/*/*.ipynb",
     "capstones/*/*.ipynb",
 )
@@ -73,8 +73,8 @@ def _docs_link(path: str) -> str:
     """Markdown link to the rendered notebook when docs/ carries it."""
     name = path.rsplit("/", maxsplit=1)[-1]
     docs_rel = (
-        path.replace("examples/", "notebooks/", 1)
-        if path.startswith("examples/")
+        path.replace("chapter-notebooks/", "notebooks/", 1)
+        if path.startswith("chapter-notebooks/")
         else path
     )
     if (REPO / "docs" / docs_rel).exists():

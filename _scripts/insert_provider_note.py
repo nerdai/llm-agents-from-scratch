@@ -1,10 +1,10 @@
 r"""Insert or refresh the standard provider-setup note in every notebook.
 
-Every notebook under `examples/`, `more-examples/` and `capstones/` gets
-one identical markdown cell explaining that Ollama is the default and how
-to opt into OpenAI or Anthropic via `make_llm()`. The wording lives here,
-in `NOTE`, so changing it is a one-line edit plus a re-run rather than
-~40 hand-edited notebooks that drift.
+Every notebook under `chapter-notebooks/`, `more-examples/` and
+`capstones/` gets one identical markdown cell explaining that Ollama is
+the default and how to opt into OpenAI or Anthropic via `make_llm()`.
+The wording lives here, in `NOTE`, so changing it is a one-line edit plus
+a re-run rather than ~40 hand-edited notebooks that drift.
 
 The cell is wrapped in HTML comment markers (`<!-- provider-note:start
 -->` / `<!-- provider-note:end -->`), which render invisibly in Jupyter
@@ -72,7 +72,7 @@ behave noticeably differently."""
 NOTE = f"{START_MARKER}\n{NOTE_BODY}\n{END_MARKER}"
 
 NOTEBOOK_GLOBS = (
-    "examples/ch*.ipynb",
+    "chapter-notebooks/ch*.ipynb",
     "more-examples/*/*.ipynb",
     "capstones/*/*.ipynb",
 )

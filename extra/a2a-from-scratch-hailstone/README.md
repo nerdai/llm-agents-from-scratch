@@ -21,7 +21,7 @@ reaches 1:
 `LLMAgentA2AExecutor`, builds its `AgentCard` via `build_agent_card()`,
 and mounts it on a FastAPI app — the exact same construction pattern
 demonstrated inline (without actually serving it) in Example 4a of
-`examples/ch10.ipynb`. This app is what actually serves it, so Ch10's
+`chapter-notebooks/ch10.ipynb`. This app is what actually serves it, so Ch10's
 loopback demo dispatches to a genuinely separate OS process, not an
 in-process background task — a real A2A peer is remote, an
 out-of-process black box, not a co-routine sharing the caller's

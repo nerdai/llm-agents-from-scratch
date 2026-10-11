@@ -94,9 +94,11 @@ from queue import Empty
 from typing import Any
 
 import fire
+import nbformat
 import psutil
 import yaml
 from jupyter_client import KernelManager
+from nbformat.v4.rwbase import split_lines
 
 from llm_agents_from_scratch.notebook_utils.llm import _resolve_model
 
@@ -639,6 +641,10 @@ def run_one(
     if used and _USING_KEY[used[1]] != provider:
         return _entry("fail", model, f"ran on {used[1]}", seconds)
     if keep_outputs:
+        # store multiline text as lists of lines, the way Jupyter saves
+        # notebooks; single strings are valid nbformat but some viewers
+        # (ReviewNB) don't render them
+        nb = split_lines(nbformat.from_dict(nb))
         with path.open("w", encoding="utf-8") as f:
             json.dump(nb, f, indent=1, ensure_ascii=raw.isascii())
             f.write("\n")

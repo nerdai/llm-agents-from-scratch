@@ -43,7 +43,7 @@ from pathlib import Path
 from playwright.sync_api import Page, sync_playwright
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_AGENT_SCRIPT = REPO_ROOT / "examples" / "inspector_demo.py"
+DEFAULT_AGENT_SCRIPT = REPO_ROOT / "chapter-notebooks" / "inspector_demo.py"
 # The latest PyPI release (0.1.3) 500s on session creation --
 # `create_session` still calls `session.handler.skills.items()`, but
 # TaskHandler's attribute is `skills_registry` (renamed pre-0.1.3).

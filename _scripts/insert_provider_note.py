@@ -84,6 +84,9 @@ SUPERSEDED_HEADINGS = ("## Setting the backbone LLM of your agent",)
 #: apply. A run removes the note from these instead of inserting it.
 NO_NOTE = ("chapter-notebooks/ch02/ch02.ipynb",)
 REPO = Path(__file__).resolve().parents[1]
+# compared as resolved absolute paths, so notebooks outside the repo still
+# work and a symlink to an exempt notebook is exempt too
+_NO_NOTE_PATHS = frozenset((REPO / p).resolve() for p in NO_NOTE)
 
 
 def _source(cell: dict[str, Any]) -> str:
@@ -147,7 +150,7 @@ def process(path: Path, check: bool = False) -> str:
     nb = json.loads(raw)
     cells: list[dict[str, Any]] = nb["cells"]
 
-    if path.resolve().relative_to(REPO).as_posix() in NO_NOTE:
+    if path.resolve() in _NO_NOTE_PATHS:
         notes = [
             i
             for i, cell in enumerate(cells)

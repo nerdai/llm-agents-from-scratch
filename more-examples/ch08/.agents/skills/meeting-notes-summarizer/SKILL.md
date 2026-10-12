@@ -9,6 +9,10 @@ Produce a summary of a meeting transcript provided by the user.
 
 ## Steps
 
+Ask the two questions **one at a time**: call `from_scratch__human_input`
+for step 1, wait for its answer, and only then call it for step 2. Never
+request both answers in the same turn.
+
 ### 1. Ask for format preference
 
 Call `from_scratch__human_input` with:

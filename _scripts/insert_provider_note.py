@@ -80,6 +80,13 @@ NOTEBOOK_GLOBS = (
 #: Bespoke per-notebook cells the standard note replaces, matched on their
 #: first line. Removed when the note is inserted or updated.
 SUPERSEDED_HEADINGS = ("## Setting the backbone LLM of your agent",)
+#: Notebooks that never build an LLM, so a note on choosing one doesn't
+#: apply. A run removes the note from these instead of inserting it.
+NO_NOTE = ("chapter-notebooks/ch02/ch02.ipynb",)
+REPO = Path(__file__).resolve().parents[1]
+# compared as resolved absolute paths, so notebooks outside the repo still
+# work and a symlink to an exempt notebook is exempt too
+_NO_NOTE_PATHS = frozenset((REPO / p).resolve() for p in NO_NOTE)
 
 
 def _source(cell: dict[str, Any]) -> str:
@@ -136,12 +143,26 @@ def process(path: Path, check: bool = False) -> str:
     """Insert or refresh the note in one notebook.
 
     Returns:
-        str: "unchanged", "updated", or "inserted", describing what was (or
-            in check mode, would be) done.
+        str: "unchanged", "updated", "inserted", "removed" or "skipped",
+            describing what was (or in check mode, would be) done.
     """
     raw = path.read_text(encoding="utf-8")
     nb = json.loads(raw)
     cells: list[dict[str, Any]] = nb["cells"]
+
+    if path.resolve() in _NO_NOTE_PATHS:
+        notes = [
+            i
+            for i, cell in enumerate(cells)
+            if _is_note(cell) or _is_superseded(cell)
+        ]
+        if not notes:
+            return "skipped"
+        for i in reversed(notes):
+            del cells[i]
+        if not check:
+            _write(path, nb, ensure_ascii=raw.isascii())
+        return "removed"
 
     existing = [i for i, cell in enumerate(cells) if _is_note(cell)]
     superseded = [i for i, cell in enumerate(cells) if _is_superseded(cell)]
@@ -214,7 +235,9 @@ def main(*paths: str, check: bool = False) -> None:
         print(f"{action:>9}  {path}")
     summary = ", ".join(f"{n} {k}" for k, n in sorted(counts.items()))
     print(f"\n{len(targets)} notebooks: {summary}")
-    if check and (counts.get("inserted") or counts.get("updated")):
+    if check and (
+        counts.get("inserted") or counts.get("updated") or counts.get("removed")
+    ):
         sys.exit(1)
 
 

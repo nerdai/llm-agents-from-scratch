@@ -38,6 +38,12 @@ runner wait on that future before running the cell, standing in for the
 pause a reader takes between starting background work and reading its
 result.
 
+A cell tagged `swap-llm` is the one cell that builds a notebook's LLM
+directly (ch03's `OllamaLLM(**settings)`). Run against OpenAI or Anthropic,
+the runner replaces it with `llm = make_llm()`, the swap the notebook
+tells readers to make, so the notebook is checked on every provider.
+Outputs from a swapped run are never saved over the notebook.
+
 Outputs are discarded by default so committed notebooks are never
 overwritten by a verification run; pass --keep-outputs to write the
 executed cells back (serialization mirrors the file, as
@@ -138,6 +144,16 @@ _ANSI = re.compile(r"\x1b\[[0-9;]*m")
 _CHOICES = re.compile(r"\[([^\[\]/]+(?:/[^\[\]/]+)+)\]:?\s*$")
 #: Cell tag prefix: wait on the named future before running the cell.
 AWAIT_TAG = "await:"
+#: Cell tag: the one cell that builds the notebook's LLM directly (ch03's
+#: `OllamaLLM(**settings)`). For a provider other than Ollama Cloud it is
+#: replaced by what the notebook tells readers to swap in, so the swap is
+#: checked on every provider instead of the notebook reading "not wired".
+SWAP_LLM_TAG = "swap-llm"
+SWAP_LLM_SOURCE = (
+    "from llm_agents_from_scratch.notebook_utils import make_llm\n"
+    "\n"
+    "llm = make_llm()"
+)
 #: Besides the notebook itself, what a change to can change its result.
 DEPENDS_ON = ("src", "extra", "pyproject.toml", "uv.lock")
 #: Statuses that --changed-only trusts while nothing has changed.
@@ -450,6 +466,19 @@ def _wiring(nb: dict[str, Any]) -> tuple[str, str]:
     return "none", ""
 
 
+def _swap_llm(nb: dict[str, Any]) -> bool:
+    """Swap every `swap-llm`-tagged cell for `llm = make_llm()`.
+
+    Returns whether any cell was swapped.
+    """
+    swapped = False
+    for cell in nb["cells"]:
+        if SWAP_LLM_TAG in cell.get("metadata", {}).get("tags", []):
+            cell["source"] = SWAP_LLM_SOURCE.splitlines(keepends=True)
+            swapped = True
+    return swapped
+
+
 def _stream_text(nb: dict[str, Any]) -> str:
     return "".join(
         o["text"]
@@ -621,12 +650,18 @@ def run_one(
     raw = path.read_text(encoding="utf-8")
     nb = json.loads(raw)
     wiring, hint = _wiring(nb)
+    # a provider the notebook doesn't build itself: run the documented swap
+    swapped = provider != PRIMARY and _swap_llm(nb)
+    if swapped:
+        wiring = "wired"
     if skipped := _skip(wiring, provider):
         return skipped
     t0 = time.time()
     failure = _execute(path, nb, provider, timeout, max_memory_gb)
     seconds = round(time.time() - t0)
-    used = _USING.search(_stream_text(nb))
+    # the last "Using" line names the LLM the examples run on (ch03's
+    # setup cell reports ollama_settings() before a swapped make_llm())
+    *_, used = [None, *_USING.finditer(_stream_text(nb))]
     model = used.group(2) if used else hint
     if failure:
         print(
@@ -640,7 +675,12 @@ def run_one(
         return _entry("fail", model, "make_llm() never reported", seconds)
     if used and _USING_KEY[used[1]] != provider:
         return _entry("fail", model, f"ran on {used[1]}", seconds)
-    if keep_outputs:
+    if keep_outputs and swapped:
+        print(
+            f"  not saving outputs: {SWAP_LLM_TAG} cell was swapped",
+            file=sys.stderr,
+        )
+    elif keep_outputs:
         # store multiline text as lists of lines, the way Jupyter saves
         # notebooks; single strings are valid nbformat but some viewers
         # (ReviewNB) don't render them

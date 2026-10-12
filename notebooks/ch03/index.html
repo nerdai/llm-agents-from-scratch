@@ -766,10 +766,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#optional-providers-and" class="md-nav__link">
+  <a href="#swapping-the-llm" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Optional providers: and
+        Swapping the LLM
       
     </span>
   </a>
@@ -4472,10 +4472,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#optional-providers-and" class="md-nav__link">
+  <a href="#swapping-the-llm" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Optional providers: and
+        Swapping the LLM
       
     </span>
   </a>
@@ -5322,7 +5322,7 @@ behave noticeably differently.</p>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=7485bc7d">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=9758b318">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -5457,17 +5457,24 @@ class Joke(BaseModel):
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Note: Examples 2 through 5 construct <code>OllamaLLM</code> directly, because the constructor is the point of these examples. <code>settings</code> comes from the setup cell above and resolves the model and host the same way <code>make_llm()</code> does in every other notebook: Ollama Cloud when <code>OLLAMA_API_KEY</code> is set, otherwise a local Ollama service running <code>qwen3:14b</code>. <code>LLM_PROVIDER</code> has no effect here, since these examples are about <code>OllamaLLM</code>.</p>
+<p>Note: Example 2 constructs <code>OllamaLLM</code> directly, because the constructor is the point of these examples, and Examples 3 through 5 reuse that same <code>llm</code>. <code>settings</code> comes from the setup cell above and resolves the model and host the same way <code>make_llm()</code> does in every other notebook: Ollama Cloud when <code>OLLAMA_API_KEY</code> is set, otherwise a local Ollama service running <code>qwen3:14b</code>. <code>LLM_PROVIDER</code> has no effect here, since these examples are about <code>OllamaLLM</code>. The last section shows how to swap in a different LLM.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=aaf19a60-8501-454a-8159-0af1dd8d7d19">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs celltag_swap-llm">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs celltag_swap-llm" id="cell-id=aaf19a60-8501-454a-8159-0af1dd8d7d19">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="celltoolbar">
+<div class="button_container tags_button_container">
+<span class="tag-container">
+<span class="cell-tag">swap-llm</span>
+</span>
+</div>
+</div>
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-4">
@@ -5522,16 +5529,10 @@ llm = OllamaLLM(**settings)</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms.ollama</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
-
-<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="o">**</span><span class="n">settings</span><span class="p">)</span>
-<span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">llm</span><span class="o">.</span><span class="n">complete</span><span class="p">(</span><span class="s2">"Tell me a joke."</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">llm</span><span class="o">.</span><span class="n">complete</span><span class="p">(</span><span class="s2">"Tell me a joke."</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-5">from llm_agents_from_scratch.llms.ollama import OllamaLLM
-
-llm = OllamaLLM(**settings)
-response = await llm.complete("Tell me a joke.")
+<div class="clipboard-copy-txt" id="cell-5">response = await llm.complete("Tell me a joke.")
 print(response)</div>
 </div>
 </div>
@@ -5581,14 +5582,12 @@ print(response)</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="o">**</span><span class="n">settings</span><span class="p">)</span>
-<span class="n">prompt</span> <span class="o">=</span> <span class="s2">"Tell me a joke."</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">prompt</span> <span class="o">=</span> <span class="s2">"Tell me a joke."</span>
 <span class="n">joke</span> <span class="o">=</span> <span class="k">await</span> <span class="n">llm</span><span class="o">.</span><span class="n">structured_output</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span> <span class="n">mdl</span><span class="o">=</span><span class="n">Joke</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">joke</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">joke</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-6">llm = OllamaLLM(**settings)
-prompt = "Tell me a joke."
+<div class="clipboard-copy-txt" id="cell-6">prompt = "Tell me a joke."
 joke = await llm.structured_output(prompt=prompt, mdl=Joke)
 print(joke.__class__.__name__)
 print(joke)</div>
@@ -5604,7 +5603,7 @@ print(joke)</div>
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Joke
-subject='math' joke='Why did the math book look so sad? Because it had too many problems.'
+subject='math' joke="Why was the equal sign so humble? Because it knew it wasn't less than or greater than anyone else."
 </pre>
 </div>
 </div>
@@ -5687,16 +5686,14 @@ subject='math' joke='Why did the math book look so sad? Because it had too many 
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms.ollama</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures.llm</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatMessage</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.data_structures.llm</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatMessage</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleFunctionTool</span>
 
 <span class="n">hailstone_tool</span> <span class="o">=</span> <span class="n">SimpleFunctionTool</span><span class="p">(</span><span class="n">hailstone_step_func</span><span class="p">)</span>
-<span class="n">llm</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="o">**</span><span class="n">settings</span><span class="p">)</span>
 
 <span class="n">user_input</span> <span class="o">=</span> <span class="p">(</span>
     <span class="s2">"What is the result of taking the next step of the "</span>
-    <span class="s2">"Hailstone sequence on the number 3?</span><span class="se">\n\n</span><span class="s2">"</span>
+    <span class="s2">"Hailstone sequence on the number 3? (use the tool.)</span><span class="se">\n\n</span><span class="s2">"</span>
     <span class="s2">"Be very succinct in your response."</span>
 <span class="p">)</span>
 <span class="n">user_msg</span><span class="p">,</span> <span class="n">response_msg</span> <span class="o">=</span> <span class="k">await</span> <span class="n">llm</span><span class="o">.</span><span class="n">chat</span><span class="p">(</span>
@@ -5705,16 +5702,14 @@ subject='math' joke='Why did the math book look so sad? Because it had too many 
 <span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">response_msg</span><span class="o">.</span><span class="n">tool_calls</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-8">from llm_agents_from_scratch.llms.ollama import OllamaLLM
-from llm_agents_from_scratch.data_structures.llm import ChatMessage
+<div class="clipboard-copy-txt" id="cell-8">from llm_agents_from_scratch.data_structures.llm import ChatMessage
 from llm_agents_from_scratch.tools import SimpleFunctionTool
 
 hailstone_tool = SimpleFunctionTool(hailstone_step_func)
-llm = OllamaLLM(**settings)
 
 user_input = (
     "What is the result of taking the next step of the "
-    "Hailstone sequence on the number 3?\n\n"
+    "Hailstone sequence on the number 3? (use the tool.)\n\n"
     "Be very succinct in your response."
 )
 user_msg, response_msg = await llm.chat(
@@ -5733,7 +5728,7 @@ print(response_msg.tool_calls)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[ToolCall(id_='1e6bb947-9078-420c-a633-9f801fd1df47', tool_name='hailstone_step_func', arguments={'x': 3})]
+<pre>[ToolCall(id_='315267c0-d20f-4f7f-b0bf-b3f41194f85b', tool_name='hailstone_step_func', arguments={'x': 3})]
 </pre>
 </div>
 </div>
@@ -5788,7 +5783,7 @@ print(tool_call_result)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>tool_call_id='1e6bb947-9078-420c-a633-9f801fd1df47' content='10' error=False
+<pre>tool_call_id='315267c0-d20f-4f7f-b0bf-b3f41194f85b' content='10' error=False
 </pre>
 </div>
 </div>
@@ -5861,7 +5856,13 @@ print(final_response)</div>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="optional-providers-openaillm-and-anthropicllm">Optional providers: <code>OpenAILLM</code> and <code>AnthropicLLM</code><a class="anchor-link" href="#optional-providers-openaillm-and-anthropicllm">¶</a></h2><p><code>OllamaLLM</code> is the LLM the book builds on, but it is not the only one. The framework ships two optional providers that implement the same <code>BaseLLM</code> interface you used above, so <code>complete()</code>, <code>structured_output()</code>, <code>chat()</code> and <code>continue_chat_with_tool_results()</code> work the same way on each of them:</p>
+<h2 id="swapping-the-llm">Swapping the LLM<a class="anchor-link" href="#swapping-the-llm">¶</a></h2><p><code>OllamaLLM</code> is the LLM the book builds on, but it is not the only one. Examples 3 through 5 only use the <code>llm</code> from Example 2, so to run them on a different LLM, change that one line and re-run the examples.</p>
+<p><code>make_llm()</code> builds whichever LLM the <code>LLM_PROVIDER</code> setting asks for (see the note at the top of this notebook), which is how every notebook from Chapter 4 onward gets its LLM:</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.notebook_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_llm</span>
+
+<span class="n">llm</span> <span class="o">=</span> <span class="n">make_llm</span><span class="p">()</span>
+</pre></div>
+<p>Or construct one of the two optional providers directly. They implement the same <code>BaseLLM</code> interface as <code>OllamaLLM</code>, so <code>complete()</code>, <code>structured_output()</code>, <code>chat()</code> and <code>continue_chat_with_tool_results()</code> work the same way on each:</p>
 <table>
 <thead>
 <tr>
@@ -5883,14 +5884,13 @@ print(final_response)</div>
 </tr>
 </tbody>
 </table>
-<p>Constructing one looks just like Example 2:</p>
 <div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms.openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAILLM</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">llm_agents_from_scratch.llms.anthropic</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnthropicLLM</span>
 
 <span class="n">llm</span> <span class="o">=</span> <span class="n">OpenAILLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"gpt-5"</span><span class="p">)</span>
 <span class="n">llm</span> <span class="o">=</span> <span class="n">AnthropicLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"claude-sonnet-5"</span><span class="p">)</span>
 </pre></div>
-<p>From Chapter 4 onward the notebooks stop naming a class and call <code>make_llm()</code> instead, which builds whichever of these three the <code>LLM_PROVIDER</code> setting asks for (see the note at the top of this notebook). Anything that accepts an <code>LLM</code> in later chapters, starting with <code>LLMAgent</code>, accepts any of them.</p>
+<p>Anything that accepts an <code>LLM</code> in later chapters, starting with <code>LLMAgent</code>, accepts any of them.</p>
 </div>
 </div>
 </div>

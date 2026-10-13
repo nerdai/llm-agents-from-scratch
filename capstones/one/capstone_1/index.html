@@ -2401,21 +2401,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#setting-the-backbone-llm-of-your-agent" class="md-nav__link">
+  <a href="#setting-up-the-llm" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Setting the backbone LLM of your agent
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#running-an-ollama-service" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Running an Ollama service
+        Setting up the LLM
       
     </span>
   </a>
@@ -4533,21 +4522,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#setting-the-backbone-llm-of-your-agent" class="md-nav__link">
+  <a href="#setting-up-the-llm" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Setting the backbone LLM of your agent
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#running-an-ollama-service" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Running an Ollama service
+        Setting up the LLM
       
     </span>
   </a>
@@ -5656,26 +5634,36 @@ uv<span class="w"> </span>run<span class="w"> </span>--with<span class="w"> </sp
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <!-- provider-note:start -->
-<h2 id="setting-the-backbone-llm-of-your-agent">Setting the backbone LLM of your agent<a class="anchor-link" href="#setting-the-backbone-llm-of-your-agent">¶</a></h2><p>These notebooks run on <strong>Ollama by default</strong>, the setup the book teaches.
-If you do nothing, nothing changes: <code>make_llm()</code> starts a local Ollama
-service when one isn't already running.</p>
-<p>To use OpenAI or Anthropic instead:</p>
+<h2 id="setting-up-the-llm">Setting up the LLM<a class="anchor-link" href="#setting-up-the-llm">¶</a></h2><p>I recommend running these notebooks on <strong>Ollama Cloud</strong>. It serves much
+larger models than most laptops can run. The default cloud model is picked
+by benchmarking candidates on these notebooks, and an automated run checks
+every notebook against it each week. The
+<a href="https://masfromscratch.com/notebook-status/">notebook status page</a> shows
+the current model and results.</p>
+<ol>
+<li>Create an API key at <a href="https://ollama.com/settings/keys">https://ollama.com/settings/keys</a>.</li>
+<li>Export it before launching Jupyter: <code>export OLLAMA_API_KEY=&lt;your key&gt;</code>.</li>
+<li>That's all. When a notebook builds its LLM, it detects the key and uses
+Ollama Cloud.</li>
+</ol>
+<p><strong>Prefer to run locally?</strong> Install Ollama from <a href="https://ollama.com/download">https://ollama.com/download</a>
+and pull the model with <code>ollama pull qwen3:14b</code>. If no key is set, the
+notebook starts the Ollama service for you, so there is no need to run
+<code>ollama serve</code>. Local models are smaller, so your outputs will differ from
+the recorded ones.</p>
+<p><strong>Prefer OpenAI or Anthropic?</strong></p>
 <ol>
 <li>Install the extra: <code>uv sync --extra openai</code> or <code>uv sync --extra anthropic</code>.</li>
-<li>Export <code>OPENAI_API_KEY</code> or <code>ANTHROPIC_API_KEY</code> before launching Jupyter.</li>
+<li>Export <code>OPENAI_API_KEY</code> or <code>ANTHROPIC_API_KEY</code> before launching Jupyter.
+If you forget, you will be prompted for it, which keeps the key out of
+the saved notebook.</li>
 <li>Set <code>LLM_PROVIDER=openai</code> (or <code>anthropic</code>), or pass <code>provider="openai"</code>
 to <code>make_llm()</code>. A key on its own never switches providers, so one
-exported for unrelated work cannot reroute you off the Ollama path.</li>
+exported for unrelated work cannot reroute you.</li>
 </ol>
 <p>The switch applies wherever a notebook builds its LLM with <code>make_llm()</code>.
-A notebook that constructs <code>OllamaLLM</code> directly stays on Ollama regardless
-of these settings.</p>
-<p>If you opted in but forgot to export the key, you will be prompted for it.
-That is the safe path on hosted kernels, and it keeps the key out of the
-saved notebook. Setting <code>OLLAMA_API_KEY</code> alone routes Ollama to Ollama
-Cloud.</p>
-<p><strong>Caveat:</strong> the examples are tuned for qwen3. Output on gpt-5 or Claude
-will differ from what is printed in the book, and prompt-sensitive
+A notebook that constructs <code>OllamaLLM</code> directly stays on Ollama. Output on
+gpt-5 or Claude will differ from the recorded outputs, and prompt-sensitive
 examples (the ch09 evaluator pattern, ch08 supervised trajectories) may
 behave noticeably differently.</p>
 <!-- provider-note:end -->
@@ -5708,18 +5696,6 @@ behave noticeably differently.</p>
 # !pip install 'llm-agents-from-scratch[notebook-utils,openai]'</div>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=bf43a249-cbd0-4e70-b8d0-3fd14b4b32ac">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="running-an-ollama-service">Running an Ollama service<a class="anchor-link" href="#running-an-ollama-service">¶</a></h2><p>To execute the code provided in this notebook, you’ll need to have Ollama installed on your local machine and have its LLM hosting service running. To download Ollama, follow the instructions found on this page: <a href="https://ollama.com/download">https://ollama.com/download</a>. After downloading and installing Ollama, you can start a service by opening a terminal and running the command <code>ollama serve</code>.</p>
-<p>If running on Runpod using the Runpod templates for this Capstone project, then an Ollama service will already be running for you.</p>
 </div>
 </div>
 </div>

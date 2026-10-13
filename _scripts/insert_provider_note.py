@@ -45,8 +45,11 @@ END_MARKER = "<!-- provider-note:end -->"
 NOTE_BODY = """## Setting up the LLM
 
 I recommend running these notebooks on **Ollama Cloud**. It serves much
-larger models than most laptops can run, and the outputs in the chapter
-notebooks were recorded on `deepseek-v4.1-flash`.
+larger models than most laptops can run. The default cloud model is picked
+by benchmarking candidates on these notebooks, and an automated run checks
+every notebook against it each week. The
+[notebook status page](https://masfromscratch.com/notebook-status/) shows
+the current model and results.
 
 1. Create an API key at https://ollama.com/settings/keys.
 2. Export it before launching Jupyter: `export OLLAMA_API_KEY=<your key>`.

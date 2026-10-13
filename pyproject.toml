@@ -8,6 +8,7 @@ dev = [
   "ipykernel>=6.29.5",
   "ipywidgets>=8.1.0",
   "mypy>=1.14.1",
+  "nbdime>=4.0.4",
   "nbformat>=5.10.4",
   "pre-commit>=4.1.0",
   "pylint>=3.3.3",

@@ -1,8 +1,9 @@
 r"""Insert or refresh the standard provider-setup note in every notebook.
 
 Every notebook under `chapter-notebooks/`, `more-examples/` and
-`capstones/` gets one identical markdown cell explaining that Ollama is
-the default and how to opt into OpenAI or Anthropic via `make_llm()`.
+`capstones/` gets one identical markdown cell explaining how to set up the
+LLM: Ollama Cloud first, local Ollama as the fallback, and how to opt into
+OpenAI or Anthropic via `make_llm()`.
 The wording lives here, in `NOTE`, so changing it is a one-line edit plus
 a re-run rather than ~40 hand-edited notebooks that drift.
 
@@ -41,31 +42,36 @@ import fire
 START_MARKER = "<!-- provider-note:start -->"
 END_MARKER = "<!-- provider-note:end -->"
 
-NOTE_BODY = """## Setting the backbone LLM of your agent
+NOTE_BODY = """## Setting up the LLM
 
-These notebooks run on **Ollama by default**, the setup the book teaches.
-If you do nothing, nothing changes: `make_llm()` starts a local Ollama
-service when one isn't already running.
+I recommend running these notebooks on **Ollama Cloud**. It serves much
+larger models than most laptops can run, and the outputs in the chapter
+notebooks were recorded on `deepseek-v4.1-flash`.
 
-To use OpenAI or Anthropic instead:
+1. Create an API key at https://ollama.com/settings/keys.
+2. Export it before launching Jupyter: `export OLLAMA_API_KEY=<your key>`.
+3. That's all. When a notebook builds its LLM, it detects the key and uses
+   Ollama Cloud.
+
+**Prefer to run locally?** Install Ollama from https://ollama.com/download
+and pull the model with `ollama pull qwen3:14b`. If no key is set, the
+notebook starts the Ollama service for you, so there is no need to run
+`ollama serve`. Local models are smaller, so your outputs will differ from
+the recorded ones.
+
+**Prefer OpenAI or Anthropic?**
 
 1. Install the extra: `uv sync --extra openai` or `uv sync --extra anthropic`.
 2. Export `OPENAI_API_KEY` or `ANTHROPIC_API_KEY` before launching Jupyter.
+   If you forget, you will be prompted for it, which keeps the key out of
+   the saved notebook.
 3. Set `LLM_PROVIDER=openai` (or `anthropic`), or pass `provider="openai"`
    to `make_llm()`. A key on its own never switches providers, so one
-   exported for unrelated work cannot reroute you off the Ollama path.
+   exported for unrelated work cannot reroute you.
 
 The switch applies wherever a notebook builds its LLM with `make_llm()`.
-A notebook that constructs `OllamaLLM` directly stays on Ollama regardless
-of these settings.
-
-If you opted in but forgot to export the key, you will be prompted for it.
-That is the safe path on hosted kernels, and it keeps the key out of the
-saved notebook. Setting `OLLAMA_API_KEY` alone routes Ollama to Ollama
-Cloud.
-
-**Caveat:** the examples are tuned for qwen3. Output on gpt-5 or Claude
-will differ from what is printed in the book, and prompt-sensitive
+A notebook that constructs `OllamaLLM` directly stays on Ollama. Output on
+gpt-5 or Claude will differ from the recorded outputs, and prompt-sensitive
 examples (the ch09 evaluator pattern, ch08 supervised trajectories) may
 behave noticeably differently."""
 

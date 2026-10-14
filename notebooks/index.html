@@ -4126,10 +4126,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#option-a-run-locally" class="md-nav__link">
+  <a href="#option-a-ollama-cloud-recommended" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Option A — Run Locally
+        Option A — Ollama Cloud (recommended)
       
     </span>
   </a>
@@ -4137,10 +4137,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#option-b-lightning-ai-free" class="md-nav__link">
+  <a href="#option-b-local-ollama" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Option B — Lightning AI (Free)
+        Option B — Local Ollama
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#option-c-lightning-ai-local-models-on-a-free-gpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option C — Lightning AI (local models on a free GPU)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#openai-or-anthropic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OpenAI or Anthropic
       
     </span>
   </a>
@@ -4168,27 +4190,50 @@
 
 
 <h1 id="running-the-notebooks">Running the Notebooks<a class="headerlink" href="#running-the-notebooks" title="Permanent link">&para;</a></h1>
-<p>The chapter notebooks use <strong>Qwen3:14B</strong> as the default model via Ollama.
-Minimum hardware: ~16 GB RAM with a dedicated GPU. You can swap in a smaller
-model (e.g. <code>qwen3:4b</code>), but smaller models may not follow tool-use
-instructions reliably — especially in later chapters.</p>
-<h2 id="option-a-run-locally">Option A — Run Locally<a class="headerlink" href="#option-a-run-locally" title="Permanent link">&para;</a></h2>
-<p>Install <a href="https://ollama.com/">Ollama</a> and pull the model:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ollama<span class="w"> </span>pull<span class="w"> </span>qwen3:14b
-</span></code></pre></div>
-<p>Then launch Jupyter from the project root:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>uv<span class="w"> </span>run<span class="w"> </span>--with<span class="w"> </span>jupyter<span class="w"> </span>jupyter<span class="w"> </span>lab
-</span></code></pre></div>
-<h2 id="option-b-lightning-ai-free">Option B — Lightning AI (Free)<a class="headerlink" href="#option-b-lightning-ai-free" title="Permanent link">&para;</a></h2>
-<p>No GPU? <a href="https://lightning.ai">Lightning AI</a> offers ~22 free GPU compute
-hours/month — enough for several sessions on an L4.</p>
+<p>I recommend running the notebooks on <strong>Ollama Cloud</strong>, which serves larger
+open-source models on Ollama's own hardware. These models are much more
+capable than what an everyday laptop can run, and Ollama keeps rotating in
+the newest, best-performing ones.</p>
+<h2 id="option-a-ollama-cloud-recommended">Option A — Ollama Cloud (recommended)<a class="headerlink" href="#option-a-ollama-cloud-recommended" title="Permanent link">&para;</a></h2>
 <ol>
-<li><a href="https://lightning.ai">Create a free account</a> if you don't have one</li>
-<li>Open the <a href="https://lightning.ai/nerdai/templates/build-a-multi-agent-system-from-scratch">book template</a></li>
-<li>Click <strong>Clone</strong> and ensure it's the latest version</li>
-<li>Launch the Studio with an <strong>L4 GPU</strong></li>
-<li>Open any chapter notebook — Ollama and the model are pre-configured</li>
+<li>Create an API key at <a href="https://ollama.com/settings/keys">https://ollama.com/settings/keys</a>.</li>
+<li>Export it: <code>export OLLAMA_API_KEY=&lt;your key&gt;</code>.</li>
 </ol>
+<p>Then launch Jupyter from the project root:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>uv<span class="w"> </span>run<span class="w"> </span>--with<span class="w"> </span>jupyter<span class="w"> </span>jupyter<span class="w"> </span>lab
+</span></code></pre></div>
+<p>The notebooks detect the key and use the default cloud model. I pick that
+model by benchmarking the available Ollama Cloud models on how well each one
+runs the notebooks end to end, and an automated run checks every notebook
+against it weekly (see the
+<a href="https://masfromscratch.com/notebook-status/">notebook status page</a>). To try
+another cloud model from <a href="https://ollama.com/search?c=cloud">https://ollama.com/search?c=cloud</a>, set the
+<code>OLLAMA_MODEL</code> environment variable to its name.</p>
+<h2 id="option-b-local-ollama">Option B — Local Ollama<a class="headerlink" href="#option-b-local-ollama" title="Permanent link">&para;</a></h2>
+<p>Install <a href="https://ollama.com/download">Ollama</a> and pull the model:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>ollama<span class="w"> </span>pull<span class="w"> </span>qwen3:14b
+</span></code></pre></div>
+<p>With no <code>OLLAMA_API_KEY</code> set, the notebooks start the Ollama service for you,
+so there's no need to run <code>ollama serve</code>. A 14B model needs about 16 GB of RAM
+and a dedicated GPU. You can set <code>OLLAMA_MODEL</code> to a smaller model (such as
+<code>qwen3:4b</code>), but smaller models may not follow tool-use instructions
+reliably, especially in later chapters.</p>
+<h2 id="option-c-lightning-ai-local-models-on-a-free-gpu">Option C — Lightning AI (local models on a free GPU)<a class="headerlink" href="#option-c-lightning-ai-local-models-on-a-free-gpu" title="Permanent link">&para;</a></h2>
+<p><a href="https://lightning.ai">Lightning AI</a> offers about 22 free GPU compute hours a
+month, enough for several sessions on an L4.</p>
+<ol>
+<li><a href="https://lightning.ai">Create a free account</a> if you don't have one.</li>
+<li>Open the <a href="https://lightning.ai/nerdai/templates/build-a-multi-agent-system-from-scratch">book template</a>.</li>
+<li>Click <strong>Clone</strong> and make sure it's the latest version.</li>
+<li>Launch the Studio with an <strong>L4 GPU</strong>.</li>
+<li>Open any notebook. Ollama and the model are already set up.</li>
+</ol>
+<h2 id="openai-or-anthropic">OpenAI or Anthropic<a class="headerlink" href="#openai-or-anthropic" title="Permanent link">&para;</a></h2>
+<p>The notebooks also run on OpenAI and Anthropic models. Install the extra
+(<code>uv sync --extra openai</code> or <code>uv sync --extra anthropic</code>), export
+<code>OPENAI_API_KEY</code> or <code>ANTHROPIC_API_KEY</code>, and set <code>LLM_PROVIDER=openai</code> (or
+<code>anthropic</code>). The "Setting up the LLM" section at the top of each notebook
+has the details.</p>
 
 
 

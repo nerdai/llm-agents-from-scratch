@@ -605,12 +605,14 @@ class LLMAgent:
                         self.llm_agent.tools_registry.get(
                             tool_call.tool_name,
                         )
+                        # added in ch06
                         or (
                             self._use_skill_tool
                             if self._use_skill_tool
                             and tool_call.tool_name == self._use_skill_tool.name
                             else None
                         )
+                        # added in ch09
                         or (
                             self._use_subagent_tool
                             if self._use_subagent_tool
@@ -618,6 +620,7 @@ class LLMAgent:
                             == self._use_subagent_tool.name
                             else None
                         )
+                        # added in ch10
                         or (
                             self._use_a2a_agent_tool
                             if self._use_a2a_agent_tool

@@ -5145,7 +5145,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </pre></div>
 <p>Alternatively, if you just want to use the published version of <code>llm-agents-from-scratch</code> without local development, you can install it from PyPi by uncommenting the cell below.</p>
 <blockquote>
-<p><strong>Note for Windows:</strong> this notebook's agents use the <code>stop-at-one</code> skill through the <code>.agents</code> symlink in this folder. If the skill isn't found, see the Windows note in Chapter 6's notebook.</p>
+<p><strong>Tip:</strong> If you're running the notebook on a Windows machine, Git only checks out symlinks as real links when symlink support is turned on in Git (the installer's "Enable symbolic links" option, or cloning with <code>git clone -c core.symlinks=true</code>) and Windows allows creating them (Developer Mode, or an administrator shell). Otherwise, the <code>.agents</code> folder contained in this chapter's notebook directory ends up as a plain text file. In that case, delete it and copy <code>chapter-notebooks/shared/.agents</code> into this folder.</p>
 </blockquote>
 </div>
 </div>

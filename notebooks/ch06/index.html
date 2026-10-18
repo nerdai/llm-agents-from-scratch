@@ -5214,7 +5214,7 @@ behave noticeably differently.</p>
 <p><strong>Important:</strong> Run this notebook from within the <code>chapter-notebooks/ch06/</code> directory so the skill is discovered as a project-scoped skill.</p>
 <p>The skill is located at: <code>chapter-notebooks/shared/.agents/skills/stop-at-one/SKILL.md</code>, linked into this chapter's folder as <code>.agents</code></p>
 <blockquote>
-<p><strong>Note for Windows:</strong> <code>.agents</code> in this folder is a symlink to <code>chapter-notebooks/shared/.agents</code>. Git only checks symlinks out as real links when Developer Mode or <code>git config core.symlinks true</code> is enabled; otherwise <code>.agents</code> is a small text file and the agent won't find the <code>stop-at-one</code> skill. In that case, copy <code>chapter-notebooks/shared/.agents</code> into this folder.</p>
+<p><strong>Tip:</strong> If you're running the notebook on a Windows machine, Git only checks out symlinks as real links when symlink support is turned on in Git (the installer's "Enable symbolic links" option, or cloning with <code>git clone -c core.symlinks=true</code>) and Windows allows creating them (Developer Mode, or an administrator shell). Otherwise, the <code>.agents</code> folder contained in this chapter's notebook directory ends up as a plain text file. In that case, delete it and copy <code>chapter-notebooks/shared/.agents</code> into this folder.</p>
 </blockquote>
 </div>
 </div>

@@ -20,9 +20,13 @@ via `uvx` instead:
     uvx --from llm-agents-from-scratch-inspector \
         agent-inspector launch chapter-notebooks/ch08/inspector_demo.py
 
-Requires a running Ollama daemon (`ollama serve`) with the
-`qwen3:14b` model pulled (`ollama pull qwen3:14b`) -- or edit the
-`OllamaLLM(...)` call below to point at a model you already have.
+The LLM comes from `make_llm()`, the same helper the chapter
+notebooks use. Export `OLLAMA_API_KEY` (create one at
+https://ollama.com/settings/keys) to run on Ollama Cloud, which is
+recommended. Without a key it falls back to a local Ollama with
+`qwen3:14b` (`ollama pull qwen3:14b`), starting the service if needed.
+`LLM_PROVIDER=openai` or `anthropic` switches provider, as in the
+notebooks.
 
 Deliberately doesn't wire up the notebook's `stop-at-one` skill (its
 own `run_supervised(..., explicit_only_skills=["stop-at-one"])` call
@@ -36,7 +40,7 @@ just the one tool for a reliably smooth first run.
 
 from llm_agents_from_scratch import LLMAgentBuilder
 from llm_agents_from_scratch.data_structures import Task
-from llm_agents_from_scratch.llms import OllamaLLM
+from llm_agents_from_scratch.notebook_utils import make_llm
 from llm_agents_from_scratch.tools import SimpleFunctionTool
 
 
@@ -50,11 +54,7 @@ def next_number(x: int) -> int:
 next_number_tool = SimpleFunctionTool(func=next_number)
 
 agent_builder = (
-    LLMAgentBuilder()
-    .with_llm(
-        OllamaLLM(model="qwen3:14b", think=False),
-    )
-    .with_tool(next_number_tool)
+    LLMAgentBuilder().with_llm(make_llm()).with_tool(next_number_tool)
 )
 
 # Pre-fills the UI's task field at launch time instead of the frontend

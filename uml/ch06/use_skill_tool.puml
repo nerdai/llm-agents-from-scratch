@@ -13,11 +13,11 @@ package "llm_agents_from_scratch.base.tool" <<Folder>> {
 
 package "llm_agents_from_scratch.skills.tools" <<Folder>> {
   class UseSkillTool {
-    -_skills: dict[str, Skill]
+    -_skills_registry: dict[str, Skill]
     -_explicit_only_skills: set[str]
     -_visible: list[str]
     --
-    +<<constructor>> __init__(\n\tskills: dict[str, Skill],\n\texplicit_only_skills: set[str]\n):
+    +<<constructor>> __init__(\n\tskills_registry: dict[str, Skill],\n\texplicit_only_skills: set[str]\n):
     -_build_skill_content(name: str): str
     +__call__(tool_call: ToolCall, ...): ToolCallResult
   }

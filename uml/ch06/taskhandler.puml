@@ -13,7 +13,7 @@ package "llm_agents_from_scratch.agent" <<Folder>> {
     <color:#aaaaaa>+rollout: str</color>
     <color:#aaaaaa>+step_counter: int</color>
     <color:#aaaaaa>-_background_task: ~asyncio.Task</color>
-    +skills: dict[str, Skill]
+    +skills_registry: dict[str, Skill]
     -_skills_catalog: str
     -_use_skill_tool: UseSkillTool | None
     -_explicit_only_skills: set[str]

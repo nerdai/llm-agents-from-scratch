@@ -6,7 +6,7 @@ provider. Generated from `notebook_status.yaml` by
 `_scripts/run_notebook.py`. Edit the ledger and re-render, not
 this page.
 
-**Last tested:** 2026-10-12
+**Last tested:** 2026-10-19
 
 | Symbol | Meaning |
 |---|---|
@@ -34,20 +34,19 @@ Run All.
 | Notebook | Ollama Cloud | OpenAI | Anthropic |
 |---|---|---|---|
 | [`ch02.ipynb`](notebooks/ch02.ipynb) | ∅ no LLM | ∅ no LLM | ∅ no LLM |
-| [`ch03.ipynb`](notebooks/ch03.ipynb) | ✅ `deepseek-v4.1-flash` | ⚪ not wired | ⚪ not wired |
+| [`ch03.ipynb`](notebooks/ch03.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`ch04.ipynb`](notebooks/ch04.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`ch05.ipynb`](notebooks/ch05.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`ch06.ipynb`](notebooks/ch06.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`ch07.ipynb`](notebooks/ch07.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`ch08.ipynb`](notebooks/ch08.ipynb) | ✅ `deepseek-v4.1-flash`[^1] | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`ch09.ipynb`](notebooks/ch09.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`ch10.ipynb`](notebooks/ch10.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`ch08.ipynb`](notebooks/ch08.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`ch09.ipynb`](notebooks/ch09.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5-mini` | ✅ `claude-haiku-4-5-20251001` |
+| [`ch10.ipynb`](notebooks/ch10.ipynb) | ✅ `deepseek-v4.1-flash` | ❌[^1] | ❌[^2] |
 
 </div>
 
-[^1]: `chapter-notebooks/ch08/ch08.ipynb` / Ollama Cloud: passed on retry; first attempt: cell 12: TaskHandlerError: Failed to get next step: 1 validation error for NextStepDecision
-  Invalid JSON: EOF while parsing a string at line 3 column 148 [type=json_invalid, input_value='{\n  "kind": "next_step".... Continue calling next', input_type=str]
-    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+[^1]: `chapter-notebooks/ch10/ch10.ipynb` / OpenAI: ran on Ollama Cloud ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287))
+[^2]: `chapter-notebooks/ch10/ch10.ipynb` / Anthropic: ran on Ollama Cloud ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287))
 
 ## Additional examples
 
@@ -75,9 +74,9 @@ Run All.
 | `reflective_memory.ipynb` | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`similarity_memory.ipynb`](more-examples/ch07/similarity_memory.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`approval_gate_in_skill.ipynb`](more-examples/ch08/approval_gate_in_skill.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`skill_with_human_input.ipynb`](more-examples/ch08/skill_with_human_input.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ❌[^1] |
+| [`skill_with_human_input.ipynb`](more-examples/ch08/skill_with_human_input.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`supervised_trajectories.ipynb`](more-examples/ch08/supervised_trajectories.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`evaluator_pattern.ipynb`](more-examples/ch09/evaluator_pattern.ipynb) | ✅ `deepseek-v4.1-flash`[^2] | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`evaluator_pattern.ipynb`](more-examples/ch09/evaluator_pattern.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`subagent_failure.ipynb`](more-examples/ch09/subagent_failure.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`subagent_with_mcp_tool.ipynb`](more-examples/ch09/subagent_with_mcp_tool.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`cancelling_a_task_execution.ipynb`](more-examples/ch10/cancelling_a_task_execution.ipynb) | ✅ `deepseek-v4.1-flash` | ⚪ not wired | ⚪ not wired |
@@ -85,18 +84,13 @@ Run All.
 
 </div>
 
-[^1]: `more-examples/ch08/skill_with_human_input.ipynb` / Anthropic: cell 8: cell exceeded 600s (not retried: budget) ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/38213193723))
-[^2]: `more-examples/ch09/evaluator_pattern.ipynb` / Ollama Cloud: passed on retry; first attempt: cell 10: TaskHandlerError: Failed to get next step: 1 validation error for NextStepDecision
-  Invalid JSON: invalid escape at line 3 column 567 [type=json_invalid, input_value='{\n  "kind": "next_step"...er 80 characters.\'"\n}', input_type=str]
-    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
-
 ## Capstones
 
 <div class="notebook-status" markdown>
 
 | Notebook | Ollama Cloud | OpenAI | Anthropic |
 |---|---|---|---|
-| [`capstone_1.ipynb`](capstones/one/capstone_1.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`capstone_1.ipynb`](capstones/one/capstone_1.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-opus-5` |
 | `capstone_2.ipynb` | ∅ no LLM | ∅ no LLM | ∅ no LLM |
 | `capstone_3.ipynb` | ∅ no LLM | ∅ no LLM | ∅ no LLM |
 | `capstone_4.ipynb` | ∅ no LLM | ∅ no LLM | ∅ no LLM |

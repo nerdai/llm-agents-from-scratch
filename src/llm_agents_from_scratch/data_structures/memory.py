@@ -53,14 +53,22 @@ class Episode(BaseModel):
 
     @staticmethod
     def _error_as_text(error: Exception | str | None) -> str | None:
-        """Render ``error`` as text; Pydantic cannot serialize Exceptions."""
+        """Render ``error`` as text; Pydantic cannot serialize Exceptions.
+
+        Serialization plumbing, omitted from the book's listings and
+        figures.
+        """
         if error is None or isinstance(error, str):
             return error
         return f"{type(error).__name__}: {error}"
 
     @field_serializer("error")
     def _serialize_error(self, error: Exception | str | None) -> str | None:
-        """Serialize ``error`` with the same text used by ``format()``."""
+        """Serialize ``error`` with the same text used by ``format()``.
+
+        Serialization plumbing, omitted from the book's listings and
+        figures.
+        """
         return self._error_as_text(error)
 
     def format(

@@ -18,13 +18,15 @@ package "llm_agents_from_scratch.data_structures.memory" <<Folder>> {
     +task: Task
     +rollout: str
     +result: TaskResult | None
-    +error: Exception | None
+    +error: Exception | str | None
     +metadata: dict[str, str]
     +completed_at: datetime
     --
     +format(\n\tmode: EpisodeFormatMode,\n\texclude: set[str] | None\n): str
     -_format_xml(exclude: set[str]): str
     -_format_concat(exclude: set[str]): str
+    {static} -_error_as_text(error: Exception | str | None): str | None
+    -_serialize_error(error: Exception | str | None): str | None\n\t{@field_serializer("error")}
   }
 }
 

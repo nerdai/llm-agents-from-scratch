@@ -982,7 +982,11 @@ class LLMAgent:
             set.
             """
             self.logger.info(f"🚀 Starting task: {task.instruction}")
-            step_result: TaskStepResult | RejectedTaskResult | None = None
+            step_result: (
+                TaskStepResult
+                | RejectedTaskResult  # added in ch08
+                | None
+            ) = None
 
             # added in ch07
             try:

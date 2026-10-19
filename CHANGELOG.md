@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+## [0.0.26] - 2026-10-19
+
+### Added
+
 ### Changed
 
 - docs: the docs site's logo and favicon are now Scratch, the book videos' mascot, replacing the old traced robot. Also fixes the header logo being near-invisible in light mode, where its black ink sat on the black header (#1063)

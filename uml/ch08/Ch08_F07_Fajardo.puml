@@ -1,4 +1,5 @@
-@startuml approval_gate_data_structures
+@startuml Ch08_F07_Fajardo
+' Figure 8.7 (was: approval_gate_data_structures)
 !include ../common/book-clean.puml
 
 ' External dependencies

@@ -9,8 +9,8 @@ instead, driven by a small sidecar YAML file next to the `.puml`
 source.
 
 Sidecar file naming: `<diagram>.legend.yaml` next to `<diagram>.puml`,
-e.g. `uml/ch08/approval_gate_sequence.legend.yaml` for
-`uml/ch08/approval_gate_sequence.puml`. Format:
+e.g. `uml/ch08/Ch08_F09_Fajardo.legend.yaml` for
+`uml/ch08/Ch08_F09_Fajardo.puml`. Format:
 
     top: 620          # y position, in SVG user units
     entries:

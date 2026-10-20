@@ -1,5 +1,5 @@
 @startuml Ch08_F08_Fajardo
-' Figure 8.8 (was: taskhandler_llmagent_updates_for_approval_gate)
+' Figure 8.8 (was: taskhandler_llmagent_updates_for_approval_gate.puml, @startuml uml_ch08_taskhandler_llmagent_updates_for_approval_gate)
 !include ../common/book-clean.puml
 left to right direction
 

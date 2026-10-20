@@ -1,5 +1,5 @@
 @startuml Ch08_F09_Fajardo
-' Figure 8.9 (was: approval_gate_sequence)
+' Figure 8.9 (was: approval_gate_sequence.puml, @startuml uml_ch08_approval_gate_sequence)
 !include ../common/book-clean.puml
 title Result-Approval HITL — Sequence
 

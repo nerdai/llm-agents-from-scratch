@@ -1,5 +1,5 @@
 @startuml Ch07_F07_Fajardo
-' Figure 7.7 (was: memory)
+' Figure 7.7 (was: memory.puml, @startuml memory)
 !include ../common/book-clean.puml
 left to right direction
 

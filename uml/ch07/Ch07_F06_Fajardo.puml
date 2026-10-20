@@ -1,4 +1,5 @@
-@startuml qdrant_memory_store
+@startuml Ch07_F06_Fajardo
+' Figure 7.6 (was: qdrant_memory_store.puml, @startuml qdrant_memory_store)
 !include ../common/book-clean.puml
 left to right direction
 

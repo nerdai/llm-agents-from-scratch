@@ -1,4 +1,5 @@
-@startuml base_memory_store
+@startuml Ch07_F04_Fajardo
+' Figure 7.4 (was: base_memory_store.puml, @startuml base_memory_store)
 !include ../common/book-clean.puml
 
 package "llm_agents_from_scratch.data_structures.memory" <<Folder>> {

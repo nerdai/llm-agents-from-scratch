@@ -6,7 +6,7 @@ provider. Generated from `notebook_status.yaml` by
 `_scripts/run_notebook.py`. Edit the ledger and re-render, not
 this page.
 
-**Last tested:** 2026-10-19
+**Last tested:** 2026-10-26
 
 | Symbol | Meaning |
 |---|---|
@@ -39,14 +39,16 @@ Run All.
 | [`ch05.ipynb`](notebooks/ch05.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`ch06.ipynb`](notebooks/ch06.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`ch07.ipynb`](notebooks/ch07.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`ch08.ipynb`](notebooks/ch08.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`ch09.ipynb`](notebooks/ch09.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5-mini` | ✅ `claude-haiku-4-5-20251001` |
-| [`ch10.ipynb`](notebooks/ch10.ipynb) | ✅ `deepseek-v4.1-flash` | ❌[^1] | ❌[^2] |
+| [`ch08.ipynb`](notebooks/ch08.ipynb) | ✅ `deepseek-v4.1-flash` | ❌[^1] | ✅ `claude-sonnet-5` |
+| [`ch09.ipynb`](notebooks/ch09.ipynb) | ✅ `deepseek-v4.1-flash` | ❌[^2] | ✅ `claude-haiku-4-5-20251001` |
+| [`ch10.ipynb`](notebooks/ch10.ipynb) | ✅ `deepseek-v4.1-flash` | ❌[^3] | ❌[^4] |
 
 </div>
 
-[^1]: `chapter-notebooks/ch10/ch10.ipynb` / OpenAI: ran on Ollama Cloud ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287))
-[^2]: `chapter-notebooks/ch10/ch10.ipynb` / Anthropic: ran on Ollama Cloud ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287))
+[^1]: `chapter-notebooks/ch08/ch08.ipynb` / OpenAI: cell 8: RateLimitError: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}} ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436))
+[^2]: `chapter-notebooks/ch09/ch09.ipynb` / OpenAI: cell 9: RateLimitError: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}} ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436))
+[^3]: `chapter-notebooks/ch10/ch10.ipynb` / OpenAI: cell 16: RateLimitError: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}} ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436))
+[^4]: `chapter-notebooks/ch10/ch10.ipynb` / Anthropic: ran on Ollama Cloud ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436))
 
 ## Additional examples
 
@@ -57,32 +59,56 @@ Run All.
 | [`async_tools.ipynb`](more-examples/ch02/async_tools.ipynb) | ∅ no LLM | ∅ no LLM | ∅ no LLM |
 | [`multi_tool_registry.ipynb`](more-examples/ch02/multi_tool_registry.ipynb) | ∅ no LLM | ∅ no LLM | ∅ no LLM |
 | [`pydantic_tool_validation.ipynb`](more-examples/ch02/pydantic_tool_validation.ipynb) | ∅ no LLM | ∅ no LLM | ∅ no LLM |
-| [`multi_turn_chat.ipynb`](more-examples/ch03/multi_turn_chat.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`parallel_tool_calls.ipynb`](more-examples/ch03/parallel_tool_calls.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`pdf_extraction.ipynb`](more-examples/ch03/pdf_extraction.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`jev_next_step_judge.ipynb`](more-examples/ch04/jev_next_step_judge.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`pokemon_comparison.ipynb`](more-examples/ch04/pokemon_comparison.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`pokemon_error_handling.ipynb`](more-examples/ch04/pokemon_error_handling.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`multi_turn_chat.ipynb`](more-examples/ch03/multi_turn_chat.ipynb) | ✅ `deepseek-v4.1-flash` | ❌[^1] | ✅ `claude-sonnet-5` |
+| [`parallel_tool_calls.ipynb`](more-examples/ch03/parallel_tool_calls.ipynb) | ✅ `deepseek-v4.1-flash` | ❌[^2] | ✅ `claude-sonnet-5` |
+| [`pdf_extraction.ipynb`](more-examples/ch03/pdf_extraction.ipynb) | ❌[^3] | ❌[^4] | ❌[^5] |
+| [`jev_next_step_judge.ipynb`](more-examples/ch04/jev_next_step_judge.ipynb) | ✅ `deepseek-v4.1-flash` | ❌[^6] | ✅ `claude-sonnet-5` |
+| [`pokemon_comparison.ipynb`](more-examples/ch04/pokemon_comparison.ipynb) | ✅ `deepseek-v4.1-flash` | ❌[^7] | ✅ `claude-sonnet-5` |
+| [`pokemon_error_handling.ipynb`](more-examples/ch04/pokemon_error_handling.ipynb) | ✅ `deepseek-v4.1-flash` | ❌[^8] | ✅ `claude-sonnet-5` |
 | [`github_mcp.ipynb`](more-examples/ch05/github_mcp.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`goodnews_mcp.ipynb`](more-examples/ch05/goodnews_mcp.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`additional_resource_python.ipynb`](more-examples/ch06/additional_resource_python.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`additional_resource_python.ipynb`](more-examples/ch06/additional_resource_python.ipynb) | ✅ `deepseek-v4.1-flash` | ❌[^9] | ✅ `claude-sonnet-5` |
 | [`skill_validation_errors.ipynb`](more-examples/ch06/skill_validation_errors.ipynb) | ∅ no LLM | ∅ no LLM | ∅ no LLM |
-| [`skills_marketplace.ipynb`](more-examples/ch06/skills_marketplace.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`user_explicit_hailstone.ipynb`](more-examples/ch06/user_explicit_hailstone.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`with_and_without_skills.ipynb`](more-examples/ch06/with_and_without_skills.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`recency_memory.ipynb`](more-examples/ch07/recency_memory.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| `reflective_memory.ipynb` | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`similarity_memory.ipynb`](more-examples/ch07/similarity_memory.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`approval_gate_in_skill.ipynb`](more-examples/ch08/approval_gate_in_skill.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`skill_with_human_input.ipynb`](more-examples/ch08/skill_with_human_input.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`supervised_trajectories.ipynb`](more-examples/ch08/supervised_trajectories.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`evaluator_pattern.ipynb`](more-examples/ch09/evaluator_pattern.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`subagent_failure.ipynb`](more-examples/ch09/subagent_failure.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`subagent_with_mcp_tool.ipynb`](more-examples/ch09/subagent_with_mcp_tool.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`skills_marketplace.ipynb`](more-examples/ch06/skills_marketplace.ipynb) | ❌[^10] | ❌[^11] | ❌[^12] |
+| [`user_explicit_hailstone.ipynb`](more-examples/ch06/user_explicit_hailstone.ipynb) | ✅ `deepseek-v4.1-flash` | ❌[^13] | ✅ `claude-sonnet-5` |
+| [`with_and_without_skills.ipynb`](more-examples/ch06/with_and_without_skills.ipynb) | ✅ `deepseek-v4.1-flash` | ❌[^14] | ✅ `claude-sonnet-5` |
+| [`recency_memory.ipynb`](more-examples/ch07/recency_memory.ipynb) | ✅ `deepseek-v4.1-flash` | ❌[^15] | ✅ `claude-sonnet-5` |
+| `reflective_memory.ipynb` | ✅ `deepseek-v4.1-flash` | ❌[^16] | ✅ `claude-sonnet-5` |
+| [`similarity_memory.ipynb`](more-examples/ch07/similarity_memory.ipynb) | ✅ `deepseek-v4.1-flash` | ❌[^17] | ✅ `claude-sonnet-5` |
+| [`approval_gate_in_skill.ipynb`](more-examples/ch08/approval_gate_in_skill.ipynb) | ✅ `deepseek-v4.1-flash` | ❌[^18] | ✅ `claude-sonnet-5` |
+| [`skill_with_human_input.ipynb`](more-examples/ch08/skill_with_human_input.ipynb) | ✅ `deepseek-v4.1-flash` | ❌[^19] | ✅ `claude-sonnet-5` |
+| [`supervised_trajectories.ipynb`](more-examples/ch08/supervised_trajectories.ipynb) | ✅ `deepseek-v4.1-flash` | ❌[^20] | ✅ `claude-sonnet-5` |
+| [`evaluator_pattern.ipynb`](more-examples/ch09/evaluator_pattern.ipynb) | ✅ `deepseek-v4.1-flash` | ❌[^21] | ✅ `claude-sonnet-5` |
+| [`subagent_failure.ipynb`](more-examples/ch09/subagent_failure.ipynb) | ✅ `deepseek-v4.1-flash` | ❌[^22] | ✅ `claude-sonnet-5` |
+| [`subagent_with_mcp_tool.ipynb`](more-examples/ch09/subagent_with_mcp_tool.ipynb) | ✅ `deepseek-v4.1-flash` | ❌[^23] | ✅ `claude-sonnet-5` |
 | [`cancelling_a_task_execution.ipynb`](more-examples/ch10/cancelling_a_task_execution.ipynb) | ✅ `deepseek-v4.1-flash` | ⚪ not wired | ⚪ not wired |
 | [`streaming_llmagent_executor.ipynb`](more-examples/ch10/streaming_llmagent_executor.ipynb) | ✅ `deepseek-v4.1-flash` | ⚪ not wired | ⚪ not wired |
 
 </div>
+
+[^1]: `more-examples/ch03/multi_turn_chat.ipynb` / OpenAI: cell 9: RateLimitError: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}} ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436))
+[^2]: `more-examples/ch03/parallel_tool_calls.ipynb` / OpenAI: cell 11: RateLimitError: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}} ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436))
+[^3]: `more-examples/ch03/pdf_extraction.ipynb` / Ollama Cloud: cell 7: ModuleNotFoundError: No module named 'pymupdf4llm' ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436))
+[^4]: `more-examples/ch03/pdf_extraction.ipynb` / OpenAI: cell 7: ModuleNotFoundError: No module named 'pymupdf4llm' ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436))
+[^5]: `more-examples/ch03/pdf_extraction.ipynb` / Anthropic: cell 7: ModuleNotFoundError: No module named 'pymupdf4llm' ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436))
+[^6]: `more-examples/ch04/jev_next_step_judge.ipynb` / OpenAI: cell 9: RateLimitError: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}} ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436))
+[^7]: `more-examples/ch04/pokemon_comparison.ipynb` / OpenAI: cell 8: RateLimitError: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}} ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436))
+[^8]: `more-examples/ch04/pokemon_error_handling.ipynb` / OpenAI: cell 7: RateLimitError: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}} ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436))
+[^9]: `more-examples/ch06/additional_resource_python.ipynb` / OpenAI: cell 8: RateLimitError: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}} ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436))
+[^10]: `more-examples/ch06/skills_marketplace.ipynb` / Ollama Cloud: cell 7: HTTPError: HTTP Error 403: Forbidden ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436))
+[^11]: `more-examples/ch06/skills_marketplace.ipynb` / OpenAI: cell 7: HTTPError: HTTP Error 403: Forbidden ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436))
+[^12]: `more-examples/ch06/skills_marketplace.ipynb` / Anthropic: cell 7: HTTPError: HTTP Error 403: Forbidden ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436))
+[^13]: `more-examples/ch06/user_explicit_hailstone.ipynb` / OpenAI: cell 7: RateLimitError: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}} ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436))
+[^14]: `more-examples/ch06/with_and_without_skills.ipynb` / OpenAI: cell 7: RateLimitError: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}} ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436))
+[^15]: `more-examples/ch07/recency_memory.ipynb` / OpenAI: cell 12: RateLimitError: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}} ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436))
+[^16]: `more-examples/ch07/reflective_memory.ipynb` / OpenAI: cell 12: RateLimitError: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}} ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436))
+[^17]: `more-examples/ch07/similarity_memory.ipynb` / OpenAI: cell 11: RateLimitError: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}} ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436))
+[^18]: `more-examples/ch08/approval_gate_in_skill.ipynb` / OpenAI: cell 7: RateLimitError: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}} ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436))
+[^19]: `more-examples/ch08/skill_with_human_input.ipynb` / OpenAI: cell 7: RateLimitError: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}} ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436))
+[^20]: `more-examples/ch08/supervised_trajectories.ipynb` / OpenAI: cell 9: RateLimitError: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}} ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436))
+[^21]: `more-examples/ch09/evaluator_pattern.ipynb` / OpenAI: cell 9: RateLimitError: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}} ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436))
+[^22]: `more-examples/ch09/subagent_failure.ipynb` / OpenAI: cell 9: RateLimitError: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}} ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436))
+[^23]: `more-examples/ch09/subagent_with_mcp_tool.ipynb` / OpenAI: cell 9: RateLimitError: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}} ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436))
 
 ## Capstones
 

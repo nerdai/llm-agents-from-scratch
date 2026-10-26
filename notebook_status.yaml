@@ -1,908 +1,973 @@
 capstones/one/capstone_1.ipynb:
   anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: claude-opus-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 137
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 219
     status: pass
   ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 106
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 142
     status: pass
   openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 165
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 340
     status: pass
 capstones/three/capstone_2.ipynb:
   anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 0
     status: no-llm
   ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 1
     status: no-llm
   openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 0
     status: no-llm
 capstones/three/capstone_3.ipynb:
   anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 0
     status: no-llm
   ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 1
     status: no-llm
   openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 0
     status: no-llm
 capstones/three/capstone_4.ipynb:
   anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 0
     status: no-llm
   ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 1
     status: no-llm
   openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 0
     status: no-llm
 capstones/three/capstone_5.ipynb:
   anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 0
     status: no-llm
   ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 1
     status: no-llm
   openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 0
     status: no-llm
 chapter-notebooks/ch02/ch02.ipynb:
   anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 0
     status: no-llm
   ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 4
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 5
     status: no-llm
   openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 0
     status: no-llm
 chapter-notebooks/ch03/ch03.ipynb:
   anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 11
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 15
     status: pass
   ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 7
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 8
     status: pass
   openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 14
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 13
     status: pass
 chapter-notebooks/ch04/ch04.ipynb:
   anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 14
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 15
     status: pass
   ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 9
     status: pass
   openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 21
     status: pass
 chapter-notebooks/ch05/ch05.ipynb:
   anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 17
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 18
     status: pass
   ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 14
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 17
     status: pass
   openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 27
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 19
     status: pass
 chapter-notebooks/ch06/ch06.ipynb:
   anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 24
     status: pass
   ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 12
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 14
     status: pass
   openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 40
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 36
     status: pass
 chapter-notebooks/ch07/ch07.ipynb:
   anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 41
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 30
     status: pass
   ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 20
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 17
     status: pass
   openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 47
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 42
     status: pass
 chapter-notebooks/ch08/ch08.ipynb:
   anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 87
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 93
     status: pass
   ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 40
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 42
     status: pass
   openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 209
-    status: pass
+    note: 'cell 8: RateLimitError: Error code: 429 - {''error'': {''message'': ''You
+      have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.'',
+      ''type'': ''insufficient_quota'', ''param'': None, ''code'': ''credit_balance_exhausted''}}'
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 11
+    status: fail
 chapter-notebooks/ch09/ch09.ipynb:
   anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: claude-haiku-4-5-20251001
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 539
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 643
     status: pass
   ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 187
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 121
     status: pass
   openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: gpt-5-mini
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 239
-    status: pass
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: gpt-5
+    note: 'cell 9: RateLimitError: Error code: 429 - {''error'': {''message'': ''You
+      have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.'',
+      ''type'': ''insufficient_quota'', ''param'': None, ''code'': ''credit_balance_exhausted''}}'
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 10
+    status: fail
 chapter-notebooks/ch10/ch10.ipynb:
   anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: deepseek-v4.1-flash
     note: ran on Ollama Cloud
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 75
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 78
     status: fail
   ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 56
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 59
     status: pass
   openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: deepseek-v4.1-flash
-    note: ran on Ollama Cloud
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 70
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: gpt-5
+    note: 'cell 16: RateLimitError: Error code: 429 - {''error'': {''message'': ''You
+      have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.'',
+      ''type'': ''insufficient_quota'', ''param'': None, ''code'': ''credit_balance_exhausted''}}'
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 17
     status: fail
 more-examples/ch02/async_tools.ipynb:
   anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 0
     status: no-llm
   ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 4
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 6
     status: no-llm
   openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 0
     status: no-llm
 more-examples/ch02/multi_tool_registry.ipynb:
   anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 0
     status: no-llm
   ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 3
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 4
     status: no-llm
   openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 0
     status: no-llm
 more-examples/ch02/pydantic_tool_validation.ipynb:
   anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 0
     status: no-llm
   ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 4
     status: no-llm
   openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 0
     status: no-llm
 more-examples/ch03/multi_turn_chat.ipynb:
   anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 10
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 13
     status: pass
   ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 7
     status: pass
   openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 18
-    status: pass
+    note: 'cell 9: RateLimitError: Error code: 429 - {''error'': {''message'': ''You
+      have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.'',
+      ''type'': ''insufficient_quota'', ''param'': None, ''code'': ''credit_balance_exhausted''}}'
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 10
+    status: fail
 more-examples/ch03/parallel_tool_calls.ipynb:
   anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 7
-    status: pass
-  ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 5
-    status: pass
-  openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 9
-    status: pass
-more-examples/ch03/pdf_extraction.ipynb:
-  anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 17
-    status: pass
-  ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 9
-    status: pass
-  openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 17
-    status: pass
-more-examples/ch04/jev_next_step_judge.ipynb:
-  anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 33
-    status: pass
-  ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 18
-    status: pass
-  openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 53
-    status: pass
-more-examples/ch04/pokemon_comparison.ipynb:
-  anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 14
-    status: pass
-  ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 8
     status: pass
-  openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 21
+  ollama-cloud:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: deepseek-v4.1-flash
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 6
     status: pass
+  openai:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: gpt-5
+    note: 'cell 11: RateLimitError: Error code: 429 - {''error'': {''message'': ''You
+      have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.'',
+      ''type'': ''insufficient_quota'', ''param'': None, ''code'': ''credit_balance_exhausted''}}'
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 11
+    status: fail
+more-examples/ch03/pdf_extraction.ipynb:
+  anthropic:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: ''
+    note: 'cell 7: ModuleNotFoundError: No module named ''pymupdf4llm'''
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 4
+    status: fail
+  ollama-cloud:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: ''
+    note: 'cell 7: ModuleNotFoundError: No module named ''pymupdf4llm'''
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 5
+    status: fail
+  openai:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: ''
+    note: 'cell 7: ModuleNotFoundError: No module named ''pymupdf4llm'''
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 5
+    status: fail
+more-examples/ch04/jev_next_step_judge.ipynb:
+  anthropic:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: claude-sonnet-5
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 31
+    status: pass
+  ollama-cloud:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: deepseek-v4.1-flash
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 38
+    status: pass
+  openai:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: gpt-5
+    note: 'cell 9: RateLimitError: Error code: 429 - {''error'': {''message'': ''You
+      have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.'',
+      ''type'': ''insufficient_quota'', ''param'': None, ''code'': ''credit_balance_exhausted''}}'
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 8
+    status: fail
+more-examples/ch04/pokemon_comparison.ipynb:
+  anthropic:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: claude-sonnet-5
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 13
+    status: pass
+  ollama-cloud:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: deepseek-v4.1-flash
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 9
+    status: pass
+  openai:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: gpt-5
+    note: 'cell 8: RateLimitError: Error code: 429 - {''error'': {''message'': ''You
+      have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.'',
+      ''type'': ''insufficient_quota'', ''param'': None, ''code'': ''credit_balance_exhausted''}}'
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 11
+    status: fail
 more-examples/ch04/pokemon_error_handling.ipynb:
   anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 19
     status: pass
   ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 11
-    status: pass
-  openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 30
-    status: pass
-more-examples/ch05/github_mcp.ipynb:
-  anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 16
-    status: pass
-  ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 10
-    status: pass
-  openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 14
-    status: pass
-more-examples/ch05/goodnews_mcp.ipynb:
-  anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 40
-    status: pass
-  ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 25
-    status: pass
-  openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 30
-    status: pass
-more-examples/ch06/additional_resource_python.ipynb:
-  anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 17
-    status: pass
-  ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 9
     status: pass
   openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 30
+    note: 'cell 7: RateLimitError: Error code: 429 - {''error'': {''message'': ''You
+      have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.'',
+      ''type'': ''insufficient_quota'', ''param'': None, ''code'': ''credit_balance_exhausted''}}'
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 8
+    status: fail
+more-examples/ch05/github_mcp.ipynb:
+  anthropic:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: claude-sonnet-5
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 16
     status: pass
+  ollama-cloud:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: deepseek-v4.1-flash
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 12
+    status: pass
+  openai:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: gpt-5
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 10
+    status: pass
+more-examples/ch05/goodnews_mcp.ipynb:
+  anthropic:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: claude-sonnet-5
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 87
+    status: pass
+  ollama-cloud:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: deepseek-v4.1-flash
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 26
+    status: pass
+  openai:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: gpt-5
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 13
+    status: pass
+more-examples/ch06/additional_resource_python.ipynb:
+  anthropic:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: claude-sonnet-5
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 17
+    status: pass
+  ollama-cloud:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: deepseek-v4.1-flash
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 10
+    status: pass
+  openai:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: gpt-5
+    note: 'cell 8: RateLimitError: Error code: 429 - {''error'': {''message'': ''You
+      have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.'',
+      ''type'': ''insufficient_quota'', ''param'': None, ''code'': ''credit_balance_exhausted''}}'
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 8
+    status: fail
 more-examples/ch06/skill_validation_errors.ipynb:
   anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 0
     status: no-llm
   ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 4
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 5
     status: no-llm
   openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 0
     status: no-llm
 more-examples/ch06/skills_marketplace.ipynb:
   anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 66
-    status: pass
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: ''
+    note: 'cell 7: HTTPError: HTTP Error 403: Forbidden'
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 4
+    status: fail
   ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 27
-    status: pass
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: ''
+    note: 'cell 7: HTTPError: HTTP Error 403: Forbidden'
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 5
+    status: fail
   openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 94
-    status: pass
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: ''
+    note: 'cell 7: HTTPError: HTTP Error 403: Forbidden'
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 5
+    status: fail
 more-examples/ch06/user_explicit_hailstone.ipynb:
   anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 46
-    status: pass
-  ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 20
-    status: pass
-  openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 81
-    status: pass
-more-examples/ch06/with_and_without_skills.ipynb:
-  anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 46
-    status: pass
-  ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 23
-    status: pass
-  openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 92
-    status: pass
-more-examples/ch07/recency_memory.ipynb:
-  anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 28
-    status: pass
-  ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 14
-    status: pass
-  openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 37
-    status: pass
-more-examples/ch07/reflective_memory.ipynb:
-  anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 28
-    status: pass
-  ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 19
-    status: pass
-  openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 58
-    status: pass
-more-examples/ch07/similarity_memory.ipynb:
-  anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 41
-    status: pass
-  ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 19
-    status: pass
-  openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 46
-    status: pass
-more-examples/ch08/approval_gate_in_skill.ipynb:
-  anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 13
-    status: pass
-  ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 8
-    status: pass
-  openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 18
-    status: pass
-more-examples/ch08/skill_with_human_input.ipynb:
-  anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 22
-    status: pass
-  ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 42
     status: pass
-  openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 30
+  ollama-cloud:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: deepseek-v4.1-flash
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 22
     status: pass
-more-examples/ch08/supervised_trajectories.ipynb:
+  openai:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: gpt-5
+    note: 'cell 7: RateLimitError: Error code: 429 - {''error'': {''message'': ''You
+      have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.'',
+      ''type'': ''insufficient_quota'', ''param'': None, ''code'': ''credit_balance_exhausted''}}'
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 8
+    status: fail
+more-examples/ch06/with_and_without_skills.ipynb:
   anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 43
+    status: pass
+  ollama-cloud:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: deepseek-v4.1-flash
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 24
+    status: pass
+  openai:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: gpt-5
+    note: 'cell 7: RateLimitError: Error code: 429 - {''error'': {''message'': ''You
+      have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.'',
+      ''type'': ''insufficient_quota'', ''param'': None, ''code'': ''credit_balance_exhausted''}}'
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 8
+    status: fail
+more-examples/ch07/recency_memory.ipynb:
+  anthropic:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: claude-sonnet-5
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 26
     status: pass
   ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 12
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 16
     status: pass
   openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 18
-    status: pass
-more-examples/ch09/evaluator_pattern.ipynb:
+    note: 'cell 12: RateLimitError: Error code: 429 - {''error'': {''message'': ''You
+      have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.'',
+      ''type'': ''insufficient_quota'', ''param'': None, ''code'': ''credit_balance_exhausted''}}'
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 8
+    status: fail
+more-examples/ch07/reflective_memory.ipynb:
   anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 59
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 29
     status: pass
   ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 19
+    status: pass
+  openai:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: gpt-5
+    note: 'cell 12: RateLimitError: Error code: 429 - {''error'': {''message'': ''You
+      have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.'',
+      ''type'': ''insufficient_quota'', ''param'': None, ''code'': ''credit_balance_exhausted''}}'
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 9
+    status: fail
+more-examples/ch07/similarity_memory.ipynb:
+  anthropic:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: claude-sonnet-5
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 34
+    status: pass
+  ollama-cloud:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: deepseek-v4.1-flash
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 19
+    status: pass
+  openai:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: gpt-5
+    note: 'cell 11: RateLimitError: Error code: 429 - {''error'': {''message'': ''You
+      have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.'',
+      ''type'': ''insufficient_quota'', ''param'': None, ''code'': ''credit_balance_exhausted''}}'
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 8
+    status: fail
+more-examples/ch08/approval_gate_in_skill.ipynb:
+  anthropic:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: claude-sonnet-5
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 13
+    status: pass
+  ollama-cloud:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: deepseek-v4.1-flash
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 9
+    status: pass
+  openai:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: gpt-5
+    note: 'cell 7: RateLimitError: Error code: 429 - {''error'': {''message'': ''You
+      have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.'',
+      ''type'': ''insufficient_quota'', ''param'': None, ''code'': ''credit_balance_exhausted''}}'
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 8
+    status: fail
+more-examples/ch08/skill_with_human_input.ipynb:
+  anthropic:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: claude-sonnet-5
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 20
+    status: pass
+  ollama-cloud:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: deepseek-v4.1-flash
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 18
+    status: pass
+  openai:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: gpt-5
+    note: 'cell 7: RateLimitError: Error code: 429 - {''error'': {''message'': ''You
+      have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.'',
+      ''type'': ''insufficient_quota'', ''param'': None, ''code'': ''credit_balance_exhausted''}}'
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 8
+    status: fail
+more-examples/ch08/supervised_trajectories.ipynb:
+  anthropic:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: claude-sonnet-5
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 25
     status: pass
-  openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 71
-    status: pass
-more-examples/ch09/subagent_failure.ipynb:
-  anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 152
-    status: pass
   ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 14
+    status: pass
+  openai:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: gpt-5
+    note: 'cell 9: RateLimitError: Error code: 429 - {''error'': {''message'': ''You
+      have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.'',
+      ''type'': ''insufficient_quota'', ''param'': None, ''code'': ''credit_balance_exhausted''}}'
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 8
+    status: fail
+more-examples/ch09/evaluator_pattern.ipynb:
+  anthropic:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: claude-sonnet-5
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 52
     status: pass
-  openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
-    model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 37
+  ollama-cloud:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: deepseek-v4.1-flash
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 26
     status: pass
-more-examples/ch09/subagent_with_mcp_tool.ipynb:
+  openai:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: gpt-5
+    note: 'cell 9: RateLimitError: Error code: 429 - {''error'': {''message'': ''You
+      have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.'',
+      ''type'': ''insufficient_quota'', ''param'': None, ''code'': ''credit_balance_exhausted''}}'
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 9
+    status: fail
+more-examples/ch09/subagent_failure.ipynb:
   anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 17
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 102
     status: pass
   ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 18
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 58
     status: pass
   openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 32
+    note: 'cell 9: RateLimitError: Error code: 429 - {''error'': {''message'': ''You
+      have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.'',
+      ''type'': ''insufficient_quota'', ''param'': None, ''code'': ''credit_balance_exhausted''}}'
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 8
+    status: fail
+more-examples/ch09/subagent_with_mcp_tool.ipynb:
+  anthropic:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: claude-sonnet-5
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 25
     status: pass
+  ollama-cloud:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: deepseek-v4.1-flash
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 23
+    status: pass
+  openai:
+    commit: 7de04d79
+    last_tested: '2026-10-26'
+    model: gpt-5
+    note: 'cell 9: RateLimitError: Error code: 429 - {''error'': {''message'': ''You
+      have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.'',
+      ''type'': ''insufficient_quota'', ''param'': None, ''code'': ''credit_balance_exhausted''}}'
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 8
+    status: fail
 more-examples/ch10/cancelling_a_task_execution.ipynb:
   anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: ''
     note: follows OLLAMA_API_KEY, not LLM_PROVIDER; not run
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 0
     status: not-wired
   ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 6
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 8
     status: pass
   openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: ''
     note: follows OLLAMA_API_KEY, not LLM_PROVIDER; not run
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 0
     status: not-wired
 more-examples/ch10/streaming_llmagent_executor.ipynb:
   anthropic:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: ''
     note: follows OLLAMA_API_KEY, not LLM_PROVIDER; not run
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 0
     status: not-wired
   ollama-cloud:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
-    seconds: 44
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
+    seconds: 46
     status: pass
   openai:
-    commit: a5c62895
-    last_tested: '2026-10-19'
+    commit: 7de04d79
+    last_tested: '2026-10-26'
     model: ''
     note: follows OLLAMA_API_KEY, not LLM_PROVIDER; not run
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/40280019436
     seconds: 0
     status: not-wired

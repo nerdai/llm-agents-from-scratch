@@ -1,5 +1,6 @@
 ' UML basics — class diagram
-@startuml uml_basics_class
+@startuml Ch01_F13_Fajardo
+' Figure 1.13 (was: uml_basics_class.puml, @startuml uml_basics_class)
 !include ../common/book-clean.puml
 package "llm_agents_from_scratch.data_structures" <<Folder>> {
 

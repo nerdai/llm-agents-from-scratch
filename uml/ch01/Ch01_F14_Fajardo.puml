@@ -1,4 +1,5 @@
-@startuml uml_basics_sequence
+@startuml Ch01_F14_Fajardo
+' Figure 1.14 (was: uml_basics_sequence.puml, @startuml uml_basics_sequence)
 !include ../common/book-clean.puml
 title Tool Call Sequence
 

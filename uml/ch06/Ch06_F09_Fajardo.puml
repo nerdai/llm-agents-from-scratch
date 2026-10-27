@@ -1,4 +1,5 @@
-@startuml uml_taskhandler_updates
+@startuml Ch06_F09_Fajardo
+' Figure 6.9 (was: taskhandler.puml, @startuml uml_taskhandler_updates)
 !include ../common/book-clean.puml
 
 ' External dependencies

@@ -1,4 +1,5 @@
-@startuml uml_ch08_supervised_taskhandler
+@startuml Ch08_F11_Fajardo
+' Figure 8.11 (was: supervised_taskhandler.puml, @startuml uml_ch08_supervised_taskhandler)
 !include ../common/book-clean.puml
 skinparam ranksep 25
 

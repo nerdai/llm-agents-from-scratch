@@ -1,5 +1,6 @@
 # Annotation callouts for Ch03_F11_Fajardo.puml, drawn by
-# _scripts/add_svg_callouts.py. Offsets are SVG user units on the raw PlantUML canvas (500 dpi).
+# _scripts/add_svg_callouts.py. Offsets are SVG user units on the raw
+# PlantUML canvas (500 dpi).
 callouts:
   - text: [suppressed for, brevity]
     anchor: {entity: BaseLLM}

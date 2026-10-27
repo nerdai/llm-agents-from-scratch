@@ -1,4 +1,5 @@
-@startuml llm_agent_uml_class_pt1
+@startuml Ch04_F04_Fajardo
+' Figure 4.4 (was: llm_agent_class_pt1.puml, @startuml llm_agent_uml_class_pt1)
 !include ../common/book-clean.puml
 
 ' External dependencies

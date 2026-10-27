@@ -157,12 +157,9 @@ def chat_message_to_anthropic_message_param(
             "content": [chat_message_to_tool_result_block(chat_message)],
         }
 
-    return {
-        "role": (
-            "assistant" if chat_message.role == ChatRole.ASSISTANT else "user"
-        ),
-        "content": chat_message.content,
-    }
+    if chat_message.role == ChatRole.ASSISTANT:
+        return {"role": "assistant", "content": chat_message.content}
+    return {"role": "user", "content": chat_message.content}
 
 
 def tool_to_anthropic_tool(tool: Tool) -> "ToolParam":

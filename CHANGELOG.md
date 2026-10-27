@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+### Changed
+
+- fix(llms): `chat_message_to_anthropic_message_param()` type-checks against the `anthropic` 2.x SDK, whose `MessageParam` gained a `SystemMessageParam` member. Plain user and assistant turns now return their `role` as a literal per branch, so mypy can tell which message type each is. No behaviour change; checked live against API version `2026-10-21` (completion, tool call and result, structured output) (#1094)
+
 ## [0.0.26] - 2026-10-19
 
 ### Added

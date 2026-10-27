@@ -1,4 +1,5 @@
-@startuml mcp_tool_and_tool_provider
+@startuml Ch05_F06_Fajardo
+' Figure 5.6 (was: mcp_tool_and_tool_provider.puml, @startuml mcp_tool_and_tool_provider)
 !include ../common/book-clean.puml
 
 package "llm_agents_from_scratch.base.tool" <<Folder>> {

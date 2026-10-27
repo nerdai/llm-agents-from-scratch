@@ -59,11 +59,10 @@ DEFAULT_INSPECTOR_SOURCE = (
     "git+https://github.com/nerdai/llm-agents-from-scratch-inspector"
     "@fde25ef025a034fd50ddf0d719e6902d6020c10e"
 )
-# Manuscript figures live in each user's own local `figures_path` (see
-# `_scripts/prepare_book_figures.py` / `book_figures.yml`), never
-# tracked in this repo -- so the default here is a untracked scratch
-# directory, not a docs/assets path. Point --output-dir at your real
-# figures_path/ch08 when capturing for real.
+# Manuscript figures live in each author's own local figures folder,
+# never tracked in this repo -- so the default here is an untracked
+# scratch directory, not a docs/assets path. Point --output-dir at your
+# chapter's figures folder when capturing for real.
 DEFAULT_OUTPUT_DIR = REPO_ROOT / "screenshots"
 DEFAULT_PORT = 8123
 VIEWPORT = {"width": 1440, "height": 900}

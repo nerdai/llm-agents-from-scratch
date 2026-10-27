@@ -1,4 +1,5 @@
-@startuml llm_agent_builder_class
+@startuml Ch05_F10_Fajardo
+' Figure 5.10 (was: llm_agent_builder_class.puml, @startuml llm_agent_builder_class)
 !include ../common/book-clean.puml
 
 

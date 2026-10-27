@@ -1,4 +1,5 @@
-@startuml uml_use_skill_tool
+@startuml Ch06_F11_Fajardo
+' Figure 6.11 (was: use_skill_tool.puml, @startuml uml_use_skill_tool)
 !include ../common/book-clean.puml
 
 package "llm_agents_from_scratch.base.tool" <<Folder>> {

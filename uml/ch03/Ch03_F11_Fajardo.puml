@@ -1,4 +1,5 @@
-@startuml ollama_llm_class
+@startuml Ch03_F11_Fajardo
+' Figure 3.11 (was: ollama_llm.puml, @startuml ollama_llm_class)
 !include ../common/book-clean.puml
 
 

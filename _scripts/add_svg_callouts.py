@@ -11,7 +11,8 @@ instead, driven by a sidecar YAML file next to the `.puml` source, the
 same way `add_svg_legend.py` draws legends.
 
 Sidecar file naming: `<diagram>.callouts.yaml` next to `<diagram>.puml`,
-e.g. `uml/ch03/llm_class.callouts.yaml` for `uml/ch03/llm_class.puml`.
+e.g. `uml/ch03/Ch03_F05_Fajardo.callouts.yaml` for
+`uml/ch03/Ch03_F05_Fajardo.puml`.
 Format:
 
     callouts:

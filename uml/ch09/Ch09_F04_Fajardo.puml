@@ -1,4 +1,5 @@
-@startuml uml_ch09_subagent_spec
+@startuml Ch09_F04_Fajardo
+' Figure 9.4 (was: subagent_spec.puml, @startuml uml_ch09_subagent_spec)
 !include ../common/book-clean.puml
 
 package "llm_agents_from_scratch.subagents.spec" <<Folder>> {

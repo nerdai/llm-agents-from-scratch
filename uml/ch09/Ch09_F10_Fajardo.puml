@@ -1,4 +1,5 @@
-@startuml uml_ch09_shared_console_human_input_tool
+@startuml Ch09_F10_Fajardo
+' Figure 9.10 (was: shared_console_human_input_tool.puml, @startuml uml_ch09_shared_console_human_input_tool)
 !include ../common/book-clean.puml
 
 package "llm_agents_from_scratch.base.tool" <<Folder>> {

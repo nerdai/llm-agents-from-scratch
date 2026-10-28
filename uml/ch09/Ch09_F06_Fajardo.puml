@@ -1,4 +1,5 @@
-@startuml uml_ch09_taskhandler_llmagent_updates_for_subagents
+@startuml Ch09_F06_Fajardo
+' Figure 9.6 (was: taskhandler_llmagent_updates_for_subagents.puml, @startuml uml_ch09_taskhandler_llmagent_updates_for_subagents)
 !include ../common/book-clean.puml
 left to right direction
 

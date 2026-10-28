@@ -5125,6 +5125,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <blockquote>
 <p><strong>Tip:</strong> If you're running the notebook on a Windows machine, Git only checks out symlinks as real links when symlink support is turned on in Git (the installer's "Enable symbolic links" option, or cloning with <code>git clone -c core.symlinks=true</code>) and Windows allows creating them (Developer Mode, or an administrator shell). Otherwise, the <code>.agents</code> folder contained in this chapter's notebook directory ends up as a plain text file. In that case, delete it and copy <code>chapter-notebooks/shared/.agents</code> into this folder.</p>
 </blockquote>
+<blockquote>
+<p><strong>Tip:</strong> If you're running the notebook on Google Colab, uploading the notebook on its own leaves out the files it reads from this chapter's folder, such as the <code>.agents</code> folder that holds its skills. Instead, clone the repository and switch into this chapter's folder by running the following in a new first cell, then uncomment the PyPI install cell below:</p>
+<div class="highlight"><pre><span></span><span class="err">!</span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">nerdai</span><span class="o">/</span><span class="n">llm</span><span class="o">-</span><span class="n">agents</span><span class="o">-</span><span class="n">from</span><span class="o">-</span><span class="n">scratch</span>
+<span class="o">%</span><span class="n">cd</span> <span class="n">llm</span><span class="o">-</span><span class="n">agents</span><span class="o">-</span><span class="n">from</span><span class="o">-</span><span class="n">scratch</span><span class="o">/</span><span class="n">chapter</span><span class="o">-</span><span class="n">notebooks</span><span class="o">/</span><span class="n">ch07</span>
+</pre></div>
+<p>Colab doesn't come with a local Ollama server, so set your Ollama Cloud key in the notebook with <code>os.environ["OLLAMA_API_KEY"] = "&lt;your key&gt;"</code> before building the LLM.</p>
+</blockquote>
 </div>
 </div>
 </div>

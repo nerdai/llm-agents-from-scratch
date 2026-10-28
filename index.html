@@ -4870,6 +4870,23 @@ from core concepts to full multi-agent systems:</p>
 </tr>
 </tbody>
 </table>
+<div class="admonition tip">
+<p class="admonition-title">Running the notebooks</p>
+<p>The notebooks are meant to run from a clone of this repository, since
+Chapters 6 to 10 read files from their chapter folder, such as the
+<code>.agents</code> folder that holds their skills. From the repository root,
+launch Jupyter with <code>uv run --with jupyter jupyter lab</code>. Each notebook's
+setup section covers choosing an LLM, including Ollama Cloud.</p>
+<ul>
+<li><strong>Windows:</strong> clone with symlink support
+  (<code>git clone -c core.symlinks=true</code>, with Developer Mode on), or copy
+  <code>chapter-notebooks/shared/.agents</code> into each chapter folder.</li>
+<li><strong>Google Colab:</strong> clone the repository in the notebook with
+  <code>!git clone https://github.com/nerdai/llm-agents-from-scratch</code>, <code>%cd</code>
+  into the chapter folder, install from PyPI, and set
+  <code>os.environ["OLLAMA_API_KEY"]</code>, since Colab has no local Ollama server.</li>
+</ul>
+</div>
 <hr />
 <h2 id="more-examples">More Examples<a class="headerlink" href="#more-examples" title="Permanent link">&para;</a></h2>
 <p>A selection of additional worked examples showing the framework applied to real

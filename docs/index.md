@@ -110,6 +110,22 @@ from core concepts to full multi-agent systems:
 | 9 | Assembling MAS with Subagents | [Ch 9](notebooks/ch09.ipynb) |
 | 10 | Assembling Interoperable MAS with A2A | [Ch 10](notebooks/ch10.ipynb) |
 
+!!! tip "Running the notebooks"
+
+    The notebooks are meant to run from a clone of this repository, since
+    Chapters 6 to 10 read files from their chapter folder, such as the
+    `.agents` folder that holds their skills. From the repository root,
+    launch Jupyter with `uv run --with jupyter jupyter lab`. Each notebook's
+    setup section covers choosing an LLM, including Ollama Cloud.
+
+    - **Windows:** clone with symlink support
+      (`git clone -c core.symlinks=true`, with Developer Mode on), or copy
+      `chapter-notebooks/shared/.agents` into each chapter folder.
+    - **Google Colab:** clone the repository in the notebook with
+      `!git clone https://github.com/nerdai/llm-agents-from-scratch`, `%cd`
+      into the chapter folder, install from PyPI, and set
+      `os.environ["OLLAMA_API_KEY"]`, since Colab has no local Ollama server.
+
 ---
 
 ## More Examples

@@ -1,4 +1,5 @@
-@startuml uml_ch10_taskhandler_llmagent_updates_for_a2a
+@startuml Ch10_F10_Fajardo
+' Figure 10.10 (was: taskhandler_llmagent_updates_for_a2a.puml, @startuml uml_ch10_taskhandler_llmagent_updates_for_a2a)
 !include ../common/book-clean.puml
 left to right direction
 

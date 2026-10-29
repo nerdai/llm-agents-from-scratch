@@ -1,4 +1,5 @@
-@startuml uml_ch10_a2a_input_required_sequence
+@startuml Ch10_F07_Fajardo
+' Figure 10.7 (was: a2a_input_required_sequence.puml, @startuml uml_ch10_a2a_input_required_sequence)
 !include ../common/book-clean.puml
 title A2A Input-Required Task — Sequence
 

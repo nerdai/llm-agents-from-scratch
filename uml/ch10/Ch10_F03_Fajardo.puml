@@ -1,4 +1,5 @@
-@startuml uml_ch10_a2a_discovery_sequence
+@startuml Ch10_F03_Fajardo
+' Figure 10.3 (was: a2a_discovery_sequence.puml, @startuml uml_ch10_a2a_discovery_sequence)
 !include ../common/book-clean.puml
 title A2A Discovery — Sequence
 

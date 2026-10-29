@@ -1,4 +1,5 @@
-@startuml uml_ch10_a2a_task_lifecycle_sequence
+@startuml Ch10_F06_Fajardo
+' Figure 10.6 (was: a2a_task_lifecycle_sequence.puml, @startuml uml_ch10_a2a_task_lifecycle_sequence)
 !include ../common/book-clean.puml
 title A2A Task Lifecycle — Sequence
 

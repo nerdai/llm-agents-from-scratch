@@ -1,4 +1,5 @@
-@startuml uml_ch10_llm_agent_a2a_executor_execute_sequence
+@startuml Ch10_F12_Fajardo
+' Figure 10.12 (was: llm_agent_a2a_executor_execute_sequence.puml, @startuml uml_ch10_llm_agent_a2a_executor_execute_sequence)
 !include ../common/book-clean.puml
 title A2A AgentExecutor Task Execution — Sequence
 

@@ -1,4 +1,5 @@
-@startuml uml_ch10_a2a_element_types
+@startuml Ch10_F05_Fajardo
+' Figure 10.5 (was: a2a_element_types.puml, @startuml uml_ch10_a2a_element_types)
 !include ../common/book-clean.puml
 
 ' ── Library types, not ours: flatter, tinted, no class badges ──

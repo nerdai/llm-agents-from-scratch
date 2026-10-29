@@ -1,4 +1,5 @@
-@startuml uml_ch10_use_a2a_agent_tool_dispatch_sequence
+@startuml Ch10_F11_Fajardo
+' Figure 10.11 (was: use_a2a_agent_tool_dispatch_sequence.puml, @startuml uml_ch10_use_a2a_agent_tool_dispatch_sequence)
 !include ../common/book-clean.puml
 title UseA2AAgentTool Dispatch — Sequence
 

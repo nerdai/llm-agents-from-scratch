@@ -1,4 +1,5 @@
-@startuml uml_ch10_a2a_task_execution_sequence
+@startuml Ch10_F04_Fajardo
+' Figure 10.4 (was: a2a_task_execution_sequence.puml, @startuml uml_ch10_a2a_task_execution_sequence)
 !include ../common/book-clean.puml
 title A2A Task Execution — Sequence
 

@@ -1,4 +1,5 @@
-@startuml uml_ch10_llm_agent_a2a_executor
+@startuml Ch10_F13_Fajardo
+' Figure 10.13 (was: llm_agent_a2a_executor.puml, @startuml uml_ch10_llm_agent_a2a_executor)
 !include ../common/book-clean.puml
 left to right direction
 

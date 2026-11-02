@@ -488,6 +488,21 @@ def _stream_text(nb: dict[str, Any]) -> str:
     )
 
 
+def _reported_llm(text: str, provider: str) -> re.Match[str] | None:
+    """The "Using" line that names the LLM the examples ran on.
+
+    Prefers the last line naming `provider`: a notebook may also print
+    a helper's log (ch10's A2A server always reports Ollama Cloud).
+    Otherwise the last line (ch03's setup cell reports ollama_settings()
+    before a swapped make_llm()), so a wrong provider is still caught.
+    """
+    matches = list(_USING.finditer(text))
+    for match in reversed(matches):
+        if _USING_KEY[match[1]] == provider:
+            return match
+    return matches[-1] if matches else None
+
+
 def _progress(path: Path, index: int, t0: float, err: str = "") -> None:
     state = f"failed: {err}" if err else "ok"
     print(
@@ -659,9 +674,7 @@ def run_one(
     t0 = time.time()
     failure = _execute(path, nb, provider, timeout, max_memory_gb)
     seconds = round(time.time() - t0)
-    # the last "Using" line names the LLM the examples run on (ch03's
-    # setup cell reports ollama_settings() before a swapped make_llm())
-    *_, used = [None, *_USING.finditer(_stream_text(nb))]
+    used = _reported_llm(_stream_text(nb), provider)
     model = used.group(2) if used else hint
     if failure:
         print(

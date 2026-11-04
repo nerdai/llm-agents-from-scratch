@@ -6,7 +6,7 @@ provider. Generated from `notebook_status.yaml` by
 `_scripts/run_notebook.py`. Edit the ledger and re-render, not
 this page.
 
-**Last tested:** 2026-10-19
+**Last tested:** 2026-11-04
 
 | Symbol | Meaning |
 |---|---|
@@ -41,12 +41,9 @@ Run All.
 | [`ch07.ipynb`](notebooks/ch07.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`ch08.ipynb`](notebooks/ch08.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`ch09.ipynb`](notebooks/ch09.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5-mini` | ✅ `claude-haiku-4-5-20251001` |
-| [`ch10.ipynb`](notebooks/ch10.ipynb) | ✅ `deepseek-v4.1-flash` | ❌[^1] | ❌[^2] |
+| [`ch10.ipynb`](notebooks/ch10.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 
 </div>
-
-[^1]: `chapter-notebooks/ch10/ch10.ipynb` / OpenAI: ran on Ollama Cloud ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287))
-[^2]: `chapter-notebooks/ch10/ch10.ipynb` / Anthropic: ran on Ollama Cloud ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/39210129287))
 
 ## Additional examples
 

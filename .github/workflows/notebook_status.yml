@@ -35,13 +35,20 @@ jobs:
   run:
     name: run (${{ matrix.provider }})
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    # Ollama Cloud gets a bigger budget (55 vs 40 min of notebooks) for
+    # the notebooks swept only there (see the notebook_status metadata in
+    # _scripts/run_notebook.py), so its job and run step get longer
+    # limits to match. Keyed on the provider rather than a matrix
+    # `include`, which would add an ollama-cloud job to a manual run of
+    # another provider
+    timeout-minutes: ${{ matrix.provider == 'ollama-cloud' && 75 || 60 }}
     strategy:
       fail-fast: false
       matrix:
         provider: ${{ fromJSON(github.event_name == 'workflow_dispatch' && inputs.provider != 'all' && format('["{0}"]', inputs.provider) || '["ollama-cloud","openai","anthropic"]') }}
     env:
       PROVIDER: ${{ matrix.provider }}
+      BUDGET_MINUTES: ${{ matrix.provider == 'ollama-cloud' && 55 || 40 }}
     steps:
       - name: Get code
         uses: actions/checkout@v7
@@ -75,7 +82,7 @@ jobs:
         # the step timeout leaves time for the upload below; the runner
         # writes the ledger after every notebook, so a timeout keeps
         # whatever finished
-        timeout-minutes: 50
+        timeout-minutes: ${{ matrix.provider == 'ollama-cloud' && 65 || 50 }}
         env:
           # failed notebooks are dumped under $TMPDIR/notebook_runs/
           TMPDIR: ${{ runner.temp }}
@@ -95,7 +102,7 @@ jobs:
           # 12 GB of the runner's 16: a notebook that grows past it fails
           # on its own instead of taking the VM, and every result in this
           # job, down with it
-          args=(--provider "$PROVIDER" --timeout 600 --budget-minutes 40
+          args=(--provider "$PROVIDER" --timeout 600 --budget-minutes "$BUDGET_MINUTES"
                 --max-memory-gb 12
                 # one retry absorbs flaky model runs and kernel hiccups;
                 # a pass on retry is a footnoted ✅, not a regression issue

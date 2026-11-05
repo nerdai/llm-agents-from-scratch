@@ -15,6 +15,7 @@ this page.
 | ❌ | Failed; see the footnote, which links the run's log when the run recorded one |
 | ⚪ not wired | The notebook constructs its LLM directly, so the provider setting would have no effect; not run |
 | ∅ no LLM | Nothing in the notebook builds an LLM; run under Ollama Cloud only |
+| ⏭️ not run | The notebook is only swept on the providers its metadata names (too slow or costly elsewhere); see the footnote |
 | – | Never run on that provider |
 
 Human-in-the-loop prompts are answered by a scripted reply during

@@ -76,25 +76,27 @@ replications:
 
 | | Single agent | Coordinator + subagents | Ratio |
 |---|---|---|---|
-| Task success | 0.67 | 1.0 | 1.5 |
-| Wall time (s) | 361 | 208 | 0.58 |
-| Steps | 90 | 6 | 0.06 |
-| Rollout (chars) | 165K | 24K | 0.15 |
-| Prompt (chars) | 34.4M | 2.9M | 0.084 |
+| Task success | 1.0 | 0.67 | 0.67 |
+| Wall time (s) | 231 | 98 | 0.42 |
+| Steps | 67 | 4 | 0.05 |
+| Rollout (chars) | 160K | 18K | 0.11 |
+| Prompt (chars) | 23.3M | 1.7M | 0.075 |
 
-The coordinator succeeded every time. What stands out more is how
-predictable its cost is:
+On a strong model, neither system is reliably more accurate: in this
+recording one coordinator run failed, and in earlier ones a single-agent
+run did. What differs is how predictable each system's cost is:
 
-- **The single agent's cost depends on its strategy.** Its two successful
-  replications took 87 and 180 steps, working through the samples largely
-  one call at a time and re-sending a rollout of up to 330K characters on
-  every step. The longer one sent 84M prompt characters on its own. The
-  third replication stopped after 4 steps without a final answer, when the
-  next-step decision ended the task early.
+- **The single agent's cost depends on its strategy.** Two replications ran
+  the 20 estimates largely in lockstep, in 21 and 23 steps. The third worked
+  through the samples largely one call at a time: 157 steps, re-sending a
+  rollout of up to 270K characters on every step, and 60M prompt characters
+  on its own.
 - **The coordinator's context stays small.** It holds only the dispatches and
-  their short results, so every replication took 5 or 6 steps, and the
-  coordinator plus all of its subagents sent about 12 times fewer prompt
-  characters than the single agent.
+  their short results, so its successful replications took 5 steps each.
+  The coordinator plus all of its subagents sent about 13 times fewer prompt
+  characters than the single agent. The failed replication stopped after
+  its first step on a JSON validation error, with 10 of its 20 estimates
+  in hand, which also pulls the coordinator's averages down.
 - **Success is checked strictly.** The final answer must name 20 distinct,
   real, in-range samples and report the standard error those samples give,
   so a run can't pass by copying IDs or inventing a value.
@@ -103,3 +105,40 @@ On a per-token API, the prompt-character ratio is roughly the ratio of the
 two systems' input bills. On a flat plan like Ollama Cloud, it is how much of
 the plan's usage limits each system consumes. Your numbers will vary with
 the model and from run to run.
+
+## How good are the standard errors?
+
+The capstone ends by checking the reported standard errors against the
+truth. Capstone I's algorithm is only arithmetic on random draws, so the
+notebook simulates it 10,000 times without an LLM. It needs no points
+either: the number that land inside the quarter circle follows a binomial
+distribution, so one draw stands in for each sampling call. The simulation
+gives:
+
+- **The true standard error** for 20 estimates: 6.59 × 10⁻⁵.
+- **How much a 20-estimate standard error varies by chance:** the middle 95%
+  falls between 4.96 × 10⁻⁵ and 7.94 × 10⁻⁵, so even a perfect agent is only
+  accurate to about ±20%.
+
+Every standard error the agents reported in the recorded run falls inside
+that range:
+
+| Replication | Single agent | Percentile | Coordinator + subagents | Percentile |
+|---|---|---|---|---|
+| 1 | 6.41 × 10⁻⁵ | 41 | 7.06 × 10⁻⁵ | 75 |
+| 2 | 5.85 × 10⁻⁵ | 18 | 6.05 × 10⁻⁵ | 24 |
+| 3 | 6.90 × 10⁻⁵ | 66 | no answer | |
+
+The simulation also shows what the standard error doesn't tell you:
+
+- **The stopping rule sets it, not the sample size.** Every final estimate
+  has to land in a window 0.001 wide, so the estimates spread almost evenly
+  across it: one estimate's spread is 2.95 × 10⁻⁴, against 0.001/√12 =
+  2.89 × 10⁻⁴ for a perfectly even spread. A plain Monte Carlo estimate with
+  the median final sample size (4M points) spreads about three times more,
+  8.21 × 10⁻⁴. The algorithm looks this precise only because it stops once it
+  is near the value of π it already knows.
+- **It can't show bias.** The window `[3.1415, 3.1425)` is centred on 3.1420,
+  not on π, so the estimates average 3.141890: a bias of +2.97 × 10⁻⁴, about
+  4.5 standard errors. A standard error measures how much the estimates vary,
+  not how close they are to the truth.

@@ -23,9 +23,29 @@ Statuses:
     no-llm     nothing in the notebook builds an LLM; it is only executed
                for `ollama-cloud`, where a failure is still recorded as
                `fail`
+    opted-out  the notebook's metadata limits it to other providers (see
+               below), so it is not run; the `note` names the providers
+               it is run on
 
 Local Ollama is deliberately not a provider here: its results depend on
 the machine's hardware, not on the notebook.
+
+A notebook can tune its own run through an optional `notebook_status`
+block in its notebook-level metadata (`metadata` in the .ipynb JSON):
+
+    "metadata": {
+      "notebook_status": {"timeout": 1800, "providers": ["ollama-cloud"]}
+    }
+
+    timeout    per-cell timeout in seconds for this notebook; it takes
+               precedence over --timeout (higher or lower), for a
+               notebook with a cell known to run longer than the rest
+    providers  the provider keys the notebook is run on; on any other
+               provider it is recorded as `opted-out` and not run, for a
+               notebook too slow or too costly to sweep everywhere
+
+Both keys are optional. A malformed block is recorded as a `fail` naming
+the problem, so a typo can't silently skip a notebook.
 
 Why not nbclient: it starts kernels with allow_stdin=False, so every
 `input()`, and therefore every rich Prompt/Confirm the HITL notebooks
@@ -87,6 +107,7 @@ import contextlib
 import fnmatch
 import glob
 import json
+import math
 import os
 import re
 import subprocess
@@ -466,6 +487,63 @@ def _wiring(nb: dict[str, Any]) -> tuple[str, str]:
     return "none", ""
 
 
+def _positive_seconds(value: object) -> bool:
+    """Whether `value` is a positive number of seconds a float can hold.
+
+    Rejects booleans, NaN and infinity, and integers too large for a
+    float (JSON allows them; `float()` would raise `OverflowError`).
+    """
+    if isinstance(value, bool) or not isinstance(value, int | float):
+        return False
+    try:
+        seconds = float(value)
+    except OverflowError:
+        return False
+    return math.isfinite(seconds) and seconds > 0
+
+
+def _status_settings(
+    nb: dict[str, Any],
+) -> tuple[float | None, tuple[str, ...] | None]:
+    """The notebook's own `notebook_status` metadata settings.
+
+    Returns:
+        tuple[float | None, tuple[str, ...] | None]: (per-cell timeout in
+            seconds, providers the notebook is run on), each None when
+            the notebook doesn't set it.
+
+    Raises:
+        ValueError: When the block or one of its keys is malformed.
+    """
+    settings = nb.get("metadata", {}).get("notebook_status")
+    if settings is None:
+        return None, None
+    if not isinstance(settings, dict):
+        raise ValueError("notebook_status metadata must be a mapping")
+    unknown = set(settings) - {"timeout", "providers"}
+    if unknown:
+        raise ValueError(
+            f"unknown notebook_status keys: {', '.join(sorted(unknown))}",
+        )
+    timeout = settings.get("timeout")
+    if timeout is not None and not _positive_seconds(timeout):
+        raise ValueError(
+            "notebook_status timeout must be positive, finite seconds:"
+            f" {timeout!r}",
+        )
+    providers = settings.get("providers")
+    if providers is not None:
+        if not isinstance(providers, list) or not all(
+            p in PROVIDERS for p in providers
+        ):
+            raise ValueError(
+                "notebook_status providers must be a list drawn from"
+                f" {', '.join(PROVIDERS)}: {providers!r}",
+            )
+        providers = tuple(providers)
+    return (float(timeout) if timeout is not None else None), providers
+
+
 def _swap_llm(nb: dict[str, Any]) -> bool:
     """Swap every `swap-llm`-tagged cell for `llm = make_llm()`.
 
@@ -654,6 +732,42 @@ def _skip(wiring: str, provider: str) -> dict[str, Any] | None:
     return None
 
 
+def _own_settings(
+    nb: dict[str, Any],
+    provider: str,
+) -> tuple[float | None, dict[str, Any] | None]:
+    """The notebook's own timeout, and its entry if it isn't run here.
+
+    Returns:
+        tuple[float | None, dict[str, Any] | None]: (the per-cell timeout
+            from the notebook's `notebook_status` metadata, or None; the
+            ledger entry to record instead of running it on `provider`,
+            or None): `opted-out` when its `providers` leave `provider`
+            out, `fail` when the metadata is malformed.
+    """
+    try:
+        timeout, providers = _status_settings(nb)
+    except ValueError as e:
+        return None, _entry("fail", note=str(e))
+    if providers is not None and provider not in providers:
+        return timeout, _entry(
+            "opted-out",
+            note=f"metadata limits it to {', '.join(providers)}; not run",
+        )
+    return timeout, None
+
+
+def _settled_by_metadata(path: Path, provider: str) -> bool:
+    """Whether the notebook's metadata decides its entry without a run.
+
+    True when its `notebook_status` metadata opts it out of `provider`
+    or is malformed: either way it records an entry without executing,
+    so the time budget has no reason to defer it.
+    """
+    nb = json.loads(path.read_text(encoding="utf-8"))
+    return _own_settings(nb, provider)[1] is not None
+
+
 def run_one(
     path: Path,
     provider: str,
@@ -661,15 +775,22 @@ def run_one(
     keep_outputs: bool,
     max_memory_gb: float | None = None,
 ) -> dict[str, Any]:
-    """Run one notebook against `provider` and return its ledger entry."""
+    """Run one notebook against `provider` and return its ledger entry.
+
+    A `timeout` set in the notebook's `notebook_status` metadata takes
+    precedence over the `timeout` passed here.
+    """
     raw = path.read_text(encoding="utf-8")
     nb = json.loads(raw)
+    own_timeout, not_run = _own_settings(nb, provider)
+    if own_timeout is not None:
+        timeout = own_timeout
     wiring, hint = _wiring(nb)
     # a provider the notebook doesn't build itself: run the documented swap
     swapped = provider != PRIMARY and _swap_llm(nb)
     if swapped:
         wiring = "wired"
-    if skipped := _skip(wiring, provider):
+    if skipped := not_run or _skip(wiring, provider):
         return skipped
     t0 = time.time()
     failure = _execute(path, nb, provider, timeout, max_memory_gb)
@@ -763,7 +884,9 @@ def main(  # noqa: PLR0913 - one keyword per CLI flag
         provider (str): One of ollama-cloud, openai, anthropic.
             Defaults to "ollama-cloud".
         all (bool): Run every tracked notebook. Defaults to False.
-        timeout (float): Per-cell timeout in seconds. Defaults to 1200.
+        timeout (float): Per-cell timeout in seconds; a notebook's own
+            `notebook_status` metadata timeout overrides it. Defaults to
+            1200.
         keep_outputs (bool): Write executed outputs back into the notebook
             on a pass. Defaults to False (outputs discarded).
         ledger (str): Path of the YAML ledger to update.
@@ -840,7 +963,9 @@ def main(  # noqa: PLR0913 - one keyword per CLI flag
             continue
         if budget_minutes is not None and ran:
             expected = float(prev.get("seconds", 0))
-            if time.time() - started + expected > budget_minutes * 60:
+            if time.time() - started + expected > budget_minutes * 60 and (
+                not _settled_by_metadata(path, provider)
+            ):
                 deferred.append(key)
                 continue
         entry = _run_with_retries(
@@ -852,7 +977,9 @@ def main(  # noqa: PLR0913 - one keyword per CLI flag
             retries=retries,
             deadline=deadline,
         )
-        ran += 1
+        # an entry recorded without executing (opted-out, not-wired) took
+        # no time, so it mustn't count as the run the budget lets through
+        ran += entry["seconds"] > 0
         if run_url:
             entry["run_url"] = run_url
         if prev.get("status") in _HOLDS and entry["status"] == "fail":

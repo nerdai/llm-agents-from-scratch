@@ -10,6 +10,8 @@ shows the last recorded run for that (notebook, provider) pair:
     ⚪ not wired               the notebook constructs its LLM directly,
                                so LLM_PROVIDER would have no effect
     ∅ no LLM                   nothing in the notebook builds an LLM
+    ⏭️ not run                  the notebook's metadata limits it to other
+                               providers (the note goes in the footnotes)
     –                          never run on that provider
 
 A single "Last tested" date heads the page: the most recent run in the
@@ -81,7 +83,11 @@ def _docs_link(path: str) -> str:
     return f"`{name}`"
 
 
-_PLAIN = {"not-wired": "⚪ not wired", "no-llm": "∅ no LLM"}
+_PLAIN = {
+    "not-wired": "⚪ not wired",
+    "no-llm": "∅ no LLM",
+    "opted-out": "⏭️ not run",
+}
 
 
 def _cell(entry: dict[str, Any] | None, notes: list[str], label: str) -> str:
@@ -99,9 +105,15 @@ def _cell(entry: dict[str, Any] | None, notes: list[str], label: str) -> str:
         notes.append(f"{label}: {entry.get('note', 'failed')}{log}")
         return f"❌[^{len(notes)}]"
     plain = _PLAIN.get(status, f"? {status}")
-    # a no-llm notebook can also recover on retry; keep its first failure
-    if caveat := entry.get("caveat"):
-        notes.append(f"{label}: {caveat}")
+    # an opted-out notebook's reason is its own, so it gets a footnote; a
+    # no-llm notebook can also recover on retry, so keep its first failure
+    footnote = (
+        entry.get("note", "not run")
+        if status == "opted-out"
+        else entry.get("caveat")
+    )
+    if footnote:
+        notes.append(f"{label}: {footnote}")
         return f"{plain}[^{len(notes)}]"
     return plain
 
@@ -144,6 +156,9 @@ def render(ledger: dict[str, Any]) -> str:
         " the provider setting would have no effect; not run |",
         "| ∅ no LLM | Nothing in the notebook builds an LLM;"
         " run under Ollama Cloud only |",
+        "| ⏭️ not run | The notebook is only swept on the providers its"
+        " metadata names (too slow or costly elsewhere); see the"
+        " footnote |",
         "| – | Never run on that provider |",
         "",
         "Human-in-the-loop prompts are answered by a scripted reply during",

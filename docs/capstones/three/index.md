@@ -76,29 +76,28 @@ replications:
 
 | | Single agent | Coordinator + subagents | Ratio |
 |---|---|---|---|
-| Task success | 1.0 | 1.0 | 1.0 |
-| Wall time (s) | 370 | 199 | 0.54 |
-| Steps | 110 | 6 | 0.05 |
-| Rollout (chars) | 205K | 27K | 0.13 |
-| Prompt (chars) | 39.8M | 3.0M | 0.075 |
+| Task success | 0.67 | 1.0 | 1.5 |
+| Wall time (s) | 361 | 208 | 0.58 |
+| Steps | 90 | 6 | 0.06 |
+| Rollout (chars) | 165K | 24K | 0.15 |
+| Prompt (chars) | 34.4M | 2.9M | 0.084 |
 
-Both systems get the right answer, so on a strong model subagents don't buy
-accuracy here. What they buy is a predictable cost:
+The coordinator succeeded every time. What stands out more is how
+predictable its cost is:
 
-- **The single agent's cost depends on its strategy.** In one replication it
-  ran all 20 estimates in lockstep with parallel tool calls and finished in
-  13 steps. In the other two it worked through the samples largely one call
-  at a time, taking 150 or more steps and re-sending a rollout of up to
-  300K characters on every step.
+- **The single agent's cost depends on its strategy.** Its two successful
+  replications took 87 and 180 steps, working through the samples largely
+  one call at a time and re-sending a rollout of up to 330K characters on
+  every step. The longer one sent 84M prompt characters on its own. The
+  third replication stopped after 4 steps without a final answer, when the
+  next-step decision ended the task early.
 - **The coordinator's context stays small.** It holds only the dispatches and
-  their short results, so every replication took 5 to 7 steps, and the
-  coordinator plus all of its subagents sent about 13 times fewer prompt
+  their short results, so every replication took 5 or 6 steps, and the
+  coordinator plus all of its subagents sent about 12 times fewer prompt
   characters than the single agent.
-- **Subagents have failure modes of their own.** The trajectory judge flagged
-  some estimators for drifting off the doubling schedule (adding 16M points
-  where 32M were due), and one coordinator passed `compute_standard_error`
-  a `sample_id` from a failed dispatch, then recovered by dispatching more
-  estimators.
+- **Success is checked strictly.** The final answer must name 20 distinct,
+  real, in-range samples and report the standard error those samples give,
+  so a run can't pass by copying IDs or inventing a value.
 
 On a per-token API, the prompt-character ratio is roughly the ratio of the
 two systems' input bills. On a flat plan like Ollama Cloud, it is how much of

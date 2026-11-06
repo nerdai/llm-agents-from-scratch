@@ -88,6 +88,9 @@ nav:
       - capstones/one/index.md
       - Notebook: capstones/one/capstone_1.ipynb
       - Runpod Instructions: capstones/one/runpod_instructions.md
+    - Capstone 2:
+      - capstones/three/index.md
+      - Notebook: capstones/three/capstone_2.ipynb
   - Notebook Status: notebook-status.md
   - API Reference:
     - Base:

@@ -237,18 +237,35 @@ A great first capstone that exercises the full `LLMAgent` class.
 [Read Capstone](capstones/one/index.md){ .md-button .md-button--primary }
 </div>
 
-<div class="landing-card landing-card--capstone landing-card--soon" markdown>
-### :material-magnify: Deep Research Agent
+<div class="landing-card landing-card--capstone" markdown>
+### :material-account-group-outline: Revisiting Monte Carlo Estimation of Pi
 
-*Coming soon.* An autonomous research agent that plans searches, synthesises
-results, and produces structured reports on any topic you give it.
+Estimate the standard error of Capstone I's algorithm by running it 20
+times. Chapter 9's subagents each run one estimate in a fresh context, and
+the capstone measures what that buys over a single agent.
+
+[Read Capstone](capstones/three/index.md){ .md-button .md-button--primary }
 </div>
 
 <div class="landing-card landing-card--capstone landing-card--soon" markdown>
-### :material-robot-outline: OpenClaw Personal Assistant
+### :material-scale-balance: Evaluating MAS and Single-Agent Systems
 
-*Coming soon.* Build a personal assistant with persistent memory, skill
-composition, and human-in-the-loop checkpoints using your own framework.
+*Coming soon.* A reusable method for judging when a multi-agent system
+earns its extra cost over a single agent.
+</div>
+
+<div class="landing-card landing-card--capstone landing-card--soon" markdown>
+### :material-account-network-outline: Peer-to-Peer MAS
+
+*Coming soon.* Agents that are both A2A clients and servers, working
+through a shared task list as a team.
+</div>
+
+<div class="landing-card landing-card--capstone landing-card--soon" markdown>
+### :material-graph-outline: Graph Engineering with Subagents and A2A Agents
+
+*Coming soon.* A workflow graph with branch points that mixes subagents and
+A2A peers.
 </div>
 
 </div>

@@ -70,9 +70,11 @@ in the book and apply it to something closer to a real-world system.
 
 | Capstone | Description | Notebook |
 | -------- | ----------- | -------- |
-| Monte Carlo Estimation of Pi | Orchestrate parallel tool calls to estimate π using the Monte Carlo method. | [Open](https://masfromscratch.com/capstones/one/capstone_1_ch05/) |
-| Deep Research Agent | *Coming soon.* | — |
-| OpenClaw Personal Assistant | *Coming soon.* | — |
+| I. Monte Carlo Estimation of Pi | Orchestrate parallel tool calls to estimate π using the Monte Carlo method. | [Open](https://masfromscratch.com/capstones/one/) |
+| II. Revisiting Monte Carlo Estimation of Pi | Estimate the standard error of Capstone I's algorithm, using Chapter 9 subagents to contain the context sprawl of running it many times. | [Open](https://masfromscratch.com/capstones/three/) |
+| III. Evaluating MAS and Single-Agent Systems | *Coming soon.* | — |
+| IV. Peer-to-Peer MAS | *Coming soon.* | — |
+| V. Graph Engineering with Subagents and A2A Agents | *Coming soon.* | — |
 
 ---
 

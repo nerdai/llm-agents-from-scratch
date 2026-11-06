@@ -107,6 +107,7 @@ import contextlib
 import fnmatch
 import glob
 import json
+import math
 import os
 import re
 import subprocess
@@ -486,6 +487,21 @@ def _wiring(nb: dict[str, Any]) -> tuple[str, str]:
     return "none", ""
 
 
+def _positive_seconds(value: object) -> bool:
+    """Whether `value` is a positive number of seconds a float can hold.
+
+    Rejects booleans, NaN and infinity, and integers too large for a
+    float (JSON allows them; `float()` would raise `OverflowError`).
+    """
+    if isinstance(value, bool) or not isinstance(value, int | float):
+        return False
+    try:
+        seconds = float(value)
+    except OverflowError:
+        return False
+    return math.isfinite(seconds) and seconds > 0
+
+
 def _status_settings(
     nb: dict[str, Any],
 ) -> tuple[float | None, tuple[str, ...] | None]:
@@ -510,13 +526,10 @@ def _status_settings(
             f"unknown notebook_status keys: {', '.join(sorted(unknown))}",
         )
     timeout = settings.get("timeout")
-    if timeout is not None and (
-        isinstance(timeout, bool)
-        or not isinstance(timeout, int | float)
-        or timeout <= 0
-    ):
+    if timeout is not None and not _positive_seconds(timeout):
         raise ValueError(
-            f"notebook_status timeout must be positive seconds: {timeout!r}",
+            "notebook_status timeout must be positive, finite seconds:"
+            f" {timeout!r}",
         )
     providers = settings.get("providers")
     if providers is not None:
@@ -744,6 +757,17 @@ def _own_settings(
     return timeout, None
 
 
+def _settled_by_metadata(path: Path, provider: str) -> bool:
+    """Whether the notebook's metadata decides its entry without a run.
+
+    True when its `notebook_status` metadata opts it out of `provider`
+    or is malformed: either way it records an entry without executing,
+    so the time budget has no reason to defer it.
+    """
+    nb = json.loads(path.read_text(encoding="utf-8"))
+    return _own_settings(nb, provider)[1] is not None
+
+
 def run_one(
     path: Path,
     provider: str,
@@ -939,7 +963,9 @@ def main(  # noqa: PLR0913 - one keyword per CLI flag
             continue
         if budget_minutes is not None and ran:
             expected = float(prev.get("seconds", 0))
-            if time.time() - started + expected > budget_minutes * 60:
+            if time.time() - started + expected > budget_minutes * 60 and (
+                not _settled_by_metadata(path, provider)
+            ):
                 deferred.append(key)
                 continue
         entry = _run_with_retries(

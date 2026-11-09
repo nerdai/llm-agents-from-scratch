@@ -6,7 +6,7 @@ provider. Generated from `notebook_status.yaml` by
 `_scripts/run_notebook.py`. Edit the ledger and re-render, not
 this page.
 
-**Last tested:** 2026-11-04
+**Last tested:** 2026-11-09
 
 | Symbol | Meaning |
 |---|---|

@@ -112,9 +112,10 @@ adding a new capability on top of what you already built.
 
 ### Build Multi-Agent Systems
 
-Connect multiple LLM agents into a collaborative MAS using the
-**Agent2Agent (A2A)** protocol, distributing work across agents that
-communicate, coordinate, and act together.
+Connect multiple LLM agents into a collaborative MAS. Start by delegating
+work to **Subagents**, then connect independent agents over the
+**Agent2Agent (A2A)** protocol so they can communicate, coordinate, and act
+together.
 
 - <span class="landing-ch">9</span> [Assembling MAS with Subagents](notebooks/ch09.ipynb)
 - <span class="landing-ch">10</span> [Assembling Interoperable MAS with A2A](notebooks/ch10.ipynb)

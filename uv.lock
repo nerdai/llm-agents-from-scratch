@@ -2000,7 +2000,7 @@ dev = [
     { name = "types-pyyaml", specifier = ">=6.0.12.20250915" },
 ]
 docs = [
-    { name = "mkdocs", specifier = ">=1.6.1" },
+    { name = "mkdocs", specifier = ">=1.6.1,<2" },
     { name = "mkdocs-jupyter", specifier = ">=0.25.1" },
     { name = "mkdocs-material", specifier = ">=9.7.3" },
     { name = "mkdocstrings", extras = ["python"], specifier = ">=1.0.3" },

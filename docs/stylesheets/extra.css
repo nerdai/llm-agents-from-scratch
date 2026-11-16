@@ -633,7 +633,7 @@
 .landing-grid {
   display: grid;
   gap: 1.5rem;
-  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(290px, 100%), 1fr));
   margin: 1.75rem 0 2rem;
 }
 
@@ -910,7 +910,14 @@
   border-color: #15141a;
   box-shadow: 3px 3px 0 #ffffff;
   color: #fffaf0;
-  white-space: nowrap;
+  text-align: center;
+  white-space: normal;
+}
+
+/* Let both callout children shrink so the button label can wrap on
+   narrow screens instead of pushing the panel wider. */
+.landing-callout > * {
+  min-width: 0;
 }
 
 .md-typeset .landing-callout .md-button:hover,

@@ -1,53 +1,56 @@
 capstones/one/capstone_1.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: claude-opus-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 195
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 135
     status: pass
   ollama-cloud:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 65
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 167
     status: pass
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 209
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 404
     status: pass
 capstones/three/capstone_2.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
+    note: metadata limits it to ollama-cloud; not run
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
     seconds: 0
-    status: no-llm
+    status: opted-out
   ollama-cloud:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
-    model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 1
-    status: no-llm
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
+    model: deepseek-v4.1-flash
+    note: 'cell 49: cell exceeded 1800s (not retried: budget)'
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 3298
+    status: fail
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
+    note: metadata limits it to ollama-cloud; not run
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
     seconds: 0
-    status: no-llm
+    status: opted-out
 capstones/three/capstone_3.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
     seconds: 0
     status: no-llm
   ollama-cloud:
@@ -58,18 +61,18 @@ capstones/three/capstone_3.ipynb:
     seconds: 1
     status: no-llm
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
     seconds: 0
     status: no-llm
 capstones/three/capstone_4.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
     seconds: 0
     status: no-llm
   ollama-cloud:
@@ -80,18 +83,18 @@ capstones/three/capstone_4.ipynb:
     seconds: 1
     status: no-llm
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
     seconds: 0
     status: no-llm
 capstones/three/capstone_5.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
     seconds: 0
     status: no-llm
   ollama-cloud:
@@ -102,18 +105,18 @@ capstones/three/capstone_5.ipynb:
     seconds: 1
     status: no-llm
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
     seconds: 0
     status: no-llm
 chapter-notebooks/ch02/ch02.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
     seconds: 0
     status: no-llm
   ollama-cloud:
@@ -124,19 +127,19 @@ chapter-notebooks/ch02/ch02.ipynb:
     seconds: 5
     status: no-llm
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
     seconds: 0
     status: no-llm
 chapter-notebooks/ch03/ch03.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 11
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 10
     status: pass
   ollama-cloud:
     commit: 45c1b385
@@ -146,19 +149,19 @@ chapter-notebooks/ch03/ch03.ipynb:
     seconds: 7
     status: pass
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 24
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 13
     status: pass
 chapter-notebooks/ch04/ch04.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 15
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 13
     status: pass
   ollama-cloud:
     commit: 45c1b385
@@ -168,19 +171,19 @@ chapter-notebooks/ch04/ch04.ipynb:
     seconds: 8
     status: pass
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 43
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 25
     status: pass
 chapter-notebooks/ch05/ch05.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 30
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 16
     status: pass
   ollama-cloud:
     commit: 45c1b385
@@ -190,19 +193,19 @@ chapter-notebooks/ch05/ch05.ipynb:
     seconds: 27
     status: pass
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 50
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 20
     status: pass
 chapter-notebooks/ch06/ch06.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 23
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 21
     status: pass
   ollama-cloud:
     commit: 45c1b385
@@ -212,19 +215,19 @@ chapter-notebooks/ch06/ch06.ipynb:
     seconds: 11
     status: pass
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 27
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 52
     status: pass
 chapter-notebooks/ch07/ch07.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 23
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 26
     status: pass
   ollama-cloud:
     commit: 45c1b385
@@ -234,19 +237,19 @@ chapter-notebooks/ch07/ch07.ipynb:
     seconds: 14
     status: pass
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 72
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 42
     status: pass
 chapter-notebooks/ch08/ch08.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 80
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 94
     status: pass
   ollama-cloud:
     commit: 45c1b385
@@ -256,19 +259,19 @@ chapter-notebooks/ch08/ch08.ipynb:
     seconds: 37
     status: pass
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 280
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 186
     status: pass
 chapter-notebooks/ch09/ch09.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: claude-haiku-4-5-20251001
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 230
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 234
     status: pass
   ollama-cloud:
     commit: 45c1b385
@@ -278,19 +281,19 @@ chapter-notebooks/ch09/ch09.ipynb:
     seconds: 132
     status: pass
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: gpt-5-mini
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 259
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 232
     status: pass
 chapter-notebooks/ch10/ch10.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 82
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 106
     status: pass
   ollama-cloud:
     commit: 45c1b385
@@ -300,18 +303,18 @@ chapter-notebooks/ch10/ch10.ipynb:
     seconds: 60
     status: pass
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 99
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 94
     status: pass
 more-examples/ch02/async_tools.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
     seconds: 0
     status: no-llm
   ollama-cloud:
@@ -322,18 +325,18 @@ more-examples/ch02/async_tools.ipynb:
     seconds: 5
     status: no-llm
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
     seconds: 0
     status: no-llm
 more-examples/ch02/multi_tool_registry.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
     seconds: 0
     status: no-llm
   ollama-cloud:
@@ -344,18 +347,18 @@ more-examples/ch02/multi_tool_registry.ipynb:
     seconds: 5
     status: no-llm
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
     seconds: 0
     status: no-llm
 more-examples/ch02/pydantic_tool_validation.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
     seconds: 0
     status: no-llm
   ollama-cloud:
@@ -366,19 +369,19 @@ more-examples/ch02/pydantic_tool_validation.ipynb:
     seconds: 5
     status: no-llm
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
     seconds: 0
     status: no-llm
 more-examples/ch03/multi_turn_chat.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 11
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 10
     status: pass
   ollama-cloud:
     commit: 45c1b385
@@ -388,19 +391,19 @@ more-examples/ch03/multi_turn_chat.ipynb:
     seconds: 7
     status: pass
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 15
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 14
     status: pass
 more-examples/ch03/parallel_tool_calls.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 10
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 8
     status: pass
   ollama-cloud:
     commit: 45c1b385
@@ -410,19 +413,19 @@ more-examples/ch03/parallel_tool_calls.ipynb:
     seconds: 6
     status: pass
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 8
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 11
     status: pass
 more-examples/ch03/pdf_extraction.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 18
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 16
     status: pass
   ollama-cloud:
     commit: 45c1b385
@@ -432,19 +435,19 @@ more-examples/ch03/pdf_extraction.ipynb:
     seconds: 10
     status: pass
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 18
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 15
     status: pass
 more-examples/ch04/jev_next_step_judge.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 26
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 30
     status: pass
   ollama-cloud:
     commit: 45c1b385
@@ -454,19 +457,19 @@ more-examples/ch04/jev_next_step_judge.ipynb:
     seconds: 15
     status: pass
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 69
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 65
     status: pass
 more-examples/ch04/pokemon_comparison.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 14
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 13
     status: pass
   ollama-cloud:
     commit: 45c1b385
@@ -476,19 +479,19 @@ more-examples/ch04/pokemon_comparison.ipynb:
     seconds: 8
     status: pass
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 19
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 22
     status: pass
 more-examples/ch04/pokemon_error_handling.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 16
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 15
     status: pass
   ollama-cloud:
     commit: 45c1b385
@@ -498,18 +501,18 @@ more-examples/ch04/pokemon_error_handling.ipynb:
     seconds: 8
     status: pass
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 14
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 15
     status: pass
 more-examples/ch05/github_mcp.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
     seconds: 17
     status: pass
   ollama-cloud:
@@ -520,19 +523,19 @@ more-examples/ch05/github_mcp.ipynb:
     seconds: 10
     status: pass
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 25
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 15
     status: pass
 more-examples/ch05/goodnews_mcp.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 19
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 20
     status: pass
   ollama-cloud:
     commit: 45c1b385
@@ -542,19 +545,19 @@ more-examples/ch05/goodnews_mcp.ipynb:
     seconds: 24
     status: pass
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 165
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 145
     status: pass
 more-examples/ch06/additional_resource_python.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 19
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 18
     status: pass
   ollama-cloud:
     commit: 45c1b385
@@ -564,18 +567,18 @@ more-examples/ch06/additional_resource_python.ipynb:
     seconds: 10
     status: pass
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 24
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 29
     status: pass
 more-examples/ch06/skill_validation_errors.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
     seconds: 0
     status: no-llm
   ollama-cloud:
@@ -586,19 +589,19 @@ more-examples/ch06/skill_validation_errors.ipynb:
     seconds: 5
     status: no-llm
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: ''
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
     seconds: 0
     status: no-llm
 more-examples/ch06/skills_marketplace.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 98
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 62
     status: pass
   ollama-cloud:
     commit: 45c1b385
@@ -608,19 +611,19 @@ more-examples/ch06/skills_marketplace.ipynb:
     seconds: 17
     status: pass
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 70
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 85
     status: pass
 more-examples/ch06/user_explicit_hailstone.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 36
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 37
     status: pass
   ollama-cloud:
     commit: 45c1b385
@@ -630,19 +633,19 @@ more-examples/ch06/user_explicit_hailstone.ipynb:
     seconds: 18
     status: pass
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 101
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 78
     status: pass
 more-examples/ch06/with_and_without_skills.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 44
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 43
     status: pass
   ollama-cloud:
     commit: 45c1b385
@@ -652,18 +655,128 @@ more-examples/ch06/with_and_without_skills.ipynb:
     seconds: 17
     status: pass
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 69
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 77
     status: pass
 more-examples/ch07/recency_memory.ipynb:
   anthropic:
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
+    model: claude-sonnet-5
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 26
+    status: pass
+  ollama-cloud:
     commit: 45c1b385
     last_tested: '2026-11-09'
-    model: claude-sonnet-5
+    model: deepseek-v4.1-flash
     run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
+    seconds: 13
+    status: pass
+  openai:
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
+    model: gpt-5
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 43
+    status: pass
+more-examples/ch07/reflective_memory.ipynb:
+  anthropic:
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
+    model: claude-sonnet-5
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 27
+    status: pass
+  ollama-cloud:
+    commit: 45c1b385
+    last_tested: '2026-11-09'
+    model: deepseek-v4.1-flash
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
+    seconds: 18
+    status: pass
+  openai:
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
+    model: gpt-5
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 47
+    status: pass
+more-examples/ch07/similarity_memory.ipynb:
+  anthropic:
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
+    model: claude-sonnet-5
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 65
+    status: pass
+  ollama-cloud:
+    commit: 45c1b385
+    last_tested: '2026-11-09'
+    model: deepseek-v4.1-flash
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
+    seconds: 19
+    status: pass
+  openai:
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
+    model: gpt-5
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 376
+    status: pass
+more-examples/ch08/approval_gate_in_skill.ipynb:
+  anthropic:
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
+    model: claude-sonnet-5
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 12
+    status: pass
+  ollama-cloud:
+    commit: 45c1b385
+    last_tested: '2026-11-09'
+    model: deepseek-v4.1-flash
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
+    seconds: 8
+    status: pass
+  openai:
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
+    model: gpt-5
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 18
+    status: pass
+more-examples/ch08/skill_with_human_input.ipynb:
+  anthropic:
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
+    model: claude-sonnet-5
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 20
+    status: pass
+  ollama-cloud:
+    commit: 45c1b385
+    last_tested: '2026-11-09'
+    model: deepseek-v4.1-flash
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
+    seconds: 12
+    status: pass
+  openai:
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
+    model: gpt-5
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 35
+    status: pass
+more-examples/ch08/supervised_trajectories.ipynb:
+  anthropic:
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
+    model: claude-sonnet-5
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
     seconds: 25
     status: pass
   ollama-cloud:
@@ -674,129 +787,19 @@ more-examples/ch07/recency_memory.ipynb:
     seconds: 13
     status: pass
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 37
-    status: pass
-more-examples/ch07/reflective_memory.ipynb:
-  anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
-    model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 28
-    status: pass
-  ollama-cloud:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
-    model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 18
-    status: pass
-  openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
-    model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 59
-    status: pass
-more-examples/ch07/similarity_memory.ipynb:
-  anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
-    model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 32
-    status: pass
-  ollama-cloud:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
-    model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 19
-    status: pass
-  openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
-    model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 57
-    status: pass
-more-examples/ch08/approval_gate_in_skill.ipynb:
-  anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
-    model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 13
-    status: pass
-  ollama-cloud:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
-    model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 8
-    status: pass
-  openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
-    model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 15
-    status: pass
-more-examples/ch08/skill_with_human_input.ipynb:
-  anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
-    model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
     seconds: 21
-    status: pass
-  ollama-cloud:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
-    model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 12
-    status: pass
-  openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
-    model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 52
-    status: pass
-more-examples/ch08/supervised_trajectories.ipynb:
-  anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
-    model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 24
-    status: pass
-  ollama-cloud:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
-    model: deepseek-v4.1-flash
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 13
-    status: pass
-  openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
-    model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 17
     status: pass
 more-examples/ch09/evaluator_pattern.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 54
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 53
     status: pass
   ollama-cloud:
     commit: 45c1b385
@@ -806,19 +809,19 @@ more-examples/ch09/evaluator_pattern.ipynb:
     seconds: 22
     status: pass
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 84
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 81
     status: pass
 more-examples/ch09/subagent_failure.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 97
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 101
     status: pass
   ollama-cloud:
     commit: 45c1b385
@@ -828,19 +831,19 @@ more-examples/ch09/subagent_failure.ipynb:
     seconds: 49
     status: pass
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 38
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 42
     status: pass
 more-examples/ch09/subagent_with_mcp_tool.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: claude-sonnet-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 27
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 25
     status: pass
   ollama-cloud:
     commit: 45c1b385
@@ -850,19 +853,19 @@ more-examples/ch09/subagent_with_mcp_tool.ipynb:
     seconds: 16
     status: pass
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: gpt-5
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
-    seconds: 34
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
+    seconds: 33
     status: pass
 more-examples/ch10/cancelling_a_task_execution.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: ''
     note: follows OLLAMA_API_KEY, not LLM_PROVIDER; not run
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
     seconds: 0
     status: not-wired
   ollama-cloud:
@@ -873,20 +876,20 @@ more-examples/ch10/cancelling_a_task_execution.ipynb:
     seconds: 8
     status: pass
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: ''
     note: follows OLLAMA_API_KEY, not LLM_PROVIDER; not run
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
     seconds: 0
     status: not-wired
 more-examples/ch10/streaming_llmagent_executor.ipynb:
   anthropic:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: ''
     note: follows OLLAMA_API_KEY, not LLM_PROVIDER; not run
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
     seconds: 0
     status: not-wired
   ollama-cloud:
@@ -897,10 +900,10 @@ more-examples/ch10/streaming_llmagent_executor.ipynb:
     seconds: 42
     status: pass
   openai:
-    commit: 45c1b385
-    last_tested: '2026-11-09'
+    commit: 60d5fad4
+    last_tested: '2026-11-16'
     model: ''
     note: follows OLLAMA_API_KEY, not LLM_PROVIDER; not run
-    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/42572297420
+    run_url: https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011
     seconds: 0
     status: not-wired

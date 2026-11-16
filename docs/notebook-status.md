@@ -6,7 +6,7 @@ provider. Generated from `notebook_status.yaml` by
 `_scripts/run_notebook.py`. Edit the ledger and re-render, not
 this page.
 
-**Last tested:** 2026-11-09
+**Last tested:** 2026-11-16 (oldest result: 2026-11-09)
 
 | Symbol | Meaning |
 |---|---|
@@ -89,9 +89,13 @@ Run All.
 | Notebook | Ollama Cloud | OpenAI | Anthropic |
 |---|---|---|---|
 | [`capstone_1.ipynb`](capstones/one/capstone_1.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-opus-5` |
-| `capstone_2.ipynb` | ∅ no LLM | ∅ no LLM | ∅ no LLM |
+| [`capstone_2.ipynb`](capstones/three/capstone_2.ipynb) | ❌[^1] | ⏭️ not run[^2] | ⏭️ not run[^3] |
 | `capstone_3.ipynb` | ∅ no LLM | ∅ no LLM | ∅ no LLM |
 | `capstone_4.ipynb` | ∅ no LLM | ∅ no LLM | ∅ no LLM |
 | `capstone_5.ipynb` | ∅ no LLM | ∅ no LLM | ∅ no LLM |
 
 </div>
+
+[^1]: `capstones/three/capstone_2.ipynb` / Ollama Cloud: cell 49: cell exceeded 1800s (not retried: budget) ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/43816167011))
+[^2]: `capstones/three/capstone_2.ipynb` / OpenAI: metadata limits it to ollama-cloud; not run
+[^3]: `capstones/three/capstone_2.ipynb` / Anthropic: metadata limits it to ollama-cloud; not run

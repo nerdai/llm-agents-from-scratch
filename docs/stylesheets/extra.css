@@ -946,6 +946,14 @@
 
 /* ===================== Responsive ===================== */
 
+/* With several columns, every row matches the tallest card so all cards
+   share one height. A single phone column keeps natural heights. */
+@media screen and (min-width: 761px) {
+  .landing-grid {
+    grid-auto-rows: 1fr;
+  }
+}
+
 @media screen and (max-width: 960px) {
   .landing-path {
     grid-template-columns: 1fr;

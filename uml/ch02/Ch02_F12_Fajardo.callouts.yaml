@@ -1,0 +1,12 @@
+# Annotation callouts for Ch02_F12_Fajardo.puml, drawn by
+# _scripts/add_svg_callouts.py. Offsets are SVG user units on the raw
+# PlantUML canvas (500 dpi).
+callouts:
+  - text: new attribute
+    anchor: {text: "func: Callable"}
+    side: left
+    box: [-700, 0]
+  - text: new attribute
+    anchor: {text: "«async» Callable"}
+    side: right
+    box: [700, 0]

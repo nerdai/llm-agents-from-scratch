@@ -1,54 +1,437 @@
+/* =====================================================================
+   LLM Agents From Scratch: site theme
+
+   A bold, playful "neo-brutalist" look that matches the book's black
+   line-art diagrams: ink borders, hard offset shadows, a warm paper
+   background, the cover's yellow as the main accent, and pastel fills.
+   Every colour is a token below, redefined for the dark (slate) scheme.
+   ===================================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap");
+
+/* ===================== Tokens ===================== */
+
+:root {
+  --mas-ink: #15141a;
+  --mas-paper: #fffaf0;
+  --mas-surface: #ffffff;
+  --mas-yellow: #ffd23f;
+  --mas-yellow-strong: #f5b700;
+  --mas-lavender: #d9cbff;
+  --mas-mint: #bff0dc;
+  --mas-pink: #ffc9de;
+  --mas-sky: #c4e4ff;
+  --mas-muted: #5b5866;
+  --mas-link: #5a32d6;
+  --mas-border: 2.5px solid var(--mas-ink);
+  --mas-border-thin: 2px solid var(--mas-ink);
+  --mas-shadow-color: var(--mas-ink);
+  --mas-shadow: 5px 5px 0 var(--mas-shadow-color);
+  --mas-shadow-sm: 3px 3px 0 var(--mas-shadow-color);
+  --mas-shadow-lg: 8px 8px 0 var(--mas-shadow-color);
+  --mas-radius: 12px;
+  --mas-radius-sm: 8px;
+  --mas-heading-font: "Space Grotesk", var(--md-text-font-family), sans-serif;
+  --mas-dots: radial-gradient(rgba(21, 20, 26, 0.14) 1.2px, transparent 1.2px);
+}
+
+[data-md-color-scheme="slate"] {
+  --mas-ink: #f3eee2;
+  --mas-paper: #17161d;
+  --mas-surface: #211f2a;
+  --mas-yellow: #ffd23f;
+  --mas-yellow-strong: #ffdf66;
+  --mas-lavender: #2f2848;
+  --mas-mint: #1d3b33;
+  --mas-pink: #43263a;
+  --mas-sky: #1e3248;
+  --mas-muted: #b4afc0;
+  --mas-link: #b9a4ff;
+  --mas-shadow-color: #000000;
+  --mas-border: 2.5px solid rgba(243, 238, 226, 0.82);
+  --mas-border-thin: 2px solid rgba(243, 238, 226, 0.82);
+  --mas-shadow: 5px 5px 0 var(--mas-shadow-color);
+  --mas-shadow-sm: 3px 3px 0 var(--mas-shadow-color);
+  --mas-shadow-lg: 8px 8px 0 var(--mas-shadow-color);
+  --mas-dots: radial-gradient(rgba(243, 238, 226, 0.09) 1.2px, transparent 1.2px);
+
+  --md-default-bg-color: var(--mas-paper);
+  --md-default-fg-color: rgba(243, 238, 226, 0.92);
+  --md-default-fg-color--light: rgba(243, 238, 226, 0.7);
+  --md-default-fg-color--lighter: rgba(243, 238, 226, 0.4);
+  --md-default-fg-color--lightest: rgba(243, 238, 226, 0.14);
+  --md-code-bg-color: #1e1c26;
+  --md-typeset-a-color: var(--mas-link);
+  --md-accent-fg-color: var(--mas-yellow);
+}
+
+/* Material palette hooks (primary/accent are "custom" in mkdocs.yml) */
+
+:root,
+[data-md-color-scheme="default"] {
+  --md-default-bg-color: var(--mas-paper);
+  --md-typeset-a-color: var(--mas-link);
+}
+
+[data-md-color-primary="custom"] {
+  --md-primary-fg-color: #15141a;
+  --md-primary-fg-color--light: #2a2833;
+  --md-primary-fg-color--dark: #000000;
+  --md-primary-bg-color: #fffaf0;
+  --md-primary-bg-color--light: rgba(255, 250, 240, 0.72);
+}
+
+[data-md-color-accent="custom"] {
+  --md-accent-fg-color: #5a32d6;
+  --md-accent-fg-color--transparent: rgba(90, 50, 214, 0.1);
+  --md-accent-bg-color: #ffffff;
+}
+
+[data-md-color-scheme="slate"][data-md-color-accent="custom"] {
+  --md-accent-fg-color: var(--mas-yellow);
+  --md-accent-fg-color--transparent: rgba(255, 210, 63, 0.12);
+}
+
+/* ===================== Typography ===================== */
+
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4 {
+  color: var(--mas-ink);
+  font-family: var(--mas-heading-font);
+  letter-spacing: -0.015em;
+}
+
+.md-typeset h1 {
+  font-weight: 700;
+}
+
+.md-typeset h2 {
+  font-weight: 700;
+}
+
+.md-typeset h3,
+.md-typeset h4 {
+  font-weight: 600;
+}
+
+.md-typeset a {
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.15s;
+}
+
+.md-typeset a:hover {
+  text-decoration-color: currentColor;
+}
+
+/* Permalink anchors and buttons manage their own decoration */
+.md-typeset .headerlink,
+.md-typeset a.md-button {
+  text-decoration: none;
+}
+
+.md-typeset mark {
+  background: var(--mas-yellow);
+  border-radius: 4px;
+  box-decoration-break: clone;
+  color: #15141a;
+  padding: 0 0.2em;
+}
+
+/* ===================== Header and tabs ===================== */
+
+.md-header,
+.md-tabs {
+  background-color: #15141a;
+  color: #fffaf0;
+}
+
+.md-header {
+  box-shadow: none;
+}
+
+.md-header--shadow {
+  box-shadow: none;
+}
+
+.md-tabs {
+  border-bottom: 3px solid var(--mas-yellow);
+}
+
+.md-header__topic:first-child {
+  font-family: var(--mas-heading-font);
+  font-weight: 700;
+}
+
+.md-tabs__link {
+  font-family: var(--mas-heading-font);
+  font-size: 0.75rem;
+  font-weight: 600;
+  opacity: 0.75;
+}
+
+.md-tabs__item--active .md-tabs__link {
+  color: var(--mas-yellow);
+  opacity: 1;
+}
+
+.md-tabs__link:hover {
+  color: var(--mas-yellow) !important;
+  opacity: 1;
+}
+
+.md-search__form {
+  border-radius: var(--mas-radius-sm);
+}
+
+/* ===================== Navigation ===================== */
+
+.md-nav__item--section > .md-nav__link,
+.md-nav__title {
+  font-family: var(--mas-heading-font);
+  font-weight: 700;
+}
+
+.md-nav__link--active {
+  font-weight: 700;
+}
+
+/* Material only shows the drawer title on small screens */
+.md-nav--primary .md-nav__title[for="__drawer"] {
+  background: #15141a;
+  color: #fffaf0;
+}
+
+/* ===================== Buttons ===================== */
+
+.md-typeset .md-button {
+  background: var(--mas-surface);
+  border: var(--mas-border-thin);
+  border-radius: var(--mas-radius-sm);
+  box-shadow: var(--mas-shadow-sm);
+  color: var(--mas-ink);
+  font-family: var(--mas-heading-font);
+  font-weight: 700;
+  padding: 0.55em 1.3em;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background-color 0.12s ease;
+}
+
+.md-typeset .md-button--primary {
+  background: var(--mas-yellow);
+  border-color: var(--mas-ink);
+  color: #15141a;
+}
+
+.md-typeset .md-button:focus,
+.md-typeset .md-button:hover {
+  background: var(--mas-yellow);
+  border-color: var(--mas-ink);
+  box-shadow: 5px 5px 0 var(--mas-shadow-color);
+  color: #15141a;
+  transform: translate(-2px, -2px);
+}
+
+.md-typeset .md-button--primary:focus,
+.md-typeset .md-button--primary:hover {
+  background: var(--mas-yellow-strong);
+}
+
+.md-typeset .md-button:active {
+  box-shadow: 0 0 0 var(--mas-shadow-color);
+  transform: translate(3px, 3px);
+}
+
+/* Dark scheme: ink is light, so give buttons a dark shadow and keep the
+   yellow ones readable with dark text. */
+[data-md-color-scheme="slate"] .md-typeset .md-button {
+  box-shadow: 3px 3px 0 var(--mas-yellow);
+}
+
+[data-md-color-scheme="slate"] .md-typeset .md-button--primary {
+  border-color: var(--mas-yellow);
+  box-shadow: 3px 3px 0 #000000;
+}
+
+[data-md-color-scheme="slate"] .md-typeset .md-button:hover,
+[data-md-color-scheme="slate"] .md-typeset .md-button:focus {
+  border-color: var(--mas-yellow);
+  box-shadow: 5px 5px 0 #000000;
+}
+
+/* ===================== Content blocks ===================== */
+
+/* Code blocks */
+.md-typeset pre > code {
+  border-radius: var(--mas-radius-sm);
+}
+
+.md-typeset .highlight,
+.md-typeset .highlighttable {
+  border: var(--mas-border-thin);
+  border-radius: var(--mas-radius-sm);
+  box-shadow: var(--mas-shadow-sm);
+  overflow: hidden;
+}
+
+.md-typeset .highlight pre,
+.md-typeset .highlighttable .highlight {
+  border: 0;
+  box-shadow: none;
+  margin: 0;
+}
+
+.md-typeset .highlighttable {
+  margin: 1em 0;
+}
+
+.md-typeset :not(pre) > code {
+  border-radius: 5px;
+}
+
+/* Admonitions and details */
+.md-typeset .admonition,
+.md-typeset details {
+  border-radius: var(--mas-radius);
+  border-width: 2.5px;
+  box-shadow: var(--mas-shadow);
+  font-size: 0.75rem;
+  margin: 1.75em 0;
+}
+
+.md-typeset .admonition-title,
+.md-typeset summary {
+  font-family: var(--mas-heading-font);
+  font-weight: 700;
+}
+
+[data-md-color-scheme="slate"] .md-typeset .admonition,
+[data-md-color-scheme="slate"] .md-typeset details {
+  background-color: var(--mas-surface);
+}
+
+/* Tables */
+.md-typeset__scrollwrap {
+  margin: 1.25em 0;
+}
+
+.md-typeset table:not([class]) {
+  border: var(--mas-border-thin);
+  border-radius: var(--mas-radius-sm);
+  box-shadow: var(--mas-shadow-sm);
+  font-size: 0.72rem;
+}
+
+.md-typeset table:not([class]) th {
+  background: var(--mas-yellow);
+  border-bottom: var(--mas-border-thin);
+  color: #15141a;
+  font-family: var(--mas-heading-font);
+}
+
+/* Content images and figures */
+.md-content figure img {
+  border-radius: var(--mas-radius-sm);
+}
+
+/* ===================== Notebook pages (mkdocs-jupyter) ===================== */
+
+.jupyter-wrapper .jp-InputArea-editor,
+.jupyter-wrapper .jp-Cell .jp-InputArea-editor {
+  border: var(--mas-border-thin) !important;
+  border-radius: var(--mas-radius-sm) !important;
+  box-shadow: var(--mas-shadow-sm);
+  overflow: hidden;
+}
+
+.jupyter-wrapper .jp-InputPrompt,
+.jupyter-wrapper .jp-OutputPrompt {
+  font-family: var(--md-code-font-family);
+  font-weight: 700;
+}
+
+.jupyter-wrapper .jp-InputPrompt {
+  color: var(--mas-link) !important;
+}
+
+.jupyter-wrapper .jp-OutputArea-output pre {
+  border-left: 3px solid var(--mas-yellow);
+  padding-left: 0.6rem;
+}
+
+/* ===================== API reference (mkdocstrings) ===================== */
+
+.md-typeset .doc-heading code {
+  font-weight: 700;
+}
+
+.md-typeset .doc-symbol {
+  border-radius: 5px;
+  font-weight: 700;
+}
+
+.md-typeset .doc-signature,
+.md-typeset .doc-signature + .highlight {
+  border-radius: var(--mas-radius-sm);
+}
+
+/* ===================== Footer ===================== */
+
+.md-footer,
+.md-footer-meta {
+  background-color: #15141a;
+  color: #fffaf0;
+}
+
+.md-footer {
+  border-top: 3px solid var(--mas-yellow);
+}
+
+.md-footer__title {
+  font-family: var(--mas-heading-font);
+  font-weight: 600;
+}
+
+/* Wrap so the label drops onto its own line on very narrow screens
+   instead of pushing the footer wider than the viewport. */
 .md-social {
-  display: flex;
   align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 0;
+  row-gap: 0.25rem;
 }
 
 .md-social__label {
-  font-size: 0.7rem;
   color: var(--md-footer-fg-color--light);
+  font-size: 0.7rem;
   margin-right: 0.5rem;
   white-space: nowrap;
 }
 
-/* ===================== Figures ===================== */
-
-.md-content figure img {
-  border-radius: 0.5rem;
+/* On the narrowest phones, give the label its own line so the icons
+   stay together on the next one. */
+@media screen and (max-width: 340px) {
+  .md-social__label {
+    flex-basis: 100%;
+  }
 }
 
-/* ===================== Landing Page ===================== */
+/* =====================================================================
+   Landing page
+   ===================================================================== */
 
-/* Hero */
-
-.landing-hero {
-  background: linear-gradient(135deg, #a1a397 0%, #868a80 100%);
-  border-radius: 0.5rem;
-  margin-bottom: 3rem;
-  overflow: hidden;
-  padding: 4.5rem 3.5rem;
-  position: relative;
-}
-
-.landing-hero::before {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 50%;
-  content: "";
-  height: 600px;
-  position: absolute;
-  right: -10%;
-  top: -40%;
-  width: 600px;
-}
-
-.landing-hero::after {
-  background: rgba(0, 0, 0, 0.06);
-  border-radius: 50%;
-  bottom: -50%;
-  content: "";
-  height: 500px;
-  left: -8%;
-  position: absolute;
-  width: 500px;
+/* The landing page sits on a faint dot grid, like graph paper */
+.md-main:has(.landing-hero) {
+  background-image: var(--mas-dots);
+  background-size: 22px 22px;
 }
 
 /* Hide auto-generated "Home" page title when the landing hero is present */
@@ -56,12 +439,79 @@
   display: none;
 }
 
+.md-typeset .landing-section-title {
+  font-size: 1.65rem;
+  margin: 3.5rem 0 0.4rem;
+}
+
+.md-typeset .landing-section-title::after {
+  background: var(--mas-yellow);
+  border: var(--mas-border-thin);
+  border-radius: 999px;
+  content: "";
+  display: block;
+  height: 10px;
+  margin-top: 0.45rem;
+  width: 64px;
+}
+
+.md-typeset .landing-lead {
+  color: var(--md-default-fg-color--light);
+  font-size: 0.85rem;
+  max-width: 46rem;
+}
+
+.md-typeset hr {
+  border-bottom: 2px dashed var(--md-default-fg-color--lightest);
+  margin: 3rem 0 0;
+}
+
+/* ===================== Hero ===================== */
+
+.landing-hero {
+  background: var(--mas-lavender);
+  border: var(--mas-border);
+  border-radius: calc(var(--mas-radius) + 6px);
+  box-shadow: var(--mas-shadow-lg);
+  margin: 0.5rem 0 3rem;
+  overflow: hidden;
+  padding: 3.5rem 3.25rem;
+  position: relative;
+}
+
+/* Decorative shapes */
+.landing-hero::before,
+.landing-hero::after {
+  border: var(--mas-border);
+  content: "";
+  position: absolute;
+}
+
+.landing-hero::before {
+  background: var(--mas-yellow);
+  border-radius: 50%;
+  height: 170px;
+  right: -55px;
+  top: -60px;
+  width: 170px;
+}
+
+.landing-hero::after {
+  background: var(--mas-mint);
+  border-radius: 22px;
+  bottom: -52px;
+  height: 120px;
+  left: -40px;
+  transform: rotate(18deg);
+  width: 120px;
+}
+
 .landing-hero__inner {
   align-items: center;
   display: flex;
   gap: 3.5rem;
   margin: 0 auto;
-  max-width: 960px;
+  max-width: 980px;
   position: relative;
   z-index: 1;
 }
@@ -71,192 +521,489 @@
   min-width: 0;
 }
 
-.landing-hero__text h1 {
-  color: #1a1a1a !important;
-  font-size: 2.4rem;
+.md-typeset .landing-hero__eyebrow {
+  background: var(--mas-surface);
+  border: var(--mas-border-thin);
+  border-radius: 999px;
+  box-shadow: var(--mas-shadow-sm);
+  color: var(--mas-ink);
+  display: inline-block;
+  font-family: var(--mas-heading-font);
+  font-size: 0.68rem;
   font-weight: 700;
-  line-height: 1.2;
-  margin-bottom: 1rem;
+  letter-spacing: 0.04em;
+  margin: 0 0 1.2rem;
+  padding: 0.25rem 0.8rem;
+  text-transform: uppercase;
 }
 
-.landing-hero__text p {
-  color: rgba(0, 0, 0, 0.65) !important;
-  font-size: 1.1rem;
-  line-height: 1.7;
-  margin-bottom: 2rem;
+.md-typeset .landing-hero__text h1 {
+  color: var(--mas-ink);
+  font-size: 2.75rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  margin: 0 0 1.1rem;
 }
 
-.landing-hero__text .md-button {
-  border-radius: 0.3rem;
-  font-size: 0.9rem;
-  margin: 0.3rem 0.3rem 0.3rem 0;
-  padding: 0.6rem 1.4rem;
+.md-typeset .landing-hero__text h1 mark {
+  padding: 0 0.15em;
 }
 
-.landing-hero__text .md-button--primary {
-  background: #512da8;
-  border-color: #512da8;
-  color: #fff !important;
-  font-weight: 600;
+.md-typeset .landing-hero__text p {
+  color: var(--mas-ink);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  margin: 0 0 1rem;
+  opacity: 0.85;
 }
 
-.landing-hero__text .md-button--primary:hover {
-  background: #311b92;
-  border-color: #311b92;
+.md-typeset .landing-hero__cta {
+  margin-top: 1.6rem;
 }
 
-.landing-hero__btn-secondary {
-  border-color: rgba(0, 0, 0, 0.35) !important;
-  color: rgba(0, 0, 0, 0.75) !important;
+.md-typeset .landing-hero__cta .md-button {
+  font-size: 0.8rem;
+  margin: 0.3rem 0.6rem 0.3rem 0;
 }
 
-.landing-hero__btn-secondary:hover {
-  border-color: rgba(0, 0, 0, 0.7) !important;
-  color: #1a1a1a !important;
+/* Topic chips */
+.landing-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 1.5rem;
+}
+
+.landing-chip {
+  background: var(--mas-surface);
+  border: var(--mas-border-thin);
+  border-radius: 999px;
+  color: var(--mas-ink);
+  font-family: var(--mas-heading-font);
+  font-size: 0.62rem;
+  font-weight: 700;
+  padding: 0.15rem 0.6rem;
+}
+
+.landing-chip:nth-child(3n + 1) {
+  background: var(--mas-yellow);
+  color: #15141a;
+}
+
+.landing-chip:nth-child(3n + 2) {
+  background: var(--mas-mint);
+}
+
+.landing-chip:nth-child(3n) {
+  background: var(--mas-pink);
 }
 
 /* Book cover */
-
 .landing-hero__book {
   flex-shrink: 0;
-  width: 280px;
-}
-
-.landing-hero__book p {
-  margin: 0 !important;
+  position: relative;
+  width: 270px;
 }
 
 .landing-hero__book img {
   display: block;
-  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.3));
-  transform: rotate(-2.5deg);
-  transition:
-    transform 0.35s ease,
-    filter 0.35s ease;
+  filter: drop-shadow(10px 12px 0 rgba(21, 20, 26, 0.85));
+  transform: rotate(-3deg);
+  transition: transform 0.3s ease;
   width: 100%;
 }
 
 .landing-hero__book img:hover {
-  filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.4));
-  transform: rotate(0deg) scale(1.03);
+  transform: rotate(1deg) scale(1.03);
 }
 
-/* Mobile */
-
-@media screen and (max-width: 680px) {
-  .landing-hero {
-    padding: 3rem 1.5rem;
-  }
-
-  .landing-hero__inner {
-    flex-direction: column-reverse;
-    gap: 2rem;
-    text-align: center;
-  }
-
-  .landing-hero__text .md-button {
-    margin: 0.3rem;
-  }
-
-  .landing-hero__book {
-    width: 180px;
-  }
-
-  .landing-hero__book img {
-    transform: rotate(0deg);
-  }
+.landing-hero__sticker {
+  background: var(--mas-pink);
+  border: var(--mas-border);
+  border-radius: 50%;
+  box-shadow: var(--mas-shadow-sm);
+  color: var(--mas-ink);
+  display: grid;
+  font-family: var(--mas-heading-font);
+  font-size: 0.62rem;
+  font-weight: 700;
+  height: 78px;
+  left: -26px;
+  line-height: 1.15;
+  place-items: center;
+  position: absolute;
+  text-align: center;
+  text-transform: uppercase;
+  top: -18px;
+  transform: rotate(-14deg);
+  width: 78px;
+  z-index: 2;
 }
 
-/* Features grid */
+/* ===================== Cards ===================== */
 
 .landing-grid {
   display: grid;
-  gap: 1.2rem;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  margin: 1.5rem 0 2.5rem;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(290px, 100%), 1fr));
+  margin: 1.75rem 0 2rem;
 }
 
 .landing-card {
-  background: var(--md-code-bg-color);
-  border-radius: 0.4rem;
-  border-top: 3px solid #ff9800;
-  padding: 1.5rem 1.5rem 1.2rem;
+  background: var(--mas-surface);
+  border: var(--mas-border);
+  border-radius: var(--mas-radius);
+  box-shadow: var(--mas-shadow);
+  display: flex;
+  flex-direction: column;
+  padding: 1.35rem 1.35rem 1.2rem;
   transition:
-    box-shadow 0.2s,
-    transform 0.2s;
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .landing-card:hover {
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
-  transform: translateY(-3px);
+  box-shadow: var(--mas-shadow-lg);
+  transform: translate(-3px, -3px);
 }
 
-.landing-card h3 {
-  font-size: 1rem;
-  font-weight: 600;
-  margin: 0 0 0.5rem;
+.md-typeset .landing-card h3 {
+  align-items: flex-start;
+  display: flex;
+  font-size: 0.98rem;
+  gap: 0.55rem;
+  line-height: 1.3;
+  margin: 0 0 0.6rem;
 }
 
-.landing-card p {
+.md-typeset .landing-card h3 .twemoji {
+  background: var(--mas-card-accent, var(--mas-yellow));
+  border: var(--mas-border-thin);
+  border-radius: 8px;
+  color: var(--mas-ink);
+  flex-shrink: 0;
+  height: 1.7rem;
+  padding: 0.2rem;
+  width: 1.7rem;
+}
+
+.md-typeset .landing-card h3 .twemoji svg {
+  height: 100%;
+  width: 100%;
+}
+
+.md-typeset .landing-card p {
   color: var(--md-default-fg-color--light);
-  font-size: 0.875rem;
+  font-size: 0.78rem;
   line-height: 1.6;
   margin: 0;
 }
 
-.landing-card .md-button {
-  font-size: 0.8rem;
-  margin-top: 1rem;
-  padding: 0.4rem 1rem;
+/* Push the card's button to the bottom so rows line up */
+.md-typeset .landing-card p:last-child:has(.md-button) {
+  margin-top: auto;
+  padding-top: 1rem;
 }
 
-/* Book illustration */
+.md-typeset .landing-card .md-button {
+  font-size: 0.72rem;
+  padding: 0.4em 1em;
+}
 
+.landing-card--example {
+  --mas-card-accent: var(--mas-mint);
+}
+
+.landing-card--capstone {
+  --mas-card-accent: var(--mas-pink);
+}
+
+.landing-card--soon {
+  background: transparent;
+  border-style: dashed;
+  box-shadow: none;
+}
+
+.landing-card--soon:hover {
+  box-shadow: none;
+  transform: none;
+}
+
+.md-typeset .landing-card--soon h3 .twemoji {
+  background: transparent;
+  border-style: dashed;
+}
+
+.landing-badge {
+  background: var(--mas-yellow);
+  border: var(--mas-border-thin);
+  border-radius: 999px;
+  color: #15141a;
+  display: inline-block;
+  font-family: var(--mas-heading-font);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.55rem;
+  padding: 0.05rem 0.55rem;
+  text-transform: uppercase;
+  width: fit-content;
+}
+
+/* ===================== Learning path (Parts and chapters) ===================== */
+
+.landing-path {
+  counter-reset: none;
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 1.75rem 0 2rem;
+}
+
+.landing-part {
+  background: var(--mas-part-bg);
+  border: var(--mas-border);
+  border-radius: var(--mas-radius);
+  box-shadow: var(--mas-shadow);
+  display: flex;
+  flex-direction: column;
+  padding: 1.35rem;
+}
+
+.landing-part--1 {
+  --mas-part-bg: var(--mas-sky);
+}
+
+.landing-part--2 {
+  --mas-part-bg: var(--mas-mint);
+}
+
+.landing-part--3 {
+  --mas-part-bg: var(--mas-lavender);
+}
+
+.md-typeset .landing-part h3 {
+  font-size: 1.05rem;
+  line-height: 1.25;
+  margin: 0.2rem 0 0.5rem;
+}
+
+.md-typeset .landing-part > p {
+  color: var(--mas-ink);
+  font-size: 0.76rem;
+  line-height: 1.6;
+  margin: 0 0 1rem;
+  opacity: 0.82;
+}
+
+.md-typeset .landing-part ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  list-style: none;
+  margin: auto 0 0;
+  padding: 0;
+}
+
+.md-typeset .landing-part ul li {
+  align-items: center;
+  background: var(--mas-surface);
+  border: var(--mas-border-thin);
+  border-radius: var(--mas-radius-sm);
+  display: flex;
+  font-size: 0.74rem;
+  font-weight: 500;
+  gap: 0.6rem;
+  line-height: 1.3;
+  margin: 0;
+  padding: 0.45rem 0.6rem;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+.md-typeset .landing-part ul li:has(a):hover {
+  box-shadow: var(--mas-shadow-sm);
+  transform: translate(-2px, -2px);
+}
+
+.md-typeset .landing-part ul li a {
+  color: var(--mas-ink);
+  flex: 1;
+}
+
+.md-typeset .landing-part ul li a::after {
+  content: " →";
+  font-weight: 700;
+}
+
+.landing-ch {
+  background: var(--mas-yellow);
+  border: var(--mas-border-thin);
+  border-radius: 50%;
+  color: #15141a;
+  display: grid;
+  flex-shrink: 0;
+  font-family: var(--mas-heading-font);
+  font-size: 0.66rem;
+  font-weight: 700;
+  height: 1.55rem;
+  place-items: center;
+  width: 1.55rem;
+}
+
+/* ===================== Diagrams ===================== */
+
+/* The book's diagrams are black line art, so they sit on a paper panel
+   in both schemes instead of being colour-inverted in dark mode. */
 .landing-illustration {
-  display: block;
-  margin: 0.5rem auto 2rem;
-  width: 100%;
+  background: #ffffff;
+  border: var(--mas-border);
+  border-radius: var(--mas-radius);
+  box-shadow: var(--mas-shadow);
+  margin: 1.75rem auto 2rem;
+  padding: 1.5rem 1.5rem 1rem;
   text-align: center;
 }
 
-.landing-illustration p {
-  margin: 0;
-  line-height: 0;
-}
-
 .landing-illustration img {
-  border-radius: 0.4rem;
   display: block;
+  margin: 0 auto;
+  max-width: 820px;
   width: 100%;
 }
 
-[data-md-color-scheme="slate"] .landing-illustration img {
-  filter: invert(1) opacity(0.87);
+.md-typeset .landing-illustration__caption {
+  border-top: 2px dashed rgba(21, 20, 26, 0.2);
+  color: #5b5866;
+  font-size: 0.74rem;
+  line-height: 1.5;
+  margin: 1rem 0 0;
+  padding-top: 0.8rem;
 }
 
-.landing-illustration__caption {
-  color: var(--md-default-fg-color--light);
+.md-typeset .landing-illustration__caption code {
+  background: #f1ece0;
+  color: #15141a;
+}
+
+/* ===================== Community callout ===================== */
+
+.landing-callout {
+  align-items: center;
+  background: var(--mas-yellow);
+  border: var(--mas-border);
+  border-radius: var(--mas-radius);
+  box-shadow: var(--mas-shadow);
+  color: #15141a;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem 2rem;
+  justify-content: space-between;
+  margin: 1.75rem 0 1rem;
+  padding: 1.6rem 1.75rem;
+}
+
+.md-typeset .landing-callout h2 {
+  color: #15141a;
+  font-size: 1.4rem;
+  margin: 0 0 0.3rem;
+}
+
+.md-typeset .landing-callout p {
+  color: #15141a;
   font-size: 0.8rem;
-  line-height: 1.5 !important;
-  margin-top: 0.75rem !important;
+  margin: 0;
+  max-width: 36rem;
 }
 
-/* Example card variant */
-
-.landing-card--example {
-  border-top-color: #00897b;
+.md-typeset .landing-callout .md-button {
+  background: #15141a;
+  border-color: #15141a;
+  box-shadow: 3px 3px 0 #ffffff;
+  color: #fffaf0;
+  text-align: center;
+  white-space: normal;
 }
 
-/* Capstone card variant */
-
-.landing-card--capstone {
-  border-top-color: #512da8;
+/* Let both callout children shrink so the button label can wrap on
+   narrow screens instead of pushing the panel wider. */
+.landing-callout > * {
+  min-width: 0;
 }
 
-/* Coming soon card variant */
+.md-typeset .landing-callout .md-button:hover,
+.md-typeset .landing-callout .md-button:focus {
+  background: #15141a;
+  box-shadow: 5px 5px 0 #ffffff;
+  color: var(--mas-yellow);
+}
 
-.landing-card--soon {
-  opacity: 0.55;
+[data-md-color-scheme="slate"] .landing-callout {
+  border-color: var(--mas-yellow);
+}
+
+/* ===================== Responsive ===================== */
+
+/* With several columns, every row matches the tallest card so all cards
+   share one height. A single phone column keeps natural heights. */
+@media screen and (min-width: 761px) {
+  .landing-grid {
+    grid-auto-rows: 1fr;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .landing-path {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (max-width: 760px) {
+  .landing-hero {
+    padding: 2.5rem 1.4rem 2.75rem;
+  }
+
+  .landing-hero::before {
+    height: 110px;
+    right: -45px;
+    top: -45px;
+    width: 110px;
+  }
+
+  .landing-hero__inner {
+    flex-direction: column-reverse;
+    gap: 2.25rem;
+    text-align: center;
+  }
+
+  .md-typeset .landing-hero__text h1 {
+    font-size: 2rem;
+  }
+
+  .landing-chips {
+    justify-content: center;
+  }
+
+  .md-typeset .landing-hero__cta .md-button {
+    margin: 0.3rem;
+  }
+
+  .landing-hero__book {
+    width: 170px;
+  }
+
+  .landing-hero__sticker {
+    font-size: 0.55rem;
+    height: 62px;
+    left: -30px;
+    width: 62px;
+  }
+
+  .landing-illustration {
+    padding: 1rem 0.75rem 0.75rem;
+  }
 }
 
 /* ===================== Notebook Status ===================== */
@@ -270,4 +1017,22 @@
 
 .notebook-status code {
   word-break: normal;
+}
+
+/* ===================== Reduced motion ===================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-card,
+  .landing-hero__book img,
+  .md-typeset .md-button,
+  .md-typeset .landing-part ul li {
+    transition: none;
+  }
+
+  .landing-card:hover,
+  .landing-hero__book img:hover,
+  .md-typeset .md-button:hover,
+  .md-typeset .landing-part ul li:has(a):hover {
+    transform: none;
+  }
 }

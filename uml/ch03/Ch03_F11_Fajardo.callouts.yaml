@@ -10,7 +10,7 @@ callouts:
   - text: new attributes
     anchor: {text: "_client"}
     side: left
-    box: [-1057, 0]
+    box: [-1057, 320]
   - text: new method
     anchor: {text: "__init__"}
     side: right

@@ -10,7 +10,9 @@ hide:
 <div class="landing-hero__inner" markdown>
 <div class="landing-hero__text" markdown>
 
-# Build a Multi-Agent System From Scratch
+<span class="landing-hero__eyebrow">Manning · Early Access</span>
+
+# Build a Multi-Agent System <mark>From Scratch</mark>
 
 The companion library for *Build a Multi-Agent System — With MCP and A2A*
 (Manning). Learn how LLM agents work by building one yourself, from first
@@ -19,16 +21,33 @@ principles, step by step.
 Available now through Manning's Early Access Program (MEAP) — buy today and
 get each chapter as it's completed.
 
+<div class="landing-hero__cta" markdown>
+
 [Buy the Book :octicons-book-24:](https://hubs.la/Q03Q0h7S0){ .md-button .md-button--primary }
+[Start with Chapter 2 :octicons-arrow-right-24:](notebooks/ch02.ipynb){ .md-button }
+
+</div>
+
+<div class="landing-chips">
+<span class="landing-chip">Tools</span>
+<span class="landing-chip">LLMs</span>
+<span class="landing-chip">MCP</span>
+<span class="landing-chip">Skills</span>
+<span class="landing-chip">Memory</span>
+<span class="landing-chip">Human in the Loop</span>
+<span class="landing-chip">Subagents</span>
+<span class="landing-chip">A2A</span>
+</div>
 
 </div>
 <div class="landing-hero__book">
+<span class="landing-hero__sticker">Now in<br>MEAP</span>
 <img src="assets/no-bg-book-cover.svg" alt="Build a Multi-Agent System book cover">
 </div>
 </div>
 </div>
 
-## About the Book
+## About the Book { .landing-section-title }
 
 Multi-agent systems and the LLM agents that power them are among the most
 discussed topics in AI today. There are already many capable frameworks out
@@ -41,74 +60,68 @@ give you the foundation to work more confidently with any other LLM agent
 framework of your choosing, or even to build your own specialised solutions.
 
 <div class="landing-illustration">
-<img src="assets/llm_agent_build_mental_model.svg" alt="Mind map showing how Parts 1, 2, and 3 build from Tools and LLMs into an LLM Agent and then a full Multi-Agent System" style="width:100%;display:block;">
+<img src="assets/llm-agent-simple-interface.svg" alt="Diagram of the LLMAgent interface showing its LLM, tools, and run() method">
+<p class="landing-illustration__caption">The <code>LLMAgent</code> you build through the book: a backbone LLM, a set of tools, and a single <code>.run()</code> method to kick it all off.</p>
+</div>
+
+## The Learning Path { .landing-section-title }
+
+<p class="landing-lead">Each chapter builds on the last, progressively deepening your understanding from core concepts to full multi-agent systems. Every chapter from 2 onward has a companion notebook.</p>
+
+<div class="landing-illustration">
+<img src="assets/llm_agent_build_mental_model.svg" alt="Mind map showing how Parts 1, 2, and 3 build from Tools and LLMs into an LLM Agent and then a full Multi-Agent System">
 <p class="landing-illustration__caption">The book's learning arc: build the foundations in Part 1, extend your agent in Part 2, and connect agents into a full MAS in Part 3.</p>
 </div>
 
-<div class="landing-grid landing-grid--3" markdown>
+<div class="landing-path" markdown>
 
-<div class="landing-card" markdown>
-### :material-numeric-1-circle: Build Your First LLM Agent
+<div class="landing-part landing-part--1" markdown>
+<span class="landing-badge">Part 1</span>
+
+### Build Your First LLM Agent
 
 Start from scratch. Understand what LLM agents and MAS really are, build
 tools with `SimpleFunction` and `PydanticFunction`, integrate a local Ollama
 LLM, and assemble the full `LLMAgent` class.
+
+- <span class="landing-ch">1</span> What Are LLM Agents and Multi-Agent Systems?
+- <span class="landing-ch">2</span> [Working with Tools](notebooks/ch02.ipynb)
+- <span class="landing-ch">3</span> [Working with LLMs](notebooks/ch03.ipynb)
+- <span class="landing-ch">4</span> [The LLM Agent Class](notebooks/ch04.ipynb)
+
 </div>
 
-<div class="landing-card" markdown>
-### :material-numeric-2-circle: Enhance Your LLM Agent
+<div class="landing-part landing-part--2" markdown>
+<span class="landing-badge">Part 2</span>
+
+### Enhance Your LLM Agent
 
 Extend your agent with **MCP Tools**, composable **Skills**, short- and
 long-term **Memory**, and **Human-in-the-Loop** patterns, with each chapter
 adding a new capability on top of what you already built.
+
+- <span class="landing-ch">5</span> [MCP Tools](notebooks/ch05.ipynb)
+- <span class="landing-ch">6</span> [Skills](notebooks/ch06.ipynb)
+- <span class="landing-ch">7</span> [Memory](notebooks/ch07.ipynb)
+- <span class="landing-ch">8</span> [Human in the Loop](notebooks/ch08.ipynb)
+
 </div>
 
-<div class="landing-card" markdown>
-### :material-numeric-3-circle: Build Multi-Agent Systems
+<div class="landing-part landing-part--3" markdown>
+<span class="landing-badge">Part 3</span>
+
+### Build Multi-Agent Systems
 
 Connect multiple LLM agents into a collaborative MAS using the
 **Agent2Agent (A2A)** protocol, distributing work across agents that
 communicate, coordinate, and act together.
-</div>
+
+- <span class="landing-ch">9</span> [Assembling MAS with Subagents](notebooks/ch09.ipynb)
+- <span class="landing-ch">10</span> [Assembling Interoperable MAS with A2A](notebooks/ch10.ipynb)
 
 </div>
 
-<div class="landing-illustration">
-<img src="assets/llm-agent-simple-interface.svg" alt="Diagram of the LLMAgent interface showing its LLM, tools, and run() method" style="width:100%;display:block;">
-<p class="landing-illustration__caption">The <code>LLMAgent</code> you build through the book: a backbone LLM, a set of tools, and a single <code>.run()</code> method to kick it all off.</p>
 </div>
-
----
-
-## From the Book
-
-Each chapter builds on the last, progressively deepening your understanding
-from core concepts to full multi-agent systems:
-
-### Part 1 — Build Your First LLM Agent
-
-| Ch | Title | Notebook |
-| -- | ----- | -------- |
-| 1 | What Are LLM Agents and Multi-Agent Systems? | — |
-| 2 | Working with Tools | [Ch 2](notebooks/ch02.ipynb) |
-| 3 | Working with LLMs | [Ch 3](notebooks/ch03.ipynb) |
-| 4 | The LLM Agent Class | [Ch 4](notebooks/ch04.ipynb) |
-
-### Part 2 — Enhance Your LLM Agent
-
-| Ch | Title | Notebook |
-| -- | ----- | -------- |
-| 5 | MCP Tools | [Ch 5](notebooks/ch05.ipynb) |
-| 6 | Skills | [Ch 6](notebooks/ch06.ipynb) |
-| 7 | Memory | [Ch 7](notebooks/ch07.ipynb) |
-| 8 | Human in the Loop | [Ch 8](notebooks/ch08.ipynb) |
-
-### Part 3 — Building Multi-Agent Systems
-
-| Ch | Title | Notebook |
-| -- | ----- | -------- |
-| 9 | Assembling MAS with Subagents | [Ch 9](notebooks/ch09.ipynb) |
-| 10 | Assembling Interoperable MAS with A2A | [Ch 10](notebooks/ch10.ipynb) |
 
 !!! tip "Running the notebooks"
 
@@ -128,7 +141,7 @@ from core concepts to full multi-agent systems:
 
 ---
 
-## More Examples
+## More Examples { .landing-section-title }
 
 A selection of additional worked examples showing the framework applied to real
 integrations. Each explores a different use case you can adapt for your own
@@ -221,7 +234,7 @@ beats a simple recency strategy.
 
 ---
 
-## Capstone Projects
+## Capstone Projects { .landing-section-title }
 
 Capstones are larger, end-to-end projects that pull together what you have
 built in the book and apply it to something closer to a real-world system.
@@ -248,23 +261,29 @@ the capstone measures what that buys over a single agent.
 </div>
 
 <div class="landing-card landing-card--capstone landing-card--soon" markdown>
+<span class="landing-badge">Coming soon</span>
+
 ### :material-scale-balance: Evaluating MAS and Single-Agent Systems
 
-*Coming soon.* A reusable method for judging when a multi-agent system
+A reusable method for judging when a multi-agent system
 earns its extra cost over a single agent.
 </div>
 
 <div class="landing-card landing-card--capstone landing-card--soon" markdown>
+<span class="landing-badge">Coming soon</span>
+
 ### :material-account-network-outline: Peer-to-Peer MAS
 
-*Coming soon.* Agents that are both A2A clients and servers, working
+Agents that are both A2A clients and servers, working
 through a shared task list as a team.
 </div>
 
 <div class="landing-card landing-card--capstone landing-card--soon" markdown>
+<span class="landing-badge">Coming soon</span>
+
 ### :material-graph-outline: Graph Engineering with Subagents and A2A Agents
 
-*Coming soon.* A workflow graph with branch points that mixes subagents and
+A workflow graph with branch points that mixes subagents and
 A2A peers.
 </div>
 
@@ -274,10 +293,17 @@ A2A peers.
 
 ---
 
+<div class="landing-callout" markdown>
+<div markdown>
+
 ## Community
 
 The framework is open source and built to be extended. Have you built a new
 tool integration, a custom agent, or an interesting notebook? Share it with
 other readers. A dedicated community showcase page is in the works.
 
-[Share on GitHub Discussions :fontawesome-brands-github:](https://github.com/nerdai/llm-agents-from-scratch/discussions){ .md-button .md-button--primary }
+</div>
+
+[Share on GitHub Discussions :fontawesome-brands-github:](https://github.com/nerdai/llm-agents-from-scratch/discussions){ .md-button }
+
+</div>

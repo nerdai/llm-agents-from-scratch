@@ -399,9 +399,14 @@
   font-weight: 600;
 }
 
+/* Wrap so the label drops onto its own line on very narrow screens
+   instead of pushing the footer wider than the viewport. */
 .md-social {
   align-items: center;
   display: flex;
+  flex-wrap: wrap;
+  min-width: 0;
+  row-gap: 0.25rem;
 }
 
 .md-social__label {
@@ -409,6 +414,14 @@
   font-size: 0.7rem;
   margin-right: 0.5rem;
   white-space: nowrap;
+}
+
+/* On the narrowest phones, give the label its own line so the icons
+   stay together on the next one. */
+@media screen and (max-width: 340px) {
+  .md-social__label {
+    flex-basis: 100%;
+  }
 }
 
 /* =====================================================================

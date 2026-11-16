@@ -20,7 +20,7 @@ dev = [
   "types-pyyaml>=6.0.12.20250915"
 ]
 docs = [
-  "mkdocs>=1.6.1",
+  "mkdocs>=1.6.1,<2",
   "mkdocs-jupyter>=0.25.1",
   "mkdocs-material>=9.7.3",
   "mkdocstrings[python]>=1.0.3"

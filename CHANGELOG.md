@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+## [0.0.27] - 2026-11-17
+
+### Added
+
 ### Changed
 
 - chore!: drop Python 3.10 support; `requires-python` is now `>=3.11`. Python 3.10 reached end of life in October 2026, and the security fixes for `pillow` (a core dependency via `qdrant-client[fastembed]`), `filelock` and `tornado` need Python 3.11+. The unit-test matrix now covers 3.11–3.13 (#1141)

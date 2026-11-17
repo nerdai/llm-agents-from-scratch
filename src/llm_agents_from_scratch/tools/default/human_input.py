@@ -175,11 +175,11 @@ class SharedConsoleHumanInputTool(AsyncBaseTool):
       ``get_running_loop()`` fresh, so there is no caching and no
       cross-loop errors.
 
-    This project requires ``>=3.10``, so class-level creation is safe
+    This project requires ``>=3.11``, so class-level creation is safe
     in production (all agents run as ``create_task()`` coroutines
     within a single ``asyncio.run()``). See
     ``tests/tools/test_default.py::reset_console_lock`` for the
-    autouse fixture that handles 3.10-3.11 test isolation.
+    autouse fixture that handles 3.11 test isolation.
 
     Attributes:
         agent_name (str | None): Label shown in the panel title, e.g.

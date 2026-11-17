@@ -42,7 +42,7 @@ Discussions may be featured there.
 
 ### Prerequisites
 
-- Python 3.10+
+- Python 3.11+
 - [uv](https://docs.astral.sh/uv/) for dependency management
 - [Ollama](https://ollama.com/) running locally (default LLM backend)
 

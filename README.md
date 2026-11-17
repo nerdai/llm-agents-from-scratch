@@ -143,7 +143,7 @@ has the details.
 
 ### Prerequisites
 
-- Python 3.10+
+- Python 3.11+
 - An [Ollama Cloud](https://ollama.com/settings/keys) API key (recommended) or a
   local [Ollama](https://ollama.com/download) install; see
   [Running the Notebooks](#running-the-notebooks)

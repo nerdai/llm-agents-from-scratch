@@ -27,8 +27,7 @@ _QDRANT_PATCH = (
 def mock_qdrant_client():
     with patch(_QDRANT_PATCH) as mock_cls:
         instance = MagicMock()
-        instance.embedding_model_name = "BAAI/bge-small-en-v1.5"
-        instance.get_vector_field_name.return_value = "fast-bge-small-en-v1.5"
+        instance.get_embedding_size.return_value = 384
         instance.collection_exists = AsyncMock(return_value=True)
         instance.create_collection = AsyncMock()
         instance.create_payload_index = AsyncMock()

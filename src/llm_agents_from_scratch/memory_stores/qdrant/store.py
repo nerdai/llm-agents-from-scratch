@@ -37,6 +37,10 @@ class QdrantMemoryStore(BaseMemoryStore):
     Attributes:
         _client (AsyncQdrantClient): The Qdrant client instance.
         _collection_name (str): Name of the Qdrant collection.
+        _embedding_model (str): FastEmbed model name used to embed
+            episode text and search queries.
+        _vector_name (str): Name of the collection's vector field,
+            derived from ``_embedding_model``.
         _key_fn (Callable[[Episode], str]): Callable that extracts the
             text used for embedding from an episode.
     """
@@ -77,7 +81,10 @@ class QdrantMemoryStore(BaseMemoryStore):
         """
         super().__init__(max_results=max_results, recall_mode=recall_mode)
         self._client = client or AsyncQdrantClient(":memory:")
-        self._client.set_model(embedding_model)
+        self._embedding_model = embedding_model
+        # Same vector name older qdrant-client releases derived from the
+        # model, so collections created by earlier versions still match.
+        self._vector_name = f"fast-{embedding_model.split('/')[-1].lower()}"
         self._collection_name = collection_name
         self._collection_ready = False
         self._key_fn: Callable[[Episode], str] = key_fn or (
@@ -104,7 +111,14 @@ class QdrantMemoryStore(BaseMemoryStore):
         if not await self._client.collection_exists(self._collection_name):
             await self._client.create_collection(
                 collection_name=self._collection_name,
-                vectors_config=self._client.get_fastembed_vector_params(),
+                vectors_config={
+                    self._vector_name: models.VectorParams(
+                        size=self._client.get_embedding_size(
+                            self._embedding_model,
+                        ),
+                        distance=models.Distance.COSINE,
+                    ),
+                },
             )
         await self._client.create_payload_index(
             collection_name=self._collection_name,
@@ -131,8 +145,8 @@ class QdrantMemoryStore(BaseMemoryStore):
                 episode_to_qdrant_point_struct(
                     episode,
                     text,
-                    self._client.get_vector_field_name(),
-                    self._client.embedding_model_name,
+                    self._vector_name,
+                    self._embedding_model,
                 ),
             ],
         )
@@ -226,8 +240,8 @@ class QdrantMemoryStore(BaseMemoryStore):
                 episode_to_qdrant_point_struct(
                     episode,
                     text,
-                    self._client.get_vector_field_name(),
-                    self._client.embedding_model_name,
+                    self._vector_name,
+                    self._embedding_model,
                 ),
             ],
         )
@@ -285,9 +299,9 @@ class QdrantMemoryStore(BaseMemoryStore):
                 collection_name=self._collection_name,
                 query=models.Document(
                     text=query,
-                    model=self._client.embedding_model_name,
+                    model=self._embedding_model,
                 ),
-                using=self._client.get_vector_field_name(),
+                using=self._vector_name,
                 limit=self.max_results,
                 with_payload=True,
                 **kwargs,

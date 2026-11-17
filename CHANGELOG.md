@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- fix(memory-stores): `QdrantMemoryStore` works with `qdrant-client` 1.19+, which removed the client's FastEmbed helpers (`set_model()`, `get_fastembed_vector_params()`, `get_vector_field_name()`, `embedding_model_name`). Fresh installs were crashing in `__init__`. The store now keeps the model and vector names itself and sizes the collection with `get_embedding_size()`. The vector name is unchanged, so collections created by earlier versions still work. The `fastembed` floor is now `qdrant-client[fastembed]>=1.20.0` (PR_PLACEHOLDER)
+- chore(deps): upgrade locked dependencies across the root and `extra/` apps to clear Dependabot security alerts, including `pillow` 13 (via `fastembed` 0.9), `aiohttp`, `mcp`, `crewai` 1.15.41, `filelock`, `tornado`, `soupsieve`, `virtualenv` and `opentelemetry-api` (PR_PLACEHOLDER)
 - fix(llms): `chat_message_to_anthropic_message_param()` type-checks against the `anthropic` 2.x SDK, whose `MessageParam` gained a `SystemMessageParam` member. Plain user and assistant turns now return their `role` as a literal per branch, so mypy can tell which message type each is. No behaviour change; checked live against API version `2026-10-21` (completion, tool call and result, structured output) (#1094)
 
 ## [0.0.26] - 2026-10-19

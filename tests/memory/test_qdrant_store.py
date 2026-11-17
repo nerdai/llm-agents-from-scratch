@@ -26,8 +26,7 @@ def mock_client():
         "llm_agents_from_scratch.memory_stores.qdrant.store.AsyncQdrantClient",
     ) as mock_cls:
         instance = MagicMock()
-        instance.embedding_model_name = "BAAI/bge-small-en-v1.5"
-        instance.get_vector_field_name.return_value = "fast-bge-small-en-v1.5"
+        instance.get_embedding_size.return_value = 384
         instance.collection_exists = AsyncMock(return_value=True)
         instance.create_collection = AsyncMock()
         instance.create_payload_index = AsyncMock()
@@ -49,7 +48,18 @@ async def test_ensure_collection_creates_when_missing(
     mock_client.collection_exists = AsyncMock(return_value=False)
     store = QdrantMemoryStore()
     await store._ensure_collection()
-    mock_client.create_collection.assert_called_once()
+    mock_client.create_collection.assert_called_once_with(
+        collection_name="episodes",
+        vectors_config={
+            "fast-bge-small-en-v1.5": models.VectorParams(
+                size=384,
+                distance=models.Distance.COSINE,
+            ),
+        },
+    )
+    mock_client.get_embedding_size.assert_called_once_with(
+        "BAAI/bge-small-en-v1.5",
+    )
     mock_client.create_payload_index.assert_called_once_with(
         collection_name=store._collection_name,
         field_name="completed_at",
@@ -85,7 +95,8 @@ async def test_init_custom_params(mock_client: MagicMock) -> None:
         collection_name="my_eps",
         embedding_model="BAAI/bge-large-en-v1.5",
     )
-    mock_client.set_model.assert_called_once_with("BAAI/bge-large-en-v1.5")
+    assert store._embedding_model == "BAAI/bge-large-en-v1.5"
+    assert store._vector_name == "fast-bge-large-en-v1.5"
     assert store._collection_name == "my_eps"
 
 
@@ -93,7 +104,6 @@ def test_init_custom_client() -> None:
     custom_client = MagicMock(spec=AsyncQdrantClient)
     store = QdrantMemoryStore(client=custom_client)
     assert store._client is custom_client
-    custom_client.set_model.assert_called_once()
 
 
 async def test_write(mock_client: MagicMock, episode: Episode) -> None:

@@ -5,6 +5,7 @@ import re
 from typing import Any, Sequence
 
 from ollama import AsyncClient
+from pydantic import ValidationError
 
 from llm_agents_from_scratch.base.llm import LLM, StructuredOutputType
 from llm_agents_from_scratch.base.tool import Tool
@@ -249,5 +250,17 @@ class OllamaLLM(LLM):
         raw = result.message.content or ""
         # strip optional ```json ... ``` fences the model may add anyway
         raw = re.sub(r"^```(?:json)?\s*", "", raw.strip())
-        raw = re.sub(r"\s*```$", "", raw)
-        return mdl.model_validate_json(raw.strip())
+        raw = re.sub(r"\s*```$", "", raw).strip()
+        try:
+            return mdl.model_validate_json(raw)
+        except ValidationError:
+            # models sometimes put a raw line break (or tab) inside a JSON
+            # string, which strict JSON forbids; parse leniently before
+            # giving up, and keep the original error if that fails too
+            try:
+                data = json.loads(raw, strict=False)
+            except json.JSONDecodeError:
+                data = None
+            if data is None:
+                raise
+            return mdl.model_validate(data)

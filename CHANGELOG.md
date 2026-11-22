@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+### Changed
+
+- fix(llms): `OllamaLLM` in `json_prompt_mode` (the Ollama Cloud path) no longer fails a task when the model puts a raw line break or tab inside a JSON string of a structured-output reply. Strict validation is tried first; if it fails, the reply is parsed leniently and validated again. A reply that still cannot be validated raises the same `ValidationError` as before (#1144)
+
 ## [0.0.27] - 2026-11-17
 
 ### Added

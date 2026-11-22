@@ -5,7 +5,7 @@ import pytest
 from ollama import ChatResponse, GenerateResponse
 from ollama import Message as OllamaMessage
 from ollama import Tool as OllamaTool
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 
 from llm_agents_from_scratch.base.llm import BaseLLM
 from llm_agents_from_scratch.base.tool import BaseTool
@@ -168,6 +168,70 @@ async def test_structured_output_json_prompt_mode_strips_fences(
     assert isinstance(new_pet, Pet)
     assert new_pet.animal == "dog"
     assert new_pet.name == "rex"
+
+
+@pytest.mark.asyncio
+@patch("llm_agents_from_scratch.llms.ollama.llm.AsyncClient")
+async def test_structured_output_json_prompt_mode_raw_newline_in_string(
+    mock_async_client_class: MagicMock,
+) -> None:
+    """A raw line break inside a JSON string is parsed leniently."""
+
+    class Pet(BaseModel):
+        animal: str
+        name: str
+
+    mock_instance = MagicMock()
+    mock_chat = AsyncMock()
+    mock_chat.return_value = ChatResponse(
+        model="glm-5.2",
+        message=OllamaMessage(
+            role="assistant",
+            content='{"animal": "cat", "name": "whiskers\nthe second"}',
+        ),
+    )
+    mock_instance.chat = mock_chat
+    mock_async_client_class.return_value = mock_instance
+
+    llm = OllamaLLM(model="glm-5.2", json_prompt_mode=True)
+    new_pet = await llm.structured_output("Generate a pet.", mdl=Pet)
+
+    assert new_pet.animal == "cat"
+    assert new_pet.name == "whiskers\nthe second"
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "content",
+    [
+        "Here is your pet!",  # not JSON at all
+        '{"animal": "cat"}',  # valid JSON, missing a required field
+        '{"animal": "cat\n", "name": 3}',  # lenient parse, wrong type
+    ],
+)
+@patch("llm_agents_from_scratch.llms.ollama.llm.AsyncClient")
+async def test_structured_output_json_prompt_mode_invalid_still_raises(
+    mock_async_client_class: MagicMock,
+    content: str,
+) -> None:
+    """Replies that cannot be validated still raise a ValidationError."""
+
+    class Pet(BaseModel):
+        animal: str
+        name: str
+
+    mock_instance = MagicMock()
+    mock_chat = AsyncMock()
+    mock_chat.return_value = ChatResponse(
+        model="glm-5.2",
+        message=OllamaMessage(role="assistant", content=content),
+    )
+    mock_instance.chat = mock_chat
+    mock_async_client_class.return_value = mock_instance
+
+    llm = OllamaLLM(model="glm-5.2", json_prompt_mode=True)
+    with pytest.raises(ValidationError):
+        await llm.structured_output("Generate a pet.", mdl=Pet)
 
 
 @pytest.mark.asyncio

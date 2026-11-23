@@ -16,6 +16,7 @@ from llm_agents_from_scratch.data_structures import (
     ToolCallResult,
 )
 from llm_agents_from_scratch.llms.ollama import OllamaLLM
+from llm_agents_from_scratch.llms.ollama.llm import JSON_PROMPT_MAX_ATTEMPTS
 from llm_agents_from_scratch.llms.ollama.utils import (
     _get_tool_json_schema,
     chat_message_to_ollama_message,
@@ -137,6 +138,7 @@ async def test_structured_output_json_prompt_mode(
     # must NOT have passed format= kwarg
     call_kwargs = mock_chat.call_args.kwargs
     assert "format" not in call_kwargs
+    mock_chat.assert_awaited_once()
 
 
 @pytest.mark.asyncio
@@ -232,6 +234,54 @@ async def test_structured_output_json_prompt_mode_invalid_still_raises(
     llm = OllamaLLM(model="glm-5.2", json_prompt_mode=True)
     with pytest.raises(ValidationError):
         await llm.structured_output("Generate a pet.", mdl=Pet)
+    assert mock_chat.await_count == JSON_PROMPT_MAX_ATTEMPTS
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "malformed",
+    [
+        '{"animal": "cat", "name": "the "big" one"}',  # unescaped quote
+        '{"animal": "cat", "name": "whiskers"}</parameter>',  # trailing text
+        '{"animal": "cat", "name": "whisk',  # cut off
+    ],
+)
+@patch("llm_agents_from_scratch.llms.ollama.llm.AsyncClient")
+async def test_structured_output_json_prompt_mode_retries_malformed_reply(
+    mock_async_client_class: MagicMock,
+    malformed: str,
+) -> None:
+    """A malformed reply is asked for again with the same request."""
+
+    class Pet(BaseModel):
+        animal: str
+        name: str
+
+    mock_instance = MagicMock()
+    mock_chat = AsyncMock()
+    mock_chat.side_effect = [
+        ChatResponse(
+            model="glm-5.2",
+            message=OllamaMessage(role="assistant", content=malformed),
+        ),
+        ChatResponse(
+            model="glm-5.2",
+            message=OllamaMessage(
+                role="assistant",
+                content=Pet(animal="cat", name="whiskers").model_dump_json(),
+            ),
+        ),
+    ]
+    mock_instance.chat = mock_chat
+    mock_async_client_class.return_value = mock_instance
+
+    llm = OllamaLLM(model="glm-5.2", json_prompt_mode=True)
+    new_pet = await llm.structured_output("Generate a pet.", mdl=Pet)
+
+    assert new_pet == Pet(animal="cat", name="whiskers")
+    assert mock_chat.await_count == 2  # noqa: PLR2004
+    first, second = mock_chat.await_args_list
+    assert first == second
 
 
 @pytest.mark.asyncio

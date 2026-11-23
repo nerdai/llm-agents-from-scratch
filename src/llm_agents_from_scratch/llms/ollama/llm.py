@@ -14,12 +14,19 @@ from llm_agents_from_scratch.data_structures import (
     CompleteResult,
     ToolCallResult,
 )
+from llm_agents_from_scratch.logger import get_logger
 
 from .utils import (
     chat_message_to_ollama_message,
     ollama_message_to_chat_message,
     tool_to_ollama_tool,
 )
+
+# how many times json_prompt_mode asks for a structured output before it
+# gives up on replies that cannot be validated (not included in the book)
+JSON_PROMPT_MAX_ATTEMPTS = 3
+
+logger = get_logger(__name__)
 
 
 class OllamaLLM(LLM):
@@ -219,11 +226,17 @@ class OllamaLLM(LLM):
 
         Wraps the prompt with explicit JSON instructions and parses the
         response text directly — no reliance on the Ollama format parameter.
+        A reply that cannot be validated is asked for again, up to
+        `JSON_PROMPT_MAX_ATTEMPTS` attempts in total.
 
         Args:
             prompt (str): The original prompt.
             mdl (type[StructuredOutputType]): The ~pydantic.BaseModel to output.
             **kwargs (Any): Additional keyword arguments.
+
+        Raises:
+            ValidationError: If no attempt gives a reply that can be validated
+                as `mdl`.
 
         Returns:
             StructuredOutputType: The structured output as the specified `mdl`
@@ -241,13 +254,54 @@ class OllamaLLM(LLM):
                 ChatMessage(role="user", content=wrapped),
             ),
         ]
-        result = await self._client.chat(
-            model=self.model,
-            messages=o_messages,
-            think=self.think,
-            **kwargs,
-        )
-        raw = result.message.content or ""
+        # a malformed reply (an unescaped quote, a cut-off object, stray text
+        # after the closing brace) cannot be repaired, so ask again
+        for attempt in range(1, JSON_PROMPT_MAX_ATTEMPTS + 1):
+            result = await self._client.chat(
+                model=self.model,
+                messages=o_messages,
+                think=self.think,
+                **kwargs,
+            )
+            try:
+                return self._validate_json_reply(
+                    result.message.content or "",
+                    mdl,
+                )
+            except ValidationError as e:
+                error = e
+                # log the error types only: the error's own message quotes
+                # part of the rejected reply
+                error_types = sorted(
+                    {err["type"] for err in e.errors(include_input=False)},
+                )
+                logger.warning(
+                    f"Structured-output reply failed validation (attempt "
+                    f"{attempt} of {JSON_PROMPT_MAX_ATTEMPTS}): "
+                    f"{', '.join(error_types)}",
+                )
+        raise error
+
+    @staticmethod
+    def _validate_json_reply(
+        raw: str,
+        mdl: type[StructuredOutputType],
+    ) -> StructuredOutputType:
+        """Validate a JSON reply from the model as `mdl`.
+
+        NOTE: this is not included in the book.
+
+        Args:
+            raw (str): The text of the model's reply.
+            mdl (type[StructuredOutputType]): The ~pydantic.BaseModel to output.
+
+        Raises:
+            ValidationError: If the reply cannot be validated as `mdl`.
+
+        Returns:
+            StructuredOutputType: The structured output as the specified `mdl`
+                type.
+        """
         # strip optional ```json ... ``` fences the model may add anyway
         raw = re.sub(r"^```(?:json)?\s*", "", raw.strip())
         raw = re.sub(r"\s*```$", "", raw).strip()

@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-- fix(llms): `OllamaLLM` in `json_prompt_mode` (the Ollama Cloud path) asks again when a structured-output reply cannot be validated, for example an unescaped quote inside a string, a reply cut off before its closing brace, or stray text after it. It makes up to 3 attempts with the same request and logs a warning for each failed one, then raises the same `ValidationError` as before. A single malformed reply no longer ends a task (#PRNUM)
+- fix(llms): `OllamaLLM` in `json_prompt_mode` (the Ollama Cloud path) asks again when a structured-output reply cannot be validated, for example an unescaped quote inside a string, a reply cut off before its closing brace, or stray text after it. It makes up to 3 attempts with the same request and logs a warning for each failed one, then raises the same `ValidationError` as before. A single malformed reply no longer ends a task (#1146)
 - fix(llms): `OllamaLLM` in `json_prompt_mode` (the Ollama Cloud path) no longer fails a task when the model puts a raw line break or tab inside a JSON string of a structured-output reply. Strict validation is tried first; if it fails, the reply is parsed leniently and validated again. A reply that still cannot be validated raises the same `ValidationError` as before (#1144)
 
 ## [0.0.27] - 2026-11-17

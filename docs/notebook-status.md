@@ -6,7 +6,7 @@ provider. Generated from `notebook_status.yaml` by
 `_scripts/run_notebook.py`. Edit the ledger and re-render, not
 this page.
 
-**Last tested:** 2026-11-16 (oldest result: 2026-11-09)
+**Last tested:** 2026-11-23 (oldest result: 2026-11-16)
 
 | Symbol | Meaning |
 |---|---|
@@ -40,11 +40,13 @@ Run All.
 | [`ch05.ipynb`](notebooks/ch05.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`ch06.ipynb`](notebooks/ch06.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`ch07.ipynb`](notebooks/ch07.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
-| [`ch08.ipynb`](notebooks/ch08.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`ch08.ipynb`](notebooks/ch08.ipynb) | ✅ `deepseek-v4.1-flash`[^1] | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`ch09.ipynb`](notebooks/ch09.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5-mini` | ✅ `claude-haiku-4-5-20251001` |
 | [`ch10.ipynb`](notebooks/ch10.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 
 </div>
+
+[^1]: `chapter-notebooks/ch08/ch08.ipynb` / Ollama Cloud: passed on retry; first attempt: cell 20: TaskHandlerError: complete() requires a TaskResult, got TaskStep.
 
 ## Additional examples
 
@@ -65,7 +67,7 @@ Run All.
 | [`goodnews_mcp.ipynb`](more-examples/ch05/goodnews_mcp.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`additional_resource_python.ipynb`](more-examples/ch06/additional_resource_python.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`skill_validation_errors.ipynb`](more-examples/ch06/skill_validation_errors.ipynb) | ∅ no LLM | ∅ no LLM | ∅ no LLM |
-| [`skills_marketplace.ipynb`](more-examples/ch06/skills_marketplace.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
+| [`skills_marketplace.ipynb`](more-examples/ch06/skills_marketplace.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ❌[^1] |
 | [`user_explicit_hailstone.ipynb`](more-examples/ch06/user_explicit_hailstone.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`with_and_without_skills.ipynb`](more-examples/ch06/with_and_without_skills.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
 | [`recency_memory.ipynb`](more-examples/ch07/recency_memory.ipynb) | ✅ `deepseek-v4.1-flash` | ✅ `gpt-5` | ✅ `claude-sonnet-5` |
@@ -81,6 +83,8 @@ Run All.
 | [`streaming_llmagent_executor.ipynb`](more-examples/ch10/streaming_llmagent_executor.ipynb) | ✅ `deepseek-v4.1-flash` | ⚪ not wired | ⚪ not wired |
 
 </div>
+
+[^1]: `more-examples/ch06/skills_marketplace.ipynb` / Anthropic: cell 10: HTTPError: HTTP Error 403: rate limit exceeded ([run log](https://github.com/nerdai/llm-agents-from-scratch/actions/runs/45123398672))
 
 ## Capstones
 

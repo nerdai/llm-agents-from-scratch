@@ -285,6 +285,47 @@ async def test_structured_output_json_prompt_mode_retries_malformed_reply(
 
 
 @pytest.mark.asyncio
+@patch("llm_agents_from_scratch.llms.ollama.llm.logger")
+@patch("llm_agents_from_scratch.llms.ollama.llm.AsyncClient")
+async def test_structured_output_json_prompt_mode_warning_omits_reply(
+    mock_async_client_class: MagicMock,
+    mock_logger: MagicMock,
+) -> None:
+    """The retry warning names the error type, not the reply's content."""
+
+    class Pet(BaseModel):
+        animal: str
+        name: str
+
+    mock_instance = MagicMock()
+    mock_chat = AsyncMock()
+    mock_chat.side_effect = [
+        ChatResponse(
+            model="glm-5.2",
+            message=OllamaMessage(role="assistant", content="secret-reply"),
+        ),
+        ChatResponse(
+            model="glm-5.2",
+            message=OllamaMessage(
+                role="assistant",
+                content=Pet(animal="cat", name="whiskers").model_dump_json(),
+            ),
+        ),
+    ]
+    mock_instance.chat = mock_chat
+    mock_async_client_class.return_value = mock_instance
+
+    llm = OllamaLLM(model="glm-5.2", json_prompt_mode=True)
+    await llm.structured_output("Generate a pet.", mdl=Pet)
+
+    mock_logger.warning.assert_called_once()
+    message = mock_logger.warning.call_args.args[0]
+    assert "secret-reply" not in message
+    assert "json_invalid" in message
+    assert f"attempt 1 of {JSON_PROMPT_MAX_ATTEMPTS}" in message
+
+
+@pytest.mark.asyncio
 @patch("llm_agents_from_scratch.llms.ollama.llm.AsyncClient")
 async def test_chat(mock_async_client_class: MagicMock) -> None:
     """Test chat method."""

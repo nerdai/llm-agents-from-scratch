@@ -270,9 +270,15 @@ class OllamaLLM(LLM):
                 )
             except ValidationError as e:
                 error = e
+                # log the error types only: the error's own message quotes
+                # part of the rejected reply
+                error_types = sorted(
+                    {err["type"] for err in e.errors(include_input=False)},
+                )
                 logger.warning(
                     f"Structured-output reply failed validation (attempt "
-                    f"{attempt} of {JSON_PROMPT_MAX_ATTEMPTS}): {e}",
+                    f"{attempt} of {JSON_PROMPT_MAX_ATTEMPTS}): "
+                    f"{', '.join(error_types)}",
                 )
         raise error
 
